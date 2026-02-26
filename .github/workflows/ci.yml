@@ -89,10 +89,12 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build (mock=false)
         run: pnpm build
         env:
-          NEXT_PUBLIC_USE_MOCK: 'true'
+          NEXT_PUBLIC_USE_MOCK: 'false'
+          NEXT_PUBLIC_SUPABASE_URL: 'https://placeholder.supabase.co'
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'placeholder'
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4

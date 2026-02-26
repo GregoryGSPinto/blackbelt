@@ -71,18 +71,19 @@ export async function desregistrarToken(userId: string): Promise<void> {
 }
 
 /**
- * Solicita permissão de notificação no navegador.
- * Retorna o token FCM se concedida, ou null se negada.
- *
- * TODO(BE-035): Implementar com Firebase SDK real
+ * Solicita permissão de notificação.
+ * Usa Capacitor PushNotifications em mobile nativo, Web Notification API no browser.
+ * Retorna o token se concedida, ou null se negada.
  */
 export async function solicitarPermissao(): Promise<string | null> {
-  if (typeof window === 'undefined' || !('Notification' in window)) return null;
-
-  const permission = await Notification.requestPermission();
-  if (permission !== 'granted') return null;
-
-  // Em produção, aqui chamaríamos firebase.messaging().getToken()
-  // Por enquanto, retorna token fake
-  return `fcm_mock_${Date.now().toString(36)}`;
+  try {
+    const { registerPushNotifications } = await import('@/lib/capacitor/push');
+    return registerPushNotifications();
+  } catch {
+    // Fallback: browser Notification API
+    if (typeof window === 'undefined' || !('Notification' in window)) return null;
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') return null;
+    return `web_${Date.now().toString(36)}`;
+  }
 }

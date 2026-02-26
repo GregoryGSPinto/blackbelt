@@ -24,7 +24,6 @@
  *   POST /auth/change-password (invalida todos tokens)
  */
 
-import { apiClient, ApiError } from './client';
 import { useMock, mockDelay } from '@/lib/env';
 import * as tokenStore from '@/lib/security/token-store';
 import { getDeviceInfo } from '@/lib/security/device-fingerprint';
@@ -215,8 +214,14 @@ export async function reauthenticate(password: string): Promise<boolean> {
   }
 
   try {
-    await apiClient.post('/auth/reauth', { password }, { noAutoRefresh: true });
-    return true;
+    // Re-verify with Supabase by signing in again
+    const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
+    const supabase = getSupabaseBrowserClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: user.email || '',
+      password,
+    });
+    return !error;
   } catch {
     return false;
   }
@@ -240,12 +245,20 @@ export async function changePassword(currentPassword: string, newPassword: strin
   }
 
   try {
-    await apiClient.post('/auth/change-password', {
-      currentPassword,
-      newPassword,
+    const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
+    const supabase = getSupabaseBrowserClient();
+    // Verify current password first
+    const { error: verifyErr } = await supabase.auth.signInWithPassword({
+      email: user.email || '',
+      password: currentPassword,
     });
+    if (verifyErr) return false;
+
+    // Update password
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) return false;
+
     await audit.passwordChange(user.id);
-    // Backend invalida todos os tokens → forçar re-login
     tokenStore.clearAuth();
     return true;
   } catch {
@@ -271,15 +284,50 @@ async function _login(credentials: LoginRequest): Promise<LoginResponse | null> 
   }
 
   try {
-    const device = getDeviceInfo();
-    const { data } = await apiClient.post<LoginResponse>('/auth/login', {
-      ...credentials,
-      deviceInfo: device,
-    }, { noAutoRefresh: true });
-    return data;
-  } catch (err) {
-    if (err instanceof ApiError && err.status === 401) return null;
-    throw err;
+    // Use Supabase Auth directly — standard pattern for Supabase + Next.js
+    const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
+    const supabase = getSupabaseBrowserClient();
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
+      email: credentials.email,
+      password: credentials.password,
+    });
+    if (error || !authData.user || !authData.session) return null;
+
+    // Fetch profile and membership
+    const { data: profileData } = await supabase
+      .from('profiles')
+      .select('full_name, avatar_url')
+      .eq('id', authData.user.id)
+      .single();
+    const profile = profileData as { full_name: string; avatar_url: string | null } | null;
+
+    const { data: membershipData } = await supabase
+      .from('memberships')
+      .select('id, academy_id, role, belt_rank, status')
+      .eq('profile_id', authData.user.id)
+      .eq('status', 'active')
+      .limit(1)
+      .single();
+
+    const mem = membershipData as { id: string; academy_id: string; role: string; belt_rank: string | null; status: string } | null;
+    const tipo = mapRoleToTipoPerfil(mem?.role || 'student');
+
+    return {
+      user: {
+        id: authData.user.id,
+        nome: profile?.full_name || authData.user.email?.split('@')[0] || '',
+        email: authData.user.email || '',
+        tipo,
+        avatar: profile?.avatar_url || undefined,
+        graduacao: mem?.belt_rank || undefined,
+        unidadeId: mem?.academy_id || undefined,
+        permissoes: [],
+      },
+      token: authData.session.access_token,
+      refreshToken: authData.session.refresh_token,
+    };
+  } catch {
+    return null;
   }
 }
 
@@ -292,11 +340,35 @@ export async function register(data: RegisterRequest): Promise<RegisterResponse 
   }
 
   try {
-    const { data: response } = await apiClient.post<RegisterResponse>('/auth/register', data);
-    return response;
-  } catch (err) {
-    if (err instanceof ApiError && (err.status === 409 || err.status === 422)) return null;
-    throw err;
+    const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
+    const supabase = getSupabaseBrowserClient();
+    const { data: authData, error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: { full_name: data.nome, idade: data.idade, categoria: data.categoria },
+      },
+    });
+    if (error || !authData.user) return null;
+
+    // Create profile
+    await (supabase.from('profiles') as any).upsert({
+      id: authData.user.id,
+      full_name: data.nome,
+    });
+
+    return {
+      user: {
+        id: authData.user.id,
+        nome: data.nome,
+        email: data.email,
+        tipo: 'ALUNO_ADULTO',
+        permissoes: [],
+      },
+      token: authData.session?.access_token || '',
+    };
+  } catch {
+    return null;
   }
 }
 
@@ -308,12 +380,9 @@ export async function checkEmailAvailable(email: string): Promise<boolean> {
     return m.mockCheckEmailAvailable(email);
   }
 
-  try {
-    await apiClient.post('/auth/check-email', { email });
-    return true;
-  } catch {
-    return false;
-  }
+  // With Supabase, we can't easily check email availability without admin access.
+  // Return true and let signUp handle duplicates.
+  return true;
 }
 
 /** Registra usuário com dados completos (cadastro multi-step) */
@@ -324,13 +393,14 @@ export async function registerFull(data: RegisterFullRequest): Promise<RegisterR
     return m.mockRegisterFull(data);
   }
 
-  try {
-    const { data: response } = await apiClient.post<RegisterResponse>('/auth/register', data);
-    return response;
-  } catch (err) {
-    if (err instanceof ApiError && (err.status === 409 || err.status === 422)) return null;
-    throw err;
-  }
+  // Use the same Supabase signUp flow
+  return register({
+    nome: data.nome,
+    email: data.email,
+    password: data.password,
+    idade: data.idade,
+    categoria: data.categoria as import('./contracts').CategoriaRegistro | undefined,
+  });
 }
 
 // ============================================================
@@ -355,4 +425,17 @@ function mapTipoPerfilToRole(tipo: TipoPerfil): AuthenticatedUser['role'] {
     SYS_AUDITOR: 'SUPPORT',
   };
   return map[tipo] || 'ALUNO_ADULTO';
+}
+
+/** Mapeia Supabase role string para TipoPerfil */
+function mapRoleToTipoPerfil(role: string): TipoPerfil {
+  const map: Record<string, TipoPerfil> = {
+    student: 'ALUNO_ADULTO',
+    professor: 'INSTRUTOR',
+    instructor: 'INSTRUTOR',
+    admin: 'ADMINISTRADOR',
+    owner: 'ADMINISTRADOR',
+    parent: 'RESPONSAVEL',
+  };
+  return map[role] || 'ALUNO_ADULTO';
 }

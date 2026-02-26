@@ -35,6 +35,9 @@
   "ignorePatterns": [
     "node_modules/",
     ".next/",
-    "public/sw.js"
+    "out/",
+    "public/sw.js",
+    "android/",
+    "ios/"
   ]
 }

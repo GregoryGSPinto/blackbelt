@@ -1,7 +1,7 @@
-# BlackBelt — Frontend
+# BlackBelt
 
-> Plataforma de gestão e gestão para unidades de artes marciais e desenvolvimento pessoal.
-> **Status: Frontend congelado (v1.0.0) — Pronto para integração backend.**
+> Plataforma de gestao inteligente para academias de artes marciais.
+> Full-stack Next.js 14 + Supabase + Capacitor (iOS/Android).
 
 ---
 
@@ -142,11 +142,14 @@ Copiar `.env.example` para `.env.local`:
 cp .env.example .env.local
 ```
 
-| Variável | Obrigatória | Descrição |
+| Variavel | Obrigatoria | Descricao |
 |----------|-------------|-----------|
 | `NEXT_PUBLIC_USE_MOCK` | Sim | `true` = dados mock, `false` = API real |
-| `NEXT_PUBLIC_API_URL` | Se mock=false | URL base da API backend |
-| `NEXT_PUBLIC_SENTRY_DSN` | Não | Sentry DSN para crash reporting |
+| `NEXT_PUBLIC_SUPABASE_URL` | Sim (prod) | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Sim (prod) | Anon key do Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Sim (prod) | Service role key (server only) |
+| `NEXT_PUBLIC_SENTRY_DSN` | Recomendado | Sentry DSN (client errors) |
+| `SENTRY_DSN` | Recomendado | Sentry DSN (server errors) |
 
 ---
 
@@ -195,16 +198,29 @@ npm test             # Vitest
 
 ---
 
-## Tag de Congelamento
+## Production Deploy
 
-```bash
-bash scripts/freeze-frontend.sh
-# ou manualmente:
-git tag -a v1.0.0-frontend-frozen -m "Frontend frozen"
-git push origin --tags
-```
+### GitHub Secrets Required
 
-Qualquer alteração posterior → branch separada (`feature/backend-integration`).
+| Secret | Description |
+|--------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
+| `SUPABASE_ACCESS_TOKEN` | Supabase CLI access token |
+| `SUPABASE_DB_PASSWORD` | Database password |
+| `SUPABASE_PROJECT_REF` | Project reference ID |
+| `NEXT_PUBLIC_SENTRY_DSN` | Sentry client DSN |
+| `SENTRY_DSN` | Sentry server DSN |
+| `SENTRY_AUTH_TOKEN` | Sentry auth token |
+| `VERCEL_TOKEN` | Vercel deployment token |
+| `VERCEL_ORG_ID` | Vercel organization ID |
+| `VERCEL_PROJECT_ID` | Vercel project ID |
+
+### CI/CD Pipeline
+
+- **Push to main** triggers: lint, typecheck, test, build, deploy
+- **Supabase migrations** auto-deploy when `supabase/migrations/` changes
+- **Bundle analysis** runs on main branch
 
 ---
 

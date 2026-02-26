@@ -12,6 +12,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Camera, CameraOff, RefreshCw, Zap, ZapOff, X } from 'lucide-react';
 import type { CheckInQR } from '@/lib/api/contracts';
+import jsQR from 'jsqr';
 
 interface QRScannerProps {
   onScan: (data: CheckInQR) => void;
@@ -70,13 +71,63 @@ function generateHash(alunoId: string, timestamp: number): string {
 
 export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const animFrameRef = useRef<number>(0);
   const [scanState, setScanState] = useState<ScanState>('idle');
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [flashOn, setFlashOn] = useState(false);
   const [cameraError, setCameraError] = useState('');
   const [cameraActive, setCameraActive] = useState(false);
   const scanTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // ── Handle QR detection (moved up for reference) ──
+  const handleDetection = useCallback((data: CheckInQR) => {
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    setScanState('success');
+    playBeep(true);
+    vibrate([100, 50, 100]);
+    onScan(data);
+    setTimeout(() => setScanState('scanning'), 3000);
+  }, [onScan]);
+
+  // ── jsQR scan loop ──
+  const startScanLoop = useCallback(() => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return;
+
+    const tick = () => {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: 'dontInvert',
+        });
+
+        if (code?.data) {
+          try {
+            const parsed = JSON.parse(code.data) as CheckInQR;
+            if (parsed.alunoId) {
+              handleDetection(parsed);
+              return;
+            }
+          } catch {
+            // Not a valid BlackBelt QR, keep scanning
+          }
+        }
+      }
+      animFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animFrameRef.current = requestAnimationFrame(tick);
+  }, [handleDetection]);
 
   // ── Start camera ──
   const startCamera = useCallback(async () => {
@@ -104,23 +155,21 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
       setCameraActive(true);
       setScanState('scanning');
 
-      // ── Mock mode: simulate QR detection after 2s ──
       if (mockMode) {
+        // Mock mode: simulate QR detection after 2s
         scanTimeoutRef.current = setTimeout(() => {
           const ts = Date.now();
           const mockAlunos = ['u1', 'u2', 'u3', 'u5', 'u7'];
           const alunoId = mockAlunos[Math.floor(Math.random() * mockAlunos.length)];
-
           const mockQR: CheckInQR = {
-            alunoId,
-            nome: 'Lucas Mendes',
-            unidadeId: 'unit_01',
-            timestamp: ts,
-            hash: generateHash(alunoId, ts),
+            alunoId, nome: 'Lucas Mendes', unidadeId: 'unit_01',
+            timestamp: ts, hash: generateHash(alunoId, ts),
           };
-
           handleDetection(mockQR);
         }, 2000);
+      } else {
+        // Real mode: scan video frames with jsQR
+        startScanLoop();
       }
     } catch (err) {
       console.error('Camera error:', err);
@@ -147,19 +196,6 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
     }
   }, [facingMode, mockMode]);
 
-  // ── Handle QR detection ──
-  const handleDetection = useCallback((data: CheckInQR) => {
-    setScanState('success');
-    playBeep(true);
-    vibrate([100, 50, 100]);
-    onScan(data);
-
-    // Reset after 3s
-    setTimeout(() => {
-      setScanState('scanning');
-    }, 3000);
-  }, [onScan]);
-
   // ── Stop camera on unmount ──
   useEffect(() => {
     return () => {
@@ -168,6 +204,9 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
       }
       if (scanTimeoutRef.current) {
         clearTimeout(scanTimeoutRef.current);
+      }
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
       }
     };
   }, []);
@@ -219,6 +258,8 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
 
   return (
     <div className="relative w-full max-w-md mx-auto">
+      {/* Hidden canvas for jsQR frame processing */}
+      <canvas ref={canvasRef} className="hidden" />
       {/* Camera Viewfinder */}
       <div className={`relative aspect-square rounded-2xl overflow-hidden border-2 ${stateColors[scanState as ScanState]} transition-colors duration-500`}>
         {/* Video feed */}

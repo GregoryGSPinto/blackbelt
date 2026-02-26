@@ -14,20 +14,19 @@
  */
 
 export function useMock(): boolean {
-  // Explícita: variável de ambiente controla tudo
-  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_USE_MOCK === 'true') {
+  if (typeof process === 'undefined') return false;
+
+  // Explicit false → never mock (production or dev with backend)
+  if (process.env.NEXT_PUBLIC_USE_MOCK === 'false') {
+    return false;
+  }
+
+  // Explicit true → always mock
+  if (process.env.NEXT_PUBLIC_USE_MOCK === 'true') {
     return true;
   }
 
-  // Fallback: dev sem API_URL = mock automático
-  if (
-    typeof process !== 'undefined' &&
-    process.env.NODE_ENV === 'development' &&
-    !process.env.NEXT_PUBLIC_API_URL
-  ) {
-    return true;
-  }
-
+  // Not set → production defaults to false
   return false;
 }
 

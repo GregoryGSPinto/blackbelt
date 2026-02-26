@@ -42,8 +42,12 @@ const PUBLIC_ROUTES = [
   '/excluir-conta',
   '/privacidade',
   '/_next',
-  '/api/auth',
+  '/api',
   '/favicon.ico',
+  '/robots.txt',
+  '/sitemap.xml',
+  '/sw.js',
+  '/manifest.json',
 ];
 
 /** Mapeamento de prefixo de rota → roles permitidas */
@@ -79,24 +83,31 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
 
   // Content Security Policy
-  // Em dev: permite WebSocket para HMR (Hot Module Replacement)
   const isDev = process.env.NODE_ENV === 'development';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   response.headers.set('Content-Security-Policy', [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+    isDev
+      ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
+      : "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
     isDev
       ? "connect-src 'self' https: ws: wss:"
-      : "connect-src 'self' https:",
+      : `connect-src 'self' ${supabaseUrl} https://*.sentry.io https://*.ingest.sentry.io`,
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
+    "upgrade-insecure-requests",
   ].join('; '));
 
   // Previne XSS reflexivo
   response.headers.set('X-XSS-Protection', '1; mode=block');
+
+  // Cross-Origin policies
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+  response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
 }
 
 // ============================================================

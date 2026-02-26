@@ -19,7 +19,7 @@
 
 import * as tokenStore from '@/lib/security/token-store';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 const REQUEST_TIMEOUT = 30_000; // 30 segundos
 const MAX_RETRIES = 2;
 
@@ -138,7 +138,9 @@ async function request<T>(
     // ─── Parse seguro ───
     const contentType = response.headers.get('Content-Type') || '';
     if (contentType.includes('application/json')) {
-      const data = await response.json();
+      const json = await response.json();
+      // Unwrap { data: ... } envelope from Next.js API routes
+      const data = json && typeof json === 'object' && 'data' in json ? json.data : json;
       return { data, status: response.status, ok: true };
     }
 
