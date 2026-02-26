@@ -68,7 +68,7 @@ const professorNav = {
 
 const professorTheme: ShellTheme = {
   // Background
-  backgroundImage: '/images/bg-dark.png',
+  backgroundImage: '/images/bg-dark.jpg',
   backgroundOverlays: undefined,
   parallaxFactor: 0.12,
   grainOpacity: 0.02,

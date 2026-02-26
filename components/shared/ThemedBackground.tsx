@@ -1,7 +1,7 @@
 // ============================================================
 // ThemedBackground — Global app background with theme-aware image
 // ============================================================
-// Renders bg-dark.png or bg-light.png based on current theme.
+// Renders bg-dark.jpg or bg-light.jpg based on current theme.
 // Uses position:fixed (not background-attachment:fixed) for iOS compat.
 // Overlay: 60% for regular pages, 35% for /login and /landing.
 // ============================================================
@@ -24,7 +24,7 @@ export function ThemedBackground() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500"
         style={{
-          backgroundImage: "url('/images/bg-dark.png')",
+          backgroundImage: "url('/images/bg-dark.jpg')",
           opacity: isDark ? 1 : 0,
         }}
       />
@@ -32,7 +32,7 @@ export function ThemedBackground() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500"
         style={{
-          backgroundImage: "url('/images/bg-light.png')",
+          backgroundImage: "url('/images/bg-light.jpg')",
           opacity: isDark ? 0 : 1,
         }}
       />

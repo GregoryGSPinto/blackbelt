@@ -73,9 +73,9 @@ export const AVALIACOES_PENDENTES: AvaliacaoPendente[] = [
 ];
 
 export const VIDEOS_RECENTES: VideoRecente[] = [
-  { id: 'vid_01', titulo: 'Passagem de Guarda — Toreando', thumbnail: '/blackbelt-bg.jpg', duracao: '12:34', turma: 'Adulto Fundamentos', dataEnvio: 'Hoje', visualizacoes: 47, tipo: 'aula' },
-  { id: 'vid_02', titulo: 'Análise de Luta — Regional', thumbnail: '/blackbelt-bg.jpg', duracao: '08:22', turma: 'Avançado', dataEnvio: 'Ontem', visualizacoes: 23, tipo: 'analise' },
-  { id: 'vid_03', titulo: 'Defesa de Triângulo', thumbnail: '/blackbelt-bg.jpg', duracao: '06:15', turma: 'Teen Competição', dataEnvio: '3 dias atrás', visualizacoes: 31, tipo: 'demonstracao' },
+  { id: 'vid_01', titulo: 'Passagem de Guarda — Toreando', thumbnail: '/images/bg-dark.jpg', duracao: '12:34', turma: 'Adulto Fundamentos', dataEnvio: 'Hoje', visualizacoes: 47, tipo: 'aula' },
+  { id: 'vid_02', titulo: 'Análise de Luta — Regional', thumbnail: '/images/bg-dark.jpg', duracao: '08:22', turma: 'Avançado', dataEnvio: 'Ontem', visualizacoes: 23, tipo: 'analise' },
+  { id: 'vid_03', titulo: 'Defesa de Triângulo', thumbnail: '/images/bg-dark.jpg', duracao: '06:15', turma: 'Teen Competição', dataEnvio: '3 dias atrás', visualizacoes: 31, tipo: 'demonstracao' },
 ];
 
 export const ALUNOS_DESTAQUE: AlunoProgresso[] = [

@@ -76,7 +76,7 @@ export default function SplashScreen() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(/blackbelt-bg.jpg)',
+            backgroundImage: 'url(/images/bg-dark.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

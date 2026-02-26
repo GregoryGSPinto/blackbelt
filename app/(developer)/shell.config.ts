@@ -63,7 +63,7 @@ const devTheme: ShellTheme = {
   variant: 'top-nav',
 
   // Background
-  backgroundImage: '/images/bg-dark.png',
+  backgroundImage: '/images/bg-dark.jpg',
   parallaxFactor: 0.03,
   grainOpacity: 0.02,
   backgroundGradient: dl(
