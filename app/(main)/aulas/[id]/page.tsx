@@ -188,7 +188,7 @@ export default function AulaDetailPage() {
               </div>
 
               {/* Title */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5">
+              <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5">
                 {video.title}
               </h1>
 

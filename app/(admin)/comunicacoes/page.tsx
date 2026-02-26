@@ -96,7 +96,7 @@ export default function ComunicacoesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Comunicações</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Comunicações</h1>
           <p className="text-white/50">Envie comunicados e gerencie mensagens</p>
         </div>
         <button
@@ -115,21 +115,21 @@ export default function ComunicacoesPage() {
               <Send size={16} className="text-blue-400" />
               <span className="text-white/40 text-xs">Enviados</span>
             </div>
-            <p className="text-2xl font-bold text-white">{stats.comunicadosEnviados}</p>
+            <p className="text-xl sm:text-2xl font-bold text-white">{stats.comunicadosEnviados}</p>
           </div>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2">
               <Eye size={16} className="text-green-400" />
               <span className="text-white/40 text-xs">Taxa Leitura</span>
             </div>
-            <p className="text-2xl font-bold text-green-400">{stats.taxaLeitura}%</p>
+            <p className="text-xl sm:text-2xl font-bold text-green-400">{stats.taxaLeitura}%</p>
           </div>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2">
               <Mail size={16} className="text-amber-400" />
               <span className="text-white/40 text-xs">Msg Pendentes</span>
             </div>
-            <p className="text-2xl font-bold text-amber-400">{stats.mensagensPendentes}</p>
+            <p className="text-xl sm:text-2xl font-bold text-amber-400">{stats.mensagensPendentes}</p>
           </div>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2">

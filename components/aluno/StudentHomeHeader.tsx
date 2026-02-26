@@ -112,7 +112,7 @@ function NextClassCard({ aula }: { aula: AlunoHomeData['proximaSessao'] }) {
         {/* Countdown */}
         <div className="flex-shrink-0 text-right">
           <div
-            className="text-2xl md:text-3xl font-bold text-blue-400 tabular-nums leading-none"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-400 tabular-nums leading-none"
             style={{ animation: countdown === 'Agora!' ? 'countdown-pulse 1s ease-in-out infinite' : undefined }}
           >
             {countdown}

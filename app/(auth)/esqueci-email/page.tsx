@@ -29,10 +29,10 @@ export default function EsqueciEmailPage() {
           </Link>
 
           {/* Container */}
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-10 shadow-2xl">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">
+              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
                 Esqueci meu Email
               </h1>
               <p className="text-white/60 text-base leading-relaxed">

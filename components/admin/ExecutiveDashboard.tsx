@@ -229,7 +229,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
             </div>
 
             <p
-              className="text-2xl md:text-3xl font-black tabular-nums leading-none mb-1"
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tabular-nums leading-none mb-1"
               style={{ color: kpi.color }}
             >
               {kpi.value}

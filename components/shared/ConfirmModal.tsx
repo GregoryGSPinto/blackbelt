@@ -139,7 +139,7 @@ export function ConfirmModal({
         aria-describedby="confirm-message"
       >
         <div
-          className="w-full max-w-sm rounded-2xl p-6 relative"
+          className="w-full max-w-sm rounded-2xl p-4 sm:p-6 relative"
           style={{
             background: isDark ? 'rgba(20, 20, 28, 0.97)' : 'rgba(255, 255, 255, 0.97)',
             backdropFilter: 'blur(24px)',
@@ -198,7 +198,7 @@ export function ConfirmModal({
             <button
               onClick={onCancel}
               disabled={loading}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${isDark ? 'text-white/50 hover:bg-white/5' : 'text-slate-500 hover:bg-slate-100'}`}
+              className={`flex-1 py-2.5 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${isDark ? 'text-white/50 hover:bg-white/5' : 'text-slate-500 hover:bg-slate-100'}`}
               style={{ border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}
             >
               {cancelLabel}
@@ -206,7 +206,7 @@ export function ConfirmModal({
             <button
               onClick={handleConfirm}
               disabled={loading || (!!requireTyping && !typingMatch.current)}
-              className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-40"
+              className="flex-1 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold transition-all disabled:opacity-40"
               style={{
                 background: cfg.btnBg,
                 color: cfg.btnText,

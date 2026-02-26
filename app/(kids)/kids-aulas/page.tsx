@@ -107,7 +107,7 @@ export default function KidsSessõesPage() {
     <div className="space-y-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-3 py-6">
-        <h2 className="text-4xl md:text-5xl font-black tracking-tight flex items-center justify-center gap-3" style={{ color: c.heading }}>
+        <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tracking-tight flex items-center justify-center gap-3" style={{ color: c.heading }}>
           <span>🎬</span> Sessões
         </h2>
         <p className="text-xl md:text-2xl font-semibold" style={{ color: c.heading }}>
@@ -122,12 +122,12 @@ export default function KidsSessõesPage() {
       >
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">📚</span>
-          <h3 className="text-2xl font-black" style={{ color: c.heading }}>Seu Progresso</h3>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: c.heading }}>Seu Progresso</h3>
         </div>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-base font-bold" style={{ color: c.label }}>Sessões Assistidas</span>
-            <span className="text-3xl font-black" style={{ color: c.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: c.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
           </div>
           <div className="h-4 rounded-full overflow-hidden" style={{ background: c.trail }}>
             <div
@@ -144,7 +144,7 @@ export default function KidsSessõesPage() {
 
       {/* Lista de Sessões */}
       <div className="space-y-6">
-        <h3 className="text-2xl font-black flex items-center gap-2" style={{ color: c.heading }}>
+        <h3 className="text-lg sm:text-xl md:text-2xl font-black flex items-center gap-2" style={{ color: c.heading }}>
           <span>📖</span> Todas as Sessões
         </h3>
 

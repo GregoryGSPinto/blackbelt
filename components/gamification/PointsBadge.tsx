@@ -41,7 +41,7 @@ export default function PointsBadge({
             <Trophy size={20} className="text-amber-400" />
           </div>
           <div>
-            <p className="text-2xl font-black text-white">
+            <p className="text-lg sm:text-xl md:text-2xl font-black text-white">
               {pontos.toLocaleString('pt-BR')}
             </p>
             <p className="text-xs text-white/40 uppercase tracking-wider">pontos totais</p>

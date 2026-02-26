@@ -54,7 +54,7 @@ export function MFASetupModal({
     <div className="fixed inset-0 z-[100] flex items-center justify-center">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
       <div
-        className="relative w-full max-w-sm mx-4 rounded-2xl overflow-hidden p-6"
+        className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-sm mx-4 rounded-2xl overflow-hidden p-6"
         style={{ background: 'rgba(20,18,14,0.98)', border: '1px solid rgba(255,255,255,0.08)' }}
         role="dialog" aria-modal="true" aria-label="Configurar MFA"
       >

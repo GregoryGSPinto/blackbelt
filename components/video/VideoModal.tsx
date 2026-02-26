@@ -21,7 +21,7 @@ export function VideoModal({ video, onClose }: VideoModalProps) {
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
         <div 
-          className="bg-dark-card rounded-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto animate-in zoom-in duration-300"
+          className="bg-dark-card rounded-xl max-w-[calc(100%-1rem)] sm:max-w-2xl md:max-w-5xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto animate-in zoom-in duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -39,7 +39,7 @@ export function VideoModal({ video, onClose }: VideoModalProps) {
           </div>
 
           {/* Video Player */}
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <VideoPlayer 
               youtubeId={video.youtubeId}
               title={video.title}

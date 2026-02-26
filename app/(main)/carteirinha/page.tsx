@@ -51,7 +51,7 @@ export default function CarteirinhaPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <CreditCard size={24} className="text-blue-400" />
-            <h1 className="text-3xl font-black text-white">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">
               Carteirinha Digital
             </h1>
           </div>

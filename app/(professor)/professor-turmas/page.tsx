@@ -62,7 +62,7 @@ export default function ProfessorTurmasPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Gerenciamento</p>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Suas Turmas</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Suas Turmas</h1>
         <p className="text-white/55 text-sm mt-2">{turmas.length} turmas ativas · {turmas.reduce((a, t) => a + t.totalAlunos, 0)} alunos matriculados</p>
         <div className="prof-gold-line mt-6" />
       </section>
@@ -112,7 +112,7 @@ export default function ProfessorTurmasPage() {
               </div>
 
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="bg-white/5 rounded-xl p-3 text-center">
                   <p className="prof-stat-value text-xl font-bold">{turma.totalAlunos}</p>
                   <p className="text-[10px] text-white/50 mt-0.5">Matriculados</p>

@@ -66,7 +66,7 @@ export default function PerfilEsportivoPage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Perfil Esportivo</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Perfil Esportivo</h1>
         <p className="text-white/50">Modalidades, peso, documentos e objetivos</p>
       </div>
 

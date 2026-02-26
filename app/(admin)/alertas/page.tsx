@@ -123,7 +123,7 @@ export default function AlertasPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Alertas Operacionais</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Alertas Operacionais</h1>
         <p className="text-white/50">Monitoramento de eventos que requerem atenção</p>
       </div>
 
@@ -133,7 +133,7 @@ export default function AlertasPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Prioridade Alta</p>
-              <p className="text-4xl font-bold text-red-400">{alertasPorPrioridade.ALTA}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-400">{alertasPorPrioridade.ALTA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
@@ -143,7 +143,7 @@ export default function AlertasPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Prioridade Média</p>
-              <p className="text-4xl font-bold text-yellow-400">{alertasPorPrioridade.MEDIA}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400">{alertasPorPrioridade.MEDIA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
@@ -153,7 +153,7 @@ export default function AlertasPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Prioridade Baixa</p>
-              <p className="text-4xl font-bold text-white">{alertasPorPrioridade.BAIXA}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alertasPorPrioridade.BAIXA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/40" />
           </div>

@@ -120,7 +120,7 @@ export default function EstoquePage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
           <Package size={24} className="text-blue-400" />
           Controle de Estoque
         </h1>

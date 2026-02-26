@@ -54,7 +54,7 @@ export default function TeenConquistasPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
           Suas Conquistas
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -68,7 +68,7 @@ export default function TeenConquistasPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 bg-teen-ocean-light rounded-full mb-4">
             <Award className="w-10 h-10 text-teen-ocean-dark" />
           </div>
-          <p className="text-4xl font-bold font-teen teen-text-heading mb-2">
+          <p className="text-2xl sm:text-3xl lg:text-4xl font-bold font-teen teen-text-heading mb-2">
             {conquistadas.length}
           </p>
           <p className="font-teen teen-text-muted">

@@ -42,7 +42,7 @@ export default function ExcluirContaPage() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
             <Shield size={28} className="text-blue-400" />
           </div>
-          <h1 className="text-2xl font-black">BlackBelt</h1>
+          <h1 className="text-lg sm:text-xl md:text-2xl font-black">BlackBelt</h1>
           <p className="text-white/50 text-sm mt-1">Solicitação de Exclusão de Conta</p>
         </div>
 

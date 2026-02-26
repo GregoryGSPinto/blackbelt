@@ -153,7 +153,7 @@ export default function ProfessorAlunosPage() {
     <div className={`space-y-6 ${isMobile ? 'pb-32' : 'pb-4 px-4'}`}>
       {/* ═══ Header ═══ */}
       <div className="prof-enter-1">
-        <h1 className="text-2xl md:text-3xl font-bold text-white/90 mb-1">Alunos</h1>
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white/90 mb-1">Alunos</h1>
         <p className="text-white/40 text-sm">
           Visão pedagógica completa — {stats?.totalAlunos ?? 0} alunos ativos
         </p>
@@ -173,7 +173,7 @@ export default function ProfessorAlunosPage() {
                 <stat.icon size={16} style={{ color: stat.color }} />
                 <span className="text-white/40 text-xs uppercase tracking-wider">{stat.label}</span>
               </div>
-              <span className="text-2xl font-bold prof-stat-value">{stat.value}</span>
+              <span className="text-xl sm:text-2xl font-bold prof-stat-value">{stat.value}</span>
             </div>
           ))}
         </div>
@@ -181,7 +181,7 @@ export default function ProfessorAlunosPage() {
 
       {/* ═══ Categorias ═══ */}
       {stats && (
-        <div className="grid grid-cols-3 gap-3 prof-enter-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-2">
           {stats.alunosPorCategoria.map(c => (
             <button
               key={c.categoria}

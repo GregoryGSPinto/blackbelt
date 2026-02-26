@@ -143,7 +143,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
         </div>
 
         {/* Quick stats */}
-        <div className="grid grid-cols-3 gap-2 mt-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">
           <StatBox label="Frequência 30d" value={`${freqPct}%`} color={freqColor} />
           <StatBox label="Sessões mês" value={`${aluno.frequencia.totalSessões}`} color="#60A5FA" />
           <StatBox label="Total sessões" value={`${aluno.frequencia.totalSessões}`} color="#A78BFA" />

@@ -152,7 +152,7 @@ export default function PDVPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Ponto de Venda</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Ponto de Venda</h1>
         <p className="text-white/50">Venda rápida de produtos no balcão</p>
       </div>
 
@@ -161,19 +161,19 @@ export default function PDVPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2"><Receipt size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Vendas Hoje</span></div>
-            <p className="text-2xl font-bold text-white">{stats.vendasHoje}</p>
+            <p className="text-xl sm:text-2xl font-bold text-white">{stats.vendasHoje}</p>
           </div>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Receita Hoje</span></div>
-            <p className="text-2xl font-bold text-green-400">{formatCurrency(stats.receitaHoje)}</p>
+            <p className="text-xl sm:text-2xl font-bold text-green-400">{formatCurrency(stats.receitaHoje)}</p>
           </div>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Semana</span></div>
-            <p className="text-2xl font-bold text-purple-400">{formatCurrency(stats.receitaSemana)}</p>
+            <p className="text-xl sm:text-2xl font-bold text-purple-400">{formatCurrency(stats.receitaSemana)}</p>
           </div>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-2"><AlertTriangle size={16} className="text-red-400" /><span className="text-white/40 text-xs">Estoque Crítico</span></div>
-            <p className="text-2xl font-bold text-red-400">{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
+            <p className="text-xl sm:text-2xl font-bold text-red-400">{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
           </div>
         </div>
       )}

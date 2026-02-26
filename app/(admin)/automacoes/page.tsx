@@ -64,7 +64,7 @@ export default function AutomacoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
           <Zap size={24} className="text-amber-400" />
           Automações
         </h1>

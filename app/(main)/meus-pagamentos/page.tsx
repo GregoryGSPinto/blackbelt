@@ -115,11 +115,11 @@ export default function MeusPagamentosPage() {
   const displayFaturas = showAll ? faturas : faturas.slice(0, 6);
 
   return (
-    <div className="min-h-screen px-6 py-12">
+    <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-black text-white mb-2">Meus Pagamentos</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white mb-2">Meus Pagamentos</h1>
           <p className="text-white/60">Seu plano, faturas e pagamentos</p>
         </div>
 
@@ -129,11 +129,11 @@ export default function MeusPagamentosPage() {
             <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">Seu Plano</p>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-2xl font-bold text-white">{plano.nome}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white">{plano.nome}</h2>
                 <p className="text-white/40 text-sm mt-1">{plano.descricao}</p>
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold text-white">{formatCurrency(assinatura.valor)}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{formatCurrency(assinatura.valor)}</p>
                 <p className="text-white/30 text-xs">/{plano.frequencia}</p>
               </div>
             </div>

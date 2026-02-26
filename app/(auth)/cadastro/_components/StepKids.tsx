@@ -99,7 +99,7 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
               onChange={e => setKidAtual({ ...kidAtual, nome: e.target.value })}
               placeholder="Nome completo"
               className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40" />
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {([
                 { value: 'masculino', label: 'Menino' },
                 { value: 'feminino', label: 'Menina' },

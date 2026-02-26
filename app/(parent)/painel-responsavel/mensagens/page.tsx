@@ -79,13 +79,13 @@ export default function MensagensParentPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto px-4 md:px-0">
         {/* Header */}
         <div className="mb-6 pt-6 px-4">
           <Link href="/painel-responsavel" className="text-white/40 text-xs flex items-center gap-1 mb-2 hover:text-white/60 transition-colors">
             <ArrowLeft size={14} /> Voltar ao Painel
           </Link>
-          <h1 className="text-2xl font-bold text-white">Mensagens</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Mensagens</h1>
           <p className="text-white/40 text-sm">Comunicação com instrutores</p>
         </div>
 
@@ -169,14 +169,14 @@ export default function MensagensParentPage() {
                   onChange={e => setNewMsg(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleSend()}
                   placeholder="Digite sua mensagem..."
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white/80
+                  className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white/80
                              focus:outline-none focus:border-white/25 transition-colors"
                   aria-label="Mensagem"
                 />
                 <button
                   onClick={handleSend}
                   disabled={sending || !newMsg.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white transition-colors disabled:opacity-40"
+                  className="px-4 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white transition-colors disabled:opacity-40"
                   aria-label="Enviar mensagem"
                 >
                   {sending ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}

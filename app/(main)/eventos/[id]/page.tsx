@@ -95,7 +95,7 @@ export default function EventoDetalhePage() {
               {evento.tipo === 'INTERNO' ? 'Interno' : 'Externo'}
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-white">{evento.nome}</h1>
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-white">{evento.nome}</h1>
           <p className="text-sm text-white/40 mt-2">{evento.descricao}</p>
         </div>
 

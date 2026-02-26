@@ -65,7 +65,7 @@ export default function AgendaPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Agenda do Dia</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Agenda do Dia</h1>
         <p className="text-white/50">Segunda-feira, 02 de Fevereiro de 2026</p>
       </div>
 
@@ -75,7 +75,7 @@ export default function AgendaPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Turmas Hoje</p>
-              <p className="text-4xl font-bold text-white/70">{turmasHoje.length}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{turmasHoje.length}</p>
             </div>
             <Calendar className="w-10 h-10 text-white/40" />
           </div>
@@ -85,7 +85,7 @@ export default function AgendaPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Check-ins Realizados</p>
-              <p className="text-4xl font-bold text-green-400">{checkInsHoje.length}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400">{checkInsHoje.length}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
           </div>
@@ -95,7 +95,7 @@ export default function AgendaPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Total de Alunos</p>
-              <p className="text-4xl font-bold text-white">
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                 {turmasHoje.reduce((sum, t) => sum + t.alunosMatriculados, 0)}
               </p>
             </div>
@@ -159,7 +159,7 @@ export default function AgendaPage() {
 
                     <div className="text-right">
                       <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-2">
-                        <p className="text-2xl font-bold text-green-400">{checkInsDaTurma}</p>
+                        <p className="text-xl sm:text-2xl font-bold text-green-400">{checkInsDaTurma}</p>
                         <p className="text-xs text-white/50">Check-ins</p>
                       </div>
                     </div>

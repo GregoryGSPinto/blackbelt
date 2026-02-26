@@ -134,7 +134,7 @@ export default function RecepcaoPage() {
                 <span className="text-white font-bold text-2xl">C</span>
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-white">MODO RECEPÇÃO</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">MODO RECEPÇÃO</h1>
                 <p className="text-white/50 text-lg">Check-in Rápido</p>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function RecepcaoPage() {
                 <Check className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h3 className="text-3xl font-bold text-white mb-2">BEM-VINDO(A)!</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">BEM-VINDO(A)!</h3>
                 <p className="text-2xl text-green-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-1">
                   Check-in realizado às {new Date().toLocaleTimeString('pt-BR')}
@@ -174,7 +174,7 @@ export default function RecepcaoPage() {
                 <X className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h3 className="text-3xl font-bold text-white mb-2">ACESSO BLOQUEADO</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">ACESSO BLOQUEADO</h3>
                 <p className="text-2xl text-red-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-2">
                   {selectedAluno.observacoes || 'Por favor, dirija-se à recepção para regularizar sua situação.'}
@@ -270,7 +270,7 @@ export default function RecepcaoPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Digite o nome ou ID do aluno..."
-              className="w-full pl-20 pr-6 py-6 bg-white/10 border-2 border-white/15 rounded-xl text-white text-2xl placeholder-white/30 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-transparent"
+              className="w-full pl-20 pr-6 py-4 sm:py-6 bg-white/10 border-2 border-white/15 rounded-xl text-white text-2xl placeholder-white/30 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-transparent"
               autoFocus
             />
           </div>
@@ -300,7 +300,7 @@ export default function RecepcaoPage() {
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h4 className="text-2xl font-bold text-white">{aluno.nome}</h4>
+                            <h4 className="text-xl sm:text-2xl font-bold text-white">{aluno.nome}</h4>
                             {aluno.status === 'ATIVO' && (
                               <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-green-400 font-medium">
                                 Ativo

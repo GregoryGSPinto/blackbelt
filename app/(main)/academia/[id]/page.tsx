@@ -58,7 +58,7 @@ export default function AreaDetailPage() {
               <Icon size={30} className="text-white" />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-extrabold leading-tight mb-2"
+              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold leading-tight mb-2"
                 style={{ color: 'rgb(var(--color-text))' }}>
                 {area.title}
               </h1>

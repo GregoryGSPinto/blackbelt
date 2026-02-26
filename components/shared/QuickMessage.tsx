@@ -101,7 +101,7 @@ export function QuickMessage({
 
       {/* Sheet */}
       <div
-        className="relative w-full max-w-md md:max-h-[80vh] max-h-[85vh] rounded-t-2xl md:rounded-2xl overflow-hidden flex flex-col"
+        className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-h-[80vh] max-h-[85vh] rounded-t-2xl md:rounded-2xl overflow-hidden flex flex-col"
         style={{
           background: 'rgba(12,12,12,0.98)',
           border: '1px solid rgba(255,255,255,0.06)',

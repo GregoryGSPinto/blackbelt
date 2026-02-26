@@ -76,7 +76,7 @@ export default function KidsConquistasPage() {
       >
         <div className="text-center">
           <div className="text-6xl mb-3">🏆</div>
-          <p className="text-4xl font-bold font-kids mb-2" style={{ color: c.yellow }}>
+          <p className="text-2xl sm:text-3xl lg:text-4xl font-bold font-kids mb-2" style={{ color: c.yellow }}>
             {conquistadas.length}
           </p>
           <p className="font-kids" style={{ color: c.label }}>Conquistas Conquistadas</p>

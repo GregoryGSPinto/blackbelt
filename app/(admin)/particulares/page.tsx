@@ -61,19 +61,19 @@ export default function ParticularesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Sessões Particulares</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Sessões Particulares</h1>
         <p className="text-white/50">Agenda de particulares e splits professor/unidade</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Agendadas</span></div>
-          <p className="text-2xl font-bold text-white">{totalAgendadas}</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">{totalAgendadas}</p>
         </div>
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">Realizadas</span></div>
-          <p className="text-2xl font-bold text-green-400">{totalRealizadas}</p>
+          <p className="text-xl sm:text-2xl font-bold text-green-400">{totalRealizadas}</p>
         </div>
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Mês</span></div>

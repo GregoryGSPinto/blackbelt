@@ -26,9 +26,9 @@ export default function MeusFilhosPage() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in px-4 md:px-0">
       <div>
-        <h2 className="text-3xl font-bold mb-2">Meus Filhos</h2>
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Meus Filhos</h2>
         <p className="text-white/60 text-lg">Gerencie os perfis e acompanhe o desempenho</p>
       </div>
 

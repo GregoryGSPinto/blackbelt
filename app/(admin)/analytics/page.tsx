@@ -40,7 +40,7 @@ export default function AnalyticsPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
           <BarChart3 size={24} className="text-cyan-400" />
           Analytics de Retenção
         </h1>
@@ -224,7 +224,7 @@ function KpiCard({ label, value, icon: Icon, color, sub }: { label: string; valu
   return (
     <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-4">
       <div className="flex items-center gap-2 mb-2"><Icon size={14} className={color} /><span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span></div>
-      <p className="text-2xl font-black text-white">{value}</p>
+      <p className="text-lg sm:text-xl md:text-2xl font-black text-white">{value}</p>
       <p className="text-[10px] text-white/20 mt-0.5">{sub}</p>
     </div>
   );

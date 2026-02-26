@@ -29,7 +29,7 @@ export default function KidsHeader({
           <div className="text-5xl">{icon}</div>
         )}
         <div className="flex-1">
-          <h1 className="text-3xl md:text-4xl font-bold text-white font-kids drop-shadow-md">
+          <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-white font-kids drop-shadow-md">
             {title}
           </h1>
           {subtitle && (

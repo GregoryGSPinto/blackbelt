@@ -34,7 +34,7 @@ export default function PermissoesUsuarioPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Minhas Permissões</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Minhas Permissões</h1>
         <p className="text-white/40">Visualize suas permissões e nível de acesso no sistema</p>
       </div>
 
@@ -151,7 +151,7 @@ export default function PermissoesUsuarioPage() {
             <p className="text-sm text-white/40">Total de permissões concedidas ao seu perfil</p>
           </div>
           <div className="text-right">
-            <p className="text-4xl font-bold text-purple-400">{perfil.permissoes.length}</p>
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-400">{perfil.permissoes.length}</p>
             <p className="text-sm text-white/40">de {todasPermissoes.length} possíveis</p>
           </div>
         </div>

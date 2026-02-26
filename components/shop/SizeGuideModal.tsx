@@ -53,7 +53,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
         <div
-          className="bg-dark-card rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto animate-in zoom-in duration-300"
+          className="bg-dark-card rounded-xl max-w-[calc(100%-1rem)] sm:max-w-2xl md:max-w-3xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto animate-in zoom-in duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}

@@ -483,7 +483,7 @@ export default function ProfessorCronometroPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Ferramenta</p>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Cronômetro</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Cronômetro</h1>
         <p className="text-white/55 text-sm mt-2">Timer de rounds para treino</p>
         <div className="prof-gold-line mt-6" />
       </section>

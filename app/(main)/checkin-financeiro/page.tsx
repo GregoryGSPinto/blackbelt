@@ -88,12 +88,12 @@ export default function CheckinFinanceiroPage() {
   };
 
   return (
-    <div className="min-h-screen px-6 py-12">
+    <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto space-y-8">
         
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-black text-white mb-2">Check-in / Financeiro</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white mb-2">Check-in / Financeiro</h1>
           <p className="text-white/60">Seu status de acesso e check-in diário</p>
         </div>
 
@@ -149,7 +149,7 @@ export default function CheckinFinanceiroPage() {
             </p>
             <div className="flex items-center gap-3 mb-2">
               <Calendar size={20} className="text-blue-400" />
-              <span className="text-2xl font-bold text-white">07/02/2026</span>
+              <span className="text-xl sm:text-2xl font-bold text-white">07/02/2026</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-white/70">
               <Clock size={16} />

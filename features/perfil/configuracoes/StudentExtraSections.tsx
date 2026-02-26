@@ -122,7 +122,7 @@ export function StudentExtraSections() {
     <div className="space-y-4 mt-6">
       {/* ── Dados Físicos ── */}
       <Section title="Dados Físicos" icon={Scale}>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div>
             <label className="text-[9px] text-white/25 block mb-1">Peso (kg)</label>
             <input

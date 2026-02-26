@@ -134,10 +134,10 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
           <div className="w-16 h-16 rounded-full bg-emerald-500/15 mx-auto mb-4 flex items-center justify-center">
             <Check size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Sessão Finalizada!</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Sessão Finalizada!</h2>
           <p className="text-white/40 text-sm mb-6">{classData.turmaNome} · {formatTime(elapsedSeconds)}</p>
 
-          <div className="grid grid-cols-3 gap-3 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
             <div className="rounded-xl p-3 bg-emerald-500/10 border border-emerald-500/20">
               <p className="text-emerald-400 text-2xl font-bold">{summary.presentes}</p>
               <p className="text-emerald-400/50 text-[10px]">Presentes</p>

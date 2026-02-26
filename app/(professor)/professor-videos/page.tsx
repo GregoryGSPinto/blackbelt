@@ -130,7 +130,7 @@ export default function ProfessorVideosPage() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
             <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Biblioteca</p>
-            <h1 className="text-3xl font-bold text-white tracking-tight">Vídeos</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Vídeos</h1>
             <p className="text-white/55 text-sm mt-2">
               {videos.length + managedVideos.length} vídeos · {totalViews} visualizações totais
             </p>
@@ -148,7 +148,7 @@ export default function ProfessorVideosPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-3 gap-3 prof-enter-2">
+      <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-2">
         {[
           { label: 'Total de Vídeos', value: videos.length + managedVideos.length, icon: Film },
           { label: 'Visualizações', value: totalViews, icon: Eye },

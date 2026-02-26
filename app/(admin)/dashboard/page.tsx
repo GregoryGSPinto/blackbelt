@@ -92,7 +92,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-xl sm:text-2xl font-bold text-white">
             {viewMode === 'executive' ? 'Visão Executiva' : 'Dashboard Avançado'}
           </h1>
           <p className="text-sm text-white/40 mt-1">
@@ -165,7 +165,7 @@ export default function DashboardPage() {
 
       {/* STATUS OPERACIONAL CRÍTICO */}
       <Section title="Status Operacional Crítico">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <CriticalCard title="Alunos Ativos" value={stats.alunosAtivos} total={stats.totalAlunos}
             percentage={Math.round((stats.alunosAtivos / stats.totalAlunos) * 100)}
             icon={UserCheck} link="/usuarios?status=ativo" status="success" />
@@ -424,7 +424,7 @@ function MetricCard({ title, value, icon: Icon, link, comparison }: {
       </div>
       <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2">{title}</h3>
       <div className="flex items-end justify-between">
-        <p className="text-4xl font-bold text-white">{value}</p>
+        <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{value}</p>
         {comparison && (
           <div className="flex items-center gap-1">
             {comparison.value < value ? <TrendingUp size={16} className="text-green-400" /> :

@@ -84,7 +84,7 @@ export default function TestPage() {
             <ArrowLeft size={16} /> Voltar ao conteúdo
           </button>
 
-          <div className="rounded-2xl p-8 md:p-10 text-center"
+          <div className="rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 text-center"
             style={{
               background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
               backdropFilter: 'blur(20px)',

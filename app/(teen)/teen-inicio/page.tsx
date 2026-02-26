@@ -73,7 +73,7 @@ export default function TeenInicioPage() {
       {/* ═══ SECTION 1: Boas-vindas + Sequência ═══ */}
       <div className="teen-enter-1 flex items-start justify-between">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
             Olá, {nomeExibicao}
           </h2>
           <p className="teen-text-muted text-sm font-teen mt-1.5">

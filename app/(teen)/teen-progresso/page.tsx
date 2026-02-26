@@ -50,7 +50,7 @@ return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
           Seu Progresso
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -114,7 +114,7 @@ return (
               <Calendar className="w-6 h-6 text-teen-emerald-dark" />
             </div>
             <div className="flex-1">
-              <p className="text-3xl font-bold font-teen teen-text-heading">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
                 {currentTeen.progresso.presenca30dias}%
               </p>
               <p className="text-sm font-teen teen-text-muted mt-1">
@@ -138,7 +138,7 @@ return (
               <Clock className="w-6 h-6 text-teen-purple-dark" />
             </div>
             <div className="flex-1">
-              <p className="text-3xl font-bold font-teen teen-text-heading">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
                 {currentTeen.progresso.tempoTreinoTotal}h
               </p>
               <p className="text-sm font-teen teen-text-muted mt-1">

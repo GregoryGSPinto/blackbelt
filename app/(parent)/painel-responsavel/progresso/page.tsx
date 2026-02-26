@@ -21,12 +21,12 @@ export default function ProgressoPage() {
   const totalDesafios = filhos.reduce((acc, f) => acc + f.progresso.desafiosConcluidos, 0);
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in px-4 md:px-0">
       {/* Breadcrumb */}
       <Breadcrumb />
       {/* Header */}
       <div>
-        <h2 className="text-3xl font-bold mb-2">Progresso Geral</h2>
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Progresso Geral</h2>
         <p className="text-white/60 text-lg">Acompanhe a evolução de todos os seus filhos</p>
       </div>
 
@@ -39,7 +39,7 @@ export default function ProgressoPage() {
             </div>
             <div>
               <p className="text-sm text-white/60">Média de Presença</p>
-              <p className="text-2xl font-bold text-green-400">{mediaPresenca}%</p>
+              <p className="text-xl sm:text-2xl font-bold text-green-400">{mediaPresenca}%</p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function ProgressoPage() {
             </div>
             <div>
               <p className="text-sm text-white/60">Total de Sessões</p>
-              <p className="text-2xl font-bold text-blue-400">{totalSessões}</p>
+              <p className="text-xl sm:text-2xl font-bold text-blue-400">{totalSessões}</p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function ProgressoPage() {
             </div>
             <div>
               <p className="text-sm text-white/60">Total de Conquistas</p>
-              <p className="text-2xl font-bold text-yellow-400">{totalConquistas}</p>
+              <p className="text-xl sm:text-2xl font-bold text-yellow-400">{totalConquistas}</p>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function ProgressoPage() {
             </div>
             <div>
               <p className="text-sm text-white/60">Desafios Concluídos</p>
-              <p className="text-2xl font-bold text-purple-400">{totalDesafios}</p>
+              <p className="text-xl sm:text-2xl font-bold text-purple-400">{totalDesafios}</p>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default function ProgressoPage() {
 
       {/* Progresso Individual por Filho */}
       <div>
-        <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+        <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
           <BarChart3 size={28} />
           Progresso Individual
         </h3>
@@ -107,7 +107,7 @@ export default function ProgressoPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-white/60">Presença</p>
-                  <p className="text-2xl font-bold text-green-400">{filho.progresso.presenca30dias}%</p>
+                  <p className="text-xl sm:text-2xl font-bold text-green-400">{filho.progresso.presenca30dias}%</p>
                 </div>
               </div>
 
@@ -141,17 +141,17 @@ export default function ProgressoPage() {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-blue-400">{filho.progresso.sessõesAssistidas}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-blue-400">{filho.progresso.sessõesAssistidas}</p>
                   <p className="text-xs text-white/60 mt-1">Sessões</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-yellow-400">{filho.progresso.conquistasConquistadas}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-yellow-400">{filho.progresso.conquistasConquistadas}</p>
                   <p className="text-xs text-white/60 mt-1">Conquistas</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-purple-400">{filho.progresso.desafiosConcluidos}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-purple-400">{filho.progresso.desafiosConcluidos}</p>
                   <p className="text-xs text-white/60 mt-1">Desafios</p>
                 </div>
               </div>

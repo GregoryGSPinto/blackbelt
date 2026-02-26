@@ -74,7 +74,7 @@ export default function DeveloperLoginsPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { label: 'Total', value: records.length, color: 'text-white' },
           { label: 'Success', value: records.filter((r) => r.success).length, color: 'text-emerald-400' },

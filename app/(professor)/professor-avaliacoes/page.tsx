@@ -72,7 +72,7 @@ export default function ProfessorAvaliacoesPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Pendências</p>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Avaliações</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Avaliações</h1>
         <p className="text-white/55 text-sm mt-2">{avaliacoes.length} pendentes · {avaliacoes.filter(a => a.prioridade === 'alta').length} urgentes</p>
         <div className="prof-gold-line mt-6" />
       </section>

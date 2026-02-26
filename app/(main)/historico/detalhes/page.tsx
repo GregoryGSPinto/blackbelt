@@ -73,7 +73,7 @@ export default function HistoricoDetalhes() {
   }, {});
 
   return (
-    <div className="min-h-screen px-6 py-12">
+    <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto space-y-8">
 
         {/* Header */}
@@ -85,7 +85,7 @@ export default function HistoricoDetalhes() {
           >
             <ArrowLeft size={16} /> Voltar ao resumo
           </button>
-          <h1 className="text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
             Todos os Treinos
           </h1>
           <p style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
@@ -127,7 +127,7 @@ export default function HistoricoDetalhes() {
                   <div className="flex items-start gap-4">
                     {/* Date block */}
                     <div className="w-14 text-center flex-shrink-0 pt-0.5">
-                      <p className="text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
+                      <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
                         {t.data.split('/')[0]}
                       </p>
                       <p className="text-[10px] uppercase" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>

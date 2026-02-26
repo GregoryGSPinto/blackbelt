@@ -279,7 +279,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
                   </div>
 
                   {/* Título */}
-                  <h1 className="text-3xl md:text-4xl font-black text-white mb-2 flex items-center gap-3">
+                  <h1 className="text-xl md:text-2xl lg:text-4xl font-black text-white mb-2 flex items-center gap-3">
                     <span>{this.config.emoji}</span>
                     <span>{this.config.displayName}</span>
                   </h1>

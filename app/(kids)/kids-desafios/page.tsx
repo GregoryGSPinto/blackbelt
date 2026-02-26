@@ -68,7 +68,7 @@ export default function KidsDesafiosPage() {
       <KidsCard color="yellow">
         <div className="text-center">
           <div className="text-6xl mb-3">🐯</div>
-          <h3 className="text-2xl font-bold text-white font-kids mb-2">
+          <h3 className="text-xl sm:text-2xl font-bold text-white font-kids mb-2">
             Qual o nome dessa posição?
           </h3>
 

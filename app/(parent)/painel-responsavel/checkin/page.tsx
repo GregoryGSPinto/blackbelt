@@ -70,11 +70,11 @@ export default function CheckinPage() {
   const primeiroNome = selectedKid.nome.split(' ')[0];
 
   return (
-    <AnimatedPage className="space-y-6 pb-8 max-w-2xl mx-auto">
+    <AnimatedPage className="space-y-6 pb-8 max-w-2xl mx-auto px-4 sm:px-6">
       {/* Header */}
       <section className="pt-4" style={staggerStyle(0)}>
         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">Frequência</p>
-        <h1 className="text-2xl font-bold text-white">Check-in de {primeiroNome}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-white">Check-in de {primeiroNome}</h1>
       </section>
 
       {/* Kid selector (if multiple) */}
@@ -98,7 +98,7 @@ export default function CheckinPage() {
       )}
 
       {/* Summary stats */}
-      <div className="grid grid-cols-3 gap-3" style={staggerStyle(2)}>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3" style={staggerStyle(2)}>
         <StatCard label="Presentes" value={String(stats.presentes)} color="#4ADE80" />
         <StatCard label="Ausentes" value={String(stats.total - stats.presentes)} color="#F87171" />
         <StatCard label="Frequência" value={`${stats.pct}%`}

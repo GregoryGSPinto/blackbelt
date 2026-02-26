@@ -81,7 +81,7 @@ export default function GraduacaoPage() {
               <ChevronRight size={14} className="text-white/20" />
               <p className="text-xs text-white/40">Próximo nível: <span className="font-bold text-white/60">{proximoNivel}</span></p>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <ProgressMini label="Tempo" current={tempoNoNivel} required={reqProxima.tempoMinimoMeses} unit="meses" />
               <ProgressMini label="Presença" current={82} required={reqProxima.presencaMinimaPct} unit="%" />
               <ProgressMini label="Sessões" current={168} required={reqProxima.sessõesMinimas} unit="sessões" />

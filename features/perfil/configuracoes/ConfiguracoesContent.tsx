@@ -159,7 +159,7 @@ export function ConfiguracoesContent() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-black mb-2">Configurações</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2">Configurações</h1>
           <p className="text-white/40">Personalize sua experiência no BlackBelt</p>
         </div>
 

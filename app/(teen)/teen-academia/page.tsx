@@ -116,7 +116,7 @@ export default function TeenUnidadePage() {
             </div>
 
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-2xl md:text-3xl font-bold font-teen teen-text-heading">
+              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
                 Unidade de Conhecimento
               </h1>
               <p className="text-sm md:text-base font-teen teen-text-muted mt-1.5 max-w-lg">
@@ -262,7 +262,7 @@ export default function TeenUnidadePage() {
               <div className="mt-4 pt-4 text-center"
                 style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(107,68,35,0.06)'}` }}>
                 <p className="text-xs font-teen teen-text-muted mb-1">Média geral</p>
-                <p className="text-3xl font-bold font-teen"
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen"
                   style={{ color: isDark ? '#4DB8D4' : '#006B8F' }}>
                   {average}%
                 </p>

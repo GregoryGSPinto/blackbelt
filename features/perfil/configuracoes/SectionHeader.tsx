@@ -16,7 +16,7 @@ export function SectionHeader({ icon: Icon, iconClassName, title, subtitle, desc
   const sub = subtitle || description;
   return (
     <div>
-      <h2 className="text-3xl font-black mb-2 flex items-center gap-3">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2 flex items-center gap-3">
         {Icon && <Icon size={32} className={iconClassName} />}
         {title}
       </h2>

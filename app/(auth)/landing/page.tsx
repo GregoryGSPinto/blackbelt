@@ -206,11 +206,11 @@ export default function PremiumLandingPage() {
 
         {/* Top 10 da Semana - MANTIDO INTACTO */}
         <section id="top10" className="container mx-auto px-6 py-20">
-          <h2 className="text-3xl md:text-5xl font-black mb-12 animate-fade-in">
+          <h2 className="text-xl md:text-2xl lg:text-5xl font-black mb-12 animate-fade-in">
             Top 10 da Semana
           </h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
             {top10Videos.map((video, index) => (
               <div
                 key={video.rank}
@@ -268,11 +268,11 @@ export default function PremiumLandingPage() {
 
         {/* Adicionados Recentemente - NOVO */}
         <section className="container mx-auto px-6 py-20">
-          <h2 className="text-3xl md:text-5xl font-black mb-12 animate-fade-in">
+          <h2 className="text-xl md:text-2xl lg:text-5xl font-black mb-12 animate-fade-in">
             Adicionados Recentemente
           </h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
             {top10Videos.slice(0, 5).map((video, index) => (
               <div
                 key={`recent-${index}`}
@@ -312,7 +312,7 @@ export default function PremiumLandingPage() {
 
         {/* Features Grid - Minimalista */}
         <section className="container mx-auto px-6 py-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {[
               { emoji: '📱', title: 'Qualquer dispositivo', desc: 'Mobile, tablet ou desktop' },
               { emoji: '🥋', title: 'Todos os níveis', desc: 'Do iniciante ao nível máximo' },
@@ -334,7 +334,7 @@ export default function PremiumLandingPage() {
 
         {/* FAQ */}
         <section className="container mx-auto px-6 py-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center">
+          <h2 className="text-xl md:text-2xl lg:text-4xl font-bold mb-10 text-center">
             Perguntas Frequentes
           </h2>
           
@@ -366,14 +366,14 @@ export default function PremiumLandingPage() {
         {/* Email Capture */}
         <section className="container mx-auto px-6 py-20">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-xl md:text-2xl lg:text-4xl font-bold mb-4">
               Pronto para evoluir?
             </h2>
             <p className="text-white/55 mb-8">
               Cadastre seu email para receber novidades
             </p>
             
-            <div className="flex gap-3 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <div className="flex-1 relative">
                 <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40 w-5 h-5" />
                 <input
@@ -409,7 +409,7 @@ export default function PremiumLandingPage() {
         <footer className="container mx-auto px-6 py-16 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             {/* Links Legais */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12">
               <div>
                 <h3 className="font-bold mb-4 text-white/55">Legal</h3>
                 <ul className="space-y-2 text-sm">

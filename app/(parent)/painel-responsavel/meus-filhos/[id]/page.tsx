@@ -18,7 +18,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <p className="text-2xl font-bold text-white mb-2">Filho não encontrado</p>
+          <p className="text-xl sm:text-2xl font-bold text-white mb-2">Filho não encontrado</p>
           <Link href="/painel-responsavel/meus-filhos" className="text-blue-400 hover:underline">
             Voltar para Meus Filhos
           </Link>
@@ -58,7 +58,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
           <div className="flex-1 text-center md:text-left">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
               <div>
-                <h1 className="text-3xl font-bold mb-2">{filho.nome}</h1>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{filho.nome}</h1>
                 <p className="text-white/60 text-lg">
                   {filho.idade} anos • {filho.categoria === 'teen' ? 'Adolescente' : 'Kids'} • Nível {filho.nivel}
                 </p>
@@ -113,7 +113,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">Presença (30 dias)</p>
-              <p className="text-2xl font-bold text-green-400">{filho.progresso.presenca30dias}%</p>
+              <p className="text-xl sm:text-2xl font-bold text-green-400">{filho.progresso.presenca30dias}%</p>
             </div>
           </div>
           <div className="h-3 bg-white/10 rounded-full overflow-hidden">
@@ -131,7 +131,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">Sessões Assistidas</p>
-              <p className="text-2xl font-bold text-blue-400">{filho.progresso.sessõesAssistidas}</p>
+              <p className="text-xl sm:text-2xl font-bold text-blue-400">{filho.progresso.sessõesAssistidas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">Total de sessões completadas</p>
@@ -144,7 +144,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">Conquistas</p>
-              <p className="text-2xl font-bold text-yellow-400">{filho.progresso.conquistasConquistadas}</p>
+              <p className="text-xl sm:text-2xl font-bold text-yellow-400">{filho.progresso.conquistasConquistadas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">Conquistas desbloqueadas</p>
@@ -153,7 +153,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
       {/* Progresso Detalhado */}
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-        <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+        <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
           <Target size={28} />
           Resumo de Atividade
         </h3>
@@ -202,7 +202,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
       {/* Últimas Sessões */}
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-        <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+        <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
           <BookOpen size={28} />
           Últimas Sessões Assistidas
         </h3>

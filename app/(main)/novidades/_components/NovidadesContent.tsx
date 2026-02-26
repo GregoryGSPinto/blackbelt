@@ -21,7 +21,7 @@ export default function NovidadesContent({ videos }: NovidadesContentProps) {
       {/* Header */}
       <div className="relative h-48 md:h-64 bg-gradient-to-r from-green-600 to-green-800 flex items-center px-4 md:px-8 mb-8">
         <div className="max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Novidades</h1>
+          <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-bold mb-4">Novidades</h1>
           <p className="text-lg text-green-100">
             Conteúdo recém-adicionado e atualizações da plataforma
           </p>

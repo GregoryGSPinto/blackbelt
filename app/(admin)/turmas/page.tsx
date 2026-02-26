@@ -77,7 +77,7 @@ export default function TurmasPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Gestão de Turmas</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Gestão de Turmas</h1>
           <p className="text-white/50">Organizar turmas, horários e alunos</p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium">
@@ -174,7 +174,7 @@ export default function TurmasPage() {
               {/* Header */}
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-2">{turma.nome}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{turma.nome}</h2>
                   <p className="text-white/50">{turma.sala}</p>
                 </div>
                 <button
@@ -186,7 +186,7 @@ export default function TurmasPage() {
               </div>
 
               {/* Info Cards */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div className="bg-white/10 rounded-lg p-4">
                   <p className="text-sm text-white/50 mb-1">Professor</p>
                   <p className="text-white font-medium">{usuarios.find(u => u.id === turma.professorId)?.nome}</p>

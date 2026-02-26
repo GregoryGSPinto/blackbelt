@@ -69,12 +69,12 @@ function tipoColor(tipo: string) {
 
 export default function HistoricoDashboard() {
   return (
-    <div className="min-h-screen px-6 py-12">
+    <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto space-y-8">
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
             Histórico de Treinos
           </h1>
           <p style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
@@ -99,7 +99,7 @@ export default function HistoricoDashboard() {
               <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>Sequência de Treinos</h2>
             </div>
             <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-4xl font-black text-amber-400">{MOCK_STATS.streak}</span>
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-amber-400">{MOCK_STATS.streak}</span>
               <span className="text-sm" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>dias consecutivos</span>
             </div>
             <p className="text-xs mb-5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
@@ -217,7 +217,7 @@ function StatCard({ icon: Icon, label, value, accent }: {
       <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center mb-3`}>
         <Icon size={18} className={c.icon} />
       </div>
-      <p className="text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>{value}</p>
+      <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>{value}</p>
       <p className="text-xs mt-1" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{label}</p>
     </div>
   );

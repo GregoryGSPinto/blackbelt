@@ -151,7 +151,7 @@ export default function SplashScreen() {
             <div className="relative">
               {/* Sombra */}
               <span
-                className="absolute inset-0 flex items-center justify-center text-4xl md:text-5xl font-black tabular-nums tracking-tight select-none"
+                className="absolute inset-0 flex items-center justify-center text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tabular-nums tracking-tight select-none"
                 style={{
                   color: 'transparent',
                   WebkitTextStroke: '1px rgba(0,0,0,0.3)',
@@ -163,7 +163,7 @@ export default function SplashScreen() {
               </span>
               {/* Texto dourado */}
               <span
-                className="relative text-4xl md:text-5xl font-black tabular-nums tracking-tight select-none"
+                className="relative text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tabular-nums tracking-tight select-none"
                 style={{
                   background: 'linear-gradient(180deg, #FFFFFF 0%, #F5E6A3 30%, #D4AF37 60%, #B8960C 100%)',
                   WebkitBackgroundClip: 'text',

@@ -108,7 +108,7 @@ export default function RankingPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 className="text-3xl font-black text-white">Ranking</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">Ranking</h1>
           </div>
           <p className="text-white/40 text-sm">
             Sua posição entre os guerreiros do BlackBelt
@@ -127,7 +127,7 @@ export default function RankingPage() {
 
         {/* Pontos do mês + semana */}
         {pontosResumo && (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
               <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Este mês</p>
               <p className="text-lg font-bold text-emerald-400">
@@ -253,7 +253,7 @@ function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
   return (
     <div className="space-y-6 py-2">
       {/* Stats grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <StatCard label="Melhor streak" value={`${resumo.melhorStreak} dias`} icon={Flame} color="text-orange-400" />
         <StatCard label="Streak atual" value={`${resumo.streakAtual} dias`} icon={Flame} color="text-amber-400" />
         <StatCard label="Posição geral" value={`#${resumo.posicaoGeral}`} icon={TrendingUp} color="text-emerald-400" />

@@ -70,13 +70,13 @@ export default function AlterarSenhaPage() {
         {/* Content */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
           <div className="w-full max-w-lg animate-slide-up">
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-10 shadow-2xl text-center">
+            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl text-center">
               <div className="w-20 h-20 bg-green-600/20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-3xl font-bold mb-3 tracking-tight">Senha Alterada!</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">Senha Alterada!</h2>
               <p className="text-white/70 text-base leading-relaxed mb-6">
                 Sua senha foi alterada com sucesso
               </p>
@@ -118,10 +118,10 @@ export default function AlterarSenhaPage() {
           </Link>
 
           {/* Container Principal */}
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-10 shadow-2xl">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">
+              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
                 Alterar Senha
               </h1>
               <p className="text-white/70 text-base leading-relaxed">

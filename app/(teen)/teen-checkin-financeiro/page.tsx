@@ -92,7 +92,7 @@ export default function TeenCheckinFinanceiroPage() {
         
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-black text-teen-ocean font-teen mb-2">Seu Acesso 🎯</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-teen-ocean font-teen mb-2">Seu Acesso 🎯</h1>
           <p className="teen-text-muted font-teen">Veja seu status e faça o check-in!</p>
         </div>
 
@@ -110,7 +110,7 @@ export default function TeenCheckinFinanceiroPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-3xl">{currentStatus.badge.emoji}</span>
-                  <span className={`text-2xl md:text-3xl font-black ${currentStatus.badge.textColor} font-teen`}>
+                  <span className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-black ${currentStatus.badge.textColor} font-teen`}>
                     {currentStatus.badge.text}
                   </span>
                 </div>

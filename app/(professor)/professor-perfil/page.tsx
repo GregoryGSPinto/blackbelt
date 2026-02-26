@@ -19,11 +19,11 @@ export default function ProfessorPerfilPage() {
   };
 
   return (
-    <div className="space-y-8 pt-6 pb-8 max-w-3xl mx-auto">
+    <div className="space-y-8 pt-6 pb-8 max-w-3xl mx-auto px-4 md:px-0">
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Configurações</p>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Meu Perfil</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Meu Perfil</h1>
         <div className="prof-gold-line mt-6" />
       </section>
 

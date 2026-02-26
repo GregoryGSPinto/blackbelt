@@ -31,7 +31,7 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
     <div className="min-h-screen p-4 md:p-8">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Categorias</h1>
+        <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-bold mb-4">Categorias</h1>
         <p className="text-lg text-white/40">
           Explore nosso conteúdo por categoria técnica
         </p>
@@ -47,7 +47,7 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${categoria.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
             <div className="relative h-full flex flex-col items-center justify-center text-center p-6">
-              <h3 className="text-2xl font-bold mb-2">{categoria.name}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">{categoria.name}</h3>
               <p className="text-sm opacity-90">{categoria.count}</p>
             </div>
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
@@ -65,7 +65,7 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
       {selectedCategory && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               Categoria: {selectedCategory}
             </h2>
             <button

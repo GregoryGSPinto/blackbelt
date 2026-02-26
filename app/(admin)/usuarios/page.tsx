@@ -131,7 +131,7 @@ export default function UsuariosPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Gestão de Usuários</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Gestão de Usuários</h1>
           <p className="text-white/50">Gerenciar alunos, instrutores e usuários do sistema</p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium">
@@ -146,7 +146,7 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Alunos Ativos</p>
-              <p className="text-3xl font-bold text-green-400">{stats.ativos}</p>
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400">{stats.ativos}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
           </div>
@@ -156,7 +156,7 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Em Atraso</p>
-              <p className="text-3xl font-bold text-yellow-400">{stats.emAtraso}</p>
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-400">{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
@@ -166,7 +166,7 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-white/50 mb-1">Bloqueados</p>
-              <p className="text-3xl font-bold text-red-400">{stats.bloqueados}</p>
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400">{stats.bloqueados}</p>
             </div>
             <Ban className="w-10 h-10 text-white/30" />
           </div>
@@ -235,22 +235,22 @@ export default function UsuariosPage() {
           <table className="w-full">
             <thead className="bg-white/5">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
                   Aluno
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
                   Categoria
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
                   Graduação
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
                   Vencimento
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium text-white/50 uppercase tracking-wider">
                   Ações
                 </th>
               </tr>
@@ -258,7 +258,7 @@ export default function UsuariosPage() {
             <tbody className="divide-y divide-white/10">
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-white/5 transition-colors">
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center">
                         <span className="text-white font-medium text-sm">
@@ -271,34 +271,34 @@ export default function UsuariosPage() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      user.categoria === 'ADULTO' 
-                        ? 'bg-white/10 text-white' 
+                      user.categoria === 'ADULTO'
+                        ? 'bg-white/10 text-white'
                         : 'bg-pink-600/20 text-pink-400'
                     }`}>
                       {user.categoria === 'ADULTO' ? 'Adulto' : 'Kids'}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <span className="text-sm text-white/70">{user.graduacao}</span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     {getStatusBadge(user.status)}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <span className={`text-sm ${
                       user.status === 'EM_ATRASO' || user.status === 'BLOQUEADO'
                         ? 'text-red-400 font-medium'
                         : 'text-white/50'
                     }`}>
-                      {user.proximoVencimento 
+                      {user.proximoVencimento
                         ? new Date(user.proximoVencimento).toLocaleDateString('pt-BR')
                         : '-'
                       }
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => setSelectedUser(user)}
@@ -342,7 +342,7 @@ export default function UsuariosPage() {
             <div className="p-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-1">{selectedUser.nome}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">{selectedUser.nome}</h2>
                   <p className="text-white/50">{selectedUser.email}</p>
                 </div>
                 <button
@@ -354,7 +354,7 @@ export default function UsuariosPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-white/50 mb-1">Telefone</p>
                     <p className="text-white font-medium">{selectedUser.telefone}</p>

@@ -67,7 +67,7 @@ export default function TeenDownloadsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="teen-enter-1">
-        <h2 className="text-2xl font-bold teen-text-heading font-teen">Downloads</h2>
+        <h2 className="text-xl sm:text-2xl font-bold teen-text-heading font-teen">Downloads</h2>
         <p className="teen-text-muted text-sm font-teen mt-1">
           Conteúdo salvo para assistir offline
         </p>

@@ -63,7 +63,7 @@ export default function PerfilParentPage() {
         <Link href="/painel-responsavel" className="text-white/40 text-xs flex items-center gap-1 mb-2 hover:text-white/60 transition-colors">
           <ArrowLeft size={14} /> Voltar ao Painel
         </Link>
-        <h1 className="text-2xl font-bold text-white mb-6">Meu Perfil</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-white mb-6">Meu Perfil</h1>
 
         {/* Avatar */}
         <div className="flex items-center gap-4 mb-8">

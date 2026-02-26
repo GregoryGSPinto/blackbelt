@@ -48,7 +48,7 @@ export default function MinhasTurmasPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Minhas Turmas</h1>
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight">Minhas Turmas</h1>
         <p className="text-white/40 text-sm mt-1">{turmas.length} turmas matriculadas</p>
       </div>
 

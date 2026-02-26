@@ -87,7 +87,7 @@ export default function PagamentosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Pagamentos</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Pagamentos</h1>
         <p className="text-white/50">Gateway de pagamento e controle de assinaturas</p>
       </div>
 
@@ -113,7 +113,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Receita Mês</span>
           </div>
-          <p className="text-2xl font-bold text-green-400">{formatCurrency(dashboard.receitaMes)}</p>
+          <p className="text-xl sm:text-2xl font-bold text-green-400">{formatCurrency(dashboard.receitaMes)}</p>
         </div>
 
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
@@ -123,7 +123,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Pendente</span>
           </div>
-          <p className="text-2xl font-bold text-yellow-400">{formatCurrency(dashboard.receitaPendente)}</p>
+          <p className="text-xl sm:text-2xl font-bold text-yellow-400">{formatCurrency(dashboard.receitaPendente)}</p>
         </div>
 
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
@@ -133,7 +133,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Inadimplentes</span>
           </div>
-          <p className="text-2xl font-bold text-red-400">{dashboard.inadimplentes}</p>
+          <p className="text-xl sm:text-2xl font-bold text-red-400">{dashboard.inadimplentes}</p>
           <p className="text-white/30 text-xs mt-1">de {dashboard.totalAssinaturas} assinaturas</p>
         </div>
 
@@ -144,7 +144,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Assinaturas Ativas</span>
           </div>
-          <p className="text-2xl font-bold text-blue-400">{dashboard.assinaturasAtivas}</p>
+          <p className="text-xl sm:text-2xl font-bold text-blue-400">{dashboard.assinaturasAtivas}</p>
           <p className="text-white/30 text-xs mt-1">
             {Math.round((dashboard.assinaturasAtivas / Math.max(dashboard.totalAssinaturas, 1)) * 100)}% do total
           </p>

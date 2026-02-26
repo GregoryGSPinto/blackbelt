@@ -23,12 +23,12 @@ export function LegalModal({ isOpen, onClose, title, content }: LegalModalProps)
       
       {/* Card central premium */}
       <div 
-        className="relative w-full max-w-4xl max-h-[85vh] bg-neutral-900 border border-neutral-700 rounded-2xl shadow-2xl overflow-hidden animate-scale-in"
+        className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-2xl md:max-w-4xl max-h-[85vh] bg-neutral-900 border border-neutral-700 rounded-2xl shadow-2xl overflow-hidden animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header fixo */}
-        <div className="sticky top-0 z-10 bg-neutral-900/95 backdrop-blur-xl border-b border-neutral-800 px-6 py-5 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">
+        <div className="sticky top-0 z-10 bg-neutral-900/95 backdrop-blur-xl border-b border-neutral-800 px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">
             {title}
           </h2>
           

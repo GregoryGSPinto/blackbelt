@@ -19,7 +19,7 @@ export default function SeriesContent({ videos, series }: SeriesContentProps) {
         {series.map((serie) => (
           <div key={serie.id}>
             <div className="mb-4">
-              <h2 className="text-2xl font-bold text-white mb-2">{serie.title}</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{serie.title}</h2>
               <p className="text-white/40">{serie.description}</p>
               <p className="text-sm text-white/35 mt-1">
                 {serie.videos.length} vídeos • {serie.totalDuration}

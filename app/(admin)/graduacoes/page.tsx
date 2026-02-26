@@ -72,7 +72,7 @@ export default function GraduacoesAdminPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
           <GraduationCap size={24} className="text-purple-400" />
           Graduações
         </h1>

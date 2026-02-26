@@ -272,7 +272,7 @@ function AlunoDetalheContent() {
             <div className="prof-glass-card p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-white/70">Progresso Geral</h3>
-                <span className="text-2xl font-bold prof-stat-value">{aluno.progresso.geral}%</span>
+                <span className="text-xl sm:text-2xl font-bold prof-stat-value">{aluno.progresso.geral}%</span>
               </div>
               <div className="h-3 rounded-full overflow-hidden mb-6" style={{ background: 'rgba(255,255,255,0.06)' }}>
                 <div className="h-full rounded-full" style={{

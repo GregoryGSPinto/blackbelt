@@ -81,7 +81,7 @@ export default function MinhaEvolucaoPage() {
   const conquistas = timeline.filter(e => e.type === 'medal' || e.type === 'achievement' || e.type === 'milestone');
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto pb-8">
+    <div className="space-y-6 max-w-3xl mx-auto pb-8 px-4 md:px-0">
       <style dangerouslySetInnerHTML={{ __html: PAGE_STYLES }} />
       <RetryToast info={retryInfo} />
 
@@ -89,7 +89,7 @@ export default function MinhaEvolucaoPage() {
       {/* HEADER                                      */}
       {/* ═══════════════════════════════════════════ */}
       <div className="evo-section">
-        <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight">
           Minha Evolução
         </h1>
         <p className="text-white/40 text-sm mt-1">

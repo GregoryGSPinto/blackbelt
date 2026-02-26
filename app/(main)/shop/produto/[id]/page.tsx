@@ -71,7 +71,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Produto não encontrado</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">Produto não encontrado</h2>
           <button onClick={() => router.push('/shop')} className="btn-primary">
             Voltar para a Loja
           </button>
@@ -186,7 +186,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
             {/* Price */}
             <div className="border-b border-dark-elevated pb-6">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+              <div className="text-xl md:text-2xl lg:text-4xl font-bold text-primary mb-2">
                 {formatPrice(product.price)}
               </div>
               {product.installments > 1 && (

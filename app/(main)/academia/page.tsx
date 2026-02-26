@@ -41,7 +41,7 @@ export default function UnidadePage() {
               Unidade do Conhecimento
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] mb-4"
+          <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] mb-4"
             style={{ color: 'rgb(var(--color-text))' }}>
             Conhecimento que Sustenta
             <br />

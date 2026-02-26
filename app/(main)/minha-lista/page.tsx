@@ -45,7 +45,7 @@ export default function MinhaListaPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen px-6 py-12">
+      <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
         <div className="max-w-5xl mx-auto">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-white/5 rounded-xl w-48" />
@@ -73,7 +73,7 @@ export default function MinhaListaPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Bookmark size={24} className="text-primary-light" />
-            <h1 className="text-3xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
               Minha Lista
             </h1>
           </div>

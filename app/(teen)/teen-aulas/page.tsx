@@ -59,7 +59,7 @@ export default function TeenSessõesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
           Sessões de treinamento especializado
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -105,7 +105,7 @@ export default function TeenSessõesPage() {
       <div className="space-y-4">
         {sessõesFiltradas.map((aula) => (
           <TeenCard key={aula.id} onClick={() => window.location.href = '/teen-sessões'}>
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               {/* Thumbnail */}
               <div className="w-32 h-32 bg-gradient-to-br from-teen-ocean to-teen-purple rounded-lg flex items-center justify-center flex-shrink-0">
                 {aula.assistido ? (

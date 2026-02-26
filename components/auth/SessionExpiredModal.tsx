@@ -20,7 +20,7 @@ export function SessionExpiredModal({ isOpen }: SessionExpiredModalProps) {
     <div className="fixed inset-0 z-[200] flex items-center justify-center">
       <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
       <div
-        className="relative w-full max-w-sm mx-4 rounded-2xl overflow-hidden p-8 text-center"
+        className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-sm mx-4 rounded-2xl overflow-hidden p-4 sm:p-6 md:p-8 text-center"
         style={{
           background: 'linear-gradient(180deg, rgba(30,25,18,0.98), rgba(20,16,10,0.99))',
           border: '1px solid rgba(255,255,255,0.08)',

@@ -70,7 +70,7 @@ export function PrivacyConsentModal() {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-md mx-4 mb-4 sm:mb-0 rounded-2xl overflow-hidden"
+        className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-md mx-4 mb-4 sm:mb-0 rounded-2xl overflow-hidden"
         style={{
           background: 'rgba(20,18,16,0.97)',
           border: '1px solid rgba(255,255,255,0.08)',

@@ -85,7 +85,7 @@ export default function AdminEventosPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-black text-white flex items-center gap-3">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
             <Trophy size={24} className="text-amber-400" />
             Eventos & Campeonatos
           </h1>

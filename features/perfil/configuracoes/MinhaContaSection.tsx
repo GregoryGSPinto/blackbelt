@@ -36,7 +36,7 @@ function PlanCard({ member }: { member: MemberStatus }) {
     <div className="p-8 bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-2 border-blue-600/30 rounded-2xl">
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h3 className="text-2xl font-black mb-2">{member.planType}</h3>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-black mb-2">{member.planType}</h3>
           <p className="text-white/55">Membro desde {member.activeSince}</p>
         </div>
         <StatusBadge status={member.status} />

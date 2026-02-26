@@ -94,7 +94,7 @@ export default function ShopPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-5xl tv:text-7xl font-bold mb-4 text-white">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tv:text-7xl font-bold mb-4 text-white">
               {featuredProduct.name}
             </h1>
 
@@ -143,7 +143,7 @@ export default function ShopPage() {
         {/* Mais Vendidos */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Mais Vendidos</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">Mais Vendidos</h2>
             <button className="text-primary hover:underline text-sm font-semibold">
               Ver Todos →
             </button>
@@ -162,7 +162,7 @@ export default function ShopPage() {
         {/* Uniformes */}
         <section id="uniformes">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Uniformes</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">Uniformes</h2>
             <button className="text-primary hover:underline text-sm font-semibold">
               Ver Todos →
             </button>
@@ -181,7 +181,7 @@ export default function ShopPage() {
         {/* Roupas de Treino */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Roupas de Treino</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">Roupas de Treino</h2>
             <button className="text-primary hover:underline text-sm font-semibold">
               Ver Todos →
             </button>
@@ -200,7 +200,7 @@ export default function ShopPage() {
         {/* Acessórios */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Acessórios</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">Acessórios</h2>
             <button className="text-primary hover:underline text-sm font-semibold">
               Ver Todos →
             </button>
@@ -219,7 +219,7 @@ export default function ShopPage() {
         {/* Kids */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">
               👶 Linha Kids
             </h2>
             <button className="text-primary hover:underline text-sm font-semibold">
@@ -240,7 +240,7 @@ export default function ShopPage() {
         {/* Novidades */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Novidades</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">Novidades</h2>
             <button className="text-primary hover:underline text-sm font-semibold">
               Ver Todos →
             </button>

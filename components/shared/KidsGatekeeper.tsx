@@ -492,7 +492,7 @@ export function KidsGatekeeper({
     disabled: boolean,
     currentLength: number,
   ) => (
-    <div className="grid grid-cols-3 gap-3 max-w-[260px] mx-auto">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-[260px] mx-auto">
       {KEYPAD_KEYS.slice(0, 9).map(digit => (
         <button
           key={`key-${digit}`}
@@ -560,7 +560,7 @@ export function KidsGatekeeper({
       />
 
       <div
-        className={`relative w-full max-w-sm mx-4 rounded-3xl shadow-2xl overflow-hidden ${shake ? 'animate-gk-shake' : ''}`}
+        className={`relative w-full max-w-[calc(100%-2rem)] sm:max-w-sm mx-4 rounded-3xl shadow-2xl overflow-hidden ${shake ? 'animate-gk-shake' : ''}`}
         style={{ background: colors.modalBg, border: `1px solid ${colors.modalBorder}` }}
       >
         {/* Close / Back */}

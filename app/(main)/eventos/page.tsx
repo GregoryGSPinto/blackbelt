@@ -78,7 +78,7 @@ export default function EventosPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 className="text-3xl font-black text-white">Eventos</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">Eventos</h1>
           </div>
           <p className="text-white/40 text-sm">
             Campeonatos, seminários e desafios

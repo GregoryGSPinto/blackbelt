@@ -86,7 +86,7 @@ export default function TeenCheckinPage() {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
             Resultado do Check-in
           </h2>
         </div>
@@ -169,7 +169,7 @@ export default function TeenCheckinPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
           Check-in para Treino
         </h2>
         <p className="teen-text-muted mt-1 font-teen">

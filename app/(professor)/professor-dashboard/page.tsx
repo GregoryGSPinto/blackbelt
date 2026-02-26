@@ -174,7 +174,7 @@ export default function ProfessorDashboardPage() {
             <p className="text-amber-500/50 text-xs tracking-[0.3em] uppercase font-medium mb-3">
               {saudacao}
             </p>
-            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
+            <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
               {primeiroNome}
               <span className="text-amber-400/60 font-extralight ml-0.5">.</span>
             </h1>
@@ -240,7 +240,7 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       {/* AÇÕES RÁPIDAS — Atalhos de 1 toque                    */}
       {/* ═══════════════════════════════════════════════════════ */}
-      <section className="grid grid-cols-4 md:grid-cols-6 gap-2 prof-enter-2" data-tour="prof-quick-actions">
+      <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 prof-enter-2" data-tour="prof-quick-actions">
         {[
           { href: '/professor-alunos', icon: GraduationCap, label: 'Alunos', color: '#60A5FA' },
           { href: '/professor-chamada', icon: ClipboardCheck, label: 'Chamada', color: '#4ADE80' },
@@ -288,7 +288,7 @@ export default function ProfessorDashboardPage() {
                 <stat.icon size={18} className={stat.accent} />
               </div>
             </div>
-            <p className="prof-stat-value text-2xl md:text-3xl font-bold leading-none">{stat.value}</p>
+            <p className="prof-stat-value text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold leading-none">{stat.value}</p>
             <p className="text-white/50 text-[11px] mt-2 tracking-wide font-medium">{stat.label}</p>
           </div>
         ))}

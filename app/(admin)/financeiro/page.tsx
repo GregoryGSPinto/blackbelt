@@ -69,7 +69,7 @@ export default function FinanceiroPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Financeiro</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Financeiro</h1>
         <p className="text-white/50">Controle de status de pagamento dos alunos</p>
       </div>
 
@@ -91,7 +91,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-white/50 mb-1">Pagamentos em Dia</p>
-              <p className="text-4xl font-bold text-green-400">{stats.emDia}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400">{stats.emDia}</p>
             </div>
             <CheckCircle className="w-12 h-12 text-white/40" />
           </div>
@@ -104,7 +104,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-white/50 mb-1">Em Atraso</p>
-              <p className="text-4xl font-bold text-yellow-400">{stats.emAtraso}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400">{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-12 h-12 text-white/30" />
           </div>
@@ -115,7 +115,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-white/50 mb-1">Bloqueados</p>
-              <p className="text-4xl font-bold text-red-400">{stats.bloqueados}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-400">{stats.bloqueados}</p>
             </div>
             <DollarSign className="w-12 h-12 text-white/30" />
           </div>

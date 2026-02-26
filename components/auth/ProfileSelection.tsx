@@ -166,7 +166,7 @@ export default function ProfileSelectionPage() {
             height={64}
             className="rounded-full mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
           />
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Quem está treinando?</h1>
+          <h1 className="text-xl md:text-2xl lg:text-4xl font-bold tracking-tight">Quem está treinando?</h1>
           <p className="text-white/40 mt-2 text-sm">{user.email}</p>
         </div>
 
@@ -192,7 +192,7 @@ export default function ProfileSelectionPage() {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Avatar */}
-                <div className={`relative w-28 h-28 md:w-32 md:h-32 rounded-2xl mb-3 flex items-center justify-center text-5xl transition-all duration-300 overflow-hidden ${
+                <div className={`relative w-20 sm:w-24 md:w-28 lg:w-32 h-20 sm:h-24 md:h-28 lg:h-32 rounded-2xl mb-3 flex items-center justify-center text-5xl transition-all duration-300 overflow-hidden ${
                   isSelected
                     ? 'ring-4 ring-white shadow-2xl shadow-white/20'
                     : isCurrentProfile

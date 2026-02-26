@@ -56,7 +56,7 @@ export default function ConfiguracoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Configurações da Unidade</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Configurações da Unidade</h1>
         <p className="text-white/50">Políticas operacionais e regras do sistema</p>
       </div>
 

@@ -187,7 +187,7 @@ export default function InicioPage() {
           </div>
 
           {/* Título */}
-          <h1 className="text-5xl tv:text-7xl font-extrabold mb-4 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tv:text-7xl font-extrabold mb-4 tracking-tight leading-tight">
             {featuredVideo.title}
           </h1>
 

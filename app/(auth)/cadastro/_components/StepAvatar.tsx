@@ -84,10 +84,10 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
       {!dados.avatarFile && (
         <div>
           <p className="text-sm text-white/70 mb-3 text-center">Escolha um avatar:</p>
-          <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
             {AVATARES[perfilKey].map(e => (
               <button key={e} onClick={() => selectAvatar(e)}
-                className={`aspect-square rounded-xl border-2 text-4xl md:text-5xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
+                className={`aspect-square rounded-xl border-2 text-2xl sm:text-xl md:text-2xl lg:text-5xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
                   dados.avatar === e ? 'border-white bg-white/20 shadow-lg' : 'border-white/20 hover:border-white/40 hover:bg-white/5'
                 }`}>
                 {e}

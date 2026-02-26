@@ -90,7 +90,7 @@ export default function KidsInicioPage() {
       {/* Boas-vindas */}
       <div className="text-center space-y-3 py-6">
         <h2
-          className="text-4xl md:text-5xl font-black tracking-tight"
+          className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tracking-tight"
           style={{ color: headingColor }}
         >
           Olá, {currentKid.nome.split(' ')[0]}! 👋
@@ -141,7 +141,7 @@ export default function KidsInicioPage() {
       >
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">📊</span>
-          <h3 className="text-2xl font-black" style={{ color: headingColor }}>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: headingColor }}>
             Você Está Evoluindo!
           </h3>
         </div>
@@ -151,7 +151,7 @@ export default function KidsInicioPage() {
           <div>
             <div className="flex justify-between items-center mb-3">
               <span className="text-base font-bold" style={{ color: labelColor }}>Sessões Assistidas</span>
-              <span className="text-2xl font-black" style={{ color: accent.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
+              <span className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
             </div>
             <div className="h-4 rounded-full overflow-hidden" style={{ background: progressTrail }}>
               <div
@@ -169,7 +169,7 @@ export default function KidsInicioPage() {
           <div>
             <div className="flex justify-between items-center mb-3">
               <span className="text-base font-bold" style={{ color: labelColor }}>Desafios Concluídos</span>
-              <span className="text-2xl font-black" style={{ color: accent.orange }}>{currentKid.progresso.desafiosConcluidos}</span>
+              <span className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.orange }}>{currentKid.progresso.desafiosConcluidos}</span>
             </div>
             <div className="h-4 rounded-full overflow-hidden" style={{ background: progressTrail }}>
               <div
@@ -187,7 +187,7 @@ export default function KidsInicioPage() {
           <div>
             <div className="flex justify-between items-center mb-3">
               <span className="text-base font-bold" style={{ color: labelColor }}>Presença nos Treinos</span>
-              <span className="text-2xl font-black" style={{ color: accent.green }}>{currentKid.progresso.presenca30dias}%</span>
+              <span className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.green }}>{currentKid.progresso.presenca30dias}%</span>
             </div>
             <div className="h-4 rounded-full overflow-hidden" style={{ background: progressTrail }}>
               <div
@@ -234,7 +234,7 @@ export default function KidsInicioPage() {
       >
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">🐯</span>
-          <h3 className="text-2xl font-black" style={{ color: headingColor }}>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: headingColor }}>
             Mestres Animais
           </h3>
         </div>
@@ -266,7 +266,7 @@ export default function KidsInicioPage() {
       >
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">🎯</span>
-          <h3 className="text-2xl font-black" style={{ color: headingColor }}>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: headingColor }}>
             Próximas Conquistas
           </h3>
         </div>
@@ -284,7 +284,7 @@ export default function KidsInicioPage() {
             </div>
             <div className="text-right">
               <p className="text-xs font-semibold" style={{ color: hintColor }}>Faltam</p>
-              <p className="text-2xl font-black" style={{ color: accent.blue }}>3 dias</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.blue }}>3 dias</p>
             </div>
           </div>
 
@@ -301,7 +301,7 @@ export default function KidsInicioPage() {
             </div>
             <div className="text-right">
               <p className="text-xs font-semibold" style={{ color: hintColor }}>Faltam</p>
-              <p className="text-2xl font-black" style={{ color: accent.yellow }}>5 sessões</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.yellow }}>5 sessões</p>
             </div>
           </div>
         </div>

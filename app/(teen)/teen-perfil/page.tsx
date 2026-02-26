@@ -59,7 +59,7 @@ export default function TeenPerfilPage() {
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
           Meu Perfil
         </h2>
       </div>
@@ -67,11 +67,11 @@ export default function TeenPerfilPage() {
       {/* Foto e Info Principal */}
       <TeenCard>
         <div className="flex flex-col md:flex-row items-center gap-6">
-          <div className="w-32 h-32 bg-gradient-to-br from-teen-ocean to-teen-purple rounded-full flex items-center justify-center text-6xl">
+          <div className="w-24 sm:w-28 md:w-32 h-24 sm:h-28 md:h-32 bg-gradient-to-br from-teen-ocean to-teen-purple rounded-full flex items-center justify-center text-4xl sm:text-5xl md:text-6xl">
             {avatar}
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-2xl font-bold font-teen teen-text-heading mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold font-teen teen-text-heading mb-2">
               {nome}
             </h3>
             <p className="teen-text-muted font-teen mb-3">

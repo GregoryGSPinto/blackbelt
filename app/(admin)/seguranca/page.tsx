@@ -74,7 +74,7 @@ export default function SecurityDashboardPage() {
       {/* ─── Header ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
             <Shield className="w-6 h-6 text-white/80" />
             Central de Segurança
           </h1>
@@ -567,7 +567,7 @@ function RulesTab({ rules }: { rules: DashboardData['detectionRules'] }) {
         dentro da janela de tempo, um alerta é gerado automaticamente.
       </p>
 
-      <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 overflow-hidden">
+      <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 overflow-x-auto">
         <div className="grid grid-cols-[1fr_auto_auto_auto] gap-0 text-xs">
           {/* Header */}
           <div className="px-4 py-2.5 bg-white/5 text-white/50 font-semibold">Regra</div>

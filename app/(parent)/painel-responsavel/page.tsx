@@ -110,7 +110,7 @@ function StatMini({ icon: Icon, value, label, color }: { icon: typeof Award; val
   return (
     <div className="rounded-xl p-4 bg-white/[0.04] border border-white/[0.06]">
       <Icon size={16} className={`${color} mb-2`} />
-      <p className="text-2xl font-bold text-white tabular-nums">{value}</p>
+      <p className="text-xl sm:text-2xl font-bold text-white tabular-nums">{value}</p>
       <p className="text-white/30 text-[10px] mt-0.5">{label}</p>
     </div>
   );
@@ -139,13 +139,13 @@ export default function PainelResponsavelPage() {
   const presencaColor = presenca >= 85 ? 'from-emerald-500 to-green-500' : presenca >= 60 ? 'from-amber-500 to-yellow-500' : 'from-red-500 to-orange-500';
 
   return (
-    <AnimatedPage className="space-y-6 pb-8 max-w-2xl mx-auto">
+    <AnimatedPage className="space-y-6 pb-8 max-w-2xl mx-auto px-4 sm:px-6">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       {/* ── Header ── */}
       <section className="pt-4">
         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">Painel do Responsável</p>
-        <h1 className="text-2xl font-bold text-white">
+        <h1 className="text-xl sm:text-2xl font-bold text-white">
           Olá, {parentProfile?.nome?.split(' ')[0] || 'Responsável'}! 👋
         </h1>
         <p className="text-white/50 text-sm mt-1">Acompanhe o progresso de {selectedKid.nome}</p>

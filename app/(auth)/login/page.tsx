@@ -130,10 +130,10 @@ function LoginContent() {
           </Link>
 
           {/* Container Principal */}
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-10 shadow-2xl transition-all duration-500 hover:border-white/20">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl transition-all duration-500 hover:border-white/20">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">Entrar</h1>
+              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-2 tracking-tight">Entrar</h1>
               <p className="text-white/60 text-base">
                 {step === 'email' ? 'Digite seu email para continuar' : 'Digite sua senha'}
               </p>

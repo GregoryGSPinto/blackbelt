@@ -154,7 +154,7 @@ export default function ProfessorChamadaPage() {
       <div className="space-y-8 pt-6 pb-8">
         <section className="prof-enter-1">
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Chamada Finalizada</p>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Resumo</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Resumo</h1>
           <div className="prof-gold-line mt-6" />
         </section>
 
@@ -163,22 +163,22 @@ export default function ProfessorChamadaPage() {
           <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
             <Check size={32} className="text-green-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-1">{resumo.turmaNome}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">{resumo.turmaNome}</h2>
           <p className="text-white/50 text-sm">{new Date(resumo.data).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</p>
         </section>
 
         {/* Stats */}
-        <section className="grid grid-cols-3 gap-3 prof-enter-3">
+        <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-3">
           <div className="prof-glass-card p-5 text-center">
-            <p className="text-3xl font-bold prof-stat-value">{resumo.presentes}</p>
+            <p className="text-xl sm:text-2xl lg:text-3xl font-bold prof-stat-value">{resumo.presentes}</p>
             <p className="text-white/40 text-xs mt-1">Presentes</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
-            <p className="text-3xl font-bold text-red-400">{resumo.faltas}</p>
+            <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400">{resumo.faltas}</p>
             <p className="text-white/40 text-xs mt-1">Faltas</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
-            <p className="text-3xl font-bold text-white">{resumo.percentual}%</p>
+            <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{resumo.percentual}%</p>
             <p className="text-white/40 text-xs mt-1">Frequência</p>
           </div>
         </section>
@@ -219,7 +219,7 @@ export default function ProfessorChamadaPage() {
             <ChevronLeft size={16} /> Voltar
           </button>
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Chamada Rápida</p>
-          <h1 className="text-2xl font-bold text-white tracking-tight">{selectedTurma.nome}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{selectedTurma.nome}</h1>
           <p className="text-white/50 text-sm mt-1">
             {selectedTurma.dias} · {selectedTurma.horario} · {new Date().toLocaleDateString('pt-BR')}
           </p>
@@ -227,7 +227,7 @@ export default function ProfessorChamadaPage() {
         </section>
 
         {/* Counters */}
-        <section className="grid grid-cols-3 gap-3 prof-enter-2">
+        <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-2">
           <div className="prof-glass-card p-3 text-center">
             <p className="text-xl font-bold text-green-400">{presentes}</p>
             <p className="text-white/40 text-[10px]">Presentes</p>
@@ -269,7 +269,7 @@ export default function ProfessorChamadaPage() {
               value={busca}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusca(e.target.value)}
               placeholder="Buscar aluno..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-white/25 outline-none focus:ring-1 focus:ring-amber-500/30"
+              className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-white placeholder-white/25 outline-none focus:ring-1 focus:ring-amber-500/30"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             />
           </div>
@@ -285,7 +285,7 @@ export default function ProfessorChamadaPage() {
               <div
                 key={aluno.id}
                 onClick={() => togglePresenca(aluno.id)}
-                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 select-none active:scale-[0.98] ${
+                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer min-h-[44px] transition-all duration-200 select-none active:scale-[0.98] ${
                   isPresente
                     ? 'bg-green-500/10 border border-green-500/20'
                     : isFalta
@@ -387,7 +387,7 @@ export default function ProfessorChamadaPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Frequência</p>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Chamada Rápida</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Chamada Rápida</h1>
         <p className="text-white/55 text-sm mt-2">Selecione a turma para iniciar a chamada</p>
         <div className="prof-gold-line mt-6" />
       </section>
