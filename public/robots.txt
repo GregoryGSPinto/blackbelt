@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /landing
+Disallow: /api/
+Disallow: /admin/
+Disallow: /developer/
+Disallow: /login
+Disallow: /registro
+Disallow: /selecionar-perfil
+Disallow: /excluir-conta
+Disallow: /seguranca
+
+Sitemap: https://blackbelt-five.vercel.app/sitemap.xml
