@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = createHandler(async (_req: NextRequest, { supabase, user }) => {
   const { data } = await supabase.from('lgpd_consent_log')
     .select('*').eq('profile_id', user.id).order('created_at', { ascending: false });

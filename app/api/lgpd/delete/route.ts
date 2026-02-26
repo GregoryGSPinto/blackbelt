@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const { supabase, user } = await withAuth(req);

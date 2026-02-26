@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = createHandler(async (_req: NextRequest, { supabase, user, membership }) => {
   const academyId = membership!.academy_id;
   const today = new Date().toISOString().split('T')[0];

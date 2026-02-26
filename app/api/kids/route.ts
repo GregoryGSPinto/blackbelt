@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = createHandler(async (req: NextRequest, { supabase, user, membership }) => {
   const url = new URL(req.url);
   const type = url.searchParams.get('type');

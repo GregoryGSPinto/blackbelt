@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk, apiError } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const POST = createHandler(async (req: NextRequest, { supabase, user }) => {
   const body = await req.json();
 

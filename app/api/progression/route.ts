@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { withAuth, apiOk, apiCreated, apiError, apiServerError } from '@/lib/api/route-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const { supabase, membership } = await withAuth(req);

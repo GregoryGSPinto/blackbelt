@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { ensureInitialized } from '@/server/src/init';
 import { getHealthDb } from '@/server/src/api/health';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     await ensureInitialized();

@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = createHandler(async (_req: NextRequest, { supabase, membership }) => {
   // Lesson plans stored in notifications/domain_events or dedicated table
   return apiOk({ planos: [], tecnicas: [], templates: [] });

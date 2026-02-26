@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk, getPagination } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = createHandler(async (req: NextRequest, { supabase, membership }) => {
   const { page, limit, offset } = getPagination(req);
 

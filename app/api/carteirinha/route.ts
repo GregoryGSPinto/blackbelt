@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = createHandler(async (_req: NextRequest, { supabase, user, membership }) => {
   const { data: profile } = await supabase.from('profiles')
     .select('full_name, avatar_url, birth_date').eq('id', user.id).single();

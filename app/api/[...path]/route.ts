@@ -6,6 +6,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 
+export const dynamic = 'force-dynamic';
+
 async function handler(req: NextRequest) {
   try {
     const url = new URL(req.url);
