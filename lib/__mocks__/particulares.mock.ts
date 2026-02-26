@@ -1,0 +1,34 @@
+/**
+ * Mock Data — Sessões Particulares + Comissões
+ * TODO(BE-066): Substituir por endpoints reais
+ */
+
+import type { AulaParticular, Comissao } from '@/lib/api/contracts';
+
+export const PARTICULARES: AulaParticular[] = [
+  { id: 'ap01', professorId: 'p1', professorNome: 'Prof. Ricardo', alunoId: 'u1', alunoNome: 'Lucas Mendes', data: '2026-02-17', horario: '08:00', duracao: 60, valor: 150, splitUnidade: 40, splitInstrutor: 60, status: 'agendada', recorrencia: 'semanal' },
+  { id: 'ap02', professorId: 'p1', professorNome: 'Prof. Ricardo', alunoId: 'u3', alunoNome: 'Pedro Santos', data: '2026-02-17', horario: '09:30', duracao: 60, valor: 150, splitUnidade: 40, splitInstrutor: 60, status: 'agendada', recorrencia: 'unica' },
+  { id: 'ap03', professorId: 'p2', professorNome: 'Prof. Marcos', alunoId: 'u5', alunoNome: 'Rafael Lima', data: '2026-02-18', horario: '07:00', duracao: 90, valor: 200, splitUnidade: 30, splitInstrutor: 70, status: 'confirmada', recorrencia: 'semanal' },
+  { id: 'ap04', professorId: 'p3', professorNome: 'Prof. Juliana', alunoId: 'u2', alunoNome: 'Ana Carolina', data: '2026-02-18', horario: '10:00', duracao: 45, valor: 120, splitUnidade: 50, splitInstrutor: 50, status: 'agendada', recorrencia: 'quinzenal' },
+  { id: 'ap05', professorId: 'p1', professorNome: 'Prof. Ricardo', alunoId: 'u8', alunoNome: 'Thiago Ferreira', data: '2026-02-16', horario: '17:00', duracao: 60, valor: 150, splitUnidade: 40, splitInstrutor: 60, status: 'realizada', recorrencia: 'semanal' },
+  { id: 'ap06', professorId: 'p2', professorNome: 'Prof. Marcos', alunoId: 'u1', alunoNome: 'Lucas Mendes', data: '2026-02-15', horario: '08:00', duracao: 60, valor: 180, splitUnidade: 30, splitInstrutor: 70, status: 'realizada', recorrencia: 'unica' },
+  { id: 'ap07', professorId: 'p1', professorNome: 'Prof. Ricardo', alunoId: 'u5', alunoNome: 'Rafael Lima', data: '2026-02-14', horario: '09:00', duracao: 90, valor: 200, splitUnidade: 40, splitInstrutor: 60, status: 'realizada', recorrencia: 'semanal' },
+  { id: 'ap08', professorId: 'p3', professorNome: 'Prof. Juliana', alunoId: 'u7', alunoNome: 'Camila Souza', data: '2026-02-14', horario: '14:00', duracao: 60, valor: 120, splitUnidade: 50, splitInstrutor: 50, status: 'cancelada', recorrencia: 'unica', observacao: 'Aluna doente' },
+  { id: 'ap09', professorId: 'p2', professorNome: 'Prof. Marcos', alunoId: 'u3', alunoNome: 'Pedro Santos', data: '2026-02-19', horario: '18:00', duracao: 60, valor: 180, splitUnidade: 30, splitInstrutor: 70, status: 'agendada', recorrencia: 'semanal' },
+  { id: 'ap10', professorId: 'p1', professorNome: 'Prof. Ricardo', alunoId: 'u2', alunoNome: 'Ana Carolina', data: '2026-02-19', horario: '07:30', duracao: 45, valor: 120, splitUnidade: 40, splitInstrutor: 60, status: 'confirmada', recorrencia: 'unica' },
+];
+
+export const COMISSOES: Comissao[] = [
+  { professorId: 'p1', professorNome: 'Prof. Ricardo', mes: '2026-02', sessõesRegulares: 48, sessõesParticulares: 12, valorBruto: 4800, percentual: 60, valorLiquido: 2880, pago: false },
+  { professorId: 'p2', professorNome: 'Prof. Marcos', mes: '2026-02', sessõesRegulares: 36, sessõesParticulares: 8, valorBruto: 3600, percentual: 70, valorLiquido: 2520, pago: false },
+  { professorId: 'p3', professorNome: 'Prof. Juliana', mes: '2026-02', sessõesRegulares: 24, sessõesParticulares: 4, valorBruto: 2400, percentual: 50, valorLiquido: 1200, pago: false },
+  { professorId: 'p1', professorNome: 'Prof. Ricardo', mes: '2026-01', sessõesRegulares: 52, sessõesParticulares: 14, valorBruto: 5200, percentual: 60, valorLiquido: 3120, pago: true, dataPagamento: '2026-02-05' },
+  { professorId: 'p2', professorNome: 'Prof. Marcos', mes: '2026-01', sessõesRegulares: 40, sessõesParticulares: 10, valorBruto: 4000, percentual: 70, valorLiquido: 2800, pago: true, dataPagamento: '2026-02-05' },
+  { professorId: 'p3', professorNome: 'Prof. Juliana', mes: '2026-01', sessõesRegulares: 28, sessõesParticulares: 6, valorBruto: 2800, percentual: 50, valorLiquido: 1400, pago: true, dataPagamento: '2026-02-05' },
+];
+
+export const PROFESSORES_SPLIT = [
+  { id: 'p1', nome: 'Prof. Ricardo', splitPadrao: 60, valorHora: 150 },
+  { id: 'p2', nome: 'Prof. Marcos', splitPadrao: 70, valorHora: 180 },
+  { id: 'p3', nome: 'Prof. Juliana', splitPadrao: 50, valorHora: 120 },
+];

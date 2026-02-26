@@ -1,0 +1,12 @@
+export { StepEmail } from './StepEmail';
+export { StepSenha } from './StepSenha';
+export { StepDados } from './StepDados';
+export { StepConsentimento } from './StepConsentimento';
+export { StepAvatar } from './StepAvatar';
+export { StepKids } from './StepKids';
+export { StepRevisao } from './StepRevisao';
+export { CadastroLoading } from './CadastroLoading';
+export { ErrorAlert } from './ErrorAlert';
+export { STEP_TITLES } from './constants';
+export { calcIdade, determinaPerfil, validaSenha } from './utils';
+export type { Step, Perfil, Sexo, DadosUsuario, DadosKid } from './types';

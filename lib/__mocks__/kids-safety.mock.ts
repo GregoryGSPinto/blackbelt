@@ -1,0 +1,22 @@
+/**
+ * Mock Data — Kids Safety (Autorização de Saída)
+ * TODO(BE-038): Substituir por endpoints kids-safety
+ */
+
+import type { PessoaAutorizada, AutorizacaoSaida } from '@/lib/api/contracts';
+
+export const mockPessoasAutorizadas: PessoaAutorizada[] = [
+  { id: 'pa-1', responsavelId: 'RESP001', alunoId: 'ALU005', nome: 'Maria Helena Santos', cpf: '123.456.789-00', telefone: '(31) 99876-1001', parentesco: 'Avó', ativa: true, dataCadastro: '2025-08-10' },
+  { id: 'pa-2', responsavelId: 'RESP001', alunoId: 'ALU005', nome: 'José Carlos Santos', cpf: '987.654.321-00', telefone: '(31) 99876-1002', parentesco: 'Avô', ativa: true, dataCadastro: '2025-08-10' },
+  { id: 'pa-3', responsavelId: 'RESP001', alunoId: 'ALU005', nome: 'Camila Rodrigues', cpf: '456.789.123-00', telefone: '(31) 99876-1003', parentesco: 'Tia', ativa: true, dataCadastro: '2025-10-15' },
+  { id: 'pa-4', responsavelId: 'RESP002', alunoId: 'ALU006', nome: 'Ricardo Lima Junior', cpf: '321.654.987-00', telefone: '(31) 99876-2001', parentesco: 'Tio', ativa: true, dataCadastro: '2025-09-01' },
+  { id: 'pa-5', responsavelId: 'RESP002', alunoId: 'ALU006', nome: 'Sandra de Oliveira', cpf: '654.321.987-00', telefone: '(31) 99876-2002', parentesco: 'Babá', ativa: false, dataCadastro: '2025-07-20' },
+  { id: 'pa-6', responsavelId: 'RESP003', alunoId: 'ALU008', nome: 'Paulo Roberto Martins', cpf: '789.123.456-00', telefone: '(31) 99876-3001', parentesco: 'Pai (não guardião)', ativa: true, dataCadastro: '2025-11-05' },
+];
+
+export const mockSaidas: AutorizacaoSaida[] = [
+  { id: 'sa-1', alunoId: 'ALU005', alunoNome: 'Pedro Almeida', pessoaAutorizadaId: 'pa-1', pessoaAutorizadaNome: 'Maria Helena Santos', parentesco: 'Avó', dataHoraSaida: '2026-02-14T17:35:00', validadoPor: 'Recepção', metodoValidacao: 'documento' },
+  { id: 'sa-2', alunoId: 'ALU005', alunoNome: 'Pedro Almeida', pessoaAutorizadaId: 'pa-3', pessoaAutorizadaNome: 'Camila Rodrigues', parentesco: 'Tia', dataHoraSaida: '2026-02-12T18:10:00', validadoPor: 'Recepção', metodoValidacao: 'reconhecimento' },
+  { id: 'sa-3', alunoId: 'ALU006', alunoNome: 'Fernanda Lima', pessoaAutorizadaId: 'pa-4', pessoaAutorizadaNome: 'Ricardo Lima Junior', parentesco: 'Tio', dataHoraSaida: '2026-02-13T17:50:00', validadoPor: 'Prof. Ana', metodoValidacao: 'documento' },
+  { id: 'sa-4', alunoId: 'ALU008', alunoNome: 'Lucas Martins', pessoaAutorizadaId: 'pa-6', pessoaAutorizadaNome: 'Paulo Roberto Martins', parentesco: 'Pai (não guardião)', dataHoraSaida: '2026-02-11T17:20:00', validadoPor: 'Recepção', metodoValidacao: 'documento' },
+];

@@ -1,0 +1,39 @@
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  Docker Compose — Postgres local para desenvolvimento          ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║                                                                 ║
+# ║  Uso:                                                           ║
+# ║    docker compose up -d                                         ║
+# ║    # Postgres rodando em localhost:5432                         ║
+# ║    # DATABASE_URL=postgresql://blackbelt:blackbelt@localhost:5432/blackbelt ║
+# ║                                                                 ║
+# ║  Rodar migrations:                                              ║
+# ║    psql $DATABASE_URL -f server/migrations/001_initial_schema.sql ║
+# ║                                                                 ║
+# ║  Parar:                                                          ║
+# ║    docker compose down                                          ║
+# ║    docker compose down -v  (remove dados)                      ║
+# ╚══════════════════════════════════════════════════════════════════╝
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: blackbelt-db
+    environment:
+      POSTGRES_USER: blackbelt
+      POSTGRES_PASSWORD: blackbelt
+      POSTGRES_DB: blackbelt
+    ports:
+      - "5432:5432"
+    volumes:
+      - blackbelt_pgdata:/var/lib/postgresql/data
+      # Auto-run migrations on first start
+      - ./server/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blackbelt"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  blackbelt_pgdata:

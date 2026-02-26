@@ -1,0 +1,3 @@
+-- BlackBelt seed data
+-- This file is run after migrations to populate initial data.
+-- Add seed data below as needed.

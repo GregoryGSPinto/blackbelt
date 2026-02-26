@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm build:*)",
+      "Bash(echo:*)",
+      "Bash(cd ~/Projetos/blackbelt && git init 2>&1)",
+      "Bash(cd ~/Projetos/blackbelt && git add . 2>&1)"
+    ]
+  }
+}

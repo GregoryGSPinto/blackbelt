@@ -1,0 +1,104 @@
+/**
+ * Mock Data — Analytics de Retenção
+ * TODO(BE-028): Substituir por endpoints analytics
+ */
+
+export interface AnalyticsRetencao {
+  /** Taxa de retenção mensal (últimos 12 meses) */
+  retencaoMensal: { mes: string; taxa: number; total: number; ativos: number }[];
+  /** Churn mensal */
+  churnMensal: { mes: string; cancelamentos: number; taxa: number }[];
+  /** Cohort: entrada x retenção por mês */
+  cohort: { mesEntrada: string; retencao: number[] }[];
+  /** Motivos de cancelamento */
+  motivosCancelamento: { motivo: string; quantidade: number; pct: number }[];
+  /** Métricas gerais */
+  metricas: {
+    retencaoAtual: number;
+    churnAtual: number;
+    tempoMedioPermanencia: number;
+    ltv: number;
+    taxaCrescimento: number;
+    novosUltimo30d: number;
+    canceladosUltimo30d: number;
+    reativadosUltimo30d: number;
+  };
+  /** Níveis com maior retenção */
+  retencaoPorNível: { nivel: string; retencao: number; total: number }[];
+  /** Retenção por turma */
+  retencaoPorTurma: { turma: string; retencao: number; total: number }[];
+}
+
+export function getAnalytics(): AnalyticsRetencao {
+  return {
+    retencaoMensal: [
+      { mes: 'Mar/25', taxa: 91, total: 220, ativos: 200 },
+      { mes: 'Abr/25', taxa: 89, total: 225, ativos: 200 },
+      { mes: 'Mai/25', taxa: 90, total: 228, ativos: 205 },
+      { mes: 'Jun/25', taxa: 88, total: 230, ativos: 202 },
+      { mes: 'Jul/25', taxa: 87, total: 225, ativos: 196 },
+      { mes: 'Ago/25', taxa: 89, total: 230, ativos: 205 },
+      { mes: 'Set/25', taxa: 91, total: 235, ativos: 214 },
+      { mes: 'Out/25', taxa: 92, total: 240, ativos: 221 },
+      { mes: 'Nov/25', taxa: 90, total: 238, ativos: 214 },
+      { mes: 'Dez/25', taxa: 85, total: 235, ativos: 200 },
+      { mes: 'Jan/26', taxa: 88, total: 242, ativos: 213 },
+      { mes: 'Fev/26', taxa: 91, total: 245, ativos: 223 },
+    ],
+    churnMensal: [
+      { mes: 'Mar/25', cancelamentos: 8, taxa: 3.6 },
+      { mes: 'Abr/25', cancelamentos: 10, taxa: 4.4 },
+      { mes: 'Mai/25', cancelamentos: 7, taxa: 3.1 },
+      { mes: 'Jun/25', cancelamentos: 12, taxa: 5.2 },
+      { mes: 'Jul/25', cancelamentos: 14, taxa: 6.2 },
+      { mes: 'Ago/25', cancelamentos: 9, taxa: 3.9 },
+      { mes: 'Set/25', cancelamentos: 6, taxa: 2.6 },
+      { mes: 'Out/25', cancelamentos: 5, taxa: 2.1 },
+      { mes: 'Nov/25', cancelamentos: 8, taxa: 3.4 },
+      { mes: 'Dez/25', cancelamentos: 15, taxa: 6.4 },
+      { mes: 'Jan/26', cancelamentos: 10, taxa: 4.1 },
+      { mes: 'Fev/26', cancelamentos: 7, taxa: 2.9 },
+    ],
+    cohort: [
+      { mesEntrada: 'Set/25', retencao: [100, 85, 78, 72, 68, 65] },
+      { mesEntrada: 'Out/25', retencao: [100, 88, 80, 75, 70] },
+      { mesEntrada: 'Nov/25', retencao: [100, 82, 74, 68] },
+      { mesEntrada: 'Dez/25', retencao: [100, 78, 70] },
+      { mesEntrada: 'Jan/26', retencao: [100, 84] },
+      { mesEntrada: 'Fev/26', retencao: [100] },
+    ],
+    motivosCancelamento: [
+      { motivo: 'Financeiro', quantidade: 32, pct: 28 },
+      { motivo: 'Mudança de cidade', quantidade: 18, pct: 16 },
+      { motivo: 'Falta de tempo', quantidade: 24, pct: 21 },
+      { motivo: 'Lesão', quantidade: 15, pct: 13 },
+      { motivo: 'Insatisfação', quantidade: 8, pct: 7 },
+      { motivo: 'Não informado', quantidade: 17, pct: 15 },
+    ],
+    metricas: {
+      retencaoAtual: 91,
+      churnAtual: 2.9,
+      tempoMedioPermanencia: 14.3,
+      ltv: 2790,
+      taxaCrescimento: 3.2,
+      novosUltimo30d: 12,
+      canceladosUltimo30d: 7,
+      reativadosUltimo30d: 3,
+    },
+    retencaoPorNível: [
+      { nivel: 'Nível Iniciante', retencao: 72, total: 95 },
+      { nivel: 'Nível Básico', retencao: 91, total: 68 },
+      { nivel: 'Nível Intermediário', retencao: 96, total: 42 },
+      { nivel: 'Nível Avançado', retencao: 98, total: 28 },
+      { nivel: 'Nível Máximo', retencao: 99, total: 12 },
+    ],
+    retencaoPorTurma: [
+      { turma: 'Iniciantes Manhã', retencao: 78, total: 35 },
+      { turma: 'Avançado Noite', retencao: 95, total: 42 },
+      { turma: 'Fundamentals', retencao: 85, total: 38 },
+      { turma: 'All Levels', retencao: 88, total: 45 },
+      { turma: 'Kids Iniciante', retencao: 82, total: 30 },
+      { turma: 'Teen Manhã', retencao: 80, total: 25 },
+    ],
+  };
+}
