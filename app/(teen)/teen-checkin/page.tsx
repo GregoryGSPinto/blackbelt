@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { TeenCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
-import { CheckCircle, XCircle, AlertTriangle, Clock, MapPin , UserX} from 'lucide-react';
+import { CheckCircle, XCircle, AlertTriangle, Clock, MapPin, UserX, Info } from 'lucide-react';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 
 export default function TeenCheckinPage() {
@@ -175,6 +175,20 @@ export default function TeenCheckinPage() {
         <p className="teen-text-muted mt-1 font-teen">
           Confirme sua presença no treino de hoje
         </p>
+      </div>
+
+      {/* ═══ Parental Notification Banner (minors) ═══ */}
+      <div className="flex items-start gap-3 rounded-xl p-4 bg-teen-ocean-light border border-teen-ocean/20">
+        <Info className="w-5 h-5 text-teen-ocean-dark flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-sm font-semibold font-teen text-teen-ocean-dark">
+            Seu responsável será notificado do check-in
+          </p>
+          <p className="text-xs font-teen text-teen-ocean-dark/70 mt-0.5">
+            Por ser menor de idade, o sistema envia automaticamente uma notificação
+            ao seu responsável cadastrado sempre que um check-in é realizado.
+          </p>
+        </div>
       </div>
 
       {/* Info do Treino */}

@@ -17,6 +17,7 @@ export async function GET() {
     const { data: overdueInvoices } = await supabase
       .from('invoices' as any)
       .select('id', { count: 'exact' })
+      .eq('academy_id', academyId)
       .eq('status', 'overdue');
 
     if (overdueInvoices && overdueInvoices.length > 0) {

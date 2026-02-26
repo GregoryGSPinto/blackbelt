@@ -4,7 +4,7 @@
 // Dark mode: deep teal/slate (unisex, modern)
 // Light mode: soft blue/white (playful, bright)
 // ============================================================
-import { Home, Video, Trophy, Award, Users } from 'lucide-react';
+import { Home, Video, Trophy, Award, Users, ClipboardCheck } from 'lucide-react';
 import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
 
 // ─── Navigation (with emojis) ─────────────────────────────
@@ -29,6 +29,7 @@ const MOBILE_BAR = [
 const DRAWER_NAV = [
   { href: '/kids-desafios', icon: Trophy, label: 'Desafios', emoji: '🏆' },
   { href: '/kids-conquistas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
+  { href: '/kids-checkin', icon: ClipboardCheck, label: 'Presença', emoji: '📋' },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]

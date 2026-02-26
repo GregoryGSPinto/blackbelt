@@ -12,6 +12,7 @@ export default function ConfiguracoesPage() {
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -28,9 +29,18 @@ export default function ConfiguracoesPage() {
     loadData();
   }, [retryCount]);
 
-  const handleSave = () => {
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
+  const handleSave = async () => {
+    if (!config) return;
+    setSaving(true);
+    try {
+      await adminService.saveConfiguracao(config);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    } catch (err) {
+      setError(handleServiceError(err, 'Salvar configuração'));
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
@@ -238,10 +248,11 @@ export default function ConfiguracoesPage() {
       <div className="flex justify-end">
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium"
+          disabled={saving}
+          className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium disabled:opacity-50"
         >
           <Save className="w-5 h-5" />
-          <span>Salvar Configurações</span>
+          <span>{saving ? 'Salvando...' : 'Salvar Configurações'}</span>
         </button>
       </div>
     </div>

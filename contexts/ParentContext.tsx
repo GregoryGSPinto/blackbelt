@@ -45,8 +45,8 @@ export function ParentProvider({ children }: { children: ReactNode }) {
 
   // Encontrar o perfil de responsável correspondente ao user logado
   const parentProfile = useMemo(() => {
-    if (!user) return PARENT_PROFILES[0]; // fallback
-    return PARENT_PROFILES.find(p => p.email === user.email) || PARENT_PROFILES[0];
+    if (!user) return undefined;
+    return PARENT_PROFILES.find(p => p.email === user.email);
   }, [user]);
 
   // Buscar filhos KIDS e TEENS do responsável

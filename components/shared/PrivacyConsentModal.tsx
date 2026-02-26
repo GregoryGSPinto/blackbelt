@@ -4,6 +4,16 @@
 // Shows on first app usage. Collects privacy consents.
 // Stores acceptance in localStorage to avoid re-showing.
 //
+// TODO(LGPD-001): MIGRATE CONSENT STORAGE TO DATABASE
+//   Currently consent is stored ONLY in localStorage, which means:
+//   1) It is lost when the user clears browser data
+//   2) It is not auditable for LGPD compliance (Art. 8, §2 — burden of proof)
+//   3) It does not persist across devices
+//   The consent state should be persisted to the backend via
+//   POST /api/user/consent with { essential, analytics, notifications, acceptedAt }
+//   and the localStorage should serve only as a cache/fallback.
+//   See: saveConsentToBackend() stub below.
+//
 // Compliance:
 //   - LGPD Art. 7, 8 (consentimento)
 //   - Apple ATT-style flow (sem IDFA, mas boa prática)
@@ -30,6 +40,26 @@ const DATA_ITEMS = [
   { key: 'notifications' as const, label: 'Notificações', desc: 'Lembretes de sessão, avisos da unidade e mensagens dos instrutores', required: false },
 ];
 
+// TODO(LGPD-001): Replace this stub with a real API call once the endpoint exists.
+// This should POST the consent record to the backend so it's stored in the database
+// alongside the user profile, making it auditable per LGPD requirements.
+async function saveConsentToBackend(consent: ConsentState & { acceptedAt: string }) {
+  try {
+    // Fire-and-forget: send consent to backend for database storage.
+    // The localStorage write (below) acts as immediate cache so the modal
+    // doesn't re-show even if this request fails.
+    await fetch('/api/user/consent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(consent),
+    });
+  } catch {
+    // Silent fail — localStorage is the fallback.
+    // TODO(LGPD-001): Add retry logic or queue for offline scenarios.
+    console.warn('[LGPD] Failed to sync consent to backend. Will retry on next session.');
+  }
+}
+
 export function PrivacyConsentModal() {
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -54,12 +84,16 @@ export function PrivacyConsentModal() {
   const handleAcceptAll = () => {
     const accepted = { ...consent, acceptedAt: new Date().toISOString() };
     localStorage.setItem(CONSENT_KEY, JSON.stringify(accepted));
+    // TODO(LGPD-001): Sync consent to database for LGPD compliance audit trail
+    saveConsentToBackend(accepted);
     setVisible(false);
   };
 
   const handleAcceptSelected = () => {
     const accepted = { ...consent, acceptedAt: new Date().toISOString() };
     localStorage.setItem(CONSENT_KEY, JSON.stringify(accepted));
+    // TODO(LGPD-001): Sync consent to database for LGPD compliance audit trail
+    saveConsentToBackend(accepted);
     setVisible(false);
   };
 

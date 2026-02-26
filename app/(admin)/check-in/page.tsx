@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Check, X, AlertCircle, Clock, Users as UsersIcon } from 'lucide-react';
 import * as adminService from '@/lib/api/admin.service';
+import * as checkinService from '@/lib/api/checkin.service';
 import type { Usuario, CheckIn, Turma } from '@/lib/api/admin.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
@@ -76,16 +77,17 @@ export default function CheckInPage() {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
 
-  const checkInsHoje = checkIns.filter(c => c.data === '2026-02-02');
+  const today = new Date().toISOString().split('T')[0];
+  const checkInsHoje = checkIns.filter(c => c.data === today);
 
   const filteredAlunos = alunos.filter(a =>
     a.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
     a.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleCheckIn = (aluno: Usuario) => {
+  const handleCheckIn = async (aluno: Usuario) => {
     setSelectedAluno(aluno);
-    
+
     if (aluno.status === 'BLOQUEADO') {
       setShowBlocked(true);
       setTimeout(() => setShowBlocked(false), 3000);
@@ -98,11 +100,17 @@ export default function CheckInPage() {
       return;
     }
 
-    setShowSuccess(true);
-    setTimeout(() => {
-      setShowSuccess(false);
-      setSearchTerm('');
-    }, 2000);
+    try {
+      await checkinService.registerCheckin(aluno.id, aluno.turmaId || '', 'MANUAL');
+      setShowSuccess(true);
+      setRetryCount(c => c + 1); // Reload data
+      setTimeout(() => {
+        setShowSuccess(false);
+        setSearchTerm('');
+      }, 2000);
+    } catch (err) {
+      setError(handleServiceError(err, 'Check-in'));
+    }
   };
 
   const getAlunoCheckInStatus = (alunoId: string) => {

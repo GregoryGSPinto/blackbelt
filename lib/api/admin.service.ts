@@ -34,8 +34,13 @@ async function getMock() {
 
 export async function getUsuarios(_filters?: { status?: string; tipo?: string; search?: string }): Promise<Usuario[]> {
   if (useMock()) { await mockDelay(); const m = await getMock(); return [...m.usuarios]; }
-  const { data } = await apiClient.get<Usuario[]>('/admin/usuarios');
-  return data;
+  const params = new URLSearchParams();
+  if (_filters?.status) params.set('status', _filters.status);
+  if (_filters?.tipo) params.set('role', _filters.tipo);
+  if (_filters?.search) params.set('search', _filters.search);
+  const qs = params.toString();
+  const { data } = await apiClient.get<{ usuarios: Usuario[]; total: number }>(`/admin/usuarios${qs ? `?${qs}` : ''}`);
+  return data.usuarios;
 }
 
 export async function getUsuarioById(id: string): Promise<Usuario | undefined> {
@@ -110,4 +115,8 @@ export async function getConfiguracao(): Promise<ConfiguracaoUnidade> {
   return data;
 }
 
-
+export async function saveConfiguracao(config: ConfiguracaoUnidade): Promise<ConfiguracaoUnidade> {
+  if (useMock()) { await mockDelay(300); return config; }
+  const { data } = await apiClient.put<ConfiguracaoUnidade>('/admin/configuracao', config);
+  return data;
+}

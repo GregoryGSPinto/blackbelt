@@ -38,7 +38,18 @@ export async function concederConquista(
 
   if (useMock()) {
     await mockDelay(500);
+    // Duplicate prevention: check if student already has this conquista
+    const existentes = await getConquistasAluno(alunoId);
+    if (existentes.some(c => c.conquistaId === conquistaId)) {
+      throw new Error('Aluno já possui esta conquista');
+    }
     return concessao;
+  }
+
+  // Check client-side for duplicates before calling API
+  const existentes = await getConquistasAluno(alunoId);
+  if (existentes.some(c => c.conquistaId === conquistaId)) {
+    throw new Error('Aluno já possui esta conquista');
   }
 
   return apiClient.post<ConquistaConcessao>(`/alunos/${alunoId}/conquistas`, { conquistaId, observacao }).then(r => r.data);

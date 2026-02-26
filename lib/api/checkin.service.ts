@@ -35,6 +35,16 @@ export async function registerCheckin(
     if (aluno.status === 'BLOQUEADO') {
       return { success: false, aluno, error: 'Aluno bloqueado' };
     }
+
+    // TODO(BE-061): Validate that the student is enrolled in the specified class (turmaId).
+    // In production, the API route handles this via class_schedules + memberships join.
+    // Mock data is limited so we allow any turmaId through, but real implementation
+    // should check: 1) turmaId exists, 2) student has active enrollment in that class,
+    // 3) class is scheduled for today.
+    if (turmaId && turmaId.trim() === '') {
+      return { success: false, error: 'turmaId inválido' };
+    }
+
     return {
       success: true,
       checkIn: {

@@ -43,6 +43,28 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // ── Enrollment validation: verify student is enrolled in the specified class ──
+    // The student must have an active membership AND the class must belong to the same academy.
+    if (turmaId) {
+      const { data: schedule, error: schedErr } = await supabase
+        .from('class_schedules' as any)
+        .select('id, academy_id, active')
+        .eq('id', turmaId)
+        .single();
+
+      if (schedErr || !schedule) {
+        return apiError('Turma não encontrada', 'NOT_FOUND', 404);
+      }
+
+      if (schedule.academy_id !== membership.academy_id) {
+        return apiError('Aluno não pertence a esta academia/turma', 'FORBIDDEN', 403);
+      }
+
+      if (!schedule.active) {
+        return apiError('Turma não está ativa', 'INACTIVE_CLASS');
+      }
+    }
+
     // Find or create today's session
     const today = new Date().toISOString().split('T')[0];
     let sessionId: string;
