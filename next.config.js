@@ -10,9 +10,9 @@ const nextConfig = {
   // CAPACITOR: Para build nativo, executar:
   //   CAPACITOR_BUILD=true npm run build
   // Isso ativa static export (output: 'export') que é incompatível
-  // com middleware.ts em dev. Não ativar permanentemente.
+  // com API routes e middleware. NUNCA ativar na Vercel.
   // ============================================================
-  ...(process.env.CAPACITOR_BUILD === 'true' ? { output: 'export' } : {}),
+  ...(process.env.CAPACITOR_BUILD === 'true' && !process.env.VERCEL ? { output: 'export' } : {}),
 
   images: {
     unoptimized: process.env.CAPACITOR_BUILD === 'true', // Obrigatório para static export
