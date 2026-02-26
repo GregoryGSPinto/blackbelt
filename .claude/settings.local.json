@@ -13,7 +13,9 @@
       "Bash(NEXT_PUBLIC_USE_MOCK=true pnpm build:*)",
       "Bash(NEXT_PUBLIC_USE_MOCK=true pnpm dev:*)",
       "Bash(npx supabase:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

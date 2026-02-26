@@ -1,7 +1,23 @@
 -- 00009_lgpd.sql
 -- LGPD compliance: consent log, data export/deletion requests
+-- Also creates audit_log here (needed by anonymize_user_data function below)
+-- ORDER: tables → indexes → RLS → functions
 
--- ── Tables ──────────────────────────────────────────────
+-- ── 1. Tables ─────────────────────────────────────────────
+
+CREATE TABLE audit_log (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       uuid REFERENCES auth.users(id),
+  action        text NOT NULL,
+  resource_type text NOT NULL,
+  resource_id   text,
+  old_value     jsonb,
+  new_value     jsonb,
+  ip_address    inet,
+  user_agent    text,
+  academy_id    uuid REFERENCES academies(id),
+  created_at    timestamptz NOT NULL DEFAULT now()
+);
 
 CREATE TABLE lgpd_consent_log (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -31,19 +47,38 @@ CREATE TABLE data_deletion_requests (
   completed_at  timestamptz
 );
 
--- ── Indexes ─────────────────────────────────────────────
+-- ── 2. Indexes ────────────────────────────────────────────
 
+CREATE INDEX idx_audit_log_user ON audit_log(user_id);
+CREATE INDEX idx_audit_log_action ON audit_log(action);
+CREATE INDEX idx_audit_log_resource ON audit_log(resource_type, resource_id);
+CREATE INDEX idx_audit_log_academy ON audit_log(academy_id);
+CREATE INDEX idx_audit_log_created ON audit_log(created_at DESC);
 CREATE INDEX idx_lgpd_consent_profile ON lgpd_consent_log(profile_id);
 CREATE INDEX idx_data_export_profile ON data_export_requests(profile_id);
 CREATE INDEX idx_data_export_status ON data_export_requests(status);
 CREATE INDEX idx_data_deletion_profile ON data_deletion_requests(profile_id);
 CREATE INDEX idx_data_deletion_status ON data_deletion_requests(status);
 
--- ── RLS ─────────────────────────────────────────────────
+-- ── 3. RLS ────────────────────────────────────────────────
 
+ALTER TABLE audit_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE lgpd_consent_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE data_export_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE data_deletion_requests ENABLE ROW LEVEL SECURITY;
+
+-- Audit log: admin/auditor can view academy logs
+CREATE POLICY audit_log_select ON audit_log FOR SELECT USING (
+  user_id = auth.uid()
+  OR academy_id IN (
+    SELECT academy_id FROM memberships
+    WHERE profile_id = auth.uid()
+      AND role IN ('admin', 'owner')
+      AND status = 'active'
+  )
+);
+
+CREATE POLICY audit_log_insert ON audit_log FOR INSERT WITH CHECK (true);
 
 -- Users can view their own consent log
 CREATE POLICY lgpd_consent_select ON lgpd_consent_log FOR SELECT USING (
@@ -72,7 +107,7 @@ CREATE POLICY data_deletion_insert ON data_deletion_requests FOR INSERT WITH CHE
   profile_id = auth.uid()
 );
 
--- ── LGPD Functions ──────────────────────────────────────
+-- ── 4. Functions (AFTER audit_log table exists) ───────────
 
 -- Export all user data (LGPD Art. 18, V)
 CREATE OR REPLACE FUNCTION export_user_data(_profile_id uuid)

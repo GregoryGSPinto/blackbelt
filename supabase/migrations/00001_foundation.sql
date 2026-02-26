@@ -1,13 +1,14 @@
 -- 00001_foundation.sql
 -- Core tables: academies, profiles, memberships, parent_child_links
+-- ORDER: ENUMs → trigger fn → tables → triggers → indexes → helper fns → RLS
 
--- ── ENUMs ───────────────────────────────────────────────
+-- ── 1. ENUMs ──────────────────────────────────────────────
 
 CREATE TYPE user_role AS ENUM ('student', 'professor', 'admin', 'owner', 'parent');
 CREATE TYPE membership_status AS ENUM ('active', 'inactive', 'suspended', 'frozen');
 CREATE TYPE relationship_type AS ENUM ('parent', 'guardian', 'tutor');
 
--- ── Trigger function: auto-update updated_at ────────────
+-- ── 2. Trigger function: auto-update updated_at ───────────
 
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -17,22 +18,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- ── Helper: get academy IDs for current user ────────────
-
-CREATE OR REPLACE FUNCTION get_user_academy_ids()
-RETURNS SETOF uuid AS $$
-  SELECT academy_id FROM memberships WHERE profile_id = auth.uid();
-$$ LANGUAGE sql SECURITY DEFINER STABLE;
-
--- ── Helper: get roles for current user in an academy ────
-
-CREATE OR REPLACE FUNCTION get_user_roles(_academy_id uuid)
-RETURNS SETOF user_role AS $$
-  SELECT role FROM memberships
-  WHERE profile_id = auth.uid() AND academy_id = _academy_id;
-$$ LANGUAGE sql SECURITY DEFINER STABLE;
-
--- ── Tables ──────────────────────────────────────────────
+-- ── 3. Tables (FK order: academies → profiles → memberships → parent_child_links) ──
 
 CREATE TABLE academies (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -49,10 +35,6 @@ CREATE TABLE academies (
   updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE TRIGGER academies_updated_at
-  BEFORE UPDATE ON academies
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
 CREATE TABLE profiles (
   id            uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name     text NOT NULL,
@@ -64,10 +46,6 @@ CREATE TABLE profiles (
   created_at    timestamptz NOT NULL DEFAULT now(),
   updated_at    timestamptz NOT NULL DEFAULT now()
 );
-
-CREATE TRIGGER profiles_updated_at
-  BEFORE UPDATE ON profiles
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TABLE memberships (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -82,10 +60,6 @@ CREATE TABLE memberships (
   UNIQUE (profile_id, academy_id, role)
 );
 
-CREATE TRIGGER memberships_updated_at
-  BEFORE UPDATE ON memberships
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
 CREATE TABLE parent_child_links (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   parent_id     uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -95,7 +69,21 @@ CREATE TABLE parent_child_links (
   UNIQUE (parent_id, child_id)
 );
 
--- ── Indexes ─────────────────────────────────────────────
+-- ── 4. Triggers ───────────────────────────────────────────
+
+CREATE TRIGGER academies_updated_at
+  BEFORE UPDATE ON academies
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER profiles_updated_at
+  BEFORE UPDATE ON profiles
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER memberships_updated_at
+  BEFORE UPDATE ON memberships
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- ── 5. Indexes ────────────────────────────────────────────
 
 CREATE INDEX idx_memberships_academy ON memberships(academy_id);
 CREATE INDEX idx_memberships_profile ON memberships(profile_id);
@@ -103,7 +91,20 @@ CREATE INDEX idx_memberships_academy_role ON memberships(academy_id, role);
 CREATE INDEX idx_parent_child_parent ON parent_child_links(parent_id);
 CREATE INDEX idx_parent_child_child ON parent_child_links(child_id);
 
--- ── RLS ─────────────────────────────────────────────────
+-- ── 6. Helper functions (AFTER tables exist) ──────────────
+
+CREATE OR REPLACE FUNCTION get_user_academy_ids()
+RETURNS SETOF uuid AS $$
+  SELECT academy_id FROM memberships WHERE profile_id = auth.uid();
+$$ LANGUAGE sql SECURITY DEFINER STABLE;
+
+CREATE OR REPLACE FUNCTION get_user_roles(_academy_id uuid)
+RETURNS SETOF user_role AS $$
+  SELECT role FROM memberships
+  WHERE profile_id = auth.uid() AND academy_id = _academy_id;
+$$ LANGUAGE sql SECURITY DEFINER STABLE;
+
+-- ── 7. RLS enable + policies ──────────────────────────────
 
 ALTER TABLE academies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
