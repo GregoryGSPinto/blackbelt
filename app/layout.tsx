@@ -11,6 +11,7 @@ import { SlowConnectionBanner } from "@/components/shared/SlowConnectionBanner";
 import { DemoBanner } from "@/components/shared/DemoBanner";
 import { PrivacyConsentModal } from "@/components/shared/PrivacyConsentModal";
 import { ErrorTrackerInit } from "@/components/shared/ErrorTrackerInit";
+import { ThemedBackground } from "@/components/shared/ThemedBackground";
 import SplashScreen from "@/components/SplashScreen";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -59,22 +60,25 @@ export default function RootLayout({
       <body className={inter.className}>
         <a href="#main-content" className="skip-to-content">Pular para conteúdo</a>
         <ThemeProvider>
-          <AuthProvider>
-            <OnboardingProvider>
-              <ToastProvider>
-                <ResponsiveProvider>
-                  <KeyboardProvider>
-                  <ErrorTrackerInit />
-                  <DemoBanner />
-                  <SlowConnectionBanner />
-                  <SplashScreen />
-                  <PrivacyConsentModal />
-                  {children}
-                </KeyboardProvider>
-                </ResponsiveProvider>
-              </ToastProvider>
-            </OnboardingProvider>
-          </AuthProvider>
+          <ThemedBackground />
+          <div className="relative z-10">
+            <AuthProvider>
+              <OnboardingProvider>
+                <ToastProvider>
+                  <ResponsiveProvider>
+                    <KeyboardProvider>
+                    <ErrorTrackerInit />
+                    <DemoBanner />
+                    <SlowConnectionBanner />
+                    <SplashScreen />
+                    <PrivacyConsentModal />
+                    {children}
+                  </KeyboardProvider>
+                  </ResponsiveProvider>
+                </ToastProvider>
+              </OnboardingProvider>
+            </AuthProvider>
+          </div>
         </ThemeProvider>
       </body>
     </html>
