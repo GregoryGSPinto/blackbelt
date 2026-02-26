@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import { useGlobalSearch, type SearchResult } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
 

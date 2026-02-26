@@ -50,8 +50,8 @@ export default function TeenSessõesPage() {
 
 
   const sessõesFiltradas = teensessões.filter(sessão => {
-    if (filtro === 'em-andamento') return aula.progresso > 0 && !aula.assistido;
-    if (filtro === 'concluidas') return aula.assistido;
+    if (filtro === 'em-andamento') return sessão.progresso > 0 && !sessão.assistido;
+    if (filtro === 'concluidas') return sessão.assistido;
     return true;
   });
 
@@ -121,7 +121,7 @@ export default function TeenSessõesPage() {
                   {aula.titulo}
                 </h3>
                 <p className="text-sm teen-text-muted font-teen mb-2">
-                  {aula.professor} • {aula.duracao}
+                  {aula.instrutor} • {aula.duracao}
                 </p>
                 <p className="text-sm teen-text-muted font-teen mb-3 line-clamp-2">
                   {aula.descricao}

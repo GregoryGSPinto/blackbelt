@@ -32,7 +32,7 @@ async function getMock() {
   return import('@/lib/__mocks__/admin.mock');
 }
 
-export async function getUsuarios(): Promise<Usuario[]> {
+export async function getUsuarios(_filters?: { status?: string; tipo?: string; search?: string }): Promise<Usuario[]> {
   if (useMock()) { await mockDelay(); const m = await getMock(); return [...m.usuarios]; }
   const { data } = await apiClient.get<Usuario[]>('/admin/usuarios');
   return data;

@@ -45,7 +45,7 @@ export async function getConfigs(): Promise<RelatorioConfig[]> {
     const { relatorioConfigs } = await getMockModule();
     return [...relatorioConfigs];
   }
-  return apiClient.get<RelatorioConfig[]>('/relatorios/config');
+  return apiClient.get<RelatorioConfig[]>('/relatorios/config').then(r => r.data);
 }
 
 /** Gerar relatório com preview de dados */
@@ -58,7 +58,7 @@ export async function gerarRelatorio(
     const { gerarRelatorio } = await getMockModule();
     return gerarRelatorio(tipo, periodo);
   }
-  return apiClient.post<RelatorioGerado>('/relatorios/gerar', { tipo, periodo });
+  return apiClient.post<RelatorioGerado>('/relatorios/gerar', { tipo, periodo }).then(r => r.data);
 }
 
 /** Exportar relatório como CSV (client-side) */

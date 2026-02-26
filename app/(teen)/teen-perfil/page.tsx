@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 
 export default function TeenPerfilPage() {
+  const { user, logout } = useAuth();
   const [currentTeen, setCurrentTeen] = useState<TeenProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,8 +47,6 @@ export default function TeenPerfilPage() {
     return <PageEmpty icon={UserX} title="Perfil não encontrado" message="Não foi possível carregar o perfil do aluno." />;
   }
 
-
-  const { user, logout } = useAuth();
 
   // Dados detalhados vêm do mock (em produção, API dedicada)// Dados prioritários do AuthContext (dados reais do login)
   const nome      = user?.nome      || currentTeen.nome;
@@ -119,7 +118,7 @@ export default function TeenPerfilPage() {
             <div>
               <p className="text-sm font-teen teen-text-muted">Professor</p>
               <p className="font-teen teen-text-heading">
-                {user?.professor || currentTeen.professor}
+                {user?.instrutor || currentTeen.instrutor}
               </p>
             </div>
           </div>

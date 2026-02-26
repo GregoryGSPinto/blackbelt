@@ -48,12 +48,12 @@ export function ModuleGuard({ children, module }: ModuleGuardProps) {
 
     if (!allowed) {
       const role = mapTipoToRole(user.tipo);
-      structuredLog('security', 'error', 'SECURITY_DENIED_ACCESS', {
+      structuredLog.security.error('SECURITY_DENIED_ACCESS', {
         actor_id: user.id || 'unknown',
         role,
         module,
         action: 'module_access_denied',
-        unit_id: (user as Record<string, unknown>).unidadeId as string || 'unknown',
+        unit_id: (user as unknown as Record<string, unknown>).unidadeId as string || 'unknown',
         timestamp: new Date().toISOString(),
         detail: `Role ${role} attempted to access module ${module}`,
       });

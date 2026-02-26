@@ -32,7 +32,7 @@ export async function getAutomacoes(): Promise<Automacao[]> {
     return [...mockAutomacoes];
   }
 
-  return apiClient.get<Automacao[]>('/automacoes');
+  return apiClient.get<Automacao[]>('/automacoes').then(r => r.data);
 }
 
 /** Atualizar automação (config, canais, mensagem) */
@@ -45,7 +45,7 @@ export async function updateAutomacao(id: string, data: Partial<Automacao>): Pro
     return { ...existing, ...data };
   }
 
-  return apiClient.put<Automacao>(`/automacoes/${id}`, data);
+  return apiClient.put<Automacao>(`/automacoes/${id}`, data).then(r => r.data);
 }
 
 /** Toggle on/off da automação */
@@ -58,5 +58,5 @@ export async function toggleAutomacao(id: string, ativa: boolean): Promise<Autom
     return { ...existing, ativa };
   }
 
-  return apiClient.put<Automacao>(`/automacoes/${id}/toggle`, { ativa });
+  return apiClient.put<Automacao>(`/automacoes/${id}/toggle`, { ativa }).then(r => r.data);
 }

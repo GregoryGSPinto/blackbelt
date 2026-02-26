@@ -169,7 +169,7 @@ export default function AnalyticsPage() {
         {/* Retenção por nivel */}
         <Section title="Retenção por Nível">
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-3">
-            {data.retencaoPorNivel.map((item, i) => (
+            {data.retencaoPorNível.map((item, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className="w-3 h-3 rounded-full border border-white/20 shrink-0"
                   style={{ backgroundColor: NIVEL_COLORS[item.nivel] || '#ccc' }} />

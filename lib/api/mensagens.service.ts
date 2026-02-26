@@ -117,3 +117,11 @@ export async function getTemplates(): Promise<MensagemTemplate[]> {
   }
   return [];
 }
+
+/** Alias: getMensagens → getConversaMensagens */
+export const getMensagens = getConversaMensagens;
+
+/** Alias: enviarMensagem (simplified) */
+export async function enviarMensagem(conversaId: string, conteudo: string): Promise<Mensagem> {
+  return sendMessage(conversaId, conteudo, 'professor_01', 'Professor', 'instrutor');
+}

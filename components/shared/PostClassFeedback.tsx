@@ -51,7 +51,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
   const [selected, setSelected] = useState<FeedbackOption | null>(null);
   const [doubtText, setDoubtText] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   useEffect(() => {
     getPendingFeedback()
@@ -78,14 +78,14 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
         ? 'Vídeo de revisão disponível na biblioteca!'
         : 'Ótimo! Continue evoluindo! 🥋';
 
-      showToast(msg, 'success');
+      toast.success(msg);
       onComplete();
     } catch {
-      showToast('Erro ao enviar feedback. Tente novamente.', 'error');
+      toast.error('Erro ao enviar feedback. Tente novamente.');
     } finally {
       setSubmitting(false);
     }
-  }, [selected, pending, doubtText, showToast, onComplete]);
+  }, [selected, pending, doubtText, toast, onComplete]);
 
   // No pending feedback or still loading
   if (loading || !pending) return null;

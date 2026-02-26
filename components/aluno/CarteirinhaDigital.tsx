@@ -315,7 +315,7 @@ export default function CarteirinhaDigital({ carteirinha, onShare }: Carteirinha
                 <InfoField
                   icon={Building2}
                   label="Instrutor"
-                  value={carteirinha.professor || '—'}
+                  value={carteirinha.instrutor || '—'}
                 />
               </div>
 

@@ -208,7 +208,7 @@ export default function TeenCheckinPage() {
               Unidade Centro
             </p>
             <p className="text-sm teen-text-muted font-teen">
-              {currentTeen.professor}
+              {currentTeen.instrutor}
             </p>
           </div>
         </div>

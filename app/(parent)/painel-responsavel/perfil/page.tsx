@@ -18,7 +18,7 @@ export default function PerfilParentPage() {
   const [tab, setTab] = useState<Tab>('dados');
 
   // ── Dados form ──
-  const [nome, setNome] = useState(user?.name || 'Carlos Silva');
+  const [nome, setNome] = useState(user?.nome || 'Carlos Silva');
   const [telefone, setTelefone] = useState('(31) 99999-8888');
   const [savingDados, setSavingDados] = useState(false);
 
@@ -76,7 +76,7 @@ export default function PerfilParentPage() {
             </button>
           </div>
           <div>
-            <p className="text-white/80 font-semibold">{user?.name || 'Carlos Silva'}</p>
+            <p className="text-white/80 font-semibold">{user?.nome || 'Carlos Silva'}</p>
             <p className="text-white/40 text-xs">{user?.email || 'carlos@email.com'}</p>
           </div>
         </div>

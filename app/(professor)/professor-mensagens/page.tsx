@@ -29,7 +29,7 @@ export default function ProfessorMensagensPage() {
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   // Load conversations
   useEffect(() => {
@@ -68,11 +68,11 @@ export default function ProfessorMensagensPage() {
         prev.map((c) => c.id === activeConversaId ? { ...c, ultimaMensagem: msg } : c)
       );
     } catch {
-      showToast('Erro ao enviar mensagem.', 'error');
+      toast.error('Erro ao enviar mensagem.');
     } finally {
       setSending(false);
     }
-  }, [newMessage, activeConversaId, showToast]);
+  }, [newMessage, activeConversaId, toast]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -219,7 +219,7 @@ export default function ProfessorMensagensPage() {
             <div className="p-3 border-t border-white/[0.06] bg-black/20">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => showToast('Anexo requer backend real', 'info')}
+                  onClick={() => toast.info('Anexo requer backend real')}
                   className="p-2 text-white/30 hover:text-white/50 transition-colors"
                   title="Anexar arquivo"
                 >
@@ -244,7 +244,7 @@ export default function ProfessorMensagensPage() {
                   </button>
                 ) : (
                   <button
-                    onClick={() => showToast('Áudio requer backend real', 'info')}
+                    onClick={() => toast.info('Áudio requer backend real')}
                     className="p-2.5 text-white/30 hover:text-white/50 transition-colors"
                     title="Gravar áudio"
                   >

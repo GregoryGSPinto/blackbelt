@@ -423,7 +423,8 @@ function MenuBtn({
   onClick,
   color,
 }: {
-  icon: React.ComponentType<{ size?: number }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: React.ComponentType<any>;
   label: string;
   onClick: () => void;
   color: string;

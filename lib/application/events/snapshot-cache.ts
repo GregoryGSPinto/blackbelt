@@ -128,7 +128,7 @@ class SnapshotCache {
    * Invalidate all cached snapshots.
    */
   invalidateAll(): void {
-    for (const [pid, entry] of this.cache) {
+    for (const [pid, entry] of Array.from(this.cache)) {
       entry.invalidated = true;
       this.notifyChange(pid);
     }
@@ -164,7 +164,7 @@ class SnapshotCache {
   private notifyChange(participantId: string): void {
     const listeners = this.changeListeners.get(participantId);
     if (listeners) {
-      for (const cb of listeners) {
+      for (const cb of Array.from(listeners)) {
         try { cb(); } catch (err) { console.error('[SnapshotCache] Listener error:', err); }
       }
     }
@@ -200,14 +200,14 @@ class SnapshotCache {
     let valid = 0, invalidated = 0, expired = 0;
     const now = Date.now();
 
-    for (const entry of this.cache.values()) {
+    for (const entry of Array.from(this.cache.values())) {
       if (entry.invalidated) invalidated++;
       else if (now - entry.createdAt > this.ttlMs) expired++;
       else valid++;
     }
 
     let listeners = 0;
-    for (const set of this.changeListeners.values()) listeners += set.size;
+    for (const set of Array.from(this.changeListeners.values())) listeners += set.size;
 
     return { size: this.cache.size, valid, invalidated, expired, listeners };
   }

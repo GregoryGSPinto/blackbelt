@@ -52,7 +52,7 @@ function maskEmail(email: string): string {
 // ============================================================
 
 function toBase64(buffer: ArrayBuffer): string {
-  return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+  return btoa(String.fromCharCode(...Array.from(new Uint8Array(buffer))));
 }
 
 function fromBase64(b64: string): ArrayBuffer {

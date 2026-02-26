@@ -15,7 +15,7 @@ async function getMock() {
 
 export async function getDocumentos(): Promise<DocumentoAssinatura[]> {
   if (useMock()) { await mockDelay(); const m = await getMock(); return [...m.mockDocumentos]; }
-  return apiClient.get<DocumentoAssinatura[]>('/assinatura/documentos');
+  return apiClient.get<DocumentoAssinatura[]>('/assinatura/documentos').then(r => r.data);
 }
 
 export async function assinarDocumento(id: string): Promise<DocumentoAssinatura> {
@@ -26,12 +26,12 @@ export async function assinarDocumento(id: string): Promise<DocumentoAssinatura>
     if (!doc) throw new Error('Documento não encontrado');
     return { ...doc, status: 'ASSINADO', dataAssinatura: new Date().toISOString(), hashAssinatura: `sha256:${Date.now().toString(36)}` };
   }
-  return apiClient.post<DocumentoAssinatura>(`/assinatura/documentos/${id}/assinar`, {});
+  return apiClient.post<DocumentoAssinatura>(`/assinatura/documentos/${id}/assinar`, {}).then(r => r.data);
 }
 
 export async function getConsentimentos(): Promise<ConsentimentoLGPD[]> {
   if (useMock()) { await mockDelay(); const m = await getMock(); return [...m.mockConsentimentos]; }
-  return apiClient.get<ConsentimentoLGPD[]>('/assinatura/consentimentos');
+  return apiClient.get<ConsentimentoLGPD[]>('/assinatura/consentimentos').then(r => r.data);
 }
 
 export async function toggleConsentimento(id: string, aceito: boolean): Promise<ConsentimentoLGPD> {
@@ -42,5 +42,5 @@ export async function toggleConsentimento(id: string, aceito: boolean): Promise<
     if (!c) throw new Error('Consentimento não encontrado');
     return { ...c, aceito, dataAceite: aceito ? new Date().toISOString().split('T')[0] : undefined };
   }
-  return apiClient.put<ConsentimentoLGPD>(`/assinatura/consentimentos/${id}`, { aceito });
+  return apiClient.put<ConsentimentoLGPD>(`/assinatura/consentimentos/${id}`, { aceito }).then(r => r.data);
 }

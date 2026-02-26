@@ -616,7 +616,7 @@ export function getRemediationHistory(limit = 50): RemediationEvent[] {
 export function getBlockedIPs(): Array<{ ip: string; until: string; reason: string }> {
   const now = Date.now();
   const result: Array<{ ip: string; until: string; reason: string }> = [];
-  for (const [ip, entry] of _blockedIPs) {
+  for (const [ip, entry] of Array.from(_blockedIPs)) {
     if (now < entry.until) {
       result.push({ ip, until: new Date(entry.until).toISOString(), reason: entry.reason });
     } else {

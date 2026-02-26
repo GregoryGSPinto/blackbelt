@@ -245,9 +245,9 @@ export interface ShellState {
   navTo: (href: string) => void;
   toggleNotif: () => void;
   // Refs
-  searchInputRef: RefObject<HTMLInputElement | null>;
-  mobileSearchInputRef: RefObject<HTMLInputElement | null>;
-  notifRef: RefObject<HTMLDivElement | null>;
+  searchInputRef: RefObject<HTMLInputElement>;
+  mobileSearchInputRef: RefObject<HTMLInputElement>;
+  notifRef: RefObject<HTMLDivElement>;
   // Sidebar-specific (only populated for sidebar variant)
   sidebarOpen: boolean;
   setSidebarOpen: (v: boolean) => void;

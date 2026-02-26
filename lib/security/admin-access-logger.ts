@@ -83,7 +83,7 @@ export async function logAdminAccess(
   };
 
   // Always log to structured logger
-  structuredLog('security', 'info', `ADMIN_ACCESS:${action}`, {
+  structuredLog.security.info(`ADMIN_ACCESS:${action}`, {
     actor_id: entry.actor_id,
     role: entry.role,
     module: entry.module,

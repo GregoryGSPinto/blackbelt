@@ -74,7 +74,7 @@ function matchRoute(href: string): string | null {
   if (prefetchRegistry.has(path)) return path;
 
   // Try prefix matches for grouped routes
-  for (const route of prefetchRegistry.keys()) {
+  for (const route of Array.from(prefetchRegistry.keys())) {
     if (path.startsWith(route)) return route;
   }
 

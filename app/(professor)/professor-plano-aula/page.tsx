@@ -11,7 +11,7 @@ import type { TecnicaPratica, PlanoAula, ItemPlanoAula, FaseSessão } from '@/li
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import Link from 'next/link';
 
-const FASE_CONFIG: Record<FaseAula, { label: string; icon: typeof Dumbbell; color: string }> = {
+const FASE_CONFIG: Record<FaseSessão, { label: string; icon: typeof Dumbbell; color: string }> = {
   aquecimento: { label: 'Aquecimento', icon: Heart, color: 'text-orange-400 bg-orange-500/10' },
   tecnica: { label: 'Técnica', icon: BookOpen, color: 'text-blue-400 bg-blue-500/10' },
   drill: { label: 'Drill', icon: Target, color: 'text-purple-400 bg-purple-500/10' },
@@ -19,7 +19,7 @@ const FASE_CONFIG: Record<FaseAula, { label: string; icon: typeof Dumbbell; colo
   alongamento: { label: 'Alongamento', icon: Dumbbell, color: 'text-emerald-400 bg-emerald-500/10' },
 };
 
-const FASES_ORDEM: FaseAula[] = ['aquecimento', 'tecnica', 'drill', 'sparring', 'alongamento'];
+const FASES_ORDEM: FaseSessão[] = ['aquecimento', 'tecnica', 'drill', 'sparring', 'alongamento'];
 
 type TabView = 'builder' | 'planos' | 'tecnicas';
 
@@ -46,7 +46,7 @@ export default function PlanoAulaPage() {
 
   const duracaoTotal = useMemo(() => itens.reduce((s, i) => s + i.duracaoMinutos, 0), [itens]);
 
-  const addItem = useCallback((fase: FaseAula) => {
+  const addItem = useCallback((fase: FaseSessão) => {
     setItens(prev => [...prev, {
       id: `item-${Date.now()}`, fase, titulo: '', descricao: '', duracaoMinutos: 10,
     }]);
@@ -75,7 +75,7 @@ export default function PlanoAulaPage() {
 
   const loadPlano = useCallback((plano: PlanoAula) => {
     setTitulo(plano.titulo + (plano.template ? ' (cópia)' : ''));
-    setItens(plano.itens.map(i => ({ ...i, id: `item-${Date.now()}-${Math.random()}` })));
+    setItens(plano.itens.map((i: ItemPlanoAula) => ({ ...i, id: `item-${Date.now()}-${Math.random()}` })));
     setTab('builder');
   }, []);
 
@@ -247,7 +247,7 @@ export default function PlanoAulaPage() {
                     <span>·</span>
                     <span className="capitalize">{tec.tipo}</span>
                     <span>·</span>
-                    <span>{tec.nivelMinima}</span>
+                    <span>{tec.nivelMinimo}</span>
                   </div>
                   {tec.descricao && <p className="text-[9px] text-white/15 mt-0.5">{tec.descricao}</p>}
                 </div>

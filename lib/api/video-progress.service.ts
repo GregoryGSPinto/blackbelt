@@ -23,10 +23,12 @@ export async function toggleFavorite(videoId: string): Promise<boolean> {
 }
 
 export function isWatched(videoId: string): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   try { const m = require('@/lib/__mocks__/video-progress.mock'); return m.isWatched(videoId); } catch { return false; }
 }
 
 export function isFavorite(videoId: string): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   try { const m = require('@/lib/__mocks__/video-progress.mock'); return m.isFavorite(videoId); } catch { return false; }
 }
 

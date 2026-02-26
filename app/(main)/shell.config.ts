@@ -17,13 +17,13 @@ const DESKTOP_NAV = [
   { href: '/unidade', icon: GraduationCap, label: 'Unidade' },
   { href: '/series', icon: Tv, label: 'Séries' },
   { href: '/meu-blackbelt', icon: Bookmark, label: 'Minha Lista' },
-] as const;
+];
 
 const MOBILE_BAR = [
   { href: '/inicio', icon: Home, label: 'Início' },
   { href: '/unidade', icon: GraduationCap, label: 'Unidade' },
   { href: '/checkin-financeiro', icon: ScanLine, label: 'Check-in' },
-] as const;
+];
 
 const DRAWER_NAV = [
   { href: '/sessões', icon: Video, label: 'Sessões' },
@@ -40,7 +40,7 @@ const DRAWER_NAV = [
   { href: '/meu-perfil-esportivo', icon: Award, label: 'Perfil Esportivo' },
   { href: '/assinatura', icon: PenTool, label: 'Documentos' },
   { href: '/perfil/configuracoes', icon: Settings, label: 'Configurações' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]
   .filter((item, index, arr) => arr.findIndex(i => i.href === item.href) === index);
@@ -51,7 +51,7 @@ const NOTIFICATIONS = [
   { id: 3, title: 'Conquista desbloqueada!', desc: 'Você completou 30 treinos', time: '5h' },
 ];
 
-const mainNav: ShellNavConfig = {
+const mainNav = {
   desktopNav: DESKTOP_NAV,
   mobileBar: [...MOBILE_BAR],
   drawerNav: [...DRAWER_NAV],
@@ -168,7 +168,7 @@ const mainTheme: ShellTheme = {
 
 // ─── Export ───────────────────────────────────────────────
 
-export const MAIN_SHELL_CONFIG: AppShellConfig = {
+export const MAIN_SHELL_CONFIG = {
   theme: mainTheme,
   nav: mainNav,
-};
+} as AppShellConfig;

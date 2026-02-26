@@ -475,7 +475,7 @@ export function createEvent<T extends DomainEvent>(
  *    Handlers que conhecem v1 continuam funcionando com v2.
  *
  * 3. Handlers devem tratar versão desconhecida como a última que conhecem.
- *    `if (event.version >= 2) { /* use new field */ }`
+ *    `if (event.version >= 2) { // use new field }`
  *
  * 4. Snapshots históricos reconstruídos a partir de eventos v1
  *    são corretos — porque v1 é um subconjunto válido de v2.

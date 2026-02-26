@@ -228,7 +228,7 @@ export async function updateProgresso(
     // Audit trail
     const result = await auditManager.auditedOperation(
       'UPDATE', 'progress', alunoId,
-      { moduloId: payload.moduloId, valorAnterior: 'N/A' },
+      { moduloId: payload.moduloId, novoValor: 0 },
       async () => ({ moduloId: payload.moduloId, novoValor: payload.valor })
     );
     return { success: true, updatedAt: new Date().toISOString(), auditLogId: result.auditLogId };
@@ -326,7 +326,7 @@ export async function excluirAula(aulaId: string): Promise<WriteResult> {
     if (integrityCheck) {
       await auditManager.auditedOperation(
         'DELETE', 'class', aulaId,
-        { aulaId, _blocked: true },
+        { aulaId, _reason: 'integrity_check_failed' },
         async () => ({ aulaId, _reason: integrityCheck.message })
       );
       return { success: false, error: integrityCheck.message };
@@ -343,7 +343,7 @@ export async function excluirAula(aulaId: string): Promise<WriteResult> {
     // Soft delete com audit
     const result = await auditManager.auditedOperation(
       'DELETE', 'class', aulaId,
-      { aulaId, deletedAt: null },
+      { aulaId, deletedAt: '' },
       async () => ({ aulaId, deletedAt: new Date().toISOString() })
     );
     return { success: true, auditLogId: result.auditLogId };

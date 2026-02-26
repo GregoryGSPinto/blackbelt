@@ -66,7 +66,7 @@ return (
         <div className="flex flex-col md:flex-row items-center gap-6">
           <div className="flex-shrink-0">
             <ProgressCircle 
-              percentage={currentTeen.progresso.evolucaoNivel}
+              percentage={currentTeen.progresso.evolucaoNível}
               size={160}
               color="#006B8F"
             />

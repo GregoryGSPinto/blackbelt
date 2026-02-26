@@ -21,7 +21,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
 import { useGlobalSearch } from '@/contexts/GlobalSearchContext';
 import { SearchResultsOverlay } from '@/components/ui/SearchResultsOverlay';
-import { ModuleErrorBoundary } from '@/components/shared/ModuleErrorBoundary';
+import { ModuleErrorBoundary, type ModuleName } from '@/components/shared/ModuleErrorBoundary';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
 import { recordNavVisit, rankNavItems } from '@/lib/nav-ranking';
 
@@ -314,7 +314,7 @@ export function AppShell({
           {/* Page Content */}
           <main id="main-content" className={theme.contentClassName || 'p-4 md:p-6'}>
             <div className={`${theme.contentMaxWidth} mx-auto`}>
-              <ModuleErrorBoundary moduleName={theme.moduleName}>
+              <ModuleErrorBoundary moduleName={theme.moduleName as ModuleName}>
                 {children}
               </ModuleErrorBoundary>
             </div>
@@ -378,7 +378,7 @@ export function AppShell({
           className={`container mx-auto px-4 py-6 ${theme.contentMaxWidth}`}
           style={theme.contentPadding ? { padding: theme.contentPadding } : undefined}
         >
-          <ModuleErrorBoundary moduleName={theme.moduleName}>
+          <ModuleErrorBoundary moduleName={theme.moduleName as ModuleName}>
             {children}
           </ModuleErrorBoundary>
         </div>

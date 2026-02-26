@@ -14,6 +14,8 @@ export interface ProximaSessão {
   dataHoraInicio: string;
 }
 
+export type ProximaAula = ProximaSessão;
+
 export interface FrequenciaMensal {
   sessõesAssistidas: number;
   metaMensal: number;

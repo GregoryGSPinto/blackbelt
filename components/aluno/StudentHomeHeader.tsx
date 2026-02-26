@@ -35,7 +35,7 @@ const HEADER_STYLES = `
 // NEXT CLASS CARD
 // ══════════════════════════════════════════════════════════════
 
-function NextClassCard({ sessão }: { aula: AlunoHomeData['proximaSessao'] }) {
+function NextClassCard({ aula }: { aula: AlunoHomeData['proximaSessao'] }) {
   const [countdown, setCountdown] = useState('');
 
   useEffect(() => {
@@ -100,7 +100,7 @@ function NextClassCard({ sessão }: { aula: AlunoHomeData['proximaSessao'] }) {
             </span>
             <span className="flex items-center gap-1.5">
               <User size={12} className="text-blue-400/60" />
-              {aula.professor}
+              {aula.instrutor}
             </span>
             <span className="flex items-center gap-1.5">
               <MapPin size={12} className="text-blue-400/60" />

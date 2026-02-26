@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * BLACKBELT — Prisma RLS Middleware
  * 

@@ -20,7 +20,7 @@ import {
 import * as pedagogicoService from '@/lib/api/professor-pedagogico.service';
 import type { AlunoPedagogico } from '@/lib/api/professor-pedagogico.service';
 import { handleServiceError } from '@/components/shared/DataStates';
-import { TrendIndicator } from '@/components/shared/TrendIndicator';
+
 import { QuickMessage } from '@/components/shared/QuickMessage';
 
 // ── Client-side cache — avoids re-fetching when toggling between alunos ──
@@ -137,7 +137,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
                 {aluno.nivel} {aluno.subniveis > 0 && `• ${aluno.subniveis}º subnível`}
               </span>
               <span>{aluno.categoria}</span>
-              <span>{aluno.turno}</span>
+              <span>{aluno.turma}</span>
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
         {/* Quick stats */}
         <div className="grid grid-cols-3 gap-2 mt-3">
           <StatBox label="Frequência 30d" value={`${freqPct}%`} color={freqColor} />
-          <StatBox label="Sessões mês" value={`${aluno.frequencia.sessõesEsteMes}`} color="#60A5FA" />
+          <StatBox label="Sessões mês" value={`${aluno.frequencia.totalSessões}`} color="#60A5FA" />
           <StatBox label="Total sessões" value={`${aluno.frequencia.totalSessões}`} color="#A78BFA" />
         </div>
 
@@ -187,24 +187,13 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
       {/* ─── Tab Content ─── */}
       {activeTab === 'visao' && (
         <div className="space-y-3">
-          {/* Trend */}
-          {aluno.tendencia && (
-            <div className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.02)' }}>
-              <div className="flex items-center gap-2 mb-1">
-                <TrendIndicator direction={aluno.tendencia.direcao} />
-                <span className="text-xs text-white/40">Tendência geral</span>
-              </div>
-              <p className="text-xs text-white/30">{aluno.tendencia.descricao}</p>
-            </div>
-          )}
-
           {/* Próxima sessão */}
           <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: 'rgba(255,255,255,0.02)' }}>
             <Calendar size={14} className="text-white/20" />
             <div>
               <p className="text-xs font-medium text-white/60">Próxima sessão</p>
               <p className="text-xs text-white/30">
-                {aluno.turma} • {aluno.turno}
+                {aluno.turma}
               </p>
             </div>
           </div>
@@ -229,7 +218,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
 
       {activeTab === 'progresso' && (
         <div className="space-y-3">
-          {aluno.modulosProgresso?.map((mod: { id: string; nome: string; progresso: number; ultimaAtualizacao: string }) => (
+          {aluno.progresso?.modulos?.map((mod) => (
             <div key={mod.id} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.02)' }}>
               <div className="flex justify-between items-center mb-1.5">
                 <span className="text-xs font-medium text-white/60">{mod.nome}</span>
@@ -253,12 +242,12 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
       {activeTab === 'conquistas' && (
         <div className="space-y-2">
           {aluno.conquistas?.length ? (
-            aluno.conquistas.map((m: { id: string; nome: string; emoji: string; dataConcessao: string }) => (
+            aluno.conquistas.map((m) => (
               <div key={m.id} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)' }}>
                 <span className="text-xl">{m.emoji}</span>
                 <div>
                   <p className="text-xs font-medium text-white/60">{m.nome}</p>
-                  <p className="text-[10px] text-white/20">{m.dataConcessao}</p>
+                  <p className="text-[10px] text-white/20">{m.dataConquista}</p>
                 </div>
               </div>
             ))
@@ -276,6 +265,9 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
         <QuickMessage
           recipientName={aluno.nome}
           recipientId={alunoId}
+          senderName="Instrutor"
+          senderId="instrutor-1"
+          senderTipo="instrutor"
           onClose={() => setShowMessage(false)}
         />
       )}

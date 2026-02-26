@@ -755,6 +755,8 @@ export interface HistoricoSessão {
   turma: string;
 }
 
+export type HistoricoAula = HistoricoSessão;
+
 /**
  * Aluno na visão pedagógica do instrutor — ENTIDADE PRINCIPAL
  *
@@ -794,7 +796,7 @@ export interface AlunoPedagogico {
   desafios: DesafioAluno[];
   observacoes: ObservacaoPedagogica[];
   avaliacoes: AvaliacaoRegistro[];
-  historicoSessões: HistoricoAula[];
+  historicoSessões: HistoricoSessão[];
 }
 
 /** Log de ação pedagógica — auditoria obrigatória */
@@ -1652,7 +1654,7 @@ export interface RelatorioGerado {
 // ============================================================
 
 /** Status de um documento pendente de assinatura */
-export type StatusDocumento = 'PENDENTE' | 'ASSINADO' | 'EXPIRADO' | 'CANCELADO';
+export type StatusDocumentoAssinatura = 'PENDENTE' | 'ASSINADO' | 'EXPIRADO' | 'CANCELADO';
 
 /** Tipo de documento para assinatura */
 export type TipoDocumento =
@@ -1672,7 +1674,7 @@ export interface DocumentoAssinatura {
   conteudo: string;
   versao: string;
   obrigatorio: boolean;
-  status: StatusDocumento;
+  status: StatusDocumentoAssinatura;
   dataAssinatura?: string;
   ipAssinatura?: string;
   hashAssinatura?: string;
@@ -1736,12 +1738,15 @@ export interface TecnicaPratica {
 
 export interface ItemPlanoSessão {
   id: string;
-  fase: FaseAula;
+  fase: FaseSessão;
   titulo: string;
   descricao: string;
   duracaoMinutos: number;
   tecnicaId?: string;
 }
+
+/** Alias */
+export type ItemPlanoAula = ItemPlanoSessão;
 
 export interface PlanoSessão {
   id: string;
@@ -1755,6 +1760,9 @@ export interface PlanoSessão {
   template: boolean;
   tags: string[];
 }
+
+/** Alias */
+export type PlanoAula = PlanoSessão;
 
 /** Filtros de query com tenant isolation automático */
 export interface TenantQuery<T = Record<string, unknown>> {

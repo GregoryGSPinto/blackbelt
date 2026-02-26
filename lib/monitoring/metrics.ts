@@ -268,7 +268,7 @@ export function getCounter(name: string, tags: Record<string, string> = {}): num
  */
 export function getCountersByPrefix(prefix: string): CounterMetric[] {
   const result: CounterMetric[] = [];
-  for (const [key, val] of counters.entries()) {
+  for (const [key, val] of Array.from(counters.entries())) {
     const [name, tagsJson] = key.split(':');
     if (name.startsWith(prefix)) {
       result.push({

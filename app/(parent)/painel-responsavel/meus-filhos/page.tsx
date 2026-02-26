@@ -67,7 +67,7 @@ export default function MeusFilhosPage() {
                 <User size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-xs text-white/60">Professor</p>
-                  <p className="font-semibold text-white text-sm">{filho.professor}</p>
+                  <p className="font-semibold text-white text-sm">{filho.instrutor}</p>
                 </div>
               </div>
 

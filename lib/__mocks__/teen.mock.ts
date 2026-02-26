@@ -50,6 +50,9 @@ export interface TeenSessão {
   descricao: string;
 }
 
+/** Alias */
+export type TeenAula = TeenSessão;
+
 export interface TeenConquista {
   id: string;
   nome: string;

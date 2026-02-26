@@ -208,8 +208,42 @@ Qualquer alteração posterior → branch separada (`feature/backend-integration
 
 ---
 
+## CI/CD — Deploy de Migrations (Supabase)
+
+O workflow `.github/workflows/supabase-deploy.yml` aplica automaticamente as migrations do Supabase a cada push na branch `main` que altere arquivos em `supabase/migrations/`.
+
+### Configurar Secrets no GitHub
+
+Acesse **Settings > Secrets and variables > Actions** no repositório e crie:
+
+| Secret | Onde obter |
+|--------|-----------|
+| `SUPABASE_ACCESS_TOKEN` | [supabase.com/dashboard/account/tokens](https://supabase.com/dashboard/account/tokens) — gere um token pessoal |
+| `SUPABASE_DB_PASSWORD` | Senha do banco definida na criação do projeto Supabase (Settings > Database) |
+| `SUPABASE_PROJECT_REF` | Ref do projeto (string tipo `abcdefghijklmnop`) — visível na URL do dashboard ou em Settings > General |
+
+### Como funciona
+
+1. Push com alterações em `supabase/migrations/` aciona o workflow
+2. O Supabase CLI linka ao projeto remoto via `SUPABASE_PROJECT_REF`
+3. `supabase db push` aplica migrations pendentes no banco de produção
+4. Migrations já aplicadas são ignoradas automaticamente (idempotente)
+
+### Testar localmente
+
+```bash
+# Verificar quais migrations seriam aplicadas (dry-run)
+pnpm supabase db push --dry-run
+
+# Aplicar migrations no projeto remoto
+pnpm supabase db push
+```
+
+---
+
 ## Documentação Adicional
 
+- `SETUP.md` — Guia completo de setup (local, Supabase, migrations)
 - `docs/STORE_METADATA.md` — Textos e configurações para Apple/Google Store
 - `docs/STORE_REVIEW_CREDENTIALS.md` — Credenciais para reviewer das lojas
 - `resources/PrivacyInfo.xcprivacy` — Privacy Manifest iOS 17+

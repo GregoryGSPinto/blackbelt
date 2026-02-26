@@ -106,7 +106,7 @@ export function ProactiveAlertList({
 
   const handleDismiss = useCallback((id: string) => {
     dismissAlert(id);
-    setDismissed(prev => new Set([...prev, id]));
+    setDismissed(prev => new Set([...Array.from(prev), id]));
   }, []);
 
   const visible = alertas

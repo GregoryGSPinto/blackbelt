@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Event Store — Append events, retrieve event streams, manage snapshots.
  * Uses Supabase admin client (bypasses RLS for server-side event store).

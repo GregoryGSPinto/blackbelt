@@ -44,8 +44,8 @@ export default function Sidebar() {
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
   
   // Mock status - em produção viria do backend
-  const checkinStatus = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
-  
+  const checkinStatus = 'ativo' as string;
+
   const getStatusColor = () => {
     switch(checkinStatus) {
       case 'ativo': return 'bg-green-500';

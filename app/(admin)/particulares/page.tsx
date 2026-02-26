@@ -120,7 +120,7 @@ export default function ParticularesPage() {
                 <div className="text-right flex-shrink-0">
                   <p className="text-green-400 font-bold text-sm">{formatCurrency(a.valor)}</p>
                   <p className="text-white/30 text-xs">{new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR')} · {a.horario}</p>
-                  <p className="text-white/15 text-[10px] mt-0.5">Split: {a.splitUnidade}% acad / {a.splitProfessor}% prof</p>
+                  <p className="text-white/15 text-[10px] mt-0.5">Split: {a.splitUnidade}% acad / {a.splitInstrutor}% prof</p>
                 </div>
               </div>
             </div>

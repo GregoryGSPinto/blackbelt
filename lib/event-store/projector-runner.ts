@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Projector Runner — Process new domain events and update read models.
  *

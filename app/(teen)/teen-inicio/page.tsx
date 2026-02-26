@@ -11,6 +11,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 
 export default function TeenInicioPage() {
+  const { user } = useAuth();
+  const { isDark } = useTheme();
   const [teenprofiles, setTeenprofiles] = useState<TeenProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,17 +51,14 @@ export default function TeenInicioPage() {
   }
 
 
-  const { user } = useAuth();
-  const { isDark } = useTheme();
-
   const currentTeen = teenprofiles[0];
   const aulaEmAndamento = TEEN_SESSÕES.find(a => a.progresso > 0 && !a.assistido);
-  const proximaMeta = getProximaMeta(currentTeen.progresso.evolucaoNivel);
+  const proximaMeta = getProximaMeta(currentTeen.progresso.evolucaoNível);
 
   const nomeExibicao = user?.nome?.split(' ')[0] || currentTeen.nome.split(' ')[0];
   const graduacao = user?.graduacao || `Nível ${currentTeen.nivel}`;
 
-  const evolucao = currentTeen.progresso.evolucaoNivel;
+  const evolucao = currentTeen.progresso.evolucaoNível;
 
   // Journey milestones
   const milestones = [
@@ -124,7 +123,7 @@ export default function TeenInicioPage() {
                 <h3 className="text-lg font-bold font-teen teen-text-heading truncate">
                   {aulaEmAndamento.titulo}
                 </h3>
-                <p className="text-sm teen-text-muted font-teen mt-0.5">{aulaEmAndamento.professor}</p>
+                <p className="text-sm teen-text-muted font-teen mt-0.5">{aulaEmAndamento.instrutor}</p>
                 <div className="mt-3">
                   <TeenProgressBar 
                     progress={aulaEmAndamento.progresso} 
@@ -276,7 +275,7 @@ export default function TeenInicioPage() {
                 {aula.titulo}
               </h4>
               <p className="text-xs teen-text-muted font-teen mb-2.5">
-                {aula.professor}
+                {aula.instrutor}
               </p>
               <div className="flex items-center gap-2">
                 <span className="px-2 py-0.5 rounded-md text-[10px] font-teen font-semibold"
@@ -313,7 +312,7 @@ export default function TeenInicioPage() {
                 Quinta-feira, 18:00 · {currentTeen.turma.split(' - ')[0]}
               </p>
               <p className="text-xs teen-text-muted font-teen">
-                {currentTeen.professor}
+                {currentTeen.instrutor}
               </p>
             </div>
             <button className="px-5 py-2.5 rounded-xl text-sm font-teen font-bold transition-all duration-200 flex-shrink-0"

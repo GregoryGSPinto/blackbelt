@@ -70,8 +70,9 @@ function loadEnv(): ServerEnv {
     hasDatabase: DATABASE_URL !== null && DATABASE_URL.length > 0,
   };
 
-  // Validate
-  if (env.isProduction && !env.hasDatabase) {
+  // Validate (skip in mock mode — build can proceed without DB)
+  const isMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+  if (env.isProduction && !env.hasDatabase && !isMock) {
     throw new Error(
       '[ENV] DATABASE_URL is REQUIRED in production.\n' +
       'Set DATABASE_URL=postgresql://user:pass@host:5432/db in .env'

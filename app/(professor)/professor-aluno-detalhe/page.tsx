@@ -188,7 +188,7 @@ function AlunoDetalheContent() {
                   { label: '30 dias', value: `${aluno.frequencia.presenca30d}%` },
                   { label: '90 dias', value: `${aluno.frequencia.presenca90d}%` },
                   { label: 'Total sessões', value: aluno.frequencia.totalSessões },
-                  { label: 'Última sessão', value: aluno.frequencia.ultimaSessão },
+                  { label: 'Última sessão', value: aluno.frequencia.ultimaSessao },
                 ].map((f, i) => (
                   <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
                     <span className="text-base font-bold text-white/80">{f.value}</span>
@@ -239,7 +239,7 @@ function AlunoDetalheContent() {
                     borderLeft: `3px solid ${obs.tipo === 'positiva' ? '#4ADE80' : obs.tipo === 'atencao' ? '#F87171' : 'rgba(255,255,255,0.15)'}`,
                   }}>
                     <p className="text-white/60 text-xs">{obs.texto}</p>
-                    <p className="text-white/20 text-[10px] mt-1">{obs.professor} · {obs.data}</p>
+                    <p className="text-white/20 text-[10px] mt-1">{obs.instrutor} · {obs.data}</p>
                   </div>
                 ))}
               </div>
@@ -325,7 +325,7 @@ function AlunoDetalheContent() {
                       </div>
                     </div>
                     <p className="text-white/40 text-xs">{av.observacao}</p>
-                    <p className="text-white/15 text-[10px] mt-1">{av.professor} · {av.data}</p>
+                    <p className="text-white/15 text-[10px] mt-1">{av.instrutor} · {av.data}</p>
                   </div>
                 ))}
               </div>
@@ -446,7 +446,7 @@ function AlunoDetalheContent() {
                     }}>
                       <p className="text-white/60 text-sm">{obs.texto}</p>
                       <div className="flex items-center gap-2 mt-2">
-                        <span className="text-white/20 text-[10px]">{obs.professor}</span>
+                        <span className="text-white/20 text-[10px]">{obs.instrutor}</span>
                         <span className="text-white/10 text-[10px]">·</span>
                         <span className="text-white/20 text-[10px]">{obs.data}</span>
                         <span className="px-1.5 py-0.5 rounded text-[9px] capitalize" style={{
@@ -476,7 +476,7 @@ function AlunoDetalheContent() {
               <div className="prof-glass-card p-4">
                 <h3 className="text-sm font-semibold text-white/70 mb-3">Histórico de Sessões</h3>
                 <div className="space-y-2">
-                  {aluno.historicoSessões.map(sessão => (
+                  {aluno.historicoSessões.map(aula => (
                     <div key={aula.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{

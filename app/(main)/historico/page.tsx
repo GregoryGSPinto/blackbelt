@@ -184,7 +184,7 @@ export default function HistoricoDashboard() {
                     <span className="text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{t.duracao}</span>
                   </div>
                   <p className="text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-                    {t.professor} · {t.hora}
+                    {t.instrutor} · {t.hora}
                   </p>
                 </div>
               </div>
@@ -198,7 +198,8 @@ export default function HistoricoDashboard() {
 
 /* ─── Stat card component (Server Component) ─── */
 function StatCard({ icon: Icon, label, value, accent }: {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: React.ComponentType<any>;
   label: string;
   value: string;
   accent: 'blue' | 'emerald' | 'amber' | 'purple';

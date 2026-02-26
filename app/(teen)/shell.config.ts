@@ -19,14 +19,14 @@ const DESKTOP_NAV = [
   // → Mais ▾
   { href: '/teen-checkin', icon: CheckSquare, label: 'Check-in' },
   { href: '/teen-conquistas', icon: Award, label: 'Conquistas' },
-] as const;
+];
 
 // Mobile bottom bar: 3 fixed items + Menu (4th auto-added)
 const MOBILE_BAR = [
   { href: '/teen-inicio', icon: Home, label: 'Início' },
   { href: '/teen-unidade', icon: GraduationCap, label: 'Unidade' },
   { href: '/teen-checkin', icon: CheckSquare, label: 'Check-in' },
-] as const;
+];
 
 // Mobile Menu (bottom sheet): tudo que não está no bottom bar
 const DRAWER_NAV = [
@@ -35,7 +35,7 @@ const DRAWER_NAV = [
   { href: '/teen-progresso', icon: TrendingUp, label: 'Progresso' },
   { href: '/teen-conquistas', icon: Award, label: 'Conquistas' },
   { href: '/teen-downloads', icon: Download, label: 'Downloads' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]
   .filter((item, index, arr) => arr.findIndex(i => i.href === item.href) === index);
@@ -46,7 +46,7 @@ const NOTIFICATIONS = [
   { id: 3, title: 'Treino amanhã', desc: 'Quinta-feira, 18:00 — Teen Intermediário', time: '3h' },
 ];
 
-const teenNav: ShellNavConfig = {
+const teenNav = {
   desktopNav: DESKTOP_NAV,
   mobileBar: MOBILE_BAR,
   drawerNav: DRAWER_NAV,
@@ -164,7 +164,7 @@ const teenTheme: ShellTheme = {
 
 // ─── Export ───────────────────────────────────────────────
 
-export const TEEN_SHELL_CONFIG: AppShellConfig = {
+export const TEEN_SHELL_CONFIG = {
   theme: teenTheme,
   nav: teenNav,
-};
+} as AppShellConfig;

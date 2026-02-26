@@ -113,7 +113,7 @@
  *   // Campos v2 só existem se version >= 2
  *   if (event.version >= 2) {
  *     const { evaluationId } = event.payload as any;
- *     if (evaluationId) { /* ... */ }
+ *     if (evaluationId) { // ... }
  *   }
  * }
  * ```

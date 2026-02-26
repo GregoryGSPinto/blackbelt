@@ -57,7 +57,8 @@ interface ModuleConfig {
   /** Nome para exibição */
   displayName: string;
   /** Ícone do módulo */
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: React.ComponentType<any>;
   /** Gradiente de cores */
   gradient: string;
   /** Cor do ícone */

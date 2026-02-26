@@ -1,12 +1,9 @@
+'use client';
 // ============================================================
 // /offline — Fallback page when user is offline (PWA)
 // ============================================================
 import { WifiOff } from 'lucide-react';
 import Link from 'next/link';
-
-export const metadata = {
-  title: 'Sem Conexão | BlackBelt',
-};
 
 export default function OfflinePage() {
   return (

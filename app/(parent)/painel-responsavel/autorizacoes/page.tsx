@@ -8,6 +8,7 @@ import {
 import * as kidsSafety from '@/lib/api/kids-safety.service';
 import type { PessoaAutorizada, AutorizacaoSaida } from '@/lib/api/kids-safety.service';
 import { AuthorizationToggle } from '@/components/parent/AuthorizationToggle';
+import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { ParentPreferences } from '@/components/parent/ParentPreferences';
 
 export default function AutorizacoesPage() {

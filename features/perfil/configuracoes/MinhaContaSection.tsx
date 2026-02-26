@@ -194,7 +194,7 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
       // For now: simulate API call
       const { createRequest } = await import('@/lib/persistence/lgpd');
       await createRequest(
-        'EXCLUSION',
+        'delete',
         'current-user-id', // TODO(BE): replace with real user.id from useAuth()
         `${reason}${reasonDetail ? ': ' + reasonDetail : ''}`
       );

@@ -18,7 +18,7 @@ function addDismissed(id: string) {
   try {
     const set = getDismissed();
     set.add(id);
-    sessionStorage.setItem(DISMISSED_KEY, JSON.stringify([...set]));
+    sessionStorage.setItem(DISMISSED_KEY, JSON.stringify(Array.from(set)));
   } catch { /* */ }
 }
 

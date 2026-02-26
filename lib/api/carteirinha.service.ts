@@ -31,7 +31,7 @@ export async function getMinhaCarteirinha(): Promise<CarteirinhaDigital> {
     return mockCarteirinha;
   }
 
-  return apiClient.get<CarteirinhaDigital>('/carteirinha/me');
+  return apiClient.get<CarteirinhaDigital>('/carteirinha/me').then(r => r.data);
 }
 
 /** Buscar perfil público de um atleta (rota pública, sem auth) */
@@ -43,7 +43,7 @@ export async function getAtletaPublico(id: string): Promise<AtletaPublico | null
   }
 
   try {
-    return await apiClient.get<AtletaPublico>(`/atleta/${id}`);
+    return await apiClient.get<AtletaPublico>(`/atleta/${id}`).then(r => r.data);
   } catch {
     return null;
   }

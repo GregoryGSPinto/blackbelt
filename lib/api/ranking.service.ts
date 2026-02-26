@@ -69,7 +69,7 @@ export async function getRanking(filtros?: RankingFiltros): Promise<RankingEntry
   if (filtros?.periodo) params.set('periodo', filtros.periodo);
   if (filtros?.limite) params.set('limite', String(filtros.limite));
 
-  return apiClient.get<RankingEntry[]>(`/ranking?${params}`);
+  return apiClient.get<RankingEntry[]>(`/ranking?${params}`).then(r => r.data);
 }
 
 /** Buscar posição do aluno logado */
@@ -80,7 +80,7 @@ export async function getMinhaPosicao(alunoId?: string): Promise<RankingEntry> {
     return mockMinhaPosicao;
   }
 
-  return apiClient.get<RankingEntry>('/ranking/me');
+  return apiClient.get<RankingEntry>('/ranking/me').then(r => r.data);
 }
 
 /** Buscar resumo de pontos do aluno logado */
@@ -91,7 +91,7 @@ export async function getPontosResumo(): Promise<PontosResumo> {
     return mockPontosResumo;
   }
 
-  return apiClient.get<PontosResumo>('/ranking/pontos/resumo');
+  return apiClient.get<PontosResumo>('/ranking/pontos/resumo').then(r => r.data);
 }
 
 /** Buscar configuração de regras de pontuação */
@@ -102,7 +102,7 @@ export async function getPontosConfig(): Promise<PontoRegra[]> {
     return mockPontosConfig;
   }
 
-  return apiClient.get<PontoRegra[]>('/ranking/config/pontos');
+  return apiClient.get<PontoRegra[]>('/ranking/config/pontos').then(r => r.data);
 }
 
 /** Atualizar regra de pontuação (admin) */
@@ -115,5 +115,5 @@ export async function updatePontoRegra(id: string, data: Partial<PontoRegra>): P
     return { ...regra, ...data };
   }
 
-  return apiClient.put<PontoRegra>(`/ranking/config/pontos/${id}`, data);
+  return apiClient.put<PontoRegra>(`/ranking/config/pontos/${id}`, data).then(r => r.data);
 }

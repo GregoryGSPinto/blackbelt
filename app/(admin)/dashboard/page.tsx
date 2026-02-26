@@ -274,7 +274,7 @@ export default function DashboardPage() {
                     style={{ backgroundColor: NIVEL_COLORS[a.nivelAtual] || '#E5E7EB' }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-white/70">{a.nome}</p>
-                    <p className="text-[10px] text-white/25">{a.nivelAtual} → {a.proximoNivel}</p>
+                    <p className="text-[10px] text-white/25">{a.nivelAtual} → {a.proximaNível}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-white/50 font-bold">{a.presencaPct}%</p>
@@ -291,8 +291,8 @@ export default function DashboardPage() {
               <h3 className="text-sm font-bold text-white/70">Tempo Médio por Nível</h3>
             </div>
             <div className="space-y-3">
-              {stats.tempoMedioPorNivel.map((item, i) => {
-                const maxMeses = Math.max(...stats.tempoMedioPorNivel.map(x => x.meses));
+              {stats.tempoMedioPorNível.map((item, i) => {
+                const maxMeses = Math.max(...stats.tempoMedioPorNível.map(x => x.meses));
                 const pct = (item.meses / maxMeses) * 100;
                 return (
                   <div key={i}>
@@ -482,7 +482,7 @@ function QuickAction({ href, icon: Icon, title, subtitle }: { href: string; icon
 
 function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins: number }[] }) {
   const dias = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  const horarios = [...new Set(data.map(d => d.horario))].sort();
+  const horarios = Array.from(new Set(data.map(d => d.horario))).sort();
   const maxCheckins = Math.max(...data.map(d => d.checkins), 1);
 
   const getCellColor = (checkins: number) => {

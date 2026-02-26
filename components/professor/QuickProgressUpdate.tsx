@@ -119,7 +119,7 @@ export function QuickProgressUpdate({
                 onClick={() => setCategoria(cat.id)}
                 className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl text-xs font-medium transition-all
                   ${active ? 'ring-1' : 'bg-white/3'}`}
-                style={active ? { background: `${cat.color}15`, borderColor: `${cat.color}40`, color: cat.color, ringColor: `${cat.color}30` } : {}}
+                style={active ? { background: `${cat.color}15`, borderColor: `${cat.color}40`, color: cat.color, outlineColor: `${cat.color}30` } : {}}
                 aria-pressed={active}
               >
                 <Icon size={18} style={{ color: active ? cat.color : 'rgba(255,255,255,0.3)' }} />

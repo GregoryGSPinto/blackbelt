@@ -16,20 +16,20 @@ const DESKTOP_NAV = [
   { href: '/kids-desafios', icon: Trophy, label: 'Desafios', emoji: '🏆' },
   { href: '/kids-conquistas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
   { href: '/kids-mestres', icon: Users, label: 'Mestres', emoji: '🐯' },
-] as const;
+];
 
 // Mobile bottom bar: 3 fixed + Menu (4th auto-added)
 const MOBILE_BAR = [
   { href: '/kids-inicio', icon: Home, label: 'Início', emoji: '🏠' },
   { href: '/kids-sessões', icon: Video, label: 'Sessões', emoji: '🎬' },
   { href: '/kids-mestres', icon: Users, label: 'Mestres', emoji: '🐯' },
-] as const;
+];
 
 // Mobile Menu (bottom sheet)
 const DRAWER_NAV = [
   { href: '/kids-desafios', icon: Trophy, label: 'Desafios', emoji: '🏆' },
   { href: '/kids-conquistas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]
   .filter((item, index, arr) => arr.findIndex(i => i.href === item.href) === index);
@@ -40,7 +40,7 @@ const NOTIFICATIONS = [
   { id: 3, title: 'Treino amanhã', desc: 'Sexta-feira, 16:00 — Turma Kids', time: '3h' },
 ];
 
-const kidsNav: ShellNavConfig = {
+const kidsNav = {
   desktopNav: DESKTOP_NAV,
   mobileBar: [...MOBILE_BAR],
   drawerNav: [...DRAWER_NAV],
@@ -163,7 +163,7 @@ const kidsTheme: ShellTheme = {
 
 // ─── Export ───────────────────────────────────────────────
 
-export const KIDS_SHELL_CONFIG: AppShellConfig = {
+export const KIDS_SHELL_CONFIG = {
   theme: kidsTheme,
   nav: kidsNav,
-};
+} as AppShellConfig;

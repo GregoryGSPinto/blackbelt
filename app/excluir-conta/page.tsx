@@ -25,7 +25,7 @@ export default function ExcluirContaPage() {
     setState('loading');
     try {
       const { createRequest } = await import('@/lib/persistence/lgpd');
-      await createRequest('EXCLUSION', email, reason || undefined);
+      await createRequest('delete', email, reason || '');
       setState('success');
     } catch {
       setErrorMsg('Não foi possível processar. Tente novamente ou envie e-mail para dpo@blackbelt.com.br.');
@@ -122,7 +122,7 @@ export default function ExcluirContaPage() {
                 cancelLabel="Cancelar"
                 variant="danger"
                 requireTyping="EXCLUIR"
-                loading={state === 'loading'}
+                loading={false}
                 onConfirm={() => { setShowConfirm(false); handleSubmit(); }}
                 onCancel={() => setShowConfirm(false)}
               />

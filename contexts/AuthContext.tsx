@@ -219,6 +219,9 @@ const CONFIG_MAP: Record<TipoPerfil, string> = {
   GESTOR: '/configuracoes',
   ADMINISTRADOR: '/configuracoes',
   SUPER_ADMIN: '/configuracoes',
+  UNIT_OWNER: '/configuracoes',
+  SUPPORT: '/configuracoes',
+  SYS_AUDITOR: '/configuracoes',
 };
 
 export function getConfigRouteForProfile(tipo: TipoPerfil): string {
@@ -682,7 +685,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error || !data.user) return false;
 
         // Create profile
-        await supabase.from('profiles').insert({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase as any).from('profiles').insert({
           id: data.user.id,
           full_name: userData.nome,
         });
@@ -724,7 +728,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       tipo: 'ALUNO_ADULTO',
       idade: result.user.idade,
       graduacao: userData.graduacao,
-      instrutor: userData.professor,
+      instrutor: userData.instrutor,
       turno: userData.turno,
       categoria: userData.categoria,
       permissoes: [],

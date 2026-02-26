@@ -15,5 +15,5 @@ export async function getAnalytics(): Promise<AnalyticsRetencao> {
     const { getAnalytics } = await import('@/lib/__mocks__/analytics.mock');
     return getAnalytics();
   }
-  return apiClient.get<AnalyticsRetencao>('/analytics/retencao');
+  return apiClient.get<AnalyticsRetencao>('/analytics/retencao').then(r => r.data);
 }

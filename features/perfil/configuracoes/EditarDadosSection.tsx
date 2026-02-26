@@ -39,7 +39,7 @@ export function EditarDadosSection() {
   useEffect(() => {
     if (user) {
       setForm({
-        nome: user.name || '',
+        nome: user.nome || '',
         email: user.email || '',
         telefone: '',
         dataNascimento: '',

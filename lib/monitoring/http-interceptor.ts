@@ -69,7 +69,7 @@ export async function wrapWithMonitoring<T>(
 
     // Request falhou completamente (network error, timeout)
     recordLatency(endpoint, method, 0, durationMs);
-    recordSecurityEvent('request_failed', { endpoint, method, durationMs });
+    recordSecurityEvent('request_failed', { endpoint, method, durationMs: String(durationMs) });
 
     structuredLog.http.error('Request failed', {
       method,

@@ -68,3 +68,6 @@ export {
   calcularRiscoEvasao, getProximaMeta,
   TEEN_PROFILES, TEEN_SESSÕES, TEEN_CONQUISTAS, TEEN_CHECKINS,
 } from '@/lib/__mocks__/teen.mock';
+
+/** Alias with accent for consumers using the accented name */
+export const getTeenSessões = getTeenSessoes;

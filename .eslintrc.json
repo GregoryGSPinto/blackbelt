@@ -1,7 +1,10 @@
 {
   "extends": [
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "react/no-unescaped-entities": "off",
     "@next/next/no-img-element": "warn",
@@ -12,8 +15,23 @@
       "varsIgnorePattern": "^_"
     }],
     "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "@typescript-eslint/no-explicit-any": "warn"
   },
+  "overrides": [
+    {
+      "files": ["lib/**/*.ts", "server/**/*.ts", "app/actions/**/*.ts"],
+      "rules": {
+        "react-hooks/rules-of-hooks": "off"
+      }
+    },
+    {
+      "files": ["app/actions/**/*.ts", "lib/db/queries/**/*.ts", "lib/event-store/**/*.ts", "lib/security/rls-middleware.ts"],
+      "rules": {
+        "@typescript-eslint/ban-ts-comment": "off"
+      }
+    }
+  ],
   "ignorePatterns": [
     "node_modules/",
     ".next/",

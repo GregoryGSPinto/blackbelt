@@ -95,7 +95,7 @@ export default function EstoquePage() {
       entry.valorEstoque += p.preco * p.estoque;
       entry.categorias.add(p.categoria);
     });
-    return [...map.values()].sort((a, b) => b.valorEstoque - a.valorEstoque);
+    return Array.from(map.values()).sort((a, b) => b.valorEstoque - a.valorEstoque);
   }, [produtos]);
 
   const openModal = useCallback((mode: 'entrada' | 'ajuste', product: ProdutoEstoque) => {
@@ -392,7 +392,7 @@ export default function EstoquePage() {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-white/70">{f.nome}</p>
                   <p className="text-[10px] text-white/25">
-                    {f.produtos} produtos · {[...f.categorias].map(c => CATEGORIA_CONFIG[c]?.label || c).join(', ')}
+                    {f.produtos} produtos · {Array.from(f.categorias).map(c => CATEGORIA_CONFIG[c]?.label || c).join(', ')}
                   </p>
                 </div>
                 <div className="text-right shrink-0">

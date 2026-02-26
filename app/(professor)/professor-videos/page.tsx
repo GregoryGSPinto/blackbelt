@@ -364,17 +364,17 @@ export default function ProfessorVideosPage() {
                 <div key={pl.id} className="prof-glass-card p-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-sm font-semibold text-white/80">{pl.nome}</h3>
+                      <h3 className="text-sm font-semibold text-white/80">{pl.titulo}</h3>
                       <p className="text-xs text-white/35 mt-0.5">{pl.videoIds.length} vídeos · {pl.tipo}</p>
-                      {pl.turmaIds && pl.turmaIds.length > 0 && (
-                        <p className="text-[10px] text-white/20 mt-1">{pl.turmaIds.length} turma(s) vinculada(s)</p>
+                      {pl.turmasAssociadas && pl.turmasAssociadas.length > 0 && (
+                        <p className="text-[10px] text-white/20 mt-1">{pl.turmasAssociadas.length} turma(s) vinculada(s)</p>
                       )}
                     </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => { setEditPlaylist(pl); setPlaylistModalOpen(true); }}
                         className="px-3 py-1.5 text-xs bg-white/5 hover:bg-white/10 rounded-lg text-white/50 transition-colors"
-                        aria-label={`Editar playlist ${pl.nome}`}
+                        aria-label={`Editar playlist ${pl.titulo}`}
                       >
                         Editar
                       </button>
@@ -386,7 +386,7 @@ export default function ProfessorVideosPage() {
                           } catch {}
                         }}
                         className="px-3 py-1.5 text-xs bg-red-500/10 hover:bg-red-500/20 rounded-lg text-red-400/70 transition-colors"
-                        aria-label={`Excluir playlist ${pl.nome}`}
+                        aria-label={`Excluir playlist ${pl.titulo}`}
                       >
                         Excluir
                       </button>

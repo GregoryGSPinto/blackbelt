@@ -90,14 +90,14 @@ class EventBus {
     // Type-specific handlers
     const typeHandlers = this.handlers.get(event.type);
     if (typeHandlers) {
-      for (const handler of typeHandlers) {
+      for (const handler of Array.from(typeHandlers)) {
         try { handler(event); }
         catch (err) { console.error(`[EventBus] Handler error for ${event.type}:`, err); }
       }
     }
 
     // Wildcard handlers
-    for (const handler of this.wildcardHandlers) {
+    for (const handler of Array.from(this.wildcardHandlers)) {
       try { handler(event); }
       catch (err) { console.error(`[EventBus] Wildcard handler error:`, err); }
     }
@@ -138,7 +138,7 @@ class EventBus {
   /** Get count of registered handlers (for debugging) */
   getHandlerCount(): Record<string, number> {
     const counts: Record<string, number> = {};
-    for (const [type, handlers] of this.handlers) {
+    for (const [type, handlers] of Array.from(this.handlers)) {
       counts[type] = handlers.size;
     }
     counts['*'] = this.wildcardHandlers.size;

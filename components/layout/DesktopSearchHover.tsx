@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { X } from 'lucide-react';
+import { X, Search } from 'lucide-react';
 import { useGlobalSearch } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
 

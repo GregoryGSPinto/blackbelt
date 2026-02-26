@@ -147,10 +147,10 @@ function log(
     message,
     environment,
     ...(context && { context: sanitizeContext(context) }),
-    ...(context?.traceId && { traceId: String(context.traceId) }),
-    ...(context?.unitId && { unitId: String(context.unitId) }),
-    ...(context?.userId && { userId: String(context.userId) }),
-    ...(context?.durationMs && { durationMs: Number(context.durationMs) }),
+    ...(context?.traceId ? { traceId: String(context.traceId) } : {}),
+    ...(context?.unitId ? { unitId: String(context.unitId) } : {}),
+    ...(context?.userId ? { userId: String(context.userId) } : {}),
+    ...(context?.durationMs ? { durationMs: Number(context.durationMs) } : {}),
   };
 
   // Output

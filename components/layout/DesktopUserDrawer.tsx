@@ -151,7 +151,7 @@ export function DesktopUserDrawer() {
           )}
           <div className="mt-3 flex items-center gap-2">
             <span className="text-xs px-2.5 py-1 rounded-lg font-medium" style={{ background: c.tagBg, color: c.tag }}>{perfil?.icone} {perfil?.label}</span>
-            {user.professor && <span className="text-xs px-2.5 py-1 rounded-lg" style={{ background: c.tagSubBg, color: c.tagSub }}>Prof. {user.professor}</span>}
+            {user.instrutor && <span className="text-xs px-2.5 py-1 rounded-lg" style={{ background: c.tagSubBg, color: c.tagSub }}>Prof. {user.instrutor}</span>}
           </div>
         </div>
 

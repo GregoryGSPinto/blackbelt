@@ -446,7 +446,8 @@ function PreviewPanel({
 
 /* ─── Reusable action button ─── */
 function ActionBtn({ icon: Icon, label, active, c, onClick }: {
-  icon: React.ComponentType<{ size?: number }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: React.ComponentType<any>;
   label: string;
   active: boolean;
   c: Record<string, string>;

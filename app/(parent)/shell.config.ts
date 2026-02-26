@@ -13,14 +13,14 @@ const DESKTOP_NAV = [
   { href: '/painel-responsavel/checkin', icon: Clock, label: 'Check-in' },
   { href: '/painel-responsavel/mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/painel-responsavel/autorizacoes', icon: ShieldCheck, label: 'Autorizações' },
-] as const;
+];
 
 // Mobile bottom bar: 3 fixed + Menu (4th auto-added by ShellBottomNav)
 const MOBILE_BAR = [
   { href: '/painel-responsavel', icon: Home, label: 'Início' },
   { href: '/painel-responsavel/meus-filhos', icon: Users, label: 'Filhos' },
   { href: '/painel-responsavel/checkin', icon: Clock, label: 'Check-in' },
-] as const;
+];
 
 // Mobile Menu (bottom sheet)
 const DRAWER_NAV = [
@@ -28,7 +28,7 @@ const DRAWER_NAV = [
   { href: '/painel-responsavel/autorizacoes', icon: ShieldCheck, label: 'Autorizações' },
   { href: '/painel-responsavel/progresso', icon: TrendingUp, label: 'Progresso' },
   { href: '/painel-responsavel/perfil', icon: UserCog, label: 'Meu Perfil' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]
   .filter((item, index, arr) => arr.findIndex(i => i.href === item.href) === index);
@@ -38,7 +38,7 @@ const NOTIFICATIONS = [
   { id: 2, title: 'Avaliação disponível', desc: 'Nova avaliação trimestral para Lucas', time: '1h' },
 ];
 
-const parentNav: ShellNavConfig = {
+const parentNav = {
   desktopNav: DESKTOP_NAV,
   mobileBar: [...MOBILE_BAR],
   drawerNav: [...DRAWER_NAV],
@@ -60,10 +60,10 @@ const parentTheme: ShellTheme = {
   backgroundGradient: () => 'linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.7), rgba(0,0,0,0.8))',
 
   // Header
-  mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)',
-  mobileHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.1)',
-  desktopHeaderBg: (isDark) => isDark ? 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%)',
-  desktopHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.1)',
+  mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.9)',
+  mobileHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+  desktopHeaderBg: (isDark) => isDark ? 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%)' : 'linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
+  desktopHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
 
   // Text
   textHeading: (isDark) => isDark ? '#FFFFFF' : '#1A1206',
@@ -136,7 +136,7 @@ const parentTheme: ShellTheme = {
 
 // ─── Export ───────────────────────────────────────────────
 
-export const PARENT_SHELL_CONFIG: AppShellConfig = {
+export const PARENT_SHELL_CONFIG = {
   theme: parentTheme,
   nav: parentNav,
-};
+} as AppShellConfig;

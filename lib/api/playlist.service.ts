@@ -36,7 +36,7 @@ export async function updatePlaylist(id: string, input: PlaylistCreateInput): Pr
   if (useMock()) {
     await mockDelay(300);
     // Mock: return updated playlist
-    return { id, ...input, profId: 'prof-001', criadaEm: new Date().toLocaleDateString('pt-BR') } as Playlist;
+    return { id, ...input, criadoPor: 'prof-001', videoIds: [], turmasAssociadas: [], publica: true, criadoEm: new Date().toISOString(), atualizadoEm: new Date().toISOString() } as Playlist;
   }
   return apiClient.put<Playlist>(`/playlists/${id}`, input).then(r => r.data);
 }

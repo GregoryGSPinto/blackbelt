@@ -80,7 +80,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
                 <User size={20} className="text-white/60" />
                 <div>
                   <p className="text-xs text-white/60">Professor</p>
-                  <p className="font-semibold">{filho.professor}</p>
+                  <p className="font-semibold">{filho.instrutor}</p>
                 </div>
               </div>
 

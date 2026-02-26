@@ -23,7 +23,7 @@ export default function DeveloperDangerPage() {
   const [showLogoutAll, setShowLogoutAll] = useState(false);
   const [showMaintenance, setShowMaintenance] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -41,11 +41,11 @@ export default function DeveloperDangerPage() {
     setActionLoading(true);
     try {
       const result = await forceLogoutAll();
-      showToast(`Force logout executado. ${result.affected} sessões encerradas.`, 'success');
+      toast.success(`Force logout executado. ${result.affected} sessões encerradas.`);
       setShowLogoutAll(false);
       refresh();
     } catch {
-      showToast('Erro ao executar force logout.', 'error');
+      toast.error('Erro ao executar force logout.');
     } finally {
       setActionLoading(false);
     }
@@ -56,14 +56,13 @@ export default function DeveloperDangerPage() {
     setActionLoading(true);
     try {
       await toggleMaintenanceMode(!info.maintenanceMode);
-      showToast(
-        info.maintenanceMode ? 'Modo manutenção desativado.' : 'Modo manutenção ativado.',
-        'success'
+      toast.success(
+        info.maintenanceMode ? 'Modo manutenção desativado.' : 'Modo manutenção ativado.'
       );
       setShowMaintenance(false);
       refresh();
     } catch {
-      showToast('Erro ao alterar modo manutenção.', 'error');
+      toast.error('Erro ao alterar modo manutenção.');
     } finally {
       setActionLoading(false);
     }

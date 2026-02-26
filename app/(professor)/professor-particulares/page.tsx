@@ -36,7 +36,7 @@ export default function ProfessorParticularesPage() {
 
   const proximas = useMemo(() => sessões.filter((a: AulaParticular) => a.status === 'agendada' || a.status === 'confirmada'), [sessões]);
   const realizadas = useMemo(() => sessões.filter((a: AulaParticular) => a.status === 'realizada'), [sessões]);
-  const ganhosMes = realizadas.reduce((s: number, a: AulaParticular) => s + (a.valor * a.splitProfessor / 100), 0);
+  const ganhosMes = realizadas.reduce((s: number, a: AulaParticular) => s + (a.valor * a.splitInstrutor / 100), 0);
 
   if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" /><p className="text-white/60">Carregando...</p></div></div>;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
@@ -85,7 +85,7 @@ export default function ProfessorParticularesPage() {
                     <div className="text-right">
                       <p className="text-white text-sm font-medium flex items-center gap-1 justify-end"><Calendar size={12} className="text-white/30" />{new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR')}</p>
                       <p className="text-white/30 text-xs flex items-center gap-1 justify-end"><Clock size={12} />{a.horario}</p>
-                      <p className="text-amber-400 text-xs mt-1">{formatCurrency(a.valor * a.splitProfessor / 100)}</p>
+                      <p className="text-amber-400 text-xs mt-1">{formatCurrency(a.valor * a.splitInstrutor / 100)}</p>
                     </div>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export default function ProfessorParticularesPage() {
                   <p className="text-white text-sm">{a.alunoNome}</p>
                   <p className="text-white/25 text-xs">{new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR')} · {a.horario} · {a.duracao}min</p>
                 </div>
-                <p className="text-green-400 font-bold text-sm">{formatCurrency(a.valor * a.splitProfessor / 100)}</p>
+                <p className="text-green-400 font-bold text-sm">{formatCurrency(a.valor * a.splitInstrutor / 100)}</p>
               </div>
             ))}
           </div>

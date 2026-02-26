@@ -147,7 +147,7 @@ export default function HistoricoDetalhes() {
                           <Clock size={12} /> {t.hora}
                         </span>
                         <span className="flex items-center gap-1.5 text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-                          <User size={12} /> {t.professor}
+                          <User size={12} /> {t.instrutor}
                         </span>
                       </div>
 

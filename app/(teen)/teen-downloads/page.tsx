@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { TeenCard } from '@/components/teen';
 import { TEEN_SESSÕES } from '@/lib/api/teen.service';
-import type { TeenSessão } from '@/lib/api/teen.service';
+import type { TeenAula } from '@/lib/api/teen.service';
 import { Download, Trash2, Play, Clock, CheckCircle, HardDrive, WifiOff } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
@@ -14,7 +14,7 @@ import { PageError, PageEmpty } from '@/components/shared/DataStates';
  * TODO(FE-026): Integrar GET /teen/downloads com status de cache local
  */
 
-interface DownloadItem extends TeenSessão {
+interface DownloadItem extends TeenAula {
   downloadStatus: 'available' | 'downloaded' | 'downloading';
   fileSize: string;
 }

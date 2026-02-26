@@ -103,7 +103,7 @@ export async function grantTempAccess(grant: TempAccessGrant): Promise<TempAcces
     req.grantedAt = new Date().toISOString();
     req.expiresAt = new Date(Date.now() + grant.ttlMinutes * 60000).toISOString();
 
-    structuredLog('security', 'info', 'TEMP_ACCESS_GRANTED', {
+    structuredLog.security.info('TEMP_ACCESS_GRANTED', {
       request_id: req.id,
       support_user: req.supportUserId,
       unit_id: req.unitId,

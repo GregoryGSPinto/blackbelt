@@ -90,8 +90,8 @@ export function AvatarUploadSection() {
           )}
         </div>
 
-        {user?.name && (
-          <p className="text-white/60 text-sm">{user.name}</p>
+        {user?.nome && (
+          <p className="text-white/60 text-sm">{user.nome}</p>
         )}
       </div>
 

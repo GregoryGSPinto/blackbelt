@@ -33,7 +33,7 @@ const DESKTOP_NAV = [
   { href: '/financeiro',   icon: DollarSign,      label: 'Financeiro' },
   { href: '/graduacoes',   icon: GraduationCap,   label: 'Pedagógico' },
   { href: '/usuarios',     icon: Users,           label: 'Operação' },
-] as const;
+];
 
 // ─── Mobile bottom bar: 3 + Menu ─────────────────────────
 
@@ -41,7 +41,7 @@ const MOBILE_BAR = [
   { href: '/dashboard',    icon: LayoutDashboard, label: 'Executivo' },
   { href: '/financeiro',   icon: DollarSign,      label: 'Financeiro' },
   { href: '/usuarios',     icon: Users,           label: 'Operação' },
-] as const;
+];
 
 // ─── Drawer: sub-páginas ─────────────────────────────────
 
@@ -63,12 +63,12 @@ const DRAWER_NAV = [
   { href: '/automacoes',      icon: Zap,               label: 'Automações' },
   { href: '/alertas',         icon: Bell,              label: 'Alertas' },
   { href: '/configuracoes',   icon: Settings,          label: 'Configurações' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...DRAWER_NAV]
   .filter((item, i, arr) => arr.findIndex((x) => x.href === item.href) === i);
 
-const adminNav: ShellNavConfig = {
+const adminNav = {
   desktopNav: ALL_NAV,
   mobileBar: MOBILE_BAR,
   drawerNav: DRAWER_NAV,
@@ -152,7 +152,7 @@ const adminTheme: ShellTheme = {
 
 // ─── Export ──────────────────────────────────────────────
 
-export const ADMIN_SHELL_CONFIG: AppShellConfig = {
+export const ADMIN_SHELL_CONFIG = {
   theme: adminTheme,
   nav: adminNav,
-};
+} as AppShellConfig;

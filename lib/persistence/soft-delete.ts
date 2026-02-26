@@ -91,7 +91,7 @@ interface DependencyRule {
  * Mock de contagem de dependências.
  * Em produção: query SQL real com COUNT(*).
  */
-const MOCK_DEPENDENCIES: Record<string, Record<string, number>> = {
+const MOCK_DEPENDENCIES: Record<string, number> = {
   // Sessões com presença registrada
   'class:ha_01': 3,
   'class:ha_02': 2,

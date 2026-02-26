@@ -437,7 +437,7 @@ function generateSecureToken(bytes: number): string {
 function base32Encode(data: Uint8Array): string {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
   let bits = 0, value = 0, output = '';
-  for (const byte of data) {
+  for (const byte of Array.from(data)) {
     value = (value << 8) | byte;
     bits += 8;
     while (bits >= 5) {
@@ -540,7 +540,7 @@ function generateQRPlaceholderSVG(uri: string): string {
 
 function cleanupStepUpTokens(): void {
   const now = Date.now();
-  for (const [key, record] of stepUpStore.entries()) {
+  for (const [key, record] of Array.from(stepUpStore.entries())) {
     if (now > record.expiresAt + 60_000) {
       stepUpStore.delete(key);
     }
@@ -569,11 +569,11 @@ export function getMFAStats(): {
   const now = Date.now();
   return {
     totalUsers: mfaStore.size,
-    enabledUsers: [...mfaStore.values()].filter(r => r.enabled).length,
-    lockedUsers: [...mfaStore.values()].filter(r =>
+    enabledUsers: Array.from(mfaStore.values()).filter(r => r.enabled).length,
+    lockedUsers: Array.from(mfaStore.values()).filter(r =>
       r.lockedUntil && new Date(r.lockedUntil).getTime() > now
     ).length,
-    pendingStepUps: [...stepUpStore.values()].filter(r =>
+    pendingStepUps: Array.from(stepUpStore.values()).filter(r =>
       !r.used && r.expiresAt > now
     ).length,
   };

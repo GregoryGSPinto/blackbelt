@@ -98,7 +98,7 @@ export function canAccessDataCategory(category: DataCategory): boolean {
     : UNIT_OWNER_ALLOWED_CATEGORIES.includes(category);
 
   if (!allowed) {
-    structuredLog('security', 'warn', 'DATA_CATEGORY_DENIED', {
+    structuredLog.security.warn('DATA_CATEGORY_DENIED', {
       role: ctx.role,
       canonical: ctx.canonical,
       category,
@@ -138,7 +138,7 @@ export function assertDataAccess(category: DataCategory, context?: string): void
       context ? ` (${context})` : ''
     }. Acesso negado.`;
 
-    structuredLog('security', 'error', 'DATA_ACCESS_VIOLATION', {
+    structuredLog.security.error('DATA_ACCESS_VIOLATION', {
       role: ctx?.role || 'unknown',
       category,
       context: context || '',

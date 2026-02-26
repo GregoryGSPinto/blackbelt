@@ -22,14 +22,14 @@ const DESKTOP_NAV = [
   { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/professor-particulares', icon: Calendar, label: 'Particulares' },
   { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
-] as const;
+];
 
 // Mobile bottom bar: 3 fixed + Menu (4th auto-added by ShellBottomNav)
 const MOBILE_BAR = [
   { href: '/professor-dashboard', icon: LayoutDashboard, label: 'Painel' },
   { href: '/professor-alunos', icon: GraduationCap, label: 'Alunos' },
   { href: '/professor-chamada', icon: ClipboardList, label: 'Chamada' },
-] as const;
+];
 
 // Mobile Menu (bottom sheet): everything not in bottom bar
 const DRAWER_NAV = [
@@ -41,7 +41,7 @@ const DRAWER_NAV = [
   { href: '/professor-videos', icon: Play, label: 'Vídeos' },
   { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/professor-particulares', icon: Calendar, label: 'Particulares' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]
   .filter((item, index, arr) => arr.findIndex(i => i.href === item.href) === index);
@@ -52,7 +52,7 @@ const NOTIFICATIONS = [
   { id: 3, title: 'Vídeo processado', desc: '"Passagem de guarda" pronto para revisão', time: '1h' },
 ];
 
-const professorNav: ShellNavConfig = {
+const professorNav = {
   desktopNav: DESKTOP_NAV,
   mobileBar: [...MOBILE_BAR],
   drawerNav: [...DRAWER_NAV],
@@ -210,7 +210,7 @@ const professorTheme: ShellTheme = {
 
 // ─── Export ───────────────────────────────────────────────
 
-export const PROFESSOR_SHELL_CONFIG: AppShellConfig = {
+export const PROFESSOR_SHELL_CONFIG = {
   theme: professorTheme,
   nav: professorNav,
-};
+} as AppShellConfig;

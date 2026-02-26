@@ -71,12 +71,13 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         if (user) {
           setProfileId(user.id);
           // Load existing notifications
-          const { data } = await supabase
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { data } = await (supabase as any)
             .from('notifications')
             .select('*')
             .eq('profile_id', user.id)
             .order('created_at', { ascending: false })
-            .limit(50);
+            .limit(50) as { data: any[] | null };
           if (data) {
             const mapped: Notification[] = data.map(n => ({
               id: n.id,

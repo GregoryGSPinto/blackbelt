@@ -229,7 +229,7 @@ export default function PremiumLandingPage() {
                   {hoveredVideo === index ? (
                     // Autoplay iframe
                     <iframe
-                      ref={(el) => (videoRefs.current[index] = el)}
+                      ref={(el) => { videoRefs.current[index] = el; }}
                       src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&enablejsapi=1`}
                       className="absolute inset-0 w-full h-full"
                       allow="autoplay; encrypted-media"

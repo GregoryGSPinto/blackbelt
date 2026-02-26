@@ -44,10 +44,10 @@ export function PlaylistFormModal({
   useEffect(() => {
     if (!isOpen) return;
     if (editPlaylist) {
-      setNome(editPlaylist.nome);
+      setNome(editPlaylist.titulo);
       setTipo(editPlaylist.tipo);
       setSelectedVideoIds(editPlaylist.videoIds);
-      setSelectedTurmaIds(editPlaylist.turmaIds || []);
+      setSelectedTurmaIds(editPlaylist.turmasAssociadas || []);
     } else {
       setNome('');
       setTipo('semanal');
@@ -87,10 +87,9 @@ export function PlaylistFormModal({
     setSaving(true);
     try {
       const input: PlaylistCreateInput = {
-        nome: nome.trim(),
+        titulo: nome.trim(),
         tipo,
-        videoIds: selectedVideoIds,
-        turmaIds: selectedTurmaIds.length > 0 ? selectedTurmaIds : undefined,
+        turmasAssociadas: selectedTurmaIds.length > 0 ? selectedTurmaIds : undefined,
       };
 
       let result: Playlist;

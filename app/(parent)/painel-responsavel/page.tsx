@@ -233,7 +233,7 @@ export default function PainelResponsavelPage() {
       </section>
 
       {/* ── Stats Grid ── */}
-      <section data-tour="parent-progresso" className="grid grid-cols-2 md:grid-cols-4 gap-3" style={staggerStyle(1, 0, 60)}>
+      <section data-tour="parent-progresso" className="grid grid-cols-2 md:grid-cols-4 gap-3" style={staggerStyle(1, undefined, 0, 60)}>
         <StatMini icon={Calendar} value={selectedKid.progresso.sessõesAssistidas} label="Sessões Assistidas" color="text-blue-400" />
         <StatMini icon={Target} value={selectedKid.progresso.desafiosConcluidos} label="Desafios" color="text-purple-400" />
         <StatMini icon={Award} value={selectedKid.progresso.conquistasConquistadas} label="Conquistas" color="text-amber-400" />
@@ -241,7 +241,7 @@ export default function PainelResponsavelPage() {
       </section>
 
       {/* ── Simulated Push Notification ── */}
-      <section style={staggerStyle(2, 0, 60)}>
+      <section style={staggerStyle(2, undefined, 0, 60)}>
         <div
           className="rounded-xl p-4 border border-emerald-500/20"
           style={{ background: 'linear-gradient(135deg, rgba(34,197,94,0.08), transparent)', animation: 'parent-notification 500ms ease 600ms both' }}
@@ -260,7 +260,7 @@ export default function PainelResponsavelPage() {
       </section>
 
       {/* ── Próximas Sessões ── */}
-      <section style={staggerStyle(3, 0, 60)}>
+      <section style={staggerStyle(3, undefined, 0, 60)}>
         <h3 className="text-white font-bold text-sm mb-3 flex items-center gap-2">
           <Calendar size={16} className="text-blue-400" />
           Próximas Sessões
@@ -276,7 +276,7 @@ export default function PainelResponsavelPage() {
             <div key={i} className={`flex items-center justify-between px-4 py-3.5 ${i > 0 ? 'border-t border-white/[0.04]' : ''}`}>
               <div>
                 <p className="text-white font-semibold text-sm">{aula.dia}, {aula.hora}</p>
-                <p className="text-white/30 text-xs mt-0.5">{selectedKid.turma} · {selectedKid.professor}</p>
+                <p className="text-white/30 text-xs mt-0.5">{selectedKid.turma} · {selectedKid.instrutor}</p>
               </div>
               <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border ${aula.badge}`}>
                 {aula.dia}
@@ -287,7 +287,7 @@ export default function PainelResponsavelPage() {
       </section>
 
       {/* ── Avisos ── */}
-      <section style={staggerStyle(4, 0, 60)}>
+      <section style={staggerStyle(4, undefined, 0, 60)}>
         <h3 className="text-white font-bold text-sm mb-3 flex items-center gap-2">
           <AlertCircle size={16} className="text-amber-400" />
           Avisos
@@ -306,7 +306,7 @@ export default function PainelResponsavelPage() {
       {/* Quick Message Modal */}
       {showMessage && (
         <QuickMessage
-          recipientName={selectedKid.professor}
+          recipientName={selectedKid.instrutor}
           recipientId="prof-1"
           senderName={parentProfile?.nome || 'Responsável'}
           senderId="resp-1"

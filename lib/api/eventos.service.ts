@@ -63,7 +63,7 @@ export async function getEventos(filtros?: EventosFiltros): Promise<Evento[]> {
   if (filtros?.tipo) params.set('tipo', filtros.tipo);
   if (filtros?.periodo) params.set('periodo', filtros.periodo);
 
-  return apiClient.get<Evento[]>(`/eventos?${params}`);
+  return apiClient.get<Evento[]>(`/eventos?${params}`).then(r => r.data);
 }
 
 /** Buscar evento por ID */
@@ -75,7 +75,7 @@ export async function getEvento(id: string): Promise<Evento | null> {
   }
 
   try {
-    return await apiClient.get<Evento>(`/eventos/${id}`);
+    return await apiClient.get<Evento>(`/eventos/${id}`).then(r => r.data);
   } catch {
     return null;
   }
@@ -100,7 +100,7 @@ export async function inscreverEvento(
     };
   }
 
-  return apiClient.post<InscricaoEvento>(`/eventos/${eventoId}/inscrever`, data);
+  return apiClient.post<InscricaoEvento>(`/eventos/${eventoId}/inscrever`, data).then(r => r.data);
 }
 
 /** Criar evento (admin) */
@@ -122,7 +122,7 @@ export async function criarEvento(data: Partial<Evento>): Promise<Evento> {
     } as Evento;
   }
 
-  return apiClient.post<Evento>('/eventos', data);
+  return apiClient.post<Evento>('/eventos', data).then(r => r.data);
 }
 
 /** Atualizar evento (admin) */
@@ -135,7 +135,7 @@ export async function atualizarEvento(id: string, data: Partial<Evento>): Promis
     return { ...existing, ...data };
   }
 
-  return apiClient.put<Evento>(`/eventos/${id}`, data);
+  return apiClient.put<Evento>(`/eventos/${id}`, data).then(r => r.data);
 }
 
 /** Excluir evento (admin) */
@@ -145,7 +145,7 @@ export async function excluirEvento(id: string): Promise<void> {
     return;
   }
 
-  return apiClient.delete(`/eventos/${id}`);
+  await apiClient.delete(`/eventos/${id}`);
 }
 
 /** Registrar resultados de evento (admin) */
@@ -158,7 +158,7 @@ export async function registrarResultados(
     return;
   }
 
-  return apiClient.put(`/eventos/${eventoId}/resultados`, { resultados });
+  await apiClient.put(`/eventos/${eventoId}/resultados`, { resultados });
 }
 
 /** Exportar inscritos como CSV (client-side) */

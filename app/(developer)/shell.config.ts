@@ -27,13 +27,13 @@ const DESKTOP_NAV = [
   { href: '/developer-ai',            icon: Brain,       label: 'AI' },
   { href: '/developer-audit',         icon: ScrollText,  label: 'Logs' },
   { href: '/developer-logins',        icon: LogIn,       label: 'Sessions' },
-] as const;
+];
 
 const MOBILE_BAR = [
   { href: '/developer',               icon: Terminal,    label: 'Technical' },
   { href: '/seguranca',               icon: Shield,      label: 'Security' },
   { href: '/developer-ai',            icon: Brain,       label: 'AI' },
-] as const;
+];
 
 const DRAWER_NAV = [
   { href: '/developer-audit',         icon: ScrollText,     label: 'Audit Logs' },
@@ -41,12 +41,12 @@ const DRAWER_NAV = [
   { href: '/developer-observability', icon: Activity,       label: 'Observability' },
   { href: '/developer-danger',        icon: AlertTriangle,  label: 'Danger Zone' },
   { href: '/permissoes',              icon: Lock,           label: 'Permissões' },
-] as const;
+];
 
 const ALL_NAV = [...DESKTOP_NAV, ...DRAWER_NAV]
   .filter((item, i, arr) => arr.findIndex((x) => x.href === item.href) === i);
 
-const devNav: ShellNavConfig = {
+const devNav = {
   desktopNav: ALL_NAV,
   mobileBar: MOBILE_BAR,
   drawerNav: DRAWER_NAV,
@@ -147,7 +147,7 @@ const devTheme: ShellTheme = {
 
 // ─── Export ──────────────────────────────────────────────
 
-export const DEV_SHELL_CONFIG: AppShellConfig = {
+export const DEV_SHELL_CONFIG = {
   theme: devTheme,
   nav: devNav,
-};
+} as AppShellConfig;

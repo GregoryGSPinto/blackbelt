@@ -92,7 +92,7 @@ class MemoryCache {
   /** Invalidate all keys matching a prefix */
   invalidatePrefix(prefix: string): number {
     let count = 0;
-    for (const key of this.store.keys()) {
+    for (const key of Array.from(this.store.keys())) {
       if (key.startsWith(prefix)) {
         this.store.delete(key);
         count++;
