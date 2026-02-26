@@ -67,7 +67,7 @@ const mainNav = {
 
 const mainTheme: ShellTheme = {
   // Background
-  backgroundImage: '/main-background.jpg',
+  backgroundImage: '/images/bg-dark.png',
   parallaxFactor: 0.08,
   grainOpacity: 0.015,
   backgroundGradient: (isDark) =>

@@ -58,7 +58,7 @@ const kidsNav = {
 
 const kidsTheme: ShellTheme = {
   // Background
-  backgroundImage: '/kids-background.jpg',
+  backgroundImage: '/images/bg-dark.png',
   parallaxFactor: 0,
   grainOpacity: 0,
   backgroundGradient: (isDark) => isDark

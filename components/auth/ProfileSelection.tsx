@@ -153,21 +153,7 @@ export default function ProfileSelectionPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ color: isDark ? '#FFFFFF' : '#15120C' }}>
-      {/* Background wallpaper — same as main layout */}
-      <div className="fixed inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: isDark ? 'url(/main-background.jpg)' : 'url(/main-background-light.jpg)' }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: isDark
-              ? 'linear-gradient(to bottom, rgba(8,7,6,0.8), rgba(8,7,6,0.75), rgba(8,7,6,0.85))'
-              : 'linear-gradient(to bottom, rgba(247,245,242,0.6), rgba(247,245,242,0.52), rgba(247,245,242,0.65))',
-          }}
-        />
-      </div>
+      {/* Background provided by global ThemedBackground in root layout */}
 
       {/* Content */}
       <div className={`relative z-10 min-h-screen flex flex-col items-center justify-center p-6 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>

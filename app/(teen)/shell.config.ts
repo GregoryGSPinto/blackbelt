@@ -63,7 +63,7 @@ const teenNav = {
 
 const teenTheme: ShellTheme = {
   // Background
-  backgroundImage: '/teen-background.jpg',
+  backgroundImage: '/images/bg-dark.png',
   parallaxFactor: 0.08,
   grainOpacity: 0.015,
   backgroundGradient: (isDark) =>

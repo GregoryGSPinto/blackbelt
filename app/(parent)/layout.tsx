@@ -74,25 +74,7 @@ function ParentLayoutInner({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen relative text-white">
-      {/* Background cinematográfico */}
-      <div 
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: 'url(/parent-background.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div 
-          className={`absolute inset-0 transition-all duration-500 ${
-            isDarkMode 
-              ? 'bg-black/75 backdrop-brightness-75 backdrop-saturate-110' 
-              : 'bg-white/80 backdrop-brightness-110 backdrop-saturate-75'
-          }`}
-        />
-      </div>
+      {/* Background provided by global ThemedBackground in root layout */}
 
       {/* Mobile Account Bar — fixo no topo */}
       <div className="fixed top-0 left-0 right-0 z-50 md:hidden">

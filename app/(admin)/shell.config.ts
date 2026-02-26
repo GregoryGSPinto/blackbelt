@@ -84,7 +84,7 @@ const adminNav = {
 const adminTheme: ShellTheme = {
   variant: 'top-nav',
 
-  backgroundImage: '/admin-background.jpg',
+  backgroundImage: '/images/bg-dark.png',
   parallaxFactor: 0.05,
   grainOpacity: 0.02,
   backgroundGradient: always(

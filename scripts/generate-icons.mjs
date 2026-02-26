@@ -93,19 +93,6 @@ function iconSvg(size) {
 </svg>`;
 }
 
-// ── Splash SVG (logo centered on dark bg) ────────────────
-function splashSvg(w, h) {
-  const logoSize = Math.min(w, h) * 0.3;
-  const cx = w / 2;
-  const cy = h / 2;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
-  <rect width="${w}" height="${h}" fill="#0d0d1a"/>
-  <svg x="${cx - logoSize / 2}" y="${cy - logoSize / 2}" width="${logoSize}" height="${logoSize}">
-    ${iconSvg(logoSize).replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '')}
-  </svg>
-</svg>`;
-}
-
 // ── Generate all assets ──────────────────────────────────
 async function main() {
   console.log('Generating BlackBelt icons...');
@@ -129,11 +116,6 @@ async function main() {
   // ICO is just a renamed PNG for modern browsers
   await sharp(fav).png().toFile(resolve(PUBLIC, 'favicon.ico'));
   console.log('  ✓ favicon.ico (32x32)');
-
-  // Splash 2732x2732
-  const splash = Buffer.from(splashSvg(2732, 2732));
-  await sharp(splash).png().toFile(resolve(PUBLIC, 'splash-2732x2732.png'));
-  console.log('  ✓ splash-2732x2732.png');
 
   console.log('\nAll icons generated in public/');
 }
