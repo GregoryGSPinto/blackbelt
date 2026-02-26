@@ -32,6 +32,7 @@ import { updateSupabaseSession } from '@/lib/supabase/middleware';
 
 /** Rotas que NÃO requerem autenticação */
 const PUBLIC_ROUTES = [
+  '/landing',
   '/login',
   '/registro',
   '/recuperar-senha',
