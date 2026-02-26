@@ -6,9 +6,12 @@
 import { Wifi, WifiOff } from 'lucide-react';
 import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 
+const isMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
 export function SlowConnectionBanner() {
   const { isOnline, isSlow, effectiveType } = useNetworkStatus();
 
+  if (isMock) return null;
   if (isOnline && !isSlow) return null;
 
   return (
