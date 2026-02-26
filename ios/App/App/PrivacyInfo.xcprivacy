@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  PrivacyInfo.xcprivacy — BlackBelt
+  
+  OBRIGATÓRIO desde abril 2024 para todas as apps na App Store.
+  Este arquivo declara quais "Required Reason APIs" o app utiliza.
+  
+  Após gerar o projeto iOS com Capacitor:
+    1. Copie este arquivo para: ios/App/App/PrivacyInfo.xcprivacy
+    2. No Xcode: Add Files to "App" → selecione PrivacyInfo.xcprivacy
+    3. Certifique-se que aparece no target "App"
+  
+  Referência: https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
+-->
+<plist version="1.0">
+<dict>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- NSPrivacyTracking: App NÃO rastreia usuários           -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <key>NSPrivacyTracking</key>
+  <false/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- NSPrivacyTrackingDomains: Nenhum domínio de tracking    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <key>NSPrivacyTrackingDomains</key>
+  <array/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- NSPrivacyCollectedDataTypes: Dados coletados            -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <key>NSPrivacyCollectedDataTypes</key>
+  <array>
+    <!-- Email Address (para login) -->
+    <dict>
+      <key>NSPrivacyCollectedDataType</key>
+      <string>NSPrivacyCollectedDataTypeEmailAddress</string>
+      <key>NSPrivacyCollectedDataTypeLinked</key>
+      <true/>
+      <key>NSPrivacyCollectedDataTypeTracking</key>
+      <false/>
+      <key>NSPrivacyCollectedDataTypePurposes</key>
+      <array>
+        <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+      </array>
+    </dict>
+
+    <!-- Name (nome do aluno/professor) -->
+    <dict>
+      <key>NSPrivacyCollectedDataType</key>
+      <string>NSPrivacyCollectedDataTypeName</string>
+      <key>NSPrivacyCollectedDataTypeLinked</key>
+      <true/>
+      <key>NSPrivacyCollectedDataTypeTracking</key>
+      <false/>
+      <key>NSPrivacyCollectedDataTypePurposes</key>
+      <array>
+        <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+      </array>
+    </dict>
+
+    <!-- Photos (foto de perfil via câmera) -->
+    <dict>
+      <key>NSPrivacyCollectedDataType</key>
+      <string>NSPrivacyCollectedDataTypePhotosorVideos</string>
+      <key>NSPrivacyCollectedDataTypeLinked</key>
+      <true/>
+      <key>NSPrivacyCollectedDataTypeTracking</key>
+      <false/>
+      <key>NSPrivacyCollectedDataTypePurposes</key>
+      <array>
+        <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+      </array>
+    </dict>
+  </array>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- NSPrivacyAccessedAPITypes: Required Reason APIs         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <key>NSPrivacyAccessedAPITypes</key>
+  <array>
+
+    <!-- UserDefaults (Capacitor usa internamente) -->
+    <dict>
+      <key>NSPrivacyAccessedAPIType</key>
+      <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+      <key>NSPrivacyAccessedAPITypeReasons</key>
+      <array>
+        <!-- CA92.1: Access info written by the app itself -->
+        <string>CA92.1</string>
+      </array>
+    </dict>
+
+    <!-- File timestamp APIs (para cache/assets) -->
+    <dict>
+      <key>NSPrivacyAccessedAPIType</key>
+      <string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+      <key>NSPrivacyAccessedAPITypeReasons</key>
+      <array>
+        <!-- C617.1: Access timestamps of files in app container -->
+        <string>C617.1</string>
+      </array>
+    </dict>
+
+    <!-- System boot time (Capacitor internal) -->
+    <dict>
+      <key>NSPrivacyAccessedAPIType</key>
+      <string>NSPrivacyAccessedAPICategorySystemBootTime</string>
+      <key>NSPrivacyAccessedAPITypeReasons</key>
+      <array>
+        <!-- 35F9.1: Measure elapsed time -->
+        <string>35F9.1</string>
+      </array>
+    </dict>
+
+    <!-- Disk space APIs (para verificar espaço antes de cache) -->
+    <dict>
+      <key>NSPrivacyAccessedAPIType</key>
+      <string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+      <key>NSPrivacyAccessedAPITypeReasons</key>
+      <array>
+        <!-- E174.1: Check available disk space -->
+        <string>E174.1</string>
+      </array>
+    </dict>
+
+  </array>
+
+</dict>
+</plist>

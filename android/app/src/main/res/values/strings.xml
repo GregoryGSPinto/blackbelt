@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BlackBelt</string>
+    <string name="title_activity_main">BlackBelt</string>
+    <string name="package_name">com.blackbelt.app</string>
+    <string name="custom_url_scheme">com.blackbelt.app</string>
+</resources>
