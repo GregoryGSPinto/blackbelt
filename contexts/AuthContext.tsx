@@ -157,9 +157,9 @@ export const PERFIL_INFO: Record<TipoPerfil, PerfilInfoUI> = {
   },
   SUPER_ADMIN: {
     label: 'Super Admin',
-    cor: 'from-red-600 to-red-800',
+    cor: 'from-indigo-600 to-violet-700',
     icone: '⚡',
-    descricao: 'Acesso total ao sistema',
+    descricao: 'Acesso total à plataforma',
     nome: 'Super Administrador',
   },
   SUPPORT: {
@@ -201,7 +201,7 @@ const REDIRECT_MAP: Record<TipoPerfil, string> = {
   // Legacy
   GESTOR: '/dashboard',
   ADMINISTRADOR: '/dashboard',
-  SUPER_ADMIN: '/dashboard',
+  SUPER_ADMIN: '/super-admin',
   SYS_AUDITOR: '/developer',
 };
 
@@ -218,7 +218,7 @@ const CONFIG_MAP: Record<TipoPerfil, string> = {
   INSTRUTOR: '/professor-perfil',
   GESTOR: '/configuracoes',
   ADMINISTRADOR: '/configuracoes',
-  SUPER_ADMIN: '/configuracoes',
+  SUPER_ADMIN: '/super-admin',
   UNIT_OWNER: '/configuracoes',
   SUPPORT: '/configuracoes',
   SYS_AUDITOR: '/configuracoes',

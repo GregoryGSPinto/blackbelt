@@ -1,9 +1,8 @@
 // ============================================================
-// DEVELOPER LAYOUT — Top-Nav, Dark/Light Toggle
+// SUPER ADMIN LAYOUT — Top-Nav, Dark/Light Toggle
 // ============================================================
-// Access: SUPPORT + SYS_AUDITOR
-// Theme: Emerald with dual mode (dark/light)
-// Pattern: Idêntico ao Adulto/Kids (barra superior + bottom nav)
+// Access: SUPER_ADMIN only
+// Theme: Indigo/Violet with dual mode (dark/light)
 // ============================================================
 'use client';
 
@@ -12,16 +11,14 @@ import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AppShell } from '@/components/shell';
-import { DEV_SHELL_CONFIG } from './shell.config';
+import { SUPER_ADMIN_SHELL_CONFIG } from './shell.config';
 
-const DEV_TYPES = ['SYS_AUDITOR', 'SUPPORT', 'SUPER_ADMIN'] as const;
-
-function DevLayoutInner({ children }: { children: ReactNode }) {
+function SuperAdminLayoutInner({ children }: { children: ReactNode }) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
     <AppShell
-      config={DEV_SHELL_CONFIG}
+      config={SUPER_ADMIN_SHELL_CONFIG}
       isDark={isDark}
       toggleTheme={toggleTheme}
     >
@@ -30,11 +27,11 @@ function DevLayoutInner({ children }: { children: ReactNode }) {
   );
 }
 
-export default function DeveloperLayout({ children }: { children: ReactNode }) {
+export default function SuperAdminLayout({ children }: { children: ReactNode }) {
   return (
-    <ProtectedRoute allowedTypes={[...DEV_TYPES]} loadingText="Carregando painel técnico...">
+    <ProtectedRoute allowedTypes={['SUPER_ADMIN']} loadingText="Carregando painel da plataforma...">
       <GlobalSearchProvider>
-        <DevLayoutInner>{children}</DevLayoutInner>
+        <SuperAdminLayoutInner>{children}</SuperAdminLayoutInner>
       </GlobalSearchProvider>
     </ProtectedRoute>
   );

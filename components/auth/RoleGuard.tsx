@@ -136,7 +136,8 @@ function mapUserToRole(tipo: string): SecurityRole {
     // Legacy → canônico
     GESTOR: 'UNIT_OWNER',
     ADMINISTRADOR: 'UNIT_OWNER',
-    SUPER_ADMIN: 'UNIT_OWNER',
+    // SUPER_ADMIN mantém como ADMIN (acesso total) — compatibilidade
+    SUPER_ADMIN: 'ADMIN',
     SYS_AUDITOR: 'SUPPORT',
   };
   return map[tipo] || 'ALUNO_ADULTO';
