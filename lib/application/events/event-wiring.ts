@@ -54,7 +54,14 @@ export function initializeEventSystem(options?: {
     }
   });
 
-  // 3. Debug logging (dev mode only)
+  // 3. Wire ALL intelligence subscribers (churn, attendance, promotion, evaluation)
+  import('../intelligence/subscribers/intelligence-wiring').then(mod => {
+    mod.wireIntelligenceSubscribers(eventBus);
+  }).catch(() => {
+    // Intelligence module is optional — silently skip if not available
+  });
+
+  // 4. Debug logging (dev mode only)
   if (options?.debug) {
     eventBus.onAny((event) => {
       const pid = (event as any).payload?.participantId ?? '—';

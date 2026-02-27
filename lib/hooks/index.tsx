@@ -52,6 +52,39 @@ export type {
   ParticipantDevelopmentSnapshot,
 } from '@/lib/application/progression/state/snapshot';
 
+// ── Intelligence ViewModels (AI/ML — Churn) ─────────────────────
+export type {
+  AdminChurnOverviewVM,
+  AdminChurnStudentVM,
+  AggregatedRecommendation,
+  InstructorChurnAlertVM,
+  RetentionEncouragementVM,
+} from '@/lib/application/intelligence';
+
+export type {
+  ChurnPrediction,
+  ChurnRiskLevel,
+  ChurnFactor,
+  Recommendation,
+} from '@/lib/domain/intelligence';
+
+// ── Intelligence ViewModels (full layer) ────────────────────────
+export type { StudentInsightsVM } from '@/lib/application/intelligence/projectors/project-student-insights';
+export type { TeenInsightsVM } from '@/lib/application/intelligence/projectors/project-teen-insights';
+export type { KidsInsightsVM } from '@/lib/application/intelligence/projectors/project-kids-insights';
+export type { ParentInsightsVM } from '@/lib/application/intelligence/projectors/project-parent-insights';
+export type { AdminAIAnalyticsVM } from '@/lib/application/intelligence/projectors/project-admin-analytics';
+export type { SuperAdminHealthVM } from '@/lib/application/intelligence/projectors/project-super-admin-health';
+
+// ── Intelligence Domain Types ───────────────────────────────────
+export type { StudentDNA } from '@/lib/domain/intelligence/models/student-dna.types';
+export type { EngagementScore } from '@/lib/domain/intelligence/models/engagement.types';
+export type { ClassInsight } from '@/lib/domain/intelligence/models/class-insight.types';
+export type { SocialProfile } from '@/lib/domain/intelligence/models/social-graph.types';
+export type { PromotionPrediction } from '@/lib/domain/intelligence/models/promotion-prediction.types';
+export type { AdaptiveTest } from '@/lib/domain/intelligence/models/adaptive-test.types';
+export type { InstructorCoachBriefing } from '@/lib/domain/intelligence/models/coach-tip.types';
+
 // ════════════════════════════════════════════════════════════════════
 // INTERNAL: Shared snapshot fetcher
 // ════════════════════════════════════════════════════════════════════

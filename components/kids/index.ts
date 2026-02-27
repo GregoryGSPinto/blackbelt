@@ -3,3 +3,7 @@ export { default as KidsCard } from './KidsCard';
 export { default as StarRating } from './StarRating';
 export { default as ProgressBar } from './ProgressBar';
 export { default as MascotCard } from './MascotCard';
+export { default as AdventureProgress } from './AdventureProgress';
+export { default as StickerCollection } from './StickerCollection';
+export { default as MascotBubble } from './MascotBubble';
+export { default as SimpleProgressStars } from './SimpleProgressStars';

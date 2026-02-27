@@ -1,172 +1,123 @@
 'use client';
 
-import { TrendingUp, Award, BookOpen, Calendar, BarChart3 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useParentInsights } from '@/hooks/useParentInsights';
+import { ChildProgressSummary } from '@/components/parent/ChildProgressSummary';
+import { BehavioralRadarChart } from '@/components/parent/BehavioralRadarChart';
+import { ParentAlertsList } from '@/components/parent/ParentAlertsList';
+import { ParentTipsBanner } from '@/components/parent/ParentTipsBanner';
+import { UpcomingEventsTimeline } from '@/components/parent/UpcomingEventsTimeline';
 import { useParent } from '@/contexts/ParentContext';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 
 export default function ProgressoPage() {
   const { filhos } = useParent();
+  const [selectedChildId, setSelectedChildId] = useState<string>('');
+
+  // Auto-select first child
+  useEffect(() => {
+    if (filhos.length > 0 && !selectedChildId) {
+      setSelectedChildId(filhos[0].id);
+    }
+  }, [filhos, selectedChildId]);
+
+  const { insights, loading, error } = useParentInsights(selectedChildId);
+
+  const selectedChild = filhos.find(f => f.id === selectedChildId);
+  const childName = insights?.childName || selectedChild?.nome || '';
 
   if (filhos.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-white/60">Nenhum filho cadastrado.</p>
+        <p className="text-zinc-500">Nenhum filho cadastrado.</p>
       </div>
     );
   }
 
-  const mediaPresenca = Math.round(filhos.reduce((acc, f) => acc + f.progresso.presenca30dias, 0) / filhos.length);
-  const totalSessões = filhos.reduce((acc, f) => acc + f.progresso.sessõesAssistidas, 0);
-  const totalConquistas = filhos.reduce((acc, f) => acc + f.progresso.conquistasConquistadas, 0);
-  const totalDesafios = filhos.reduce((acc, f) => acc + f.progresso.desafiosConcluidos, 0);
-
   return (
-    <div className="space-y-8 animate-fade-in px-4 md:px-0">
+    <div className="min-h-screen p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
       {/* Breadcrumb */}
       <Breadcrumb />
+
       {/* Header */}
-      <div>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Progresso Geral</h2>
-        <p className="text-white/60 text-lg">Acompanhe a evolução de todos os seus filhos</p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
+            Progresso {childName ? `de ${childName}` : ''}
+          </h1>
+          <p className="text-sm text-zinc-500 mt-1">
+            Acompanhe a evolucao com insights de inteligencia artificial
+          </p>
+        </div>
+
+        {/* Child Selector */}
+        {filhos.length > 1 && (
+          <div className="flex gap-2">
+            {filhos.map(filho => (
+              <button
+                key={filho.id}
+                onClick={() => setSelectedChildId(filho.id)}
+                className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                  selectedChildId === filho.id
+                    ? 'bg-zinc-800 text-zinc-100 border-zinc-700 font-medium'
+                    : 'text-zinc-500 border-zinc-800 hover:text-zinc-300 hover:bg-zinc-800/50'
+                }`}
+              >
+                {filho.avatar} {filho.nome?.split(' ')[0]}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Resumo Geral */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-green-500/20 rounded-xl">
-              <TrendingUp size={24} className="text-green-400" />
-            </div>
-            <div>
-              <p className="text-sm text-white/60">Média de Presença</p>
-              <p className="text-xl sm:text-2xl font-bold text-green-400">{mediaPresenca}%</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-blue-500/20 rounded-xl">
-              <BookOpen size={24} className="text-blue-400" />
-            </div>
-            <div>
-              <p className="text-sm text-white/60">Total de Sessões</p>
-              <p className="text-xl sm:text-2xl font-bold text-blue-400">{totalSessões}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-yellow-500/20 rounded-xl">
-              <Award size={24} className="text-yellow-400" />
-            </div>
-            <div>
-              <p className="text-sm text-white/60">Total de Conquistas</p>
-              <p className="text-xl sm:text-2xl font-bold text-yellow-400">{totalConquistas}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-purple-500/20 rounded-xl">
-              <Calendar size={24} className="text-purple-400" />
-            </div>
-            <div>
-              <p className="text-sm text-white/60">Desafios Concluídos</p>
-              <p className="text-xl sm:text-2xl font-bold text-purple-400">{totalDesafios}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Progresso Individual por Filho */}
-      <div>
-        <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
-          <BarChart3 size={28} />
-          Progresso Individual
-        </h3>
-
-        <div className="space-y-6">
-          {filhos.map((filho) => (
+      {/* Content */}
+      {loading ? (
+        <div className="space-y-4">
+          {[1, 2, 3, 4].map(i => (
             <div
-              key={filho.id}
-              className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
+              key={i}
+              className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 animate-pulse"
             >
-              {/* Header do Filho */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-3xl border-2 border-white/30">
-                  {filho.avatar}
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-xl font-bold">{filho.nome}</h4>
-                  <p className="text-sm text-white/60">
-                    {filho.categoria === 'teen' ? 'Adolescente' : 'Kids'} • Nível {filho.nivel} • {filho.turma.split(' - ')[0]}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-white/60">Presença</p>
-                  <p className="text-xl sm:text-2xl font-bold text-green-400">{filho.progresso.presenca30dias}%</p>
-                </div>
-              </div>
-
-              {/* Barras de Progresso */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold">Presença (30 dias)</span>
-                    <span className="text-xs text-white/60">{filho.progresso.presenca30dias}%</span>
-                  </div>
-                  <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500"
-                      style={{ width: `${filho.progresso.presenca30dias}%` }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold">Desafios</span>
-                    <span className="text-xs text-white/60">{filho.progresso.desafiosConcluidos} concluídos</span>
-                  </div>
-                  <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500"
-                      style={{ width: `${Math.min(filho.progresso.desafiosConcluidos * 5, 100)}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
-                <div className="text-center">
-                  <p className="text-xl sm:text-2xl font-bold text-blue-400">{filho.progresso.sessõesAssistidas}</p>
-                  <p className="text-xs text-white/60 mt-1">Sessões</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xl sm:text-2xl font-bold text-yellow-400">{filho.progresso.conquistasConquistadas}</p>
-                  <p className="text-xs text-white/60 mt-1">Conquistas</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xl sm:text-2xl font-bold text-purple-400">{filho.progresso.desafiosConcluidos}</p>
-                  <p className="text-xs text-white/60 mt-1">Desafios</p>
-                </div>
-              </div>
+              <div className="h-4 bg-zinc-800 rounded w-1/3 mb-3" />
+              <div className="h-3 bg-zinc-800/60 rounded w-2/3 mb-2" />
+              <div className="h-3 bg-zinc-800/40 rounded w-1/2" />
             </div>
           ))}
         </div>
-      </div>
+      ) : error ? (
+        <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
+          <p className="text-red-400 text-sm font-medium">
+            Erro ao carregar progresso
+          </p>
+          <p className="text-red-400/60 text-xs mt-1">{error.message}</p>
+        </div>
+      ) : !insights ? (
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
+          <p className="text-zinc-500 text-sm">
+            Insights ainda nao disponiveis para este filho.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {/* Progress Summary */}
+          <ChildProgressSummary insights={insights} />
 
-      <style jsx global>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fade-in 0.3s ease-out; }
-      `}</style>
+          {/* Two column layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Behavioral Radar */}
+            <BehavioralRadarChart insights={insights} />
+
+            {/* Alerts */}
+            <ParentAlertsList childId={selectedChildId} />
+          </div>
+
+          {/* Tips Banner */}
+          <ParentTipsBanner insights={insights} />
+
+          {/* Upcoming Events */}
+          <UpcomingEventsTimeline childId={selectedChildId} />
+        </div>
+      )}
     </div>
   );
 }
