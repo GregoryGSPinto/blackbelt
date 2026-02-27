@@ -93,7 +93,7 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
     message: 'Ana Silva enviou vídeo de treino para revisão.',
     timestamp: new Date(Date.now() - 45 * 60 * 1000), // 45 min ago
     read: false,
-    href: '/sessões',
+    href: '/aulas',
     meta: 'Ana Silva',
   },
   {

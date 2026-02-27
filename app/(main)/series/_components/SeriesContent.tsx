@@ -30,7 +30,7 @@ export default function SeriesContent({ videos, series }: SeriesContentProps) {
                 <VideoCardEnhanced
                   key={video.id}
                   video={video}
-                  onClick={() => router.push(`/sessões/${video.id}`)}
+                  onClick={() => router.push(`/aulas/${video.id}`)}
                   showInstructor
                 />
               ))}
@@ -43,7 +43,7 @@ export default function SeriesContent({ videos, series }: SeriesContentProps) {
             <VideoCardEnhanced
               key={video.id}
               video={video}
-              onClick={() => router.push(`/sessões/${video.id}`)}
+              onClick={() => router.push(`/aulas/${video.id}`)}
             />
           ))}
         </VideoCarousel>

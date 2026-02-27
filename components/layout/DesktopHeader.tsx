@@ -18,10 +18,10 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const navItems = [
   { label: 'Início', href: '/inicio' },
-  { label: 'Sessões', href: '/sessões' },
-  { label: 'Unidade', href: '/unidade' },
+  { label: 'Sessões', href: '/aulas' },
+  { label: 'Unidade', href: '/academia' },
   { label: 'Séries', href: '/series' },
-  { label: 'Minha Lista', href: '/meu-blackbelt' },
+  { label: 'Minha Lista', href: '/minha-lista' },
 ];
 
 export default function DesktopHeader() {

@@ -27,7 +27,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
                 <VideoCardEnhanced
                   key={video.id}
                   video={video}
-                  onClick={() => router.push(`/sessões/${video.id}`)}
+                  onClick={() => router.push(`/aulas/${video.id}`)}
                   showInstructor
                 />
               ))}
@@ -40,7 +40,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
                 <VideoCardEnhanced
                   key={video.id}
                   video={video}
-                  onClick={() => router.push(`/sessões/${video.id}`)}
+                  onClick={() => router.push(`/aulas/${video.id}`)}
                   showInstructor
                 />
               ))}
@@ -53,7 +53,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
                 <VideoCardEnhanced
                   key={video.id}
                   video={video}
-                  onClick={() => router.push(`/sessões/${video.id}`)}
+                  onClick={() => router.push(`/aulas/${video.id}`)}
                   showInstructor
                 />
               ))}
@@ -65,7 +65,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
               <VideoCardEnhanced
                 key={video.id}
                 video={video}
-                onClick={() => router.push(`/sessões/${video.id}`)}
+                onClick={() => router.push(`/aulas/${video.id}`)}
               />
             ))}
           </VideoCarousel>

@@ -17,7 +17,7 @@ interface MobileDrawerProps {
 
 /* ─── Same menu items as DesktopUserDrawer ─── */
 const menuItems = [
-  { icon: Award,          label: 'Unidade',             href: '/unidade',             desc: 'Nível, subnívels e evolução' },
+  { icon: Award,          label: 'Unidade',             href: '/academia',             desc: 'Nível, subnívels e evolução' },
   { icon: History,        label: 'Histórico de Treinos', href: '/historico',            desc: 'Frequência e sessões' },
   { icon: TrendingUp,     label: 'Minha Evolução',       href: '/minha-evolucao',       desc: 'Timeline e progresso' },
   { icon: ClipboardCheck, label: 'Minhas Turmas',         href: '/minhas-turmas',        desc: 'Turmas e horários' },
@@ -25,7 +25,7 @@ const menuItems = [
   { icon: Star,           label: 'Novidades',            href: '/novidades',            desc: 'Lançamentos recentes' },
   { icon: Tv,             label: 'Séries',               href: '/series',               desc: 'Séries e programas' },
   { icon: ShoppingBag,    label: 'Loja',                 href: '/shop',                 desc: 'Uniformes e acessórios' },
-  { icon: Bookmark,       label: 'Minha Lista',          href: '/meu-blackbelt',          desc: 'Conteúdo salvo e favoritos' },
+  { icon: Bookmark,       label: 'Minha Lista',          href: '/minha-lista',          desc: 'Conteúdo salvo e favoritos' },
 ];
 
 /* ─── Belt color helper (identical to desktop) ─── */

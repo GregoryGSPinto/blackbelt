@@ -175,7 +175,7 @@ export default function TeenUnidadePage() {
                 const textColor = ACCENT_TEXT[area.accent];
 
                 return (
-                  <Link key={area.id} href={`/teen-unidade/${area.id}`} className="group">
+                  <Link key={area.id} href={`/teen-academia/${area.id}`} className="group">
                     <TeenCard className="h-full">
                       <div className="flex items-start gap-3.5">
                         {/* Icon — teen-accent-icon-* cuida dark/light automaticamente */}

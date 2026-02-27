@@ -106,10 +106,10 @@ export default function KidsInicioPage() {
       {/* Cards de Ação Principal */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {[
-          { href: '/kids-sessões', emoji: '🎬', title: 'Sessões', sub: '5 Novas!', color: accent.blue, from: '#EFF6FF', to: '#DBEAFE' },
+          { href: '/kids-aulas', emoji: '🎬', title: 'Sessões', sub: '5 Novas!', color: accent.blue, from: '#EFF6FF', to: '#DBEAFE' },
           { href: '/kids-desafios', emoji: '🏆', title: 'Desafios', sub: '2 Ativos', color: accent.orange, from: '#FFF7ED', to: '#FFEDD5' },
-          { href: '/kids-conquistas', emoji: '🎖️', title: 'Conquistas', sub: `${currentKid.progresso.conquistasConquistadas}`, color: accent.yellow, from: '#FEFCE8', to: '#FEF9C3' },
-          { href: '/kids-progresso', emoji: '⭐', title: 'Progresso', sub: `Nível ${currentKid.nivel}`, color: accent.green, from: '#F0FDF4', to: '#DCFCE7' },
+          { href: '/kids-medalhas', emoji: '🎖️', title: 'Conquistas', sub: `${currentKid.progresso.conquistasConquistadas}`, color: accent.yellow, from: '#FEFCE8', to: '#FEF9C3' },
+          { href: '/kids-checkin', emoji: '⭐', title: 'Presença', sub: `Nível ${currentKid.nivel}`, color: accent.green, from: '#F0FDF4', to: '#DCFCE7' },
         ].map((card) => (
           <Link
             key={card.href}

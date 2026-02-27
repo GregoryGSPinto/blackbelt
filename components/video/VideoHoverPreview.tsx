@@ -275,7 +275,7 @@ function PreviewPanel({
   }, []);
 
   const handleShare = useCallback(async () => {
-    const url = `${window.location.origin}/sessões/${video.id}`;
+    const url = `${window.location.origin}/aulas/${video.id}`;
     if (navigator.share) {
       try { await navigator.share({ title: video.title, url }); } catch {}
     } else {
@@ -286,7 +286,7 @@ function PreviewPanel({
   }, [video]);
 
   const handleDetails = useCallback(() => {
-    window.location.href = `/sessões/${video.id}`;
+    window.location.href = `/aulas/${video.id}`;
   }, [video.id]);
 
   /* ─── Theme colors ─── */

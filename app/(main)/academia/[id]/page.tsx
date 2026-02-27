@@ -22,7 +22,7 @@ export default function AreaDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>Área não encontrada</p>
-          <button onClick={() => router.push('/unidade')}
+          <button onClick={() => router.push('/academia')}
             className="text-primary-light text-sm font-medium">
             Voltar à Unidade
           </button>
@@ -153,7 +153,7 @@ export default function AreaDetailPage() {
 
         {/* ═══ CTA — Ir para Teste ═══ */}
         <button
-          onClick={() => router.push(`/unidade/${area.id}/teste`)}
+          onClick={() => router.push(`/academia/${area.id}/teste`)}
           className="w-full rounded-2xl p-6 flex items-center justify-between transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] group"
           style={{
             background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})`,

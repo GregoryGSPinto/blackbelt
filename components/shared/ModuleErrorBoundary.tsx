@@ -120,7 +120,7 @@ const MODULE_CONFIG: Record<ModuleName, ModuleConfig> = {
     gradient: 'from-indigo-900 via-purple-900 to-pink-900',
     iconColor: 'text-pink-300',
     badgeColor: 'bg-pink-400/20 text-pink-200 border-pink-300/30',
-    homeRoute: '/parent-inicio',
+    homeRoute: '/painel-responsavel',
     message: 'A área do responsável encontrou um problema inesperado.',
     emoji: '👨‍👩‍👧'
   },

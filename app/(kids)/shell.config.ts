@@ -12,23 +12,23 @@ import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/sh
 // Desktop: 5 items (no Mais needed)
 const DESKTOP_NAV = [
   { href: '/kids-inicio', icon: Home, label: 'Início', emoji: '🏠' },
-  { href: '/kids-sessões', icon: Video, label: 'Sessões', emoji: '🎬' },
+  { href: '/kids-aulas', icon: Video, label: 'Sessões', emoji: '🎬' },
   { href: '/kids-desafios', icon: Trophy, label: 'Desafios', emoji: '🏆' },
-  { href: '/kids-conquistas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
+  { href: '/kids-medalhas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
   { href: '/kids-mestres', icon: Users, label: 'Mestres', emoji: '🐯' },
 ];
 
 // Mobile bottom bar: 3 fixed + Menu (4th auto-added)
 const MOBILE_BAR = [
   { href: '/kids-inicio', icon: Home, label: 'Início', emoji: '🏠' },
-  { href: '/kids-sessões', icon: Video, label: 'Sessões', emoji: '🎬' },
+  { href: '/kids-aulas', icon: Video, label: 'Sessões', emoji: '🎬' },
   { href: '/kids-mestres', icon: Users, label: 'Mestres', emoji: '🐯' },
 ];
 
 // Mobile Menu (bottom sheet)
 const DRAWER_NAV = [
   { href: '/kids-desafios', icon: Trophy, label: 'Desafios', emoji: '🏆' },
-  { href: '/kids-conquistas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
+  { href: '/kids-medalhas', icon: Award, label: 'Conquistas', emoji: '🎖️' },
   { href: '/kids-checkin', icon: ClipboardCheck, label: 'Presença', emoji: '📋' },
 ];
 

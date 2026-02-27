@@ -77,7 +77,7 @@ export default function AulaDetailPage() {
         const v = await contentService.getVideoById(id);
         if (cancelled) return;
         if (!v) {
-          router.replace('/sessões');
+          router.replace('/aulas');
           return;
         }
         setVideo(v);
@@ -461,7 +461,7 @@ export default function AulaDetailPage() {
               return (
                 <Link
                   key={r.id}
-                  href={`/sessões/${r.id}`}
+                  href={`/aulas/${r.id}`}
                   className="flex-shrink-0 w-[280px] group/rcard cursor-pointer"
                 >
                   {/* Thumbnail */}

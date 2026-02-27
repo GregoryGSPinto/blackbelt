@@ -104,7 +104,7 @@ export default function TeenSessõesPage() {
       {/* Lista de Sessões */}
       <div className="space-y-4">
         {sessõesFiltradas.map((aula) => (
-          <TeenCard key={aula.id} onClick={() => window.location.href = '/teen-sessões'}>
+          <TeenCard key={aula.id} onClick={() => window.location.href = '/teen-aulas'}>
             <div className="flex flex-col sm:flex-row gap-4">
               {/* Thumbnail */}
               <div className="w-32 h-32 bg-gradient-to-br from-teen-ocean to-teen-purple rounded-lg flex items-center justify-center flex-shrink-0">

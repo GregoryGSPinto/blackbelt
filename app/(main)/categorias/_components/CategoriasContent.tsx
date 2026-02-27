@@ -80,7 +80,7 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
               <VideoCardEnhanced
                 key={video.id}
                 video={video}
-                onClick={() => router.push(`/sessões/${video.id}`)}
+                onClick={() => router.push(`/aulas/${video.id}`)}
                 showInstructor
               />
             ))}
@@ -94,7 +94,7 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
             <VideoCardEnhanced
               key={video.id}
               video={video}
-              onClick={() => router.push(`/sessões/${video.id}`)}
+              onClick={() => router.push(`/aulas/${video.id}`)}
             />
           ))}
         </VideoCarousel>

@@ -102,7 +102,7 @@ export default function MinhaListaPage() {
               Adicione sessões aos favoritos para encontrar rapidamente o conteúdo que mais interessa
             </p>
             <button
-              onClick={() => router.push('/sessões')}
+              onClick={() => router.push('/aulas')}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all active:scale-95"
               style={{
                 background: 'linear-gradient(135deg, #6B4423, #8C6239)',
@@ -118,7 +118,7 @@ export default function MinhaListaPage() {
               <FavoriteCard
                 key={video.id}
                 video={video}
-                onPlay={() => router.push(`/sessões/${video.id}`)}
+                onPlay={() => router.push(`/aulas/${video.id}`)}
                 onRemove={() => removeFavorite(video.id)}
               />
             ))}

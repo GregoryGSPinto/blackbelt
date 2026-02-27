@@ -24,14 +24,14 @@ import { useState, useEffect, useRef } from 'react';
 const menuItems = [
   { icon: Home, label: 'Início', href: '/inicio' },
   { icon: Search, label: 'Buscar', href: '/buscar' },
-  { icon: PlaySquare, label: 'Sessões', href: '/sessões' },
+  { icon: PlaySquare, label: 'Sessões', href: '/aulas' },
   { icon: Tv, label: 'Séries', href: '/series' },
   { icon: Users, label: 'Infantil & Família', href: '/infantil', locked: true },
   { icon: Star, label: 'Novidades', href: '/novidades' },
   { icon: Grid, label: 'Categorias', href: '/categorias' },
   { icon: ShoppingBag, label: 'Loja', href: '/shop' },
-  { icon: User, label: 'Meu BlackBelt', href: '/meu-blackbelt' },
-  { icon: GraduationCap, label: 'Unidade', href: '/unidade' },
+  { icon: User, label: 'Meu BlackBelt', href: '/minha-lista' },
+  { icon: GraduationCap, label: 'Unidade', href: '/academia' },
   { icon: ClipboardCheck, label: 'Check-in / Financeiro', href: '/checkin-financeiro', hasStatus: true },
   { icon: Settings, label: 'Configurações', href: '/perfil/configuracoes' },
 ];

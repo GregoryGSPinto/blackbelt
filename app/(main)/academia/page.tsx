@@ -81,7 +81,7 @@ export default function UnidadePage() {
             const p = progress[area.id];
 
             return (
-              <Link key={area.id} href={`/unidade/${area.id}`}
+              <Link key={area.id} href={`/academia/${area.id}`}
                 className="group/card relative rounded-2xl p-5 md:p-6 transition-all duration-300 hover:scale-[1.02]"
                 style={{
                   background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
@@ -180,7 +180,7 @@ export default function UnidadePage() {
               const completed = p?.testCompleted;
 
               return (
-                <Link key={area.id} href={`/unidade/${area.id}/teste`}
+                <Link key={area.id} href={`/academia/${area.id}/teste`}
                   className="p-4 rounded-xl transition-all hover:scale-[1.02]"
                   style={{
                     background: 'rgb(var(--color-border) / 0.03)',

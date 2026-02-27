@@ -13,22 +13,22 @@ import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/sh
 
 const DESKTOP_NAV = [
   { href: '/inicio', icon: Home, label: 'Início' },
-  { href: '/sessões', icon: Video, label: 'Sessões' },
-  { href: '/unidade', icon: GraduationCap, label: 'Unidade' },
+  { href: '/aulas', icon: Video, label: 'Sessões' },
+  { href: '/academia', icon: GraduationCap, label: 'Unidade' },
   { href: '/series', icon: Tv, label: 'Séries' },
-  { href: '/meu-blackbelt', icon: Bookmark, label: 'Minha Lista' },
+  { href: '/minha-lista', icon: Bookmark, label: 'Minha Lista' },
 ];
 
 const MOBILE_BAR = [
   { href: '/inicio', icon: Home, label: 'Início' },
-  { href: '/unidade', icon: GraduationCap, label: 'Unidade' },
+  { href: '/academia', icon: GraduationCap, label: 'Unidade' },
   { href: '/checkin-financeiro', icon: ScanLine, label: 'Check-in' },
 ];
 
 const DRAWER_NAV = [
-  { href: '/sessões', icon: Video, label: 'Sessões' },
+  { href: '/aulas', icon: Video, label: 'Sessões' },
   { href: '/series', icon: Tv, label: 'Séries' },
-  { href: '/meu-blackbelt', icon: Bookmark, label: 'Minha Lista' },
+  { href: '/minha-lista', icon: Bookmark, label: 'Minha Lista' },
   { href: '/ranking', icon: Trophy, label: 'Ranking' },
   { href: '/graduacao', icon: GraduationCap, label: 'Graduação' },
   { href: '/carteirinha', icon: CreditCard, label: 'Carteirinha' },

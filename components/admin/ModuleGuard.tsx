@@ -115,7 +115,7 @@ export function ModuleGuard({ children, module }: ModuleGuardProps) {
 
           {/* Back */}
           <Link
-            href="/admin"
+            href="/dashboard"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm text-white/60 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />

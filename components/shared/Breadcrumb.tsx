@@ -97,18 +97,18 @@ const ROUTE_LABELS: Record<string, string> = {
   'checkin': 'Check-in',
   // Teen
   'teen-inicio': 'Início',
-  'teen-sessões': 'Sessões',
+  'teen-aulas': 'Sessões',
   'teen-progresso': 'Progresso',
   'teen-conquistas': 'Conquistas',
   'teen-perfil': 'Perfil',
-  'teen-unidade': 'Unidade',
+  'teen-academia': 'Unidade',
   'teen-checkin': 'Check-in',
   'teen-downloads': 'Downloads',
   // Kids
   'kids-inicio': 'Início',
-  'kids-sessões': 'Sessões',
+  'kids-aulas': 'Sessões',
   'kids-desafios': 'Desafios',
-  'kids-conquistas': 'Conquistas',
+  'kids-medalhas': 'Conquistas',
   'kids-mestres': 'Mestres',
 };
 
@@ -116,7 +116,7 @@ const ROUTE_LABELS: Record<string, string> = {
 
 const GROUP_ROOTS: Record<string, BreadcrumbItem> = {
   'inicio': { label: 'Início', href: '/inicio' },
-  'unidade': { label: 'Início', href: '/inicio' },
+  'academia': { label: 'Início', href: '/inicio' },
   'shop': { label: 'Início', href: '/inicio' },
   'perfil': { label: 'Início', href: '/inicio' },
   'ranking': { label: 'Início', href: '/inicio' },

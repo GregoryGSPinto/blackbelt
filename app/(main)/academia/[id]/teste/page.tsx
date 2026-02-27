@@ -60,7 +60,7 @@ export default function TestPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>Teste não encontrado</p>
-          <button onClick={() => router.push('/unidade')} className="text-primary-light text-sm font-medium">
+          <button onClick={() => router.push('/academia')} className="text-primary-light text-sm font-medium">
             Voltar à Unidade
           </button>
         </div>
@@ -78,7 +78,7 @@ export default function TestPage() {
       <div className="min-h-screen px-4 md:px-8 tv:px-16 py-8 md:py-12">
         <div className="max-w-2xl mx-auto space-y-8">
 
-          <button onClick={() => router.push(`/unidade/${id}`)}
+          <button onClick={() => router.push(`/academia/${id}`)}
             className="flex items-center gap-2 text-sm"
             style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
             <ArrowLeft size={16} /> Voltar ao conteúdo
@@ -148,7 +148,7 @@ export default function TestPage() {
                 }}>
                 <RotateCcw size={15} /> Refazer Teste
               </button>
-              <button onClick={() => router.push('/unidade')}
+              <button onClick={() => router.push('/academia')}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all active:scale-95"
                 style={{
                   background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})`,
@@ -167,7 +167,7 @@ export default function TestPage() {
     <div className="min-h-screen px-4 md:px-8 tv:px-16 py-8 md:py-12">
       <div className="max-w-2xl mx-auto space-y-8">
 
-        <button onClick={() => router.push(`/unidade/${id}`)}
+        <button onClick={() => router.push(`/academia/${id}`)}
           className="flex items-center gap-2 text-sm"
           style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
           <ArrowLeft size={16} /> Voltar ao conteúdo

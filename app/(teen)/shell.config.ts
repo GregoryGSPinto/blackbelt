@@ -12,8 +12,8 @@ import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/sh
 // Desktop: max 5 visible, rest goes to "Mais ▾"
 const DESKTOP_NAV = [
   { href: '/teen-inicio', icon: Home, label: 'Início' },
-  { href: '/teen-sessões', icon: Video, label: 'Sessões' },
-  { href: '/teen-unidade', icon: GraduationCap, label: 'Unidade' },
+  { href: '/teen-aulas', icon: Video, label: 'Sessões' },
+  { href: '/teen-academia', icon: GraduationCap, label: 'Unidade' },
   { href: '/teen-checkin-financeiro', icon: ClipboardCheck, label: 'Acesso' },
   { href: '/teen-progresso', icon: TrendingUp, label: 'Progresso' },
   // → Mais ▾
@@ -24,13 +24,13 @@ const DESKTOP_NAV = [
 // Mobile bottom bar: 3 fixed items + Menu (4th auto-added)
 const MOBILE_BAR = [
   { href: '/teen-inicio', icon: Home, label: 'Início' },
-  { href: '/teen-unidade', icon: GraduationCap, label: 'Unidade' },
+  { href: '/teen-academia', icon: GraduationCap, label: 'Unidade' },
   { href: '/teen-checkin', icon: CheckSquare, label: 'Check-in' },
 ];
 
 // Mobile Menu (bottom sheet): tudo que não está no bottom bar
 const DRAWER_NAV = [
-  { href: '/teen-sessões', icon: Video, label: 'Sessões' },
+  { href: '/teen-aulas', icon: Video, label: 'Sessões' },
   { href: '/teen-checkin-financeiro', icon: ClipboardCheck, label: 'Acesso' },
   { href: '/teen-progresso', icon: TrendingUp, label: 'Progresso' },
   { href: '/teen-conquistas', icon: Award, label: 'Conquistas' },

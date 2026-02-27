@@ -159,7 +159,7 @@ export default function InicioPage() {
             {featuredVideo.duration} · {featuredVideo.instructor}
           </p>
           <div className="flex flex-wrap gap-3">
-            <button onClick={() => router.push(`/sessões/${featuredVideo.id}`)} className="btn-primary flex items-center gap-2 text-sm py-2.5 px-5">
+            <button onClick={() => router.push(`/aulas/${featuredVideo.id}`)} className="btn-primary flex items-center gap-2 text-sm py-2.5 px-5">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               Assistir
             </button>
@@ -219,7 +219,7 @@ export default function InicioPage() {
                 />
               )}
               <button 
-                onClick={() => router.push(`/sessões/${featuredVideo.id}`)}
+                onClick={() => router.push(`/aulas/${featuredVideo.id}`)}
                 className="btn-primary flex items-center gap-2 relative z-10"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -263,7 +263,7 @@ export default function InicioPage() {
             <VideoCardEnhanced 
               key={video.id} 
               video={video}
-              onClick={() => router.push(`/sessões/${video.id}`)}
+              onClick={() => router.push(`/aulas/${video.id}`)}
               showInstructor
             />
           ))}
@@ -274,7 +274,7 @@ export default function InicioPage() {
             <VideoCardEnhanced 
               key={video.id} 
               video={video}
-              onClick={() => router.push(`/sessões/${video.id}`)}
+              onClick={() => router.push(`/aulas/${video.id}`)}
             />
           ))}
         </VideoCarousel>
@@ -284,7 +284,7 @@ export default function InicioPage() {
             <VideoCardEnhanced 
               key={video.id} 
               video={video}
-              onClick={() => router.push(`/sessões/${video.id}`)}
+              onClick={() => router.push(`/aulas/${video.id}`)}
               showInstructor
             />
           ))}
@@ -295,7 +295,7 @@ export default function InicioPage() {
             <VideoCardEnhanced 
               key={video.id} 
               video={video}
-              onClick={() => router.push(`/sessões/${video.id}`)}
+              onClick={() => router.push(`/aulas/${video.id}`)}
             />
           ))}
         </VideoCarousel>

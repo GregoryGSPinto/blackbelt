@@ -100,7 +100,7 @@ export default function TeenInicioPage() {
         {/* Continue assistindo — ocupa mais espaço */}
         {aulaEmAndamento && (
           <TeenCard variant="elevated" className="lg:col-span-3"
-            onClick={() => window.location.href = '/teen-sessões'}>
+            onClick={() => window.location.href = '/teen-aulas'}>
             <div className="flex items-center gap-4">
               <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden"
                 style={{
@@ -258,7 +258,7 @@ export default function TeenInicioPage() {
         <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scrollbar-hide">
           {TEEN_SESSÕES.slice(2, 5).map((aula) => (
             <TeenCard key={aula.id} className="min-w-[260px] md:min-w-0 snap-start"
-              onClick={() => window.location.href = '/teen-sessões'}>
+              onClick={() => window.location.href = '/teen-aulas'}>
               <div className="aspect-[16/9] rounded-xl flex items-center justify-center mb-3 overflow-hidden relative"
                 style={{
                   background: `linear-gradient(135deg, ${isDark ? 'rgba(0,107,143,0.25)' : 'rgba(0,107,143,0.12)'}, ${isDark ? 'rgba(123,104,238,0.2)' : 'rgba(123,104,238,0.08)'})`,
