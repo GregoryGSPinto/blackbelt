@@ -16,7 +16,7 @@ import type { TipoPerfil, KidRegistroData } from '@/lib/api/contracts';
 
 const DEV_REGISTRY_KEY = '__dev_blackbelt_registry';
 const DEV_SEED_VERSION_KEY = '__dev_blackbelt_seed_version';
-const CURRENT_SEED_VERSION = '6'; // Bumped: SUPPORT + UNIT_OWNER roles
+const CURRENT_SEED_VERSION = '7'; // Bumped: SUPER_ADMIN + Sofia login próprio
 
 interface DevUser {
   id: string;
@@ -94,18 +94,20 @@ function devSaveRegistry(users: DevUser[]) {
  * Senha ÚNICA: blackbelt123
  * 
  * LOGINS DISPONÍVEIS:
- * ┌─────────────────────────────────┬──────────────────────────┬────────────────┐
- * │ Perfil                          │ Email                    │ Senha          │
- * ├─────────────────────────────────┼──────────────────────────┼────────────────┤
- * │ Aluno Adulto                    │ adulto@blackbelt.com       │ blackbelt123     │
- * │ Aluno Teen — Miguel Oliveira    │ miguel@blackbelt.com       │ blackbelt123     │
- * │ Aluno Teen — Beatriz Oliveira   │ beatriz@blackbelt.com      │ blackbelt123     │
- * │ Aluno Kids                      │ kid@blackbelt.com          │ blackbelt123     │
- * │ Pai/Responsável (Teen)          │ paiteen@blackbelt.com      │ blackbelt123     │
- * │ Pai/Responsável (Kids)          │ paikids@blackbelt.com      │ blackbelt123     │
- * │ Professor                       │ professor@blackbelt.com    │ blackbelt123     │
- * │ Administrador                   │ admin@blackbelt.com        │ blackbelt123     │
- * └─────────────────────────────────┴──────────────────────────┴────────────────┘
+ * ┌─────────────────────────────────┬──────────────────────────────┬────────────────┐
+ * │ Perfil                          │ Email                        │ Senha          │
+ * ├─────────────────────────────────┼──────────────────────────────┼────────────────┤
+ * │ Aluno Adulto                    │ adulto@blackbelt.com         │ blackbelt123   │
+ * │ Aluno Teen — Miguel Oliveira    │ miguel@blackbelt.com         │ blackbelt123   │
+ * │ Aluno Teen — Beatriz Oliveira   │ beatriz@blackbelt.com        │ blackbelt123   │
+ * │ Aluno Kids — Pedro Ferreira     │ kid@blackbelt.com            │ blackbelt123   │
+ * │ Aluno Kids — Sofia Ferreira     │ sofia@blackbelt.com          │ blackbelt123   │
+ * │ Pai/Responsável (Teen)          │ paiteen@blackbelt.com        │ blackbelt123   │
+ * │ Pai/Responsável (Kids)          │ paikids@blackbelt.com        │ blackbelt123   │
+ * │ Professor                       │ professor@blackbelt.com      │ blackbelt123   │
+ * │ Administrador                   │ admin@blackbelt.com          │ blackbelt123   │
+ * │ Super Admin                     │ superadmin@blackbelt.com     │ blackbelt123   │
+ * └─────────────────────────────────┴──────────────────────────────┴────────────────┘
  * 
  * FAMÍLIAS:
  * ┌──────────────────┬──────────────────────────────────────────────────────────┐
@@ -227,11 +229,11 @@ function devSeedRegistry(): DevUser[] {
       familyId: 'FAM_FERREIRA',
     },
 
-    // Kid 2 — Sofia Ferreira (sem login próprio, acessa via família)
+    // Kid 2 — Sofia Ferreira (login próprio)
     {
       id: 'USR_KID_02',
-      email: 'paikids@blackbelt.com',
-      passwordHash: '',
+      email: 'sofia@blackbelt.com',
+      passwordHash: senha,
       nome: 'Sofia Ferreira',
       tipo: 'ALUNO_KIDS',
       idade: 6,
@@ -309,6 +311,18 @@ function devSeedRegistry(): DevUser[] {
       idade: 42,
       avatar: '🏛️',
       graduacao: 'Nível Máximo 3º Subnível',
+      unidade: 'BlackBelt',
+    },
+    // ── SUPER_ADMIN (Acesso total ao sistema) ──
+    {
+      id: 'USR_SUPER_01',
+      email: 'superadmin@blackbelt.com',
+      passwordHash: senha,
+      nome: 'Gregory Pinto',
+      tipo: 'SUPER_ADMIN',
+      idade: 30,
+      avatar: '⚡',
+      graduacao: 'Nível Máximo',
       unidade: 'BlackBelt',
     },
   ];
