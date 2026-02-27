@@ -74,7 +74,7 @@ export default function PremiumLoading({ onComplete }: PremiumLoadingProps) {
           <div
             className="absolute inset-[-12px] rounded-full animate-pulse-glow"
             style={{
-              background: `conic-gradient(from 0deg, rgba(212,175,55,${0.15 + progress * 0.003}), rgba(255,255,255,0.05), rgba(212,175,55,${0.15 + progress * 0.003}))`,
+              background: `conic-gradient(from 0deg, rgba(168,178,193,${0.15 + progress * 0.003}), rgba(255,255,255,0.05), rgba(168,178,193,${0.15 + progress * 0.003}))`,
               filter: 'blur(20px)',
             }}
           />
@@ -89,23 +89,23 @@ export default function PremiumLoading({ onComplete }: PremiumLoadingProps) {
             <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
           </svg>
 
-          {/* Progresso dourado */}
+          {/* Progresso prata */}
           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
             <defs>
-              <linearGradient id="progress-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#D4AF37" />
-                <stop offset="50%" stopColor="#F5E6A3" />
-                <stop offset="100%" stopColor="#D4AF37" />
+              <linearGradient id="progress-silver" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#A8B2C1" />
+                <stop offset="50%" stopColor="#D1D5DB" />
+                <stop offset="100%" stopColor="#A8B2C1" />
               </linearGradient>
               <filter id="glow-3d">
-                <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#D4AF37" floodOpacity="0.6" />
+                <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#A8B2C1" floodOpacity="0.6" />
                 <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="#ffffff" floodOpacity="0.3" />
               </filter>
             </defs>
             <circle
               cx="60" cy="60" r="52"
               fill="none"
-              stroke="url(#progress-gold)"
+              stroke="url(#progress-silver)"
               strokeWidth="3.5"
               strokeLinecap="round"
               strokeDasharray={circumference}
@@ -117,7 +117,7 @@ export default function PremiumLoading({ onComplete }: PremiumLoadingProps) {
 
           {/* Anel interno */}
           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(212,175,55,0.1)" strokeWidth="0.5" />
+            <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(168,178,193,0.1)" strokeWidth="0.5" />
           </svg>
 
           {/* Porcentagem 3D */}
@@ -137,10 +137,10 @@ export default function PremiumLoading({ onComplete }: PremiumLoadingProps) {
               <span
                 className="relative text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tabular-nums tracking-tight select-none"
                 style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #F5E6A3 30%, #D4AF37 60%, #B8960C 100%)',
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #D1D5DB 30%, #A8B2C1 60%, #6B7280 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  filter: 'drop-shadow(0 0 8px rgba(212,175,55,0.4))',
+                  filter: 'drop-shadow(0 0 8px rgba(168,178,193,0.4))',
                 }}
               >
                 {progress}%
@@ -152,8 +152,8 @@ export default function PremiumLoading({ onComplete }: PremiumLoadingProps) {
           <div
             className="absolute w-2 h-2 rounded-full"
             style={{
-              background: 'radial-gradient(circle, #F5E6A3, #D4AF37)',
-              boxShadow: '0 0 12px 4px rgba(212,175,55,0.6), 0 0 24px 8px rgba(212,175,55,0.3)',
+              background: 'radial-gradient(circle, #D1D5DB, #A8B2C1)',
+              boxShadow: '0 0 12px 4px rgba(168,178,193,0.6), 0 0 24px 8px rgba(168,178,193,0.3)',
               top: '50%',
               left: '50%',
               transform: `rotate(${progress * 3.6}deg) translateY(-70px) translate(-50%, -50%)`,
@@ -167,7 +167,7 @@ export default function PremiumLoading({ onComplete }: PremiumLoadingProps) {
         <p
           className="mt-10 text-sm tracking-[0.3em] uppercase select-none"
           style={{
-            background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(212,175,55,0.6), rgba(255,255,255,0.3))',
+            background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(168,178,193,0.6), rgba(255,255,255,0.3))',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}
