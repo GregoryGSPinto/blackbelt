@@ -353,8 +353,8 @@ export const getSessoesByNivel = (nivel: string): TeenAula[] => {
   const indice = niveisHierarquia.indexOf(nivel);
   
   return TEEN_SESSÕES.filter(sessão => {
-    const indiceSessão = niveisHierarquia.indexOf(aula.nivel);
-    return aula.nivel === 'Todas' || indiceSessão <= indice;
+    const indiceSessão = niveisHierarquia.indexOf(sessão.nivel);
+    return sessão.nivel === 'Todas' || indiceSessão <= indice;
   });
 };
 

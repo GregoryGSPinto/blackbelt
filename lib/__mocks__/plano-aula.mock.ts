@@ -34,7 +34,7 @@ export const mockTecnicas: TecnicaPratica[] = [
   { id: 't20', nome: 'Anaconda Choke', posicao: 'Lateral', tipo: 'finalizacao', nivelMinimo: 'Nível Intermediário' },
 ];
 
-export const mockPlanos: PlanoAula[] = [
+export const mockPlanos: PlanoSessão[] = [
   {
     id: 'pl-1', titulo: 'Fundamentals — Guarda Fechada', turmaId: 'TUR001', turmaNome: 'Fundamentals', data: '2026-02-17', professorId: 'PROF001',
     duracaoTotal: 60, template: false, tags: ['guarda', 'fundamentos'],
