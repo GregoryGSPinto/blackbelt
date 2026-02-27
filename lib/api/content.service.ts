@@ -34,16 +34,39 @@ export async function getVideos(filters?: {
   if (useMock()) {
     await mockDelay();
     const { mockVideos, getVideosByCategory, getVideosByLevel } = await getMockModule();
-    if (filters?.category) return getVideosByCategory(filters.category);
-    if (filters?.level) return getVideosByLevel(filters.level);
+
+    // Merge public uploaded videos into the content feed
+    const { getPublicUploadedVideos } = await import('@/lib/__mocks__/professor-videos.mock');
+    const publicUploads = getPublicUploadedVideos();
+    const uploadedAsVideos: Video[] = publicUploads.map(uv => ({
+      id: uv.id,
+      title: uv.title,
+      description: uv.description,
+      duration: uv.duration,
+      category: uv.category,
+      level: uv.level,
+      youtubeId: '',
+      thumbnail: uv.thumbnailUrl,
+      views: uv.views,
+      instructor: uv.instructor,
+      criadoPor: uv.criadoPor,
+      turmasAssociadas: uv.turmasAssociadas,
+      tags: uv.tags,
+      criadoEm: uv.criadoEm,
+    }));
+
+    const allVideos = [...mockVideos, ...uploadedAsVideos];
+
+    if (filters?.category) return allVideos.filter(v => v.category === filters.category);
+    if (filters?.level) return allVideos.filter(v => v.level === filters.level);
     if (filters?.search) {
       const term = filters.search.toLowerCase();
-      return mockVideos.filter(v =>
+      return allVideos.filter(v =>
         v.title.toLowerCase().includes(term) ||
         v.description.toLowerCase().includes(term)
       );
     }
-    return [...mockVideos];
+    return allVideos;
   }
 
   const params = new URLSearchParams();

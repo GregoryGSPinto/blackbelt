@@ -1,12 +1,16 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Play, Eye, Clock, Upload, Film, VideoOff, Pencil, Trash2, MoreVertical, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Play, Eye, Clock, Upload, Film, VideoOff, Pencil, Trash2, MoreVertical, Plus, Search, Copy, FileVideo } from 'lucide-react';
 import * as professorService from '@/lib/api/instrutor.service';
 import * as videoMgmt from '@/lib/api/video-management.service';
+import * as videoUploadService from '@/lib/api/video-upload.service';
 import type { VideoRecente } from '@/lib/api/instrutor.service';
 import type { Video } from '@/lib/__mocks__/content.mock';
+import type { UploadedVideo } from '@/lib/api/video-provider.types';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
@@ -21,6 +25,21 @@ const TIPO_LABELS: Record<string, { label: string; color: string }> = {
   demonstracao: { label: 'Demo', color: 'text-emerald-300 bg-emerald-500/15' },
 };
 
+const STATUS_BADGES: Record<string, { label: string; color: string }> = {
+  published: { label: 'Publicado', color: 'text-green-300 bg-green-500/15' },
+  draft: { label: 'Rascunho', color: 'text-amber-300 bg-amber-500/15' },
+  processing: { label: 'Processando', color: 'text-blue-300 bg-blue-500/15 animate-pulse' },
+  error: { label: 'Erro', color: 'text-red-300 bg-red-500/15' },
+};
+
+const CONTENT_TYPE_LABELS: Record<string, string> = {
+  aula: 'Aula',
+  demonstracao: 'Demo',
+  analise_luta: 'Análise',
+  aquecimento: 'Aquecimento',
+  outro: 'Outro',
+};
+
 // ── Turmas mock for multi-select ──
 const TURMAS_OPTIONS = [
   { id: 'TUR001', nome: 'Gi Avançado' },
@@ -28,12 +47,17 @@ const TURMAS_OPTIONS = [
   { id: 'TUR005', nome: 'No-Gi / Submission' },
 ];
 
+type FilterStatus = 'all' | 'published' | 'draft' | 'processing';
+
 export default function ProfessorVideosPage() {
   const { user } = useAuth();
+  const router = useRouter();
+  const toast = useToast();
 
   // ── State ──
   const [videos, setVideos] = useState<VideoRecente[]>([]);
   const [managedVideos, setManagedVideos] = useState<Video[]>([]);
+  const [uploadedVideos, setUploadedVideos] = useState<UploadedVideo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -46,20 +70,27 @@ export default function ProfessorVideosPage() {
   const [playlistModalOpen, setPlaylistModalOpen] = useState(false);
   const [editPlaylist, setEditPlaylist] = useState<Playlist | null>(null);
 
+  // ── Filter state ──
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
+
+  const profId = user?.id || 'prof-001';
+
   // ── Fetch ──
   useEffect(() => {
     setError(null);
     setLoading(true);
-    const profId = user?.id || 'prof-001';
     Promise.all([
       professorService.getVideos(),
       videoMgmt.getVideosByProfessor(profId),
       playlistService.getPlaylistsByProfessor(profId),
+      videoUploadService.getUploadedVideos(profId),
     ])
-      .then(([v, mv, pl]) => {
+      .then(([v, mv, pl, uv]) => {
         setVideos(v);
         setManagedVideos(mv);
         setPlaylists(pl);
+        setUploadedVideos(uv);
       })
       .catch((err) => {
         setError(handleServiceError(err, 'ProfVideos'));
@@ -67,7 +98,55 @@ export default function ProfessorVideosPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, [retryCount, user?.id]);
+  }, [retryCount, profId]);
+
+  // ── Merged "Meus Vídeos" (YouTube + Uploaded) ──
+  const allMyVideos = useMemo(() => {
+    const youtube = managedVideos.map((v) => ({
+      id: v.id,
+      title: v.title,
+      thumbnail: v.thumbnail,
+      duration: v.duration,
+      category: v.category,
+      level: v.level,
+      views: v.views,
+      status: 'published' as const,
+      source: 'youtube' as const,
+      contentType: null as string | null,
+      turmasAssociadas: v.turmasAssociadas || [],
+      criadoEm: v.criadoEm || '',
+      original: v,
+    }));
+    const uploaded = uploadedVideos.map((v) => ({
+      id: v.id,
+      title: v.title,
+      thumbnail: v.thumbnailUrl,
+      duration: v.duration,
+      category: v.category,
+      level: v.level,
+      views: v.views,
+      status: v.status,
+      source: 'upload' as const,
+      contentType: v.contentType,
+      turmasAssociadas: v.turmasAssociadas,
+      criadoEm: v.criadoEm,
+      original: v,
+    }));
+    return [...youtube, ...uploaded].sort((a, b) => (b.criadoEm || '').localeCompare(a.criadoEm || ''));
+  }, [managedVideos, uploadedVideos]);
+
+  // ── Filtered "Meus Vídeos" ──
+  const filteredMyVideos = useMemo(() => {
+    let result = allMyVideos;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter((v) => v.title.toLowerCase().includes(q));
+    }
+    if (filterStatus !== 'all') {
+      result = result.filter((v) => v.status === filterStatus);
+    }
+    return result;
+  }, [allMyVideos, searchQuery, filterStatus]);
 
   // ── Callbacks ──
   const handleVideoSaved = useCallback((saved: Video) => {
@@ -85,13 +164,19 @@ export default function ProfessorVideosPage() {
 
   const handleDelete = useCallback(async (id: string) => {
     try {
-      await videoMgmt.deleteVideo(id);
-      setManagedVideos((prev: Video[]) => prev.filter((v: Video) => v.id !== id));
+      // Check if it's an uploaded video
+      if (id.startsWith('uv-')) {
+        await videoUploadService.deleteUploadedVideo(id);
+        setUploadedVideos((prev) => prev.filter((v) => v.id !== id));
+      } else {
+        await videoMgmt.deleteVideo(id);
+        setManagedVideos((prev: Video[]) => prev.filter((v: Video) => v.id !== id));
+      }
     } catch { /* */ }
     setDeleteConfirm(null);
   }, []);
 
-  const openAdd = useCallback(() => {
+  const openYoutubeAdd = useCallback(() => {
     setEditVideo(null);
     setModalOpen(true);
   }, []);
@@ -101,6 +186,16 @@ export default function ProfessorVideosPage() {
     setModalOpen(true);
     setMenuOpen(null);
   }, []);
+
+  const handleCopyLink = useCallback((video: { id: string; source: string }) => {
+    const url = `${window.location.origin}/professor-videos?v=${video.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      toast.success('Link copiado!');
+    }).catch(() => {
+      toast.error('Falha ao copiar link');
+    });
+    setMenuOpen(null);
+  }, [toast]);
 
   // ── Search ──
   const searchItems = useMemo<SearchItem[]>(() =>
@@ -121,7 +216,19 @@ export default function ProfessorVideosPage() {
   if (loading) return <PageSkeleton variant="grid" />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
-  const totalViews = videos.reduce((a: number, v: VideoRecente) => a + v.visualizacoes, 0);
+  const totalViews = videos.reduce((a: number, v: VideoRecente) => a + v.visualizacoes, 0)
+    + uploadedVideos.reduce((a, v) => a + v.views, 0);
+
+  const totalVideos = videos.length + managedVideos.length + uploadedVideos.length;
+
+  // ── Status counts for filter chips ──
+  const statusCounts = allMyVideos.reduce(
+    (acc, v) => {
+      acc[v.status] = (acc[v.status] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
     <div className="space-y-8 pt-6 pb-8">
@@ -132,17 +239,27 @@ export default function ProfessorVideosPage() {
             <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Biblioteca</p>
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Vídeos</h1>
             <p className="text-white/55 text-sm mt-2">
-              {videos.length + managedVideos.length} vídeos · {totalViews} visualizações totais
+              {totalVideos} vídeos · {totalViews} visualizações totais
             </p>
           </div>
 
-          <button
-            onClick={openAdd}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500/80 hover:to-amber-600/80 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-amber-900/30 hover:shadow-amber-900/40 hover:scale-[1.02] w-fit"
-          >
-            <Upload size={16} />
-            Novo Vídeo
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={openYoutubeAdd}
+              className="flex items-center gap-2 px-4 py-2.5 text-white/40 text-xs font-medium rounded-xl transition-all hover:bg-white/5"
+              style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <Plus size={14} />
+              YouTube
+            </button>
+            <button
+              onClick={() => router.push('/professor-videos/upload')}
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500/80 hover:to-amber-600/80 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-amber-900/30 hover:shadow-amber-900/40 hover:scale-[1.02]"
+            >
+              <Upload size={16} />
+              Enviar Vídeo
+            </button>
+          </div>
         </div>
         <div className="prof-gold-line mt-6" />
       </section>
@@ -150,7 +267,7 @@ export default function ProfessorVideosPage() {
       {/* Stats */}
       <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-2">
         {[
-          { label: 'Total de Vídeos', value: videos.length + managedVideos.length, icon: Film },
+          { label: 'Total de Vídeos', value: totalVideos, icon: Film },
           { label: 'Visualizações', value: totalViews, icon: Eye },
           { label: 'Horas de Conteúdo', value: '2.4h', icon: Clock },
         ].map((stat) => (
@@ -174,10 +291,59 @@ export default function ProfessorVideosPage() {
                 : 'text-white/30 hover:text-white/50'
             }`}
           >
-            {t === 'todos' ? `Todos (${videos.length})` : t === 'meus' ? `Meus Vídeos (${managedVideos.length})` : `Playlists (${playlists.length})`}
+            {t === 'todos' ? `Todos (${videos.length})` : t === 'meus' ? `Meus Vídeos (${allMyVideos.length})` : `Playlists (${playlists.length})`}
           </button>
         ))}
       </div>
+
+      {/* Search & Filters (for "meus" tab) */}
+      {tab === 'meus' && (
+        <section className="space-y-3 prof-enter-2">
+          {/* Search bar */}
+          <div className="relative">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar por título..."
+              className="w-full pl-9 pr-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
+            />
+          </div>
+
+          {/* Status filter chips */}
+          <div className="flex flex-wrap gap-1.5">
+            {([
+              { value: 'all' as FilterStatus, label: 'Todos' },
+              { value: 'published' as FilterStatus, label: 'Publicados' },
+              { value: 'draft' as FilterStatus, label: 'Rascunhos' },
+              { value: 'processing' as FilterStatus, label: 'Processando' },
+            ]).map((f) => {
+              const count = f.value === 'all' ? allMyVideos.length : (statusCounts[f.value] || 0);
+              const active = filterStatus === f.value;
+              return (
+                <button
+                  key={f.value}
+                  onClick={() => setFilterStatus(f.value)}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${
+                    active ? 'text-amber-200' : 'text-white/30 hover:text-white/40'
+                  }`}
+                  style={{
+                    background: active ? 'rgba(251,191,36,0.1)' : 'rgba(255,255,255,0.02)',
+                    border: `1px solid ${active ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.06)'}`,
+                  }}
+                >
+                  {f.label} ({count})
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Videos Grid */}
       <section className="prof-enter-3">
@@ -226,107 +392,147 @@ export default function ProfessorVideosPage() {
               })
             )}
           </div>
-        ) : (
-          /* ── TAB: Managed Videos (with CRUD actions) ── */
+        ) : tab === 'meus' ? (
+          /* ── TAB: Meus Vídeos (YouTube + Uploaded, with CRUD) ── */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {managedVideos.length === 0 ? (
+            {filteredMyVideos.length === 0 ? (
               <div className="col-span-full">
-                <PageEmpty icon={VideoOff} title="Nenhum vídeo" message="Adicione seu primeiro vídeo!" />
+                <PageEmpty
+                  icon={VideoOff}
+                  title={searchQuery || filterStatus !== 'all' ? 'Nenhum resultado' : 'Nenhum vídeo'}
+                  message={searchQuery || filterStatus !== 'all' ? 'Tente alterar os filtros.' : 'Adicione seu primeiro vídeo!'}
+                />
               </div>
             ) : (
-              managedVideos.map((video: Video) => (
-                <div key={video.id} className="prof-glass-card overflow-hidden group relative">
-                  {/* Thumbnail */}
-                  <div className="relative h-40 md:h-44 bg-gradient-to-br from-black/60 to-black/30 overflow-hidden">
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                      style={{ backgroundImage: `url(${video.thumbnail})`, opacity: 0.3 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-all">
-                        <Play size={22} className="text-white/70 ml-0.5" fill="currentColor" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/70 rounded-lg text-[11px] text-white/80 font-mono">
-                      {video.duration}
-                    </div>
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-semibold text-amber-300 bg-amber-500/15">
-                      {video.category}
-                    </div>
+              filteredMyVideos.map((video) => {
+                const statusConf = STATUS_BADGES[video.status] || STATUS_BADGES.published;
+                const isUpload = video.source === 'upload';
 
-                    {/* ── Actions menu ── */}
-                    <div className="absolute top-3 right-3">
-                      <button
-                        onClick={() => setMenuOpen(menuOpen === video.id ? null : video.id)}
-                        className="w-7 h-7 rounded-lg bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors"
-                      >
-                        <MoreVertical size={14} className="text-white/60" />
-                      </button>
-                      {menuOpen === video.id && (
-                        <div
-                          className="absolute right-0 top-8 w-32 rounded-xl overflow-hidden shadow-xl"
-                          style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.08)' }}
-                        >
-                          <button
-                            onClick={() => openEdit(video)}
-                            className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-white/60 hover:bg-white/5 transition-colors"
-                          >
-                            <Pencil size={12} /> Editar
-                          </button>
-                          <button
-                            onClick={() => { setDeleteConfirm(video.id); setMenuOpen(null); }}
-                            className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-red-400/70 hover:bg-red-500/5 transition-colors"
-                          >
-                            <Trash2 size={12} /> Excluir
-                          </button>
+                return (
+                  <div key={video.id} className="prof-glass-card overflow-hidden group relative">
+                    {/* Thumbnail */}
+                    <div className="relative h-40 md:h-44 bg-gradient-to-br from-black/60 to-black/30 overflow-hidden">
+                      <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                        style={{ backgroundImage: `url(${video.thumbnail})`, opacity: 0.3 }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-all">
+                          {isUpload ? (
+                            <FileVideo size={22} className="text-white/70" />
+                          ) : (
+                            <Play size={22} className="text-white/70 ml-0.5" fill="currentColor" />
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </div>
+                      </div>
+                      <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/70 rounded-lg text-[11px] text-white/80 font-mono">
+                        {video.duration}
+                      </div>
 
-                  {/* Info */}
-                  <div className="p-4">
-                    <h3 className="text-sm font-semibold text-white/80 truncate">{video.title}</h3>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-[10px] text-white/40">{video.level}</span>
-                      {video.turmasAssociadas && video.turmasAssociadas.length > 0 && (
-                        <span className="text-[10px] text-white/30">
-                          {video.turmasAssociadas.length} turma{video.turmasAssociadas.length > 1 ? 's' : ''}
+                      {/* Source + Category badges */}
+                      <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                        <span className="px-2.5 py-1 rounded-lg text-[10px] font-semibold text-amber-300 bg-amber-500/15">
+                          {video.category}
                         </span>
-                      )}
-                    </div>
-                  </div>
+                        {isUpload && video.contentType && (
+                          <span className="px-2 py-1 rounded-lg text-[9px] font-medium text-sky-300 bg-sky-500/15">
+                            {CONTENT_TYPE_LABELS[video.contentType] || video.contentType}
+                          </span>
+                        )}
+                      </div>
 
-                  {/* Delete confirmation */}
-                  {deleteConfirm === video.id && (
-                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-10">
-                      <div className="text-center">
-                        <p className="text-sm text-white/70 mb-3">Excluir este vídeo?</p>
-                        <div className="flex gap-2 justify-center">
-                          <button
-                            onClick={() => setDeleteConfirm(null)}
-                            className="px-4 py-2 rounded-lg text-xs text-white/40 bg-white/5 hover:bg-white/10"
+                      {/* ── Actions menu ── */}
+                      <div className="absolute top-3 right-3">
+                        <button
+                          onClick={() => setMenuOpen(menuOpen === video.id ? null : video.id)}
+                          className="w-7 h-7 rounded-lg bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors"
+                        >
+                          <MoreVertical size={14} className="text-white/60" />
+                        </button>
+                        {menuOpen === video.id && (
+                          <div
+                            className="absolute right-0 top-8 w-36 rounded-xl overflow-hidden shadow-xl z-20"
+                            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.08)' }}
                           >
-                            Cancelar
-                          </button>
-                          <button
-                            onClick={() => handleDelete(video.id)}
-                            className="px-4 py-2 rounded-lg text-xs text-white bg-red-600/80 hover:bg-red-500"
-                          >
-                            Excluir
-                          </button>
+                            {!isUpload && (
+                              <button
+                                onClick={() => openEdit(video.original as Video)}
+                                className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-white/60 hover:bg-white/5 transition-colors"
+                              >
+                                <Pencil size={12} /> Editar
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleCopyLink(video)}
+                              className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-white/60 hover:bg-white/5 transition-colors"
+                            >
+                              <Copy size={12} /> Copiar link
+                            </button>
+                            <button
+                              onClick={() => { setDeleteConfirm(video.id); setMenuOpen(null); }}
+                              className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-red-400/70 hover:bg-red-500/5 transition-colors"
+                            >
+                              <Trash2 size={12} /> Excluir
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Info */}
+                    <div className="p-4">
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="text-sm font-semibold text-white/80 truncate flex-1">{video.title}</h3>
+                        <span className={`px-2 py-0.5 rounded-md text-[9px] font-semibold whitespace-nowrap ${statusConf.color}`}>
+                          {statusConf.label}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-[10px] text-white/40">{video.level}</span>
+                        <div className="flex items-center gap-2">
+                          {video.source === 'upload' && (
+                            <span className="text-[9px] text-white/20 bg-white/5 px-1.5 py-0.5 rounded">Upload</span>
+                          )}
+                          {video.turmasAssociadas.length > 0 && (
+                            <span className="text-[10px] text-white/30">
+                              {video.turmasAssociadas.length} turma{video.turmasAssociadas.length > 1 ? 's' : ''}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
-                  )}
-                </div>
-              ))
+
+                    {/* Delete confirmation */}
+                    {deleteConfirm === video.id && (
+                      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-10">
+                        <div className="text-center">
+                          <p className="text-sm text-white/70 mb-3">Excluir este vídeo?</p>
+                          <div className="flex gap-2 justify-center">
+                            <button
+                              onClick={() => setDeleteConfirm(null)}
+                              className="px-4 py-2 rounded-lg text-xs text-white/40 bg-white/5 hover:bg-white/10"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              onClick={() => handleDelete(video.id)}
+                              className="px-4 py-2 rounded-lg text-xs text-white bg-red-600/80 hover:bg-red-500"
+                            >
+                              Excluir
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
 
             {/* Upload CTA */}
             <div
-              onClick={openAdd}
+              onClick={() => router.push('/professor-videos/upload')}
               className="prof-glass-card overflow-hidden flex items-center justify-center min-h-[240px] border-2 border-dashed border-white/5 hover:border-amber-500/20 transition-all duration-300 cursor-pointer group"
             >
               <div className="text-center">
@@ -337,7 +543,7 @@ export default function ProfessorVideosPage() {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </section>
 
       {/* ── Playlists Tab ── */}
@@ -410,7 +616,7 @@ export default function ProfessorVideosPage() {
             editPlaylist={editPlaylist}
             availableVideos={managedVideos.map(v => ({ id: v.id, titulo: v.title, thumbnail: v.thumbnail }))}
             turmas={TURMAS_OPTIONS}
-            profId={user?.id || 'prof-001'}
+            profId={profId}
           />
         </section>
       )}
@@ -427,7 +633,7 @@ export default function ProfessorVideosPage() {
         onSaved={handleVideoSaved}
         editVideo={editVideo}
         turmas={TURMAS_OPTIONS}
-        profId={user?.id || 'prof-001'}
+        profId={profId}
       />
     </div>
   );
