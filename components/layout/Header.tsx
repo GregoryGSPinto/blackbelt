@@ -28,11 +28,11 @@ export default function Header() {
         {/* Logo Leão + Texto */}
         <Link href="/inicio" className="flex items-center gap-3.5 flex-shrink-0 group">
           <Image
-            src="/blackbelt-lion-logo.png"
+            src="/images/logo-blackbelt.png"
             alt="BlackBelt"
-            width={80}
-            height={80}
-            className="flex-shrink-0 object-contain rounded-full ring-1 ring-white/[0.06] group-hover:ring-white/15 transition-all duration-300"
+            width={36}
+            height={36}
+            className="flex-shrink-0 object-contain rounded-lg ring-1 ring-white/[0.06] group-hover:ring-white/15 transition-all duration-300"
             priority
           />
           <span className="text-[15px] font-bold tracking-wide text-white/90">

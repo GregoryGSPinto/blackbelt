@@ -10,9 +10,8 @@ import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 const AVATARES_PREDEFINIDOS = [
-  '/blackbelt-lion-logo.png',
+  '/images/logo-blackbelt.png',
   '/blackbelt-badge.png',
-  '/blackbelt-logo-circle.jpg',
 ];
 
 const STORAGE_KEY = 'blackbelt_user_avatar';

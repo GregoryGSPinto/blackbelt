@@ -125,11 +125,11 @@ export default function Sidebar() {
       <div className="p-4 flex items-center justify-between border-b border-white/10">
         <div className="flex items-center gap-3 min-w-0">
           <Image
-            src="/blackbelt-lion-logo.png"
+            src="/images/logo-blackbelt.png"
             alt="BlackBelt"
-            width={40}
-            height={40}
-            className="rounded-full flex-shrink-0 object-contain"
+            width={32}
+            height={32}
+            className="rounded-lg flex-shrink-0 object-contain"
           />
           {isExpanded && (
             <h1 className="text-lg font-bold tracking-tight whitespace-nowrap overflow-hidden">

@@ -98,7 +98,7 @@ function ParentLayoutInner({ children }: { children: ReactNode }) {
               )}
 
               <Link href="/painel-responsavel" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                <Image src="/blackbelt-logo-circle.jpg" alt="BlackBelt" width={40} height={40} className="rounded-full" />
+                <Image src="/images/logo-blackbelt.png" alt="BlackBelt" width={36} height={36} className="rounded-lg" />
                 <div>
                   <h1 className="text-lg font-bold tracking-tight">BLACKBELT</h1>
                   <p className="text-xs text-white/60">Painel do Responsável</p>

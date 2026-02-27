@@ -10,6 +10,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, Shield,
 } from 'lucide-react';
@@ -52,10 +53,12 @@ export function ShellMobileHeader({ config, state }: Props) {
         {/* Left: Logo + Name (collapses on search) */}
         <div className="flex items-center gap-3 flex-shrink-0">
           <Link href={theme.logoHref}>
-            <img
-              src="/blackbelt-logo-circle.jpg"
+            <Image
+              src="/images/logo-blackbelt.png"
               alt="BlackBelt"
-              className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+              width={36}
+              height={36}
+              className="rounded-lg object-cover flex-shrink-0"
               style={{ boxShadow: `0 0 0 1.5px ${theme.avatarRing(isDark)}` }}
             />
           </Link>

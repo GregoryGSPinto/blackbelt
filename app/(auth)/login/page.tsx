@@ -131,6 +131,17 @@ function LoginContent() {
 
           {/* Container Principal */}
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl transition-all duration-500 hover:border-white/20">
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <Image
+                src="/images/logo-blackbelt.png"
+                alt="BlackBelt"
+                width={64}
+                height={64}
+                className="rounded-lg"
+              />
+            </div>
+
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-2 tracking-tight">Entrar</h1>

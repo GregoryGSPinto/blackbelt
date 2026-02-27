@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 
 /**
@@ -146,34 +147,18 @@ export default function SplashScreen() {
             <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(168,178,193,0.1)" strokeWidth="0.5" />
           </svg>
 
-          {/* Porcentagem 3D */}
+          {/* Logo central */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative">
-              {/* Sombra */}
-              <span
-                className="absolute inset-0 flex items-center justify-center text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tabular-nums tracking-tight select-none"
-                style={{
-                  color: 'transparent',
-                  WebkitTextStroke: '1px rgba(0,0,0,0.3)',
-                  transform: 'translate(2px, 2px)',
-                  filter: 'blur(2px)',
-                }}
-              >
-                {progress}%
-              </span>
-              {/* Texto prata */}
-              <span
-                className="relative text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tabular-nums tracking-tight select-none"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #D1D5DB 30%, #A8B2C1 60%, #6B7280 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  filter: 'drop-shadow(0 0 8px rgba(168,178,193,0.4))',
-                }}
-              >
-                {progress}%
-              </span>
-            </div>
+            <Image
+              src="/images/logo-blackbelt.png"
+              alt="BlackBelt"
+              width={80}
+              height={80}
+              className="rounded-lg"
+              style={{
+                filter: 'drop-shadow(0 0 12px rgba(168,178,193,0.4))',
+              }}
+            />
           </div>
 
           {/* Ponto luminoso */}

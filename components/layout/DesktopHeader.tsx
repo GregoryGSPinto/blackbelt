@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Bell } from 'lucide-react';
 import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
@@ -64,10 +65,12 @@ export default function DesktopHeader() {
       >
         {/* LEFT: Logo — lion badge */}
         <Link href="/inicio" className="flex items-center gap-4 flex-shrink-0 group">
-          <img
-            src="/blackbelt-logo-circle.jpg"
+          <Image
+            src="/images/logo-blackbelt.png"
             alt="BlackBelt"
-            className="w-[54px] h-[54px] rounded-full object-cover transition-all duration-300 shadow-lg"
+            width={36}
+            height={36}
+            className="rounded-lg object-cover transition-all duration-300 shadow-lg"
             style={{ boxShadow: `0 0 0 1.5px ${ringColor}` }}
           />
           <span className="text-[20px] font-bold tracking-wide hidden lg:block" style={{ color: brandColor }}>

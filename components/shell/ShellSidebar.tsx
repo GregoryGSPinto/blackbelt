@@ -50,7 +50,7 @@ export function ShellSidebar({ config, state }: Props) {
         {/* Logo */}
         <div className="h-20 flex items-center justify-between px-6 border-b border-white/10 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <Image src="/blackbelt-logo-circle.jpg" alt="BlackBelt" width={40} height={40} className="rounded-lg" />
+            <Image src="/images/logo-blackbelt.png" alt="BlackBelt" width={32} height={32} className="rounded-lg" />
             <div>
               <h1 className="text-white font-bold text-base tracking-tight">{theme.logoLabel}</h1>
               {sb.logoSubtitle && (

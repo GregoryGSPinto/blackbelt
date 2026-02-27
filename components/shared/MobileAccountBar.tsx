@@ -71,11 +71,11 @@ export function MobileAccountBar({
         {/* Logo */}
         <div className="flex items-center gap-2.5">
           <Image
-            src="/blackbelt-logo-circle.jpg"
+            src="/images/logo-blackbelt.png"
             alt="BlackBelt"
             width={32}
             height={32}
-            className="rounded-full"
+            className="rounded-lg"
           />
           <div className="min-w-0">
             <p className={`text-sm font-bold tracking-tight truncate ${

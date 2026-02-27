@@ -160,11 +160,11 @@ export default function ProfileSelectionPage() {
         {/* Logo */}
         <div className="mb-8 text-center">
           <Image
-            src="/blackbelt-logo-circle.jpg"
+            src="/images/logo-blackbelt.png"
             alt="BlackBelt"
             width={64}
             height={64}
-            className="rounded-full mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
+            className="rounded-lg mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
           />
           <h1 className="text-xl md:text-2xl lg:text-4xl font-bold tracking-tight">Quem está treinando?</h1>
           <p className="text-white/40 mt-2 text-sm">{user.email}</p>

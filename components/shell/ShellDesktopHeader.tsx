@@ -6,6 +6,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
 import { AppShellConfig, ShellState } from './types';
 
@@ -67,10 +68,12 @@ export function ShellDesktopHeader({ config, state }: Props) {
     >
       {/* ─── Logo ─── */}
       <Link href={theme.logoHref} className="flex items-center gap-4 flex-shrink-0">
-        <img
-          src="/blackbelt-logo-circle.jpg"
+        <Image
+          src="/images/logo-blackbelt.png"
           alt="BlackBelt"
-          className="w-[54px] h-[54px] rounded-full object-cover shadow-lg"
+          width={36}
+          height={36}
+          className="rounded-lg object-cover shadow-lg"
           style={{ boxShadow: `0 0 0 1.5px ${theme.avatarRing(isDark)}` }}
         />
         <div className="hidden lg:flex items-baseline gap-2">

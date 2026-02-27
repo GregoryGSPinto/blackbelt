@@ -39,7 +39,7 @@ export default function EsqueciSenhaPage() {
         {/* Background Fixo */}
         <div className="fixed inset-0 z-0">
           <Image
-            src="/blackbelt-logo.jpg"
+            src="/images/logo-blackbelt.png"
             alt="Background"
             fill
             className="object-cover"
@@ -77,7 +77,7 @@ export default function EsqueciSenhaPage() {
       {/* Background Fixo - IDÊNTICO ao login */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="/blackbelt-logo.jpg"
+          src="/images/logo-blackbelt.png"
           alt="Background"
           fill
           className="object-cover"

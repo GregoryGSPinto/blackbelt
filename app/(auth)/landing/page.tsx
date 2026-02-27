@@ -155,7 +155,7 @@ export default function PremiumLandingPage() {
         {/* Mobile: 72px, bg-black/60 */}
         <div className="md:hidden flex items-center justify-between px-6 h-[72px] bg-black/60 backdrop-blur-md border-b border-white/5">
           <Link href="/landing" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <Image src="/blackbelt-logo-circle.jpg" alt="BlackBelt" width={48} height={48} className="rounded-full" />
+            <Image src="/images/logo-blackbelt.png" alt="BlackBelt" width={48} height={48} className="rounded-lg" />
             <span className="text-xl font-bold tracking-tight">BLACKBELT</span>
           </Link>
           <Link href="/login"
@@ -173,8 +173,8 @@ export default function PremiumLandingPage() {
             borderBottom: '1px solid rgba(255,255,255,0.04)',
           }}>
           <Link href="/landing" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-            <Image src="/blackbelt-logo-circle.jpg" alt="BlackBelt" width={54} height={54}
-              className="rounded-full shadow-lg" style={{ boxShadow: '0 0 0 1.5px rgba(255,255,255,0.08)' }} />
+            <Image src="/images/logo-blackbelt.png" alt="BlackBelt" width={36} height={36}
+              className="rounded-lg shadow-lg" style={{ boxShadow: '0 0 0 1.5px rgba(255,255,255,0.08)' }} />
             <span className="text-[20px] font-bold tracking-wide">BLACKBELT</span>
           </Link>
           <Link href="/login"
