@@ -5,7 +5,7 @@ import type { Mensagem, Conversa, MensagemTemplate } from '@/lib/__mocks__/mensa
 export type { Mensagem, Conversa, MensagemTemplate };
 
 function useMock() {
-  return process.env.NEXT_PUBLIC_USE_MOCK !== 'false';
+  return process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 }
 
 async function mockDelay(ms = 300) {

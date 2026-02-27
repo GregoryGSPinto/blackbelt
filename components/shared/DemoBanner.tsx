@@ -22,7 +22,7 @@ export function DemoBanner() {
 
   useEffect(() => {
     // Only show in mock mode
-    const isMock = process.env.NEXT_PUBLIC_USE_MOCK !== 'false';
+    const isMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
     const dismissed = sessionStorage.getItem(DISMISS_KEY);
     if (isMock && !dismissed) {
       setVisible(true);
