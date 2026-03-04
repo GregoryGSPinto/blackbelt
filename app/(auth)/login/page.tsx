@@ -373,8 +373,10 @@ function LoginContent() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          padding: '1.5rem',
+          paddingTop: '10vh',
+          paddingBottom: '3rem',
+          paddingLeft: '1.5rem',
+          paddingRight: '1.5rem',
         }}
       >
         {/* ─── STEP: INITIAL ─────────────────────────────── */}
