@@ -651,34 +651,31 @@ function LoginContent() {
             className="login-card-responsive"
           >
             <form onSubmit={handlePasswordSubmit}>
-              <div style={{ position: 'relative' }}>
-                {/* Card */}
-                <div
-                  style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    padding: '2.5rem 2rem 3rem',
-                    transition: transitions.theme,
-                  }}
-                >
+              <div
+                style={{
+                  border: `1px solid ${colors.cardBorder}`,
+                  background: colors.cardBg,
+                  backdropFilter: 'blur(12px) saturate(1.2)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                  transition: transitions.theme,
+                }}
+              >
+                {/* Conteúdo superior */}
+                <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
                   {/* Back button */}
                   <button
                     type="button"
                     onClick={goBackToEmail}
                     style={{
+                      position: 'absolute',
+                      top: '1rem',
+                      left: '1rem',
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
                       padding: '0.25rem',
-                      marginBottom: '1.5rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      color: colors.textMuted,
-                      fontSize: '0.8rem',
-                      transition: transitions.theme,
                     }}
                     aria-label="Voltar para email"
                   >
@@ -692,6 +689,7 @@ function LoginContent() {
                       color: colors.textMuted,
                       marginBottom: '2rem',
                       textAlign: 'center',
+                      opacity: 0.6,
                       transition: transitions.theme,
                     }}
                   >
@@ -699,7 +697,7 @@ function LoginContent() {
                   </p>
 
                   {/* Error */}
-                  {(error && (step === 'PASSWORD' || step === 'ERROR')) && (
+                  {error && (
                     <p
                       role="alert"
                       style={{
@@ -715,7 +713,7 @@ function LoginContent() {
                   )}
 
                   {/* Password input */}
-                  <div style={{ marginBottom: '1.5rem', position: 'relative' }}>
+                  <div style={{ marginBottom: '1rem', position: 'relative' }}>
                     <label
                       htmlFor="password"
                       style={{
@@ -782,8 +780,8 @@ function LoginContent() {
                     </div>
                   </div>
 
-                  {/* Forgot password link */}
-                  <div style={{ textAlign: 'center' }}>
+                  {/* Forgot password link — right aligned */}
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
                     <Link
                       href="/esqueci-senha"
                       style={{
@@ -798,42 +796,30 @@ function LoginContent() {
                   </div>
                 </div>
 
-                {/* Overlapping button */}
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <button
-                    type="submit"
-                    style={{
-                      width: '60%',
-                      height: 52,
-                      background: '#111',
-                      color: '#fff',
-                      border: 'none',
-                      fontSize: '0.8rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      cursor: 'pointer',
-                      transform: 'translateY(-50%)',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#000';
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#111';
-                      e.currentTarget.style.transform = 'translateY(-50%)';
-                    }}
-                    onMouseDown={(e) => {
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 4px))';
-                    }}
-                    onMouseUp={(e) => {
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
-                    }}
-                  >
-                    Entrar
-                  </button>
-                </div>
+                {/* Linha divisória */}
+                <div style={{ height: 1, background: colors.cardBorder }} />
+
+                {/* Botão ENTRAR na base do card */}
+                <button
+                  type="submit"
+                  style={{
+                    width: '100%',
+                    height: 52,
+                    border: 'none',
+                    background: 'transparent',
+                    color: colors.text,
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    transition: 'background 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                >
+                  ENTRAR
+                </button>
               </div>
             </form>
           </div>
@@ -892,33 +878,31 @@ function LoginContent() {
             className="login-card-responsive"
           >
             <form onSubmit={handlePasswordSubmit}>
-              <div style={{ position: 'relative' }}>
-                <div
-                  style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    padding: '2.5rem 2rem 3rem',
-                    transition: transitions.theme,
-                  }}
-                >
+              <div
+                style={{
+                  border: `1px solid ${colors.cardBorder}`,
+                  background: colors.cardBg,
+                  backdropFilter: 'blur(12px) saturate(1.2)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                  transition: transitions.theme,
+                }}
+              >
+                {/* Conteúdo superior */}
+                <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
                   {/* Back button */}
                   <button
                     type="button"
                     onClick={goBackToEmail}
                     style={{
+                      position: 'absolute',
+                      top: '1rem',
+                      left: '1rem',
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
                       padding: '0.25rem',
-                      marginBottom: '1.5rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      color: colors.textMuted,
-                      fontSize: '0.8rem',
-                      transition: transitions.theme,
                     }}
                     aria-label="Voltar para email"
                   >
@@ -932,6 +916,7 @@ function LoginContent() {
                       color: colors.textMuted,
                       marginBottom: '1.5rem',
                       textAlign: 'center',
+                      opacity: 0.6,
                       transition: transitions.theme,
                     }}
                   >
@@ -954,7 +939,7 @@ function LoginContent() {
                   )}
 
                   {/* Password input */}
-                  <div style={{ marginBottom: '1.5rem', position: 'relative' }}>
+                  <div style={{ marginBottom: '1rem', position: 'relative' }}>
                     <label
                       htmlFor="password-retry"
                       style={{
@@ -1020,8 +1005,8 @@ function LoginContent() {
                     </div>
                   </div>
 
-                  {/* Forgot password */}
-                  <div style={{ textAlign: 'center' }}>
+                  {/* Forgot password link — right aligned */}
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
                     <Link
                       href="/esqueci-senha"
                       style={{
@@ -1036,42 +1021,30 @@ function LoginContent() {
                   </div>
                 </div>
 
-                {/* Overlapping button */}
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <button
-                    type="submit"
-                    style={{
-                      width: '60%',
-                      height: 52,
-                      background: '#111',
-                      color: '#fff',
-                      border: 'none',
-                      fontSize: '0.8rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      cursor: 'pointer',
-                      transform: 'translateY(-50%)',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#000';
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#111';
-                      e.currentTarget.style.transform = 'translateY(-50%)';
-                    }}
-                    onMouseDown={(e) => {
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 4px))';
-                    }}
-                    onMouseUp={(e) => {
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
-                    }}
-                  >
-                    Entrar
-                  </button>
-                </div>
+                {/* Linha divisória */}
+                <div style={{ height: 1, background: colors.cardBorder }} />
+
+                {/* Botão ENTRAR na base do card */}
+                <button
+                  type="submit"
+                  style={{
+                    width: '100%',
+                    height: 52,
+                    border: 'none',
+                    background: 'transparent',
+                    color: colors.text,
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    transition: 'background 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                >
+                  ENTRAR
+                </button>
               </div>
             </form>
           </div>
