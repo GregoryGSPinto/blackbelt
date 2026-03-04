@@ -1054,7 +1054,7 @@ function LoginContent() {
         )}
 
         {/* ─── Dev Quick Access ──────────────────────────── */}
-        {process.env.NODE_ENV === 'development' && (
+        {(
           <div
             style={{
               marginTop: '2rem',
