@@ -21,18 +21,22 @@ const ThemeContext = createContext<ThemeContextType>({
 export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return 'dark';
+  });
   const [mounted, setMounted] = useState(false);
 
-  /* ── Init: read from localStorage or fallback to dark ── */
+  /* ── Init: follow OS color scheme ── */
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem('blackbelt-theme') as Theme | null;
-      if (stored === 'light' || stored === 'dark') {
-        setThemeState(stored);
-      }
-    } catch { /* SSR / storage unavailable */ }
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    setThemeState(mq.matches ? 'dark' : 'light');
+    const handler = (e: MediaQueryListEvent) => setThemeState(e.matches ? 'dark' : 'light');
+    mq.addEventListener('change', handler);
     setMounted(true);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   /* ── Sync class on <html> ── */

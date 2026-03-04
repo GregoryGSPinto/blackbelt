@@ -81,7 +81,7 @@ function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login, user, loading: authLoading } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
 
   // ─── State machine ────────────────────────────────────────
   const [step, setStep] = useState<LoginStep>('INITIAL');
@@ -326,34 +326,6 @@ function LoginContent() {
           }}
         />
       </div>
-
-      {/* ─── Theme Toggle ─────────────────────────────────── */}
-      <button
-        onClick={toggleTheme}
-        aria-label={isDark ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
-        style={{
-          position: 'fixed',
-          top: '1.5rem',
-          right: '1.5rem',
-          zIndex: 50,
-          width: 44,
-          height: 44,
-          borderRadius: '50%',
-          border: `1px solid ${isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)'}`,
-          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-          color: colors.text,
-          fontSize: '1.2rem',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: transitions.theme,
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-        }}
-      >
-        {isDark ? '☀️' : '🌙'}
-      </button>
 
       {/* ─── Content ──────────────────────────────────────── */}
       <div
