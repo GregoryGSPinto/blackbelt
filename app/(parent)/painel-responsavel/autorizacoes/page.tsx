@@ -9,6 +9,7 @@ import * as kidsSafety from '@/lib/api/kids-safety.service';
 import type { PessoaAutorizada, AutorizacaoSaida } from '@/lib/api/kids-safety.service';
 import { AuthorizationToggle } from '@/components/parent/AuthorizationToggle';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { ParentPreferences } from '@/components/parent/ParentPreferences';
 
 export default function AutorizacoesPage() {
@@ -50,7 +51,7 @@ export default function AutorizacoesPage() {
     } catch { /* noop */ }
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center min-h-[60vh]"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white/30" /></div>;
+  if (loading) return <PremiumLoader />;
   if (error) return <PageError error={error} onRetry={() => window.location.reload()} />;
 
   const ativas = pessoas.filter(p => p.ativa);

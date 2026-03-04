@@ -14,6 +14,7 @@ import { ShieldAlert, CheckCircle, Clock, UserX, Info } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function KidsCheckinPage() {
   const { isDark } = useTheme();
@@ -49,12 +50,7 @@ export default function KidsCheckinPage() {
   }, [retryCount, user?.id]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-white/60">Carregando...</p>
-      </div>
-    );
+    return <PremiumLoader text="Carregando..." />;
   }
 
   if (error) {

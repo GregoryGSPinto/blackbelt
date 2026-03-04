@@ -6,6 +6,7 @@ import * as kidsService from '@/lib/api/kids.service';
 import type { KidsMascot } from '@/lib/api/kids.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function KidsMestresPage() {
   const { isDark } = useTheme();
@@ -30,14 +31,7 @@ export default function KidsMestresPage() {
   }, [retryCount]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" />
-          <p className="text-white/60">Carregando mestres...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando mestres..." />;
   }
 
   if (error) {

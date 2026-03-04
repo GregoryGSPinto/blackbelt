@@ -6,6 +6,7 @@ import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
 import { Play, CheckCircle } from 'lucide-react';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenSessõesPage() {
   const [teensessões, setTeensessões] = useState<TeenAula[]>([]);
@@ -36,12 +37,7 @@ export default function TeenSessõesPage() {
   }, [retryCount]);
 
   if (loading || !currentTeen) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-white/60">Carregando...</p>
-      </div>
-    );
+    return <PremiumLoader text="Carregando..." />;
   }
 
   if (error) {

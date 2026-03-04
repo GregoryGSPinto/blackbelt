@@ -20,6 +20,7 @@ import {
 import * as carteirinhaService from '@/lib/api/carteirinha.service';
 import type { AtletaPublico, GraduacaoHistorico } from '@/lib/api/contracts';
 import { TrainingHeatmap } from '@/components/aluno/TrainingHeatmap';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import type { TrainingDay } from '@/components/aluno/TrainingHeatmap';
 import { generateMockTrainingData } from '@/lib/__mocks__/atleta-perfil.mock';
 
@@ -144,14 +145,7 @@ export default function AtletaPublicoPage() {
 
   // ── Loading ──
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/20 mx-auto" />
-          <p className="text-white/40 text-sm">Carregando perfil...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando perfil..." />;
   }
 
   // ── Not Found ──

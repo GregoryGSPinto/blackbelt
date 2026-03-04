@@ -13,6 +13,7 @@ import {
 import * as partService from '@/lib/api/particulares.service';
 import type { AulaParticular } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 const STATUS_STYLE: Record<string, { bg: string; text: string; label: string; icon: React.ReactNode }> = {
   agendada: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Agendada', icon: <Calendar size={10} /> },
@@ -55,7 +56,7 @@ export default function ParticularesPage() {
   const totalRealizadas = sessões.filter((a: AulaParticular) => a.status === 'realizada').length;
   const receitaMes = sessões.filter((a: AulaParticular) => a.status === 'realizada').reduce((s: number, a: AulaParticular) => s + a.valor, 0);
 
-  if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" /><p className="text-white/60">Carregando...</p></div></div>;
+  if (loading) return <PremiumLoader text="Carregando..." />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (

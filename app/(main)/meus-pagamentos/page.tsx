@@ -14,6 +14,7 @@ import {
 import * as pagService from '@/lib/api/pagamentos.service';
 import type { ResumoFinanceiroAluno, Fatura, PixPaymentResponse } from '@/lib/api/pagamentos.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 function formatCurrency(v: number): string {
   return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -99,11 +100,7 @@ export default function MeusPagamentosPage() {
   }, [pixData]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white/30" />
-      </div>
-    );
+    return <PremiumLoader />;
   }
 
   if (error || !resumo) {

@@ -5,6 +5,7 @@ import { CreditCard, ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import CarteirinhaDigital from '@/components/aluno/CarteirinhaDigital';
 import * as carteirinhaService from '@/lib/api/carteirinha.service';
 import type { CarteirinhaDigital as CarteirinhaData } from '@/lib/api/contracts';
@@ -27,14 +28,7 @@ export default function CarteirinhaPage() {
   }, [retryCount]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto" />
-          <p className="text-white/60 text-sm">Carregando carteirinha...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando carteirinha..." />;
   }
 
   if (error) {

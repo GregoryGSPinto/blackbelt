@@ -7,6 +7,7 @@ import type { TeenAula } from '@/lib/api/teen.service';
 import { Download, Trash2, Play, Clock, CheckCircle, HardDrive, WifiOff } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 /**
  * Teen Downloads — Conteúdo salvo para assistir offline
@@ -47,12 +48,7 @@ export default function TeenDownloadsPage() {
   const totalSize = downloaded.reduce((sum, i) => sum + parseInt(i.fileSize), 0);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <div className="w-12 h-12 rounded-full border-2 border-teen-ocean/30 border-t-teen-ocean animate-spin" />
-        <p className="teen-text-muted text-sm font-teen">Carregando downloads...</p>
-      </div>
-    );
+    return <PremiumLoader text="Carregando downloads..." />;
   }
 
   if (error) {

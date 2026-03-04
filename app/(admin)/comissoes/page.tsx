@@ -9,6 +9,7 @@ import { DollarSign, CheckCircle, Clock, TrendingUp, Users } from 'lucide-react'
 import * as partService from '@/lib/api/particulares.service';
 import type { Comissao } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
@@ -31,7 +32,7 @@ export default function ComissoesPage() {
   const totalLiquido = comissoes.reduce((s: number, c: Comissao) => s + c.valorLiquido, 0);
   const totalPendente = comissoes.filter((c: Comissao) => !c.pago).reduce((s: number, c: Comissao) => s + c.valorLiquido, 0);
 
-  if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" /><p className="text-white/60">Carregando...</p></div></div>;
+  if (loading) return <PremiumLoader text="Carregando..." />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (

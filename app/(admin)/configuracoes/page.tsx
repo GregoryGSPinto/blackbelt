@@ -5,6 +5,7 @@ import { Save, Clock, AlertCircle, MessageSquare , Settings} from 'lucide-react'
 import * as adminService from '@/lib/api/admin.service';
 import type { ConfiguracaoUnidade } from '@/lib/api/admin.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function ConfiguracoesPage() {
   const [config, setConfig] = useState<ConfiguracaoUnidade | null>(null);
@@ -44,14 +45,7 @@ export default function ConfiguracoesPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" />
-          <p className="text-white/60">Carregando configurações...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando configurações..." />;
   }
 
   if (error) {

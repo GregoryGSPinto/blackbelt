@@ -10,6 +10,7 @@ import {
 import * as pedagogicoService from '@/lib/api/professor-pedagogico.service';
 import type { AlunoPedagogico } from '@/lib/api/professor-pedagogico.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { TrendIndicator } from '@/components/shared/TrendIndicator';
 import { QuickMessage } from '@/components/shared/QuickMessage';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
@@ -66,11 +67,7 @@ function AlunoDetalheContent() {
   }, [alunoId]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="w-12 h-12 border-2 border-amber-500/30 border-t-amber-400 rounded-full animate-spin" />
-      </div>
-    );
+    return <PremiumLoader />;
   }
 
   if (error || !aluno) {
@@ -517,11 +514,7 @@ function AlunoDetalheContent() {
 
 export default function ProfessorAlunoDetalhePage() {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="w-12 h-12 border-2 border-amber-500/30 border-t-amber-400 rounded-full animate-spin" />
-      </div>
-    }>
+    <Suspense fallback={<PremiumLoader />}>
       <AlunoDetalheContent />
     </Suspense>
   );

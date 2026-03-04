@@ -8,6 +8,7 @@ import {
 import * as assService from '@/lib/api/assinatura.service';
 import type { DocumentoAssinatura, ConsentimentoLGPD } from '@/lib/api/assinatura.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 type TabView = 'documentos' | 'privacidade';
 
@@ -54,11 +55,7 @@ export default function AssinaturaPage() {
   const pendentes = documentos.filter(d => d.status === 'PENDENTE');
   const assinados = documentos.filter(d => d.status === 'ASSINADO');
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white/30" />
-    </div>
-  );
+  if (loading) return <PremiumLoader />;
   if (error) return <PageError error={error} onRetry={() => window.location.reload()} />;
 
   return (

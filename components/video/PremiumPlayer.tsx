@@ -177,9 +177,21 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
       {!iframeLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-black">
           <div className="flex flex-col items-center gap-3">
-            <div className="animate-spin rounded-full h-10 w-10 border-2 border-white/10 border-t-white/60" />
+            <div className="w-32 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+              <div
+                className="absolute inset-0 h-full w-1/2 bg-white/60 rounded-full"
+                style={{ animation: 'player-bar-slide 1.2s ease-in-out infinite' }}
+              />
+            </div>
             <p className="text-white/30 text-sm">Carregando player...</p>
           </div>
+          <style>{`
+            @keyframes player-bar-slide {
+              0% { transform: translateX(-100%); }
+              50% { transform: translateX(100%); }
+              100% { transform: translateX(200%); }
+            }
+          `}</style>
         </div>
       )}
 

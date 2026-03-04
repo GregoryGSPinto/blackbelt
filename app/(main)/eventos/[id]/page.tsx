@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, InscricaoEvento, CategoriaEvento, StatusEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 // ── Helpers ───────────────────────────────────────────────
 
@@ -58,11 +59,7 @@ export default function EventoDetalhePage() {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30" />
-      </div>
-    );
+    return <PremiumLoader />;
   }
 
   if (error || !evento) {

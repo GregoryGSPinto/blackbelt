@@ -22,6 +22,7 @@ import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
 import { PremiumPlayer } from '@/components/video/PremiumPlayer';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 /* ─── Objectives mock (enriches Video data) ─── */
 const OBJECTIVES: Record<string, string[]> = {
@@ -105,14 +106,7 @@ export default function AulaDetailPage() {
 
   // ─── Loading skeleton ───
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-10 w-10 border-2 border-white/10 border-t-white/50" />
-          <p className="text-white/30 text-sm">Carregando aula...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando aula..." />;
   }
 
   if (error) {

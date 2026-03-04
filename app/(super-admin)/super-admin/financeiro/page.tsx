@@ -10,6 +10,7 @@ import {
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts';
 import { useTheme } from '@/contexts/ThemeContext';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import type {
   MockFinancialData, MockMonthlyData, MockPaymentHistory,
 } from '@/lib/__mocks__/super-admin.mock';
@@ -99,11 +100,7 @@ export default function FinanceiroPage() {
   }, []);
 
   if (!financial) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-      </div>
-    );
+    return <PremiumLoader />;
   }
 
   // Churn data (simulated from monthly revenue)

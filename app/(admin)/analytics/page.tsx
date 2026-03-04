@@ -8,6 +8,7 @@ import {
 import * as analyticsService from '@/lib/api/analytics.service';
 import type { AnalyticsRetencao } from '@/lib/api/analytics.service';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 const NIVEL_COLORS: Record<string, string> = {
   'Nível Iniciante': '#E5E7EB', 'Nível Básico': '#3B82F6', 'Nível Intermediário': '#8B5CF6',
@@ -26,11 +27,7 @@ export default function AnalyticsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30" />
-    </div>
-  );
+  if (loading) return <PremiumLoader />;
   if (error) return <PageError error={error} onRetry={() => window.location.reload()} />;
   if (!data) return <PageLoading message="Carregando analytics..." />;
 

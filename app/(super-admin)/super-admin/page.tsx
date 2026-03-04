@@ -11,6 +11,7 @@ import {
   ResponsiveContainer, CartesianGrid,
 } from 'recharts';
 import { useTheme } from '@/contexts/ThemeContext';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import type {
   MockDashboardMetrics, MockMonthlyData, MockRevenueByPlan,
   MockAcademy,
@@ -145,11 +146,7 @@ export default function SuperAdminDashboard() {
   }, []);
 
   if (!metrics) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-      </div>
-    );
+    return <PremiumLoader />;
   }
 
   const statusColors = isDark ? STATUS_COLORS : STATUS_COLORS_LIGHT;

@@ -16,6 +16,7 @@ import {
 import * as pagService from '@/lib/api/pagamentos.service';
 import type { AdminFinanceDashboard, Fatura, Assinatura } from '@/lib/api/pagamentos.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 type FaturaFilter = 'todas' | 'pendente' | 'atrasado' | 'pago';
 type TabView = 'faturas' | 'assinaturas';
@@ -66,14 +67,7 @@ export default function PagamentosPage() {
   }, [retryCount]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" />
-          <p className="text-white/60">Carregando pagamentos...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando pagamentos..." />;
   }
 
   if (error || !dashboard) {

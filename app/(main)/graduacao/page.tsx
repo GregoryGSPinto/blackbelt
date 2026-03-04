@@ -6,6 +6,7 @@ import * as gradService from '@/lib/api/graduacao.service';
 import type { GraduacaoHistorico, RequisitoGraduacao } from '@/lib/api/graduacao.service';
 import { BeltStripes } from '@/components/shared/BeltStripes';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 const NIVEL_COLORS: Record<string, { bg: string; border: string; text: string }> = {
   'Nível Iniciante': { bg: 'bg-gray-200', border: 'border-gray-300', text: 'text-gray-700' },
@@ -47,7 +48,7 @@ export default function GraduacaoPage() {
 
   const nivelColors = NIVEL_COLORS[nivelAtual] || NIVEL_COLORS['Nível Iniciante'];
 
-  if (loading) return <div className="flex items-center justify-center min-h-[60vh]"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white/30" /></div>;
+  if (loading) return <PremiumLoader />;
   if (error) return <PageError error={error} onRetry={() => window.location.reload()} />;
 
   return (

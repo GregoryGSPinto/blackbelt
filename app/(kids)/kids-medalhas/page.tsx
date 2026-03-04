@@ -6,6 +6,7 @@ import * as kidsService from '@/lib/api/kids.service';
 import type { KidsMedal } from '@/lib/api/kids.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function KidsConquistasPage() {
   const { isDark } = useTheme();
@@ -30,12 +31,7 @@ export default function KidsConquistasPage() {
   }, [retryCount]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-white/60">Carregando...</p>
-      </div>
-    );
+    return <PremiumLoader text="Carregando..." />;
   }
 
   if (error) {

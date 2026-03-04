@@ -7,6 +7,7 @@ import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/ap
 import { User, Mail, Phone, Calendar, Award, Settings, LogOut , UserX} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenPerfilPage() {
   const { user, logout } = useAuth();
@@ -32,12 +33,7 @@ export default function TeenPerfilPage() {
   }, [retryCount]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-white/60">Carregando...</p>
-      </div>
-    );
+    return <PremiumLoader text="Carregando..." />;
   }
 
   if (error) {

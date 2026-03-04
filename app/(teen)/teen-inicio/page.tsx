@@ -9,6 +9,7 @@ import { Play, Calendar, TrendingUp, Clock, Target, Video, Flame, ChevronRight, 
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenInicioPage() {
   const { user } = useAuth();
@@ -35,12 +36,7 @@ export default function TeenInicioPage() {
   }, [retryCount]);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <div className="w-12 h-12 rounded-full border-2 border-teen-ocean/30 border-t-teen-ocean animate-spin" />
-        <p className="teen-text-muted text-sm font-teen">Carregando sua jornada...</p>
-      </div>
-    );
+    return <PremiumLoader text="Carregando sua jornada..." />;
   }
 
   if (error) {

@@ -9,6 +9,7 @@ import type { CheckInQR, CheckInResult } from '@/lib/api/contracts';
 import { QRScanner } from '@/components/checkin/QRScanner';
 import Link from 'next/link';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 type CheckinMode = 'manual' | 'qr';
 
@@ -109,14 +110,7 @@ export default function RecepcaoPage() {
   }, [alunos]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" />
-          <p className="text-white/60">Carregando recepção...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando recepção..." />;
   }
 
   if (error) {

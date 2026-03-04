@@ -6,6 +6,7 @@ import * as adminService from '@/lib/api/admin.service';
 import type { Alerta, Usuario, Turma } from '@/lib/api/admin.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function AlertasPage() {
   const [alertas, setAlertas] = useState<Alerta[]>([]);
@@ -54,14 +55,7 @@ export default function AlertasPage() {
   useSearchRegistration('admin-alertas', searchItems);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-white/60">Carregando...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando..." />;
   }
 
   if (error) {

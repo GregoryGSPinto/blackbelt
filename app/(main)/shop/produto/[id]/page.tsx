@@ -8,6 +8,7 @@ import * as shopService from '@/lib/api/shop.service';
 import type { Product, ProductColor, ProductSize } from '@/lib/api/shop.service';
 import dynamic from 'next/dynamic';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 
 /**
@@ -53,14 +54,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   }, [params.id, retryCount]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" />
-          <p className="text-white/60">Carregando produto...</p>
-        </div>
-      </div>
-    );
+    return <PremiumLoader text="Carregando produto..." />;
   }
 
   if (error) {

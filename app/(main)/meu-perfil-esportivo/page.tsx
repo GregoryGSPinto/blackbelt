@@ -12,6 +12,7 @@ import {
 import * as perfilService from '@/lib/api/perfil-estendido.service';
 import type { PerfilEstendido, Modalidade, StatusDocumento } from '@/lib/api/contracts';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 const MODALIDADES_INFO: Record<string, { label: string; emoji: string }> = {
   pratica_gi: { label: 'Prática Gi', emoji: '🥋' },
@@ -56,7 +57,7 @@ export default function PerfilEsportivoPage() {
       .finally(() => setLoading(false));
   }, [retryCount]);
 
-  if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/30 mx-auto mb-4" /><p className="text-white/60">Carregando...</p></div></div>;
+  if (loading) return <PremiumLoader text="Carregando..." />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
   if (!perfil) return <PageLoading message="Carregando perfil..." />;
 
