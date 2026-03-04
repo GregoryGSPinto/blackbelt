@@ -289,9 +289,9 @@ async function fetchRecentAttendance(
   let retentionRate = 0;
   if (oldMembers.size > 0) {
     let retained = 0;
-    for (const m of oldMembers) {
+    Array.from(oldMembers).forEach(m => {
       if (recentMembers.has(m)) retained++;
-    }
+    });
     retentionRate = Math.round((retained / oldMembers.size) * 100);
   }
 

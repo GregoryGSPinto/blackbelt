@@ -62,8 +62,8 @@ export async function GET(req: NextRequest) {
             engagementScore: snapshot.overallScore ?? 50,
             engagementTier: 'active' as const,
             churnRisk: 0,
-            currentMilestone: snapshot.milestones?.currentLabel ?? '',
-            currentMilestoneOrder: snapshot.milestones?.currentOrder ?? 0,
+            currentMilestone: snapshot.currentMilestone?.name ?? '',
+            currentMilestoneOrder: snapshot.currentMilestone?.order ?? 0,
             currentSublevel: snapshot.sublevels?.current ?? 0,
             daysSinceEnrollment: Math.floor(
               (Date.now() - new Date(member.joined_at).getTime()) / (1000 * 60 * 60 * 24),

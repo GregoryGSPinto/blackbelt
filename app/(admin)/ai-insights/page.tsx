@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useChurnInsights } from '@/hooks/useChurnInsights';
-import { useAIInsights } from '@/hooks/useAIInsights';
 import { ChurnDashboard } from '@/components/admin/ChurnDashboard';
 import { AIInsightsDashboard } from '@/components/admin/AIInsightsDashboard';
 
@@ -11,7 +9,6 @@ type TabKey = 'visao-geral' | 'risco-evasao';
 export default function AIInsightsPage() {
   const [academyId, setAcademyId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('visao-geral');
-  const [memberId, setMemberId] = useState<string>('');
 
   // Fetch academy info
   useEffect(() => {
@@ -22,18 +19,6 @@ export default function AIInsightsPage() {
       })
       .catch(() => {});
   }, []);
-
-  // Fetch current user member ID for AI insights
-  useEffect(() => {
-    fetch('/api/me')
-      .then(res => res.json())
-      .then(json => {
-        if (json.data?.memberId) setMemberId(json.data.memberId);
-      })
-      .catch(() => {});
-  }, []);
-
-  const { dna, engagement, loading: aiLoading, error: aiError } = useAIInsights(memberId);
 
   const tabs: { key: TabKey; label: string }[] = [
     { key: 'visao-geral', label: 'Visao Geral' },
@@ -75,16 +60,13 @@ export default function AIInsightsPage() {
       {/* Tab Content */}
       {activeTab === 'visao-geral' && (
         <div className="space-y-6">
-          {aiLoading ? (
-            <LoadingSkeleton message="Carregando insights de IA..." />
-          ) : aiError ? (
-            <ErrorCard message={aiError.message} />
-          ) : (
+          {academyId ? (
             <AIInsightsDashboard
-              dna={dna}
-              engagement={engagement}
               academyId={academyId}
+              analytics={null}
             />
+          ) : (
+            <LoadingSkeleton message="Carregando insights de IA..." />
           )}
         </div>
       )}

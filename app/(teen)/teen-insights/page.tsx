@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useStudentDNA } from '@/hooks/useStudentDNA';
-import { XPProgressBar } from '@/components/teen/XPProgressBar';
-import { DailyQuestCard } from '@/components/teen/DailyQuestCard';
-import { RivalChallengeCard } from '@/components/teen/RivalChallengeCard';
-import { FunStatsCarousel } from '@/components/teen/FunStatsCarousel';
+import XPProgressBar from '@/components/teen/XPProgressBar';
+import DailyQuestCard from '@/components/teen/DailyQuestCard';
+import RivalChallengeCard from '@/components/teen/RivalChallengeCard';
+import FunStatsCarousel from '@/components/teen/FunStatsCarousel';
 
 export default function TeenInsightsPage() {
   const [memberId, setMemberId] = useState<string>('');
@@ -72,16 +72,41 @@ export default function TeenInsightsPage() {
       </div>
 
       {/* XP Progress Bar */}
-      <XPProgressBar dna={dna} />
+      <XPProgressBar
+        levelUp={{
+          currentXP: dna ? Math.round((dna.dimensions.progression / 100) * 1500) : 0,
+          nextLevelXP: 1500,
+          progress: dna ? dna.dimensions.progression : 0,
+          title: dna && dna.dimensions.progression >= 80
+            ? 'Guerreiro'
+            : dna && dna.dimensions.progression >= 50
+            ? 'Aprendiz Avancado'
+            : 'Iniciante',
+        }}
+      />
 
       {/* Daily Quest */}
-      <DailyQuestCard dna={dna} />
+      <DailyQuestCard
+        quest={{
+          title: 'Treino do Dia',
+          description: 'Complete seu treino de hoje para ganhar XP!',
+          xpReward: 50,
+          emoji: '🥋',
+        }}
+      />
 
       {/* Fun Stats Carousel */}
-      <FunStatsCarousel dna={dna} />
+      <FunStatsCarousel
+        stats={[
+          { emoji: '🔥', text: `Consistencia: ${dna?.dimensions.consistency ?? 0}%` },
+          { emoji: '💪', text: `Intensidade: ${dna?.dimensions.intensity ?? 0}%` },
+          { emoji: '📈', text: `Progressao: ${dna?.dimensions.progression ?? 0}%` },
+          { emoji: '🤝', text: `Social: ${dna?.dimensions.socialConnection ?? 0}%` },
+        ]}
+      />
 
       {/* Rival Challenge */}
-      <RivalChallengeCard dna={dna} memberId={memberId} />
+      <RivalChallengeCard challenge={undefined} />
     </div>
   );
 }

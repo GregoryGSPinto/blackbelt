@@ -9,6 +9,15 @@ import { PromotionPredictionCard } from '@/components/aluno/PromotionPredictionC
 import { TrainingBuddiesWidget } from '@/components/aluno/TrainingBuddiesWidget';
 import { MotivationalBanner } from '@/components/aluno/MotivationalBanner';
 
+function getMoodDriver(dna: { dimensions: { consistency: number; intensity: number; progression: number } } | null): string {
+  if (!dna) return 'mastery';
+  const { consistency, intensity, progression } = dna.dimensions;
+  if (consistency >= 70) return 'consistency';
+  if (progression >= 70) return 'mastery';
+  if (intensity >= 70) return 'intensity';
+  return 'social';
+}
+
 export default function MeusInsightsPage() {
   const [memberId, setMemberId] = useState<string>('');
   const [memberName, setMemberName] = useState<string>('');
@@ -84,14 +93,49 @@ export default function MeusInsightsPage() {
       </div>
 
       {/* Motivational Banner */}
-      <MotivationalBanner dna={dna} engagement={score} />
+      <MotivationalBanner
+        message={
+          dna && dna.dimensions.consistency >= 70
+            ? 'Voce esta em uma sequencia incrivel! Continue assim!'
+            : 'Cada treino conta. Vamos manter o ritmo!'
+        }
+        driver={getMoodDriver(dna)}
+      />
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <PersonalInsightsCard dna={dna} />
-        <WeeklyChallengeCard dna={dna} />
-        <PromotionPredictionCard dna={dna} engagement={score} />
-        <TrainingBuddiesWidget memberId={memberId} />
+        <PersonalInsightsCard
+          insights={{
+            bestDay: dna?.patterns ? ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'][dna.patterns.peakPerformanceDay] ?? 'Ainda calculando...' : 'Ainda calculando...',
+            optimalFrequency: dna ? `${Math.round(dna.dimensions.consistency / 25)}x por semana` : '--',
+            strongPoint: 'Continue treinando para descobrir!',
+            improvementArea: 'A IA precisa de mais dados.',
+            funFact: dna ? `Seu DNA de treino tem confianca de ${Math.round(dna.confidence * 100)}%` : '--',
+          }}
+        />
+        <WeeklyChallengeCard
+          challenge={{
+            title: 'Desafio da Semana',
+            description: 'Treine pelo menos 3 vezes esta semana!',
+            reward: 100,
+            basedOn: 'consistencia',
+            difficulty: dna && dna.dimensions.consistency >= 70 ? 'hard' : 'medium',
+          }}
+        />
+        <PromotionPredictionCard
+          prediction={dna ? {
+            estimatedWeeks: dna.predictions.nextMilestoneWeeks ?? 8,
+            progress: dna.dimensions.progression,
+            currentBelt: 'Atual',
+            nextBelt: 'Proxima',
+            isAheadOfAverage: dna.dimensions.progression >= 60,
+          } : null}
+        />
+        <TrainingBuddiesWidget
+          buddies={[]}
+          communityRole="Aluno"
+          networkStrength="Iniciante"
+        />
       </div>
     </div>
   );

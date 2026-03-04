@@ -32,6 +32,7 @@ import {
   clampConfidence,
   safeDivide,
   topN,
+  standardDeviation,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
 

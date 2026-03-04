@@ -145,9 +145,7 @@ function extractParticipantIdFromEvent(event: DomainEvent): string | undefined {
 }
 
 function clearDebounceMap(map: Map<string, NodeJS.Timeout>): void {
-  for (const timeout of map.values()) {
-    clearTimeout(timeout);
-  }
+  Array.from(map.values()).forEach(timeout => clearTimeout(timeout));
   map.clear();
 }
 

@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
                 engagementTier: 'active' as const,
                 engagementScore: snapshot.overallScore ?? 50,
                 churnRisk: 0,
-                currentMilestone: snapshot.milestones?.currentLabel ?? '',
+                currentMilestone: snapshot.currentMilestone?.name ?? '',
                 currentSublevel: snapshot.sublevels?.current ?? 0,
                 daysSinceLastCheckin: 0,
                 daysSinceEnrollment: Math.floor(

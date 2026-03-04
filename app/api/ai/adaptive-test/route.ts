@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 
     const { generateAdaptiveTest } = await import('@/lib/domain/intelligence/engines/adaptive-difficulty');
     const { computeStudentDNA } = await import('@/lib/domain/intelligence/engines/student-dna');
-    const { extractStudentDNAInput } = await import('@/lib/acl/mappers/intelligence-mapper');
+    const { extractStudentDNAInput } = await import('@/lib/acl/mappers/student-dna-mapper');
     const { buildDevelopmentSnapshot } = await import('@/lib/application/progression/state/build-snapshot');
 
     // Build DNA for the participant (may be null for new students)

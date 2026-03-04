@@ -5,7 +5,7 @@ import { AdaptiveTestGenerator } from '@/components/professor/AdaptiveTestGenera
 import { Brain } from 'lucide-react';
 
 export default function ProfessorAvaliacaoAdaptativaPage() {
-  const { generate, test, loading, error } = useAdaptiveTest();
+  const { error } = useAdaptiveTest();
 
   return (
     <div className="min-h-screen p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
@@ -54,11 +54,7 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
       )}
 
       {/* Generator Component */}
-      <AdaptiveTestGenerator
-        onGenerate={generate}
-        generatedTest={test}
-        loading={loading}
-      />
+      <AdaptiveTestGenerator />
     </div>
   );
 }

@@ -316,7 +316,7 @@ function buildActionableInsights(
 
   // Insight 4: New student retention
   const newStudentPredictions = predictions.filter(
-    p => p.factors.some(f => f.type === 'NEW_STUDENT' || f.description?.includes('novo')),
+    p => p.factors.some(f => (f.type as string) === 'NEW_STUDENT' || f.description?.includes('novo')),
   );
   if (newStudentPredictions.length > 0) {
     insights.push({

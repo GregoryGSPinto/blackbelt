@@ -63,7 +63,10 @@ export default function ProfessorBriefingPage() {
           </p>
         </div>
       ) : (
-        <DailyBriefing briefing={briefing} />
+        <DailyBriefing briefing={{
+          ...briefing as any,
+          greeting: `Bom dia, ${briefing.instructorName}!`,
+        }} />
       )}
     </div>
   );

@@ -47,10 +47,10 @@ export function AcademyHealthScore({ overallScore, trend, breakdown }: AcademyHe
   const strokeDashoffset = circumference - (overallScore / 100) * circumference;
 
   const dimensions = [
-    { key: 'retention', label: 'Retencao', ...breakdown.retention },
-    { key: 'engagement', label: 'Engajamento', ...breakdown.engagement },
-    { key: 'revenue', label: 'Receita', ...breakdown.revenue },
-    { key: 'growth', label: 'Crescimento', ...breakdown.growth },
+    { key: 'retention', ...breakdown.retention, label: 'Retencao' },
+    { key: 'engagement', ...breakdown.engagement, label: 'Engajamento' },
+    { key: 'revenue', ...breakdown.revenue, label: 'Receita' },
+    { key: 'growth', ...breakdown.growth, label: 'Crescimento' },
   ];
 
   return (

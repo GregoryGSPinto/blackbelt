@@ -53,7 +53,7 @@ export function onChurnInvalidate(callback: InvalidateCallback): () => void {
  * Manually invalidate a participant's churn prediction.
  */
 export function invalidateChurnPrediction(participantId: string): void {
-  for (const listener of invalidateListeners) {
+  for (const listener of Array.from(invalidateListeners)) {
     try { listener(participantId); }
     catch (err) { console.error('[ChurnSubscriber] Invalidate listener error:', err); }
   }
@@ -92,7 +92,7 @@ export function wireChurnSubscribers(
   return () => {
     unsub();
     // Clear all pending debounces
-    for (const timeout of debounceMap.values()) {
+    for (const timeout of Array.from(debounceMap.values())) {
       clearTimeout(timeout);
     }
     debounceMap.clear();
@@ -114,9 +114,7 @@ function extractParticipantIdFromEvent(event: DomainEvent): string | undefined {
  * Reset all state (for testing).
  */
 export function resetChurnSubscribers(): void {
-  for (const timeout of debounceMap.values()) {
-    clearTimeout(timeout);
-  }
+  Array.from(debounceMap.values()).forEach(timeout => clearTimeout(timeout));
   debounceMap.clear();
   invalidateListeners.clear();
 }

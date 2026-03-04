@@ -93,12 +93,12 @@ export async function extractStudentDNAInput(
     sessionsPerWeek,
     avgSessionDuration: checkinPatterns.avgDuration,
     academyAvgSessionDuration: academyStats.avgSessionDuration,
-    milestoneTransitionDays: snapshot.time.milestoneTransitionDays ?? [],
+    milestoneTransitionDays: (snapshot.time as any).milestoneTransitionDays ?? [],
     academyAvgTransitionDays: academyStats.avgTransitionDays,
     streakBreaks,
     coTrainerFrequency: coTrainers,
     pointsHistory: points,
-    achievementsCount: snapshot.achievements?.total ?? 0,
+    achievementsCount: (snapshot as any).achievements?.total ?? 0,
     rankingChanges: [],  // TODO: populate from ranking history
     distinctClassesAttended: checkinPatterns.distinctClasses,
     totalClassesAvailable: academyStats.totalClasses,
@@ -111,7 +111,7 @@ export async function extractStudentDNAInput(
 
     // Difficulty profile
     competencyScores: competencies,
-    sublevelDays: snapshot.time.sublevelDays ?? [],
+    sublevelDays: (snapshot.time as any).sublevelDays ?? [],
     academyAvgSublevelDays: academyStats.avgSublevelDays,
     evaluationResults: evaluations,
 
@@ -279,7 +279,7 @@ async function fetchCoTrainerFrequency(
 
   if (!sessions || sessions.length === 0) return [];
 
-  const sessionIds = [...new Set(sessions.map((s: { class_session_id: string }) => s.class_session_id))];
+  const sessionIds = Array.from(new Set(sessions.map((s: { class_session_id: string }) => s.class_session_id)));
 
   // Fetch all attendees in those sessions (limited to recent 100 sessions)
   const recentSessionIds = sessionIds.slice(-100);

@@ -107,9 +107,9 @@ async function fetchCoAttendances(
 
   if (!mySessions || mySessions.length === 0) return [];
 
-  const sessionIds = [...new Set(
+  const sessionIds = Array.from(new Set(
     mySessions.map((s: { class_session_id: string }) => s.class_session_id),
-  )];
+  ));
 
   // Build session -> class schedule map
   const sessionClassMap = new Map<string, string>();
@@ -158,7 +158,7 @@ async function fetchCoAttendances(
   }
 
   // Step 4: Get partner names and active status
-  const partnerIds = [...partnerMap.keys()].slice(0, 50); // Top 50 partners
+  const partnerIds = Array.from(partnerMap.keys()).slice(0, 50); // Top 50 partners
 
   const [namesResult, activeResult] = await Promise.allSettled([
     supabase
@@ -186,7 +186,7 @@ async function fetchCoAttendances(
 
   // Step 5: Build result
   const result: CoAttendanceData[] = [];
-  for (const [partnerId, data] of partnerMap) {
+  for (const [partnerId, data] of Array.from(partnerMap.entries())) {
     if (!partnerIds.includes(partnerId)) continue;
 
     result.push({
@@ -228,7 +228,7 @@ async function fetchActivePartnerIds(
 
   if (!data) return [];
 
-  return [...new Set(data.map((a: { membership_id: string }) => a.membership_id))];
+  return Array.from(new Set(data.map((a: { membership_id: string }) => a.membership_id)));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -263,7 +263,7 @@ async function fetchClassesAttended(
 
   if (!data) return [];
 
-  return [...new Set(data.map((a: { class_schedule_id: string }) => a.class_schedule_id))];
+  return Array.from(new Set(data.map((a: { class_schedule_id: string }) => a.class_schedule_id)));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

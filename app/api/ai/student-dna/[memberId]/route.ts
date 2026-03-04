@@ -42,7 +42,7 @@ export async function GET(
     }
 
     const { computeStudentDNA } = await import('@/lib/domain/intelligence/engines/student-dna');
-    const { extractStudentDNAInput } = await import('@/lib/acl/mappers/intelligence-mapper');
+    const { extractStudentDNAInput } = await import('@/lib/acl/mappers/student-dna-mapper');
     const { buildDevelopmentSnapshot } = await import('@/lib/application/progression/state/build-snapshot');
 
     const profile = (member as any).profiles;

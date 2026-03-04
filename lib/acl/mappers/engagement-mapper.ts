@@ -150,7 +150,7 @@ export async function extractEngagementInput(
     // Pedagogical
     overallScore: snapshotFeatures.overallScore ?? 0,
     sublevelsGained90Days: snapshot.sublevels?.current ?? 0,
-    maxSublevels: snapshot.sublevels?.total ?? 4,
+    maxSublevels: snapshot.sublevels?.max ?? 4,
     evaluationsApproved: 0, // Populated by caller if available
     evaluationsTotal: 0,
 

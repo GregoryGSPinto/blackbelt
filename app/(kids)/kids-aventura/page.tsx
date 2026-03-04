@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useStudentDNA } from '@/hooks/useStudentDNA';
-import { AdventureProgress } from '@/components/kids/AdventureProgress';
-import { StickerCollection } from '@/components/kids/StickerCollection';
-import { MascotBubble } from '@/components/kids/MascotBubble';
-import { SimpleProgressStars } from '@/components/kids/SimpleProgressStars';
+import AdventureProgress from '@/components/kids/AdventureProgress';
+import StickerCollection from '@/components/kids/StickerCollection';
+import MascotBubble from '@/components/kids/MascotBubble';
+import SimpleProgressStars from '@/components/kids/SimpleProgressStars';
 
 export default function KidsAventuraPage() {
   const [memberId, setMemberId] = useState<string>('');
@@ -76,18 +76,44 @@ export default function KidsAventuraPage() {
 
       {/* Mascot greeting at top */}
       <MascotBubble
-        dna={dna}
+        mood={dna && dna.dimensions.consistency >= 70 ? 'proud' : 'encouraging'}
         message="Oi, campeao! Vamos ver como voce esta indo na sua aventura?"
       />
 
       {/* Adventure Progress Map */}
-      <AdventureProgress dna={dna} />
+      <AdventureProgress
+        adventure={{
+          currentChapter: dna ? `Capitulo ${Math.ceil(dna.dimensions.progression / 20)}` : 'Capitulo 1',
+          starsCollected: dna ? Math.round(dna.dimensions.progression / 20) : 0,
+          totalStars: 5,
+          mascotMessage: dna && dna.dimensions.consistency >= 60
+            ? 'Voce esta mandando muito bem!'
+            : 'Continue treinando, voce consegue!',
+          mascotMood: dna && dna.dimensions.consistency >= 70 ? 'proud' : 'encouraging',
+        }}
+      />
 
       {/* Stars Progress */}
-      <SimpleProgressStars dna={dna} />
+      <SimpleProgressStars
+        stars={{
+          technique: dna ? Math.round(dna.dimensions.progression / 20) : 0,
+          effort: dna ? Math.round(dna.dimensions.intensity / 20) : 0,
+          behavior: dna ? Math.round(dna.dimensions.consistency / 20) : 0,
+          lastUpdated: dna?.computedAt ? new Date(dna.computedAt).toLocaleDateString('pt-BR') : '--',
+        }}
+      />
 
       {/* Sticker Collection */}
-      <StickerCollection dna={dna} memberId={memberId} />
+      <StickerCollection
+        stickers={{
+          earned: [],
+          nextToEarn: {
+            name: 'Primeiro Treino',
+            hint: 'Continue treinando para desbloquear!',
+            progress: dna ? Math.min(100, dna.dimensions.consistency) : 0,
+          },
+        }}
+      />
     </div>
   );
 }

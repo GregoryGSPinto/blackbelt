@@ -42,7 +42,7 @@ export async function GET(
     }
 
     const { computeEngagementScore } = await import('@/lib/domain/intelligence/engines/engagement-scorer');
-    const { extractEngagementInput } = await import('@/lib/acl/mappers/intelligence-mapper');
+    const { extractEngagementInput } = await import('@/lib/acl/mappers/engagement-mapper');
     const { buildDevelopmentSnapshot } = await import('@/lib/application/progression/state/build-snapshot');
 
     const profile = (member as any).profiles;
