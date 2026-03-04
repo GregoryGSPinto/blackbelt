@@ -119,7 +119,7 @@ const parentTheme: ShellTheme = {
   moduleName: 'PARENT',
 
   // Misc
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   // Custom CSS
   globalStyles: `

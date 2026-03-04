@@ -147,7 +147,7 @@ const kidsTheme: ShellTheme = {
   moduleName: 'KIDS',
 
   // Misc
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   // Custom CSS
   globalStyles: `

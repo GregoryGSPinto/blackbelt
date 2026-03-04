@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -27,42 +27,30 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
     return 'dark';
   });
-  const [mounted, setMounted] = useState(false);
 
-  /* ── Init: follow OS color scheme ── */
+  /* ── Always follow OS color scheme ── */
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     setThemeState(mq.matches ? 'dark' : 'light');
     const handler = (e: MediaQueryListEvent) => setThemeState(e.matches ? 'dark' : 'light');
     mq.addEventListener('change', handler);
-    setMounted(true);
     return () => mq.removeEventListener('change', handler);
   }, []);
 
   /* ── Sync class on <html> ── */
   useEffect(() => {
-    if (!mounted) return;
     const root = document.documentElement;
     if (theme === 'light') {
       root.classList.add('light');
     } else {
       root.classList.remove('light');
     }
-    try {
-      localStorage.setItem('blackbelt-theme', theme);
-    } catch { /* ignore */ }
-  }, [theme, mounted]);
+  }, [theme]);
 
-  const toggleTheme = useCallback(() => {
-    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  }, []);
+  // No-ops: theme follows OS only, manual override disabled
+  const toggleTheme = () => {};
+  const setTheme = () => {};
 
-  const setTheme = useCallback((t: Theme) => {
-    setThemeState(t);
-  }, []);
-
-  /* ── Prevent flash: render children only after mount ── */
-  /* (or render with default dark to avoid layout shift) */
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme, isDark: theme === 'dark' }}>
       {children}

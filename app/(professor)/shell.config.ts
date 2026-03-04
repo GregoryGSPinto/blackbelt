@@ -152,7 +152,7 @@ const professorTheme: ShellTheme = {
   moduleName: 'INSTRUTOR',
 
   // Misc
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   // Custom CSS (professor-specific cinematographic system)
   globalStyles: `

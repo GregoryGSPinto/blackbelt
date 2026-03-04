@@ -2,7 +2,7 @@
 // Super Admin Shell Config — Top-Nav, Dual Theme (Dark/Light)
 // ============================================================
 // Logo: "BlackBelt PLATFORM"
-// Indigo/Violet accent · supportsLightMode: true
+// Indigo/Violet accent · supportsLightMode: false
 // Desktop: 6 itens | Mobile: 3 + Menu
 // ============================================================
 import {
@@ -132,7 +132,7 @@ const superAdminTheme: ShellTheme = {
   contentClassName: 'relative z-10 pt-[72px] md:pt-[96px] pb-24 md:pb-8',
   moduleName: 'SUPER_ADMIN',
 
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   globalStyles: `
     .light-sweep {

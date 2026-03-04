@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState, useRef, useEffect } from 'react';
+import { ReactNode, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -24,7 +24,6 @@ function ParentLayoutInner({ children }: { children: ReactNode }) {
   const { selectedKidId, setSelectedKidId, selectedKid, filhos, parentProfile } = useParent();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [kidsDropdownOpen, setKidsDropdownOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const kidsDropdownRef = useRef<HTMLDivElement>(null);
   const profileButtonRef = useRef<HTMLButtonElement>(null);
@@ -33,21 +32,6 @@ function ParentLayoutInner({ children }: { children: ReactNode }) {
   const nomeExibicao = user?.nome || 'Responsável';
   const emailExibicao = user?.email || '';
   const perfilInfo = user ? PERFIL_INFO[user.tipo] : null;
-
-  useEffect(() => {
-    const checkDarkMode = () => {
-      const htmlElement = document.documentElement;
-      const hasDarkClass = htmlElement.classList.contains('dark');
-      setIsDarkMode(hasDarkClass || true);
-    };
-    checkDarkMode();
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-    return () => observer.disconnect();
-  }, []);
 
   const showBackButton = pathname !== '/painel-responsavel';
 

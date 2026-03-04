@@ -2,7 +2,7 @@
 // Developer Shell Config — Top-Nav, Dual Theme (Dark/Light)
 // ============================================================
 // Logo: "BlackBelt Suporte"
-// Emerald accent · supportsLightMode: true
+// Emerald accent · supportsLightMode: false
 // Desktop: 5 itens | Mobile: 3 + Menu
 // ============================================================
 import {
@@ -130,7 +130,7 @@ const devTheme: ShellTheme = {
   moduleName: 'SUPPORT',
 
   // ✅ Agora suporta light mode
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   globalStyles: `
     .light-sweep {

@@ -150,7 +150,7 @@ const mainTheme: ShellTheme = {
   moduleName: 'MAIN',
 
   // Misc
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   // Custom CSS
   globalStyles: `

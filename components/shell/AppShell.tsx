@@ -103,7 +103,7 @@ export function AppShell({
   const notifRef = useRef<HTMLDivElement>(null);
 
   // ─── Derived ───
-  const isDark = isDarkOverride ?? true; // default dark if no override
+  const isDark = isDarkOverride ?? (typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : true);
   const displayName = user?.nome?.split(' ')[0] || 'Usuário';
   const graduacao = user?.graduacao || '';
   const perfilInfo = user ? PERFIL_INFO[user.tipo] : null;

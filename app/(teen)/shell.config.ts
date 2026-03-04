@@ -140,7 +140,7 @@ const teenTheme: ShellTheme = {
   moduleName: 'TEEN',
 
   // Misc
-  supportsLightMode: true,
+  supportsLightMode: false,
 
   // Custom CSS (teen-specific animations from original layout)
   globalStyles: `
