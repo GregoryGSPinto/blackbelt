@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Mail, Lock, AlertCircle, CheckCircle, Shield, GraduationCap, User, Gamepad2, Users } from 'lucide-react';
+import { ArrowLeft, Mail, Lock, AlertCircle, CheckCircle, ShieldCheck, GraduationCap, User, Gamepad2, Users, Baby, Star, Wrench, Building2 } from 'lucide-react';
 import { useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
 import CinematicBackground from '@/components/ui/CinematicBackground';
 import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
@@ -97,18 +97,22 @@ function LoginContent() {
     setError('');
   };
 
-  // ─── Demo login: preenche campos e avança para senha ────────
-  const demoUsers = [
-    { label: 'Admin',       email: 'admin@legatum.com',     password: 'legatum123', icon: Shield },
-    { label: 'Professor',   email: 'professor@legatum.com', password: 'legatum123', icon: GraduationCap },
-    { label: 'Aluno Adulto', email: 'adulto@legatum.com',   password: 'legatum123', icon: User },
-    { label: 'Aluno Teen',  email: 'miguel@legatum.com',    password: 'legatum123', icon: Gamepad2 },
-    { label: 'Responsável', email: 'paiteen@legatum.com',   password: 'legatum123', icon: Users },
+  // ─── Credenciais de acesso: preenche campos e avança para senha ──
+  const credentials = [
+    { label: 'Super Admin',  email: 'superadmin@blackbelt.com', password: 'blackbelt123', icon: Star },
+    { label: 'Admin',        email: 'admin@blackbelt.com',      password: 'blackbelt123', icon: ShieldCheck },
+    { label: 'Unit Owner',   email: 'owner@blackbelt.com',      password: 'BlackBelt123', icon: Building2 },
+    { label: 'Professor',    email: 'professor@blackbelt.com',  password: 'blackbelt123', icon: GraduationCap },
+    { label: 'Aluno Adulto', email: 'adulto@blackbelt.com',     password: 'blackbelt123', icon: User },
+    { label: 'Aluno Teen',   email: 'miguel@blackbelt.com',     password: 'blackbelt123', icon: Gamepad2 },
+    { label: 'Aluno Kids',   email: 'kid@blackbelt.com',        password: 'blackbelt123', icon: Baby },
+    { label: 'Responsavel',  email: 'paiteen@blackbelt.com',    password: 'blackbelt123', icon: Users },
+    { label: 'Suporte',      email: 'support@blackbelt.com',    password: 'BlackBelt123', icon: Wrench },
   ];
 
-  const handleDemoLogin = (demoEmail: string, demoPassword: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPassword);
+  const handleQuickLogin = (quickEmail: string, quickPassword: string) => {
+    setEmail(quickEmail);
+    setPassword(quickPassword);
     setUserInteracted(true);
     setError('');
     setSuccessMsg('');
@@ -285,25 +289,26 @@ function LoginContent() {
             )}
           </div>
 
-          {/* ─── Seção Demo Login ─────────────────────────────── */}
+          {/* ─── Credenciais de Acesso ─────────────────────────── */}
           <div className="mt-8 animate-fade-in-delay">
             <div className="flex items-center gap-3 mb-4">
               <div className="flex-1 h-px bg-white/10" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-white/40">Acesso Rápido Demo</span>
+              <span className="text-xs font-semibold uppercase tracking-widest text-white/40">Credenciais de Acesso</span>
               <div className="flex-1 h-px bg-white/10" />
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {demoUsers.map((demo) => {
-                const Icon = demo.icon;
+            <div className="grid grid-cols-3 gap-2">
+              {credentials.map((cred) => {
+                const Icon = cred.icon;
                 return (
                   <button
-                    key={demo.email}
+                    key={cred.email}
                     type="button"
-                    onClick={() => handleDemoLogin(demo.email, demo.password)}
-                    className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/25 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] group"
+                    onClick={() => handleQuickLogin(cred.email, cred.password)}
+                    className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/25 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] group"
                   >
-                    <Icon className="w-5 h-5 text-white/50 group-hover:text-white/80 transition-colors duration-300" />
-                    <span className="text-xs font-medium text-white/60 group-hover:text-white/90 transition-colors duration-300">{demo.label}</span>
+                    <Icon className="w-4 h-4 text-white/50 group-hover:text-white/80 transition-colors duration-300" />
+                    <span className="text-[10px] font-medium text-white/60 group-hover:text-white/90 transition-colors duration-300 leading-tight text-center">{cred.label}</span>
+                    <span className="text-[8px] text-white/30 group-hover:text-white/50 transition-colors duration-300 truncate max-w-full">{cred.email.split('@')[0]}</span>
                   </button>
                 );
               })}
