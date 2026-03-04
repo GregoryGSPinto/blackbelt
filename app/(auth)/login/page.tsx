@@ -365,244 +365,160 @@ function LoginContent() {
             className="login-card-responsive"
           >
             <form onSubmit={handleEmailSubmit}>
-              <div style={{ position: 'relative' }}>
-                {/* Card */}
-                <div
+              {/* Card */}
+              <div
+                style={{
+                  border: `1px solid ${colors.cardBorder}`,
+                  background: colors.cardBg,
+                  backdropFilter: 'blur(12px) saturate(1.2)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                  padding: '2.5rem 2rem 2.5rem',
+                  transition: transitions.theme,
+                }}
+              >
+                {/* Title */}
+                <h1
                   style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    padding: '2.5rem 2rem 3rem',
+                    color: colors.text,
+                    fontSize: '0.875rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    marginBottom: '2rem',
+                    textAlign: 'center',
                     transition: transitions.theme,
                   }}
                 >
-                  {/* Title */}
-                  <h1
+                  LOGIN
+                </h1>
+
+                {/* Error */}
+                {error && (
+                  <p
+                    role="alert"
                     style={{
-                      color: colors.text,
-                      fontSize: '0.875rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.25em',
-                      textTransform: 'uppercase',
-                      marginBottom: '2rem',
+                      color: colors.error,
+                      fontSize: '0.8rem',
+                      marginBottom: '1rem',
                       textAlign: 'center',
+                      transition: transitions.fadeIn,
+                    }}
+                  >
+                    {error}
+                  </p>
+                )}
+
+                {/* Email input — underline only, no label */}
+                <div>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                    placeholder="Email"
+                    autoFocus
+                    autoComplete="email"
+                    required
+                    aria-label="Email"
+                    style={{
+                      width: '100%',
+                      background: 'transparent',
+                      border: 'none',
+                      borderBottom: `1px solid ${colors.inputBorder}`,
+                      padding: '0.75rem 0',
+                      fontSize: '1rem',
+                      color: colors.text,
+                      outline: 'none',
                       transition: transitions.theme,
                     }}
-                  >
-                    LOGIN
-                  </h1>
-
-                  {/* Error */}
-                  {error && (
-                    <p
-                      role="alert"
-                      style={{
-                        color: colors.error,
-                        fontSize: '0.8rem',
-                        marginBottom: '1rem',
-                        textAlign: 'center',
-                        transition: transitions.fadeIn,
-                      }}
-                    >
-                      {error}
-                    </p>
-                  )}
-
-                  {/* Email input */}
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <label
-                      htmlFor="email"
-                      style={{
-                        display: 'block',
-                        fontSize: '0.75rem',
-                        fontWeight: 500,
-                        color: colors.textMuted,
-                        marginBottom: '0.5rem',
-                        letterSpacing: '0.05em',
-                        textTransform: 'uppercase',
-                        transition: transitions.theme,
-                      }}
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                      placeholder="Email address"
-                      autoFocus
-                      autoComplete="email"
-                      required
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: 'none',
-                        borderBottom: `1px solid ${colors.inputBorder}`,
-                        padding: '0.75rem 0',
-                        fontSize: '1rem',
-                        color: colors.text,
-                        outline: 'none',
-                        transition: transitions.theme,
-                      }}
-                      onFocus={(e) => {
-                        e.currentTarget.style.borderBottomColor = colors.inputFocus;
-                      }}
-                      onBlur={(e) => {
-                        e.currentTarget.style.borderBottomColor = colors.inputBorder;
-                      }}
-                    />
-                  </div>
-
-                  {/* Forgot email link */}
-                  <div style={{ textAlign: 'center' }}>
-                    <Link
-                      href="/esqueci-email"
-                      style={{
-                        fontSize: '0.8rem',
-                        color: colors.linkColor,
-                        textDecoration: 'none',
-                        transition: transitions.theme,
-                      }}
-                    >
-                      Esqueci meu email
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Overlapping button */}
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <button
-                    type="submit"
-                    style={{
-                      width: '60%',
-                      height: 52,
-                      background: '#111',
-                      color: '#fff',
-                      border: 'none',
-                      fontSize: '0.8rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      cursor: 'pointer',
-                      transform: 'translateY(-50%)',
-                      transition: 'all 0.2s ease',
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderBottomColor = colors.inputFocus;
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#000';
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderBottomColor = colors.inputBorder;
                     }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#111';
-                      e.currentTarget.style.transform = 'translateY(-50%)';
-                    }}
-                    onMouseDown={(e) => {
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 4px))';
-                    }}
-                    onMouseUp={(e) => {
-                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
-                    }}
-                  >
-                    Entrar
-                  </button>
+                  />
                 </div>
               </div>
+
+              {/* Hidden submit for Enter key */}
+              <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
             </form>
 
-            {/* SSO section */}
+            {/* Below card: SSO icon buttons + create account */}
             <div
               style={{
-                marginTop: '0.5rem',
+                marginTop: '1.5rem',
                 opacity: cardVisible ? 1 : 0,
-                transition: 'opacity 0.35s ease 0.2s',
+                transition: 'opacity 0.35s ease 0.15s',
               }}
             >
-              {/* Divider */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1rem 0' }}>
-                <div style={{ flex: 1, height: 1, background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' }} />
-                <span style={{ fontSize: '0.75rem', color: colors.textMuted, whiteSpace: 'nowrap' }}>ou</span>
-                <div style={{ flex: 1, height: 1, background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' }} />
-              </div>
-
-              {/* SSO Buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {/* SSO icon-only buttons */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
                 <button
                   type="button"
+                  aria-label="Entrar com Google"
                   style={{
-                    width: '100%',
+                    width: 48,
                     height: 48,
                     border: `1px solid ${colors.ssoBorder}`,
                     background: 'transparent',
-                    color: colors.ssoText,
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
+                    borderRadius: 0,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.75rem',
-                    borderRadius: 0,
                     transition: transitions.theme,
-                    backdropFilter: 'blur(8px)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'transparent';
                   }}
                 >
                   <GoogleIcon />
-                  Continuar com Google
                 </button>
                 <button
                   type="button"
+                  aria-label="Entrar com Apple"
                   style={{
-                    width: '100%',
+                    width: 48,
                     height: 48,
                     border: `1px solid ${colors.ssoBorder}`,
                     background: 'transparent',
-                    color: colors.ssoText,
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
+                    borderRadius: 0,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.75rem',
-                    borderRadius: 0,
                     transition: transitions.theme,
-                    backdropFilter: 'blur(8px)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'transparent';
                   }}
                 >
                   <AppleIcon color={colors.text} />
-                  Continuar com Apple
                 </button>
               </div>
 
-              {/* Create account */}
-              <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-                <p style={{ fontSize: '0.8rem', color: colors.textMuted, marginBottom: '0.5rem' }}>
-                  Primeira vez aqui?
-                </p>
+              {/* Create account link */}
+              <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
                 <Link
                   href="/cadastro"
                   style={{
                     fontSize: '0.8rem',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     color: colors.text,
+                    opacity: 0.5,
                     textDecoration: 'none',
                     transition: transitions.theme,
                   }}
                 >
-                  Criar conta gratis →
+                  Criar conta
                 </Link>
               </div>
             </div>
