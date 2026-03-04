@@ -1050,6 +1050,87 @@ function LoginContent() {
           </div>
         )}
 
+        {/* ─── Dev Quick Access ──────────────────────────── */}
+        {process.env.NODE_ENV === 'development' && (
+          <div
+            style={{
+              marginTop: '2rem',
+              border: `1px solid ${colors.cardBorder}`,
+              background: colors.cardBg,
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              width: '100%',
+              transition: transitions.theme,
+            }}
+            className="login-card-responsive"
+          >
+            <div
+              style={{
+                padding: '1rem 1.5rem',
+                borderBottom: `1px solid ${colors.cardBorder}`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
+            >
+              <span style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.textMuted }}>
+                Acesso Rápido — Dev
+              </span>
+            </div>
+            {[
+              { label: 'Super Admin',  email: 'superadmin@blackbelt.com', senha: 'blackbelt123', perfil: 'SUPER_ADMIN' },
+              { label: 'Admin',        email: 'admin@blackbelt.com',      senha: 'blackbelt123', perfil: 'ADMINISTRADOR' },
+              { label: 'Professor',    email: 'professor@blackbelt.com',  senha: 'blackbelt123', perfil: 'INSTRUTOR' },
+              { label: 'Adulto',       email: 'adulto@blackbelt.com',     senha: 'blackbelt123', perfil: 'ALUNO_ADULTO' },
+              { label: 'Teen',         email: 'miguel@blackbelt.com',     senha: 'blackbelt123', perfil: 'ALUNO_TEEN' },
+              { label: 'Kids',         email: 'kid@blackbelt.com',        senha: 'blackbelt123', perfil: 'ALUNO_KIDS' },
+              { label: 'Responsável',  email: 'paiteen@blackbelt.com',    senha: 'blackbelt123', perfil: 'RESPONSAVEL' },
+              { label: 'Support',      email: 'support@blackbelt.com',    senha: 'blackbelt123', perfil: 'SUPPORT' },
+              { label: 'Unit Owner',   email: 'owner@blackbelt.com',      senha: 'blackbelt123', perfil: 'UNIT_OWNER' },
+            ].map((u, i, arr) => (
+              <button
+                key={u.email}
+                type="button"
+                onClick={() => {
+                  setEmail(u.email);
+                  setPassword(u.senha);
+                  setStep('PASSWORD');
+                  setTimeout(() => {
+                    handlePasswordSubmit({ preventDefault: () => {} } as React.FormEvent);
+                  }, 100);
+                }}
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1.5rem',
+                  border: 'none',
+                  borderBottom: i < arr.length - 1 ? `1px solid ${colors.cardBorder}` : 'none',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  transition: 'background 0.15s ease',
+                  textAlign: 'left',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+              >
+                <div>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
+                    {u.label}
+                  </span>
+                  <span style={{ fontSize: '0.72rem', color: colors.textMuted, marginTop: '0.1rem', display: 'block' }}>
+                    {u.email}
+                  </span>
+                </div>
+                <span style={{ fontSize: '0.7rem', color: colors.textMuted, letterSpacing: '0.08em' }}>
+                  {u.perfil}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* ─── Footer ─────────────────────────────────────── */}
         {step !== 'INITIAL' && (
           <p
