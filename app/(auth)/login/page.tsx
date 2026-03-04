@@ -267,29 +267,18 @@ function LoginContent() {
     <div style={{
       position: 'fixed',
       inset: 0,
-      background: '#000',
+      background: isDark ? '#0a0a0a' : '#f5f5f5',
       display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 100,
       opacity: splashProgress >= 100 ? 0 : 1,
       transition: 'opacity 0.3s ease',
     }}>
-      <img
-        src="/images/logo-blackbelt.png"
-        alt="BlackBelt"
-        style={{
-          width: 64,
-          height: 64,
-          marginBottom: '3rem',
-          opacity: 0.9,
-        }}
-      />
       <div style={{
         width: 200,
         height: 1,
-        background: 'rgba(255,255,255,0.15)',
+        background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
         position: 'relative',
         overflow: 'hidden',
       }}>
@@ -299,7 +288,7 @@ function LoginContent() {
           top: 0,
           height: '100%',
           width: `${splashProgress}%`,
-          background: 'rgba(255,255,255,0.85)',
+          background: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)',
           transition: 'width 0.03s linear',
         }} />
       </div>
