@@ -16,7 +16,7 @@ import type { TipoPerfil, KidRegistroData } from '@/lib/api/contracts';
 
 const DEV_REGISTRY_KEY = '__dev_blackbelt_registry';
 const DEV_SEED_VERSION_KEY = '__dev_blackbelt_seed_version';
-const CURRENT_SEED_VERSION = '8'; // Bumped: SUPPORT + UNIT_OWNER users
+const CURRENT_SEED_VERSION = '9'; // Bumped: standardize all passwords to blackbelt123
 
 interface DevUser {
   id: string;
@@ -293,7 +293,7 @@ function devSeedRegistry(): DevUser[] {
     {
       id: 'USR_SUPPORT_01',
       email: 'support@blackbelt.com',
-      passwordHash: devHash('BlackBelt123'),
+      passwordHash: senha,
       nome: 'Suporte Técnico',
       tipo: 'SUPPORT',
       idade: 28,
@@ -305,7 +305,7 @@ function devSeedRegistry(): DevUser[] {
     {
       id: 'USR_OWNER_01',
       email: 'owner@blackbelt.com',
-      passwordHash: devHash('BlackBelt123'),
+      passwordHash: senha,
       nome: 'Rafael BlackBelt',
       tipo: 'UNIT_OWNER',
       idade: 42,

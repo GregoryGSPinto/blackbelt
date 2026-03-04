@@ -101,22 +101,39 @@ function LoginContent() {
   const credentials = [
     { label: 'Super Admin',  email: 'superadmin@blackbelt.com', password: 'blackbelt123', icon: Star },
     { label: 'Admin',        email: 'admin@blackbelt.com',      password: 'blackbelt123', icon: ShieldCheck },
-    { label: 'Unit Owner',   email: 'owner@blackbelt.com',      password: 'BlackBelt123', icon: Building2 },
+    { label: 'Unit Owner',   email: 'owner@blackbelt.com',      password: 'blackbelt123', icon: Building2 },
     { label: 'Professor',    email: 'professor@blackbelt.com',  password: 'blackbelt123', icon: GraduationCap },
     { label: 'Aluno Adulto', email: 'adulto@blackbelt.com',     password: 'blackbelt123', icon: User },
     { label: 'Aluno Teen',   email: 'miguel@blackbelt.com',     password: 'blackbelt123', icon: Gamepad2 },
     { label: 'Aluno Kids',   email: 'kid@blackbelt.com',        password: 'blackbelt123', icon: Baby },
     { label: 'Responsavel',  email: 'paiteen@blackbelt.com',    password: 'blackbelt123', icon: Users },
-    { label: 'Suporte',      email: 'support@blackbelt.com',    password: 'BlackBelt123', icon: Wrench },
+    { label: 'Suporte',      email: 'support@blackbelt.com',    password: 'blackbelt123', icon: Wrench },
   ];
 
-  const handleQuickLogin = (quickEmail: string, quickPassword: string) => {
+  const handleQuickLogin = async (quickEmail: string, quickPassword: string) => {
     setEmail(quickEmail);
     setPassword(quickPassword);
     setUserInteracted(true);
     setError('');
     setSuccessMsg('');
-    setStep('password');
+    setLoading(true);
+
+    try {
+      const tipo = await login(quickEmail, quickPassword);
+      if (tipo) {
+        logger.info('[Login]', 'Quick login OK →', getRedirectForProfile(tipo));
+        router.replace(getRedirectForProfile(tipo));
+      } else {
+        setError('Email ou senha incorretos. Tente novamente.');
+        setStep('password');
+        setLoading(false);
+      }
+    } catch (err) {
+      logger.error('[Login]', 'Quick login erro:', err);
+      setError('Ocorreu um erro. Tente novamente.');
+      setStep('password');
+      setLoading(false);
+    }
   };
 
   // ─── Loading state (entrando) ─────────────────────────────
