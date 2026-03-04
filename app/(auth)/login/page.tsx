@@ -108,7 +108,6 @@ function LoginContent() {
     inputFocus: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.7)',
     placeholder: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)',
     overlay: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.08)',
-    blur: isDark ? '4px' : '8px',
     error: isDark ? '#ff6b6b' : '#dc2626',
     ssoBorder: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
     ssoText: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
@@ -300,39 +299,13 @@ function LoginContent() {
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       {/* ─── Background Layer ─────────────────────────────── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }} aria-hidden="true">
-        {/* Dark bg image */}
+        {/* Solid background */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundImage: "url('/images/login-dark.png')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: isDark ? 1 : 0,
-            transition: 'opacity 0.6s ease',
-          }}
-        />
-        {/* Light bg image */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: "url('/images/login-light.png')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: isDark ? 0 : 1,
-            transition: 'opacity 0.6s ease',
-          }}
-        />
-        {/* Blur overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: '-5%',
-            backdropFilter: `blur(${colors.blur})`,
-            WebkitBackdropFilter: `blur(${colors.blur})`,
-            transform: 'scale(1.05)',
-            transition: transitions.theme,
+            backgroundColor: isDark ? '#0a0a0a' : '#f5f5f5',
+            transition: 'background-color 0.5s ease',
           }}
         />
         {/* Color overlay */}

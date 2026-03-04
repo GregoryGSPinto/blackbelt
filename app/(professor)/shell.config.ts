@@ -68,10 +68,7 @@ const professorNav = {
 
 const professorTheme: ShellTheme = {
   // Background
-  backgroundImage: '/images/bg-dark.jpg',
   backgroundOverlays: undefined,
-  parallaxFactor: 0.12,
-  grainOpacity: 0.02,
   backgroundGradient: (isDark) =>
     isDark
       ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 100%)'

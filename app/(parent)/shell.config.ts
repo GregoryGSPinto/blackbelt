@@ -54,9 +54,6 @@ const parentNav = {
 
 const parentTheme: ShellTheme = {
   // Background
-  backgroundImage: '/images/bg-dark.jpg',
-  parallaxFactor: 0,
-  grainOpacity: 0,
   backgroundGradient: () => 'linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.7), rgba(0,0,0,0.8))',
 
   // Header

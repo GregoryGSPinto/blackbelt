@@ -59,9 +59,6 @@ const kidsNav = {
 
 const kidsTheme: ShellTheme = {
   // Background
-  backgroundImage: '/images/bg-dark.jpg',
-  parallaxFactor: 0,
-  grainOpacity: 0,
   backgroundGradient: (isDark) => isDark
     ? 'rgba(15,23,42,0.78)'       // slate-900 overlay
     : 'rgba(255,255,255,0.72)',    // soft white veil

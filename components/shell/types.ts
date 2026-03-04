@@ -43,12 +43,12 @@ export interface ShellTheme {
   variant?: 'top-nav' | 'sidebar';
 
   // ─── Background ───
-  backgroundImage: string;
+  backgroundImage?: string;
   /** Extra overlays rendered inside the background container */
   backgroundOverlays?: ReactNode;
-  parallaxFactor: number;
+  parallaxFactor?: number;
   /** Grain overlay opacity (0 to 1) */
-  grainOpacity: number;
+  grainOpacity?: number;
   /** Main background overlay gradient */
   backgroundGradient: ColorFn;
 

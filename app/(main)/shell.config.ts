@@ -67,9 +67,6 @@ const mainNav = {
 
 const mainTheme: ShellTheme = {
   // Background
-  backgroundImage: '/images/bg-dark.jpg',
-  parallaxFactor: 0.08,
-  grainOpacity: 0.015,
   backgroundGradient: (isDark) =>
     isDark
       ? 'linear-gradient(to bottom, rgba(8,7,6,0.8), rgba(8,7,6,0.75), rgba(8,7,6,0.85))'
