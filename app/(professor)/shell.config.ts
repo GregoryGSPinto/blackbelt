@@ -71,8 +71,8 @@ const professorTheme: ShellTheme = {
   backgroundOverlays: undefined,
   backgroundGradient: (isDark) =>
     isDark
-      ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 100%)'
-      : 'linear-gradient(180deg, rgba(245,240,230,0.7) 0%, rgba(245,240,230,0.6) 100%)',
+      ? 'linear-gradient(180deg, rgba(30,22,10,0.04) 0%, rgba(20,14,6,0.05) 100%)'
+      : 'linear-gradient(180deg, rgba(245,240,230,0.04) 0%, rgba(245,240,230,0.03) 100%)',
 
   // Header
   mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.88)',

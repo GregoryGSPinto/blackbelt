@@ -65,8 +65,8 @@ const teenTheme: ShellTheme = {
   // Background
   backgroundGradient: (isDark) =>
     isDark
-      ? 'linear-gradient(180deg, rgba(8,7,6,0.7) 0%, rgba(13,10,6,0.82) 40%, rgba(8,7,6,0.92) 100%)'
-      : 'linear-gradient(180deg, rgba(247,245,242,0.72) 0%, rgba(247,245,242,0.85) 40%, rgba(247,245,242,0.95) 100%)',
+      ? 'linear-gradient(180deg, rgba(0,40,55,0.04) 0%, rgba(0,30,45,0.05) 40%, rgba(0,20,35,0.06) 100%)'
+      : 'linear-gradient(180deg, rgba(0,107,143,0.02) 0%, rgba(0,90,120,0.03) 40%, rgba(0,107,143,0.02) 100%)',
 
   // Header
   mobileHeaderBg: (isDark) => isDark ? 'rgba(10,9,7,0.75)' : 'rgba(255,255,255,0.82)',

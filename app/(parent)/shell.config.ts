@@ -54,7 +54,10 @@ const parentNav = {
 
 const parentTheme: ShellTheme = {
   // Background
-  backgroundGradient: () => 'linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.7), rgba(0,0,0,0.8))',
+  backgroundGradient: (isDark) =>
+    isDark
+      ? 'linear-gradient(to bottom, rgba(74,222,128,0.03), rgba(0,0,0,0), rgba(74,222,128,0.04))'
+      : 'linear-gradient(to bottom, rgba(74,222,128,0.02), rgba(255,255,255,0), rgba(74,222,128,0.03))',
 
   // Header
   mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.9)',

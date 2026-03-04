@@ -67,8 +67,8 @@ const superAdminTheme: ShellTheme = {
 
   // Background
   backgroundGradient: dl(
-    'linear-gradient(135deg, rgba(15,5,30,0.90) 0%, rgba(0,0,0,0.75) 40%, rgba(10,0,25,0.80) 100%)',
-    'linear-gradient(135deg, rgba(238,235,255,0.95) 0%, rgba(255,255,255,0.90) 40%, rgba(235,233,255,0.92) 100%)',
+    'linear-gradient(135deg, rgba(15,5,30,0.04) 0%, rgba(0,0,0,0) 40%, rgba(10,0,25,0.05) 100%)',
+    'linear-gradient(135deg, rgba(99,102,241,0.02) 0%, rgba(255,255,255,0) 40%, rgba(139,92,246,0.03) 100%)',
   ),
 
   // Header

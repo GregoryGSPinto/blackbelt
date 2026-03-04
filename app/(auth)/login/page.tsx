@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
 
@@ -98,21 +99,8 @@ function LoginContent() {
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none');
   const [cardVisible, setCardVisible] = useState(true);
 
-  // ─── Theme-aware colors ───────────────────────────────────
-  const colors = {
-    text: isDark ? '#ffffff' : '#111111',
-    textMuted: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
-    cardBorder: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)',
-    cardBg: isDark ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)',
-    inputBorder: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.35)',
-    inputFocus: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.7)',
-    placeholder: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)',
-    overlay: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.08)',
-    error: isDark ? '#ff6b6b' : '#dc2626',
-    ssoBorder: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
-    ssoText: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
-    linkColor: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)',
-  };
+  // ─── Theme-aware colors (from shared design tokens) ──────
+  const colors = getDesignTokens(isDark);
 
   // ─── Entry animation ─────────────────────────────────────
   useEffect(() => {

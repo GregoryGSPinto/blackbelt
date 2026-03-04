@@ -69,8 +69,8 @@ const mainTheme: ShellTheme = {
   // Background
   backgroundGradient: (isDark) =>
     isDark
-      ? 'linear-gradient(to bottom, rgba(8,7,6,0.8), rgba(8,7,6,0.75), rgba(8,7,6,0.85))'
-      : 'linear-gradient(to bottom, rgba(247,245,242,0.6), rgba(247,245,242,0.52), rgba(247,245,242,0.65))',
+      ? 'linear-gradient(to bottom, rgba(8,7,6,0.04), rgba(8,7,6,0.03), rgba(8,7,6,0.05))'
+      : 'linear-gradient(to bottom, rgba(247,245,242,0.04), rgba(247,245,242,0.03), rgba(247,245,242,0.05))',
 
   // Header
   mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.85)',

@@ -64,8 +64,8 @@ const devTheme: ShellTheme = {
 
   // Background
   backgroundGradient: dl(
-    'linear-gradient(135deg, rgba(0,20,10,0.85) 0%, rgba(0,0,0,0.70) 40%, rgba(0,10,5,0.75) 100%)',
-    'linear-gradient(135deg, rgba(240,253,244,0.95) 0%, rgba(255,255,255,0.90) 40%, rgba(236,253,245,0.92) 100%)',
+    'linear-gradient(135deg, rgba(0,20,10,0.04) 0%, rgba(0,0,0,0) 40%, rgba(0,10,5,0.05) 100%)',
+    'linear-gradient(135deg, rgba(16,185,129,0.02) 0%, rgba(255,255,255,0) 40%, rgba(16,185,129,0.03) 100%)',
   ),
 
   // Header

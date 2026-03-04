@@ -60,8 +60,8 @@ const kidsNav = {
 const kidsTheme: ShellTheme = {
   // Background
   backgroundGradient: (isDark) => isDark
-    ? 'rgba(15,23,42,0.78)'       // slate-900 overlay
-    : 'rgba(255,255,255,0.72)',    // soft white veil
+    ? 'linear-gradient(180deg, rgba(15,23,42,0.04) 0%, rgba(20,184,166,0.03) 100%)'
+    : 'linear-gradient(180deg, rgba(59,130,246,0.02) 0%, rgba(147,197,253,0.03) 100%)',
 
   // Header
   mobileHeaderBg: (isDark) => isDark

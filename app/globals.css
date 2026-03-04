@@ -1065,3 +1065,25 @@ img {
   /* Disable hover scale transforms — use :active for feedback */
   .active\:scale-\[0\.99\]:active { transform: scale(0.98); }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM TYPOGRAPHY — Login page design system
+   ═══════════════════════════════════════════════════════════ */
+
+.premium-title {
+  font-size: 2rem;
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.premium-subtitle {
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.premium-body {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.6;
+}

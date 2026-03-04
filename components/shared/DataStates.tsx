@@ -2,6 +2,8 @@
 
 import { AlertTriangle, RefreshCw, Inbox, WifiOff, ShieldX, ServerCrash } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { PremiumLoader } from './PremiumLoader';
 
 // ============================================================
@@ -32,15 +34,16 @@ function friendlyMessage(status: number | null, fallback: string): string {
 }
 
 /** Ícone por status HTTP */
-function StatusIcon({ status }: { status: number | null }) {
+function StatusIcon({ status, color }: { status: number | null; color: string }) {
+  const style = { color };
   const cls = 'w-12 h-12 mx-auto mb-4';
   switch (status) {
-    case 401: return <ShieldX className={`${cls} text-yellow-400`} />;
-    case 403: return <ShieldX className={`${cls} text-orange-400`} />;
+    case 401: return <ShieldX className={cls} style={style} />;
+    case 403: return <ShieldX className={cls} style={style} />;
     case 500:
     case 502:
-    case 503: return <ServerCrash className={`${cls} text-red-400`} />;
-    default: return <WifiOff className={`${cls} text-red-400/80`} />;
+    case 503: return <ServerCrash className={cls} style={style} />;
+    default: return <WifiOff className={cls} style={style} />;
   }
 }
 
@@ -58,7 +61,7 @@ export function PageLoading({ message = 'Carregando...' }: { message?: string })
 
 /**
  * PageError — Estado de erro com retry.
- * Usa o mesmo padrão visual das páginas existentes.
+ * Usa design tokens para visual premium.
  * Trata 401, 403, 500 com mensagens específicas.
  */
 export function PageError({
@@ -70,6 +73,8 @@ export function PageError({
   onRetry?: () => void;
   message?: string;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const status = getHttpStatus(error);
   const displayMessage = message || friendlyMessage(
     status,
@@ -78,19 +83,29 @@ export function PageError({
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="text-center max-w-sm px-6">
-        <StatusIcon status={status} />
+      <div
+        className="text-center max-w-sm px-6 py-8 rounded-2xl"
+        style={{
+          ...tokens.glass,
+        }}
+      >
+        <StatusIcon status={status} color={tokens.error} />
         <div className="flex items-center justify-center gap-2 mb-2">
-          <AlertTriangle className="w-4 h-4 text-red-400/80" />
-          <p className="text-white/80 font-medium">
+          <AlertTriangle className="w-4 h-4" style={{ color: tokens.error }} />
+          <p className="font-medium" style={{ color: tokens.text }}>
             {status ? `Erro ${status}` : 'Erro'}
           </p>
         </div>
-        <p className="text-white/50 text-sm mb-6">{displayMessage}</p>
+        <p className="text-sm mb-6" style={{ color: tokens.textMuted }}>{displayMessage}</p>
         {onRetry && (
           <button
             onClick={onRetry}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/20 text-white text-sm font-medium rounded-lg transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg transition-all"
+            style={{
+              background: tokens.cardBg,
+              border: `1px solid ${tokens.cardBorder}`,
+              color: tokens.text,
+            }}
           >
             <RefreshCw className="w-4 h-4" />
             Tentar novamente
@@ -103,23 +118,26 @@ export function PageError({
 
 /**
  * PageEmpty — Estado vazio quando dados retornam array vazio.
- * Visual consistente, ícone e mensagem configuráveis.
+ * Visual consistente com design tokens premium.
  */
 export function PageEmpty({
   icon: Icon = Inbox,
   title = 'Nenhum dado encontrado',
   message = 'Não há registros para exibir no momento.',
 }: {
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   title?: string;
   message?: string;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   return (
     <div className="flex items-center justify-center min-h-[40vh]">
       <div className="text-center max-w-sm px-6">
-        <Icon className="w-12 h-12 mx-auto mb-4 text-white/20" />
-        <p className="text-white/60 font-medium mb-1">{title}</p>
-        <p className="text-white/40 text-sm">{message}</p>
+        <Icon className="w-12 h-12 mx-auto mb-4" style={{ color: tokens.textMuted }} />
+        <p className="font-medium mb-1" style={{ color: tokens.text }}>{title}</p>
+        <p className="text-sm" style={{ color: tokens.textMuted }}>{message}</p>
       </div>
     </div>
   );

@@ -14,10 +14,6 @@ import {
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
 
-function always(val: string) {
-  return () => val;
-}
-
 // ─── Notifications ───────────────────────────────────────
 
 const NOTIFICATIONS = [
@@ -84,52 +80,56 @@ const adminNav = {
 const adminTheme: ShellTheme = {
   variant: 'top-nav',
 
-  backgroundGradient: always(
-    'linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.65) 100%)',
-  ),
+  backgroundGradient: (isDark) =>
+    isDark
+      ? 'linear-gradient(135deg, rgba(30,20,10,0.04) 0%, rgba(0,0,0,0) 40%, rgba(20,12,5,0.05) 100%)'
+      : 'linear-gradient(135deg, rgba(30,20,10,0.03) 0%, rgba(255,255,255,0) 40%, rgba(20,12,5,0.04) 100%)',
 
-  mobileHeaderBg: always('rgba(0,0,0,0.6)'),
-  mobileHeaderBorder: always('rgba(255,255,255,0.08)'),
-  desktopHeaderBg: always('rgba(0,0,0,0.5)'),
-  desktopHeaderBorder: always('rgba(255,255,255,0.08)'),
+  mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.85)',
+  mobileHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.06)',
+  desktopHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.8)',
+  desktopHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.06)',
 
-  textHeading: always('#FFFFFF'),
-  textMuted: always('rgba(255,255,255,0.4)'),
+  textHeading: (isDark) => isDark ? '#FFFFFF' : '#15120C',
+  textMuted: (isDark) => isDark ? 'rgba(255,255,255,0.4)' : '#5A4B38',
 
-  accentColor: always('#FFFFFF'),
-  navActiveColor: always('#FFFFFF'),
-  navInactiveColor: always('rgba(255,255,255,0.45)'),
-  navHoverColor: always('rgba(255,255,255,0.7)'),
-  navIndicatorColor: always('#FFFFFF'),
+  accentColor: (isDark) => isDark ? '#FFFFFF' : '#8C6239',
+  navActiveColor: (isDark) => isDark ? '#FFFFFF' : '#15120C',
+  navInactiveColor: (isDark) => isDark ? 'rgba(255,255,255,0.45)' : '#5A4B38',
+  navHoverColor: (isDark) => isDark ? 'rgba(255,255,255,0.7)' : '#2A2318',
+  navIndicatorColor: (isDark) => isDark ? '#FFFFFF' : '#8C6239',
 
   avatarGradient: 'from-white/20 to-white/10',
   avatarUsePerfilColor: true,
-  avatarRing: always('rgba(255,255,255,0.08)'),
+  avatarRing: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.15)',
 
   notifDotColor: '#EF4444',
-  notifAccentColor: always('#EF4444'),
+  notifAccentColor: (isDark) => isDark ? '#EF4444' : '#DC2626',
 
-  panelBg: always('linear-gradient(180deg, rgba(20,15,8,0.97), rgba(13,10,6,0.98))'),
-  panelBorder: always('rgba(255,255,255,0.08)'),
+  panelBg: (isDark) =>
+    isDark
+      ? 'linear-gradient(180deg, rgba(20,15,8,0.97), rgba(13,10,6,0.98))'
+      : 'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,248,245,0.99))',
+  panelBorder: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.08)',
   panelBackdrop: 'blur(40px) saturate(1.4)',
 
-  bottomNavBg: always('rgba(0,0,0,0.7)'),
-  bottomNavBorder: always('rgba(255,255,255,0.08)'),
-  bottomNavActive: always('#FFFFFF'),
-  bottomNavInactive: always('rgba(255,255,255,0.35)'),
+  bottomNavBg: (isDark) => isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)',
+  bottomNavBorder: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.06)',
+  bottomNavActive: (isDark) => isDark ? '#FFFFFF' : '#15120C',
+  bottomNavInactive: (isDark) => isDark ? 'rgba(255,255,255,0.35)' : '#5A4B38',
 
-  drawerBg: always('rgba(10,8,6,0.98)'),
-  drawerBorder: always('rgba(255,255,255,0.06)'),
-  drawerItemBg: always('transparent'),
-  drawerItemColor: always('rgba(255,255,255,0.5)'),
+  drawerBg: (isDark) => isDark ? 'rgba(10,8,6,0.98)' : 'rgba(255,255,255,0.98)',
+  drawerBorder: (isDark) => isDark ? 'rgba(255,255,255,0.06)' : 'rgba(107,68,35,0.06)',
+  drawerItemBg: (isDark) => isDark ? 'transparent' : 'transparent',
+  drawerItemColor: (isDark) => isDark ? 'rgba(255,255,255,0.5)' : '#5A4B38',
 
-  searchBg: always('rgba(255,255,255,0.08)'),
-  searchBorder: always('rgba(255,255,255,0.1)'),
-  searchText: always('#FFFFFF'),
+  searchBg: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.08)',
+  searchBorder: (isDark) => isDark ? 'rgba(255,255,255,0.1)' : 'rgba(107,68,35,0.14)',
+  searchText: (isDark) => isDark ? '#FFFFFF' : '#15120C',
 
   logoHref: '/dashboard',
   logoLabel: 'BLACKBELT',
-  logoLabelColor: always('#FFFFFF'),
+  logoLabelColor: (isDark) => isDark ? '#FFFFFF' : '#15120C',
 
   contentMaxWidth: 'max-w-[1600px]',
   contentClassName: 'relative z-10 pt-[72px] md:pt-[96px] pb-24 md:pb-8',
