@@ -50,7 +50,7 @@ export default function ProfileSelectionPage() {
 
   // Se não autenticado, redirecionar
   if (!user) {
-    if (typeof window !== 'undefined') router.replace('/landing');
+    if (typeof window !== 'undefined') router.replace('/login');
     return null;
   }
 

@@ -19,7 +19,7 @@ interface ProtectedRouteProps {
  *
  * Quando login chama setUser() + router.replace('/dashboard'), o React
  * pode NÃO ter flushado o state antes do ProtectedRoute renderizar.
- * Resultado: user=null → redirect para /landing → loop.
+ * Resultado: user=null → redirect para /login → loop.
  *
  * SOLUÇÃO: Quando user=null mas existe sessão no localStorage,
  * aguardamos o React state sincronizar (max 2s safety net).
@@ -98,9 +98,9 @@ export function ProtectedRoute({
     if (redirectedRef.current) return;
 
     if (!user) {
-      logger.info('[ProtectedRoute]', 'Sem sessão, redirecionando para /landing');
+      logger.info('[ProtectedRoute]', 'Sem sessão, redirecionando para /login');
       redirectedRef.current = true;
-      router.replace('/landing');
+      router.replace('/login');
       return;
     }
 

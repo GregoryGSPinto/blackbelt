@@ -11,7 +11,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { usePathname } from 'next/navigation';
 
 const HIDDEN_ROUTES = ['/login'];
-const SHOWCASE_ROUTES = ['/landing'];
+const SHOWCASE_ROUTES = ['/login'];
 
 export function ThemedBackground() {
   const { isDark } = useTheme();

@@ -657,10 +657,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Navegar ANTES de limpar state (evita race condition com ProtectedRoute)
     // CRÍTICO: usar replace() em vez de push() para evitar loop de navegação
     try {
-      router.replace('/landing');
+      router.replace('/login');
     } catch {
       // Fallback se router falhar
-      if (typeof window !== 'undefined') window.location.href = '/landing';
+      if (typeof window !== 'undefined') window.location.href = '/login';
     }
     setUser(null);
     setAvailableProfiles([]);

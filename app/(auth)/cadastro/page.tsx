@@ -202,7 +202,7 @@ export default function CadastroPage() {
               <span className="text-sm font-medium">Voltar</span>
             </button>
           ) : (
-            <Link href="/landing" className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 group">
+            <Link href="/login" className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 group">
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               <span className="text-sm font-medium">Voltar para início</span>
             </Link>
