@@ -373,7 +373,13 @@ function LoginContent() {
                   backdropFilter: 'blur(12px) saturate(1.2)',
                   WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
                   padding: '2.5rem 2rem 2.5rem',
-                  transition: transitions.theme,
+                  transition: `${transitions.theme}, border-color 0.25s ease`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)';
                 }}
               >
                 {/* Title */}
