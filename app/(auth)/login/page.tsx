@@ -372,24 +372,8 @@ function LoginContent() {
             className="login-card-responsive"
           >
             <form onSubmit={handleEmailSubmit}>
-              {/* Card */}
-              <div
-                style={{
-                  position: 'relative',
-                  border: `1px solid ${colors.cardBorder}`,
-                  background: colors.cardBg,
-                  backdropFilter: 'blur(12px) saturate(1.2)',
-                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                  padding: '2.5rem 2rem 2.5rem',
-                  transition: `${transitions.theme}, border-color 0.25s ease`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)';
-                }}
-              >
+              <div style={{ position: 'relative' }}>
+
                 {/* Back arrow to INITIAL */}
                 <button
                   type="button"
@@ -399,11 +383,11 @@ function LoginContent() {
                     position: 'absolute',
                     top: '1rem',
                     left: '1rem',
+                    zIndex: 2,
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
                     padding: '0.25rem',
-                    color: colors.textMuted,
                     display: 'flex',
                     alignItems: 'center',
                   }}
@@ -411,161 +395,185 @@ function LoginContent() {
                   <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                 </button>
 
-                {/* Title */}
-                <h1
+                {/* Unified bordered container: card + divider + SSO */}
+                <div
                   style={{
-                    color: colors.text,
-                    fontSize: '0.875rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.25em',
-                    textTransform: 'uppercase',
-                    marginBottom: '2rem',
-                    textAlign: 'center',
-                    transition: transitions.theme,
+                    border: `1px solid ${colors.cardBorder}`,
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    transition: `${transitions.theme}, border-color 0.25s ease`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)';
                   }}
                 >
-                  LOGIN
-                </h1>
+                  {/* Card content */}
+                  <div style={{ padding: '2.5rem 2rem 1.5rem' }}>
+                    {/* Title */}
+                    <h1
+                      style={{
+                        color: colors.text,
+                        fontSize: '0.875rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.25em',
+                        textTransform: 'uppercase',
+                        marginBottom: '2rem',
+                        textAlign: 'center',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      LOGIN
+                    </h1>
 
-                {/* Error */}
-                {error && (
-                  <p
-                    role="alert"
+                    {/* Error */}
+                    {error && (
+                      <p
+                        role="alert"
+                        style={{
+                          color: colors.error,
+                          fontSize: '0.8rem',
+                          marginBottom: '1rem',
+                          textAlign: 'center',
+                          transition: transitions.fadeIn,
+                        }}
+                      >
+                        {error}
+                      </p>
+                    )}
+
+                    {/* Email input — underline only */}
+                    <input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                      placeholder="Email address"
+                      autoFocus
+                      autoComplete="email"
+                      required
+                      aria-label="Email"
+                      style={{
+                        width: '100%',
+                        background: 'transparent',
+                        border: 'none',
+                        borderBottom: `1px solid ${colors.inputBorder}`,
+                        padding: '0.75rem 0',
+                        fontSize: '1rem',
+                        color: colors.text,
+                        outline: 'none',
+                        transition: transitions.theme,
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderBottomColor = colors.inputFocus;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderBottomColor = colors.inputBorder;
+                      }}
+                    />
+
+                    {/* Remember me + Forgot email */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
+                        <input type="checkbox" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                        Remember me
+                      </label>
+                      <Link
+                        href="/esqueci-email"
+                        style={{
+                          fontSize: '0.8rem',
+                          color: colors.linkColor,
+                          textDecoration: 'none',
+                          transition: transitions.theme,
+                        }}
+                      >
+                        Esqueci meu email
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div style={{ height: 1, background: colors.cardBorder, transition: transitions.theme }} />
+
+                  {/* SSO buttons at bottom */}
+                  <div style={{ display: 'flex' }}>
+                    <button
+                      type="button"
+                      aria-label="Entrar com Google"
+                      style={{
+                        flex: 1,
+                        height: 52,
+                        border: 'none',
+                        borderRight: `1px solid ${colors.cardBorder}`,
+                        borderRadius: 0,
+                        background: 'transparent',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: transitions.theme,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                      }}
+                    >
+                      <GoogleIcon />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Entrar com Apple"
+                      style={{
+                        flex: 1,
+                        height: 52,
+                        border: 'none',
+                        borderRadius: 0,
+                        background: 'transparent',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: transitions.theme,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                      }}
+                    >
+                      <AppleIcon color={colors.text} />
+                    </button>
+                  </div>
+                </div>{/* end unified border */}
+
+                {/* Hidden submit for Enter key */}
+                <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
+
+                {/* Create account link */}
+                <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
+                  <Link
+                    href="/cadastro"
                     style={{
-                      color: colors.error,
                       fontSize: '0.8rem',
-                      marginBottom: '1rem',
-                      textAlign: 'center',
-                      transition: transitions.fadeIn,
-                    }}
-                  >
-                    {error}
-                  </p>
-                )}
-
-                {/* Email input — underline only, no label */}
-                <div>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                    placeholder="Email"
-                    autoFocus
-                    autoComplete="email"
-                    required
-                    aria-label="Email"
-                    style={{
-                      width: '100%',
-                      background: 'transparent',
-                      border: 'none',
-                      borderBottom: `1px solid ${colors.inputBorder}`,
-                      padding: '0.75rem 0',
-                      fontSize: '1rem',
+                      fontWeight: 500,
                       color: colors.text,
-                      outline: 'none',
+                      opacity: 0.5,
+                      textDecoration: 'none',
                       transition: transitions.theme,
                     }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderBottomColor = colors.inputFocus;
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderBottomColor = colors.inputBorder;
-                    }}
-                  />
+                  >
+                    Criar conta
+                  </Link>
                 </div>
-              </div>
 
-              {/* Hidden submit for Enter key */}
-              <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
+              </div>
             </form>
-
-            {/* Below card: SSO icon buttons + create account */}
-            <div
-              style={{
-                marginTop: '1.5rem',
-                opacity: cardVisible ? 1 : 0,
-                transition: 'opacity 0.35s ease 0.15s',
-              }}
-            >
-              {/* SSO icon-only buttons — unified border wrapper */}
-              <div
-                style={{
-                  border: `1px solid ${colors.cardBorder}`,
-                  display: 'flex',
-                  width: 'fit-content',
-                  margin: '0 auto',
-                  transition: transitions.theme,
-                }}
-              >
-                <button
-                  type="button"
-                  aria-label="Entrar com Google"
-                  style={{
-                    width: 48,
-                    height: 48,
-                    border: 'none',
-                    borderRight: `1px solid ${colors.cardBorder}`,
-                    borderRadius: 0,
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: transitions.theme,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                  }}
-                >
-                  <GoogleIcon />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Entrar com Apple"
-                  style={{
-                    width: 48,
-                    height: 48,
-                    border: 'none',
-                    borderRadius: 0,
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: transitions.theme,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                  }}
-                >
-                  <AppleIcon color={colors.text} />
-                </button>
-              </div>
-
-              {/* Create account link */}
-              <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
-                <Link
-                  href="/cadastro"
-                  style={{
-                    fontSize: '0.8rem',
-                    fontWeight: 500,
-                    color: colors.text,
-                    opacity: 0.5,
-                    textDecoration: 'none',
-                    transition: transitions.theme,
-                  }}
-                >
-                  Criar conta
-                </Link>
-              </div>
-            </div>
           </div>
         )}
 
