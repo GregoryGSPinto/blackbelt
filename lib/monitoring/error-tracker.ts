@@ -187,22 +187,6 @@ class ErrorTracker {
     return `err_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
   }
 
-  /** Future: flush to backend endpoint */
-  // private async flush() {
-  //   if (this.queue.length === 0) return;
-  //   const batch = [...this.queue];
-  //   this.queue = [];
-  //   try {
-  //     await fetch('/api/errors', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ errors: batch }),
-  //     });
-  //   } catch {
-  //     // Re-queue on failure
-  //     this.queue.unshift(...batch);
-  //   }
-  // }
 }
 
 /** Singleton instance */

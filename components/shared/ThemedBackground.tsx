@@ -10,11 +10,14 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { usePathname } from 'next/navigation';
 
-const SHOWCASE_ROUTES = ['/login', '/landing'];
+const HIDDEN_ROUTES = ['/login'];
+const SHOWCASE_ROUTES = ['/landing'];
 
 export function ThemedBackground() {
   const { isDark } = useTheme();
   const pathname = usePathname();
+
+  if (HIDDEN_ROUTES.includes(pathname)) return null;
 
   const isShowcase = SHOWCASE_ROUTES.includes(pathname);
 

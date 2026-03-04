@@ -60,9 +60,6 @@ function onReport(metric: { name: string; value: number; delta: number; id: stri
       `${color} [WebVitals] ${name}: ${entry.value}${name === 'CLS' ? '' : 'ms'} (${rating})`
     );
   }
-
-  // Future: batch send to analytics endpoint
-  // if (queue.length >= 5) flushToAnalytics();
 }
 
 /** Initialize web vitals tracking (call once) */

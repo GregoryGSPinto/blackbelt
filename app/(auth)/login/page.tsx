@@ -1,15 +1,73 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowLeft, Mail, Lock, AlertCircle, CheckCircle, ShieldCheck, GraduationCap, User, Gamepad2, Users, Baby, Star, Wrench, Building2 } from 'lucide-react';
 import { useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
-import CinematicBackground from '@/components/ui/CinematicBackground';
-import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
+import { useTheme } from '@/contexts/ThemeContext';
+import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
 
+// ─── Types ──────────────────────────────────────────────────
+type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
+
+// ─── SVG Icons (inline, no library) ─────────────────────────
+function GoogleIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+  );
+}
+
+function AppleIcon({ color }: { color: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill={color}>
+      <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+    </svg>
+  );
+}
+
+function EyeIcon({ open, color }: { open: boolean; color: string }) {
+  if (open) {
+    return (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    );
+  }
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  );
+}
+
+function SpinnerIcon({ color }: { color: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2">
+      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83">
+        <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+      </path>
+    </svg>
+  );
+}
+
+function BackArrowIcon({ color }: { color: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
+  );
+}
+
+// ─── Main export ────────────────────────────────────────────
 export default function PremiumLoginPage() {
   return (
     <Suspense fallback={null}>
@@ -18,362 +76,1022 @@ export default function PremiumLoginPage() {
   );
 }
 
+// ─── Login Content ──────────────────────────────────────────
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login, user, loading: authLoading } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
 
-  const [step, setStep]           = useState<'email' | 'password'>('email');
-  const [email, setEmail]         = useState('');
-  const [password, setPassword]   = useState('');
-  const [error, setError]         = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
-  const [loading, setLoading]     = useState(false);
-  // Guard: prevent autofill-triggered submits before user interaction
-  const [userInteracted, setUserInteracted] = useState(false);
+  // ─── State machine ────────────────────────────────────────
+  const [step, setStep] = useState<LoginStep>('INITIAL');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Detectar cadastro recém-concluído
+  // Slide direction for transitions
+  const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none');
+  const [cardVisible, setCardVisible] = useState(true);
+
+  // ─── Theme-aware colors ───────────────────────────────────
+  const colors = {
+    text: isDark ? '#ffffff' : '#111111',
+    textMuted: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
+    cardBorder: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)',
+    cardBg: isDark ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)',
+    inputBorder: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.35)',
+    inputFocus: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.7)',
+    placeholder: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)',
+    overlay: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.08)',
+    blur: isDark ? '4px' : '8px',
+    error: isDark ? '#ff6b6b' : '#dc2626',
+    ssoBorder: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
+    ssoText: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
+    linkColor: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)',
+  };
+
+  // ─── Entry animation ─────────────────────────────────────
   useEffect(() => {
-    if (searchParams.get('cadastro') === 'sucesso') {
-      setSuccessMsg('Conta criada com sucesso! Faça login para continuar.');
-    }
-  }, [searchParams]);
+    const timer = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // Redirecionar se já autenticado (ex: voltou para login com sessão ativa)
+  // ─── Redirect if already authenticated ────────────────────
   useEffect(() => {
     if (!authLoading && user) {
       router.replace(getRedirectForProfile(user.tipo));
     }
   }, [authLoading, user, router]);
 
-  // Validação de formato de email (UX only)
+  // ─── Detect recent signup ─────────────────────────────────
+  useEffect(() => {
+    if (searchParams.get('cadastro') === 'sucesso') {
+      setStep('EMAIL');
+    }
+  }, [searchParams]);
+
+  // ─── Email validation ─────────────────────────────────────
   const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  // ─── ETAPA 1: Submeter email ────────────────────────────────
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Block autofill-triggered submits (user must type or click)
-    if (!userInteracted) return;
+  // ─── Step transitions ─────────────────────────────────────
+  const goToEmail = useCallback(() => {
+    setStep('EMAIL');
     setError('');
-    setSuccessMsg('');
+  }, []);
 
-    if (!email.trim()) { setError('Digite seu email'); return; }
+  const goToPassword = useCallback(() => {
+    if (!email.trim()) { setError('Email inválido'); return; }
     if (!validateEmail(email)) { setError('Email inválido'); return; }
-
-    // Avança para senha — a validação real acontece no servidor
-    setStep('password');
-  };
-
-  // ─── ETAPA 2: Submeter senha (via AuthContext.login → API) ──
-  const handlePasswordSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userInteracted) return;
     setError('');
-    if (!password) { setError('Digite sua senha'); return; }
+    setCardVisible(false);
+    setSlideDir('left');
+    setTimeout(() => {
+      setStep('PASSWORD');
+      setSlideDir('right');
+      setTimeout(() => setCardVisible(true), 20);
+    }, 350);
+  }, [email]);
 
-    setLoading(true);
+  const goBackToEmail = useCallback(() => {
+    setError('');
+    setPassword('');
+    setCardVisible(false);
+    setSlideDir('right');
+    setTimeout(() => {
+      setStep('EMAIL');
+      setSlideDir('left');
+      setTimeout(() => setCardVisible(true), 20);
+    }, 350);
+  }, []);
+
+  // ─── Submit login ─────────────────────────────────────────
+  const handleLogin = useCallback(async () => {
+    if (!password) { setError('Digite sua senha'); return; }
+    setError('');
+    setStep('LOADING');
 
     try {
       const tipo = await login(email, password);
-
       if (tipo) {
-        // Redirect imediato usando o tipo retornado — não depende de state update
-        logger.info('[Login]', 'Login bem-sucedido, redirecionando para', getRedirectForProfile(tipo));
+        logger.info('[Login]', 'Login OK →', getRedirectForProfile(tipo));
         router.replace(getRedirectForProfile(tipo));
       } else {
-        setError('Email ou senha incorretos. Tente novamente.');
-        setLoading(false);
+        setError('Email ou senha incorretos');
+        setStep('ERROR');
       }
     } catch (err) {
-      logger.error('[Login]', 'Erro ao fazer login:', err);
+      logger.error('[Login]', 'Login error:', err);
       setError('Ocorreu um erro. Tente novamente.');
-      setLoading(false);
+      setStep('ERROR');
     }
+  }, [email, password, login, router]);
+
+  // ─── Form submit handlers ────────────────────────────────
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    goToPassword();
   };
 
-  const handleBackToEmail = () => {
-    setStep('email');
-    setPassword('');
-    setError('');
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin();
   };
 
-  // ─── Credenciais de acesso: preenche campos e avança para senha ──
-  const credentials = [
-    { label: 'Super Admin',  email: 'superadmin@blackbelt.com', password: 'blackbelt123', icon: Star },
-    { label: 'Admin',        email: 'admin@blackbelt.com',      password: 'blackbelt123', icon: ShieldCheck },
-    { label: 'Unit Owner',   email: 'owner@blackbelt.com',      password: 'blackbelt123', icon: Building2 },
-    { label: 'Professor',    email: 'professor@blackbelt.com',  password: 'blackbelt123', icon: GraduationCap },
-    { label: 'Aluno Adulto', email: 'adulto@blackbelt.com',     password: 'blackbelt123', icon: User },
-    { label: 'Aluno Teen',   email: 'miguel@blackbelt.com',     password: 'blackbelt123', icon: Gamepad2 },
-    { label: 'Aluno Kids',   email: 'kid@blackbelt.com',        password: 'blackbelt123', icon: Baby },
-    { label: 'Responsavel',  email: 'paiteen@blackbelt.com',    password: 'blackbelt123', icon: Users },
-    { label: 'Suporte',      email: 'support@blackbelt.com',    password: 'blackbelt123', icon: Wrench },
-  ];
-
-  const handleQuickLogin = async (quickEmail: string, quickPassword: string) => {
-    setEmail(quickEmail);
-    setPassword(quickPassword);
-    setUserInteracted(true);
-    setError('');
-    setSuccessMsg('');
-    setLoading(true);
-
-    try {
-      const tipo = await login(quickEmail, quickPassword);
-      if (tipo) {
-        logger.info('[Login]', 'Quick login OK →', getRedirectForProfile(tipo));
-        router.replace(getRedirectForProfile(tipo));
-      } else {
-        setError('Email ou senha incorretos. Tente novamente.');
-        setStep('password');
-        setLoading(false);
-      }
-    } catch (err) {
-      logger.error('[Login]', 'Quick login erro:', err);
-      setError('Ocorreu um erro. Tente novamente.');
-      setStep('password');
-      setLoading(false);
+  // ─── Card slide style ─────────────────────────────────────
+  const cardStyle = (): React.CSSProperties => {
+    if (slideDir === 'none') {
+      return {
+        opacity: cardVisible ? 1 : 0,
+        transform: cardVisible ? 'translateY(0)' : 'translateY(30px)',
+        transition: transitions.slideUp,
+      };
     }
+    const offX = slideDir === 'left' ? '-40px' : '40px';
+    return {
+      opacity: cardVisible ? 1 : 0,
+      transform: cardVisible ? 'translateX(0)' : `translateX(${offX})`,
+      transition: transitions.slideLeft,
+    };
   };
 
-  // ─── Loading state (entrando) ─────────────────────────────
-  if (loading) {
-    return (
-      <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-        <CinematicBackground />
-        <div className="relative z-10 min-h-screen flex items-center justify-center">
-          <div className="text-center animate-fade-in">
-            <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <p className="text-lg text-white/80">Entrando...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // ─── Render ───────────────────────────────────────────────
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Background Cinematográfico */}
-      <CinematicBackground />
+    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* ─── Background Layer ─────────────────────────────── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0 }} aria-hidden="true">
+        {/* Dark bg image */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: "url('/images/login-dark.png')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: isDark ? 1 : 0,
+            transition: 'opacity 0.6s ease',
+          }}
+        />
+        {/* Light bg image */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: "url('/images/login-light.png')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: isDark ? 0 : 1,
+            transition: 'opacity 0.6s ease',
+          }}
+        />
+        {/* Blur overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: '-5%',
+            backdropFilter: `blur(${colors.blur})`,
+            WebkitBackdropFilter: `blur(${colors.blur})`,
+            transform: 'scale(1.05)',
+            transition: transitions.theme,
+          }}
+        />
+        {/* Color overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: colors.overlay,
+            transition: transitions.theme,
+          }}
+        />
+        {/* Radial vignette */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
+          }}
+        />
+      </div>
 
-      {/* Content */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-        <div className="w-full max-w-md animate-slide-up">
-          {/* Botão Voltar */}
-          <Link
-            href="/landing"
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-300 mb-8 group"
+      {/* ─── Theme Toggle ─────────────────────────────────── */}
+      <button
+        onClick={toggleTheme}
+        aria-label={isDark ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
+        style={{
+          position: 'fixed',
+          top: '1.5rem',
+          right: '1.5rem',
+          zIndex: 50,
+          width: 44,
+          height: 44,
+          borderRadius: '50%',
+          border: `1px solid ${isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)'}`,
+          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+          color: colors.text,
+          fontSize: '1.2rem',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: transitions.theme,
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+        }}
+      >
+        {isDark ? '☀️' : '🌙'}
+      </button>
+
+      {/* ─── Content ──────────────────────────────────────── */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1.5rem',
+        }}
+      >
+        {/* ─── STEP: INITIAL ─────────────────────────────── */}
+        {step === 'INITIAL' && (
+          <div
+            style={{
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+              transition: transitions.slideUp,
+              textAlign: 'center',
+            }}
           >
-            <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="text-sm font-medium">Voltar</span>
-          </Link>
+            <button
+              onClick={goToEmail}
+              style={{
+                width: 200,
+                height: 52,
+                background: 'transparent',
+                border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
+                color: colors.text,
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                borderRadius: 0,
+                cursor: 'pointer',
+                transition: transitions.theme,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              Login
+            </button>
+          </div>
+        )}
 
-          {/* Container Principal */}
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl transition-all duration-500 hover:border-white/20">
-            {/* Logo */}
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/images/logo-blackbelt.png"
-                alt="BlackBelt"
-                width={64}
-                height={64}
-                className="rounded-lg"
-              />
-            </div>
+        {/* ─── STEP: EMAIL ───────────────────────────────── */}
+        {step === 'EMAIL' && (
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              ...cardStyle(),
+            }}
+            className="login-card-responsive"
+          >
+            <form onSubmit={handleEmailSubmit}>
+              <div style={{ position: 'relative' }}>
+                {/* Card */}
+                <div
+                  style={{
+                    border: `1px solid ${colors.cardBorder}`,
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    padding: '2.5rem 2rem 3rem',
+                    transition: transitions.theme,
+                  }}
+                >
+                  {/* Title */}
+                  <h1
+                    style={{
+                      color: colors.text,
+                      fontSize: '0.875rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.25em',
+                      textTransform: 'uppercase',
+                      marginBottom: '2rem',
+                      textAlign: 'center',
+                      transition: transitions.theme,
+                    }}
+                  >
+                    LOGIN
+                  </h1>
 
-            {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-2 tracking-tight">Entrar</h1>
-              <p className="text-white/60 text-base">
-                {step === 'email' ? 'Digite seu email para continuar' : 'Digite sua senha'}
-              </p>
-            </div>
+                  {/* Error */}
+                  {error && (
+                    <p
+                      role="alert"
+                      style={{
+                        color: colors.error,
+                        fontSize: '0.8rem',
+                        marginBottom: '1rem',
+                        textAlign: 'center',
+                        transition: transitions.fadeIn,
+                      }}
+                    >
+                      {error}
+                    </p>
+                  )}
 
-            {/* Mensagem de sucesso (pós-cadastro) */}
-            {successMsg && (
-              <div className="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-lg mb-6 animate-fade-in">
-                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-green-400 leading-relaxed">{successMsg}</p>
-              </div>
-            )}
-
-            {/* ETAPA 1: Email */}
-            {step === 'email' && (
-              <form onSubmit={handleEmailSubmit} autoComplete="off" className="space-y-6 animate-fade-in">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white mb-2.5">Email</label>
-                  <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/40 transition-colors duration-300 group-focus-within:text-white/60" />
+                  {/* Email input */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label
+                      htmlFor="email"
+                      style={{
+                        display: 'block',
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        color: colors.textMuted,
+                        marginBottom: '0.5rem',
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      Email
+                    </label>
                     <input
-                      id="email" 
-                      type="email" 
+                      id="email"
+                      type="email"
                       value={email}
-                      onChange={(e) => { setUserInteracted(true); setEmail(e.target.value); setError(''); setSuccessMsg(''); }}
-                      onKeyDown={() => setUserInteracted(true)}
-                      placeholder="seu@email.com"
-                      className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent focus:bg-white/10 transition-all duration-300"
-                      autoFocus 
+                      onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                      placeholder="Email address"
+                      autoFocus
                       autoComplete="email"
                       required
+                      style={{
+                        width: '100%',
+                        background: 'transparent',
+                        border: 'none',
+                        borderBottom: `1px solid ${colors.inputBorder}`,
+                        padding: '0.75rem 0',
+                        fontSize: '1rem',
+                        color: colors.text,
+                        outline: 'none',
+                        transition: transitions.theme,
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderBottomColor = colors.inputFocus;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderBottomColor = colors.inputBorder;
+                      }}
                     />
                   </div>
-                </div>
 
-                {error && (
-                  <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-lg animate-shake backdrop-blur-sm">
-                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-400 leading-relaxed">{error}</p>
-                  </div>
-                )}
-
-                <button type="submit" className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl">
-                  Continuar
-                </button>
-
-                <SocialLoginButtons mode="login" />
-
-                <div className="space-y-4 text-center">
-                  <Link href="/esqueci-email" className="block text-sm text-white/60 hover:text-white transition-colors duration-300">
-                    Esqueci meu email
-                  </Link>
-                  <div className="pt-4 border-t border-white/10">
-                    <p className="text-sm text-white/60 mb-2.5">Primeira vez aqui?</p>
-                    <Link href="/cadastro" className="inline-block text-sm font-semibold text-white hover:text-white/80 transition-all duration-300 hover:translate-x-1">
-                      Criar conta grátis →
+                  {/* Forgot email link */}
+                  <div style={{ textAlign: 'center' }}>
+                    <Link
+                      href="/esqueci-email"
+                      style={{
+                        fontSize: '0.8rem',
+                        color: colors.linkColor,
+                        textDecoration: 'none',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      Esqueci meu email
                     </Link>
                   </div>
                 </div>
-              </form>
-            )}
 
-            {/* ETAPA 2: Senha */}
-            {step === 'password' && (
-              <form onSubmit={handlePasswordSubmit} className="space-y-6 animate-fade-in">
-                {/* Email Display */}
-                <div className="flex items-center gap-3 p-4 bg-white/5 rounded-lg border border-white/5 transition-colors duration-300 hover:bg-white/10">
-                  <Mail className="w-5 h-5 text-white/60 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-white/60 mb-0.5">Entrando como:</p>
-                    <p className="text-white font-medium truncate">{email}</p>
-                  </div>
-                  <button type="button" onClick={handleBackToEmail} className="text-sm text-white/60 hover:text-white transition-colors duration-300 font-medium">
-                    Trocar
-                  </button>
-                </div>
-
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-white mb-2.5">Senha</label>
-                  <div className="relative group">
-                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/40 transition-colors duration-300 group-focus-within:text-white/60" />
-                    <input
-                      id="password" 
-                      type="password" 
-                      value={password}
-                      onChange={(e) => { setUserInteracted(true); setPassword(e.target.value); setError(''); }}
-                      onKeyDown={() => setUserInteracted(true)}
-                      placeholder="Digite sua senha"
-                      className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent focus:bg-white/10 transition-all duration-300"
-                      autoFocus 
-                      autoComplete="current-password"
-                      required
-                      minLength={6}
-                    />
-                  </div>
-                </div>
-
-                {error && (
-                  <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-lg animate-shake backdrop-blur-sm">
-                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-400 leading-relaxed">{error}</p>
-                  </div>
-                )}
-
-                <button type="submit" className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl">
-                  Entrar
-                </button>
-
-                <SocialLoginButtons mode="login" />
-
-                <div className="space-y-3 text-center">
-                  <Link href="/esqueci-senha" className="block text-sm text-white/60 hover:text-white transition-colors duration-300">
-                    Esqueci minha senha
-                  </Link>
-                  <Link href="/alterar-senha" className="block text-sm text-white/60 hover:text-white transition-colors duration-300">
-                    Alterar minha senha
-                  </Link>
-                </div>
-              </form>
-            )}
-          </div>
-
-          {/* ─── Credenciais de Acesso ─────────────────────────── */}
-          <div className="mt-8 animate-fade-in-delay">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-white/40">Credenciais de Acesso</span>
-              <div className="flex-1 h-px bg-white/10" />
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              {credentials.map((cred) => {
-                const Icon = cred.icon;
-                return (
+                {/* Overlapping button */}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <button
-                    key={cred.email}
-                    type="button"
-                    onClick={() => handleQuickLogin(cred.email, cred.password)}
-                    className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/25 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] group"
+                    type="submit"
+                    style={{
+                      width: '60%',
+                      height: 52,
+                      background: '#111',
+                      color: '#fff',
+                      border: 'none',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      transform: 'translateY(-50%)',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#000';
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#111';
+                      e.currentTarget.style.transform = 'translateY(-50%)';
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 4px))';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    }}
                   >
-                    <Icon className="w-4 h-4 text-white/50 group-hover:text-white/80 transition-colors duration-300" />
-                    <span className="text-[10px] font-medium text-white/60 group-hover:text-white/90 transition-colors duration-300 leading-tight text-center">{cred.label}</span>
-                    <span className="text-[8px] text-white/30 group-hover:text-white/50 transition-colors duration-300 truncate max-w-full">{cred.email.split('@')[0]}</span>
+                    Entrar
                   </button>
-                );
-              })}
+                </div>
+              </div>
+            </form>
+
+            {/* SSO section */}
+            <div
+              style={{
+                marginTop: '0.5rem',
+                opacity: cardVisible ? 1 : 0,
+                transition: 'opacity 0.35s ease 0.2s',
+              }}
+            >
+              {/* Divider */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1rem 0' }}>
+                <div style={{ flex: 1, height: 1, background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' }} />
+                <span style={{ fontSize: '0.75rem', color: colors.textMuted, whiteSpace: 'nowrap' }}>ou</span>
+                <div style={{ flex: 1, height: 1, background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' }} />
+              </div>
+
+              {/* SSO Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <button
+                  type="button"
+                  style={{
+                    width: '100%',
+                    height: 48,
+                    border: `1px solid ${colors.ssoBorder}`,
+                    background: 'transparent',
+                    color: colors.ssoText,
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.75rem',
+                    borderRadius: 0,
+                    transition: transitions.theme,
+                    backdropFilter: 'blur(8px)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <GoogleIcon />
+                  Continuar com Google
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    width: '100%',
+                    height: 48,
+                    border: `1px solid ${colors.ssoBorder}`,
+                    background: 'transparent',
+                    color: colors.ssoText,
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.75rem',
+                    borderRadius: 0,
+                    transition: transitions.theme,
+                    backdropFilter: 'blur(8px)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <AppleIcon color={colors.text} />
+                  Continuar com Apple
+                </button>
+              </div>
+
+              {/* Create account */}
+              <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+                <p style={{ fontSize: '0.8rem', color: colors.textMuted, marginBottom: '0.5rem' }}>
+                  Primeira vez aqui?
+                </p>
+                <Link
+                  href="/cadastro"
+                  style={{
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    color: colors.text,
+                    textDecoration: 'none',
+                    transition: transitions.theme,
+                  }}
+                >
+                  Criar conta gratis →
+                </Link>
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Footer */}
-          <p className="text-center text-sm text-white/40 mt-8 animate-fade-in-delay">
-            Ao entrar, você concorda com nossos Termos de Uso
-          </p>
+        {/* ─── STEP: PASSWORD ────────────────────────────── */}
+        {step === 'PASSWORD' && (
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              ...cardStyle(),
+            }}
+            className="login-card-responsive"
+          >
+            <form onSubmit={handlePasswordSubmit}>
+              <div style={{ position: 'relative' }}>
+                {/* Card */}
+                <div
+                  style={{
+                    border: `1px solid ${colors.cardBorder}`,
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    padding: '2.5rem 2rem 3rem',
+                    transition: transitions.theme,
+                  }}
+                >
+                  {/* Back button */}
+                  <button
+                    type="button"
+                    onClick={goBackToEmail}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '0.25rem',
+                      marginBottom: '1.5rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      color: colors.textMuted,
+                      fontSize: '0.8rem',
+                      transition: transitions.theme,
+                    }}
+                    aria-label="Voltar para email"
+                  >
+                    <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                  </button>
 
-          {/* Botão de emergência para limpar sessão */}
-          <div className="text-center mt-4">
-            <button
-              type="button"
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  localStorage.clear();
-                  window.location.reload();
-                }
-              }}
-              className="text-xs text-white/30 hover:text-white/50 transition-colors duration-300"
-            >
-              Problemas para entrar? Limpar sessão
-            </button>
+                  {/* Email display */}
+                  <p
+                    style={{
+                      fontSize: '0.85rem',
+                      color: colors.textMuted,
+                      marginBottom: '2rem',
+                      textAlign: 'center',
+                      transition: transitions.theme,
+                    }}
+                  >
+                    {email}
+                  </p>
+
+                  {/* Error */}
+                  {(error && (step === 'PASSWORD' || step === 'ERROR')) && (
+                    <p
+                      role="alert"
+                      style={{
+                        color: colors.error,
+                        fontSize: '0.8rem',
+                        marginBottom: '1rem',
+                        textAlign: 'center',
+                        transition: transitions.fadeIn,
+                      }}
+                    >
+                      {error}
+                    </p>
+                  )}
+
+                  {/* Password input */}
+                  <div style={{ marginBottom: '1.5rem', position: 'relative' }}>
+                    <label
+                      htmlFor="password"
+                      style={{
+                        display: 'block',
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        color: colors.textMuted,
+                        marginBottom: '0.5rem',
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      Senha
+                    </label>
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                        placeholder="Digite sua senha"
+                        autoFocus
+                        autoComplete="current-password"
+                        required
+                        style={{
+                          width: '100%',
+                          background: 'transparent',
+                          border: 'none',
+                          borderBottom: `1px solid ${colors.inputBorder}`,
+                          padding: '0.75rem 2.5rem 0.75rem 0',
+                          fontSize: '1rem',
+                          color: colors.text,
+                          outline: 'none',
+                          transition: transitions.theme,
+                        }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderBottomColor = colors.inputFocus;
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderBottomColor = colors.inputBorder;
+                        }}
+                      />
+                      {/* Eye toggle */}
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                        style={{
+                          position: 'absolute',
+                          right: 0,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '0.5rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Forgot password link */}
+                  <div style={{ textAlign: 'center' }}>
+                    <Link
+                      href="/esqueci-senha"
+                      style={{
+                        fontSize: '0.8rem',
+                        color: colors.linkColor,
+                        textDecoration: 'none',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      Esqueci minha senha
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Overlapping button */}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <button
+                    type="submit"
+                    style={{
+                      width: '60%',
+                      height: 52,
+                      background: '#111',
+                      color: '#fff',
+                      border: 'none',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      transform: 'translateY(-50%)',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#000';
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#111';
+                      e.currentTarget.style.transform = 'translateY(-50%)';
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 4px))';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    }}
+                  >
+                    Entrar
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-        </div>
+        )}
+
+        {/* ─── STEP: LOADING ─────────────────────────────── */}
+        {step === 'LOADING' && (
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              opacity: 1,
+              transform: 'scale(1.03)',
+              transition: 'all 0.4s ease',
+            }}
+            className="login-card-responsive"
+          >
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  border: `1px solid ${colors.cardBorder}`,
+                  background: colors.cardBg,
+                  backdropFilter: 'blur(12px) saturate(1.2)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                  padding: '3rem 2rem',
+                  textAlign: 'center',
+                  transition: transitions.theme,
+                }}
+              >
+                <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+                  <SpinnerIcon color={colors.text} />
+                </div>
+                <p
+                  style={{
+                    color: colors.textMuted,
+                    fontSize: '0.875rem',
+                    transition: transitions.theme,
+                  }}
+                >
+                  Entrando...
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ─── STEP: ERROR (returns to password card) ────── */}
+        {step === 'ERROR' && (
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              opacity: 1,
+              transition: transitions.fadeIn,
+            }}
+            className="login-card-responsive"
+          >
+            <form onSubmit={handlePasswordSubmit}>
+              <div style={{ position: 'relative' }}>
+                <div
+                  style={{
+                    border: `1px solid ${colors.cardBorder}`,
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    padding: '2.5rem 2rem 3rem',
+                    transition: transitions.theme,
+                  }}
+                >
+                  {/* Back button */}
+                  <button
+                    type="button"
+                    onClick={goBackToEmail}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '0.25rem',
+                      marginBottom: '1.5rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      color: colors.textMuted,
+                      fontSize: '0.8rem',
+                      transition: transitions.theme,
+                    }}
+                    aria-label="Voltar para email"
+                  >
+                    <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                  </button>
+
+                  {/* Email display */}
+                  <p
+                    style={{
+                      fontSize: '0.85rem',
+                      color: colors.textMuted,
+                      marginBottom: '1.5rem',
+                      textAlign: 'center',
+                      transition: transitions.theme,
+                    }}
+                  >
+                    {email}
+                  </p>
+
+                  {/* Error */}
+                  {error && (
+                    <p
+                      role="alert"
+                      style={{
+                        color: colors.error,
+                        fontSize: '0.8rem',
+                        marginBottom: '1rem',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {error}
+                    </p>
+                  )}
+
+                  {/* Password input */}
+                  <div style={{ marginBottom: '1.5rem', position: 'relative' }}>
+                    <label
+                      htmlFor="password-retry"
+                      style={{
+                        display: 'block',
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        color: colors.textMuted,
+                        marginBottom: '0.5rem',
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      Senha
+                    </label>
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        id="password-retry"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                        placeholder="Digite sua senha"
+                        autoFocus
+                        autoComplete="current-password"
+                        required
+                        style={{
+                          width: '100%',
+                          background: 'transparent',
+                          border: 'none',
+                          borderBottom: `1px solid ${colors.inputBorder}`,
+                          padding: '0.75rem 2.5rem 0.75rem 0',
+                          fontSize: '1rem',
+                          color: colors.text,
+                          outline: 'none',
+                          transition: transitions.theme,
+                        }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderBottomColor = colors.inputFocus;
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderBottomColor = colors.inputBorder;
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                        style={{
+                          position: 'absolute',
+                          right: 0,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '0.5rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Forgot password */}
+                  <div style={{ textAlign: 'center' }}>
+                    <Link
+                      href="/esqueci-senha"
+                      style={{
+                        fontSize: '0.8rem',
+                        color: colors.linkColor,
+                        textDecoration: 'none',
+                        transition: transitions.theme,
+                      }}
+                    >
+                      Esqueci minha senha
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Overlapping button */}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <button
+                    type="submit"
+                    style={{
+                      width: '60%',
+                      height: 52,
+                      background: '#111',
+                      color: '#fff',
+                      border: 'none',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      transform: 'translateY(-50%)',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#000';
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#111';
+                      e.currentTarget.style.transform = 'translateY(-50%)';
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 4px))';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translateY(calc(-50% + 2px))';
+                    }}
+                  >
+                    Entrar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ─── Footer ─────────────────────────────────────── */}
+        {step !== 'INITIAL' && (
+          <p
+            style={{
+              textAlign: 'center',
+              fontSize: '0.75rem',
+              color: colors.textMuted,
+              marginTop: '2rem',
+              opacity: 0.6,
+              transition: transitions.theme,
+            }}
+          >
+            Ao entrar, voce concorda com nossos Termos de Uso
+          </p>
+        )}
       </div>
 
-      {/* CSS Animations */}
+      {/* ─── Responsive styles ────────────────────────────── */}
       <style jsx global>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        .login-card-responsive {
+          width: 92%;
+          max-width: 480px;
         }
-        @keyframes slide-up {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
+        @media (min-width: 768px) {
+          .login-card-responsive {
+            width: 70%;
+          }
         }
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-          20%, 40%, 60%, 80% { transform: translateX(10px); }
+        @media (min-width: 1024px) {
+          .login-card-responsive {
+            width: 58%;
+            max-width: 480px;
+          }
         }
-        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
-        .animate-fade-in-delay { animation: fade-in 0.8s ease-out 0.3s forwards; opacity: 0; }
-        .animate-slide-up { animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-shake { animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+        /* Placeholder styling */
+        input::placeholder {
+          color: inherit;
+          opacity: 0.4;
+        }
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+          }
+        }
       `}</style>
     </div>
   );
