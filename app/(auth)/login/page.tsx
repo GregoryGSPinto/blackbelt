@@ -1091,13 +1091,23 @@ function LoginContent() {
               <button
                 key={u.email}
                 type="button"
-                onClick={() => {
+                onClick={async () => {
                   setEmail(u.email);
                   setPassword(u.senha);
-                  setStep('PASSWORD');
-                  setTimeout(() => {
-                    handlePasswordSubmit({ preventDefault: () => {} } as React.FormEvent);
-                  }, 100);
+                  setError('');
+                  setStep('LOADING');
+                  try {
+                    const tipo = await login(u.email, u.senha);
+                    if (tipo) {
+                      router.replace(getRedirectForProfile(tipo));
+                    } else {
+                      setError('Email ou senha incorretos');
+                      setStep('ERROR');
+                    }
+                  } catch {
+                    setError('Erro ao fazer login');
+                    setStep('ERROR');
+                  }
                 }}
                 style={{
                   width: '100%',
