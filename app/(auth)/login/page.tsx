@@ -91,7 +91,7 @@ function LoginContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [splash, setSplash] = useState(true);
+  const [splash, setSplash] = useState(false);
   const [splashProgress, setSplashProgress] = useState(0);
 
   // Slide direction for transitions
@@ -246,6 +246,7 @@ function LoginContent() {
 
   // ─── Splash progress bar ─────────────────────────────────
   useEffect(() => {
+    setSplash(true);
     const interval = setInterval(() => {
       setSplashProgress(prev => {
         if (prev >= 100) {
