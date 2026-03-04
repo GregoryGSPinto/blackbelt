@@ -89,6 +89,7 @@ function LoginContent() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [emailInvalid, setEmailInvalid] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   // Slide direction for transitions
@@ -145,10 +146,35 @@ function LoginContent() {
     setError('');
   }, []);
 
-  const goToPassword = useCallback(() => {
-    if (!email.trim()) { setError('Email inválido'); return; }
-    if (!validateEmail(email)) { setError('Email inválido'); return; }
+  const goToPassword = useCallback(async () => {
+    if (!email.trim() || !validateEmail(email)) {
+      setEmailInvalid(true);
+      setError('Email não encontrado');
+      setTimeout(() => setEmailInvalid(false), 600);
+      return;
+    }
+
+    setEmailInvalid(false);
     setError('');
+
+    try {
+      const res = await fetch('/api/auth/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (!data.exists) {
+        setEmailInvalid(true);
+        setError('Email não encontrado');
+        setTimeout(() => setEmailInvalid(false), 600);
+        return;
+      }
+    } catch {
+      // If API unavailable, allow through (fallback)
+    }
+
     setCardVisible(false);
     setSlideDir('left');
     setTimeout(() => {
@@ -193,9 +219,9 @@ function LoginContent() {
   }, [email, password, login, router]);
 
   // ─── Form submit handlers ────────────────────────────────
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    goToPassword();
+    await goToPassword();
   };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -422,7 +448,7 @@ function LoginContent() {
                       id="email"
                       type="email"
                       value={email}
-                      onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                      onChange={(e) => { setEmail(e.target.value); setError(''); setEmailInvalid(false); }}
                       placeholder="Email address"
                       autoFocus
                       autoComplete="email"
@@ -432,27 +458,53 @@ function LoginContent() {
                         width: '100%',
                         background: 'transparent',
                         border: 'none',
-                        borderBottom: `1px solid ${colors.inputBorder}`,
+                        borderBottom: `1px solid ${emailInvalid ? colors.error : colors.inputBorder}`,
                         padding: '0.75rem 0',
                         fontSize: '1rem',
-                        color: colors.text,
+                        color: emailInvalid ? colors.error : colors.text,
                         outline: 'none',
-                        transition: transitions.theme,
+                        transition: 'all 0.3s ease',
                       }}
                       onFocus={(e) => {
-                        e.currentTarget.style.borderBottomColor = colors.inputFocus;
+                        if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputFocus;
                       }}
                       onBlur={(e) => {
-                        e.currentTarget.style.borderBottomColor = colors.inputBorder;
+                        if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputBorder;
                       }}
                     />
+                    {emailInvalid && (
+                      <p
+                        style={{
+                          color: colors.error,
+                          fontSize: '0.75rem',
+                          marginTop: '0.4rem',
+                          marginBottom: 0,
+                          opacity: 0.85,
+                          animation: 'shake 0.4s cubic-bezier(.36,.07,.19,.97)',
+                        }}
+                      >
+                        Email não encontrado
+                      </p>
+                    )}
 
-                    {/* Remember me + Forgot email */}
+                    {/* Remember me + Criar conta + Forgot email */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
                       <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
                         <input type="checkbox" style={{ accentColor: isDark ? '#fff' : '#111' }} />
                         Remember me
                       </label>
+                      <Link
+                        href="/cadastro"
+                        style={{
+                          fontSize: '0.8rem',
+                          color: colors.text,
+                          opacity: 0.5,
+                          textDecoration: 'none',
+                          transition: transitions.theme,
+                        }}
+                      >
+                        Criar conta
+                      </Link>
                       <Link
                         href="/esqueci-email"
                         style={{
@@ -526,23 +578,6 @@ function LoginContent() {
 
                 {/* Hidden submit for Enter key */}
                 <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
-
-                {/* Create account link */}
-                <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
-                  <Link
-                    href="/cadastro"
-                    style={{
-                      fontSize: '0.8rem',
-                      fontWeight: 500,
-                      color: colors.text,
-                      opacity: 0.5,
-                      textDecoration: 'none',
-                      transition: transitions.theme,
-                    }}
-                  >
-                    Criar conta
-                  </Link>
-                </div>
 
               </div>
             </form>
@@ -1509,6 +1544,14 @@ function LoginContent() {
           .newsletter-form {
             flex-direction: column;
           }
+        }
+        /* Shake animation */
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          20% { transform: translateX(-6px); }
+          40% { transform: translateX(6px); }
+          60% { transform: translateX(-4px); }
+          80% { transform: translateX(4px); }
         }
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
