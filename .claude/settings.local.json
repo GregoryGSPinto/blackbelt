@@ -49,7 +49,9 @@
       "Bash(git mv:*)",
       "Bash(pnpm test:*)",
       "Bash(npx next:*)",
-      "Bash(vercel ls:*)"
+      "Bash(vercel ls:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(vercel:*)"
     ]
   }
 }
