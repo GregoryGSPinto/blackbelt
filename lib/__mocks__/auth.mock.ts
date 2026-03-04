@@ -16,7 +16,7 @@ import type { TipoPerfil, KidRegistroData } from '@/lib/api/contracts';
 
 const DEV_REGISTRY_KEY = '__dev_blackbelt_registry';
 const DEV_SEED_VERSION_KEY = '__dev_blackbelt_seed_version';
-const CURRENT_SEED_VERSION = '7'; // Bumped: SUPER_ADMIN + Sofia login próprio
+const CURRENT_SEED_VERSION = '8'; // Bumped: SUPPORT + UNIT_OWNER users
 
 interface DevUser {
   id: string;
