@@ -216,6 +216,9 @@ function LoginContent() {
     };
   };
 
+  // ─── Defer render until mounted (avoids SSR/client theme mismatch) ──
+  if (!mounted) return null;
+
   // ─── Render ───────────────────────────────────────────────
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
