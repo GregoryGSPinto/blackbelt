@@ -375,6 +375,7 @@ function LoginContent() {
               {/* Card */}
               <div
                 style={{
+                  position: 'relative',
                   border: `1px solid ${colors.cardBorder}`,
                   background: colors.cardBg,
                   backdropFilter: 'blur(12px) saturate(1.2)',
@@ -389,6 +390,27 @@ function LoginContent() {
                   e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)';
                 }}
               >
+                {/* Back arrow to INITIAL */}
+                <button
+                  type="button"
+                  onClick={() => { setStep('INITIAL'); setError(''); }}
+                  aria-label="Voltar"
+                  style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    left: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0.25rem',
+                    color: colors.textMuted,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                </button>
+
                 {/* Title */}
                 <h1
                   style={{
@@ -466,17 +488,26 @@ function LoginContent() {
                 transition: 'opacity 0.35s ease 0.15s',
               }}
             >
-              {/* SSO icon-only buttons */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+              {/* SSO icon-only buttons — unified border wrapper */}
+              <div
+                style={{
+                  border: `1px solid ${colors.cardBorder}`,
+                  display: 'flex',
+                  width: 'fit-content',
+                  margin: '0 auto',
+                  transition: transitions.theme,
+                }}
+              >
                 <button
                   type="button"
                   aria-label="Entrar com Google"
                   style={{
                     width: 48,
                     height: 48,
-                    border: `1px solid ${colors.ssoBorder}`,
-                    background: 'transparent',
+                    border: 'none',
+                    borderRight: `1px solid ${colors.cardBorder}`,
                     borderRadius: 0,
+                    background: 'transparent',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -498,9 +529,9 @@ function LoginContent() {
                   style={{
                     width: 48,
                     height: 48,
-                    border: `1px solid ${colors.ssoBorder}`,
-                    background: 'transparent',
+                    border: 'none',
                     borderRadius: 0,
+                    background: 'transparent',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
