@@ -99,9 +99,6 @@ function LoginContent() {
   const [faqOpen, setFaqOpen] = useState<Record<number, boolean>>({});
   const [newsletterEmail, setNewsletterEmail] = useState('');
 
-  // Splash screen
-  const [splash, setSplash] = useState(true);
-
   // ─── Theme-aware colors ───────────────────────────────────
   const colors = {
     text: isDark ? '#ffffff' : '#111111',
@@ -118,12 +115,6 @@ function LoginContent() {
     ssoText: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
     linkColor: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)',
   };
-
-  // ─── Splash timer ───────────────────────────────────────
-  useEffect(() => {
-    const t = setTimeout(() => setSplash(false), 1800);
-    return () => clearTimeout(t);
-  }, []);
 
   // ─── Entry animation ─────────────────────────────────────
   useEffect(() => {
@@ -228,42 +219,6 @@ function LoginContent() {
       transition: transitions.slideLeft,
     };
   };
-
-  // ─── Splash screen ────────────────────────────────────────
-  if (splash) {
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: '#000',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 100,
-          transition: 'opacity 0.5s ease',
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <img
-            src="/images/logo-blackbelt.png"
-            alt="BlackBelt"
-            style={{ width: 80, height: 80, marginBottom: '1.5rem' }}
-          />
-          <p
-            style={{
-              color: 'rgba(255,255,255,0.4)',
-              fontSize: '0.75rem',
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
-            }}
-          >
-            Carregando...
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   // ─── Defer render until mounted (avoids SSR/client theme mismatch) ──
   if (!mounted) return null;
