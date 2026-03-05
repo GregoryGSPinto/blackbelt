@@ -187,3 +187,64 @@ Service (lib/api/*.service.ts)
 Exception: auth.service.ts calls Supabase Auth directly (no API route).
 Fallback: app/api/[...path]/route.ts catches unmatched routes with empty responses.
 ```
+
+---
+
+## 6. Block 6 — mock=false Activation Result
+
+> Activated: 2026-03-05
+
+### Environment Change
+
+```
+.env.local: NEXT_PUBLIC_USE_MOCK=false
+```
+
+### Build Validation
+
+- `pnpm build`: **PASS** (zero errors, warnings only — pre-existing unused vars and React hooks)
+- All 47 service files compile correctly
+- All 93 API route files compile correctly
+
+### Service Validation (mock=false)
+
+| Category | Count | Status |
+|----------|-------|--------|
+| A — Working with Supabase | 23 | All have real apiClient/Supabase branches |
+| B — Partially implemented (now connected) | 10 | All have real apiClient branches |
+| C — Mock only (now connected) | 11 | All have real apiClient branches |
+| C — Phase-2/Phase-X (deferred) | 3 | apiClient calls exist, catch-all handles gracefully |
+| Re-exports / client-only | 3 | N/A (no mock logic) |
+
+**Services connected to Supabase:** 44/44 real services have non-mock paths
+**Services deferred (Phase-2):** 3 (daily-feedback, turma-broadcast, video-progress) — have apiClient calls but backend endpoints use catch-all fallback
+
+### Infrastructure Summary
+
+| Metric | Count |
+|--------|-------|
+| Migrations created (Blocks 1-5) | 20 |
+| Query files | 11 |
+| Seed scripts | 11 |
+| API route files | 93 |
+| Services with real Supabase path | 44/44 |
+
+### Architecture (Active)
+
+```
+Service (lib/api/*.service.ts)
+  → useMock() = false (ACTIVATED)
+  → apiClient.get/post('/endpoint')
+    → Next.js API route (app/api/*/route.ts)
+      → Supabase queries (lib/db/queries/)
+  → Unmatched routes → app/api/[...path]/route.ts (graceful fallback)
+
+Exception: auth.service.ts → Supabase Auth directly
+```
+
+### Notes
+
+- `.env.local` set to `mock=false` for local development
+- Vercel/production `.env` NOT changed (as instructed — deploy after Design System)
+- Mock data preserved in `lib/__mocks__/` as fallback and for tests
+- All DTOs unchanged — frontend contract intact
