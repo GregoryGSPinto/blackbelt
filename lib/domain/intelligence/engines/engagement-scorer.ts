@@ -14,8 +14,7 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
-import type { EngagementScore, EngagementDimensions, AttentionPriority } from '../models/engagement.types';
-import type { EngagementInput } from '@/lib/acl/mappers/engagement-mapper';
+import type { EngagementScore, EngagementDimensions, AttentionPriority, EngagementInput } from '../models/engagement.types';
 import type { EngagementTier, TrendDirection } from '../core/types';
 import {
   clampScore,

@@ -13,7 +13,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { computeEngagementScore } from '@/lib/domain/intelligence/engines/engagement-scorer';
-import type { EngagementInput } from '@/lib/acl/mappers/engagement-mapper';
+import type { EngagementInput } from '@/lib/domain/intelligence/models/engagement.types';
 
 // ════════════════════════════════════════════════════════════════════
 // FIXTURES

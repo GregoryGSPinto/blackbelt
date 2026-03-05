@@ -87,3 +87,43 @@ export interface AttentionPriority {
   /** Ação sugerida. Ex: "Conversa individual sobre motivação" */
   suggestedAction: string;
 }
+
+// ════════════════════════════════════════════════════════════════════
+// ENGAGEMENT INPUT — Vetor de features para o engine
+// ════════════════════════════════════════════════════════════════════
+
+export interface EngagementInput {
+  participantId: string;
+
+  // ── Physical dimension ─────────────────────────────────────
+  checkinsLast30Days: number;
+  academyAvgCheckins: number;
+  hoursReal: number;
+  hoursExpected: number;
+  currentStreak: number;
+
+  // ── Pedagogical dimension ──────────────────────────────────
+  overallScore: number;
+  sublevelsGained90Days: number;
+  maxSublevels: number;
+  evaluationsApproved: number;
+  evaluationsTotal: number;
+
+  // ── Social dimension ───────────────────────────────────────
+  rankingPositionNormalized: number;    // 0-100, top=100
+  achievementsUnlocked: number;
+  achievementsAvailable: number;
+  socialConnectionScore: number;        // 0-100
+
+  // ── Financial dimension ────────────────────────────────────
+  paymentStatus: 'current' | 'overdue_15' | 'overdue_30' | 'paused' | 'cancelled';
+
+  // ── Digital dimension ──────────────────────────────────────
+  digitalCheckin: boolean;
+  appAccessLast7Days: boolean;
+  viewedContent: boolean;
+
+  // ── Context ────────────────────────────────────────────────
+  daysSinceEnrollment: number | null;
+  previousOverallScore?: number;
+}

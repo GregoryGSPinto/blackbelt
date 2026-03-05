@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-3 concluidos)
+> Status: Em andamento (Blocos 1-4 concluidos)
 
 ---
 
@@ -279,3 +279,135 @@
 - **npx vitest run**: 469 passed, 4 failed (pre-existentes em `checkin.service.test.ts`), 1 skipped
   - Nenhuma regressao introduzida pelo Bloco 3
   - Os 4 testes falhando sao os mesmos pre-existentes dos Blocos 1 e 2
+
+---
+
+## BLOCO 4 — Intelligence Layer (ML)
+
+### 4.1 — ML Engines Verification
+
+#### Engines (8 engines)
+
+| # | Engine | Arquivo | Status | Pura? | Tipos OK? | Edge Cases? |
+|---|--------|---------|--------|-------|-----------|-------------|
+| 1 | Churn Engine | `lib/domain/intelligence/engine/churn-engine.ts` | Funcional | Sim | Sim | Sim — null features ignorados, confidence cold-start |
+| 2 | Adaptive Difficulty | `lib/domain/intelligence/engines/adaptive-difficulty.ts` | Funcional | Sim* | Sim | Sim — null DNA, empty question bank, time limits |
+| 3 | Student DNA | `lib/domain/intelligence/engines/student-dna.ts` | Funcional | Sim | Sim | Sim — empty arrays, zero divisions (safeDivide) |
+| 4 | Class Optimizer | `lib/domain/intelligence/engines/class-optimizer.ts` | Funcional | Sim | Sim | Sim — empty students, zero capacity |
+| 5 | Instructor Coach | `lib/domain/intelligence/engines/instructor-coach.ts` | Funcional | Sim | Sim | Sim — empty classes, no students |
+| 6 | Engagement Scorer | `lib/domain/intelligence/engines/engagement-scorer.ts` | Funcional | Sim | Sim | Sim — zero divisions, missing data |
+| 7 | Promotion Predictor | `lib/domain/intelligence/engines/promotion-predictor.ts` | Funcional | Sim | Sim | Sim — no criteria, zero velocity, null estimates |
+| 8 | Social Graph | `lib/domain/intelligence/engines/social-graph.ts` | Funcional | Sim | Sim | Sim — no connections, inactive bonds |
+
+*\*Adaptive Difficulty usa `Math.random()` apenas em `generateTestId()` para unicidade de ID — aceitavel.*
+
+**Pesos/Thresholds verificados:**
+- Churn: 7 risk factors somam peso 100 (25+20+20+15+10+5+5). Thresholds escalonados (low/medium/high/critical). Sensatos.
+- Engagement: 5 dimensoes somam peso 1.0 (0.30+0.25+0.20+0.15+0.10). Financial scores mapeados (current=100, cancelled=0). Sensatos.
+- Promotion: Engagement velocity multipliers (champion=1.2, disconnected=0.5). Sensatos.
+
+#### Core Utilities
+
+| Arquivo | Status | Detalhes |
+|---------|--------|----------|
+| `core/types.ts` | OK | 15+ tipos base (Score0to100, Confidence, EngagementTier, etc). Sem dependencias externas |
+| `core/scoring-utils.ts` | OK | 15 funcoes utilitarias puras. Testadas (47 testes). Sem side effects |
+| `core/confidence-calculator.ts` | OK | Cold-start penalty por enrollment tiers. Event bonus. Pure |
+| `engine/weights.ts` | OK | Segment overrides (fitness, dance, pilates, music). Auto-normaliza para 100 |
+
+#### Models (10 type files)
+
+| Arquivo | Status |
+|---------|--------|
+| `models/churn-score.ts` | OK — ChurnFeatureVector, ChurnPrediction, ChurnFactor, Recommendation |
+| `models/risk-factors.ts` | OK — 7 RiskFactorTypes, RiskLevel, DEFAULT_RISK_FACTORS |
+| `models/engagement.types.ts` | OK — EngagementScore, EngagementDimensions, AttentionPriority, EngagementInput |
+| `models/student-dna.types.ts` | OK — StudentDNA, 8 dimensoes, DifficultyProfile, StudentDNAPatterns |
+| `models/promotion.types.ts` | OK — PromotionInput, PromotionPrediction, PromotionBlocker, PromotionAccelerator |
+| `models/social-graph.types.ts` | OK — SocialProfile, SocialConnection, SocialMetrics, SocialAlert |
+| `models/class-insight.types.ts` | OK — ClassInsight, ClassHealth, ClassComposition |
+| `models/instructor-coach.types.ts` | OK — InstructorCoachBriefing, ClassBriefing, SpotlightStudent |
+| `models/adaptive-test.types.ts` | OK — AdaptiveTest, TestSection, TestQuestion |
+| `models/coach-tip.types.ts` | OK |
+
+#### Boundary Violations
+
+| Verificacao | Status | Detalhes |
+|-------------|--------|----------|
+| Import de React em intelligence/ | OK | Nenhum |
+| Import de Supabase em intelligence/ | OK | Nenhum |
+| Import de next/ em intelligence/ | OK | Nenhum |
+| fetch() em intelligence/ | OK | Nenhum |
+| Import de ACL em engines/ | CORRIGIDO | `engagement-scorer.ts` importava `EngagementInput` de `@/lib/acl/mappers/engagement-mapper`. Movido para `models/engagement.types.ts` |
+
+### 4.2 — ML Projectors (8 projectors)
+
+Localizacao: `lib/application/intelligence/projectors/`
+
+| # | Projector | Arquivo | Status | Pura? |
+|---|-----------|---------|--------|-------|
+| 1 | Admin Churn Overview | `churn-projectors.ts` | Funcional | Sim |
+| 2 | Instructor Churn Alerts | `churn-projectors.ts` | Funcional | Sim |
+| 3 | Retention Encouragement | `churn-projectors.ts` | Funcional | Sim |
+| 4 | Student Insights (Adult) | `project-student-insights.ts` | Funcional | Sim |
+| 5 | Teen Insights (Gamified) | `project-teen-insights.ts` | Funcional | Sim* |
+| 6 | Kids Insights (Adventure) | `project-kids-insights.ts` | Funcional | Sim |
+| 7 | Parent Insights | `project-parent-insights.ts` | Funcional | Sim |
+| 8 | Instructor Coach | `project-instructor-coach.ts` | Funcional | Sim |
+| 9 | Admin AI Analytics | `project-admin-analytics.ts` | Funcional | Sim |
+| 10 | Super Admin Health | `project-super-admin-health.ts` | Funcional | Sim |
+
+*\*Teen Insights usa `Math.random()` em `buildRivalChallenge()` para simular rival score — aceitavel para gamificacao.*
+
+Todos os projectors: Input → ViewModel tipado. Zero side effects. Zero fetch.
+
+### 4.3 — ACL Mappers (6 mappers)
+
+Localizacao: `lib/acl/mappers/`
+
+| # | Mapper | Arquivo | Status |
+|---|--------|---------|--------|
+| 1 | Intelligence (Churn) | `intelligence-mapper.ts` | OK — extractFeaturesFromSnapshot (pure) + extractAdditionalFeatures (async/DB) |
+| 2 | Engagement | `engagement-mapper.ts` | OK — extractEngagementFromSnapshot (pure) + extractEngagementAdditionalFeatures (async/DB) |
+| 3 | Class Optimizer | `class-optimizer-mapper.ts` | OK |
+| 4 | Social Graph | `social-graph-mapper.ts` | OK |
+| 5 | Student DNA | `student-dna-mapper.ts` | OK |
+| 6 | Progression | `progression.mapper.ts` | OK |
+
+**Padrao ACL correto:** Cada mapper separa extração do snapshot (pure) de queries ao banco (async). Engines nunca tocam infra.
+
+### 4.4 — Testes ML
+
+| Arquivo de Teste | Testes | Status |
+|------------------|--------|--------|
+| `churn-engine.test.ts` | 33 | PASS |
+| `churn-projectors.test.ts` | 20 | PASS |
+| `churn-weights.test.ts` | 15 | PASS |
+| `scoring-utils.test.ts` | 47 | PASS |
+| `class-optimizer.test.ts` | 35 | PASS |
+| `engagement-scorer.test.ts` | 35 | PASS |
+| `promotion-predictor.test.ts` | 38 | PASS |
+| `social-graph.test.ts` | 36 | PASS |
+| `student-dna.test.ts` | 37 | PASS |
+| **TOTAL** | **296** | **296/296 PASS** |
+
+### 4.5 — Correcoes Aplicadas
+
+1. **Boundary violation fix**: `EngagementInput` interface movida de `lib/acl/mappers/engagement-mapper.ts` para `lib/domain/intelligence/models/engagement.types.ts`. O domain engine (`engagement-scorer.ts`) agora importa do proprio bounded context. O ACL mapper re-exporta o tipo para manter backward compatibility.
+2. **Test import fix**: `tests/ai/engagement-scorer.test.ts` atualizado para importar `EngagementInput` diretamente do domain model.
+
+### 4.6 — Recomendacoes de Melhoria
+
+| # | Recomendacao | Prioridade | Fase |
+|---|-------------|------------|------|
+| 1 | Remover `Math.random()` de `generateTestId` (usar hash deterministico) | Low | Phase 2 |
+| 2 | Remover `Math.random()` de `buildRivalChallenge` teen projector (usar seed-based) | Low | Phase 2 |
+| 3 | Criar testes para `adaptive-difficulty.ts` engine (unico engine sem testes dedicados) | Medium | Phase 2 |
+| 4 | Criar testes para os projectors (student-insights, teen-insights, admin-analytics, etc) | Medium | Phase 2 |
+| 5 | Adicionar `instructor-coach` engine tests | Medium | Phase 2 |
+
+### Build & Tests (pos-Bloco 4)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run tests/ai/**: 296/296 PASS (zero falhas)
+- **Nenhuma regressao introduzida pelo Bloco 4**
