@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-7 concluidos)
+> Status: Em andamento (Blocos 1-8 concluidos)
 
 ---
 
@@ -800,4 +800,198 @@ BBOS Implementation Guide. Nao migrado neste bloco para evitar quebrar fluxo de 
 - **pnpm build**: PASS (zero erros)
 - **npx vitest run**: 469 passed, 4 failed (pre-existentes), 1 skipped
   - Nenhuma regressao introduzida pelo Bloco 7
+  - Falhas pre-existentes: checkin.service.test.ts (3 testes), 1 outro
+
+---
+
+## BLOCO 8 — Dual Event Store Resolution
+
+### 8.1 — Mapeamento e Documentacao
+
+O BlackBelt possui **DOIS** event stores operando em paralelo. Isso constitui tech debt critico que deve ser unificado no BBOS Implementation Guide.
+
+#### Adapter 1: Supabase Event Store (`lib/event-store/`)
+
+**Localizacao**: `lib/event-store/event-store.ts` + `event-types.ts` + `projector-runner.ts`
+
+| Aspecto | Detalhes |
+|---------|----------|
+| **Driver** | Supabase Admin Client (`getSupabaseAdminClient()`) |
+| **Tabela** | `domain_events` (via Supabase) + `snapshots` + `event_subscriptions` |
+| **Tipo** | Funcoes soltas (nao implementa interface `EventStoreAdapter`) |
+| **@ts-nocheck** | Sim — `event-store.ts` e `projector-runner.ts` tem `// @ts-nocheck` |
+| **Uso de `new Date()`** | Sim — viola convencao `utcNow()` do dominio |
+
+**Funcionalidades:**
+
+| Funcionalidade | Supabase Adapter |
+|----------------|------------------|
+| appendEvents | Sim — `appendEvents()` (batch insert via `.insert()`) |
+| appendDomainEvent | Sim — convenience wrapper sobre `appendEvents()` |
+| getEvents | Sim — por aggregateId + aggregateType, com afterEventId e limit |
+| getEventsByType | Sim — por eventType, com from/to/limit |
+| deduplication | Parcial — `idempotency_key` column mas sem ON CONFLICT, depende de unique constraint na tabela |
+| snapshots | Sim — `getSnapshot()` + `saveSnapshot()` (upsert em `snapshots` table) |
+| replay | Nao — nao tem funcao de replay |
+| batch append | Sim — `appendEvents()` aceita array |
+| retry | Nao — sem retry logic |
+| projector runner | Sim — `projector-runner.ts` com subscription tracking (`event_subscriptions`) |
+
+#### Adapter 2: Domain Event Store (`lib/application/events/event-store.ts`)
+
+**Localizacao**: `lib/application/events/event-store.ts`
+
+| Aspecto | Detalhes |
+|---------|----------|
+| **Arquitetura** | Interface `EventStoreAdapter` + classe `EventStore` (facade) + `InMemoryEventStoreAdapter` |
+| **Design** | Clean Architecture — storage-agnostic via adapter pattern |
+| **Singleton** | `export const eventStore` — default InMemory, swappable |
+| **Uso de `utcNow()`** | Sim — usa `utcNow()` e `utcNowMs()` do dominio |
+
+**Funcionalidades:**
+
+| Funcionalidade | Domain Event Store |
+|----------------|-------------------|
+| append | Sim — `persist()` via adapter.append() |
+| appendBatch | Sim — via adapter.appendBatch() |
+| getParticipantHistory | Sim — query por participantId |
+| getUnitHistory | Sim — query por unitId |
+| getRecent | Sim — ultimos N eventos |
+| deduplication | Sim — `hasIdempotencyKey()` check antes de persist |
+| snapshots | Nao — nao tem snapshot support |
+| replay | Sim — `replay()` retorna DomainEvent[] ordenados |
+| getCausalChain | Sim — query por correlationId |
+| getCause | Sim — query por causationId |
+| getStats | Sim — count + eventsByType |
+| batch append | Sim — via adapter |
+| retry | Nao — sem retry logic |
+| sequence tracking | Sim — sequenceCounter auto-incrementado |
+
+#### Adapter 3: PostgreSQL Adapter (`server/src/infrastructure/event-store/postgres-event-store.ts`)
+
+**Localizacao**: `server/src/infrastructure/event-store/postgres-event-store.ts`
+
+| Aspecto | Detalhes |
+|---------|----------|
+| **Driver** | `pg` (Pool direto) |
+| **Tabela** | `event_log` (diferente de `domain_events`!) |
+| **Interface** | Implementa `EventStoreAdapter` de `lib/application/events/event-store.ts` |
+| **Transacional** | Sim — BEGIN/COMMIT/ROLLBACK |
+| **Idempotencia** | Sim — `ON CONFLICT (idempotency_key) DO NOTHING` |
+
+**Funcionalidades:**
+
+| Funcionalidade | Postgres Adapter |
+|----------------|------------------|
+| append | Sim — transacional com ON CONFLICT |
+| appendBatch | Sim — transacional, loop de INSERTs |
+| hasIdempotencyKey | Sim — SELECT 1 com LIMIT 1 |
+| query | Sim — filtros: participantId, unitId, eventTypes, correlationId, causationId, after, before, minVersion, limit, offset |
+| count | Sim — com filtros opcionais |
+| getLastSequence | Sim — MAX(sequence) |
+| deduplication | Sim — database-level via unique index |
+| snapshots | Nao (nao faz parte do adapter interface) |
+| replay | Via EventStore facade (que usa o adapter) |
+| retry | Nao |
+
+#### Tabela Comparativa Consolidada
+
+| Funcionalidade | Supabase Adapter (`lib/event-store/`) | Domain EventStore (`lib/application/events/`) | Postgres Adapter (`server/`) |
+|----------------|---------------------------------------|-----------------------------------------------|------------------------------|
+| appendEvents | Sim | Sim (persist) | Sim (append) |
+| getEvents | Sim (por aggregate) | Sim (por participant/unit) | Sim (query generico) |
+| deduplication | Parcial (column only) | Sim (check + reject) | Sim (DB-level) |
+| snapshots | Sim | Nao | Nao |
+| replay | Nao | Sim | Via facade |
+| batch append | Sim | Sim | Sim (transacional) |
+| retry | Nao | Nao | Nao |
+| causal chain | Nao | Sim | Via facade |
+| projector runner | Sim | Nao | Nao |
+| sequence tracking | Nao | Sim (in-memory) | Sim (SERIAL column) |
+| transacional | Nao (Supabase SDK) | Nao | Sim (BEGIN/COMMIT) |
+
+### Quem chama quem em runtime
+
+#### Fluxo Principal (Event Wiring — `lib/application/events/event-wiring.ts`)
+
+```
+eventBus.publish(event)
+  └→ eventBus.onAny() subscriber [event-wiring.ts:49-54]
+       └→ eventStore.persist(event)  ← singleton InMemory por default
+```
+
+O singleton `eventStore` em `lib/application/events/event-store.ts:421` usa `InMemoryEventStoreAdapter` por default. Eventos publicados pelo bus vao para memoria e se perdem no restart.
+
+#### Fluxo do Server Bootstrap (`server/src/bootstrap.ts`)
+
+```
+bootstrap()
+  ├→ Se DATABASE_URL existe:
+  │    pool = createPgPool()
+  │    adapter = new PostgresEventStoreAdapter(pool)
+  │    store = new EventStore(adapter)  ← nova instancia com Postgres
+  │    eventBus.onAny() → store.persist()  ← persiste em event_log table
+  │
+  └→ Se nao:
+       store = new EventStore(InMemoryEventStoreAdapter)
+```
+
+**PROBLEMA CRITICO**: O bootstrap cria uma **segunda instancia** do `EventStore` com o Postgres adapter, mas o `initializeEventSystem()` (chamado na mesma funcao bootstrap) usa o **singleton** `eventStore` de `lib/application/events/event-store.ts` que permanece InMemory. Resultado: **eventos sao persistidos duas vezes** — uma no InMemory singleton e outra no Postgres store do bootstrap.
+
+#### Fluxo do Supabase Adapter (`lib/event-store/event-store.ts`)
+
+```
+appendEvents() / appendDomainEvent()
+  └→ getSupabaseAdminClient().from('domain_events').insert()
+```
+
+Este adapter **NAO e chamado por nenhum outro arquivo** no codebase. Nenhum import direto foi encontrado alem de:
+- `lib/event-store/event-types.ts` (re-exporta types)
+- `lib/event-store/projector-runner.ts` (usa `event-types` locais)
+
+O `projector-runner.ts` tambem **NAO e chamado** por nenhum outro arquivo.
+
+#### Mapa completo de uso
+
+| Arquivo que usa | Qual adapter/store | Como |
+|-----------------|--------------------|------|
+| `lib/application/events/event-wiring.ts` | Singleton `eventStore` (InMemory) | `eventStore.persist(event)` |
+| `server/src/bootstrap.ts` | Nova instancia `EventStore(PostgresAdapter)` | `store.persist(event)` via `eventBus.onAny()` |
+| `server/src/infrastructure/scoped-event-store.ts` | Wrapper sobre `EventStore` (injetado) | Delegates to injected store |
+| `server/src/infrastructure/replay-policy.ts` | `EventStore` (injetado como parametro) | `store.replay(pid)` |
+| `server/src/api/health.ts` | Nenhum diretamente | Apenas reporta mode POSTGRES/MEMORY |
+| `lib/event-store/event-store.ts` | Supabase Admin Client | **NAO USADO em runtime** |
+| `lib/event-store/projector-runner.ts` | Supabase Admin Client | **NAO USADO em runtime** |
+
+### Diagnostico
+
+| Issue | Severidade | Detalhes |
+|-------|-----------|----------|
+| **Duas tabelas diferentes** | CRITICO | `domain_events` (Supabase adapter) vs `event_log` (Postgres adapter). Schema incompativel |
+| **Duas instancias de EventStore no server** | HIGH | Bootstrap cria nova instancia + event-wiring usa singleton. Duplicacao de persist |
+| **Supabase adapter orfao** | MEDIUM | `lib/event-store/` nao e importado por ninguem. Codigo morto |
+| **Projector runner orfao** | MEDIUM | `lib/event-store/projector-runner.ts` nao e chamado. Funcionalidade perdida |
+| **@ts-nocheck em 2 arquivos** | LOW | `lib/event-store/event-store.ts` e `projector-runner.ts` ignoram type checking |
+| **`new Date()` vs `utcNow()`** | LOW | Supabase adapter usa `new Date()` violando convencao do dominio |
+
+### Recomendacao
+
+**NAO unificar neste bloco** — conforme instrucao do audit. A unificacao sera feita no BBOS Implementation Guide (Prompt 0.1).
+
+Plano recomendado para unificacao:
+
+1. **Manter**: `lib/application/events/event-store.ts` (domain EventStore com adapter pattern) — e a arquitetura correta
+2. **Manter**: `server/src/infrastructure/event-store/postgres-event-store.ts` — implementa o adapter para producao
+3. **Deprecar**: `lib/event-store/` inteiro — codigo morto, Supabase adapter com @ts-nocheck, design inferior
+4. **Migrar**: Funcionalidades uteis do Supabase adapter:
+   - Snapshot support → adicionar ao `EventStoreAdapter` interface + Postgres adapter
+   - Projector runner → migrar para usar o Domain EventStore
+5. **Corrigir**: Remover duplicacao de persist no bootstrap (o `initializeEventSystem` ja registra listener no singleton)
+6. **Unificar tabela**: Migrar `domain_events` → `event_log` ou vice-versa (alinhar schema)
+
+### Build & Tests (pos-Bloco 8)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 469 passed, 4 failed (pre-existentes), 1 skipped
+  - Nenhuma regressao introduzida pelo Bloco 8 (bloco somente de documentacao)
   - Falhas pre-existentes: checkin.service.test.ts (3 testes), 1 outro
