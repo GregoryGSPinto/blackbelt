@@ -3,8 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   ClipboardList, Plus, Trash2, Clock, Search, Timer,
-  Dumbbell, Target, Swords, Zap, Heart,
-  ChevronDown, ChevronUp, Save, Copy, BookOpen,
+  Dumbbell, Target, Swords, Heart, Save, Copy, BookOpen,
 } from 'lucide-react';
 import * as planoService from '@/lib/api/plano-aula.service';
 import type { TecnicaPratica, PlanoAula, ItemPlanoAula, FaseSessão } from '@/lib/api/plano-aula.service';

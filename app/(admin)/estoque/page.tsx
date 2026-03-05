@@ -11,7 +11,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Package, AlertTriangle, Search, ArrowUpCircle, ArrowDownCircle,
-  RefreshCw, TrendingDown, Box, Droplets, Shirt, X, Plus, Minus,
+  RefreshCw, Box, Droplets, Shirt, X, Plus, Minus,
   BarChart3, Truck, ChevronDown, ChevronUp, Percent, DollarSign,
   Tag, AlertCircle,
 } from 'lucide-react';

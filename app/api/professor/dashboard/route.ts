@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk, getPagination } from '@/lib/api/supabase-helpers';
+import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
 
 export const dynamic = 'force-dynamic';
 

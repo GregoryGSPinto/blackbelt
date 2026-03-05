@@ -7,8 +7,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Calendar, User, Clock, Filter, CheckCircle, XCircle,
-  AlertCircle, CalendarCheck, DollarSign,
+  Calendar, User, Filter, CheckCircle, XCircle, CalendarCheck, DollarSign,
 } from 'lucide-react';
 import * as partService from '@/lib/api/particulares.service';
 import type { AulaParticular } from '@/lib/api/contracts';

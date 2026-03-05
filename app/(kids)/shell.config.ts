@@ -5,7 +5,7 @@
 // Light mode: soft blue/white (playful, bright)
 // ============================================================
 import { Home, Video, Trophy, Award, Users, ClipboardCheck } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Navigation (with emojis) ─────────────────────────────
 

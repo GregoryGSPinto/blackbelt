@@ -12,7 +12,6 @@ import type {
   PontoRegra,
   PontosResumo,
   CategoriaRanking,
-  PeriodoRanking,
 } from '@/lib/api/contracts';
 
 // ── Nomes brasileiros realistas ──────────────────────────

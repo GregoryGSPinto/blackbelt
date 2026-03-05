@@ -18,10 +18,10 @@
  */
 
 import type {
-  TrackId, MilestoneId, UnitId, SegmentId,
+  TrackId, MilestoneId, SegmentId,
   VisualIdentity, LocalizedText, NormalizedScore,
   LifecycleStatus, Auditable, TenantScoped,
-  ISODate, Percentage, DurationMinutes,
+  ISODate, Percentage,
 } from '../shared/kernel';
 
 // ════════════════════════════════════════════════════════════════════

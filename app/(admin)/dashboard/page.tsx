@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
-import { useServiceCall, RetryToast } from '@/hooks/useServiceCall';
+import { useServiceCall } from '@/hooks/useServiceCall';
 import { useCachedServiceCall, TTL } from '@/hooks/useCachedServiceCall';
 import { CacheIndicator } from '@/components/shared/CacheIndicator';
 import * as alertasIntService from '@/lib/api/alertas-inteligentes.service';

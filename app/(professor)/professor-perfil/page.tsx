@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
-  User, Mail, Shield, Award, Calendar, Clock,
+  User, Mail, Shield, Award,
   Bell, Lock, Eye, Smartphone, Globe, ChevronRight,
   CheckCircle,
 } from 'lucide-react';

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { TeenCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
-import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
+import type { TeenProfile } from '@/lib/api/teen.service';
 import { User, Mail, Phone, Calendar, Award, Settings, LogOut , UserX} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';

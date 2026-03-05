@@ -26,7 +26,6 @@ import { apiClient, ApiError } from '@/lib/api/client';
 import { useMock, mockDelay } from '@/lib/env';
 import type {
   ConflictError,
-  BaseEntity,
 } from '@/lib/api/contracts';
 
 // ============================================================

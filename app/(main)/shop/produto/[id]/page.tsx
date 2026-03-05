@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Star, Heart, Share2, ShoppingCart } from 'lucide-react';
 import { ColorSelector, SizeSelector } from '@/components/shop';
 import * as shopService from '@/lib/api/shop.service';
-import type { Product, ProductColor, ProductSize } from '@/lib/api/shop.service';
+import type { Product } from '@/lib/api/shop.service';
 import dynamic from 'next/dynamic';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';

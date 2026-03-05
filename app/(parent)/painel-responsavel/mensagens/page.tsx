@@ -5,7 +5,6 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Send, ArrowLeft, User, Loader2 } from 'lucide-react';
-import * as mensagensService from '@/lib/api/mensagens.service';
 import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';

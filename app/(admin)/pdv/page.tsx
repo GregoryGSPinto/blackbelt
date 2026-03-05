@@ -10,7 +10,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
-  ShoppingCart, Search, Plus, Minus, Trash2, X, DollarSign,
+  ShoppingCart, Search, Plus, Minus, Trash2, DollarSign,
   CreditCard, Banknote, Smartphone, User, CheckCircle, Receipt,
   Package, AlertTriangle, TrendingUp, Clock,
 } from 'lucide-react';

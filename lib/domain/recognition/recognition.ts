@@ -13,8 +13,8 @@
  */
 
 import type {
-  AchievementId, UnitId, VisualIdentity, LocalizedText,
-  TenantScoped, Auditable, ISODate, ISODateTime,
+  AchievementId, VisualIdentity, LocalizedText,
+  TenantScoped, ISODateTime,
 } from '../shared/kernel';
 
 // ════════════════════════════════════════════════════════════════════

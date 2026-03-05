@@ -18,9 +18,8 @@
  */
 
 import type {
-  SessionId, UnitId, TrackId, InstructorId, ParticipantId,
-  TenantScoped, Auditable, LifecycleStatus,
-  ISODate, ISODateTime, DurationMinutes, LocalizedText,
+  SessionId, TrackId,
+  TenantScoped, Auditable, LifecycleStatus, ISODateTime, DurationMinutes,
 } from '../shared/kernel';
 
 // ════════════════════════════════════════════════════════════════════

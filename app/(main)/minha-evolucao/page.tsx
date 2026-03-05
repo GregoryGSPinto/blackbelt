@@ -9,10 +9,8 @@
 // ============================================================
 'use client';
 
-import { useMemo } from 'react';
 import {
   Calendar, Flame, TrendingUp, Trophy,
-  Award, Target, BarChart3,
 } from 'lucide-react';
 import * as evolucaoService from '@/lib/api/evolucao.service';
 import type { EvolucaoData } from '@/lib/api/evolucao.service';

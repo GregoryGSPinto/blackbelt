@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { TeenCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
-import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
+import type { TeenProfile } from '@/lib/api/teen.service';
 import { CheckCircle, XCircle, AlertTriangle, Clock, MapPin, UserX, Info } from 'lucide-react';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';

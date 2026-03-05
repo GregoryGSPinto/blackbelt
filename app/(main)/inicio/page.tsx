@@ -9,7 +9,7 @@ import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
-import { useServiceCall, RetryToast } from '@/hooks/useServiceCall';
+import { useServiceCall } from '@/hooks/useServiceCall';
 import { useCachedServiceCall, TTL } from '@/hooks/useCachedServiceCall';
 import { CacheIndicator } from '@/components/shared/CacheIndicator';
 import * as alunoHomeService from '@/lib/api/aluno-home.service';

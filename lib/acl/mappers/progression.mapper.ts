@@ -16,7 +16,6 @@
 import type {
   GraduacaoHistorico,
   RequisitoGraduacao,
-  SubnivelAluno,
   ExameGraduacao,
 } from '@/lib/api/contracts';
 
@@ -27,9 +26,6 @@ import type {
   PromotionCriterion,
   Evaluation,
   Milestone,
-  DevelopmentTrack,
-  CompetencyScore,
-  AccumulatedMetrics,
 } from '@/lib/domain';
 
 import type {

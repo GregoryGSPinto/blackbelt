@@ -17,7 +17,7 @@ import type { EstatisticasPedagogicas, AlunoPedagogico } from '@/lib/api/profess
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
-import { useServiceCall, RetryToast } from '@/hooks/useServiceCall';
+import { useServiceCall } from '@/hooks/useServiceCall';
 import { useCachedServiceCall, TTL } from '@/hooks/useCachedServiceCall';
 import { CacheIndicator } from '@/components/shared/CacheIndicator';
 import { useContextualMenu, formatMinutosParaInicio } from '@/hooks/useContextualMenu';

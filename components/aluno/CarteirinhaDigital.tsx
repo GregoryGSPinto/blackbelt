@@ -2,8 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import {
-  RotateCw, Share2, Wallet, ShieldCheck, ShieldAlert, ShieldX,
-  QrCode, User as UserIcon, Calendar, Hash, Building2,
+  RotateCw, Share2, Wallet, ShieldCheck, ShieldAlert, ShieldX, Calendar, Hash, Building2,
 } from 'lucide-react';
 import type { CarteirinhaDigital as CarteirinhaData, StatusCarteirinha } from '@/lib/api/contracts';
 

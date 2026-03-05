@@ -1,8 +1,8 @@
 // ============================================================
 // Parent Shell Config — Painel do Responsável
 // ============================================================
-import { Home, Users, Clock, TrendingUp, ShieldCheck, MessageSquare, UserCog, Settings } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import { Home, Users, Clock, TrendingUp, ShieldCheck, MessageSquare, UserCog } from 'lucide-react';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Navigation ───────────────────────────────────────────
 

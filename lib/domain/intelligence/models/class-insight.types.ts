@@ -10,10 +10,7 @@
 
 import type {
   Score0to100,
-  TrendDirection,
-  Confidence,
   ClassRecommendationType,
-  Priority,
   IntelligenceMetadata,
 } from '../core/types';
 

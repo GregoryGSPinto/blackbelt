@@ -7,7 +7,7 @@
 // ============================================================
 
 import { useState, useEffect, useCallback } from 'react';
-import { Brain, CheckCircle, AlertTriangle, XCircle, Wrench, RefreshCw, Zap, Clock, TrendingUp } from 'lucide-react';
+import { Brain, CheckCircle, AlertTriangle, XCircle, Wrench, RefreshCw, Clock, TrendingUp } from 'lucide-react';
 import { getAIModels } from '@/lib/api/developer.service';
 import type { AIModelCard } from '@/lib/api/developer.service';
 import { useTheme } from '@/contexts/ThemeContext';

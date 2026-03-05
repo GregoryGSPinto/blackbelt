@@ -15,7 +15,7 @@
 
 import type {
   SegmentDefinition, SegmentVocabulary, SegmentModuleConfig,
-  AudienceProfile, SegmentType, ModuleAvailability,
+  AudienceProfile, SegmentType,
 } from '@/lib/domain';
 import { getSegmentPreset, PRESET_MARTIAL_ARTS } from '@/lib/domain';
 

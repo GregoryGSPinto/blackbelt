@@ -25,8 +25,8 @@ import {
 } from '@/lib/acl';
 
 import { utcNow } from '@/lib/domain/shared/time';
-import type { PromotionRule, PromotionCriterion, Milestone } from '@/lib/domain';
-import type { MilestoneId, NormalizedScore, Percentage, ISODate } from '@/lib/domain';
+import type { PromotionRule, PromotionCriterion } from '@/lib/domain';
+import type { ISODate } from '@/lib/domain';
 
 import type {
   ParticipantDevelopmentSnapshot,

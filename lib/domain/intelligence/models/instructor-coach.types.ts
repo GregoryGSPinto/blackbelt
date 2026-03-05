@@ -14,11 +14,9 @@ import type {
   Priority,
   EngagementTier,
   SpotlightContextType,
-  IntelligenceMetadata,
 } from '../core/types';
 
 import type { ClassInsight } from './class-insight.types';
-import type { EngagementScore } from './engagement.types';
 
 // ════════════════════════════════════════════════════════════════════
 // COACH INPUT — Dados de entrada para o briefing diário

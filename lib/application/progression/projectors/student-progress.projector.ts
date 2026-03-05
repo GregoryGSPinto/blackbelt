@@ -12,7 +12,7 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
-import type { ParticipantDevelopmentSnapshot, ResolvedCriterion } from '../state/snapshot';
+import type { ParticipantDevelopmentSnapshot } from '../state/snapshot';
 import type { VisualIdentity } from '@/lib/domain';
 
 // ════════════════════════════════════════════════════════════════════

@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
     }
 
     if (view === 'invoices') {
-      let query = supabase
+      const query = supabase
         .from('invoices' as any)
         .select('*, subscriptions!inner(membership_id, memberships!inner(profile_id, profiles!inner(full_name)))')
         .order('due_date', { ascending: false })

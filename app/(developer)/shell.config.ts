@@ -8,7 +8,7 @@
 import {
   Terminal, ScrollText, Shield, Brain, AlertTriangle, Activity, LogIn, Lock,
 } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ── Helpers ──────────────────────────────────────────────
 

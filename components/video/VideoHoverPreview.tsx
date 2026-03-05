@@ -17,7 +17,6 @@ import {
   Info,
   Clock,
   Signal,
-  X,
   CheckCircle,
 } from 'lucide-react';
 import type { Video } from '@/lib/api/content.service';

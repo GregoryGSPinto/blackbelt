@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
-  Trophy, Medal, TrendingUp, TrendingDown, Minus,
-  Flame, Crown, ChevronRight,
+  Trophy, TrendingUp, TrendingDown, Minus,
+  Flame, Crown,
 } from 'lucide-react';
 import type { RankingEntry } from '@/lib/api/contracts';
 

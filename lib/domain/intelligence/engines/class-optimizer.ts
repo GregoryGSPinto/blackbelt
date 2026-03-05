@@ -23,17 +23,11 @@ import type {
 import type {
   Score0to100,
   EngagementTier,
-  ClassRecommendationType,
 } from '../core/types';
-import type { StudentDNA, DifficultyProfile } from '../models/student-dna.types';
+import type { StudentDNA } from '../models/student-dna.types';
 import {
   clampScore,
-  clampConfidence,
-  safeDivide,
   standardDeviation,
-  topN,
-  bottomN,
-  groupBy,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
 

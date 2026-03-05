@@ -8,7 +8,7 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   MessageCircle, AlertTriangle, ShieldAlert, Eye, EyeOff,
-  ChevronRight, RefreshCw, UserCheck, UserX, TrendingUp,
+  ChevronRight, RefreshCw, UserCheck, TrendingUp,
   Pencil,
 } from 'lucide-react';
 

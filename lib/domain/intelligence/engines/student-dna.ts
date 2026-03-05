@@ -28,7 +28,6 @@ import type {
 } from '../core/types';
 import {
   clampScore,
-  clampConfidence,
   safeDivide,
   standardDeviation,
   normalizeToScore,

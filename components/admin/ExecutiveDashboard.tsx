@@ -10,7 +10,6 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import {
-  TrendingUp, TrendingDown, Minus,
   Users, UserMinus, ShieldCheck, DollarSign, UserPlus, AlertTriangle,
   ArrowUpRight, BarChart3,
 } from 'lucide-react';

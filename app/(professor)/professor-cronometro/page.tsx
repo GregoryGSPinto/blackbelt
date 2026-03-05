@@ -10,7 +10,7 @@
 // Tema: amber/gold instrutor. Zero dependências externas.
 // ============================================================
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Play, Pause, RotateCcw, SkipForward, Plus, Minus,
   Maximize2, Minimize2, Settings, Volume2, VolumeX,

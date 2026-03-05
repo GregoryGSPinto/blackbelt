@@ -26,10 +26,7 @@
 import { apiClient } from '@/lib/api/client';
 import { useMock, mockDelay } from '@/lib/env';
 import type {
-  BaseEntity,
   IntegrityError,
-  SafeError,
-  AuditableOperation,
 } from '@/lib/api/contracts';
 import { auditedOperation } from './audit-manager';
 

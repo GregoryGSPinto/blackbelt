@@ -19,8 +19,6 @@ import type {
   SecurityRole,
   SecurityPermission,
   PermissionCheck,
-  AuthenticatedUser,
-  ROLE_PERMISSIONS,
 } from '@/lib/api/contracts';
 import { ROLE_PERMISSIONS as PERMISSIONS_MAP } from '@/lib/api/contracts';
 import * as tokenStore from './token-store';

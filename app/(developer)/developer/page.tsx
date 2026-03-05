@@ -11,7 +11,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   Terminal, Activity, Shield, Brain, AlertTriangle, RefreshCw,
   ScrollText, LogIn, Bell, Smartphone, Monitor, Tablet,
-  TrendingUp, TrendingDown, Minus, CheckCircle, XCircle, Clock,
+  TrendingUp, TrendingDown, Minus, CheckCircle, XCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { getSystemHealth, getObservability } from '@/lib/api/developer.service';

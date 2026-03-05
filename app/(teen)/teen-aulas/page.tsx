@@ -3,12 +3,10 @@
 import { useState, useEffect } from 'react';
 import { TeenCard, TeenProgressBar } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
-import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
+import type { TeenProfile, TeenAula } from '@/lib/api/teen.service';
 import { Play, CheckCircle } from 'lucide-react';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
-import { useTheme } from '@/contexts/ThemeContext';
-import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenSessõesPage() {
   const [teensessões, setTeensessões] = useState<TeenAula[]>([]);

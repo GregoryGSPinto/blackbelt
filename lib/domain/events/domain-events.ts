@@ -20,9 +20,7 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
-import type {
-  ParticipantId, TrackId, MilestoneId, SessionId,
-  AchievementId, ISODateTime,
+import type { TrackId, MilestoneId, ISODateTime,
 } from '../shared/kernel';
 import { utcNow, utcNowMs } from '../shared/time';
 

@@ -12,8 +12,8 @@
  */
 
 import type {
-  UnitId, SegmentId, VisualIdentity, LocalizedText,
-  Auditable, ISODate, HexColor,
+  UnitId,
+  Auditable, HexColor,
 } from '../shared/kernel';
 import type { SegmentType, SegmentDefinition } from '../segment/segment';
 import type { GamificationConfig } from '../recognition/recognition';

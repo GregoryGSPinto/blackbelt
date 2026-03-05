@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { TeenCard, TeenProgressBar } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
-import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
+import type { TeenConquista } from '@/lib/api/teen.service';
 import { Award , Trophy} from 'lucide-react';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';

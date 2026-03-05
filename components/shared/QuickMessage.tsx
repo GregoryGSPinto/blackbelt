@@ -15,7 +15,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { X, Send, MessageCircle, ChevronRight, ArrowLeft } from 'lucide-react';
+import { X, Send, MessageCircle, ChevronRight } from 'lucide-react';
 import { ConversationView } from '@/components/shared/MessageBubble';
 import { MessageActions } from '@/components/shared/MessageActions';
 import {

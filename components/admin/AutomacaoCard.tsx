@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import {
-  ChevronDown, ChevronUp, Send, BarChart3,
+  ChevronDown, ChevronUp, Send,
   UserX, CreditCard, Flame, Bell, Award, UserCheck,
   Cake, MessageCircle, Mail, Smartphone, MessageSquare,
   Zap,

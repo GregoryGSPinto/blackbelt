@@ -13,8 +13,6 @@ import type {
   Evento,
   InscricaoEvento,
   CategoriaEvento,
-  TipoEvento,
-  StatusEvento,
 } from '@/lib/api/contracts';
 
 // ── Categorias reutilizáveis ─────────────────────────────

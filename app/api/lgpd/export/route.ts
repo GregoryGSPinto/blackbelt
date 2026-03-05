@@ -1,4 +1,4 @@
-import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpers';
+import { withAuth, apiOk, apiServerError } from '@/lib/api/route-helpers';
 
 export const dynamic = 'force-dynamic';
 

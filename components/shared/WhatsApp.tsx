@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { MessageCircle, X, Send, ChevronDown, Eye } from 'lucide-react';
+import { MessageCircle, X, Send, Eye } from 'lucide-react';
 import {
-  openWhatsApp, whatsappUrl, renderTemplate,
+  openWhatsApp, renderTemplate,
   TEMPLATES, type WhatsAppTemplate,
 } from '@/lib/utils/whatsapp';
 

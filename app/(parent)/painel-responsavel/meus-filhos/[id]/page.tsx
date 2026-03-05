@@ -1,8 +1,7 @@
 'use client';
 
 import { use } from 'react';
-import { 
-  Award, Calendar, TrendingUp, Clock, BookOpen,
+import { Calendar, TrendingUp, Clock, BookOpen,
   Trophy, Target, CheckCircle, User, Edit
 } from 'lucide-react';
 import Link from 'next/link';

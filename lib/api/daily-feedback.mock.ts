@@ -5,7 +5,7 @@
 import { mockDelay } from '@/lib/env';
 import type {
   PendingFeedback, DailyFeedback, FeedbackSubmission,
-  FeedbackAlert, FeedbackAIClassification,
+  FeedbackAlert,
 } from '@/lib/api/daily-feedback.service';
 
 // 50% chance of having pending feedback

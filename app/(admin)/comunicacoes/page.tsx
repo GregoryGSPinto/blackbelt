@@ -10,8 +10,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Send, Megaphone, Mail, MailOpen, Plus, Users, Clock, CheckCheck,
-  AlertCircle, Calendar, X, Eye, Filter, MessageSquare,
+  Send, Megaphone, Mail, MailOpen, Plus, Clock, CheckCheck, Calendar, X, Eye, Filter, MessageSquare,
 } from 'lucide-react';
 import * as comService from '@/lib/api/comunicacoes.service';
 import type { Comunicado, MensagemDireta, ComunicacoesStats } from '@/lib/api/comunicacoes.service';

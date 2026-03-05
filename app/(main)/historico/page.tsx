@@ -1,6 +1,5 @@
 import {
-  Flame, CalendarDays, TrendingUp, Clock, Dumbbell,
-  Award, BarChart3,
+  Flame, CalendarDays, TrendingUp, Clock, Dumbbell, BarChart3,
 } from 'lucide-react';
 import { VerTudoButton } from './_components/VerTudoButton';
 

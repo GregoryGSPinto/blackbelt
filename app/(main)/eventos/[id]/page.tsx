@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
   Trophy, Calendar, MapPin, Users, ArrowLeft, Ticket,
-  FileText, Medal, Tag, Clock, CheckCircle, X,
-  Award, ChevronDown, Download,
+  FileText, Tag, Clock, CheckCircle, X,
+  Award, ChevronDown,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import * as eventosService from '@/lib/api/eventos.service';
-import type { Evento, InscricaoEvento, CategoriaEvento, StatusEvento } from '@/lib/api/contracts';
+import type { Evento, StatusEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';

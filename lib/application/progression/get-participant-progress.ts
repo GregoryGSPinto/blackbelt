@@ -22,12 +22,10 @@ import {
   mapToEvaluation,
   getDefaultMilestones,
   resolveMilestoneVisual,
-  resolveMilestoneId,
 } from '@/lib/acl';
 import type {
   ProgressState,
   PromotionRule,
-  PromotionCriterion,
   Milestone,
   VisualIdentity,
   Evaluation,

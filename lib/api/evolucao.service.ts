@@ -10,7 +10,7 @@
 
 import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
-import type { EvolucaoData, FrequenciaHistorico } from '@/lib/__mocks__/evolucao.mock';
+import type { EvolucaoData } from '@/lib/__mocks__/evolucao.mock';
 
 export type { EvolucaoData, FrequenciaHistorico } from '@/lib/__mocks__/evolucao.mock';
 

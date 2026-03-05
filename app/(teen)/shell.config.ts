@@ -5,7 +5,7 @@ import {
   Home, Video, TrendingUp, Award, CheckSquare,
   GraduationCap, ClipboardCheck, Download,
 } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Navigation ───────────────────────────────────────────
 

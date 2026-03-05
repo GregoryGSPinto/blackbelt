@@ -10,8 +10,7 @@
 // ============================================================
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import {
-  ClipboardList, Check, X, Users, Search, CheckCheck,
+import { Check, Users, Search, CheckCheck,
   RotateCcw, ChevronLeft, Send, UserCheck, UserX,
 } from 'lucide-react';
 import * as professorService from '@/lib/api/instrutor.service';

@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Trophy, Calendar, MapPin, Users, Plus, Search,
-  Edit3, Trash2, Download, Eye, Tag, ChevronDown,
-  ChevronUp, X, CheckCircle, Clock, Ticket, FileText,
+  Trophy, Calendar, MapPin, Users, Plus, Search, Trash2, Download, ChevronDown,
+  ChevronUp, X,
 } from 'lucide-react';
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, StatusEvento, TipoEvento } from '@/lib/api/contracts';

@@ -3,7 +3,6 @@
 // ============================================================
 'use client';
 
-import { useMemo } from 'react';
 import { GraduationCap, Calendar, Clock, TrendingUp } from 'lucide-react';
 import * as turmasService from '@/lib/api/minhas-turmas.service';
 import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';

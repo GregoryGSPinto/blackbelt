@@ -10,7 +10,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   MessageSquare, Search, Send, Mic, Paperclip, ArrowLeft,
-  CheckCheck, Clock, MoreVertical, Phone, Video,
+  CheckCheck, Clock,
 } from 'lucide-react';
 import * as mensagensService from '@/lib/api/mensagens.service';
 import type { Conversa, Mensagem } from '@/lib/api/mensagens.service';

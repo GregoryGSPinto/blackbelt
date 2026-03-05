@@ -3,7 +3,7 @@
 // ============================================================
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Shield, Copy, Check, Loader2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';

@@ -12,7 +12,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, Shield,
+  Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings,
 } from 'lucide-react';
 import { AppShellConfig, ShellState } from './types';
 

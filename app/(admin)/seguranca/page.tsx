@@ -1,16 +1,15 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
-  Shield, AlertTriangle, Activity, Clock, Server,
+  Shield, AlertTriangle, Activity, Server,
   Eye, CheckCircle, XCircle, AlertCircle, ChevronDown,
-  ChevronUp, RefreshCw, Zap, TrendingUp, TrendingDown,
-  Wifi, WifiOff, Cpu, HardDrive, Users, Lock,
+  ChevronUp, RefreshCw, Zap,
+  Wifi, WifiOff, Cpu, Users, Lock,
 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
-         LineChart, Line, AreaChart, Area, CartesianGrid } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, AreaChart, Area, CartesianGrid } from 'recharts';
 import { getMockDashboardData } from '@/lib/monitoring/dashboard-service';
-import type { DashboardData, SecurityCounters } from '@/lib/monitoring/dashboard-service';
+import type { DashboardData } from '@/lib/monitoring/dashboard-service';
 import type { Anomaly, AlertSeverity } from '@/lib/monitoring/anomaly-detector';
 import type { StructuredLog } from '@/lib/monitoring/structured-logger';
 import { useTheme } from '@/contexts/ThemeContext';

@@ -7,7 +7,7 @@
 // ============================================================
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { X, ChevronRight, Sparkles } from 'lucide-react';
 
 // ── Types ──

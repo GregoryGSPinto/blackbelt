@@ -7,7 +7,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Check, Clock, Loader2 } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
 import { useParent, type FilhoUnificado } from '@/contexts/ParentContext';
 import * as checkinService from '@/lib/api/checkin.service';
 

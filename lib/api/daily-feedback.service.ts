@@ -13,7 +13,7 @@
  * TODO(BE-049): POST /feedback/ai-classify
  */
 
-import { useMock, mockDelay } from '@/lib/env';
+import { useMock } from '@/lib/env';
 
 // ============================================================
 // DTOs

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  GraduationCap, Calendar, CheckCircle, XCircle, Clock,
+  GraduationCap, CheckCircle, XCircle, Clock,
   ChevronDown, ChevronUp, AlertCircle, Award, BarChart3, Plus, Minus,
 } from 'lucide-react';
 import * as gradService from '@/lib/api/graduacao.service';

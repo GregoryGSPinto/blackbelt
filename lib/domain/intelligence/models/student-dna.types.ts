@@ -16,7 +16,6 @@ import type {
   LearningSpeed,
   MotivationDriver,
   TimeSlot,
-  IntelligenceMetadata,
 } from '../core/types';
 
 // ════════════════════════════════════════════════════════════════════

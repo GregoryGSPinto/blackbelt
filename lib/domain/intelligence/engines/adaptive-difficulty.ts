@@ -29,14 +29,10 @@ import type {
   QuestionContent,
   CompetencyFocusItem,
 } from '../models/adaptive-test.types';
-import type { StudentDNA, DifficultyProfile } from '../models/student-dna.types';
-import type { QuestionType, Percentage } from '../core/types';
-import {
-  clampScore,
-  clampConfidence,
-  safeDivide,
-  groupBy,
-} from '../core/scoring-utils';
+import type { StudentDNA } from '../models/student-dna.types';
+import type { QuestionType } from '../core/types';
+
+
 import { calculateConfidence } from '../core/confidence-calculator';
 
 // ════════════════════════════════════════════════════════════════════

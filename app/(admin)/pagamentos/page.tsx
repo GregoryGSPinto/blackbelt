@@ -11,7 +11,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   DollarSign, TrendingUp, AlertTriangle, CreditCard, Users, Clock,
-  QrCode, CheckCircle, XCircle, Filter,
+  QrCode, Filter,
 } from 'lucide-react';
 import * as pagService from '@/lib/api/pagamentos.service';
 import type { AdminFinanceDashboard, Fatura, Assinatura } from '@/lib/api/pagamentos.service';

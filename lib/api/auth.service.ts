@@ -30,7 +30,7 @@ import { getDeviceInfo } from '@/lib/security/device-fingerprint';
 import { checkRateLimit, recordAttempt, recordSuccess } from '@/lib/security/rate-limiter';
 import { audit } from '@/lib/security/audit';
 import { createSession, revokeAllSessions, isNewDevice, getActiveSessions } from '@/lib/security/session';
-import type { TipoPerfil, KidRegistroData, AuthResult, AuthenticatedUser } from './contracts';
+import type { TipoPerfil, KidRegistroData, AuthenticatedUser } from './contracts';
 import type {
   LoginRequest,
   LoginResponse,

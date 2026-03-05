@@ -8,8 +8,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import {
-  Clock, Check, X, User, MessageSquare,
+import { Check, X, User, MessageSquare,
   StopCircle, ChevronDown, ChevronUp,
 } from 'lucide-react';
 import { useActiveClass } from '@/contexts/ActiveClassContext';

@@ -8,7 +8,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Check, Clock, MapPin, User, Loader2 } from 'lucide-react';
+import { Check, Clock, User, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import * as turmasService from '@/lib/api/minhas-turmas.service';
 import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';

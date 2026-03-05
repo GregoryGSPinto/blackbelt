@@ -33,7 +33,6 @@ import type {
   LGPDRequest,
   SensitivePersonalData,
   PaginatedResponse,
-  AuditAction,
 } from '@/lib/api/contracts';
 import { auditedOperation } from './audit-manager';
 

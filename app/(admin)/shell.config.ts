@@ -12,7 +12,7 @@ import {
   Megaphone, Package, UserPlus, Trophy, Zap, BarChart3,
   Award, Bell, Settings, ClipboardCheck, Activity,
 } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Notifications ───────────────────────────────────────
 

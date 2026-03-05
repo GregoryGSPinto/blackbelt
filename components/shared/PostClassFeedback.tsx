@@ -11,7 +11,7 @@
 // ============================================================
 
 import { useState, useEffect, useCallback } from 'react';
-import { X, HelpCircle, CheckCircle, PlayCircle, Send, MessageSquare } from 'lucide-react';
+import { HelpCircle, CheckCircle, PlayCircle, Send, MessageSquare } from 'lucide-react';
 import { getPendingFeedback, submitFeedback } from '@/lib/api/daily-feedback.service';
 import type { PendingFeedback, FeedbackOption } from '@/lib/api/daily-feedback.service';
 import { useToast } from '@/contexts/ToastContext';

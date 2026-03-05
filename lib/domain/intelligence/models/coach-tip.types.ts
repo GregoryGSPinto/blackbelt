@@ -9,9 +9,7 @@
  */
 
 import type {
-  Score0to100,
   EngagementTier,
-  SpotlightContextType,
   IntelligenceMetadata,
 } from '../core/types';
 

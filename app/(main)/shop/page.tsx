@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ProductCard } from '@/components/shop';
 import VideoCarousel from '@/components/ui/VideoCarousel';
 import * as shopService from '@/lib/api/shop.service';
-import type { Product, ProductColor, ProductSize } from '@/lib/api/shop.service';
+import type { Product } from '@/lib/api/shop.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';

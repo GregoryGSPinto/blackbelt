@@ -15,7 +15,7 @@
 // ============================================================
 'use client';
 
-import { Clock, MapPin, User, Users, CalendarCheck, BookOpen, Radio } from 'lucide-react';
+import { Clock, MapPin, User, Users, CalendarCheck, BookOpen } from 'lucide-react';
 import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';
 
 const CARD_STYLES = `

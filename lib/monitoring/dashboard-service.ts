@@ -16,7 +16,7 @@
 
 import {
   getSystemHealth, getLatencyStats, getErrorRate,
-  getLatencyTimeSeries, getRequestsPerMinute, getCounter,
+  getLatencyTimeSeries, getCounter,
   type SystemHealth, type LatencyStats, type ErrorRateStats,
 } from './metrics';
 import {

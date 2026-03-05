@@ -14,7 +14,7 @@
 // All prefetched data goes through the cache system.
 // ============================================================
 
-import { cache, TTL } from './cache';
+import { cache } from './cache';
 
 // ── Prefetch registry ──
 

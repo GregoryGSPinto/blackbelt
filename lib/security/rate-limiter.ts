@@ -11,7 +11,7 @@
  * - Reset automático após período de bloqueio
  */
 
-import type { RateLimitStatus, SecurityConfig } from '@/lib/api/contracts';
+import type { RateLimitStatus } from '@/lib/api/contracts';
 import { getSecurityConfig } from './token-store';
 
 interface AttemptTracker {

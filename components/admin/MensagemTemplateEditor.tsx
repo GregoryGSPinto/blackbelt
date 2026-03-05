@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
-import { Eye, Plus, Type } from 'lucide-react';
+import { Eye, Type } from 'lucide-react';
 
 interface MensagemTemplateEditorProps {
   value: string;

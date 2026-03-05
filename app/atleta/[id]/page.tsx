@@ -14,7 +14,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import {
-  Award, Calendar, CheckCircle, Medal, Timer, MapPin,
+  Award, CheckCircle, Medal, Timer, MapPin,
   Share2, Flame,
 } from 'lucide-react';
 import * as carteirinhaService from '@/lib/api/carteirinha.service';

@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  FileText, Download, Search, Calendar, Table2,
+  FileText,
   ClipboardCheck, DollarSign, Users, Award, Trophy,
-  AlertTriangle, ScanLine, ChevronRight, Eye,
+  AlertTriangle, ScanLine, Eye,
   FileSpreadsheet, File, Loader2, BarChart3,
 } from 'lucide-react';
 import * as relService from '@/lib/api/relatorios.service';

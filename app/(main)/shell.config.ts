@@ -7,7 +7,7 @@ import {
   TrendingUp, Settings, CreditCard, Award, Trophy, CalendarDays,
   PenTool,
 } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Navigation ───────────────────────────────────────────
 

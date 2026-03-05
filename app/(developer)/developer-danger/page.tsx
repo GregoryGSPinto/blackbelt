@@ -9,7 +9,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  AlertTriangle, Power, Shield, GitCommit, Calendar, Server,
+  AlertTriangle, Power, GitCommit, Calendar, Server,
   RefreshCw, LogOut, Wrench, Terminal,
 } from 'lucide-react';
 import { getDangerZoneInfo, forceLogoutAll, toggleMaintenanceMode } from '@/lib/api/developer.service';

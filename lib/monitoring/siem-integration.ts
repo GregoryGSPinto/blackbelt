@@ -168,7 +168,7 @@ function formatForLoki(entries: SIEMLogEntry[], config: SIEMConfig): object {
 let _config: SIEMConfig = { ...DEFAULT_CONFIG };
 let _buffer: SIEMLogEntry[] = [];
 let _flushTimer: ReturnType<typeof setInterval> | null = null;
-let _shipmentStats = { total: 0, success: 0, failed: 0, retries: 0 };
+const _shipmentStats = { total: 0, success: 0, failed: 0, retries: 0 };
 
 /**
  * Initialize SIEM integration with config.

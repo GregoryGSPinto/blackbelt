@@ -24,10 +24,9 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
-import type {
-  ParticipantId, TrackId, MilestoneId,
+import type { TrackId, MilestoneId,
   VisualIdentity, NormalizedScore, Percentage,
-  ISODate, HexColor,
+  ISODate,
 } from '@/lib/domain';
 
 // ════════════════════════════════════════════════════════════════════

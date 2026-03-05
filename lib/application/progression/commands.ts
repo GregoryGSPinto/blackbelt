@@ -17,7 +17,7 @@
  */
 
 import { createEvent, startCausationChain, makeIdempotencyKey } from '@/lib/domain';
-import type { PromotionGranted, SublevelAwarded, AttendanceRecorded, CausationContext } from '@/lib/domain';
+import type { PromotionGranted, SublevelAwarded, AttendanceRecorded } from '@/lib/domain';
 import { eventBus } from '@/lib/application/events/event-bus';
 import { resolveMilestoneId } from '@/lib/acl';
 

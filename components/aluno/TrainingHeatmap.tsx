@@ -90,7 +90,7 @@ export function TrainingHeatmap({
 
     const result: { date: string; sessions: number; month: number; isToday: boolean }[][] = [];
 
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
     for (let w = 0; w < weeks; w++) {
       const week: typeof result[0] = [];
       for (let d = 0; d < 7; d++) {

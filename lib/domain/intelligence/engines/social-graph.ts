@@ -21,12 +21,10 @@ import type {
   SocialConnection,
   SocialMetrics,
   SocialAlert,
-  SocialAlertType,
 } from '../models/social-graph.types';
 import type { CommunityRole, Score0to100 } from '../core/types';
 import {
   clampScore,
-  clampConfidence,
   safeDivide,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';

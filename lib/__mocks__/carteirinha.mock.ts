@@ -9,7 +9,6 @@
 import type {
   CarteirinhaDigital,
   AtletaPublico,
-  GraduacaoHistorico,
 } from '@/lib/api/contracts';
 
 // ── Carteirinha do aluno logado ──────────────────────────

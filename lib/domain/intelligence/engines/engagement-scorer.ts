@@ -16,12 +16,10 @@
 
 import type { EngagementScore, EngagementDimensions, AttentionPriority } from '../models/engagement.types';
 import type { EngagementInput } from '@/lib/acl/mappers/engagement-mapper';
-import type { EngagementTier, AttentionLevel, TrendDirection } from '../core/types';
+import type { EngagementTier, TrendDirection } from '../core/types';
 import {
   clampScore,
-  clampConfidence,
   safeDivide,
-  classifyEngagementTier,
   computeAttentionLevel,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';

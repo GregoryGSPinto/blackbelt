@@ -29,9 +29,6 @@ import type {
 import type { Priority, SpotlightContextType } from '../core/types';
 import {
   clampScore,
-  clampConfidence,
-  safeDivide,
-  topN,
   standardDeviation,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';

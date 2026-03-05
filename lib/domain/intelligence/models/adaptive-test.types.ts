@@ -11,7 +11,6 @@
 import type {
   QuestionType,
   Percentage,
-  IntelligenceMetadata,
 } from '../core/types';
 
 // ════════════════════════════════════════════════════════════════════

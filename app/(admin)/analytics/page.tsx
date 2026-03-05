@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import {
-  TrendingUp, TrendingDown, Users, UserMinus, UserPlus, UserCheck,
-  DollarSign, Clock, BarChart3, ArrowRight, Percent,
+  TrendingUp, Users, UserMinus, UserPlus, UserCheck,
+  DollarSign, Clock, BarChart3,
 } from 'lucide-react';
 import * as analyticsService from '@/lib/api/analytics.service';
 import type { AnalyticsRetencao } from '@/lib/api/analytics.service';

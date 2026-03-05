@@ -3,8 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Trophy, Calendar, MapPin, Users, ChevronRight,
-  Filter, Tag, Clock, CheckCircle, XCircle, Ticket,
+  Trophy, Calendar, MapPin, Users, ChevronRight, Tag, Ticket,
 } from 'lucide-react';
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, StatusEvento } from '@/lib/api/contracts';

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   FileText, CheckCircle, Clock, AlertCircle, Shield,
-  ChevronDown, ChevronUp, PenTool, X, Lock, Eye,
+  ChevronDown, ChevronUp, PenTool, X, Lock,
 } from 'lucide-react';
 import * as assService from '@/lib/api/assinatura.service';
 import type { DocumentoAssinatura, ConsentimentoLGPD } from '@/lib/api/assinatura.service';

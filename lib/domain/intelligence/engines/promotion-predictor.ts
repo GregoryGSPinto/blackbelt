@@ -22,7 +22,6 @@ import type {
 } from '../models/promotion.types';
 import {
   clampScore,
-  clampConfidence,
   safeDivide,
   weightedAverage,
 } from '../core/scoring-utils';

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Zap, Send, BarChart3, ToggleLeft, ToggleRight,
+  Zap, Send, BarChart3, ToggleRight,
   CheckCircle,
 } from 'lucide-react';
 import * as autoService from '@/lib/api/automacoes.service';

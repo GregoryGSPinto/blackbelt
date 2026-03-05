@@ -4,7 +4,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { User, Mail, Phone, Lock, Eye, EyeOff, Bell, Save, Loader2, ArrowLeft, Camera } from 'lucide-react';
+import { User, Mail, Phone, Lock, Eye, EyeOff, Save, Loader2, ArrowLeft, Camera } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';

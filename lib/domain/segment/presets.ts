@@ -13,8 +13,7 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
-import type { SegmentDefinition, AudienceProfile } from './segment';
-import type { ProgressionModel } from '../development/track';
+import type { SegmentDefinition } from './segment';
 import type { HexColor, VisualIdentity, LocalizedText } from '../shared/kernel';
 
 // ════════════════════════════════════════════════════════════════════

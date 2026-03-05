@@ -4,7 +4,7 @@
 import {
   LayoutDashboard, Users, ClipboardCheck, Play, GraduationCap, ClipboardList, Timer, Calendar, BookOpen, MessageSquare,
 } from 'lucide-react';
-import type { AppShellConfig, ShellTheme, ShellNavConfig } from '@/components/shell';
+import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Navigation ───────────────────────────────────────────
 

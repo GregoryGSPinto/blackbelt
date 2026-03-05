@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { X, Play, Users, Clock, Loader2 } from 'lucide-react';
 import { useActiveClass } from '@/contexts/ActiveClassContext';
 import * as professorService from '@/lib/api/instrutor.service';
-import type { TurmaResumo, AlunoPresenca } from '@/lib/api/instrutor.service';
+import type { TurmaResumo } from '@/lib/api/instrutor.service';
 
 const MODAL_STYLES = `
   @keyframes scm-overlay { from { opacity: 0; } to { opacity: 1; } }

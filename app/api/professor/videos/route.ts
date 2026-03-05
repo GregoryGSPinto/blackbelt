@@ -11,7 +11,7 @@ export const GET = createHandler(async (req: NextRequest) => {
 
   // TODO(BE-120): Query real database with filters
   // For now, return empty list (videos stored externally)
-  let results: unknown[] = [];
+  const results: unknown[] = [];
 
   // When real DB is connected, filter by:
   // - profId: filter by professor

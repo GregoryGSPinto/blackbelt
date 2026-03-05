@@ -11,7 +11,6 @@
 import type {
   Score0to100,
   CommunityRole,
-  AlertSeverity,
   IntelligenceMetadata,
 } from '../core/types';
 

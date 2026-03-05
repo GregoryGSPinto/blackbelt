@@ -27,15 +27,13 @@ import type {
   BaseEntity,
   PaginatedResponse,
   AuditedResult,
-  AuditableOperation,
-  TenantQuery,
   SafeError,
 } from '@/lib/api/contracts';
 import { auditedOperation, queryLogs } from './audit-manager';
-import { excludeDeleted, checkDeletionAllowed, softDelete } from './soft-delete';
-import { versionedUpdate, initVersion, type VersionedResult } from './concurrency';
+import { softDelete } from './soft-delete';
+import { versionedUpdate, type VersionedResult } from './concurrency';
 import { withUnitFilter, validateTenantAccess, buildTenantQuery } from './tenant-isolation';
-import { toSafeError, getUserMessage } from './error-handler';
+import { toSafeError } from './error-handler';
 
 // ============================================================
 // BASE REPOSITORY

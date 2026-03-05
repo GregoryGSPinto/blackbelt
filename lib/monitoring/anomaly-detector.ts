@@ -19,7 +19,7 @@
  *   - Worker para processamento assíncrono
  */
 
-import { incrementCounter, getCounter, recordSecurityEvent } from './metrics';
+import { incrementCounter, recordSecurityEvent } from './metrics';
 
 // ============================================================
 // TYPES

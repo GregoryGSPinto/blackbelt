@@ -19,7 +19,6 @@
 import * as tokenStore from '@/lib/security/token-store';
 import type {
   TenantQuery,
-  BaseEntity,
   SafeError,
   AuthenticatedUser,
 } from '@/lib/api/contracts';

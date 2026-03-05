@@ -7,7 +7,7 @@
  */
 
 import { NextRequest } from 'next/server';
-import { withAuth, apiOk, apiError, apiServerError, apiForbidden, apiNotFound } from '@/lib/api/route-helpers';
+import { withAuth, apiOk, apiServerError, apiForbidden, apiNotFound } from '@/lib/api/route-helpers';
 
 export async function GET(
   req: NextRequest,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CreditCard, ArrowLeft } from 'lucide-react';
+import { CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';

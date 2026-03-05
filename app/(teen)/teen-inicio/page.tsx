@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { TeenCard, ProgressCircle, TeenProgressBar, StatCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import { TEEN_SESSÕES, getProximaMeta } from '@/lib/api/teen.service';
-import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/api/teen.service';
+import type { TeenProfile } from '@/lib/api/teen.service';
 import { Play, Calendar, TrendingUp, Clock, Target, Video, Flame, ChevronRight, CheckCircle2 , UserX} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';

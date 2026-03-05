@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  ShieldCheck, UserPlus, X, Phone, User, Clock,
+  ShieldCheck, UserPlus, X, Phone, User,
   CheckCircle, ToggleLeft, ToggleRight, History,
 } from 'lucide-react';
 import * as kidsSafety from '@/lib/api/kids-safety.service';

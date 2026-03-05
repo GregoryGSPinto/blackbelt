@@ -7,7 +7,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   UserPlus, Calendar, Filter, Phone, Mail, MapPin, Clock,
-  CheckCircle, XCircle, AlertCircle, Eye, Target, DollarSign,
+  CheckCircle, XCircle, AlertCircle, Target, DollarSign,
 } from 'lucide-react';
 import * as visService from '@/lib/api/visitantes.service';
 import type { Visitante, TipoVisita, StatusVisita } from '@/lib/api/contracts';

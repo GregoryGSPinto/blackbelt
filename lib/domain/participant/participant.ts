@@ -15,9 +15,9 @@
  */
 
 import type {
-  ParticipantId, UnitId, TrackId, InstructorId,
-  OperationalStatus, VisualIdentity, LocalizedText,
-  TenantScoped, Auditable, ISODate, ISODateTime,
+  ParticipantId, TrackId,
+  OperationalStatus, VisualIdentity,
+  TenantScoped, Auditable, ISODate,
 } from '../shared/kernel';
 import type { ProgressState } from '../development/track';
 import type { AchievementAwarded } from '../recognition/recognition';

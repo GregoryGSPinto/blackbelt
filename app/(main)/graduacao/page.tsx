@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { GraduationCap, Calendar, Award, ChevronRight, Clock, CheckCircle } from 'lucide-react';
+import { GraduationCap, ChevronRight, CheckCircle } from 'lucide-react';
 import * as gradService from '@/lib/api/graduacao.service';
 import type { GraduacaoHistorico, RequisitoGraduacao } from '@/lib/api/graduacao.service';
 import { BeltStripes } from '@/components/shared/BeltStripes';

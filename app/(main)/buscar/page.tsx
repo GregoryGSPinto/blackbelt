@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Search, Play, ExternalLink } from 'lucide-react';
 import VideoCard from '@/components/ui/VideoCard';
 import * as contentService from '@/lib/api/content.service';
-import type { Video, Serie } from '@/lib/api/content.service';
+import type { Video } from '@/lib/api/content.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
