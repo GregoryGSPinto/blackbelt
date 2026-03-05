@@ -8,11 +8,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // ─── Existing primary (warm brown brand) ───
         primary: {
           DEFAULT: '#8C6239',
           dark: '#6B4423',
           light: '#B89A6A',
         },
+        // ─── Existing dark/light surface system ───
         dark: {
           bg: '#080706',
           card: '#0F0D0A',
@@ -27,7 +29,7 @@ const config: Config = {
           elevated: '#E5DFD6',
           surface: '#D8D0C4',
         },
-        // Semantic theme-aware (use CSS vars)
+        // ─── Semantic theme-aware (existing CSS vars) ───
         theme: {
           bg: 'rgb(var(--color-bg) / <alpha-value>)',
           card: 'rgb(var(--color-card) / <alpha-value>)',
@@ -35,7 +37,67 @@ const config: Config = {
           elevated: 'rgb(var(--color-elevated) / <alpha-value>)',
           surface: 'rgb(var(--color-surface) / <alpha-value>)',
         },
-        // Kids Mode Colors
+        // ─── Gold accent (brand token) ───
+        gold: {
+          50: '#FFF9E6',
+          100: '#FFF0B3',
+          200: '#FFE680',
+          300: '#FFDB4D',
+          400: '#FFD11A',
+          500: '#C9A227',
+          600: '#A68521',
+          700: '#83691A',
+          800: '#604D14',
+          900: '#3D310D',
+        },
+        // ─── Navy (dark backgrounds token) ───
+        navy: {
+          50: '#E8E8EE',
+          100: '#C5C5D3',
+          200: '#A2A2B8',
+          300: '#7F7F9D',
+          400: '#5C5C82',
+          500: '#393967',
+          600: '#2D2D52',
+          700: '#21213D',
+          800: '#1A1A2E',
+          900: '#0F0F1C',
+        },
+        // ─── Semantic colors ───
+        success: {
+          light: '#10B981',
+          DEFAULT: '#10B981',
+          dark: '#34D399',
+        },
+        warning: {
+          light: '#F59E0B',
+          DEFAULT: '#F59E0B',
+          dark: '#FBBF24',
+        },
+        error: {
+          light: '#EF4444',
+          DEFAULT: '#EF4444',
+          dark: '#F87171',
+        },
+        info: {
+          light: '#3B82F6',
+          DEFAULT: '#3B82F6',
+          dark: '#60A5FA',
+        },
+        // ─── CSS variable aliases for theme-aware usage ───
+        'bg-primary': 'var(--bg-primary)',
+        'bg-secondary': 'var(--bg-secondary)',
+        'bg-tertiary': 'var(--bg-tertiary)',
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-tertiary': 'var(--text-tertiary)',
+        'border-theme': 'var(--border)',
+        accent: {
+          DEFAULT: 'var(--accent)',
+          hover: 'var(--accent-hover)',
+        },
+        'card-bg': 'var(--card-bg)',
+        // ─── Kids Mode Colors ───
         kids: {
           blue: {
             light: '#E3F2FD',
@@ -68,7 +130,7 @@ const config: Config = {
             dark: '#8E24AA',
           },
         },
-        // Teen Mode Colors
+        // ─── Teen Mode Colors ───
         teen: {
           ocean: {
             light: '#E0F2F7',
@@ -104,12 +166,43 @@ const config: Config = {
         },
       },
       fontFamily: {
+        sans: ["'Inter'", "'SF Pro Display'", '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ["'JetBrains Mono'", "'SF Mono'", 'monospace'],
         kids: ['Nunito', 'Comic Sans MS', 'sans-serif'],
         teen: ['Inter', 'system-ui', 'sans-serif'],
       },
+      borderRadius: {
+        'token-sm': '0.375rem',
+        'token-md': '0.75rem',
+        'token-lg': '1rem',
+        'token-xl': '1.5rem',
+      },
+      boxShadow: {
+        'token-sm': '0 1px 2px rgba(0,0,0,0.05)',
+        'token-md': '0 4px 6px -1px rgba(0,0,0,0.1)',
+        'token-lg': '0 10px 15px -3px rgba(0,0,0,0.1)',
+        'token-xl': '0 20px 25px -5px rgba(0,0,0,0.1)',
+        'glow': '0 0 20px rgba(201,162,39,0.3)',
+        'glow-strong': '0 0 40px rgba(201,162,39,0.5)',
+        'inner-token': 'inset 0 2px 4px rgba(0,0,0,0.06)',
+        'dark-sm': '0 1px 2px rgba(0,0,0,0.3)',
+        'dark-md': '0 4px 6px -1px rgba(0,0,0,0.4)',
+        'dark-lg': '0 10px 15px -3px rgba(0,0,0,0.5)',
+      },
+      transitionDuration: {
+        'fast': '150ms',
+        'normal': '250ms',
+        'slow': '350ms',
+        'spring': '500ms',
+      },
+      transitionTimingFunction: {
+        'ease-smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+        'ease-spring': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'ease-page-exit': 'cubic-bezier(0.4, 0, 1, 1)',
+      },
       screens: {
         'tv': '1920px',
-      }
+      },
     },
   },
   plugins: [],

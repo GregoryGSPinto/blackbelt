@@ -34,6 +34,19 @@
     --scrollbar-track: #0F0D0A;
     --scrollbar-thumb: #25211A;
     --scrollbar-hover: #332B21;
+
+    /* ─── Design Token CSS Variables (dark) ─── */
+    --bg-primary: #0F0F1C;
+    --bg-secondary: #1A1A2E;
+    --bg-tertiary: #21213D;
+    --text-primary: #F5F5F0;
+    --text-secondary: #A2A2B8;
+    --text-tertiary: #7F7F9D;
+    --border: #2D2D52;
+    --accent: #C9A227;
+    --accent-hover: #FFD11A;
+    --card-bg: #1A1A2E;
+    --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.4);
   }
 
   /* ═══════════════════════════════════════════
@@ -67,6 +80,19 @@
     --scrollbar-track: #EFEBE5;
     --scrollbar-thumb: #D8D0C4;
     --scrollbar-hover: #C5BAA9;
+
+    /* ─── Design Token CSS Variables (light) ─── */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F5F0;
+    --bg-tertiary: #EBEBEB;
+    --text-primary: #1A1A2E;
+    --text-secondary: #666666;
+    --text-tertiary: #999999;
+    --border: #E5E5E0;
+    --accent: #C9A227;
+    --accent-hover: #A68521;
+    --card-bg: #FFFFFF;
+    --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
   }
 
   * {
@@ -364,6 +390,90 @@
   }
 
   /* ─────────────────────────────────────────────
+     ZINC/GRAY/SLATE → WARM LIGHT EQUIVALENTS
+     Maps dark-first zinc/gray/slate classes to warm theme
+     ───────────────────────────────────────────── */
+
+  /* Zinc backgrounds → warm surfaces */
+  .light [class*="bg-zinc-900"] {
+    background-color: #F7F5F2 !important;
+  }
+  .light [class*="bg-zinc-800"] {
+    background-color: #EFEBE5 !important;
+  }
+  .light [class*="bg-zinc-700"] {
+    background-color: #E5DFD6 !important;
+  }
+
+  /* Gray backgrounds → warm surfaces */
+  .light [class*="bg-gray-950"] {
+    background-color: #F7F5F2 !important;
+  }
+  .light [class*="bg-gray-900"] {
+    background-color: #F7F5F2 !important;
+  }
+  .light [class*="bg-gray-800"] {
+    background-color: #EFEBE5 !important;
+  }
+
+  /* Slate backgrounds → warm surfaces */
+  .light [class*="bg-slate-900"] {
+    background-color: #F7F5F2 !important;
+  }
+  .light [class*="bg-slate-800"] {
+    background-color: #EFEBE5 !important;
+  }
+
+  /* Zinc text → warm dark readable text */
+  .light [class*="text-zinc-100"],
+  .light [class*="text-zinc-200"] {
+    color: #15120C !important;
+  }
+  .light [class*="text-zinc-300"] {
+    color: #2A2318 !important;
+  }
+  .light [class*="text-zinc-400"] {
+    color: #4B3E2F !important;
+  }
+  .light [class*="text-zinc-500"] {
+    color: #6D5D4B !important;
+  }
+  .light [class*="text-zinc-600"] {
+    color: #7A6A56 !important;
+  }
+
+  /* Gray text → warm dark readable text */
+  .light [class*="text-gray-400"] {
+    color: #6D5D4B !important;
+  }
+  .light [class*="text-gray-500"] {
+    color: #6D5D4B !important;
+  }
+  .light [class*="text-gray-700"] {
+    color: #2A2318 !important;
+  }
+
+  /* Slate text → warm dark readable text */
+  .light [class*="text-slate-500"] {
+    color: #6D5D4B !important;
+  }
+  .light [class*="text-slate-600"] {
+    color: #4B3E2F !important;
+  }
+  .light [class*="text-slate-700"] {
+    color: #2A2318 !important;
+  }
+
+  /* Zinc/Slate borders → warm borders */
+  .light [class*="border-zinc-700"],
+  .light [class*="border-zinc-800"] {
+    border-color: rgba(107, 68, 35, 0.1) !important;
+  }
+  .light [class*="border-slate-200"] {
+    border-color: rgba(107, 68, 35, 0.1) !important;
+  }
+
+  /* ─────────────────────────────────────────────
      DISABLED STATES
      ───────────────────────────────────────────── */
   .light [class*="disabled:bg-dark-"]:disabled {
@@ -510,6 +620,32 @@
   }
   .text-accent-light {
     color: rgb(var(--color-primary-light));
+  }
+
+  /* ─── Design Token Utility Classes ─── */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .light .glass {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .glow {
+    box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+  }
+  .glow-strong {
+    box-shadow: 0 0 40px rgba(201, 162, 39, 0.5);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #C9A227, #FFD11A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .scrollbar-hide {

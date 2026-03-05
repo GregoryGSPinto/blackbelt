@@ -1,0 +1,15 @@
+**BLOCO A3 completo.** Resumo:
+
+### O que foi feito:
+1. **LanguageSwitcher** - 3 variantes (desktop/mobile/landing) posicionado no Header, Drawer e login
+2. **Persistência** - Cookie (365 dias) + sync com Supabase `profiles.preferred_locale`
+3. **SEO** - hreflang alternates (pt-BR, en-US, x-default) no layout raiz
+4. **Formatação** - Enhanced `useFormatting` e `getServerFormatting` com `formatTime`, `formatDateFull`, `formatMonthShort`, `formatMoney`
+5. **Migração completa** - 70+ arquivos migrados de formatadores hardcoded (`toLocaleString('pt-BR')`) para o hook centralizado
+
+### Resultados:
+- **76 arquivos** alterados (420 inserções, 285 remoções)
+- **Zero** formatadores `'pt-BR'` hardcoded restantes em `.tsx`
+- **pnpm build** - 0 erros
+- **vitest** - 473 testes passaram, 0 falhas
+- **Commit**: `8d76676 [bloco A3] Language Switcher + Persistência`
