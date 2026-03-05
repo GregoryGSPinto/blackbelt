@@ -158,6 +158,7 @@ export function ConfirmModal({
           {/* Close X */}
           <button
             onClick={onCancel}
+            aria-label={effectiveCancelLabel}
             className={`absolute top-3 right-3 p-1.5 transition-colors rounded-lg ${isDark ? 'text-white/20 hover:text-white/50' : 'text-slate-300 hover:text-slate-500'}`}
           >
             <X size={16} />

@@ -35,6 +35,7 @@ export function CacheIndicator({ cacheInfo, refreshing, onRefresh, className = '
           disabled={refreshing}
           className="p-1 rounded hover:bg-white/[0.06] transition-colors disabled:opacity-30"
           title={t('refreshData')}
+          aria-label={t('refreshData')}
         >
           <RefreshCw
             size={10}

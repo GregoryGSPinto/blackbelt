@@ -199,8 +199,9 @@ function SheetHeader({ title, onBack, backLabel }: { title: string; onBack: () =
 
 function LoadingSpinner() {
   return (
-    <div className="flex items-center justify-center py-12">
-      <Loader2 className="w-6 h-6 text-white/30 animate-spin" />
+    <div className="flex items-center justify-center py-12" role="status">
+      <Loader2 className="w-6 h-6 text-white/30 animate-spin" aria-hidden="true" />
+      <span className="sr-only">Loading...</span>
     </div>
   );
 }
@@ -536,6 +537,8 @@ export function FABCheckin() {
       {/* ─── Toast ─── */}
       {toast.visible && (
         <div
+          role="alert"
+          aria-live="assertive"
           className="fixed top-20 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[280px]"
           style={{
             background: toast.type === 'success' ? 'rgba(16,185,129,0.95)' : toast.type === 'error' ? 'rgba(239,68,68,0.95)' : 'rgba(59,130,246,0.95)',

@@ -1409,3 +1409,227 @@ img {
     animation: none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   B5 — DARK MODE POLISH
+   Enhanced contrast, borders, shadows, inputs, scrollbars
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Dark mode: Card borders for depth (no shadow) ─── */
+:root .premium-card,
+:root .stat-card,
+:root .teen-card {
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+:root .premium-card:hover,
+:root .stat-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.light .premium-card,
+.light .stat-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(107, 68, 35, 0.08);
+}
+.light .premium-card:hover,
+.light .stat-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-color: rgba(107, 68, 35, 0.14);
+}
+
+/* ─── Dark mode: Enhanced input contrast ─── */
+:root input,
+:root textarea,
+:root select {
+  background-color: rgba(22, 20, 15, 0.8);
+  border-color: rgba(140, 98, 57, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+:root input::placeholder,
+:root textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+:root input:focus,
+:root textarea:focus,
+:root select:focus {
+  border-color: rgb(140, 98, 57);
+  box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.15);
+}
+
+.light input,
+.light textarea,
+.light select {
+  background-color: #FFFFFF;
+  border-color: rgba(107, 68, 35, 0.12);
+  color: #15120C;
+}
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #9E8E7A;
+}
+.light input:focus,
+.light textarea:focus,
+.light select:focus {
+  border-color: rgb(140, 98, 57);
+  box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.1);
+}
+
+/* ─── Dark mode: Scrollbar refinements ─── */
+:root ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+:root ::-webkit-scrollbar-track {
+  background: transparent;
+}
+:root ::-webkit-scrollbar-thumb {
+  background: rgba(140, 98, 57, 0.15);
+  border-radius: 9999px;
+}
+:root ::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 98, 57, 0.25);
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(107, 68, 35, 0.12);
+}
+.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 68, 35, 0.2);
+}
+
+/* Firefox scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 98, 57, 0.15) transparent;
+}
+.light * {
+  scrollbar-color: rgba(107, 68, 35, 0.12) transparent;
+}
+
+/* ─── Dark mode: Divider/separator visibility ─── */
+:root hr,
+:root [class*="divide-"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Dark mode: Selection highlight ─── */
+::selection {
+  background: rgba(140, 98, 57, 0.35);
+  color: #FFFFFF;
+}
+.light ::selection {
+  background: rgba(140, 98, 57, 0.2);
+  color: #15120C;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   B5 — ACCESSIBILITY ENHANCEMENTS
+   Focus rings, reduced motion, screen reader, contrast
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Enhanced focus-visible for dark mode (offset adapts) ─── */
+:root *:focus-visible {
+  outline-color: rgba(201, 162, 39, 0.8);
+  outline-offset: 2px;
+}
+.light *:focus-visible {
+  outline-color: rgba(140, 98, 57, 0.7);
+  outline-offset: 2px;
+}
+
+/* ─── Focus ring utility for custom components ─── */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg-primary, #0F0F1C), 0 0 0 4px rgba(201, 162, 39, 0.6);
+  border-radius: inherit;
+}
+.light .focus-ring:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg-primary, #FFFFFF), 0 0 0 4px rgba(140, 98, 57, 0.5);
+}
+
+/* ─── Comprehensive reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-slowZoom,
+  .light-sweep,
+  .particles,
+  .animate-shimmer,
+  .anim-fade-in,
+  .anim-fade-up,
+  .anim-scale-in,
+  .hover-card,
+  .hover-btn,
+  .hover-press,
+  .teen-enter-1,
+  .teen-enter-2,
+  .teen-enter-3,
+  .teen-enter-4,
+  .teen-enter-5,
+  .teen-enter-6 {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .hover-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ─── High contrast mode support ─── */
+@media (forced-colors: active) {
+  .btn-primary,
+  .premium-action-btn {
+    border: 2px solid ButtonText;
+  }
+
+  .nav-item-active {
+    border: 2px solid Highlight;
+  }
+
+  *:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* ─── Aria-live region utility for dynamic content ─── */
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: relative;
+}
+
+/* ─── Screen reader announcer (visually hidden, live) ─── */
+.sr-announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── Minimum touch target size (44x44 per WCAG 2.5.8) ─── */
+@media (pointer: coarse) {
+  button:not(.btn-inline),
+  [role="button"],
+  a[href],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

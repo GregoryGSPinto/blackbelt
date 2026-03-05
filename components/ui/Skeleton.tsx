@@ -26,6 +26,7 @@ export function Skeleton({
       <div
         className={`${SHIMMER_BASE} rounded-full flex-shrink-0 ${className}`}
         style={{ width: width || '40px', height: height || '40px' }}
+        aria-hidden="true"
       />
     );
   }

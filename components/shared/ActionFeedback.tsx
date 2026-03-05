@@ -51,6 +51,7 @@ export function ActionFeedback({ status, children, className = '' }: ActionFeedb
       {displayStatus === 'error' && <style>{SHAKE_CSS}</style>}
       <div
         className={`relative rounded-2xl border-2 transition-all duration-300 ${STATUS_STYLES[displayStatus]} ${className}`}
+        aria-busy={displayStatus === 'loading' ? 'true' : undefined}
       >
         {/* Loading shimmer overlay */}
         {displayStatus === 'loading' && (

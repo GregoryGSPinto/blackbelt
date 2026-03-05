@@ -72,7 +72,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         className={[
           'inline-flex items-center justify-center transition-all duration-fast ease-smooth',
-          'focus-visible:ring-2 focus-visible:ring-gold-500/50 focus-visible:ring-offset-2',
+          'focus-visible:ring-2 focus-visible:ring-gold-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)]',
           VARIANT_CLASSES[variant],
           SIZE_CLASSES[size],
           fullWidth ? 'w-full' : '',
@@ -84,8 +84,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading ? (
           <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            {loadingText && <span>{loadingText}</span>}
+            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+            <span>{loadingText || <span className="sr-only">Loading</span>}</span>
           </>
         ) : (
           <>

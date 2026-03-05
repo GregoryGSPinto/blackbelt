@@ -31,7 +31,7 @@ export function EmptyState({
         className,
       ].join(' ')}
     >
-      <div className="w-16 h-16 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center mb-4">
+      <div className="w-16 h-16 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center mb-4" aria-hidden="true">
         <Icon className="w-8 h-8 text-[var(--text-tertiary)]" />
       </div>
 

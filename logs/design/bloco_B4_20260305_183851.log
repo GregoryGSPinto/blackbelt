@@ -1,19 +1,26 @@
-╔══════════════════════════════════════════════════════════╗
-║  BLOCO B4 — Layout Overhaul (Todos os Perfis)           ║
-║  Date: 2026-03-05                                        ║
-╚══════════════════════════════════════════════════════════╝
+**BLOCO B4 concluido com sucesso.**
 
-── SUMMARY ──────────────────────────────────────────────────
-This block upgrades the visual polish of ALL pages across all
-profiles to match the premium quality of the login page.
+### Resumo das mudanças (84 arquivos, +712/-416 linhas):
 
-── GLOBAL CHANGES ──────────────────────────────────────────
-1. Border radius: 4px → 12px across ALL inline styles (25+ files)
-2. Border radius: 2px → 8px on secondary elements (5 files)
-3. Added premium CSS utilities to globals.css:
-   - .premium-card — glass card with 12px radius & hover effects
-   - .stat-card — KPI display card with hover elevation
-   - .stat-value / .stat-label — consistent metric typography
+**Global:**
+- `borderRadius: '4px'` → `'12px'` em 25+ arquivos
+- Novas CSS utilities premium: `.premium-card`, `.stat-card`, `.th-premium`, `.empty-state-premium`, `.gold-accent-bar`, `.premium-action-btn`
+- Design tokens atualizados: blur 12→16px, borderRadius: 12px
+- `prof-glass-card` agora com border-radius: 12px
+- Pattern `bg-black/40 ... rounded-lg` → `rounded-xl`
+
+**Por seção:**
+- **Admin (24 pages):** hover-card em stats/cards, th-premium em tabelas, gold-accent-bar, empty-state-premium, space-y-8
+- **Professor (15 pages):** hover-card em turmas/videos/ações, empty states melhorados, rounded-xl em tabs/botões
+- **Athlete/Main (29 pages):** hover-card em cards interativos, rounded-xl em botões/imagens, empty states premium
+- **Teen (10 pages):** rounded-xl em filtros/CTAs/ícones, empty states melhorados
+- **Kids (7 pages):** rounded-3xl preservado (kid-friendly), hover-card em desafios
+- **Parent (8 pages):** rounded-xl em rows/badges, hover-card em cards de filhos
+- **Auth (13 files):** rounded-xl em inputs/botões/alerts
+
+**Build:** `pnpm build` passou com zero erros.
+**Commit:** `[bloco B4] Layout Overhaul — todos os perfis` (fb2ee45)
+ent metric typography
    - .page-header-title / .page-header-subtitle — page headers
    - .section-title / .section-divider — section separators
    - .th-premium — table header cells

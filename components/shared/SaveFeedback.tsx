@@ -45,12 +45,15 @@ export function SaveFeedback({ visible, label, className = '' }: SaveFeedbackPro
   return (
     <div
       className={`inline-flex items-center gap-1.5 ${className}`}
+      role="status"
+      aria-live="polite"
       style={{ animation: 'save-fade-out 2s ease 0.5s both' }}
     >
       <style dangerouslySetInnerHTML={{ __html: SAVE_STYLES }} />
       <div
         className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center"
         style={{ animation: 'save-pop 300ms cubic-bezier(0.34,1.56,0.64,1) both' }}
+        aria-hidden="true"
       >
         <Check size={12} className="text-emerald-400" strokeWidth={3} />
       </div>
@@ -58,7 +61,7 @@ export function SaveFeedback({ visible, label, className = '' }: SaveFeedbackPro
         className="text-emerald-400 text-xs font-semibold"
         style={{ animation: 'save-pop 300ms cubic-bezier(0.34,1.56,0.64,1) 100ms both' }}
       >
-        {label}
+        {displayLabel}
       </span>
     </div>
   );

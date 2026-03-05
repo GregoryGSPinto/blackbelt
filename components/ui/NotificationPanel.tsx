@@ -92,6 +92,9 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
       {/* Panel */}
       <div
         ref={panelRef}
+        role="dialog"
+        aria-label={t('title')}
+        aria-modal="true"
         className={`fixed z-[75] transition-all duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
           panelOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-3 pointer-events-none'
         }`}

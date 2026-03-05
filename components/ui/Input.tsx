@@ -70,11 +70,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={inputId}
+            aria-invalid={error ? 'true' : undefined}
+            aria-describedby={
+              error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
+            }
             className={[
               'w-full rounded-token-md border bg-[var(--card-bg)] text-[var(--text-primary)]',
               'placeholder:text-[var(--text-tertiary)]',
               'transition-all duration-normal ease-smooth',
               'focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/30 focus:border-[var(--accent)]',
+              'focus-visible:ring-offset-[var(--bg-primary)]',
               'disabled:opacity-50 disabled:cursor-not-allowed',
               error
                 ? 'border-error focus:ring-error/30 focus:border-error'
@@ -101,10 +106,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
 
         {error && (
-          <p className="mt-1 text-xs text-error">{error}</p>
+          <p id={`${inputId}-error`} className="mt-1 text-xs text-error" role="alert">{error}</p>
         )}
         {hint && !error && (
-          <p className="mt-1 text-xs text-[var(--text-tertiary)]">{hint}</p>
+          <p id={`${inputId}-hint`} className="mt-1 text-xs text-[var(--text-tertiary)]">{hint}</p>
         )}
       </div>
     );

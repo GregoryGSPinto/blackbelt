@@ -278,6 +278,11 @@ export function AppShell({
   if (isSidebar) {
     return (
       <div className="min-h-screen relative">
+        {/* Skip to content — accessibility */}
+        <a href="#main-content" className="skip-to-content">
+          {t('meta.skipToContent')}
+        </a>
+
         {/* Global shell animations */}
         <style dangerouslySetInnerHTML={{ __html: SHELL_GLOBAL_STYLES }} />
         {theme.globalStyles && <style dangerouslySetInnerHTML={{ __html: theme.globalStyles }} />}
@@ -306,6 +311,7 @@ export function AppShell({
             <button
               onClick={() => setSidebarOpen(true)}
               className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+              aria-label={t('menu.openMenu')}
             >
               <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
@@ -345,6 +351,11 @@ export function AppShell({
 
   return (
     <div className="min-h-screen relative">
+      {/* Skip to content — accessibility */}
+      <a href="#main-content" className="skip-to-content">
+        {t('meta.skipToContent')}
+      </a>
+
       {/* Global shell animations */}
       <style dangerouslySetInnerHTML={{ __html: SHELL_GLOBAL_STYLES }} />
 

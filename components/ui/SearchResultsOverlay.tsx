@@ -101,7 +101,7 @@ export function SearchResultsOverlay() {
       )}
 
       {/* Results Panel */}
-      <div className="mx-3 md:mx-auto md:max-w-2xl mt-1 md:mt-5">
+      <div className="mx-3 md:mx-auto md:max-w-2xl mt-1 md:mt-5" role="region" aria-label={t('results')}>
         <div className="rounded-2xl overflow-hidden"
           style={{
             background: c.glassBg,
@@ -164,8 +164,8 @@ export function SearchResultsOverlay() {
           {/* Footer */}
           {results.length > 0 && (
             <div className="px-4 py-2.5 flex items-center justify-between" style={{ borderTop: `1px solid ${c.footerBorder}` }}>
-              <p className="text-[10px]" style={{ color: c.footerText }}>
-                {results.length} resultado{results.length !== 1 ? 's' : ''}
+              <p className="text-[10px]" style={{ color: c.footerText }} aria-live="polite">
+                {results.length} {t('results')}
               </p>
               <div className="hidden md:flex items-center gap-2 text-[10px]" style={{ color: c.footerText }}>
                 <kbd className="px-1.5 py-0.5 rounded text-[9px] font-mono" style={{ background: c.kbdBg, border: `1px solid ${c.kbdBorder}` }}>↵</kbd>

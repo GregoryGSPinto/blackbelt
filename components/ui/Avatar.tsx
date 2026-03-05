@@ -81,6 +81,8 @@ export function Avatar({
             sizeConfig.indicator,
             online ? 'bg-green-500' : 'bg-gray-400',
           ].join(' ')}
+          aria-label={online ? 'Online' : 'Offline'}
+          role="status"
         />
       )}
     </div>
