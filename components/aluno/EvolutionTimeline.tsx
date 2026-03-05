@@ -9,6 +9,7 @@
 
 import { useMemo } from 'react';
 import { Award, Trophy, Target, Star, Calendar } from 'lucide-react';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Types ──
 export type TimelineEventType = 'graduation' | 'medal' | 'milestone' | 'achievement' | 'subnivel';
@@ -97,11 +98,8 @@ function typeLine(type: TimelineEventType): string {
 // ══════════════════════════════════════════════════════════════
 
 function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: number; isLast: boolean }) {
-  const dateStr = new Date(event.date + 'T12:00:00').toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
+  const { formatDate } = useFormatting();
+  const dateStr = formatDate(event.date);
 
   return (
     <div

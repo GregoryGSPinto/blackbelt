@@ -8,6 +8,7 @@ import { Send, X, Users, Clock, Eye, Loader2, MessageSquare, ChevronDown } from 
 import { useAuth } from '@/contexts/AuthContext';
 import * as broadcastService from '@/lib/api/turma-broadcast.service';
 import type { TurmaBroadcast, BroadcastTemplate } from '@/lib/api/turma-broadcast.service';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // Mock turmas for selection
 const TURMAS = [
@@ -23,6 +24,7 @@ interface TurmaBroadcastPanelProps {
 
 export function TurmaBroadcastPanel({ isOpen, onClose }: TurmaBroadcastPanelProps) {
   const { user } = useAuth();
+  const { formatDateTime } = useFormatting();
   const [turmaId, setTurmaId] = useState('');
   const [conteudo, setConteudo] = useState('');
   const [templates, setTemplates] = useState<BroadcastTemplate[]>([]);
@@ -189,7 +191,7 @@ export function TurmaBroadcastPanel({ isOpen, onClose }: TurmaBroadcastPanelProp
                         <span className="font-medium text-white/50">{bc.turmaNome}</span>
                         <span className="flex items-center gap-1 text-[9px] text-white/20">
                           <Clock size={8} />
-                          {new Date(bc.enviadoEm).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                          {formatDateTime(bc.enviadoEm)}
                         </span>
                       </div>
                       <p className="text-white/35 text-[11px] line-clamp-2">{bc.conteudo}</p>

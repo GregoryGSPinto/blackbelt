@@ -11,8 +11,10 @@ import { useState, useEffect } from 'react';
 import { MessageSquare, HelpCircle, PlayCircle, Brain, ChevronRight, Check } from 'lucide-react';
 import { getProfessorFeedbackAlerts } from '@/lib/api/daily-feedback.service';
 import type { FeedbackAlert } from '@/lib/api/daily-feedback.service';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export function FeedbackAlerts() {
+  const { formatDate } = useFormatting();
   const [alerts, setAlerts] = useState<FeedbackAlert[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +30,7 @@ export function FeedbackAlerts() {
     setAlerts((prev) => prev.map((a) => a.id === id ? { ...a, read: true } : a));
   };
 
-  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+  const fmtDate = (iso: string) => formatDate(iso, 'short');
 
   if (loading) {
     return (

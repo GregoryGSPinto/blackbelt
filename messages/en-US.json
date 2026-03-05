@@ -41,6 +41,12 @@
       "noData": "No data found",
       "noResults": "No results for this search"
     },
+    "language": {
+      "switchLanguage": "Switch language",
+      "portuguese": "Portugues",
+      "english": "English",
+      "changing": "Switching language..."
+    },
     "time": {
       "today": "Today",
       "yesterday": "Yesterday",

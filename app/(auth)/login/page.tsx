@@ -8,6 +8,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
 // ─── Types ──────────────────────────────────────────────────
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
@@ -313,6 +314,19 @@ function LoginContent() {
             background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
           }}
         />
+      </div>
+
+      {/* ─── Language Switcher (top-right) ─────────────────── */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 16,
+          right: 16,
+          zIndex: 20,
+          color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)',
+        }}
+      >
+        <LanguageSwitcher variant="landing" />
       </div>
 
       {/* ─── Content ──────────────────────────────────────── */}

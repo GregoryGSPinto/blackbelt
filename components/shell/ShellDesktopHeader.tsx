@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
 import { AppShellConfig, ShellState } from './types';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
 interface Props {
   config: AppShellConfig;
@@ -307,6 +308,11 @@ export function ShellDesktopHeader({ config, state }: Props) {
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
         )}
+
+        {/* Language switcher */}
+        <div style={{ color: theme.textMuted(isDark) }}>
+          <LanguageSwitcher variant="desktop" />
+        </div>
 
         {/* Avatar + dropdown */}
         <div className="relative">

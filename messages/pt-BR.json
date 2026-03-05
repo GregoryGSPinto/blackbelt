@@ -41,6 +41,12 @@
       "noData": "Nenhum dado encontrado",
       "noResults": "Nenhum resultado para esta busca"
     },
+    "language": {
+      "switchLanguage": "Trocar idioma",
+      "portuguese": "Portugues",
+      "english": "English",
+      "changing": "Trocando idioma..."
+    },
     "time": {
       "today": "Hoje",
       "yesterday": "Ontem",

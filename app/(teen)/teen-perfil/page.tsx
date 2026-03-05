@@ -10,10 +10,12 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function TeenPerfilPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const { user, logout } = useAuth();
   const [currentTeen, setCurrentTeen] = useState<TeenProfile | null>(null);
@@ -107,7 +109,7 @@ export default function TeenPerfilPage() {
             <div>
               <p className="text-sm font-teen teen-text-muted">Data de Nascimento</p>
               <p className="font-teen teen-text-heading">
-                {new Date(currentTeen.dataNascimento).toLocaleDateString('pt-BR')}
+                {formatDate(currentTeen.dataNascimento)}
               </p>
             </div>
           </div>

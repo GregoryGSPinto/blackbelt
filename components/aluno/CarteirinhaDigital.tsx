@@ -5,6 +5,7 @@ import {
   RotateCw, Share2, Wallet, ShieldCheck, ShieldAlert, ShieldX, Calendar, Hash, Building2,
 } from 'lucide-react';
 import type { CarteirinhaDigital as CarteirinhaData, StatusCarteirinha } from '@/lib/api/contracts';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Cores da nivel ────────────────────────────────────────
 
@@ -152,16 +153,11 @@ interface CarteirinhaDigitalProps {
 }
 
 export default function CarteirinhaDigital({ carteirinha, onShare }: CarteirinhaDigitalProps) {
+  const { formatDate } = useFormatting();
   const [flipped, setFlipped] = useState(false);
   const nivelColors = getNivelColors(carteirinha.nivel);
   const status = STATUS_CONFIG[carteirinha.status];
   const StatusIcon = status.Icon;
-
-  const formatDate = (d: string) => {
-    try {
-      return new Date(d).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    } catch { return d; }
-  };
 
   const handleShare = useCallback(async () => {
     if (onShare) {

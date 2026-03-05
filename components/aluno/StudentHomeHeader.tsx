@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import { Clock, MapPin, User, Trophy, Target, ChevronRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import type { AlunoHomeData } from '@/lib/api/aluno-home.service';
 import { Bone } from '@/components/shared/SkeletonLoader';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Styles ──
 const HEADER_STYLES = `
@@ -227,6 +228,8 @@ function MiniAchievements({
   posicao: number;
   pontos: number;
 }) {
+  const { formatDate } = useFormatting();
+
   return (
     <div
       className="rounded-2xl p-4 md:p-5"
@@ -277,7 +280,7 @@ function MiniAchievements({
             <div className="min-w-0">
               <p className="text-white text-xs font-medium truncate max-w-[120px]">{c.nome}</p>
               <p className="text-white/25 text-[10px]">
-                {new Date(c.dataConquista).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+                {formatDate(c.dataConquista, 'short')}
               </p>
             </div>
           </div>

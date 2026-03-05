@@ -21,6 +21,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type CategoriaFilter = 'todas' | 'uniformes' | 'roupas' | 'acessorios' | 'conveniencia';
 type TabView = 'produtos' | 'movimentos' | 'abc' | 'fornecedores';
@@ -45,11 +46,11 @@ const ABC_COLORS: Record<string, { bg: string; text: string; label: string }> = 
   C: { bg: 'bg-red-500/15', text: 'text-red-400', label: 'Baixa rotação' },
 };
 
-function fmt(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
 export default function EstoquePage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber, currencyCode } = useFormatting();
+  const fmt = (v: number) => formatNumber(v, { style: 'currency', currency: currencyCode });
 
   const [produtos, setProdutos] = useState<ProdutoEstoque[]>([]);
   const [movimentos, setMovimentos] = useState<MovimentoEstoque[]>([]);

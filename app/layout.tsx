@@ -51,6 +51,9 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        <link rel="alternate" hrefLang="pt-BR" href="/" />
+        <link rel="alternate" hrefLang="en-US" href="/" />
+        <link rel="alternate" hrefLang="x-default" href="/" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />

@@ -11,18 +11,11 @@ import {
 } from 'recharts';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useFormatting } from '@/hooks/useFormatting';
 import type {
   MockFinancialData, MockMonthlyData, MockPaymentHistory,
 } from '@/lib/__mocks__/super-admin.mock';
 import { getDesignTokens } from '@/lib/design-tokens';
-
-// ============================================================
-// HELPERS
-// ============================================================
-
-function formatBRL(value: number): string {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 });
-}
 
 const PAYMENT_STATUS = {
   pago:     { label: 'Pago',     dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
@@ -74,6 +67,8 @@ function FinCard({ icon: Icon, label, value, sub, alert, isDark }: {
 export default function FinanceiroPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber, currencyCode } = useFormatting();
+  const formatBRL = (value: number) => formatNumber(value, { style: 'currency', currency: currencyCode, minimumFractionDigits: 0 });
   const [financial, setFinancial] = useState<MockFinancialData | null>(null);
   const [monthlyData, setMonthlyData] = useState<MockMonthlyData[]>([]);
 

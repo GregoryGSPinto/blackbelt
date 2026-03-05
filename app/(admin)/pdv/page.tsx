@@ -20,6 +20,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface CartItem extends ItemVenda {
   estoqueDisponivel: number;
@@ -32,13 +33,11 @@ const FORMA_PAGAMENTO: { key: FormaPagamentoPDV; label: string; icon: React.Reac
   { key: 'conta_aluno', label: 'Conta Aluno', icon: <User size={16} />, color: 'text-amber-400' },
 ];
 
-function formatCurrency(v: number) {
-  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
 export default function PDVPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber, currencyCode } = useFormatting();
+  const formatCurrency = (v: number) => formatNumber(v, { style: 'currency', currency: currencyCode });
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [produtos, setProdutos] = useState<ProdutoEstoque[]>([]);

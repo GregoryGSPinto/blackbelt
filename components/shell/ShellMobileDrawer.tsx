@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { X, Sun, Moon, User, LogOut, ArrowRightLeft } from 'lucide-react';
 import { AppShellConfig, ShellState } from './types';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
 interface Props {
   config: AppShellConfig;
@@ -162,6 +163,11 @@ export function ShellMobileDrawer({ config, state }: Props) {
                 </span>
               </button>
             )}
+
+            {/* Language switcher */}
+            <div style={{ color: theme.textMuted(isDark) }}>
+              <LanguageSwitcher variant="mobile" />
+            </div>
 
             {/* Logout */}
             <button
