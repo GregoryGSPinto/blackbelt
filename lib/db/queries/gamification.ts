@@ -59,3 +59,69 @@ export async function unlockAchievement(client: Client, data: MemberAchievementI
     .select('*, achievements(*)')
     .single()
 }
+
+export async function getGamificationProfile(client: Client, membershipId: string) {
+  const [pointsResult, streakResult, achievementsResult] = await Promise.all([
+    client
+      .from('points_ledger')
+      .select('points')
+      .eq('membership_id', membershipId),
+    client
+      .from('streaks')
+      .select('*')
+      .eq('membership_id', membershipId)
+      .single(),
+    client
+      .from('member_achievements')
+      .select('*, achievements(*)')
+      .eq('membership_id', membershipId)
+      .order('unlocked_at', { ascending: false }),
+  ])
+
+  const totalPoints = (pointsResult.data ?? []).reduce(
+    (sum, row) => sum + (row.points ?? 0),
+    0,
+  )
+
+  return {
+    totalPoints,
+    streak: streakResult.data,
+    achievements: achievementsResult.data ?? [],
+  }
+}
+
+export async function updateStreak(
+  client: Client,
+  membershipId: string,
+  currentStreak: number,
+  bestStreak?: number,
+) {
+  return client
+    .from('streaks')
+    .upsert(
+      {
+        membership_id: membershipId,
+        current_streak: currentStreak,
+        best_streak: bestStreak ?? currentStreak,
+      },
+      { onConflict: 'membership_id' },
+    )
+    .select()
+    .single()
+}
+
+export async function getMemberAchievements(client: Client, membershipId: string) {
+  return client
+    .from('member_achievements')
+    .select('*, achievements(*)')
+    .eq('membership_id', membershipId)
+    .order('unlocked_at', { ascending: false })
+}
+
+export async function getAcademyAchievements(client: Client, academyId: string) {
+  return client
+    .from('member_achievements')
+    .select('*, achievements(*), memberships!inner(academy_id, profiles(*))')
+    .eq('memberships.academy_id', academyId)
+    .order('unlocked_at', { ascending: false })
+}

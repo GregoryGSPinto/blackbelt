@@ -1,0 +1,19 @@
+**Bloco 2 concluido.** Resumo:
+
+**7 migrations criadas** (00014–00020) com **18 novas tabelas**:
+
+| Migration | Tables |
+|-----------|--------|
+| 00014_messaging | `conversations`, `conversation_members`, `messages` |
+| 00015_content | `content` |
+| 00016_evaluations | `evaluations` |
+| 00017_teaching_tools | `lesson_plans`, `daily_feedback`, `broadcasts` |
+| 00018_video_playlists | `playlists`, `playlist_items`, `video_watch_history`, `video_favorites` |
+| 00019_crm | `visitors`, `leads` |
+| 00020_phase_x_tables | `shop_products`, `shop_orders`, `pdv_products`, `pdv_sales`, `whatsapp_messages` |
+
+Todas seguem as convenções do projeto: `CREATE TABLE IF NOT EXISTS`, `academy_id` FK, timestamps, RLS habilitado com policies, triggers de `updated_at`, indexes.
+
+- **Build**: OK (zero erros)
+- **Tests**: 473/473 passing (0 failures)
+- **Commit**: `15ea43c` — `[bloco 2] Migrations para Tabelas Faltantes`
