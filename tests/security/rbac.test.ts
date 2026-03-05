@@ -186,9 +186,13 @@ describe('RBAC', () => {
       expect(isInstrutor()).toBe(true);
     });
 
-    it('getCurrentPermissions returns user permissions', () => {
+    it('getCurrentPermissions returns user + role permissions combined', () => {
       loginAs(makeUser({ permissions: ['student:checkin', 'student:view:content'] as SecurityPermission[] }));
-      expect(getCurrentPermissions()).toEqual(['student:checkin', 'student:view:content']);
+      const perms = getCurrentPermissions();
+      // Combines explicit user permissions + ROLE_PERMISSIONS[ALUNO_ADULTO]
+      expect(perms).toContain('student:checkin');
+      expect(perms).toContain('student:view:content');
+      expect(perms).toContain('student:view:own_progress');
     });
 
     it('getCurrentPermissions returns empty when not logged in', () => {

@@ -19,7 +19,7 @@ import {
 describe('Checkin Service (mock mode)', () => {
   describe('registerCheckin', () => {
     it('registers a checkin successfully', async () => {
-      const result = await registerCheckin('aluno-test-001', 'turma-001', 'MANUAL');
+      const result = await registerCheckin('u1', 'turma-001', 'MANUAL');
       expect(result).toBeDefined();
       expect(result.success).toBe(true);
     });
@@ -27,12 +27,11 @@ describe('Checkin Service (mock mode)', () => {
     it('returns success=false for unknown aluno', async () => {
       const result = await registerCheckin('non-existent-aluno', 'turma-001');
       expect(result).toBeDefined();
-      // Mock may return false for unknown aluno
-      expect(typeof result.success).toBe('boolean');
+      expect(result.success).toBe(false);
     });
 
     it('supports QR method', async () => {
-      const result = await registerCheckin('aluno-test-001', 'turma-001', 'QR');
+      const result = await registerCheckin('u1', 'turma-001', 'QR');
       expect(result).toBeDefined();
       expect(result.success).toBe(true);
     });
@@ -40,13 +39,17 @@ describe('Checkin Service (mock mode)', () => {
 
   describe('validateAndCheckin', () => {
     it('validates QR payload and checks in', async () => {
+      // Use a valid mock aluno ID and generate a proper hash
+      const { generateQRHash } = await import('@/lib/__mocks__/checkin.mock');
+      const ts = Date.now();
+      const hash = generateQRHash('u1', ts);
       const result = await validateAndCheckin({
-        alunoId: 'aluno-test-001',
-        nome: 'João Teste',
+        alunoId: 'u1',
+        nome: 'Lucas Mendes',
         unidadeId: 'unit-001',
-        turmaId: 'turma-001',
-        timestamp: Date.now(),
-        hash: 'test-hash-abc123',
+        turmaId: 't1',
+        timestamp: ts,
+        hash,
       });
       expect(result).toBeDefined();
       expect(result.success).toBe(true);

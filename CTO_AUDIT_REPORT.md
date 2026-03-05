@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-8 concluidos)
+> Status: Em andamento (Blocos 1-9 concluidos)
 
 ---
 
@@ -995,3 +995,132 @@ Plano recomendado para unificacao:
 - **npx vitest run**: 469 passed, 4 failed (pre-existentes), 1 skipped
   - Nenhuma regressao introduzida pelo Bloco 8 (bloco somente de documentacao)
   - Falhas pre-existentes: checkin.service.test.ts (3 testes), 1 outro
+
+---
+
+## BLOCO 9 — Tests & CI/CD
+
+### 9.1 — Test Suite
+
+#### Resultados iniciais (antes das correcoes)
+
+| Metrica | Valor |
+|---------|-------|
+| Total de testes | 474 |
+| Passando | 469 |
+| Falhando | 4 |
+| Skipped | 1 |
+| Arquivos de teste | 26 |
+| Duracao | ~9.7s |
+
+#### Testes falhando (4 pre-existentes dos Blocos 1-8)
+
+| Teste | Arquivo | Razao | Correcao |
+|-------|---------|-------|----------|
+| `getCurrentPermissions returns user permissions` | tests/security/rbac.test.ts:191 | Teste esperava apenas permissoes do usuario, mas `getCurrentPermissions()` corretamente combina user permissions + ROLE_PERMISSIONS[role]. `ALUNO_ADULTO` inclui `student:view:own_progress` via mapa de roles | Teste atualizado para validar comportamento correto (user + role permissions combinadas) |
+| `registerCheckin > registers a checkin successfully` | tests/services/checkin.service.test.ts:22 | Teste usava `alunoId='aluno-test-001'` mas mock data usa IDs `u1`-`u8`. Mock retornava `success: false` por "Aluno nao encontrado" | Teste atualizado para usar `alunoId='u1'` (ID valido no mock) |
+| `registerCheckin > supports QR method` | tests/services/checkin.service.test.ts:35 | Mesmo problema: `alunoId='aluno-test-001'` nao existe no mock | Teste atualizado para usar `alunoId='u1'` |
+| `validateAndCheckin > validates QR payload` | tests/services/checkin.service.test.ts:43 | Teste usava `alunoId='aluno-test-001'` + hash invalido. Mock valida hash via `generateQRHash()` | Teste atualizado: usa `alunoId='u1'` + gera hash valido via `generateQRHash()` |
+
+#### Resultados apos correcoes
+
+| Metrica | Valor |
+|---------|-------|
+| Total de testes | 474 |
+| Passando | 473 |
+| Falhando | 0 |
+| Skipped | 1 |
+| Arquivos de teste | 26 |
+| Duracao | ~9.6s |
+
+O teste skipado (`tests/academy-contact.test.ts`) depende de configuracao externa e esta corretamente marcado como skip.
+
+#### Cobertura de testes por area
+
+| Area | Arquivos de teste | Testes | Status |
+|------|-------------------|--------|--------|
+| Intelligence Layer (ML) | 9 | ~296 | OK — todos passando |
+| Security (RBAC, tokens, rate-limit) | 3 | ~35 | OK — todos passando |
+| Services (auth, checkin, admin, etc.) | 7 | ~50 | OK — todos passando |
+| Auth Context | 1 | 22 | OK |
+| Nav Ranking | 1 | 12 | OK |
+| Responsive Layout | 1 | 18 | OK |
+| Domain Engine | 0 | 0 | GAP — sem testes unitarios (coberto indiretamente via ML e projectors) |
+| Componentes React | 0 | 0 | GAP — nao obrigatorio nesta fase |
+
+### 9.2 — CI/CD Pipeline
+
+#### Workflows encontrados (3)
+
+##### 1. `ci.yml` — CI Pipeline
+
+| Aspecto | Status | Detalhes |
+|---------|--------|---------|
+| Trigger | OK | push/PR para main e develop |
+| Steps | CORRIGIDO | install -> lint -> typecheck -> test -> build (build agora depende de test) |
+| pnpm (nao npm) | OK | Usa `pnpm/action-setup@v4` + `pnpm install --frozen-lockfile` |
+| Cache | OK | `actions/setup-node@v4` com `cache: 'pnpm'` |
+| Concurrency | OK | `cancel-in-progress: true` — cancela runs anteriores |
+| Build com mock=false | OK | Testa build de producao com placeholders Supabase |
+| Bundle analysis | OK | Apenas em main, `continue-on-error: true` |
+| **Problema corrigido** | CORRIGIDO | `build` job dependia apenas de `quality`, agora depende de `[quality, test]` — evita produzir artifacts de build quebrado |
+
+##### 2. `supabase-deploy.yml` — Supabase Migrations
+
+| Aspecto | Status | Detalhes |
+|---------|--------|---------|
+| Trigger | OK | push para main quando `supabase/migrations/**` muda |
+| Secrets | OK | `SUPABASE_ACCESS_TOKEN`, `SUPABASE_DB_PASSWORD`, `SUPABASE_PROJECT_REF` |
+| CLI version | OK | `supabase/setup-cli@v1` com `version: latest` |
+| Concurrency | OK | `cancel-in-progress: false` (correto para migrations) |
+
+##### 3. `deploy.yml` — Production Deploy (Vercel)
+
+| Aspecto | Status | Detalhes |
+|---------|--------|---------|
+| Trigger | CORRIGIDO | Mudado de `push to main` para `workflow_run` (espera CI passar) |
+| Guard | CORRIGIDO | Adicionado `if: github.event.workflow_run.conclusion == 'success'` |
+| Secrets | OK | Vercel token, org/project IDs, Supabase, Sentry |
+| Deploy action | OK | `amondnet/vercel-action@v25` com `--prod` |
+| Notify job | OK | Reporta sucesso/falha |
+| **Problema corrigido** | CORRIGIDO | Deploy disparava em paralelo com CI (sem aguardar testes). Agora depende de CI completar com sucesso via `workflow_run` |
+
+##### 4. `vercel.json`
+
+| Aspecto | Status | Detalhes |
+|---------|--------|---------|
+| Framework | OK | `nextjs` |
+| Build command | OK | `pnpm build` |
+| Install command | OK | `pnpm install` |
+| Build env | OK | `NEXT_PUBLIC_USE_MOCK=true` |
+
+#### Problemas corrigidos no CI/CD
+
+1. **CI: build sem depender de test** — O job `build` no `ci.yml` so dependia de `quality` (lint + typecheck), executando em paralelo com `test`. Se testes falhassem, o build ainda produzia artifacts. Corrigido: `needs: [quality, test]`.
+
+2. **Deploy sem depender de CI** — O `deploy.yml` disparava no mesmo evento `push to main` que o CI, sem esperar resultados. Codigo quebrado poderia ser deployado. Corrigido: trigger mudado para `workflow_run` do workflow "CI" com guard `conclusion == 'success'`.
+
+#### Itens verificados sem problemas
+
+- pnpm usado consistentemente (nao npm)
+- Cache de pnpm configurado em todos os workflows
+- Node 22 em todos os workflows
+- `--frozen-lockfile` em todos os installs
+- Secrets nunca expostos nos logs
+- Concurrency groups previnem runs simultaneas
+
+#### Nice-to-have (nao implementados)
+
+| Item | Prioridade | Nota |
+|------|-----------|------|
+| Dependabot/Renovate | LOW | Atualizacao automatica de dependencias |
+| Preview deploys para PRs | LOW | Vercel faz automaticamente se configurado |
+| Test coverage report no CI | MEDIUM | `vitest run --coverage` + upload artifact |
+| E2E tests (Playwright/Cypress) | MEDIUM | Criticos para producao, mas nao obrigatorio nesta fase |
+
+### Build & Tests (pos-Bloco 9)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 473 passed, 0 failed, 1 skipped
+  - **4 testes previamente falhando foram corrigidos** neste bloco
+  - Zero regressoes
