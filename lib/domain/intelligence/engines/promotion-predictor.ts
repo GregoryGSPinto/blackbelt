@@ -26,6 +26,7 @@ import {
   weightedAverage,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
+import { utcNow, getClock } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // ENGAGEMENT BOOST FACTORS
@@ -92,7 +93,7 @@ export function predictPromotion(input: PromotionInput): PromotionPrediction {
     accelerators,
     peerComparison,
     confidence,
-    computedAt: new Date().toISOString(),
+    computedAt: utcNow(),
   };
 }
 
@@ -242,7 +243,7 @@ function getEngagementVelocityMultiplier(engagementScore: number): number {
 }
 
 function computeEstimatedDate(days: number): string {
-  const now = new Date();
+  const now = getClock().nowDate();
   now.setDate(now.getDate() + days);
   return now.toISOString().split('T')[0]; // YYYY-MM-DD
 }

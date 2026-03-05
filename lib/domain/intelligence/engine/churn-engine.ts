@@ -24,6 +24,7 @@ import { DEFAULT_RISK_FACTORS, RISK_LEVEL_MULTIPLIERS } from '../models/risk-fac
 import { CHURN_LEVEL_THRESHOLDS } from './weights';
 import type { SegmentType } from '@/lib/domain';
 import { resolveWeights } from './weights';
+import { utcNow } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // MAIN PREDICTION FUNCTION
@@ -97,7 +98,7 @@ export function predictChurn(
     factors,
     recommendations,
     confidence,
-    computedAt: new Date().toISOString(),
+    computedAt: utcNow(),
     dataQuality: {
       availableFactors,
       totalFactors,

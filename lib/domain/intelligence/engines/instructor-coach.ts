@@ -32,6 +32,7 @@ import {
   standardDeviation,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
+import { utcNow } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // SPOTLIGHT PRIORITY ORDER (lower = more urgent)
@@ -90,7 +91,7 @@ export function generateDailyBriefing(input: CoachInput): InstructorCoachBriefin
     pedagogicalTips,
     performanceMetrics,
     confidence,
-    computedAt: new Date().toISOString(),
+    computedAt: utcNow(),
   };
 }
 

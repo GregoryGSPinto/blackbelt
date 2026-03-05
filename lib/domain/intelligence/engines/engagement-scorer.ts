@@ -23,6 +23,7 @@ import {
   computeAttentionLevel,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
+import { utcNow } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // DIMENSION WEIGHTS
@@ -120,10 +121,10 @@ export function computeEngagementScore(input: EngagementInput): EngagementScore 
     trendDelta,
     dimensions,
     tier,
-    tierSince: new Date().toISOString(), // Will be overridden by projector with real data
+    tierSince: utcNow(), // Will be overridden by projector with real data
     attentionPriority,
     metadata: {
-      computedAt: new Date().toISOString(),
+      computedAt: utcNow(),
       confidence,
       dataPoints: availableDataPoints,
     },

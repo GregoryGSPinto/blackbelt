@@ -34,6 +34,7 @@ import {
   computeTrend,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
+import { utcNow } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // INPUT TYPE (defines what raw data we need)
@@ -122,7 +123,7 @@ export function computeStudentDNA(input: StudentDNAInput): StudentDNA {
     predictions,
     dataPoints: input.totalEvents,
     confidence,
-    computedAt: new Date().toISOString(),
+    computedAt: utcNow(),
     firstEventAt: input.firstEventAt,
   };
 }

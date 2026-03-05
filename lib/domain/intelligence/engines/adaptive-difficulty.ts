@@ -34,6 +34,7 @@ import type { QuestionType } from '../core/types';
 
 
 import { calculateConfidence } from '../core/confidence-calculator';
+import { utcNow, utcNowMs } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // QUESTION BANK ITEM (engine-local input type)
@@ -139,7 +140,7 @@ export function generateAdaptiveTest(
     competencyFocus: buildCompetencyFocus(competencyWeights),
     estimatedDuration: totalTime,
     passingScore,
-    generatedAt: new Date().toISOString(),
+    generatedAt: utcNow(),
   };
 }
 
@@ -511,7 +512,7 @@ function computePassingScore(
 }
 
 function generateTestId(config: AdaptiveTestConfig): string {
-  const timestamp = Date.now().toString(36);
+  const timestamp = utcNowMs().toString(36);
   const random = Math.random().toString(36).substring(2, 6);
   return `test_${config.testType}_${timestamp}_${random}`;
 }

@@ -30,6 +30,7 @@ import {
   standardDeviation,
 } from '../core/scoring-utils';
 import { calculateConfidence } from '../core/confidence-calculator';
+import { utcNow } from '../../shared/time';
 
 // ════════════════════════════════════════════════════════════════════
 // INPUT TYPE
@@ -107,7 +108,7 @@ export function analyzeClass(input: ClassAnalysisInput): ClassInsight {
     recommendations,
     suggestedFocus,
     metadata: {
-      computedAt: new Date().toISOString(),
+      computedAt: utcNow(),
       confidence,
       dataPoints: students.length,
     },
