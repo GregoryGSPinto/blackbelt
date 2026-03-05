@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-9 concluidos)
+> Status: Em andamento (Blocos 1-10 concluidos)
 
 ---
 
@@ -1124,3 +1124,91 @@ O teste skipado (`tests/academy-contact.test.ts`) depende de configuracao extern
 - **npx vitest run**: 473 passed, 0 failed, 1 skipped
   - **4 testes previamente falhando foram corrigidos** neste bloco
   - Zero regressoes
+
+---
+
+## BLOCO 10 — Performance & Bundle
+
+### 10.1 — Bundle Analysis
+
+#### @next/bundle-analyzer
+
+| Item | Status | Detalhes |
+|------|--------|----------|
+| `@next/bundle-analyzer` instalado | INSTALADO | Adicionado como devDependency; configurado em next.config.js |
+| Comando de analise | OK | `ANALYZE=true pnpm build` abre relatorio no browser |
+
+#### Dependencias pesadas no client bundle
+
+| Dependencia | Tamanho aprox. | Usado em | Acao |
+|-------------|---------------|----------|------|
+| `recharts` | ~200KB (tree-shaken) | 4 paginas (seguranca, professor-dashboard, super-admin, financeiro) | Adicionado a `optimizePackageImports` para tree-shaking |
+| `lucide-react` | ~150KB (tree-shaken) | 50+ paginas | Ja estava em `optimizePackageImports` |
+| `jsqr` | ~55KB | QRScanner (1 componente) | Ja carregado via `dynamic()` no FABCheckin |
+| `@supabase/supabase-js` | ~50KB | Services | Necessario; code-split por rota |
+
+#### Dynamic imports existentes (ja implementados)
+
+| Componente | Arquivo | Tipo |
+|-----------|---------|------|
+| QRScanner | `components/checkin/FABCheckin.tsx` | `next/dynamic` com `ssr: false` |
+| SizeGuideModal | `app/(main)/shop/produto/[id]/page.tsx` | `next/dynamic` |
+
+#### Dynamic imports adicionados (Block 10)
+
+| Componente | Arquivo | Motivo |
+|-----------|---------|--------|
+| ChurnDashboard | `app/(admin)/ai-insights/page.tsx` | Componente pesado carregado por tab, lazy load economiza JS inicial |
+| AIInsightsDashboard | `app/(admin)/ai-insights/page.tsx` | Idem — so carrega quando tab selecionada |
+
+#### Imagens (`<img>` vs `next/image`)
+
+| Arquivo | Contexto | Acao |
+|---------|----------|------|
+| `AvatarUploadSection.tsx` | Data URLs de FileReader | Mantido `<img>` — next/image nao otimiza data URLs |
+| `LeaderboardCard.tsx` | Avatars mock (emoji strings) | Mantido `<img>` — nao sao URLs remotas |
+| `MFASetupModal.tsx` | QR Code data URL | Mantido `<img>` — data URL |
+| `ChurnDashboard.tsx` | Avatar mock (emoji) | Mantido `<img>` — nao sao URLs remotas |
+| `StepAvatar.tsx` | Avatar preview (data URL) | Mantido `<img>` — data URL |
+| `StepRevisao.tsx` | Avatar preview (data URL) | Mantido `<img>` — data URL |
+| `DownloadsContent.tsx` | Thumbnails mock | Mantido `<img>` — mock data sem URLs reais |
+| `shop/produto/[id]/page.tsx` | Product images mock | Mantido `<img>` — mock data |
+| `minha-lista/page.tsx` | Video thumbnails mock | Mantido `<img>` — mock data |
+
+**Nota:** Quando backend real com Supabase Storage for implementado, os thumbnails e imagens de produto devem ser migrados para `next/image` com os dominos ja configurados em `remotePatterns`.
+
+#### next.config.js — Verificacao
+
+| Item | Status | Detalhes |
+|------|--------|----------|
+| `images.remotePatterns` | CORRIGIDO | Adicionados `*.supabase.co` e `*.supabase.in` para futuro uso com Storage |
+| YouTube domains | OK | `img.youtube.com` e `i.ytimg.com` ja configurados |
+| `*.blackbelt.com` | OK | CDN proprio quando disponivel |
+| `optimizePackageImports` | CORRIGIDO | Adicionado `recharts` ao array existente |
+| Webpack mock aliases | OK | Mocks sao removidos do bundle de producao |
+| CAPACITOR_BUILD | OK | Static export condicional para builds nativos |
+| Security headers | OK | Configurados no middleware (Bloco 1) |
+| `vercel.json` | OK | `pnpm build`/`pnpm install`, framework nextjs |
+
+#### Metricas de bundle (First Load JS)
+
+| Metrica | Valor |
+|---------|-------|
+| Shared JS (all routes) | 88.4 KB |
+| Middleware | 71.7 KB |
+| Maior rota (professor-dashboard) | 238 KB |
+| Maior rota admin (seguranca) | 200 KB |
+| Maior rota super-admin (financeiro) | 200 KB |
+| Rota media | ~100 KB |
+
+#### Recomendacoes futuras
+
+1. **Recharts pages**: Quando mais graficos forem adicionados, considerar extrair chart sections em componentes separados com `dynamic()` e `ssr: false`
+2. **Imagens reais**: Migrar `<img>` para `next/image` quando URLs reais do Supabase Storage estiverem disponiveis
+3. **Route-level analysis**: Monitorar paginas que ultrapassem 250KB de First Load JS
+
+### Build & Tests (pos-Bloco 10)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 473 passed, 0 failed, 1 skipped
+- Zero regressoes

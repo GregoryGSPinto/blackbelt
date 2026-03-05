@@ -29,7 +29,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*.blackbelt.com',
       },
-      // TODO(BE-050): Adicionar domínio do CDN de imagens quando disponível
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.in',
+      },
     ],
   },
 
@@ -62,7 +69,7 @@ const nextConfig = {
 
   // Otimizações de bundle
   experimental: {
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['lucide-react', 'recharts'],
   },
 }
 

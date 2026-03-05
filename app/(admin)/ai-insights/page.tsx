@@ -1,10 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChurnDashboard } from '@/components/admin/ChurnDashboard';
-import { AIInsightsDashboard } from '@/components/admin/AIInsightsDashboard';
+import dynamic from 'next/dynamic';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+
+const ChurnDashboard = dynamic(
+  () => import('@/components/admin/ChurnDashboard').then(m => ({ default: m.ChurnDashboard })),
+  { loading: () => <LoadingSkeleton message="Carregando risco de evasao..." /> }
+);
+
+const AIInsightsDashboard = dynamic(
+  () => import('@/components/admin/AIInsightsDashboard').then(m => ({ default: m.AIInsightsDashboard })),
+  { loading: () => <LoadingSkeleton message="Carregando insights de IA..." /> }
+);
 
 type TabKey = 'visao-geral' | 'risco-evasao';
 
