@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { PremiumLoader } from './PremiumLoader';
+import { Button } from '@/components/ui/Button';
 
 // ============================================================
 // HELPERS
@@ -98,18 +99,14 @@ export function PageError({
         </div>
         <p className="text-sm mb-6" style={{ color: tokens.textMuted }}>{displayMessage}</p>
         {onRetry && (
-          <button
+          <Button
+            variant="secondary"
+            size="md"
             onClick={onRetry}
-            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg transition-all"
-            style={{
-              background: tokens.cardBg,
-              border: `1px solid ${tokens.cardBorder}`,
-              color: tokens.text,
-            }}
+            icon={<RefreshCw className="w-4 h-4" />}
           >
-            <RefreshCw className="w-4 h-4" />
             Tentar novamente
-          </button>
+          </Button>
         )}
       </div>
     </div>

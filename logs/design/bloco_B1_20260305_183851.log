@@ -1,0 +1,20 @@
+BLOCO B1 complete. Here's what was done:
+
+**`lib/design/tokens.ts`** — Centralized design tokens with:
+- Gold (50-900) and Navy (50-900) color scales + existing primary brown
+- Semantic colors (success, warning, error, info) with light/dark variants
+- Border radius, shadow, typography, spacing, and transition tokens
+
+**`tailwind.config.ts`** — Full token integration:
+- Gold/navy color scales available as Tailwind classes (`gold-500`, `navy-800`, etc.)
+- Shadow tokens (`shadow-glow`, `shadow-glow-strong`, `shadow-dark-md`, etc.)
+- Border radius tokens, transition timing functions
+- CSS variable aliases (`bg-primary`, `text-primary`, `accent`, etc.)
+- Font families (Inter + JetBrains Mono)
+
+**`app/globals.css`** — CSS variables + utility classes:
+- Light/dark theme variables (`--bg-primary`, `--accent`, `--card-bg`, etc.)
+- `.glass` (glassmorphism), `.glow`/`.glow-strong` (gold glow), `.text-gradient` (gold gradient)
+- Light mode overrides for zinc/gray/slate colors mapped to warm theme palette
+
+**Build**: Passed with zero errors. Committed as `[bloco B1] Design Tokens + Tipografia + Cores`.

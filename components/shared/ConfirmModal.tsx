@@ -21,6 +21,7 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { AlertTriangle, Trash2, Info, CheckCircle, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Button } from '@/components/ui/Button';
 
 type Variant = 'danger' | 'warning' | 'info' | 'success';
 
@@ -200,30 +201,32 @@ export function ConfirmModal({
 
           {/* Actions */}
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="ghost"
+              size="md"
               onClick={onCancel}
               disabled={loading}
-              className={`flex-1 py-2.5 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${isDark ? 'text-white/50 hover:bg-white/5' : 'text-slate-500 hover:bg-slate-100'}`}
-              style={{ border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}
+              fullWidth
+              className="min-h-[44px]"
             >
               {effectiveCancelLabel}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={variant === 'danger' ? 'danger' : 'primary'}
+              size="md"
               onClick={handleConfirm}
               disabled={loading || (!!requireTyping && !typingMatch.current)}
-              className="flex-1 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold transition-all disabled:opacity-40"
+              loading={loading}
+              loadingText={tActions('processing')}
+              fullWidth
+              className="min-h-[44px]"
               style={{
-                background: cfg.btnBg,
-                color: cfg.btnText,
+                background: variant !== 'danger' ? cfg.btnBg : undefined,
+                color: variant !== 'danger' ? cfg.btnText : undefined,
               }}
             >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  {tActions('processing')}
-                </span>
-              ) : effectiveConfirmLabel}
-            </button>
+              {effectiveConfirmLabel}
+            </Button>
           </div>
         </div>
       </div>
