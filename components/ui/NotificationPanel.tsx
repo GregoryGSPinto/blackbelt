@@ -3,6 +3,7 @@
 import { useEffect, useRef, useMemo, useCallback, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { NotificationItem } from './NotificationItem';
@@ -12,6 +13,7 @@ interface NotificationPanelProps {
 }
 
 export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
+  const t = useTranslations('common.notifications');
   const {
     panelOpen,
     closePanel,
@@ -106,7 +108,7 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
           {/* ─── Header ─── */}
           <div className="flex items-center justify-between px-4 py-3.5" style={{ borderBottom: `1px solid ${c.border}` }}>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold tracking-tight" style={{ color: c.heading }}>Notificações</h3>
+              <h3 className="text-sm font-bold tracking-tight" style={{ color: c.heading }}>{t('title')}</h3>
               {unreadCount > 0 && (
                 <span className="text-[10px] font-bold text-blue-400 bg-blue-500/15 px-1.5 py-0.5 rounded-full">
                   {unreadCount > 9 ? '9+' : unreadCount}
@@ -122,7 +124,7 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = c.markAll; el.style.background = 'transparent'; }}
               >
                 <Check size={12} />
-                <span>Marcar tudo</span>
+                <span>{t('markAll')}</span>
               </button>
             )}
           </div>
@@ -133,7 +135,7 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
             {notifications.length === 0 ? (
               <div className="py-12 text-center">
                 <p className="text-3xl mb-2">🔔</p>
-                <p className="text-sm" style={{ color: c.empty }}>Nenhuma notificação</p>
+                <p className="text-sm" style={{ color: c.empty }}>{t('none')}</p>
               </div>
             ) : (
               notifications.map((n, i) => (

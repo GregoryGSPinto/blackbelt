@@ -5,6 +5,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import {
   MessageCircle, AlertTriangle, ShieldAlert, Eye, EyeOff,
@@ -101,6 +102,8 @@ export default function ReengagementRules({
   onToggleRule,
   onEditTemplate,
 }: ReengagementRulesProps) {
+  const t = useTranslations('admin');
+  const tCommon = useTranslations('common');
   const [localRules, setLocalRules] = useState(rules);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTemplate, setEditTemplate] = useState('');
@@ -145,10 +148,10 @@ export default function ReengagementRules({
       {/* ── Stats Dashboard ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Em risco', value: stats.emRisco, icon: AlertTriangle, color: 'text-red-400', bg: 'bg-red-500/10' },
-          { label: 'Recuperados/mês', value: stats.recuperadosMes, icon: UserCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-          { label: 'Taxa sucesso', value: `${stats.taxaSucesso}%`, icon: TrendingUp, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-          { label: 'Mensagens enviadas', value: stats.mensagensEnviadas, icon: MessageCircle, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+          { label: t('reengagement.atRisk'), value: stats.emRisco, icon: AlertTriangle, color: 'text-red-400', bg: 'bg-red-500/10' },
+          { label: t('reengagement.recoveredMonth'), value: stats.recuperadosMes, icon: UserCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+          { label: t('reengagement.successRate'), value: `${stats.taxaSucesso}%`, icon: TrendingUp, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+          { label: t('reengagement.messagesSent'), value: stats.mensagensEnviadas, icon: MessageCircle, color: 'text-purple-400', bg: 'bg-purple-500/10' },
         ].map(s => (
           <div key={s.label} className="p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
             <div className={`w-8 h-8 rounded-lg ${s.bg} flex items-center justify-center mb-3`}>
@@ -164,7 +167,7 @@ export default function ReengagementRules({
       <div>
         <h3 className="text-sm font-semibold text-white/60 mb-3 flex items-center gap-2">
           <RefreshCw size={14} className="text-amber-400" />
-          Regras de Reengajamento (Escalonamento)
+          {t('reengagement.title')}
         </h3>
 
         <div className="relative">
@@ -214,7 +217,7 @@ export default function ReengagementRules({
                     <button
                       onClick={() => handleToggle(rule.id)}
                       className="flex-shrink-0 ml-3 mt-1"
-                      aria-label={rule.ativa ? 'Desativar regra' : 'Ativar regra'}
+                      aria-label={rule.ativa ? t('reengagement.deactivateRule') : t('reengagement.activateRule')}
                     >
                       {rule.ativa ? (
                         <Eye size={18} className="text-emerald-400" />
@@ -251,13 +254,13 @@ export default function ReengagementRules({
                             onClick={() => saveEdit(rule.id)}
                             className="px-3 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 transition-colors"
                           >
-                            Salvar
+                            {tCommon('actions.save')}
                           </button>
                           <button
                             onClick={() => setEditingId(null)}
                             className="px-3 py-1 rounded-lg text-[10px] text-white/30 hover:text-white/50 transition-colors"
                           >
-                            Cancelar
+                            {tCommon('actions.cancel')}
                           </button>
                         </div>
                       </div>
@@ -287,7 +290,7 @@ export default function ReengagementRules({
       <div>
         <h3 className="text-sm font-semibold text-white/60 mb-3 flex items-center gap-2">
           <ShieldAlert size={14} className="text-red-400" />
-          Alunos em Risco ({sortedAlunos.length})
+          {t('reengagement.studentsAtRisk')} ({sortedAlunos.length})
         </h3>
 
         <div className="space-y-2">

@@ -6,6 +6,7 @@ import {
   X, Award, History, ClipboardCheck, Download, Star, ShoppingBag, Bookmark, Tv,
   ChevronRight, TrendingUp,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -15,17 +16,17 @@ interface MobileDrawerProps {
   onClose: () => void;
 }
 
-/* ─── Same menu items as DesktopUserDrawer ─── */
-const menuItems = [
-  { icon: Award,          label: 'Unidade',             href: '/academia',             desc: 'Nível, subnívels e evolução' },
-  { icon: History,        label: 'Histórico de Treinos', href: '/historico',            desc: 'Frequência e sessões' },
-  { icon: TrendingUp,     label: 'Minha Evolução',       href: '/minha-evolucao',       desc: 'Timeline e progresso' },
-  { icon: ClipboardCheck, label: 'Minhas Turmas',         href: '/minhas-turmas',        desc: 'Turmas e horários' },
-  { icon: Download,       label: 'Downloads',            href: '/downloads',            desc: 'Conteúdo salvo offline' },
-  { icon: Star,           label: 'Novidades',            href: '/novidades',            desc: 'Lançamentos recentes' },
-  { icon: Tv,             label: 'Séries',               href: '/series',               desc: 'Séries e programas' },
-  { icon: ShoppingBag,    label: 'Loja',                 href: '/shop',                 desc: 'Uniformes e acessórios' },
-  { icon: Bookmark,       label: 'Minha Lista',          href: '/minha-lista',          desc: 'Conteúdo salvo e favoritos' },
+/* ─── Same menu items as DesktopUserDrawer — keys for i18n ─── */
+const menuItemDefs = [
+  { icon: Award,          labelKey: 'unit',              href: '/academia',             descKey: 'unitDesc' },
+  { icon: History,        labelKey: 'trainingHistory',   href: '/historico',            descKey: 'trainingHistoryDesc' },
+  { icon: TrendingUp,     labelKey: 'myEvolution',       href: '/minha-evolucao',       descKey: 'myEvolutionDesc' },
+  { icon: ClipboardCheck, labelKey: 'myClasses',         href: '/minhas-turmas',        descKey: 'myClassesDesc' },
+  { icon: Download,       labelKey: 'downloads',         href: '/downloads',            descKey: 'downloadsDesc' },
+  { icon: Star,           labelKey: 'news',              href: '/novidades',            descKey: 'newsDesc' },
+  { icon: Tv,             labelKey: 'series',            href: '/series',               descKey: 'seriesDesc' },
+  { icon: ShoppingBag,    labelKey: 'shop',              href: '/shop',                 descKey: 'shopDesc' },
+  { icon: Bookmark,       labelKey: 'myList',            href: '/minha-lista',          descKey: 'myListDesc' },
 ];
 
 /* ─── Belt color helper (identical to desktop) ─── */
@@ -41,6 +42,8 @@ function beltStyle(grad?: string): { bg: string; text: string } {
 }
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
+  const t = useTranslations('shell');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const { isDark } = useTheme();
   const { user } = useAuth();
@@ -115,7 +118,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         {/* ─── Header (identical to desktop) ─── */}
         <div className="flex-shrink-0 p-6 pb-4" style={{ borderBottom: `1px solid ${c.border}` }}>
           <div className="flex justify-end mb-4">
-            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors" aria-label="Fechar"
+            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors" aria-label={tCommon('actions.close')}
               style={{ color: c.closeIcon }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.closeBgH; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
@@ -146,7 +149,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
         {/* ─── Menu Items (identical to desktop) ─── */}
         <nav className="flex-1 overflow-y-auto overscroll-contain py-3 px-3">
-          {menuItems.map((item) => {
+          {menuItemDefs.map((item) => {
             const Icon = item.icon;
             return (
               <button key={item.href} onClick={() => nav(item.href)}
@@ -158,8 +161,8 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   <Icon size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate" style={{ color: c.label }}>{item.label}</p>
-                  <p className="text-[11px] truncate mt-0.5" style={{ color: c.desc }}>{item.desc}</p>
+                  <p className="text-sm font-medium truncate" style={{ color: c.label }}>{t(`drawer.${item.labelKey}`)}</p>
+                  <p className="text-[11px] truncate mt-0.5" style={{ color: c.desc }}>{t(`drawer.${item.descKey}`)}</p>
                 </div>
                 <ChevronRight size={14} className="flex-shrink-0" style={{ color: c.chevron }} />
               </button>

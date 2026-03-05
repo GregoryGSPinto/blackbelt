@@ -19,8 +19,10 @@ import { MessageActions } from '@/components/shared/MessageActions';
 import { useToast } from '@/contexts/ToastContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function ProfessorMensagensPage() {
+  const t = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -73,7 +75,7 @@ export default function ProfessorMensagensPage() {
         prev.map((c) => c.id === activeConversaId ? { ...c, ultimaMensagem: msg } : c)
       );
     } catch {
-      toast.error('Erro ao enviar mensagem.');
+      toast.error(t('errors.generic'));
     } finally {
       setSending(false);
     }
@@ -113,7 +115,7 @@ export default function ProfessorMensagensPage() {
         <div className="p-4 border-b border-white/[0.06]">
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <MessageSquare className="w-4 h-4 text-indigo-400" />
-            Mensagens
+            {t('menu.messages')}
           </h1>
           <div className="mt-3 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
@@ -121,7 +123,7 @@ export default function ProfessorMensagensPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar conversa..."
+              placeholder={t('actions.search')}
               className="w-full pl-9 pr-3 py-2 bg-white/[0.04] border border-white/[0.06] rounded-lg text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-indigo-500/30"
             />
           </div>
@@ -130,7 +132,7 @@ export default function ProfessorMensagensPage() {
         {/* Conversation List */}
         <div className="flex-1 overflow-y-auto">
           {filteredConversas.length === 0 ? (
-            <div className="p-8 text-center text-white/20 text-sm">Nenhuma conversa</div>
+            <div className="p-8 text-center text-white/20 text-sm">{t('empty.noData')}</div>
           ) : filteredConversas.map((conv) => {
             const other = conv.participantes.find((p) => p.tipo !== 'instrutor');
             const isActive = conv.id === activeConversaId;
@@ -190,7 +192,7 @@ export default function ProfessorMensagensPage() {
             <div className="flex-1 overflow-y-auto p-4 space-y-2">
               {msgLoading ? (
                 <div className="flex justify-center py-8">
-                  <div className="animate-pulse text-white/20 text-sm">Carregando mensagens...</div>
+                  <div className="animate-pulse text-white/20 text-sm">{t('actions.loading')}</div>
                 </div>
               ) : messages.map((msg) => {
                 const isMine = msg.remetenteTipo === 'instrutor';
@@ -236,7 +238,7 @@ export default function ProfessorMensagensPage() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Digite uma mensagem..."
+                  placeholder={t('actions.typeMessage')}
                   className="flex-1 px-4 py-2.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-indigo-500/30"
                 />
                 {newMessage.trim() ? (
@@ -264,7 +266,7 @@ export default function ProfessorMensagensPage() {
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center space-y-3">
               <MessageSquare className="w-12 h-12 text-white/10 mx-auto" />
-              <p className="text-white/30 text-sm">Selecione uma conversa</p>
+              <p className="text-white/30 text-sm">{t('empty.selectConversation')}</p>
             </div>
           </div>
         )}

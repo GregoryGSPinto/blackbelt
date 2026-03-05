@@ -21,6 +21,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useTranslations } from 'next-intl';
 
 interface CartItem extends ItemVenda {
   estoqueDisponivel: number;
@@ -34,6 +35,7 @@ const FORMA_PAGAMENTO: { key: FormaPagamentoPDV; label: string; icon: React.Reac
 ];
 
 export default function PDVPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber, currencyCode } = useFormatting();
@@ -151,7 +153,7 @@ export default function PDVPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Ponto de Venda</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('pos.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Venda rápida de produtos no balcão</p>
       </div>
 

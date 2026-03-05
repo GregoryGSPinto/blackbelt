@@ -18,6 +18,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type TabView = 'comunicados' | 'mensagens';
 type ComunicadoFilter = 'todos' | 'enviado' | 'rascunho' | 'agendado';
@@ -45,6 +46,7 @@ const DESTINATARIO_LABELS: Record<string, string> = {
 };
 
 export default function ComunicacoesPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -95,7 +97,7 @@ export default function ComunicacoesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Comunicações</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('communications.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Envie comunicados e gerencie mensagens</p>
         </div>
         <button
@@ -389,6 +391,7 @@ export default function ComunicacoesPage() {
 
 // ── Compose Modal ──
 function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Comunicado) => void }) {
+  const t = useTranslations('admin');
   const [titulo, setTitulo] = useState('');
   const [mensagem, setMensagem] = useState('');
   const [tipo, setTipo] = useState<string>('geral');
@@ -453,7 +456,7 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-white">Novo Comunicado</h3>
+            <h3 className="text-xl font-bold text-white">{t('communications.newAnnouncement')}</h3>
             <button onClick={onClose} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>
           </div>
 

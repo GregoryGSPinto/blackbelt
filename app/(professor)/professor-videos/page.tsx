@@ -20,6 +20,7 @@ import * as playlistService from '@/lib/api/playlist.service';
 import type { Playlist } from '@/lib/api/playlist.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 const TIPO_LABELS: Record<string, { label: string; color: string }> = {
   aula: { label: 'Sessão', color: 'text-sky-300 bg-sky-500/15' },
@@ -52,6 +53,8 @@ const TURMAS_OPTIONS = [
 type FilterStatus = 'all' | 'published' | 'draft' | 'processing';
 
 export default function ProfessorVideosPage() {
+  const t = useTranslations('professor.videos');
+  const tCommon = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -241,10 +244,10 @@ export default function ProfessorVideosPage() {
       <section className="prof-enter-1">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Biblioteca</p>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Vídeos</h1>
+            <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('library')}</p>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('videos')}</h1>
             <p className="text-white/55 text-sm mt-2">
-              {totalVideos} vídeos · {totalViews} visualizações totais
+              {totalVideos} {t('videos').toLowerCase()} · {totalViews} {t('totalViews')}
             </p>
           </div>
 
@@ -262,7 +265,7 @@ export default function ProfessorVideosPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500/80 hover:to-amber-600/80 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-amber-900/30 hover:shadow-amber-900/40 hover:scale-[1.02]"
             >
               <Upload size={16} />
-              Enviar Vídeo
+              {t('uploadVideo')}
             </button>
           </div>
         </div>
@@ -272,9 +275,9 @@ export default function ProfessorVideosPage() {
       {/* Stats */}
       <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-2">
         {[
-          { label: 'Total de Vídeos', value: totalVideos, icon: Film },
-          { label: 'Visualizações', value: totalViews, icon: Eye },
-          { label: 'Horas de Conteúdo', value: '2.4h', icon: Clock },
+          { label: t('totalVideos'), value: totalVideos, icon: Film },
+          { label: t('views'), value: totalViews, icon: Eye },
+          { label: t('hoursContent'), value: '2.4h', icon: Clock },
         ].map((stat) => (
           <div key={stat.label} className="prof-glass-card p-4 text-center">
             <stat.icon size={18} className="mx-auto text-amber-400/40 mb-2" />
@@ -286,17 +289,17 @@ export default function ProfessorVideosPage() {
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 rounded-xl prof-enter-2" style={{ background: 'rgba(255,255,255,0.03)' }}>
-        {(['todos', 'meus', 'playlists'] as const).map(t => (
+        {(['todos', 'meus', 'playlists'] as const).map(tabKey => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={tabKey}
+            onClick={() => setTab(tabKey)}
             className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all ${
-              tab === t
+              tab === tabKey
                 ? 'bg-amber-600/20 text-amber-200'
                 : 'text-white/30 hover:text-white/50'
             }`}
           >
-            {t === 'todos' ? `Todos (${videos.length})` : t === 'meus' ? `Meus Vídeos (${allMyVideos.length})` : `Playlists (${playlists.length})`}
+            {tabKey === 'todos' ? `${t('tabs.all')} (${videos.length})` : tabKey === 'meus' ? `${t('tabs.myVideos')} (${allMyVideos.length})` : `${t('tabs.playlists')} (${playlists.length})`}
           </button>
         ))}
       </div>
@@ -311,7 +314,7 @@ export default function ProfessorVideosPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar por título..."
+              placeholder={t('searchPlaceholder')}
               className="w-full pl-9 pr-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none"
               style={{
                 background: 'rgba(255,255,255,0.04)',
@@ -323,10 +326,10 @@ export default function ProfessorVideosPage() {
           {/* Status filter chips */}
           <div className="flex flex-wrap gap-1.5">
             {([
-              { value: 'all' as FilterStatus, label: 'Todos' },
-              { value: 'published' as FilterStatus, label: 'Publicados' },
-              { value: 'draft' as FilterStatus, label: 'Rascunhos' },
-              { value: 'processing' as FilterStatus, label: 'Processando' },
+              { value: 'all' as FilterStatus, label: t('tabs.all') },
+              { value: 'published' as FilterStatus, label: t('publishedFilter') },
+              { value: 'draft' as FilterStatus, label: t('draftsFilter') },
+              { value: 'processing' as FilterStatus, label: t('processingFilter') },
             ]).map((f) => {
               const count = f.value === 'all' ? allMyVideos.length : (statusCounts[f.value] || 0);
               const active = filterStatus === f.value;
@@ -404,8 +407,8 @@ export default function ProfessorVideosPage() {
               <div className="col-span-full">
                 <PageEmpty
                   icon={VideoOff}
-                  title={searchQuery || filterStatus !== 'all' ? 'Nenhum resultado' : 'Nenhum vídeo'}
-                  message={searchQuery || filterStatus !== 'all' ? 'Tente alterar os filtros.' : 'Adicione seu primeiro vídeo!'}
+                  title={searchQuery || filterStatus !== 'all' ? t('noResults') : t('noVideos')}
+                  message={searchQuery || filterStatus !== 'all' ? t('tryFilters') : t('addFirst')}
                 />
               </div>
             ) : (
@@ -465,20 +468,20 @@ export default function ProfessorVideosPage() {
                                 onClick={() => openEdit(video.original as Video)}
                                 className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-white/60 hover:bg-white/5 transition-colors"
                               >
-                                <Pencil size={12} /> Editar
+                                <Pencil size={12} /> {tCommon('actions.edit')}
                               </button>
                             )}
                             <button
                               onClick={() => handleCopyLink(video)}
                               className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-white/60 hover:bg-white/5 transition-colors"
                             >
-                              <Copy size={12} /> Copiar link
+                              <Copy size={12} /> {t('copyLink')}
                             </button>
                             <button
                               onClick={() => { setDeleteConfirm(video.id); setMenuOpen(null); }}
                               className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-red-400/70 hover:bg-red-500/5 transition-colors"
                             >
-                              <Trash2 size={12} /> Excluir
+                              <Trash2 size={12} /> {tCommon('actions.delete')}
                             </button>
                           </div>
                         )}
@@ -512,19 +515,19 @@ export default function ProfessorVideosPage() {
                     {deleteConfirm === video.id && (
                       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-10">
                         <div className="text-center">
-                          <p className="text-sm text-white/70 mb-3">Excluir este vídeo?</p>
+                          <p className="text-sm text-white/70 mb-3">{t('deleteVideo')}</p>
                           <div className="flex gap-2 justify-center">
                             <button
                               onClick={() => setDeleteConfirm(null)}
                               className="px-4 py-2 rounded-lg text-xs text-white/40 bg-white/5 hover:bg-white/10"
                             >
-                              Cancelar
+                              {tCommon('actions.cancel')}
                             </button>
                             <button
                               onClick={() => handleDelete(video.id)}
                               className="px-4 py-2 rounded-lg text-xs text-white bg-red-600/80 hover:bg-red-500"
                             >
-                              Excluir
+                              {tCommon('actions.delete')}
                             </button>
                           </div>
                         </div>
@@ -544,7 +547,7 @@ export default function ProfessorVideosPage() {
                 <div className="w-12 h-12 mx-auto rounded-full bg-white/5 flex items-center justify-center group-hover:bg-amber-500/10 transition-all duration-300">
                   <Upload size={20} className="text-white/60 group-hover:text-amber-400/60" />
                 </div>
-                <p className="text-sm text-white/45 mt-3 group-hover:text-white/40 transition-colors">Enviar novo vídeo</p>
+                <p className="text-sm text-white/45 mt-3 group-hover:text-white/40 transition-colors">{t('uploadNew')}</p>
               </div>
             </div>
           </div>
@@ -561,13 +564,13 @@ export default function ProfessorVideosPage() {
                        transition-all"
             aria-label="Criar nova playlist"
           >
-            <Plus size={16} /> Nova Playlist
+            <Plus size={16} /> {t('newPlaylist')}
           </button>
 
           {playlists.length === 0 ? (
             <div className="prof-glass-card p-8 text-center">
               <Film size={32} className="mx-auto mb-3 text-white/15" />
-              <p className="text-white/30 text-sm">Nenhuma playlist ainda.</p>
+              <p className="text-white/30 text-sm">{t('noPlaylists')}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -578,7 +581,7 @@ export default function ProfessorVideosPage() {
                       <h3 className="text-sm font-semibold text-white/80">{pl.titulo}</h3>
                       <p className="text-xs text-white/35 mt-0.5">{pl.videoIds.length} vídeos · {pl.tipo}</p>
                       {pl.turmasAssociadas && pl.turmasAssociadas.length > 0 && (
-                        <p className="text-[10px] text-white/20 mt-1">{pl.turmasAssociadas.length} turma(s) vinculada(s)</p>
+                        <p className="text-[10px] text-white/20 mt-1">{pl.turmasAssociadas.length} {t('linkedClasses')}</p>
                       )}
                     </div>
                     <div className="flex gap-2">
@@ -587,7 +590,7 @@ export default function ProfessorVideosPage() {
                         className="px-3 py-1.5 text-xs bg-white/5 hover:bg-white/10 rounded-lg text-white/50 transition-colors"
                         aria-label={`Editar playlist ${pl.titulo}`}
                       >
-                        Editar
+                        {tCommon('actions.edit')}
                       </button>
                       <button
                         onClick={async () => {
@@ -597,9 +600,9 @@ export default function ProfessorVideosPage() {
                           } catch {}
                         }}
                         className="px-3 py-1.5 text-xs bg-red-500/10 hover:bg-red-500/20 rounded-lg text-red-400/70 transition-colors"
-                        aria-label={`Excluir playlist ${pl.titulo}`}
+                        aria-label={`${tCommon('actions.delete')} playlist ${pl.titulo}`}
                       >
-                        Excluir
+                        {tCommon('actions.delete')}
                       </button>
                     </div>
                   </div>

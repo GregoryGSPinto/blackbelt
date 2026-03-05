@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 // ════════════════════════════════════════════════════════════════════
 // PREDICTIONS CARDS — Previsoes de curto prazo da academia
 // ════════════════════════════════════════════════════════════════════
@@ -22,10 +24,11 @@ const PREDICTION_ICONS: Record<string, string> = {
 };
 
 export function PredictionsCards({ predictions }: PredictionsCardsProps) {
+  const t = useTranslations('admin');
   const cards = [
     {
       icon: PREDICTION_ICONS.churn,
-      label: 'Evasao prev. 30 dias',
+      label: t('predictions.churn30d'),
       value: predictions.expectedChurnNext30Days.toString(),
       sublabel: 'alunos em risco de saida',
       color: predictions.expectedChurnNext30Days > 5
@@ -41,7 +44,7 @@ export function PredictionsCards({ predictions }: PredictionsCardsProps) {
     },
     {
       icon: PREDICTION_ICONS.revenue,
-      label: 'Impacto na Receita',
+      label: t('predictions.revenueImpact'),
       value: `R$ ${predictions.expectedRevenueImpact.toLocaleString('pt-BR')}`,
       sublabel: 'potencial perda mensal',
       color: predictions.expectedRevenueImpact > 1000
@@ -57,7 +60,7 @@ export function PredictionsCards({ predictions }: PredictionsCardsProps) {
     },
     {
       icon: PREDICTION_ICONS.factor,
-      label: 'Maior Fator de Risco',
+      label: t('predictions.highestRiskFactor'),
       value: predictions.highestRiskFactor,
       sublabel: 'causa mais comum de evasao',
       color: 'border-yellow-500/30 bg-yellow-500/10',
@@ -65,7 +68,7 @@ export function PredictionsCards({ predictions }: PredictionsCardsProps) {
     },
     {
       icon: PREDICTION_ICONS.score,
-      label: 'Score Medio de Risco',
+      label: t('predictions.avgRiskScore'),
       value: predictions.avgChurnScore.toString(),
       sublabel: predictions.trendVsLastMonth,
       color: predictions.avgChurnScore > 50

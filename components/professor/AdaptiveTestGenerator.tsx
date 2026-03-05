@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useAdaptiveTest } from '@/hooks/useAdaptiveTest';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // ADAPTIVE TEST GENERATOR — Gerador de provas adaptativas
 // ════════════════════════════════════════════════════════════════════
 
 export function AdaptiveTestGenerator() {
+  const t = useTranslations('professor.adaptiveEval');
   const { generate, test, loading, error } = useAdaptiveTest();
   const [form, setForm] = useState({
     participantId: '',
@@ -27,16 +29,16 @@ export function AdaptiveTestGenerator() {
   };
 
   const testTypeLabels: Record<string, string> = {
-    promotion: 'Promocao',
-    periodic: 'Periodica',
-    diagnostic: 'Diagnostica',
+    promotion: t('testTypes.promotion'),
+    periodic: t('testTypes.periodic'),
+    diagnostic: t('testTypes.diagnostic'),
   };
 
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
       <div className="px-4 py-3 border-b border-zinc-800">
-        <h3 className="text-sm font-medium text-zinc-300">Gerar Prova Adaptativa</h3>
-        <p className="text-[10px] text-zinc-600 mt-0.5">Provas personalizadas baseadas no DNA do aluno</p>
+        <h3 className="text-sm font-medium text-zinc-300">{t('generateTitle')}</h3>
+        <p className="text-[10px] text-zinc-600 mt-0.5">{t('generateSubtitle')}</p>
       </div>
 
       {/* Form */}
@@ -44,7 +46,7 @@ export function AdaptiveTestGenerator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="text-[10px] text-zinc-500 uppercase tracking-wider block mb-1">
-              ID do Aluno
+              {t('studentId')}
             </label>
             <input
               type="text"
@@ -57,7 +59,7 @@ export function AdaptiveTestGenerator() {
 
           <div>
             <label className="text-[10px] text-zinc-500 uppercase tracking-wider block mb-1">
-              Trilha (Track)
+              {t('trackId')}
             </label>
             <input
               type="text"
@@ -70,7 +72,7 @@ export function AdaptiveTestGenerator() {
 
           <div>
             <label className="text-[10px] text-zinc-500 uppercase tracking-wider block mb-1">
-              Milestone Alvo
+              {t('milestone')}
             </label>
             <input
               type="text"
@@ -127,7 +129,7 @@ export function AdaptiveTestGenerator() {
           disabled={loading || !form.participantId || !form.trackId || !form.targetMilestoneId}
           className="w-full px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:bg-zinc-700 disabled:text-zinc-500 text-white text-sm font-medium transition-colors"
         >
-          {loading ? 'Gerando prova...' : 'Gerar Prova Adaptativa'}
+          {loading ? '...' : t('generateTitle')}
         </button>
       </div>
 

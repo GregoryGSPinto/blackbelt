@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import type { Automacao, CanalAutomacao } from '@/lib/api/contracts';
 import MensagemTemplateEditor from './MensagemTemplateEditor';
+import { useTranslations } from 'next-intl';
 
 // ── Icons map ─────────────────────────────────────────────
 
@@ -30,6 +31,7 @@ interface AutomacaoCardProps {
 }
 
 export default function AutomacaoCard({ automacao, onToggle, onUpdate }: AutomacaoCardProps) {
+  const t = useTranslations('admin');
   const [expanded, setExpanded] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState(automacao.config.mensagemTemplate);
   const [editingValor, setEditingValor] = useState(automacao.config.valor ?? 0);
@@ -53,7 +55,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
 
   const triggerLabel = automacao.config.valor
     ? `Quando: ${automacao.config.valor} ${automacao.config.unidade}`
-    : 'Quando: trigger automático';
+    : t('automation.whenTrigger');
 
   const canalLabels = automacao.canais.map(c => CANAL_CONFIG[c]?.label || c).join(' + ');
 
@@ -120,11 +122,11 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
         <div className="border-t border-white/[0.05] p-4 space-y-5 bg-white/[0.01]">
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <MiniStat label="Total enviados" value={automacao.stats.totalEnviados.toLocaleString('pt-BR')} />
-            <MiniStat label="Esta semana" value={String(automacao.stats.enviadosSemana)} />
-            <MiniStat label="Taxa resposta" value={`${Math.round(automacao.stats.taxaResposta * 100)}%`} />
+            <MiniStat label={t('automation.totalSent')} value={automacao.stats.totalEnviados.toLocaleString('pt-BR')} />
+            <MiniStat label={t('automation.thisWeek')} value={String(automacao.stats.enviadosSemana)} />
+            <MiniStat label={t('automation.responseRate')} value={`${Math.round(automacao.stats.taxaResposta * 100)}%`} />
             <MiniStat
-              label="Último envio"
+              label={t('automation.lastSend')}
               value={automacao.stats.ultimoEnvio
                 ? new Date(automacao.stats.ultimoEnvio + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
                 : '—'}
@@ -133,7 +135,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
 
           {/* Canais */}
           <div>
-            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">Canais de envio</p>
+            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">{t('automation.sendChannels')}</p>
             <div className="flex flex-wrap gap-2">
               {(['PUSH', 'WHATSAPP', 'EMAIL', 'SMS'] as CanalAutomacao[]).map(canal => {
                 const cfg = CANAL_CONFIG[canal];
@@ -157,7 +159,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
           {/* Timing config */}
           {automacao.config.valor !== undefined && (
             <div>
-              <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">Configuração de timing</p>
+              <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">{t('automation.timingConfig')}</p>
               <div className="flex items-center gap-3">
                 <input
                   type="number"
@@ -175,7 +177,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
 
           {/* Template editor */}
           <div>
-            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">Mensagem template</p>
+            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">{t('automation.messageTemplate')}</p>
             <MensagemTemplateEditor
               value={editingTemplate}
               onChange={setEditingTemplate}
@@ -189,7 +191,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
               onClick={handleSave}
               className="px-5 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-sm font-medium hover:bg-emerald-500/25 transition-colors"
             >
-              Salvar alterações
+              {t('automation.saveChanges')}
             </button>
           </div>
         </div>

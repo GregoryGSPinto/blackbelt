@@ -6,6 +6,7 @@
 // ============================================================
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { RefreshCw } from 'lucide-react';
 import type { CacheInfo } from '@/hooks/useCachedServiceCall';
 
@@ -17,12 +18,13 @@ interface CacheIndicatorProps {
 }
 
 export function CacheIndicator({ cacheInfo, refreshing, onRefresh, className = '' }: CacheIndicatorProps) {
+  const t = useTranslations('common.cache');
   if (!cacheInfo) return null;
 
   return (
     <div className={`flex items-center justify-end gap-2 text-[10px] text-white/20 ${className}`}>
       <span>
-        Atualizado {cacheInfo.ageLabel}
+        {t('updated', { age: cacheInfo.ageLabel })}
         {cacheInfo.fromCache && cacheInfo.ageMs > 60_000 && (
           <span className="text-white/10"> · cache</span>
         )}
@@ -32,7 +34,7 @@ export function CacheIndicator({ cacheInfo, refreshing, onRefresh, className = '
           onClick={onRefresh}
           disabled={refreshing}
           className="p-1 rounded hover:bg-white/[0.06] transition-colors disabled:opacity-30"
-          title="Atualizar dados"
+          title={t('refreshData')}
         >
           <RefreshCw
             size={10}

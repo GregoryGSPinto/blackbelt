@@ -4,15 +4,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Search, Menu } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import MobileDrawer from './MobileDrawer';
 
 export default function BottomNav() {
+  const t = useTranslations('common');
   const pathname = usePathname();
   const [showDrawer, setShowDrawer] = useState(false);
-  
+
   const mainItems = [
-    { icon: Home, label: 'Início', href: '/inicio' },
-    { icon: Search, label: 'Buscar', href: '/buscar' },
+    { icon: Home, label: t('menu.home'), href: '/inicio' },
+    { icon: Search, label: t('menu.search'), href: '/buscar' },
   ];
 
   return (
@@ -49,7 +51,7 @@ export default function BottomNav() {
             className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-all active:scale-95 text-white/60 hover:text-white"
           >
             <Menu size={22} strokeWidth={2} />
-            <span className="text-[10px] font-medium">Menu</span>
+            <span className="text-[10px] font-medium">{t('menu.menu')}</span>
           </button>
         </div>
       </nav>

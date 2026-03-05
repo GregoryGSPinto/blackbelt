@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Star, Heart, Share2, ShoppingCart } from 'lucide-react';
 import { ColorSelector, SizeSelector } from '@/components/shop';
@@ -26,6 +27,7 @@ const SizeGuideModal = dynamic(
 );
 
 export default function ProductPage({ params }: { params: { id: string } }) {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

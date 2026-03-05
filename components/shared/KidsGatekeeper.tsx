@@ -5,6 +5,7 @@ import {
   Shield, Fingerprint, X, Delete, Lock, CheckCircle,
   AlertCircle, Loader2, Mail, KeyRound, ArrowLeft, Eye, EyeOff,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface KidsGatekeeperProps {
@@ -110,7 +111,7 @@ async function webauthnRegister(): Promise<{ ok: boolean; credentialId?: string;
       },
     });
 
-    if (!credential) return { ok: false, error: 'Nenhuma credencial criada.' };
+    if (!credential) return { ok: false, error: 'No credential created.' };
     const cred = credential as PublicKeyCredential;
     const credId = toBase64(cred.rawId);
     saveCredential(credId);
@@ -169,6 +170,7 @@ type ForgotStep = 'confirm' | 'code' | 'newPin' | 'confirmPin' | 'done';
 export function KidsGatekeeper({
   onSuccess, onCancel, isOpen, hideCancelButton = false,
 }: KidsGatekeeperProps) {
+  const t = useTranslations('kids.gatekeeper');
   const { isDark } = useTheme();
   const [mode, setMode] = useState<GatekeeperMode>('pin');
   const [pin, setPin] = useState('');
@@ -315,9 +317,9 @@ export function KidsGatekeeper({
             if (newAttempts >= 3) {
               setLocked(true);
               setLockTimer(30);
-              setError('Muitas tentativas. Aguarde 30 segundos.');
+              setError(t('maxAttempts'));
             } else {
-              setError(`PIN incorreto. ${3 - newAttempts} tentativa(s) restante(s).`);
+              setError(t('invalidPin'));
             }
             setPin('');
           }
@@ -369,7 +371,7 @@ export function KidsGatekeeper({
               setForgotStep('done');
               setTimeout(() => onSuccess(), 1200);
             } else {
-              setForgotError('PINs não coincidem. Tente novamente.');
+              setForgotError(t('pinsDontMatch'));
               setConfirmNewPin('');
             }
           }, 200);
@@ -471,19 +473,19 @@ export function KidsGatekeeper({
 
   // ─── Header subtitle ───
   const subtitleText =
-    mode === 'pin' ? 'Digite o PIN do responsável'
+    mode === 'pin' ? t('tapToVerify')
     : mode === 'forgot' ? (
-        forgotStep === 'confirm' ? 'Recuperação de PIN'
-      : forgotStep === 'code' ? 'Insira o código enviado'
-      : forgotStep === 'newPin' ? 'Crie seu novo PIN'
-      : forgotStep === 'confirmPin' ? 'Confirme o novo PIN'
-      : 'PIN atualizado!'
+        forgotStep === 'confirm' ? t('resetPin')
+      : forgotStep === 'code' ? t('tryAgain')
+      : forgotStep === 'newPin' ? t('confirmNewPin')
+      : forgotStep === 'confirmPin' ? t('confirmNewPin')
+      : t('pinUpdated')
     )
-    : bioSupported === null ? 'Verificando suporte...'
-    : !bioSupported ? 'Biometria não disponível'
-    : bioStatus === 'verifying' ? 'Verificando identidade...'
-    : bioStatus === 'success' ? 'Verificado!'
-    : 'Toque para verificar identidade';
+    : bioSupported === null ? t('tapToVerify')
+    : !bioSupported ? t('tapToVerify')
+    : bioStatus === 'verifying' ? t('tapToVerify')
+    : bioStatus === 'success' ? t('pinUpdated')
+    : t('tapToVerify');
 
   // ─── Shared Keypad Renderer ───
   const renderKeypad = (
@@ -590,7 +592,7 @@ export function KidsGatekeeper({
             {mode === 'forgot' ? <KeyRound size={32} className="text-white" /> : <Shield size={32} className="text-white" />}
           </div>
           <h2 className="text-xl font-bold" style={{ color: colors.heading }}>
-            {mode === 'forgot' ? 'Redefinir PIN' : 'Verificação Parental'}
+            {mode === 'forgot' ? t('resetPin') : t('parentVerification')}
           </h2>
           <p className="text-sm mt-1" style={{ color: colors.subtitle }}>
             {subtitleText}
@@ -650,7 +652,7 @@ export function KidsGatekeeper({
                 className="text-xs font-medium transition-all hover:opacity-80"
                 style={{ color: colors.teal }}
               >
-                Esqueci meu PIN
+                {t('resetPin')}
               </button>
             </div>
           </div>
@@ -675,7 +677,7 @@ export function KidsGatekeeper({
                 <p className="text-xs mb-4" style={{ color: colors.hint }}>Verifique se o navegador suporta WebAuthn e se a biometria está configurada no sistema.</p>
                 <button onClick={() => setMode('pin')} className="text-sm font-medium px-4 py-2 rounded-lg transition-all hover:opacity-80"
                   style={{ color: colors.teal, background: colors.bioCircleActive }}>
-                  Usar PIN
+                  PIN
                 </button>
               </div>
             )}
@@ -723,12 +725,12 @@ export function KidsGatekeeper({
                   <button onClick={() => { setBioStatus('idle'); setBioMessage(''); isBioRunning.current = false; }}
                     className="text-sm font-medium px-5 py-2.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
                     style={{ background: isDark ? 'rgba(20,184,166,0.15)' : 'rgba(13,148,136,0.1)', color: colors.teal }}>
-                    Tentar novamente
+                    {t('tryAgain')}
                   </button>
                   <button onClick={() => setMode('pin')}
                     className="text-sm font-medium px-5 py-2.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
                     style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', color: colors.subtitle }}>
-                    Usar PIN
+                    PIN
                   </button>
                 </div>
               </div>
@@ -897,7 +899,7 @@ export function KidsGatekeeper({
                   <CheckCircle size={48} style={{ color: colors.teal }} />
                 </div>
                 <p className="text-lg font-bold mb-2" style={{ color: colors.heading }}>
-                  PIN Atualizado!
+                  {t('pinUpdated')}
                 </p>
                 <p className="text-sm" style={{ color: colors.subtitle }}>
                   Seu novo PIN foi salvo com sucesso.

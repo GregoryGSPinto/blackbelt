@@ -8,6 +8,7 @@
 
 import Image from 'next/image';
 import { Search, Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
 const MORPH = 'transition-all duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)]';
 
 export function ShellSidebarMobileHeader({ config, state }: Props) {
+  const t = useTranslations('common');
   const { theme, nav } = config;
   const {
     searchOpen, query, setQuery, handleSearchToggle,
@@ -39,7 +41,7 @@ export function ShellSidebarMobileHeader({ config, state }: Props) {
                 <button
                   onClick={handleSearchToggle}
                   className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all duration-200 active:scale-90"
-                  aria-label="Buscar"
+                  aria-label={t('search.openSearch')}
                 >
                   <Search size={18} className="text-white/50" />
                 </button>
@@ -65,8 +67,8 @@ export function ShellSidebarMobileHeader({ config, state }: Props) {
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={nav.searchPlaceholder || 'Buscar...'}
-                  aria-label="Buscar"
+                  placeholder={nav.searchPlaceholder || t('search.placeholder')}
+                  aria-label={t('search.openSearch')}
                   className="w-full pl-9 pr-4 py-2.5 bg-white/[0.06] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-white/20 focus:bg-white/[0.08] transition-all duration-200"
                   autoComplete="off" autoCorrect="off" spellCheck={false}
                 />
@@ -75,7 +77,7 @@ export function ShellSidebarMobileHeader({ config, state }: Props) {
                 onClick={closeSearch}
                 className="px-3 py-2 text-xs text-white/50 font-medium hover:text-white transition-colors flex-shrink-0"
               >
-                Cancelar
+                {t('actions.cancel')}
               </button>
             </div>
           </div>

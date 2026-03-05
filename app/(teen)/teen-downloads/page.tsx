@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard } from '@/components/teen';
 import { TEEN_SESSÕES } from '@/lib/api/teen.service';
 import type { TeenAula } from '@/lib/api/teen.service';
@@ -30,6 +31,7 @@ function buildDownloadList(sessões: TeenAula[]): DownloadItem[] {
 }
 
 export default function TeenDownloadsPage() {
+  const t = useTranslations('teen.downloads');
   const [items, setItems] = useState<DownloadItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +52,7 @@ export default function TeenDownloadsPage() {
   const totalSize = downloaded.reduce((sum, i) => sum + parseInt(i.fileSize), 0);
 
   if (loading) {
-    return <PremiumLoader text="Carregando downloads..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
@@ -58,16 +60,16 @@ export default function TeenDownloadsPage() {
   }
 
   if (items.length === 0) {
-    return <PageEmpty title="Nenhum download" message="Você ainda não baixou conteúdo para assistir offline." />;
+    return <PageEmpty title={t('noDownloads')} message={t('noDownloadsDesc')} />;
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="teen-enter-1">
-        <h2 className="text-xl sm:text-2xl font-bold teen-text-heading font-teen">Downloads</h2>
+        <h2 className="text-xl sm:text-2xl font-bold teen-text-heading font-teen">{t('title')}</h2>
         <p className="teen-text-muted text-sm font-teen mt-1">
-          Conteúdo salvo para assistir offline
+          {t('subtitle')}
         </p>
       </div>
 
@@ -80,16 +82,16 @@ export default function TeenDownloadsPage() {
             </div>
             <div className="flex-1">
               <p className="text-sm font-bold font-teen teen-text-heading">
-                {downloaded.length} {downloaded.length === 1 ? 'sessão baixada' : 'sessões baixadas'}
+                {t('downloadedCount', { count: downloaded.length })}
               </p>
               <p className="text-xs font-teen teen-text-muted mt-0.5">
-                {totalSize} MB utilizados
+                {totalSize} {t('storageUsed')}
               </p>
             </div>
             <div className="flex items-center gap-1.5"
               style={{ color: isDark ? 'rgba(46,204,113,0.7)' : '#27AE60' }}>
               <WifiOff size={14} />
-              <span className="text-[11px] font-teen font-semibold">Offline</span>
+              <span className="text-[11px] font-teen font-semibold">{t('offlineLabel')}</span>
             </div>
           </div>
         </TeenCard>
@@ -98,7 +100,7 @@ export default function TeenDownloadsPage() {
       {/* Downloaded */}
       {downloaded.length > 0 && (
         <div className="teen-enter-3 space-y-3">
-          <h3 className="text-base font-bold font-teen teen-text-heading">Baixados</h3>
+          <h3 className="text-base font-bold font-teen teen-text-heading">{t('downloadedTab')}</h3>
           {downloaded.map(item => (
             <DownloadRow key={item.id} item={item} isDark={isDark} />
           ))}
@@ -108,7 +110,7 @@ export default function TeenDownloadsPage() {
       {/* Available */}
       {others.length > 0 && (
         <div className="teen-enter-4 space-y-3">
-          <h3 className="text-base font-bold font-teen teen-text-heading">Disponíveis para Download</h3>
+          <h3 className="text-base font-bold font-teen teen-text-heading">{t('availableTab')}</h3>
           {others.map(item => (
             <DownloadRow key={item.id} item={item} isDark={isDark} />
           ))}

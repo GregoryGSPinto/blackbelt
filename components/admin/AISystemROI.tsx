@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 // ════════════════════════════════════════════════════════════════════
 // AI SYSTEM ROI — Metricas de retorno do sistema de IA
 // ════════════════════════════════════════════════════════════════════
@@ -15,36 +17,37 @@ interface AISystemROIProps {
 }
 
 export function AISystemROI({ metrics }: AISystemROIProps) {
+  const t = useTranslations('admin');
   const actionRate = metrics.alertsGenerated > 0
     ? Math.round((metrics.alertsActedUpon / metrics.alertsGenerated) * 100)
     : 0;
 
   const cards = [
     {
-      label: 'Predicoes Geradas',
+      label: t('aiROI.predictionsGenerated'),
       value: metrics.predictionsGenerated.toLocaleString('pt-BR'),
-      sublabel: 'analises de IA processadas',
+      sublabel: t('aiROI.iaAnalysesProcessed'),
       color: 'border-blue-500/30 bg-blue-500/10',
       valueColor: 'text-blue-400',
     },
     {
-      label: 'Alertas Gerados',
+      label: t('aiROI.alertsGenerated'),
       value: metrics.alertsGenerated.toString(),
       sublabel: `${actionRate}% atuados`,
       color: 'border-orange-500/30 bg-orange-500/10',
       valueColor: 'text-orange-400',
     },
     {
-      label: 'Evasoes Prevenidas',
+      label: t('aiROI.churnPrevented'),
       value: metrics.churnsPrevented.toString(),
-      sublabel: 'alunos retidos pela IA',
+      sublabel: t('aiROI.studentsRetainedByAI'),
       color: 'border-green-500/30 bg-green-500/10',
       valueColor: 'text-green-400',
     },
     {
-      label: 'Receita Preservada',
+      label: t('aiROI.revenueSaved'),
       value: `R$ ${metrics.estimatedRevenueSaved.toLocaleString('pt-BR')}`,
-      sublabel: 'estimativa de receita salva',
+      sublabel: t('aiROI.estimatedRevenueSaved'),
       color: 'border-emerald-500/30 bg-emerald-500/10',
       valueColor: 'text-emerald-400',
     },
@@ -53,7 +56,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-zinc-300">ROI do Sistema de IA</h3>
+        <h3 className="text-sm font-medium text-zinc-300">{t('aiROI.title')}</h3>
         <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
           BlackBelt Intelligence
         </span>
@@ -72,7 +75,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
       {/* Action rate visualization */}
       <div className="mt-4 pt-4 border-t border-zinc-800">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-zinc-500">Taxa de atuacao em alertas</span>
+          <span className="text-xs text-zinc-500">{t('aiROI.alertActionRate')}</span>
           <span className="text-xs font-medium text-zinc-300">{actionRate}%</span>
         </div>
         <div className="h-2 rounded-full bg-zinc-800">

@@ -14,6 +14,7 @@
 'use client';
 
 import { ReactNode, useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { InactivityGuard } from '@/components/shared/InactivityGuard';
@@ -77,8 +78,9 @@ function KidsLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function KidsLayout({ children }: { children: ReactNode }) {
+  const t = useTranslations('common.actions');
   return (
-    <ProtectedRoute allowedTypes={['ALUNO_KIDS']} loadingText="Carregando...">
+    <ProtectedRoute allowedTypes={['ALUNO_KIDS']} loadingText={t('loading')}>
       <GlobalSearchProvider>
         <KidsLayoutInner>{children}</KidsLayoutInner>
       </GlobalSearchProvider>

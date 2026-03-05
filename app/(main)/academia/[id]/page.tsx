@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ArrowRight, CheckCircle, BookOpen, Target } from 'lucide-react';
 import { useEffect } from 'react';
 import { getAreaById, useAcademyProgress } from '@/lib/academy';
@@ -9,6 +10,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AreaDetailPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -26,10 +28,10 @@ export default function AreaDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>Área não encontrada</p>
+          <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.areaNotFound')}</p>
           <button onClick={() => router.push('/academia')}
             className="text-primary-light text-sm font-medium">
-            Voltar à Unidade
+            {t('unit.backToUnit')}
           </button>
         </div>
       </div>
@@ -87,11 +89,11 @@ export default function AreaDetailPage() {
 
           <div className="flex items-center gap-3 mt-3">
             <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400">
-              <CheckCircle size={11} /> Conteúdo lido
+              <CheckCircle size={11} /> {t('unit.contentRead')}
             </span>
             {p?.testCompleted && (
               <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-400">
-                <Target size={11} /> Teste: {p.testScore}/{p.testTotal}
+                <Target size={11} /> {t('unit.testLabel')} {p.testScore}/{p.testTotal}
               </span>
             )}
           </div>
@@ -107,7 +109,7 @@ export default function AreaDetailPage() {
           <div className="flex items-center gap-2 mb-6">
             <BookOpen size={18} style={{ color: area.accent }} />
             <h2 className="text-lg font-bold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>
-              Conteúdo Teórico
+              {t('unit.theoreticalContent')}
             </h2>
           </div>
 
@@ -137,7 +139,7 @@ export default function AreaDetailPage() {
           <div className="mt-8 p-5 rounded-xl" style={{ background: 'rgb(var(--color-border) / 0.04)' }}>
             <h3 className="text-sm font-bold uppercase tracking-wider mb-4"
               style={{ color: area.accent }}>
-              Pontos-Chave
+              {t('unit.keyPoints')}
             </h3>
             <div className="space-y-3">
               {area.content.keyPoints.map((kp, i) => (
@@ -171,10 +173,10 @@ export default function AreaDetailPage() {
             </div>
             <div className="text-left">
               <p className="text-white font-bold text-base">
-                {p?.testCompleted ? 'Refazer Teste de Conhecimento' : 'Fazer Teste de Conhecimento'}
+                {p?.testCompleted ? t('unit.retakeTest') : t('unit.takeTest')}
               </p>
               <p className="text-white/60 text-sm mt-0.5">
-                Valide o que você aprendeu
+                {t('unit.validateLearning')}
               </p>
             </div>
           </div>

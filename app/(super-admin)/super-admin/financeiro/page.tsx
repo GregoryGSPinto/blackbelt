@@ -9,6 +9,7 @@ import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useFormatting } from '@/hooks/useFormatting';
@@ -65,6 +66,7 @@ function FinCard({ icon: Icon, label, value, sub, alert, isDark }: {
 // ============================================================
 
 export default function FinanceiroPage() {
+  const t = useTranslations('superAdmin.financial');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber, currencyCode } = useFormatting();
@@ -111,7 +113,7 @@ export default function FinanceiroPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Financeiro</h1>
+          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('title')}</h1>
           <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
             Visão financeira detalhada da plataforma
           </p>
@@ -130,22 +132,22 @@ export default function FinanceiroPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <FinCard isDark={isDark} icon={DollarSign} label="Receita Total" value={formatBRL(financial.receitaTotal)} sub={`+${financial.crescimentoReceita}% vs mês anterior`} />
-        <FinCard isDark={isDark} icon={TrendingDown} label="Churn Rate" value={`${financial.churnRate}%`} sub="taxa de cancelamento" alert={financial.churnRate > 5} />
-        <FinCard isDark={isDark} icon={Target} label="LTV" value={formatBRL(financial.ltv)} sub={`CAC: ${formatBRL(financial.cac)}`} />
-        <FinCard isDark={isDark} icon={AlertTriangle} label="Inadimplência" value={`${financial.inadimplencia}%`} alert={financial.inadimplencia > 5} sub="do total de academias" />
+        <FinCard isDark={isDark} icon={DollarSign} label={t('totalRevenue')} value={formatBRL(financial.receitaTotal)} sub={`+${financial.crescimentoReceita}% ${t('vsLastMonth')}`} />
+        <FinCard isDark={isDark} icon={TrendingDown} label={t('churnRate')} value={`${financial.churnRate}%`} sub={t('cancellationRate')} alert={financial.churnRate > 5} />
+        <FinCard isDark={isDark} icon={Target} label={t('ltv')} value={formatBRL(financial.ltv)} sub={`${t('cac')} ${formatBRL(financial.cac)}`} />
+        <FinCard isDark={isDark} icon={AlertTriangle} label={t('defaultRate')} value={`${financial.inadimplencia}%`} alert={financial.inadimplencia > 5} sub={t('ofTotalAcademies')} />
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <FinCard isDark={isDark} icon={TrendingUp} label="Ticket Médio" value={formatBRL(financial.ticketMedio)} sub="por academia/mês" />
-        <FinCard isDark={isDark} icon={Clock} label="Payback" value={`${financial.paybackMonths} meses`} sub="tempo de retorno" />
-        <FinCard isDark={isDark} icon={CreditCard} label="Mês Anterior" value={formatBRL(financial.receitaMesAnterior)} />
-        <FinCard isDark={isDark} icon={Users} label="LTV/CAC" value={`${(financial.ltv / financial.cac).toFixed(1)}x`} sub="saudável > 3x" />
+        <FinCard isDark={isDark} icon={TrendingUp} label={t('avgTicket')} value={formatBRL(financial.ticketMedio)} sub={t('perAcademyMonth')} />
+        <FinCard isDark={isDark} icon={Clock} label={t('payback')} value={`${financial.paybackMonths} meses`} sub={t('returnTime')} />
+        <FinCard isDark={isDark} icon={CreditCard} label={t('lastMonth')} value={formatBRL(financial.receitaMesAnterior)} />
+        <FinCard isDark={isDark} icon={Users} label={t('ltvCac')} value={`${(financial.ltv / financial.cac).toFixed(1)}x`} sub={t('healthy')} />
       </div>
 
       {/* Receita Chart */}
       <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-indigo-500/5 to-violet-500/5 border-indigo-500/20' : 'bg-white border-indigo-100'}`}>
-        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>Evolução da Receita</h3>
+        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('revenueEvolution')}</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={monthlyData}>
@@ -165,7 +167,7 @@ export default function FinanceiroPage() {
                   borderRadius: 12,
                   color: isDark ? '#fff' : '#1E293B',
                 }}
-                formatter={(value: number) => [formatBRL(value), 'Receita']}
+                formatter={(value: number) => [formatBRL(value), t('totalRevenue')]}
               />
               <Area type="monotone" dataKey="receita" stroke="#6366F1" strokeWidth={2} fill="url(#gradFin)" />
             </AreaChart>
@@ -175,7 +177,7 @@ export default function FinanceiroPage() {
 
       {/* Churn Chart */}
       <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-violet-500/5 to-purple-500/5 border-violet-500/20' : 'bg-white border-violet-100'}`}>
-        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>Taxa de Churn (%)</h3>
+        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('churnRateChart')}</h3>
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={churnData}>
@@ -199,7 +201,7 @@ export default function FinanceiroPage() {
 
       {/* LTV por mês (using revenue as proxy) */}
       <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-purple-500/5 to-pink-500/5 border-purple-500/20' : 'bg-white border-purple-100'}`}>
-        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>LTV Estimado por Mês</h3>
+        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('estimatedLtv')}</h3>
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData.map(m => ({ mes: m.mes, ltv: Math.round(m.receita * 12 / 5) }))}>
@@ -224,7 +226,7 @@ export default function FinanceiroPage() {
       {/* Histórico de Pagamentos */}
       <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-indigo-500/5 to-violet-500/5 border-indigo-500/20' : 'bg-white border-indigo-100'}`}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className={`text-sm font-semibold ${isDark ? 'text-white/70' : 'text-slate-700'}`}>Histórico de Pagamentos</h3>
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('paymentHistory')}</h3>
           <button className={`text-xs ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
             <Download className="w-3.5 h-3.5 inline mr-1" />
             Exportar CSV
@@ -235,11 +237,11 @@ export default function FinanceiroPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className={`text-left ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">Academia</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">Valor</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">Data</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">Método</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">Status</th>
+                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('academyCol')}</th>
+                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('valueCol')}</th>
+                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('dateCol')}</th>
+                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('methodCol')}</th>
+                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('statusCol')}</th>
               </tr>
             </thead>
             <tbody className="divide-y">

@@ -7,6 +7,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -28,8 +29,9 @@ function SuperAdminLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function SuperAdminLayout({ children }: { children: ReactNode }) {
+  const t = useTranslations('superAdmin.layout');
   return (
-    <ProtectedRoute allowedTypes={['SUPER_ADMIN']} loadingText="Carregando painel da plataforma...">
+    <ProtectedRoute allowedTypes={['SUPER_ADMIN']} loadingText={t('loading')}>
       <GlobalSearchProvider>
         <SuperAdminLayoutInner>{children}</SuperAdminLayoutInner>
       </GlobalSearchProvider>

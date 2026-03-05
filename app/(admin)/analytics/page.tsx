@@ -11,6 +11,7 @@ import { PageError, PageLoading, handleServiceError } from '@/components/shared/
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 const NIVEL_COLORS: Record<string, string> = {
   'Nível Iniciante': '#E5E7EB', 'Nível Básico': '#3B82F6', 'Nível Intermediário': '#8B5CF6',
@@ -18,6 +19,7 @@ const NIVEL_COLORS: Record<string, string> = {
 };
 
 export default function AnalyticsPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

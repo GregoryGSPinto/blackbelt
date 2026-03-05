@@ -9,6 +9,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
+import { useTranslations } from 'next-intl';
 
 // ─── Types ──────────────────────────────────────────────────
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
@@ -84,6 +85,8 @@ function LoginContent() {
   const searchParams = useSearchParams();
   const { login, user, loading: authLoading } = useAuth();
   const { isDark } = useTheme();
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
 
   // ─── State machine ────────────────────────────────────────
   const [step, setStep] = useState<LoginStep>('INITIAL');
@@ -135,7 +138,7 @@ function LoginContent() {
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
       setEmailInvalid(true);
-      setError('Email não encontrado');
+      setError(t('login.emailNotFound'));
       setTimeout(() => setEmailInvalid(false), 600);
       return;
     }
@@ -153,7 +156,7 @@ function LoginContent() {
 
       if (!data.exists) {
         setEmailInvalid(true);
-        setError('Email não encontrado');
+        setError(t('login.emailNotFound'));
         setTimeout(() => setEmailInvalid(false), 600);
         return;
       }
@@ -184,7 +187,7 @@ function LoginContent() {
 
   // ─── Submit login ─────────────────────────────────────────
   const handleLogin = useCallback(async () => {
-    if (!password) { setError('Digite sua senha'); return; }
+    if (!password) { setError(t('login.passwordPlaceholder')); return; }
     setError('');
     setStep('LOADING');
 
@@ -194,12 +197,12 @@ function LoginContent() {
         logger.info('[Login]', 'Login OK →', getRedirectForProfile(tipo));
         router.replace(getRedirectForProfile(tipo));
       } else {
-        setError('Email ou senha incorretos');
+        setError(t('login.invalidCredentials'));
         setStep('ERROR');
       }
     } catch (err) {
       logger.error('[Login]', 'Login error:', err);
-      setError('Ocorreu um erro. Tente novamente.');
+      setError(tCommon('errors.generic'));
       setStep('ERROR');
     }
   }, [email, password, login, router]);
@@ -399,7 +402,7 @@ function LoginContent() {
                 <button
                   type="button"
                   onClick={() => { setStep('INITIAL'); setError(''); }}
-                  aria-label="Voltar"
+                  aria-label={tCommon('actions.goBack')}
                   style={{
                     position: 'absolute',
                     top: '1rem',
@@ -447,7 +450,7 @@ function LoginContent() {
                         transition: transitions.theme,
                       }}
                     >
-                      LOGIN
+                      {t('login.title').toUpperCase()}
                     </h1>
 
                     {/* Error */}
@@ -506,7 +509,7 @@ function LoginContent() {
                           animation: 'shake 0.4s cubic-bezier(.36,.07,.19,.97)',
                         }}
                       >
-                        Email não encontrado
+                        {t('login.emailNotFound')}
                       </p>
                     )}
 
@@ -526,7 +529,7 @@ function LoginContent() {
                           transition: transitions.theme,
                         }}
                       >
-                        Criar conta
+                        {t('login.createAccount')}
                       </Link>
                       <Link
                         href="/esqueci-email"
@@ -537,7 +540,7 @@ function LoginContent() {
                           transition: transitions.theme,
                         }}
                       >
-                        Esqueci meu email
+                        {t('login.forgotEmail')}
                       </Link>
                     </div>
                   </div>
@@ -549,7 +552,7 @@ function LoginContent() {
                   <div style={{ display: 'flex' }}>
                     <button
                       type="button"
-                      aria-label="Entrar com Google"
+                      aria-label={t('login.loginWithGoogle')}
                       style={{
                         flex: 1,
                         height: 52,
@@ -574,7 +577,7 @@ function LoginContent() {
                     </button>
                     <button
                       type="button"
-                      aria-label="Entrar com Apple"
+                      aria-label={t('login.loginWithApple')}
                       style={{
                         flex: 1,
                         height: 52,
@@ -644,7 +647,7 @@ function LoginContent() {
                       display: 'flex',
                       alignItems: 'center',
                     }}
-                    aria-label="Voltar para email"
+                    aria-label={tCommon('actions.goBack')}
                   >
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                   </button>
@@ -694,7 +697,7 @@ function LoginContent() {
                         transition: transitions.theme,
                       }}
                     >
-                      Senha
+                      {t('login.password')}
                     </label>
                     <div style={{ position: 'relative' }}>
                       <input
@@ -702,7 +705,7 @@ function LoginContent() {
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                        placeholder="Digite sua senha"
+                        placeholder={t('login.passwordPlaceholder')}
                         autoFocus
                         autoComplete="current-password"
                         required
@@ -728,7 +731,7 @@ function LoginContent() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                        aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
                         style={{
                           position: 'absolute',
                           right: 0,
@@ -758,7 +761,7 @@ function LoginContent() {
                         transition: transitions.theme,
                       }}
                     >
-                      Esqueci minha senha
+                      {t('login.forgotPassword')}
                     </Link>
                   </div>
                 </div>
@@ -785,7 +788,7 @@ function LoginContent() {
                   onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
-                  ENTRAR
+                  {t('login.loginButton').toUpperCase()}
                 </button>
               </div>
             </form>
@@ -826,7 +829,7 @@ function LoginContent() {
                     transition: transitions.theme,
                   }}
                 >
-                  Entrando...
+                  {tCommon('actions.entering')}
                 </p>
               </div>
             </div>
@@ -871,7 +874,7 @@ function LoginContent() {
                       display: 'flex',
                       alignItems: 'center',
                     }}
-                    aria-label="Voltar para email"
+                    aria-label={tCommon('actions.goBack')}
                   >
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                   </button>
@@ -920,7 +923,7 @@ function LoginContent() {
                         transition: transitions.theme,
                       }}
                     >
-                      Senha
+                      {t('login.password')}
                     </label>
                     <div style={{ position: 'relative' }}>
                       <input
@@ -928,7 +931,7 @@ function LoginContent() {
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                        placeholder="Digite sua senha"
+                        placeholder={t('login.passwordPlaceholder')}
                         autoFocus
                         autoComplete="current-password"
                         required
@@ -953,7 +956,7 @@ function LoginContent() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                        aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
                         style={{
                           position: 'absolute',
                           right: 0,
@@ -983,7 +986,7 @@ function LoginContent() {
                         transition: transitions.theme,
                       }}
                     >
-                      Esqueci minha senha
+                      {t('login.forgotPassword')}
                     </Link>
                   </div>
                 </div>
@@ -1010,7 +1013,7 @@ function LoginContent() {
                   onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
-                  ENTRAR
+                  {t('login.loginButton').toUpperCase()}
                 </button>
               </div>
             </form>
@@ -1041,7 +1044,7 @@ function LoginContent() {
               }}
             >
               <span style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.textMuted }}>
-                Acesso Rápido — Dev
+                {t('login.quickAccess')}
               </span>
             </div>
             {[
@@ -1068,11 +1071,11 @@ function LoginContent() {
                     if (tipo) {
                       router.replace(getRedirectForProfile(tipo));
                     } else {
-                      setError('Email ou senha incorretos');
+                      setError(t('login.invalidCredentials'));
                       setStep('ERROR');
                     }
                   } catch {
-                    setError('Erro ao fazer login');
+                    setError(tCommon('errors.generic'));
                     setStep('ERROR');
                   }
                 }}
@@ -1120,7 +1123,7 @@ function LoginContent() {
               transition: transitions.theme,
             }}
           >
-            Ao entrar, voce concorda com nossos Termos de Uso
+            {t('login.termsAgreement')}
           </p>
         )}
       </div>

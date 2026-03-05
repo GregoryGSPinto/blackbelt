@@ -15,6 +15,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 const STATUS_STYLE: Record<string, { bg: string; text: string; label: string; icon: React.ReactNode }> = {
   agendada: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Agendada', icon: <Calendar size={10} /> },
@@ -26,6 +27,7 @@ const STATUS_STYLE: Record<string, { bg: string; text: string; label: string; ic
 function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
 export default function ParticularesPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -67,7 +69,7 @@ export default function ParticularesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Sessões Particulares</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('privateSessions.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Agenda de particulares e splits professor/unidade</p>
       </div>
 

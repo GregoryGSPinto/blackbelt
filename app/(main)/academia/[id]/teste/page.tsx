@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState, useCallback } from 'react';
 import { ArrowLeft, CheckCircle, XCircle, RotateCcw, Trophy, ArrowRight } from 'lucide-react';
 import { getAreaById, getTestByAreaId, useAcademyProgress } from '@/lib/academy';
@@ -10,6 +11,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 type Phase = 'quiz' | 'result';
 
 export default function TestPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -64,9 +66,9 @@ export default function TestPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>Teste não encontrado</p>
+          <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.testNotFound')}</p>
           <button onClick={() => router.push('/academia')} className="text-primary-light text-sm font-medium">
-            Voltar à Unidade
+            {t('unit.backToUnit')}
           </button>
         </div>
       </div>
@@ -86,7 +88,7 @@ export default function TestPage() {
           <button onClick={() => router.push(`/academia/${id}`)}
             className="flex items-center gap-2 text-sm"
             style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-            <ArrowLeft size={16} /> Voltar ao conteúdo
+            <ArrowLeft size={16} /> {t('unit.backToContent')}
           </button>
 
           <div className="rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 text-center"
@@ -116,19 +118,19 @@ export default function TestPage() {
               <div className="mb-6">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Trophy size={22} style={{ color: area.accent }} />
-                  <h2 className="text-2xl font-extrabold" style={{ color: 'rgb(var(--color-text))' }}>Perfeito!</h2>
+                  <h2 className="text-2xl font-extrabold" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.perfect')}</h2>
                 </div>
                 <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-                  Você dominou "{area.title}". Parabéns pela dedicação!
+                  {t('unit.mastered', { area: area.title })}
                 </p>
               </div>
             ) : (
               <div className="mb-6">
                 <h2 className="text-2xl font-extrabold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
-                  Bom trabalho!
+                  {t('unit.goodWork')}
                 </h2>
                 <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-                  Você acertou {result.score} de {result.total}. Revise o conteúdo e tente novamente!
+                  {t('unit.goodWorkDesc', { score: result.score, total: result.total })}
                 </p>
               </div>
             )}
@@ -138,7 +140,7 @@ export default function TestPage() {
               style={{ background: 'rgb(var(--color-border) / 0.06)' }}>
               <CheckCircle size={14} className="text-emerald-400" />
               <span className="text-xs font-semibold" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-                Progresso atualizado
+                {t('unit.progressUpdated')}
               </span>
             </div>
 
@@ -151,14 +153,14 @@ export default function TestPage() {
                   color: 'rgb(var(--color-text) / 0.7)',
                   border: '1px solid rgb(var(--color-border) / 0.1)',
                 }}>
-                <RotateCcw size={15} /> Refazer Teste
+                <RotateCcw size={15} /> {t('unit.retakeTestBtn')}
               </button>
               <button onClick={() => router.push('/academia')}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all active:scale-95"
                 style={{
                   background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})`,
                 }}>
-                Ver todas as áreas <ArrowRight size={15} />
+                {t('unit.viewAllAreas')} <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -175,7 +177,7 @@ export default function TestPage() {
         <button onClick={() => router.push(`/academia/${id}`)}
           className="flex items-center gap-2 text-sm"
           style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-          <ArrowLeft size={16} /> Voltar ao conteúdo
+          <ArrowLeft size={16} /> {t('unit.backToContent')}
         </button>
 
         {/* Header */}
@@ -192,7 +194,7 @@ export default function TestPage() {
               Teste: {area.title}
             </h1>
             <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-              Pergunta {currentQ + 1} de {test.questions.length}
+              {t('unit.questionOf', { current: currentQ + 1, total: test.questions.length })}
             </p>
           </div>
         </div>
@@ -282,8 +284,8 @@ export default function TestPage() {
                 color: selected === question.correctAnswer ? '#8FAF7A' : '#C47A6A',
               }}>
               {selected === question.correctAnswer
-                ? '✓ Correto! Boa resposta.'
-                : `✗ Resposta incorreta. A correta era: ${question.correctAnswer}`}
+                ? `✓ ${t('unit.correct')}`
+                : `✗ ${t('unit.incorrect', { answer: question.correctAnswer })}`}
             </div>
           )}
         </div>

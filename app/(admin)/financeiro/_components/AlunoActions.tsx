@@ -1,6 +1,7 @@
 'use client';
 
 import { logger } from '@/lib/logger';
+import { useTranslations } from 'next-intl';
 
 /**
  * AlunoActions — Botões interativos de ação financeira
@@ -17,6 +18,7 @@ interface AlunoEmAtrasoActionsProps {
 }
 
 export function AlunoEmAtrasoActions({ alunoId }: AlunoEmAtrasoActionsProps) {
+  const t = useTranslations('admin');
   const handleValidar = () => {
     // TODO(FE-020): Chamar POST /admin/financeiro/validar
     logger.info('[Financeiro]', `Validar pagamento: ${alunoId}`);
@@ -33,13 +35,13 @@ export function AlunoEmAtrasoActions({ alunoId }: AlunoEmAtrasoActionsProps) {
         onClick={handleValidar}
         className="px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors text-sm font-medium"
       >
-        Validar Pagamento
+        {t('financial.validatePayment')}
       </button>
       <button
         onClick={handleBloquear}
         className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium"
       >
-        Bloquear
+        {t('financial.blockAccess')}
       </button>
     </div>
   );
@@ -50,6 +52,7 @@ interface AlunoBloqueadoActionsProps {
 }
 
 export function AlunoBloqueadoActions({ alunoId }: AlunoBloqueadoActionsProps) {
+  const t = useTranslations('admin');
   const handleDesbloquear = () => {
     // TODO(FE-020): Chamar POST /admin/financeiro/desbloquear
     logger.info('[Financeiro]', `Desbloquear aluno: ${alunoId}`);
@@ -60,7 +63,7 @@ export function AlunoBloqueadoActions({ alunoId }: AlunoBloqueadoActionsProps) {
       onClick={handleDesbloquear}
       className="px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors text-sm font-medium"
     >
-      Desbloquear e Ativar
+      {t('financial.unblockActivate')}
     </button>
   );
 }

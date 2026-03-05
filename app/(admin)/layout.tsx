@@ -7,6 +7,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
 import { AppShell } from '@/components/shell';
@@ -25,10 +26,11 @@ function AdminLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const t = useTranslations('admin');
   return (
     <ProtectedRoute
       allowedTypes={[...ADMIN_TYPES]}
-      loadingText="Carregando painel..."
+      loadingText={t('dashboard.loadingPanel')}
     >
       <GlobalSearchProvider>
         <AdminLayoutInner>{children}</AdminLayoutInner>

@@ -12,6 +12,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 const FASE_CONFIG: Record<FaseSessão, { label: string; icon: typeof Dumbbell; color: string }> = {
   aquecimento: { label: 'Aquecimento', icon: Heart, color: 'text-orange-400 bg-orange-500/10' },
@@ -26,6 +27,7 @@ const FASES_ORDEM: FaseSessão[] = ['aquecimento', 'tecnica', 'drill', 'sparring
 type TabView = 'builder' | 'planos' | 'tecnicas';
 
 export default function PlanoAulaPage() {
+  const t = useTranslations('professor.lessonPlan');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -100,9 +102,9 @@ export default function PlanoAulaPage() {
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <ClipboardList size={20} className="text-blue-400" />
-            Plano de Sessão
+            {t('title')}
           </h1>
-          <p className="text-sm text-white/40 mt-1">Monte e salve seus planos de treino</p>
+          <p className="text-sm text-white/40 mt-1">{t('subtitle')}</p>
         </div>
         <Link href="/professor-cronometro"
           className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-xs font-bold hover:bg-white/[0.08] transition-colors">
@@ -112,7 +114,7 @@ export default function PlanoAulaPage() {
 
       {/* Tabs */}
       <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 w-fit">
-        {([['builder', 'Montar', ClipboardList], ['planos', 'Salvos', Copy], ['tecnicas', 'Técnicas', BookOpen]] as const).map(([key, label, Icon]) => (
+        {([['builder', t('tabs.build'), ClipboardList], ['planos', t('tabs.saved'), Copy], ['tecnicas', t('tabs.techniques'), BookOpen]] as const).map(([key, label, Icon]) => (
           <button key={key} onClick={() => setTab(key as TabView)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === key ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
             <Icon size={13} /> {label}
@@ -124,7 +126,7 @@ export default function PlanoAulaPage() {
       {tab === 'builder' && (
         <div className="space-y-4">
           {/* Title */}
-          <input value={titulo} onChange={e => setTitulo(e.target.value)} placeholder="Nome do plano (ex: Guarda Fechada — Fundamentals)"
+          <input value={titulo} onChange={e => setTitulo(e.target.value)} placeholder={t('namePlaceholder')}
             className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/70 text-sm placeholder:text-white/15 focus:outline-none focus:border-white/20" />
 
           {/* Phase buttons */}
@@ -143,7 +145,7 @@ export default function PlanoAulaPage() {
 
           {/* Items */}
           {itens.length === 0 ? (
-            <div className="py-12 text-center text-white/15 text-sm">Clique nos botões acima para adicionar etapas ao plano</div>
+            <div className="py-12 text-center text-white/15 text-sm">{t('emptyHint')}</div>
           ) : (
             <div className="space-y-2">
               {itens.map((item, idx) => {
@@ -154,7 +156,7 @@ export default function PlanoAulaPage() {
                     <div className="flex items-center gap-3 mb-3">
                       <span className={`text-[9px] font-bold px-2 py-0.5 rounded ${cfg.color}`}>{cfg.label}</span>
                       <input value={item.titulo} onChange={e => updateItem(item.id, 'titulo', e.target.value)}
-                        placeholder="Título da etapa" className="flex-1 bg-transparent text-sm text-white/60 font-bold placeholder:text-white/15 focus:outline-none" />
+                        placeholder={t('stepDuration')} className="flex-1 bg-transparent text-sm text-white/60 font-bold placeholder:text-white/15 focus:outline-none" />
                       <div className="flex items-center gap-1 shrink-0">
                         <button onClick={() => updateItem(item.id, 'duracaoMinutos', Math.max(1, item.duracaoMinutos - 5))}
                           className="w-6 h-6 rounded bg-white/[0.04] text-white/30 text-xs flex items-center justify-center">−</button>
@@ -167,7 +169,7 @@ export default function PlanoAulaPage() {
                       </button>
                     </div>
                     <input value={item.descricao} onChange={e => updateItem(item.id, 'descricao', e.target.value)}
-                      placeholder="Descrição / detalhes" className="w-full bg-transparent text-xs text-white/30 placeholder:text-white/10 focus:outline-none" />
+                      placeholder={t('stepDescription')} className="w-full bg-transparent text-xs text-white/30 placeholder:text-white/10 focus:outline-none" />
                   </div>
                 );
               })}
@@ -179,17 +181,17 @@ export default function PlanoAulaPage() {
             <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
               <div className="flex items-center gap-2 text-sm text-white/40">
                 <Clock size={14} />
-                <span className="font-bold">{duracaoTotal} minutos</span>
-                <span className="text-white/15">· {itens.length} etapas</span>
+                <span className="font-bold">{duracaoTotal} {t('minutes')}</span>
+                <span className="text-white/15">· {itens.length} {t('steps')}</span>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => handleSave(true)}
                   className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-xs font-bold hover:bg-white/[0.08] transition-colors">
-                  <Copy size={12} /> Salvar Template
+                  <Copy size={12} /> {t('saveTemplate')}
                 </button>
                 <button onClick={() => handleSave(false)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-colors ${saved ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300' : 'bg-blue-500/15 border border-blue-500/25 text-blue-300 hover:bg-blue-500/25'}`}>
-                  <Save size={12} /> {saved ? 'Salvo!' : 'Salvar Plano'}
+                  <Save size={12} /> {saved ? '✓' : t('savePlan')}
                 </button>
               </div>
             </div>
@@ -201,7 +203,7 @@ export default function PlanoAulaPage() {
       {tab === 'planos' && (
         <div className="space-y-3">
           {planos.length === 0 ? (
-            <p className="text-xs text-white/20 py-8 text-center">Nenhum plano salvo ainda</p>
+            <p className="text-xs text-white/20 py-8 text-center">{t('noSavedPlans')}</p>
           ) : (
             planos.map(plano => (
               <div key={plano.id} className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4">
@@ -212,7 +214,7 @@ export default function PlanoAulaPage() {
                       {plano.template && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400">TEMPLATE</span>}
                     </div>
                     <p className="text-[10px] text-white/25 mt-0.5">
-                      {plano.itens.length} etapas · {plano.duracaoTotal}min
+                      {plano.itens.length} {t('steps')} · {plano.duracaoTotal}{t('min')}
                       {plano.turmaNome && ` · ${plano.turmaNome}`}
                       {plano.data && ` · ${new Date(plano.data + 'T12:00:00').toLocaleDateString('pt-BR')}`}
                     </p>
@@ -239,7 +241,7 @@ export default function PlanoAulaPage() {
         <div className="space-y-3">
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
-            <input value={searchTec} onChange={e => setSearchTec(e.target.value)} placeholder="Buscar técnica ou posição..."
+            <input value={searchTec} onChange={e => setSearchTec(e.target.value)} placeholder={t('searchTechnique')}
               className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/60 text-sm placeholder:text-white/15 focus:outline-none focus:border-white/20" />
           </div>
           <div className="space-y-2">

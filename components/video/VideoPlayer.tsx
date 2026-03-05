@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Play } from 'lucide-react';
 
 interface VideoPlayerProps {
@@ -10,6 +11,7 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ youtubeId, title, autoplay = false }: VideoPlayerProps) {
+  const t = useTranslations('video');
   const [isPlaying, setIsPlaying] = useState(autoplay);
 
   // URL segura do YouTube com parâmetros de privacidade
@@ -41,7 +43,7 @@ export function VideoPlayer({ youtubeId, title, autoplay = false }: VideoPlayerP
         <button
           onClick={() => setIsPlaying(true)}
           className="absolute inset-0 flex items-center justify-center"
-          aria-label="Reproduzir vídeo"
+          aria-label={t('play')}
         >
           <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
             <Play size={32} fill="white" className="ml-1" />

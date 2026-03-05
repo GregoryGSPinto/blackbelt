@@ -8,6 +8,7 @@ import {
   BookOpen, Award, Instagram, Youtube, Facebook,
   Plus, X, Save, BarChart3, Loader2,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import {
   getProfessorPerfil, updateProfessorPerfil,
   type ProfessorPerfil, type Certificacao,
@@ -40,6 +41,8 @@ function Section({ title, icon: Icon, delay, children }: {
 // ── Main component ──
 
 export function ProfessorProfileSections() {
+  const t = useTranslations('professor.profile');
+  const tCommon = useTranslations('common');
   const [data, setData] = useState<ProfessorPerfil | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
 
@@ -67,13 +70,13 @@ export function ProfessorProfileSections() {
       `}} />
 
       {/* ── Sobre Mim ── */}
-      <Section title="Sobre Mim" icon={BookOpen} delay={0}>
+      <Section title={t('aboutMe')} icon={BookOpen} delay={0}>
         <textarea
           value={data.bio}
           onChange={(e: { target: { value: string } }) => setData({ ...data, bio: e.target.value })}
           maxLength={500}
           rows={3}
-          placeholder="Conte sobre sua trajetória..."
+          placeholder={t('aboutMePlaceholder')}
           className="w-full px-3 py-2.5 rounded-xl text-sm text-white/70 placeholder:text-white/15 resize-none outline-none"
           style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
         />
@@ -82,7 +85,7 @@ export function ProfessorProfileSections() {
         </div>
 
         <div className="flex items-center gap-3">
-          <label className="text-[10px] text-white/30 w-32">Início nas artes marciais:</label>
+          <label className="text-[10px] text-white/30 w-32">{t('startYear')}:</label>
           <input
             type="number"
             value={data.anoInicioArtesMarciais || ''}
@@ -91,12 +94,12 @@ export function ProfessorProfileSections() {
             className="w-20 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none text-center"
             style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
           />
-          {anosProf > 0 && <span className="text-[10px] text-amber-400/40">{anosProf} anos</span>}
+          {anosProf > 0 && <span className="text-[10px] text-amber-400/40">{anosProf} {t('years')}</span>}
         </div>
 
         {/* Especialidades */}
         <div>
-          <p className="text-[10px] text-white/30 mb-2">Especialidades:</p>
+          <p className="text-[10px] text-white/30 mb-2">{t('specialties')}:</p>
           <div className="flex flex-wrap gap-1.5">
             {ESPECIALIDADES_PRESET.map((esp) => {
               const active = data.especialidades.includes(esp);
@@ -127,12 +130,12 @@ export function ProfessorProfileSections() {
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-amber-200 bg-amber-600/20 hover:bg-amber-600/30 transition-colors"
         >
           {saving === 'bio' ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-          Salvar
+          {tCommon('actions.save')}
         </button>
       </Section>
 
       {/* ── Certificações ── */}
-      <Section title="Certificações" icon={Award} delay={100}>
+      <Section title={t('certifications')} icon={Award} delay={100}>
         <div className="space-y-2">
           {data.certificacoes.map((cert: Certificacao, idx: number) => (
             <div key={cert.id} className="flex items-center gap-2">
@@ -143,7 +146,7 @@ export function ProfessorProfileSections() {
                   next[idx] = { ...next[idx], titulo: e.target.value };
                   setData({ ...data, certificacoes: next });
                 }}
-                placeholder="Título"
+                placeholder={t('certTitle')}
                 className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               />
@@ -154,7 +157,7 @@ export function ProfessorProfileSections() {
                   next[idx] = { ...next[idx], instituicao: e.target.value };
                   setData({ ...data, certificacoes: next });
                 }}
-                placeholder="Instituição"
+                placeholder={t('certInstitution')}
                 className="w-28 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               />
@@ -183,7 +186,7 @@ export function ProfessorProfileSections() {
             onClick={() => setData({ ...data, certificacoes: [...data.certificacoes, { id: `cert-${Date.now()}`, titulo: '', instituicao: '', ano: anoAtual }] })}
             className="flex items-center gap-1.5 text-[10px] text-amber-400/50 hover:text-amber-400/70 transition-colors"
           >
-            <Plus size={10} /> Adicionar Certificação
+            <Plus size={10} /> {t('addCertification')}
           </button>
         )}
         <button
@@ -192,12 +195,12 @@ export function ProfessorProfileSections() {
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-amber-200 bg-amber-600/20 hover:bg-amber-600/30 transition-colors"
         >
           {saving === 'certs' ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-          Salvar
+          {tCommon('actions.save')}
         </button>
       </Section>
 
       {/* ── Redes Sociais ── */}
-      <Section title="Redes Sociais" icon={Instagram} delay={200}>
+      <Section title={t('socialMedia')} icon={Instagram} delay={200}>
         <div className="space-y-2.5">
           {[
             { key: 'instagram' as const, Icon: Instagram, placeholder: '@seuusuario' },
@@ -225,18 +228,18 @@ export function ProfessorProfileSections() {
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-amber-200 bg-amber-600/20 hover:bg-amber-600/30 transition-colors"
         >
           {saving === 'social' ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-          Salvar
+          {tCommon('actions.save')}
         </button>
       </Section>
 
       {/* ── Estatísticas ── */}
-      <Section title="Estatísticas" icon={BarChart3} delay={300}>
+      <Section title={t('statistics')} icon={BarChart3} delay={300}>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { label: 'Sessões Ministradas', value: data.totalSessõesMinistradas, color: '#D97706' },
-            { label: 'Turmas Ativas', value: data.turmasAtivas, color: '#3B82F6' },
-            { label: 'Alunos Graduados', value: data.alunosGraduados, color: '#22C55E' },
-            { label: 'Anos como Professor', value: anosProf, color: '#8B5CF6' },
+            { label: t('sessionsTaught'), value: data.totalSessõesMinistradas, color: '#D97706' },
+            { label: t('activeClassesCount'), value: data.turmasAtivas, color: '#3B82F6' },
+            { label: t('graduatedStudents'), value: data.alunosGraduados, color: '#22C55E' },
+            { label: t('yearsTeaching'), value: anosProf, color: '#8B5CF6' },
           ].map((stat) => (
             <div
               key={stat.label}

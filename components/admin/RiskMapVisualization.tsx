@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { RiskGroupVM } from '@/lib/application/intelligence';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // RISK MAP VISUALIZATION — Distribuicao de risco dos alunos
@@ -17,15 +18,24 @@ interface RiskMapVisualizationProps {
   };
 }
 
-const RISK_CATEGORIES = [
-  { key: 'critical' as const, label: 'Critico', color: 'bg-red-500', textColor: 'text-red-400', borderColor: 'border-red-500/30', bgColor: 'bg-red-500/10' },
-  { key: 'atRisk' as const, label: 'Em Risco', color: 'bg-orange-500', textColor: 'text-orange-400', borderColor: 'border-orange-500/30', bgColor: 'bg-orange-500/10' },
-  { key: 'watch' as const, label: 'Observacao', color: 'bg-yellow-500', textColor: 'text-yellow-400', borderColor: 'border-yellow-500/30', bgColor: 'bg-yellow-500/10' },
-  { key: 'safe' as const, label: 'Seguros', color: 'bg-green-500', textColor: 'text-green-400', borderColor: 'border-green-500/30', bgColor: 'bg-green-500/10' },
-  { key: 'champion' as const, label: 'Champions', color: 'bg-blue-500', textColor: 'text-blue-400', borderColor: 'border-blue-500/30', bgColor: 'bg-blue-500/10' },
+const RISK_STYLES = [
+  { key: 'critical' as const, color: 'bg-red-500', textColor: 'text-red-400', borderColor: 'border-red-500/30', bgColor: 'bg-red-500/10' },
+  { key: 'atRisk' as const, color: 'bg-orange-500', textColor: 'text-orange-400', borderColor: 'border-orange-500/30', bgColor: 'bg-orange-500/10' },
+  { key: 'watch' as const, color: 'bg-yellow-500', textColor: 'text-yellow-400', borderColor: 'border-yellow-500/30', bgColor: 'bg-yellow-500/10' },
+  { key: 'safe' as const, color: 'bg-green-500', textColor: 'text-green-400', borderColor: 'border-green-500/30', bgColor: 'bg-green-500/10' },
+  { key: 'champion' as const, color: 'bg-blue-500', textColor: 'text-blue-400', borderColor: 'border-blue-500/30', bgColor: 'bg-blue-500/10' },
 ] as const;
 
 export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
+  const t = useTranslations('admin');
+  const RISK_LABEL_MAP: Record<string, string> = {
+    critical: t('churn.critical'),
+    atRisk: t('churn.atRisk'),
+    watch: t('churn.observation'),
+    safe: t('churn.safe'),
+    champion: t('churn.champions'),
+  };
+  const RISK_CATEGORIES = RISK_STYLES.map(s => ({ ...s, label: RISK_LABEL_MAP[s.key] }));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const total = Object.values(riskMap).reduce((sum, group) => sum + group.count, 0);
@@ -34,7 +44,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-zinc-300">Mapa de Risco</h3>
+        <h3 className="text-sm font-medium text-zinc-300">{t('riskMap.title')}</h3>
         <span className="text-xs text-zinc-500">{total} alunos total</span>
       </div>
 
@@ -85,7 +95,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
       {revenueAtRisk > 0 && (
         <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-red-400 font-medium">Receita em risco:</span>
+            <span className="text-xs text-red-400 font-medium">{t('riskMap.revenueAtRisk')}:</span>
             <span className="text-sm font-bold text-red-300">
               R$ {revenueAtRisk.toLocaleString('pt-BR')}/mes
             </span>

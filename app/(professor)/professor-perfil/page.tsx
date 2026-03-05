@@ -10,8 +10,10 @@ import {
 import { ProfessorProfileSections } from '@/components/professor/ProfessorProfileSections';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function ProfessorPerfilPage() {
+  const t = useTranslations('professor.profile');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -27,8 +29,8 @@ export default function ProfessorPerfilPage() {
     <div className="space-y-8 pt-6 pb-8 max-w-3xl mx-auto px-4 md:px-0">
       {/* Header */}
       <section className="prof-enter-1">
-        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Configurações</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Meu Perfil</h1>
+        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('settings')}</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('myProfile')}</h1>
         <div className="prof-gold-line mt-6" />
       </section>
 
@@ -48,7 +50,7 @@ export default function ProfessorPerfilPage() {
           {/* Info */}
           <div className="text-center md:text-left flex-1">
             <h2 className="text-xl font-bold text-white">{user?.nome}</h2>
-            <p className="text-amber-400/60 text-sm mt-1">{user?.graduacao || 'Nível Máximo'}</p>
+            <p className="text-amber-400/60 text-sm mt-1">{user?.graduacao || t('maxLevel')}</p>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-3">
               <span className="text-[10px] px-3 py-1 bg-indigo-500/15 text-indigo-300 rounded-lg font-semibold">Professor</span>
               <span className="text-[10px] px-3 py-1 bg-emerald-500/15 text-emerald-300 rounded-lg font-semibold">Ativo</span>
@@ -60,14 +62,14 @@ export default function ProfessorPerfilPage() {
 
       {/* Personal Info */}
       <section className="prof-glass-card p-6 prof-enter-3">
-        <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">Informações Pessoais</h3>
+        <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">{t('personalInfo')}</h3>
 
         <div className="space-y-4">
           {[
-            { icon: User, label: 'Nome Completo', value: user?.nome || '' },
-            { icon: Mail, label: 'Email', value: user?.email || '' },
-            { icon: Award, label: 'Graduação', value: user?.graduacao || 'Nível Máximo 3º Subnível' },
-            { icon: Globe, label: 'Unidade', value: user?.unidade || 'BlackBelt Centro' },
+            { icon: User, label: t('fullName'), value: user?.nome || '' },
+            { icon: Mail, label: t('email'), value: user?.email || '' },
+            { icon: Award, label: t('graduation'), value: user?.graduacao || t('maxLevel') },
+            { icon: Globe, label: t('unitName'), value: user?.unidade || t('unitValue') },
           ].map((field) => (
             <div key={field.label} className="flex items-center gap-4 p-3 bg-white/3 rounded-xl">
               <field.icon size={16} className="text-amber-400/70 flex-shrink-0" />
@@ -83,13 +85,13 @@ export default function ProfessorPerfilPage() {
 
       {/* Preferences */}
       <section className="prof-glass-card p-6 prof-enter-4">
-        <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">Preferências</h3>
+        <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">{t('preferences')}</h3>
 
         <div className="space-y-3">
           {[
-            { icon: Bell, label: 'Notificações', desc: 'Alertas de turmas e avaliações', enabled: true },
-            { icon: Eye, label: 'Visibilidade', desc: 'Perfil visível para alunos', enabled: true },
-            { icon: Smartphone, label: 'Push Notifications', desc: 'Notificações no celular', enabled: false },
+            { icon: Bell, label: t('notificationsLabel'), desc: t('notificationsDesc'), enabled: true },
+            { icon: Eye, label: t('visibilityLabel'), desc: t('visibilityDesc'), enabled: true },
+            { icon: Smartphone, label: t('pushLabel'), desc: t('pushDesc'), enabled: false },
           ].map((pref) => (
             <div key={pref.label} className="flex items-center gap-4 p-3 bg-white/3 rounded-xl">
               <pref.icon size={16} className="text-amber-400/70 flex-shrink-0" />
@@ -109,14 +111,14 @@ export default function ProfessorPerfilPage() {
 
       {/* Security */}
       <section className="prof-glass-card p-6 prof-enter-5">
-        <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">Segurança</h3>
+        <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">{t('securityTitle')}</h3>
 
         <div className="space-y-3">
           <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all duration-300">
             <Lock size={16} className="text-amber-400/60" />
             <div className="flex-1 text-left">
-              <p className="text-sm" style={{ color: tokens.text }}>Alterar Senha</p>
-              <p className="text-[10px] text-white/50 mt-0.5">Última alteração: 30 dias atrás</p>
+              <p className="text-sm" style={{ color: tokens.text }}>{t('changePasswordLabel')}</p>
+              <p className="text-[10px] text-white/50 mt-0.5">{t('lastChange')}</p>
             </div>
             <ChevronRight size={14} style={{ color: tokens.textMuted }} />
           </button>
@@ -124,8 +126,8 @@ export default function ProfessorPerfilPage() {
           <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all duration-300">
             <Shield size={16} className="text-amber-400/60" />
             <div className="flex-1 text-left">
-              <p className="text-sm" style={{ color: tokens.text }}>Autenticação 2FA</p>
-              <p className="text-[10px] text-white/50 mt-0.5">Não configurado</p>
+              <p className="text-sm" style={{ color: tokens.text }}>{t('twoFALabel')}</p>
+              <p className="text-[10px] text-white/50 mt-0.5">{t('notConfigured')}</p>
             </div>
             <ChevronRight size={14} style={{ color: tokens.textMuted }} />
           </button>
@@ -149,10 +151,10 @@ export default function ProfessorPerfilPage() {
           {saved ? (
             <span className="flex items-center justify-center gap-2">
               <CheckCircle size={16} />
-              Salvo com sucesso
+              {t('savedSuccess')}
             </span>
           ) : (
-            'Salvar Alterações'
+            t('saveChanges')
           )}
         </button>
       </section>

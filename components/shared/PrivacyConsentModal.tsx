@@ -24,6 +24,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Shield, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
 
 const CONSENT_KEY = 'blackbelt-privacy-consent-v1';
@@ -35,9 +36,9 @@ interface ConsentState {
 }
 
 const DATA_ITEMS = [
-  { key: 'essential' as const, label: 'Dados essenciais', desc: 'Nome, email, data de nascimento — necessários para funcionamento da conta', required: true },
-  { key: 'analytics' as const, label: 'Melhoria do app', desc: 'Dados de uso anônimos para melhorar a experiência (sem identificação pessoal)', required: false },
-  { key: 'notifications' as const, label: 'Notificações', desc: 'Lembretes de sessão, avisos da unidade e mensagens dos instrutores', required: false },
+  { key: 'essential' as const, label: 'essentialData', desc: 'essentialDesc', required: true },
+  { key: 'analytics' as const, label: 'appImprovement', desc: 'improvementDesc', required: false },
+  { key: 'notifications' as const, label: 'notificationsConsent', desc: 'notificationsConsent', required: false },
 ];
 
 // TODO(LGPD-001): Replace this stub with a real API call once the endpoint exists.
@@ -61,6 +62,7 @@ async function saveConsentToBackend(consent: ConsentState & { acceptedAt: string
 }
 
 export function PrivacyConsentModal() {
+  const t = useTranslations('common.privacy');
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [consent, setConsent] = useState<ConsentState>({
@@ -126,7 +128,7 @@ export function PrivacyConsentModal() {
           >
             <Shield size={24} className="text-blue-400" />
           </div>
-          <h2 className="text-lg font-bold text-white">Sua Privacidade</h2>
+          <h2 className="text-lg font-bold text-white">{t('title')}</h2>
           <p className="text-xs text-white/40 mt-1.5 leading-relaxed">
             O BlackBelt respeita seus dados. Veja como usamos suas informações.
           </p>
@@ -164,10 +166,10 @@ export function PrivacyConsentModal() {
               </label>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white/80 font-medium">
-                  {item.label}
+                  {t(item.label)}
                   {item.required && <span className="text-[9px] text-white/25 ml-1.5">(obrigatório)</span>}
                 </p>
-                <p className="text-[11px] text-white/30 mt-0.5 leading-relaxed">{item.desc}</p>
+                <p className="text-[11px] text-white/30 mt-0.5 leading-relaxed">{t(item.desc)}</p>
               </div>
             </div>
           ))}
@@ -191,7 +193,7 @@ export function PrivacyConsentModal() {
               <p>• Dados podem ser excluídos em Configurações → Minha Conta → Excluir Conta</p>
               <p className="mt-2">
                 <a href="/politica-privacidade.html" target="_blank" className="text-blue-400/50 underline">
-                  Política de Privacidade completa
+                  {t('fullPolicy')}
                 </a>
               </p>
             </div>
@@ -206,7 +208,7 @@ export function PrivacyConsentModal() {
                        bg-gradient-to-r from-blue-600 to-blue-500 text-white
                        hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg"
           >
-            Aceitar Todos
+            {t('acceptAll')}
           </button>
           <button
             onClick={handleAcceptSelected}
@@ -214,7 +216,7 @@ export function PrivacyConsentModal() {
                        bg-white/5 border border-white/10 text-white/40
                        hover:bg-white/10 transition-colors"
           >
-            Aceitar Selecionados
+            {t('acceptSelected')}
           </button>
         </div>
       </div>

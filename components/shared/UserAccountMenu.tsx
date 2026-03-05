@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { LogOut, ChevronDown, ArrowRightLeft, Settings } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/contexts/AuthContext';
 
 interface UserAccountMenuProps {
@@ -22,6 +23,8 @@ export function UserAccountMenu({
   showBadge = true,
   className = '',
 }: UserAccountMenuProps) {
+  const t = useTranslations('common.menu');
+  const tConfirm = useTranslations('common.confirm');
   const { user, logout } = useAuth();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -183,7 +186,7 @@ export function UserAccountMenu({
                 role="menuitem"
               >
                 <ArrowRightLeft size={18} className="opacity-70 shrink-0" />
-                <span className="font-medium text-sm">Trocar Perfil</span>
+                <span className="font-medium text-sm">{t('switchProfile')}</span>
               </button>
 
               <button
@@ -192,7 +195,7 @@ export function UserAccountMenu({
                 role="menuitem"
               >
                 <Settings size={18} className="opacity-70 shrink-0" />
-                <span className="font-medium text-sm">Configurações</span>
+                <span className="font-medium text-sm">{t('settings')}</span>
               </button>
 
               <div className={`my-1 border-t ${s.divider}`} />
@@ -203,7 +206,7 @@ export function UserAccountMenu({
                 role="menuitem"
               >
                 <LogOut size={18} className="shrink-0" />
-                <span className="font-medium text-sm">Sair</span>
+                <span className="font-medium text-sm">{t('logout')}</span>
               </button>
             </div>
           </div>

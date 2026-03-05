@@ -15,6 +15,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { X, Send, MessageCircle, ChevronRight } from 'lucide-react';
 import { ConversationView } from '@/components/shared/MessageBubble';
 import { MessageActions } from '@/components/shared/MessageActions';
@@ -48,6 +49,8 @@ export function QuickMessage({
   conversaId = 'conv-1',
   onClose,
 }: QuickMessageProps) {
+  const t = useTranslations('athlete.quickMessage');
+  const tActions = useTranslations('common.actions');
   const [view, setView] = useState<View>('templates');
   const [templates, setTemplates] = useState<MensagemTemplate[]>([]);
   const [mensagens, setMensagens] = useState<Mensagem[]>([]);
@@ -113,8 +116,8 @@ export function QuickMessage({
           <>
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04] flex-shrink-0">
               <div>
-                <h3 className="text-white font-bold text-sm">Mensagem para {firstName}</h3>
-                <p className="text-white/25 text-[10px]">Selecione um template ou escreva</p>
+                <h3 className="text-white font-bold text-sm">{t('title', { name: firstName })}</h3>
+                <p className="text-white/25 text-[10px]">{t('selectTemplate')}</p>
               </div>
               <div className="flex items-center gap-1">
                 <MessageActions
@@ -124,7 +127,7 @@ export function QuickMessage({
                 <button
                   onClick={onClose}
                   className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center text-white/30 hover:text-white/50"
-                  aria-label="Fechar"
+                  aria-label={tActions('close')}
                 >
                   <X size={16} />
                 </button>
@@ -147,7 +150,7 @@ export function QuickMessage({
                     </p>
                   </div>
                   {sentTemplate === t.id ? (
-                    <span className="text-emerald-400 text-xs font-bold flex-shrink-0">Enviado ✓</span>
+                    <span className="text-emerald-400 text-xs font-bold flex-shrink-0">{t('sent')}</span>
                   ) : (
                     <Send size={12} className="text-white/15 group-hover:text-white/30 flex-shrink-0 transition-colors" />
                   )}
@@ -162,7 +165,7 @@ export function QuickMessage({
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.1] transition-colors text-sm font-medium"
               >
                 <MessageCircle size={14} />
-                Abrir conversa
+                {t('openConversation')}
                 <ChevronRight size={14} />
               </button>
             </div>

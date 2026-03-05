@@ -8,6 +8,7 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { createPortal } from 'react-dom';
 import { ChevronRight, ChevronLeft, X } from 'lucide-react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
@@ -20,6 +21,7 @@ interface TargetRect {
 }
 
 export function OnboardingTour() {
+  const t = useTranslations('common.onboarding');
   const { isActive, currentStep, totalSteps, tour, next, back, skip } = useOnboarding();
   const [targetRect, setTargetRect] = useState<TargetRect | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
@@ -191,7 +193,7 @@ export function OnboardingTour() {
           <button
             onClick={skip}
             className="absolute top-3 right-3 p-1 rounded-lg text-white/20 hover:text-white/50 transition-colors"
-            aria-label="Pular tour"
+            aria-label={t('skipTour')}
           >
             <X size={14} />
           </button>
@@ -235,7 +237,7 @@ export function OnboardingTour() {
                   className="px-4 py-1.5 rounded-lg text-xs font-bold transition-colors"
                   style={{ background: 'rgba(251,191,36,0.2)', color: '#FBBF24', border: '1px solid rgba(251,191,36,0.3)' }}
                 >
-                  Finalizar
+                  {t('finish')}
                 </button>
               ) : (
                 <button
@@ -243,7 +245,7 @@ export function OnboardingTour() {
                   className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-white/70 hover:text-white transition-colors"
                   style={{ background: 'rgba(255,255,255,0.06)' }}
                 >
-                  Próximo
+                  {t('nextStep')}
                   <ChevronRight size={14} />
                 </button>
               )}
@@ -256,7 +258,7 @@ export function OnboardingTour() {
               onClick={skip}
               className="mt-3 text-[10px] text-white/20 hover:text-white/40 transition-colors"
             >
-              Pular tour
+              {t('skipTour')}
             </button>
           )}
         </div>

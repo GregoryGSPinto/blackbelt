@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import * as kidsService from '@/lib/api/kids.service';
 import { getRandomTip, MASCOTES } from '@/lib/api/kids.service';
 import type { KidProfile } from '@/lib/api/kids.service';
@@ -13,6 +14,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsInicioPage() {
+  const t = useTranslations('kids.home');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
@@ -50,7 +52,7 @@ export default function KidsInicioPage() {
   }, [retryCount, user?.id]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
@@ -91,23 +93,23 @@ export default function KidsInicioPage() {
           className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tracking-tight"
           style={{ color: headingColor }}
         >
-          Olá, {currentKid.nome.split(' ')[0]}! 👋
+          {t('greeting', { name: currentKid.nome.split(' ')[0] })}
         </h2>
         <p
           className="text-xl md:text-2xl font-semibold"
           style={{ color: headingColor }}
         >
-          Bom te ver aqui! Pronto para treinar?
+          {t('greetingSubtitle')}
         </p>
       </div>
 
       {/* Cards de Ação Principal */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {[
-          { href: '/kids-aulas', emoji: '🎬', title: 'Sessões', sub: '5 Novas!', color: accent.blue, from: '#EFF6FF', to: '#DBEAFE' },
-          { href: '/kids-desafios', emoji: '🏆', title: 'Desafios', sub: '2 Ativos', color: accent.orange, from: '#FFF7ED', to: '#FFEDD5' },
-          { href: '/kids-medalhas', emoji: '🎖️', title: 'Conquistas', sub: `${currentKid.progresso.conquistasConquistadas}`, color: accent.yellow, from: '#FEFCE8', to: '#FEF9C3' },
-          { href: '/kids-checkin', emoji: '⭐', title: 'Presença', sub: `Nível ${currentKid.nivel}`, color: accent.green, from: '#F0FDF4', to: '#DCFCE7' },
+          { href: '/kids-aulas', emoji: '🎬', title: t('stats.sessions'), sub: '5 Novas!', color: accent.blue, from: '#EFF6FF', to: '#DBEAFE' },
+          { href: '/kids-desafios', emoji: '🏆', title: t('stats.challenges'), sub: '2 Ativos', color: accent.orange, from: '#FFF7ED', to: '#FFEDD5' },
+          { href: '/kids-medalhas', emoji: '🎖️', title: t('stats.achievements'), sub: `${currentKid.progresso.conquistasConquistadas}`, color: accent.yellow, from: '#FEFCE8', to: '#FEF9C3' },
+          { href: '/kids-checkin', emoji: '⭐', title: t('stats.attendance'), sub: `Nível ${currentKid.nivel}`, color: accent.green, from: '#F0FDF4', to: '#DCFCE7' },
         ].map((card) => (
           <Link
             key={card.href}
@@ -140,7 +142,7 @@ export default function KidsInicioPage() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">📊</span>
           <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: headingColor }}>
-            Você Está Evoluindo!
+            {t('evolving')}
           </h3>
         </div>
 
@@ -148,7 +150,7 @@ export default function KidsInicioPage() {
           {/* Sessões Assistidas */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-base font-bold" style={{ color: labelColor }}>Sessões Assistidas</span>
+              <span className="text-base font-bold" style={{ color: labelColor }}>{t('watchedSessions')}</span>
               <span className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
             </div>
             <div className="h-4 rounded-full overflow-hidden" style={{ background: progressTrail }}>
@@ -166,7 +168,7 @@ export default function KidsInicioPage() {
           {/* Desafios Concluídos */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-base font-bold" style={{ color: labelColor }}>Desafios Concluídos</span>
+              <span className="text-base font-bold" style={{ color: labelColor }}>{t('challengesDone')}</span>
               <span className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.orange }}>{currentKid.progresso.desafiosConcluidos}</span>
             </div>
             <div className="h-4 rounded-full overflow-hidden" style={{ background: progressTrail }}>
@@ -184,7 +186,7 @@ export default function KidsInicioPage() {
           {/* Presença */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-base font-bold" style={{ color: labelColor }}>Presença nos Treinos</span>
+              <span className="text-base font-bold" style={{ color: labelColor }}>{t('trainingAttendance')}</span>
               <span className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.green }}>{currentKid.progresso.presenca30dias}%</span>
             </div>
             <div className="h-4 rounded-full overflow-hidden" style={{ background: progressTrail }}>
@@ -233,7 +235,7 @@ export default function KidsInicioPage() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">🐯</span>
           <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: headingColor }}>
-            Mestres Animais
+            {t('animalMasters')}
           </h3>
         </div>
         <div className="grid grid-cols-4 md:grid-cols-7 gap-4">
@@ -265,7 +267,7 @@ export default function KidsInicioPage() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">🎯</span>
           <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: headingColor }}>
-            Próximas Conquistas
+            {t('nextAchievements')}
           </h3>
         </div>
         <div className="space-y-4">
@@ -276,12 +278,12 @@ export default function KidsInicioPage() {
             <div className="flex items-center gap-4">
               <span className="text-4xl">🏆</span>
               <div>
-                <p className="text-lg font-black" style={{ color: headingColor }}>Guerreiro Persistente</p>
-                <p className="text-sm font-semibold" style={{ color: hintColor }}>Treinar 10 dias seguidos</p>
+                <p className="text-lg font-black" style={{ color: headingColor }}>{t('persistentWarrior')}</p>
+                <p className="text-sm font-semibold" style={{ color: hintColor }}>{t('persistentWarriorDesc')}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-xs font-semibold" style={{ color: hintColor }}>Faltam</p>
+              <p className="text-xs font-semibold" style={{ color: hintColor }}>{t('remaining')}</p>
               <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.blue }}>3 dias</p>
             </div>
           </div>
@@ -293,12 +295,12 @@ export default function KidsInicioPage() {
             <div className="flex items-center gap-4">
               <span className="text-4xl">⭐</span>
               <div>
-                <p className="text-lg font-black" style={{ color: headingColor }}>Estudante Brilhante</p>
-                <p className="text-sm font-semibold" style={{ color: hintColor }}>Assistir 20 sessões</p>
+                <p className="text-lg font-black" style={{ color: headingColor }}>{t('brilliantStudent')}</p>
+                <p className="text-sm font-semibold" style={{ color: hintColor }}>{t('brilliantStudentDesc')}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-xs font-semibold" style={{ color: hintColor }}>Faltam</p>
+              <p className="text-xs font-semibold" style={{ color: hintColor }}>{t('remaining')}</p>
               <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: accent.yellow }}>5 sessões</p>
             </div>
           </div>

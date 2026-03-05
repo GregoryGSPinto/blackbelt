@@ -7,6 +7,7 @@ import { useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Shield, Copy, Check, Loader2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
+import { useTranslations } from 'next-intl';
 
 interface MFASetupModalProps {
   isOpen: boolean;
@@ -26,27 +27,29 @@ export function MFASetupModal({
   backupCodes = MOCK_BACKUP,
 }: MFASetupModalProps) {
   const toast = useToast();
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
   const [step, setStep] = useState<'qr' | 'verify' | 'backup'>('qr');
   const [code, setCode] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const handleVerify = useCallback(() => {
-    if (code.length !== 6) { toast.warning('Digite o código de 6 dígitos'); return; }
+    if (code.length !== 6) { toast.warning(t('mfa.enterCode')); return; }
     setVerifying(true);
     setTimeout(() => {
       setVerifying(false);
       setStep('backup');
-      toast.success('MFA ativado com sucesso!');
+      toast.success(t('mfa.verifyActivate'));
     }, 1000);
-  }, [code, toast]);
+  }, [code, toast, t]);
 
   const handleCopyBackup = useCallback(() => {
     navigator.clipboard.writeText(backupCodes.join('\n'));
     setCopied(true);
-    toast.info('Códigos copiados!');
+    toast.info(tCommon('actions.copied'));
     setTimeout(() => setCopied(false), 2000);
-  }, [backupCodes, toast]);
+  }, [backupCodes, toast, tCommon]);
 
   if (!isOpen || typeof window === 'undefined') return null;
 
@@ -56,46 +59,46 @@ export function MFASetupModal({
       <div
         className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-sm mx-4 rounded-2xl overflow-hidden p-6"
         style={{ background: 'rgba(20,18,14,0.98)', border: '1px solid rgba(255,255,255,0.08)' }}
-        role="dialog" aria-modal="true" aria-label="Configurar MFA"
+        role="dialog" aria-modal="true" aria-label={t('mfa.setupTitle')}
       >
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-xl hover:bg-white/10" aria-label="Fechar">
+        <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-xl hover:bg-white/10" aria-label={tCommon('actions.close')}>
           <X size={16} className="text-white/50" />
         </button>
 
         <div className="text-center mb-5">
           <Shield size={24} className="mx-auto mb-2 text-green-400" />
-          <h2 className="text-lg font-bold text-white">Configurar MFA</h2>
+          <h2 className="text-lg font-bold text-white">{t('mfa.setupTitle')}</h2>
         </div>
 
         {step === 'qr' && (
           <div className="space-y-4">
             <p className="text-xs text-white/40 text-center">
-              Escaneie o QR code com Google Authenticator ou Authy
+              {t('mfa.scanQR')}
             </p>
             <div className="flex justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={qrCodeDataURL} alt="QR Code para MFA" className="w-48 h-48 rounded-xl bg-white p-2" />
+              <img src={qrCodeDataURL} alt="QR Code MFA" className="w-48 h-48 rounded-xl bg-white p-2" />
             </div>
             <button onClick={() => setStep('verify')}
               className="w-full py-3 rounded-xl font-semibold text-sm bg-green-600 hover:bg-green-500 text-white transition-all">
-              Já escaneei, próximo passo
+              {t('mfa.scannedNext')}
             </button>
           </div>
         )}
 
         {step === 'verify' && (
           <div className="space-y-4">
-            <p className="text-xs text-white/40 text-center">Digite o código de 6 dígitos exibido no app</p>
+            <p className="text-xs text-white/40 text-center">{t('mfa.enterCode')}</p>
             <input
               type="text" inputMode="numeric" maxLength={6}
               value={code} onChange={e => setCode(e.target.value.replace(/\D/g, ''))}
               className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white text-center text-xl tracking-[0.5em] font-mono
                          focus:outline-none focus:border-green-400/50 transition-colors"
-              placeholder="000000" aria-label="Código de verificação"
+              placeholder="000000" aria-label={t('mfa.enterCode')}
             />
             <button onClick={handleVerify} disabled={verifying || code.length !== 6}
               className="w-full py-3 rounded-xl font-semibold text-sm bg-green-600 hover:bg-green-500 text-white disabled:opacity-40 transition-all">
-              {verifying ? <Loader2 size={16} className="animate-spin mx-auto" /> : 'Verificar e Ativar'}
+              {verifying ? <Loader2 size={16} className="animate-spin mx-auto" /> : t('mfa.verifyActivate')}
             </button>
           </div>
         )}
@@ -103,7 +106,7 @@ export function MFASetupModal({
         {step === 'backup' && (
           <div className="space-y-4">
             <p className="text-xs text-white/40 text-center">
-              Salve estes códigos de backup em local seguro. Cada um pode ser usado uma única vez.
+              {t('mfa.saveBackupCodes')}
             </p>
             <div className="grid grid-cols-2 gap-2 p-3 rounded-xl bg-white/5 border border-white/10">
               {backupCodes.map((bc, i) => (
@@ -113,11 +116,11 @@ export function MFASetupModal({
             <button onClick={handleCopyBackup}
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm bg-white/5 hover:bg-white/10 text-white/60 transition-colors">
               {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-              {copied ? 'Copiado!' : 'Copiar Códigos'}
+              {copied ? tCommon('actions.copied') : t('mfa.copyCodes')}
             </button>
             <button onClick={() => { onComplete(); onClose(); }}
               className="w-full py-3 rounded-xl font-semibold text-sm bg-green-600 hover:bg-green-500 text-white transition-all">
-              Concluir Configuração
+              {t('mfa.finishSetup')}
             </button>
           </div>
         )}

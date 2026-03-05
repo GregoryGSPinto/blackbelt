@@ -1,6 +1,7 @@
 'use client';
 
 import { use } from 'react';
+import { useTranslations } from 'next-intl';
 import { Calendar, TrendingUp, Clock, BookOpen,
   Trophy, Target, CheckCircle, User, Edit
 } from 'lucide-react';
@@ -11,6 +12,9 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function PerfilFilhoPage({ params }: { params: Promise<{ id: string }> }) {
+  const t = useTranslations('parent.children');
+  const ts = useTranslations('common.status');
+  const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -22,9 +26,9 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.5rem' }}>Filho não encontrado</p>
+          <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.5rem' }}>{t('childNotFound')}</p>
           <Link href="/painel-responsavel/meus-filhos" className="text-blue-400 hover:underline">
-            Voltar para Meus Filhos
+            {t('title')}
           </Link>
         </div>
       </div>
@@ -42,10 +46,10 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'ATIVO': return 'Ativo';
-      case 'EM_ATRASO': return 'Em Atraso';
-      case 'BLOQUEADO': return 'Bloqueado';
-      default: return 'Desconhecido';
+      case 'ATIVO': return ts('active');
+      case 'EM_ATRASO': return ts('overdue');
+      case 'BLOQUEADO': return ts('blocked');
+      default: return ts('inactive');
     }
   };
 
@@ -64,17 +68,17 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <div>
                 <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{filho.nome}</h1>
                 <p className="text-white/60 text-lg">
-                  {filho.idade} anos • {filho.categoria === 'teen' ? 'Adolescente' : 'Kids'} • Nível {filho.nivel}
+                  {filho.idade} anos • {filho.categoria === 'teen' ? t('teenLabel') : t('kidsLabel')} • {t('level')} {filho.nivel}
                 </p>
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <span className={`px-4 py-2 rounded-lg font-bold text-sm border text-center ${getStatusColor(filho.status)}`}>
                   {getStatusText(filho.status)}
                 </span>
                 <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-semibold transition-all duration-200 border border-white/20">
                   <Edit size={16} />
-                  Editar Perfil
+                  {t('editProfile')}
                 </button>
               </div>
             </div>
@@ -83,7 +87,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
                 <User size={20} className="text-white/60" />
                 <div>
-                  <p className="text-xs text-white/60">Professor</p>
+                  <p className="text-xs text-white/60">{t('professor')}</p>
                   <p className="font-semibold">{filho.instrutor}</p>
                 </div>
               </div>
@@ -91,7 +95,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
                 <Calendar size={20} className="text-white/60" />
                 <div>
-                  <p className="text-xs text-white/60">Turma</p>
+                  <p className="text-xs text-white/60">{t('className')}</p>
                   <p className="font-semibold">{filho.turma.split(' - ')[0]}</p>
                 </div>
               </div>
@@ -99,7 +103,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
                 <Clock size={20} className="text-white/60" />
                 <div>
-                  <p className="text-xs text-white/60">Horário</p>
+                  <p className="text-xs text-white/60">{t('schedule')}</p>
                   <p className="font-semibold">{filho.turma.split(' - ')[1] || 'Seg/Qua 18h'}</p>
                 </div>
               </div>
@@ -116,12 +120,12 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <TrendingUp size={24} className="text-green-400" />
             </div>
             <div>
-              <p className="text-sm text-white/60">Presença (30 dias)</p>
+              <p className="text-sm text-white/60">{t('monthAttendance')}</p>
               <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.presenca30dias}%</p>
             </div>
           </div>
           <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"
               style={{ width: `${filho.progresso.presenca30dias}%` }}
             />
@@ -134,11 +138,11 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <BookOpen size={24} className="text-blue-400" />
             </div>
             <div>
-              <p className="text-sm text-white/60">Sessões Assistidas</p>
-              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.sessõesAssistidas}</p>
+              <p className="text-sm text-white/60">{t('watchedSessions')}</p>
+              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.sessoesAssistidas}</p>
             </div>
           </div>
-          <p className="text-xs text-white/60">Total de sessões completadas</p>
+          <p className="text-xs text-white/60">{t('totalCompleted')}</p>
         </div>
 
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
@@ -147,11 +151,11 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               <Trophy size={24} className="text-yellow-400" />
             </div>
             <div>
-              <p className="text-sm text-white/60">Conquistas</p>
+              <p className="text-sm text-white/60">{t('achievementsCount')}</p>
               <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.conquistasConquistadas}</p>
             </div>
           </div>
-          <p className="text-xs text-white/60">Conquistas desbloqueadas</p>
+          <p className="text-xs text-white/60">{t('achievementsUnlocked')}</p>
         </div>
       </div>
 
@@ -159,17 +163,17 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
         <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
           <Target size={28} />
-          Resumo de Atividade
+          {t('activitySummary')}
         </h3>
 
         <div className="space-y-5">
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold">Presença Mensal</span>
+              <span className="font-semibold">{t('monthlyAttendance')}</span>
               <span className="text-sm text-white/60">{filho.progresso.presenca30dias}%</span>
             </div>
             <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500"
                 style={{ width: `${filho.progresso.presenca30dias}%` }}
               />
@@ -178,11 +182,11 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold">Desafios Concluídos</span>
-              <span className="text-sm text-white/60">{filho.progresso.desafiosConcluidos} completados</span>
+              <span className="font-semibold">{t('challengesDone')}</span>
+              <span className="text-sm text-white/60">{filho.progresso.desafiosConcluidos} {t('challengesCompleted')}</span>
             </div>
             <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(filho.progresso.desafiosConcluidos * 5, 100)}%` }}
               />
@@ -191,11 +195,11 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold">Conquistas Conquistadas</span>
-              <span className="text-sm text-white/60">{filho.progresso.conquistasConquistadas} desbloqueadas</span>
+              <span className="font-semibold">{t('achievementsCount')}</span>
+              <span className="text-sm text-white/60">{filho.progresso.conquistasConquistadas} {t('achievementsUnlocked')}</span>
             </div>
             <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(filho.progresso.conquistasConquistadas * 5, 100)}%` }}
               />
@@ -204,21 +208,21 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
         </div>
       </div>
 
-      {/* Últimas Sessões */}
+      {/* Ultimas Sessoes */}
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
         <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
           <BookOpen size={28} />
-          Últimas Sessões Assistidas
+          {t('lastSessions')}
         </h3>
 
         <div className="space-y-3">
-          {['Passagem de Guarda Básica', 'Defesa de Montada', 'Raspagem de Gancho', 'Finalização - Armlock'].map((aula, index) => (
+          {['Passagem de Guarda Basica', 'Defesa de Montada', 'Raspagem de Gancho', 'Finalizacao - Armlock'].map((aula, index) => (
             <div key={index} className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-200">
               <div className="flex items-center gap-3">
                 <CheckCircle size={20} className="text-green-400" />
                 <div>
                   <p className="font-semibold">{aula}</p>
-                  <p className="text-xs text-white/60">Há {index + 1} dia{index > 0 ? 's' : ''}</p>
+                  <p className="text-xs text-white/60">{t('daysAgo', { count: index + 1 })}</p>
                 </div>
               </div>
               <span className="text-xs text-white/60">12 min</span>
@@ -234,14 +238,14 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
           className="flex items-center justify-center gap-2 px-6 py-4 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all duration-200 hover:scale-105"
         >
           <Clock size={20} />
-          Fazer Check-in
+          {t('doCheckin')}
         </Link>
 
         <Link
           href="/painel-responsavel/meus-filhos"
           className="flex items-center justify-center gap-2 px-6 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105 border border-white/20"
         >
-          Voltar para Meus Filhos
+          {t('title')}
         </Link>
       </div>
 

@@ -1,6 +1,7 @@
 import {
   Flame, CalendarDays, TrendingUp, Clock, Dumbbell, BarChart3,
 } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { VerTudoButton } from './_components/VerTudoButton';
 
 /**
@@ -66,7 +67,8 @@ function tipoColor(tipo: string) {
   }
 }
 
-export default function HistoricoDashboard() {
+export default async function HistoricoDashboard() {
+  const t = await getTranslations('athlete');
   return (
     <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto space-y-8">
@@ -74,19 +76,19 @@ export default function HistoricoDashboard() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
-            Histórico de Treinos
+            {t('history.title')}
           </h1>
           <p style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-            Sua jornada no ambiente
+            {t('history.subtitle')}
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard icon={Dumbbell} label="Total de Treinos" value={String(MOCK_STATS.totalTreinos)} accent="blue" />
-          <StatCard icon={CalendarDays} label="Este Mês" value={String(MOCK_STATS.treinosMes)} accent="emerald" />
-          <StatCard icon={Flame} label="Sequência Atual" value={`${MOCK_STATS.streak} dias`} accent="amber" />
-          <StatCard icon={Clock} label="Tempo Total" value={MOCK_STATS.tempoTotal} accent="purple" />
+          <StatCard icon={Dumbbell} label={t('history.totalTrainings')} value={String(MOCK_STATS.totalTreinos)} accent="blue" />
+          <StatCard icon={CalendarDays} label={t('history.thisMonth')} value={String(MOCK_STATS.treinosMes)} accent="emerald" />
+          <StatCard icon={Flame} label={t('history.currentStreak')} value={`${MOCK_STATS.streak} ${t('history.consecutiveDays')}`} accent="amber" />
+          <StatCard icon={Clock} label={t('history.totalTime')} value={MOCK_STATS.tempoTotal} accent="purple" />
         </div>
 
         {/* Streak & Weekly */}
@@ -95,14 +97,14 @@ export default function HistoricoDashboard() {
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Flame size={18} className="text-amber-400" />
-              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>Sequência de Treinos</h2>
+              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.streakTitle')}</h2>
             </div>
             <div className="flex items-baseline gap-2 mb-1">
               <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-amber-400">{MOCK_STATS.streak}</span>
-              <span className="text-sm" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>dias consecutivos</span>
+              <span className="text-sm" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{t('history.consecutiveDays')}</span>
             </div>
             <p className="text-xs mb-5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-              Recorde pessoal: {MOCK_STATS.melhorStreak} dias
+              {t('history.personalRecord')} {MOCK_STATS.melhorStreak} {t('history.consecutiveDays')}
             </p>
 
             <div className="flex gap-1">
@@ -123,7 +125,7 @@ export default function HistoricoDashboard() {
               ))}
             </div>
             <p className="text-[10px] mt-2" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-              Últimas 12 semanas
+              {t('history.last12Weeks')}
             </p>
           </div>
 
@@ -131,10 +133,10 @@ export default function HistoricoDashboard() {
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <BarChart3 size={18} className="text-blue-400" />
-              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>Dias Mais Frequentados</h2>
+              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.mostFrequentDays')}</h2>
             </div>
             <p className="text-xs mb-5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-              Média semanal: {MOCK_STATS.mediaSemanal} treinos
+              {t('history.weeklyAvg')} {MOCK_STATS.mediaSemanal}
             </p>
             <div className="space-y-3">
               {DIAS_SEMANA.map(d => (
@@ -163,7 +165,7 @@ export default function HistoricoDashboard() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <TrendingUp size={18} className="text-emerald-400" />
-              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>Últimos Treinos</h2>
+              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.lastTrainings')}</h2>
             </div>
             <VerTudoButton />
           </div>

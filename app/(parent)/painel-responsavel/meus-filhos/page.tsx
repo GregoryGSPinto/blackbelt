@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { User, Calendar, Award, TrendingUp, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { useParent } from '@/contexts/ParentContext';
@@ -7,6 +8,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function MeusFilhosPage() {
+  const t = useTranslations('parent.children');
+  const ts = useTranslations('common.status');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -23,18 +26,18 @@ export default function MeusFilhosPage() {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'ATIVO': return 'Ativo';
-      case 'EM_ATRASO': return 'Em Atraso';
-      case 'BLOQUEADO': return 'Bloqueado';
-      default: return 'Desconhecido';
+      case 'ATIVO': return ts('active');
+      case 'EM_ATRASO': return ts('overdue');
+      case 'BLOQUEADO': return ts('blocked');
+      default: return ts('inactive');
     }
   };
 
   return (
     <div className="space-y-8 animate-fade-in px-4 md:px-0">
       <div>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Meus Filhos</h2>
-        <p className="text-white/60 text-lg">Gerencie os perfis e acompanhe o desempenho</p>
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('title')}</h2>
+        <p className="text-white/60 text-lg">{t('subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -49,7 +52,7 @@ export default function MeusFilhosPage() {
               </div>
               <h3 className="font-bold text-white text-xl text-center">{filho.nome}</h3>
               <p className="text-white/60 text-sm mt-1">
-                {filho.idade} anos • {filho.categoria === 'teen' ? 'Adolescente' : 'Kids'}
+                {filho.idade} anos • {filho.categoria === 'teen' ? t('teenLabel') : t('kidsLabel')}
               </p>
             </div>
 
@@ -63,7 +66,7 @@ export default function MeusFilhosPage() {
               <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
                 <Award size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="text-xs text-white/60">Nível</p>
+                  <p className="text-xs text-white/60">{t('level')}</p>
                   <p className="font-semibold text-white">{filho.nivel}</p>
                 </div>
               </div>
@@ -71,7 +74,7 @@ export default function MeusFilhosPage() {
               <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
                 <User size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="text-xs text-white/60">Professor</p>
+                  <p className="text-xs text-white/60">{t('professor')}</p>
                   <p className="font-semibold text-white text-sm">{filho.instrutor}</p>
                 </div>
               </div>
@@ -79,7 +82,7 @@ export default function MeusFilhosPage() {
               <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
                 <Calendar size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="text-xs text-white/60">Turma</p>
+                  <p className="text-xs text-white/60">{t('className')}</p>
                   <p className="font-semibold text-white text-sm">{filho.turma.split(' - ')[0]}</p>
                 </div>
               </div>
@@ -87,7 +90,7 @@ export default function MeusFilhosPage() {
               <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
                 <TrendingUp size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="text-xs text-white/60">Presença (30d)</p>
+                  <p className="text-xs text-white/60">{t('monthAttendance')}</p>
                   <p className="font-semibold text-green-400">{filho.progresso.presenca30dias}%</p>
                 </div>
               </div>
@@ -99,14 +102,14 @@ export default function MeusFilhosPage() {
                 className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all duration-200 hover:scale-105"
               >
                 <Eye size={18} />
-                Ver Perfil Completo
+                {t('viewFullProfile')}
               </Link>
 
               <Link
                 href={`/painel-responsavel/checkin?kid=${filho.id}`}
                 className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105 border border-white/20"
               >
-                Fazer Check-in
+                {t('doCheckin')}
               </Link>
             </div>
           </div>

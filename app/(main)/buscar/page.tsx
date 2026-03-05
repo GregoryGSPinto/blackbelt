@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Search, Play, ExternalLink } from 'lucide-react';
 import VideoCard from '@/components/ui/VideoCard';
 import * as contentService from '@/lib/api/content.service';
@@ -11,6 +12,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function BuscarPage() {
+  const t = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

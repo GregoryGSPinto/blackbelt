@@ -10,6 +10,7 @@ import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip,
   ResponsiveContainer, CartesianGrid,
 } from 'recharts';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import type {
@@ -105,6 +106,7 @@ function MetricCard({ icon: Icon, label, value, sub, alert, isDark }: {
 // ============================================================
 
 export default function SuperAdminDashboard() {
+  const t = useTranslations('superAdmin.dashboard');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [metrics, setMetrics] = useState<MockDashboardMetrics | null>(null);
@@ -183,31 +185,31 @@ export default function SuperAdminDashboard() {
           <MetricCard
             isDark={isDark}
             icon={DollarSign}
-            label="MRR"
+            label={t('mrr')}
             value={formatBRL(metrics.mrr)}
             sub={`+${metrics.mrrCrescimento}% mês`}
           />
           <MetricCard
             isDark={isDark}
             icon={Building2}
-            label="Academias Ativas"
+            label={t('activeAcademies')}
             value={String(metrics.academiasAtivas)}
-            sub={`de ${metrics.totalAcademias} total`}
+            sub={t('ofTotal', { total: metrics.totalAcademias })}
           />
           <MetricCard
             isDark={isDark}
             icon={AlertTriangle}
-            label="Inadimplentes"
+            label={t('defaulters')}
             value={String(metrics.academiasInadimplentes)}
             alert={metrics.academiasInadimplentes > 0}
-            sub={metrics.academiasInadimplentes > 0 ? 'Atenção!' : 'Nenhuma'}
+            sub={metrics.academiasInadimplentes > 0 ? t('attention') : t('none')}
           />
           <MetricCard
             isDark={isDark}
             icon={TrendingUp}
-            label="Ticket Médio"
+            label={t('avgTicket')}
             value={formatBRL(metrics.ticketMedio)}
-            sub="por academia"
+            sub={t('perAcademy')}
           />
         </div>
 
@@ -241,7 +243,7 @@ export default function SuperAdminDashboard() {
                     borderRadius: 12,
                     color: isDark ? '#fff' : '#1E293B',
                   }}
-                  formatter={(value: number) => [formatBRL(value), 'Receita']}
+                  formatter={(value: number) => [formatBRL(value), t('revenue')]}
                 />
                 <Area type="monotone" dataKey="receita" stroke="#8B5CF6" strokeWidth={2} fill="url(#gradientReceita)" />
               </AreaChart>
@@ -288,10 +290,10 @@ export default function SuperAdminDashboard() {
           Operacional
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard isDark={isDark} icon={Users} label="Total Alunos" value={formatNum(metrics.totalAlunos)} sub={`+${metrics.crescimentoAlunos}% mês`} />
-          <MetricCard isDark={isDark} icon={GraduationCap} label="Professores" value={formatNum(metrics.totalProfessores)} />
-          <MetricCard isDark={isDark} icon={Video} label="Vídeos" value={formatNum(metrics.totalVideos)} />
-          <MetricCard isDark={isDark} icon={MousePointerClick} label="Acessos/mês" value={formatNum(metrics.totalAcessosMes)} />
+          <MetricCard isDark={isDark} icon={Users} label={t('totalStudents')} value={formatNum(metrics.totalAlunos)} sub={`+${metrics.crescimentoAlunos}% mês`} />
+          <MetricCard isDark={isDark} icon={GraduationCap} label={t('professors')} value={formatNum(metrics.totalProfessores)} />
+          <MetricCard isDark={isDark} icon={Video} label={t('videos')} value={formatNum(metrics.totalVideos)} />
+          <MetricCard isDark={isDark} icon={MousePointerClick} label={t('monthAccess')} value={formatNum(metrics.totalAcessosMes)} />
         </div>
 
         {/* Gráfico Crescimento Alunos */}
@@ -318,7 +320,7 @@ export default function SuperAdminDashboard() {
                     borderRadius: 12,
                     color: isDark ? '#fff' : '#1E293B',
                   }}
-                  formatter={(value: number) => [value, 'Alunos']}
+                  formatter={(value: number) => [value, t('totalStudents')]}
                 />
                 <Bar dataKey="alunos" fill="#7C3AED" radius={[6, 6, 0, 0]} />
               </BarChart>
@@ -345,7 +347,7 @@ export default function SuperAdminDashboard() {
                 </span>
                 <span className={`flex-1 text-sm font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>{a.nome}</span>
                 <span className={`text-xs px-2 py-1 rounded-full ${isDark ? 'bg-white/10 text-white/60' : 'bg-slate-100 text-slate-600'}`}>{a.plano}</span>
-                <span className={`text-sm font-semibold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>{a.alunos} alunos</span>
+                <span className={`text-sm font-semibold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>{a.alunos} {t('totalStudents')}</span>
               </div>
             ))}
           </div>

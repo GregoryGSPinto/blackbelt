@@ -11,6 +11,7 @@
 // ============================================================
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { HelpCircle, CheckCircle, PlayCircle, Send, MessageSquare } from 'lucide-react';
 import { getPendingFeedback, submitFeedback } from '@/lib/api/daily-feedback.service';
 import type { PendingFeedback, FeedbackOption } from '@/lib/api/daily-feedback.service';
@@ -20,22 +21,22 @@ const OPTIONS: { value: FeedbackOption; icon: typeof HelpCircle; label: string; 
   {
     value: 'DUVIDA',
     icon: HelpCircle,
-    label: 'Tive dúvida',
-    desc: 'Não entendi algum conceito da sessão',
+    label: 'hadDoubt',
+    desc: 'hadDoubtDesc',
     color: 'border-yellow-500/30 bg-yellow-500/5 hover:bg-yellow-500/10 text-yellow-400',
   },
   {
     value: 'ENTENDI_TUDO',
     icon: CheckCircle,
-    label: 'Entendi tudo',
-    desc: 'Sessão clara, sem dúvidas',
+    label: 'understoodAll',
+    desc: 'understoodAllDesc',
     color: 'border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-400',
   },
   {
     value: 'QUERO_REVISAR',
     icon: PlayCircle,
-    label: 'Quero revisar vídeo',
-    desc: 'Gostaria de ver a técnica novamente',
+    label: 'wantReview',
+    desc: 'wantReviewDesc',
     color: 'border-blue-500/30 bg-blue-500/5 hover:bg-blue-500/10 text-blue-400',
   },
 ];
@@ -46,6 +47,7 @@ interface PostClassFeedbackProps {
 }
 
 export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
+  const t = useTranslations('athlete.postClassFeedback');
   const [pending, setPending] = useState<PendingFeedback | null>(null);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<FeedbackOption | null>(null);
@@ -104,7 +106,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
               <MessageSquare className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">Como foi sua sessão?</h2>
+              <h2 className="text-base font-bold text-white">{t('title')}</h2>
               <p className="text-[11px] text-white/40">
                 {pending.className} • {fmtDate(pending.classDate)}
               </p>
@@ -131,9 +133,9 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
                 selected === opt.value ? '' : 'text-white/30'
               }`} />
               <div className="text-left">
-                <p className="text-sm font-semibold">{opt.label}</p>
+                <p className="text-sm font-semibold">{t(opt.label)}</p>
                 <p className={`text-[10px] ${selected === opt.value ? 'opacity-70' : 'text-white/30'}`}>
-                  {opt.desc}
+                  {t(opt.desc)}
                 </p>
               </div>
             </button>
@@ -146,7 +148,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
             <textarea
               value={doubtText}
               onChange={(e) => setDoubtText(e.target.value)}
-              placeholder="Descreva sua dúvida (opcional, mas ajuda o instrutor)..."
+              placeholder={t('doubtPlaceholder')}
               maxLength={300}
               className="w-full h-20 p-3 text-sm bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-white/20 resize-none focus:outline-none focus:border-yellow-500/30"
             />
@@ -162,7 +164,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
             className="w-full flex items-center justify-center gap-2 py-3 bg-amber-500/20 border border-amber-500/30 rounded-xl text-amber-400 font-semibold text-sm hover:bg-amber-500/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <Send className="w-4 h-4" />
-            {submitting ? 'Enviando...' : 'Enviar feedback'}
+            {submitting ? 'Enviando...' : t('sendFeedback')}
           </button>
         </div>
       </div>

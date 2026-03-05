@@ -7,10 +7,13 @@ import Image from 'next/image';
 import { ArrowLeft, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function AlterarSenhaPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
 
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -39,12 +42,12 @@ export default function AlterarSenhaPage() {
     setError('');
 
     if (formData.newPassword !== formData.confirmPassword) {
-      setError('As senhas não coincidem');
+      setError(t('changePassword.passwordsDontMatch'));
       return;
     }
 
     if (formData.newPassword.length < 6) {
-      setError('A nova senha deve ter pelo menos 6 caracteres');
+      setError(t('changePassword.minLength'));
       return;
     }
 
@@ -81,13 +84,13 @@ export default function AlterarSenhaPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">Senha Alterada!</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">{t('changePassword.passwordChanged')}</h2>
               <p className="text-white/70 text-base leading-relaxed mb-6">
-                Sua senha foi alterada com sucesso
+                {t('changePassword.passwordChangedDesc')}
               </p>
               <div className="inline-flex items-center gap-2 text-sm text-white/50">
                 <div className="w-2 h-2 bg-white/50 rounded-full animate-pulse"></div>
-                <span>Redirecionando para o login...</span>
+                <span>{t('changePassword.redirectingToLogin')}</span>
               </div>
             </div>
           </div>
@@ -119,7 +122,7 @@ export default function AlterarSenhaPage() {
             className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-300 mb-8 group"
           >
             <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="text-sm font-medium">Voltar para login</span>
+            <span className="text-sm font-medium">{t('changePassword.backToLogin')}</span>
           </Link>
 
           {/* Container Principal */}
@@ -127,10 +130,10 @@ export default function AlterarSenhaPage() {
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
-                Alterar Senha
+                {t('changePassword.title')}
               </h1>
               <p className="text-white/70 text-base leading-relaxed">
-                Crie uma nova senha segura para sua conta
+                {t('changePassword.description')}
               </p>
             </div>
 
@@ -145,7 +148,7 @@ export default function AlterarSenhaPage() {
 
               <div>
                 <label htmlFor="currentPassword" className="block text-sm font-medium text-white mb-2.5">
-                  Senha Atual
+                  {t('changePassword.currentPassword')}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
@@ -155,7 +158,7 @@ export default function AlterarSenhaPage() {
                     value={formData.currentPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, currentPassword: e.target.value }))}
                     className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
-                    placeholder="Digite sua senha atual"
+                    placeholder={t('changePassword.currentPasswordPlaceholder')}
                     autoComplete="current-password"
                     required
                     minLength={6}
@@ -172,7 +175,7 @@ export default function AlterarSenhaPage() {
 
               <div>
                 <label htmlFor="newPassword" className="block text-sm font-medium text-white mb-2.5">
-                  Nova Senha
+                  {t('changePassword.newPassword')}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
@@ -182,7 +185,7 @@ export default function AlterarSenhaPage() {
                     value={formData.newPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, newPassword: e.target.value }))}
                     className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
-                    placeholder="Mínimo 6 caracteres"
+                    placeholder={t('changePassword.newPasswordPlaceholder')}
                     autoComplete="new-password"
                     required
                     minLength={6}
@@ -199,7 +202,7 @@ export default function AlterarSenhaPage() {
 
               <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-white mb-2.5">
-                  Confirmar Nova Senha
+                  {t('changePassword.confirmNewPassword')}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
@@ -209,7 +212,7 @@ export default function AlterarSenhaPage() {
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
                     className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
-                    placeholder="Digite a nova senha novamente"
+                    placeholder={t('changePassword.confirmPlaceholder')}
                     autoComplete="new-password"
                     required
                     minLength={6}
@@ -229,14 +232,14 @@ export default function AlterarSenhaPage() {
                 disabled={loading}
                 className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Alterando...' : 'Alterar Senha'}
+                {loading ? t('changePassword.changingPassword') : t('changePassword.changeButton')}
               </button>
             </form>
 
             {/* Dica de Segurança */}
             <div className="mt-8 p-4 bg-white/5 border border-white/10 rounded-lg">
               <p className="text-sm text-white/70 leading-relaxed">
-                <span className="font-semibold text-white">🔒 Dica de Segurança:</span> Use uma senha forte com pelo menos 6 caracteres, combinando letras, números e símbolos.
+                <span className="font-semibold text-white">🔒 {t('changePassword.securityTip')}</span> {t('changePassword.securityTipText')}
               </p>
             </div>
 
@@ -246,22 +249,22 @@ export default function AlterarSenhaPage() {
             {/* Link alternativo */}
             <div className="text-center space-y-3">
               <p className="text-sm text-white/60">
-                Está com problemas?
+                {t('changePassword.havingProblems')}
               </p>
               <Link
                 href="/esqueci-senha"
                 className="inline-block text-sm font-semibold text-white hover:text-white/80 transition-all duration-300"
               >
-                Recuperar senha →
+                {t('changePassword.recoverPassword')} →
               </Link>
             </div>
           </div>
 
           {/* Footer */}
           <p className="text-center text-sm text-white/40 mt-8 animate-fade-in-delay">
-            Precisa de ajuda?{' '}
+            {t('changePassword.needHelp')}{' '}
             <Link href="/esqueci-email" className="text-white hover:text-white/80 transition-colors font-medium">
-              Fale com o suporte
+              {t('changePassword.talkToSupport')}
             </Link>
           </p>
         </div>

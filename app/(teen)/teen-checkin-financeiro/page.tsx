@@ -1,69 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertCircle, XCircle, Clock, Calendar, Zap } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 // Mock status - em produção viria do backend
 const MOCK_STATUS = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
-
-const statusConfig = {
-  ativo: {
-    badge: {
-      icon: CheckCircle,
-      text: 'LIBERADO',
-      emoji: '✅',
-      color: 'green',
-      bgColor: 'bg-green-500/20',
-      borderColor: 'border-green-500',
-      textColor: 'text-green-600',
-      iconBg: 'bg-green-600',
-    },
-    message: 'Seu acesso está ok! Você pode treinar normalmente.',
-    training: {
-      available: true,
-      text: 'Pode treinar!',
-      description: 'Bora fazer o check-in e partir pro treino! 💪',
-    },
-  },
-  atraso: {
-    badge: {
-      icon: AlertCircle,
-      text: 'PENDENTE',
-      emoji: '⚠️',
-      color: 'yellow',
-      bgColor: 'bg-yellow-500/20',
-      borderColor: 'border-yellow-500',
-      textColor: 'text-yellow-600',
-      iconBg: 'bg-yellow-600',
-    },
-    message: 'Há uma pendência no seu acesso. Fala com a recepção pra resolver!',
-    training: {
-      available: false,
-      text: 'Não pode treinar ainda',
-      description: 'Resolve com a recepção e volta logo!',
-    },
-  },
-  bloqueado: {
-    badge: {
-      icon: XCircle,
-      text: 'BLOQUEADO',
-      emoji: '🔒',
-      color: 'red',
-      bgColor: 'bg-red-500/20',
-      borderColor: 'border-red-500',
-      textColor: 'text-red-600',
-      iconBg: 'bg-red-600',
-    },
-    message: 'Seu acesso está bloqueado no momento. Fala com a recepção pra saber mais!',
-    training: {
-      available: false,
-      text: 'Não disponível',
-      description: 'Resolve com a recepção!',
-    },
-  },
-};
 
 const historico = [
   { month: 'Fev 2026', status: 'ativo', date: '07/02', color: 'green', emoji: '✅' },
@@ -75,12 +19,70 @@ const historico = [
 ];
 
 export default function TeenCheckinFinanceiroPage() {
+  const t = useTranslations('teen.checkinFinancial');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
   const [checkinDone, setCheckinDone] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  
+
+  const statusConfig = {
+    ativo: {
+      badge: {
+        icon: CheckCircle,
+        text: t('released'),
+        emoji: '✅',
+        color: 'green',
+        bgColor: 'bg-green-500/20',
+        borderColor: 'border-green-500',
+        textColor: 'text-green-600',
+        iconBg: 'bg-green-600',
+      },
+      message: t('releasedDesc'),
+      training: {
+        available: true,
+        text: t('canTrain'),
+        description: t('canTrainDesc'),
+      },
+    },
+    atraso: {
+      badge: {
+        icon: AlertCircle,
+        text: t('pending'),
+        emoji: '⚠️',
+        color: 'yellow',
+        bgColor: 'bg-yellow-500/20',
+        borderColor: 'border-yellow-500',
+        textColor: 'text-yellow-600',
+        iconBg: 'bg-yellow-600',
+      },
+      message: t('pendingDesc'),
+      training: {
+        available: false,
+        text: t('cantTrainYet'),
+        description: t('cantTrainDesc'),
+      },
+    },
+    bloqueado: {
+      badge: {
+        icon: XCircle,
+        text: t('blocked'),
+        emoji: '🔒',
+        color: 'red',
+        bgColor: 'bg-red-500/20',
+        borderColor: 'border-red-500',
+        textColor: 'text-red-600',
+        iconBg: 'bg-red-600',
+      },
+      message: t('blockedDesc'),
+      training: {
+        available: false,
+        text: t('notAvailable'),
+        description: t('notAvailableDesc'),
+      },
+    },
+  };
+
   const currentStatus = statusConfig[MOCK_STATUS as keyof typeof statusConfig];
   const StatusIcon = currentStatus.badge.icon;
 
@@ -94,19 +96,19 @@ export default function TeenCheckinFinanceiroPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teen-ocean/10 via-white to-teen-purple/10 pb-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        
+
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-teen-ocean font-teen mb-2">Seu Acesso 🎯</h1>
-          <p className="teen-text-muted font-teen">Veja seu status e faça o check-in!</p>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-teen-ocean font-teen mb-2">{t('title')} 🎯</h1>
+          <p className="teen-text-muted font-teen">{t('subtitle')}</p>
         </div>
 
         {/* Status Atual */}
         <div className="teen-card rounded-2xl p-6 shadow-lg border-2 border-transparent">
           <p className="text-sm font-bold teen-text-muted uppercase tracking-wider mb-4 font-teen">
-            Status do Seu Acesso
+            {t('statusTitle')}
           </p>
-          
+
           <div className={`${currentStatus.badge.bgColor} border-2 ${currentStatus.badge.borderColor} rounded-2xl p-6 mb-4`}>
             <div className="flex items-center gap-4">
               <div className={`w-16 h-16 ${currentStatus.badge.iconBg} rounded-full flex items-center justify-center flex-shrink-0`}>
@@ -130,11 +132,11 @@ export default function TeenCheckinFinanceiroPage() {
 
         {/* Indicadores */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
+
           {/* Treino de Hoje */}
           <div className="teen-card rounded-2xl p-5 shadow-md border-2 border-transparent">
             <p className="text-sm font-bold teen-text-muted uppercase tracking-wider mb-3 font-teen">
-              Treino de Hoje
+              {t('todayTraining')}
             </p>
             <div className="flex items-center gap-2 mb-2">
               {currentStatus.training.available ? (
@@ -154,7 +156,7 @@ export default function TeenCheckinFinanceiroPage() {
           {/* Última Validação */}
           <div className="teen-card rounded-2xl p-5 shadow-md border-2 border-transparent">
             <p className="text-sm font-bold teen-text-muted uppercase tracking-wider mb-3 font-teen">
-              Última Verificação
+              {t('lastCheck')}
             </p>
             <div className="flex items-center gap-3 mb-2">
               <Calendar size={24} className="text-teen-ocean" />
@@ -177,7 +179,7 @@ export default function TeenCheckinFinanceiroPage() {
               >
                 <div className="flex items-center justify-center gap-3">
                   <CheckCircle size={24} />
-                  <span>✓ JÁ FEZ CHECK-IN HOJE!</span>
+                  <span>✓ {t('alreadyCheckedIn')}</span>
                 </div>
               </button>
             ) : (
@@ -190,12 +192,12 @@ export default function TeenCheckinFinanceiroPage() {
                   {isProcessing ? (
                     <>
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                      <span>REGISTRANDO...</span>
+                      <span>{t('registering')}</span>
                     </>
                   ) : (
                     <>
                       <Zap size={24} />
-                      <span>FAZER CHECK-IN AGORA!</span>
+                      <span>{t('doCheckin')}</span>
                     </>
                   )}
                 </div>
@@ -209,13 +211,13 @@ export default function TeenCheckinFinanceiroPage() {
               >
                 <div className="flex items-center justify-center gap-3">
                   <XCircle size={24} />
-                  <span>CHECK-IN NÃO DISPONÍVEL</span>
+                  <span>{t('unavailable')}</span>
                 </div>
               </button>
-              
+
               <div className="mt-4 p-4 bg-teen-lightning/20 border-2 border-teen-lightning/40 rounded-xl">
                 <p className="text-sm text-teen-ocean font-teen font-bold text-center">
-                  ℹ️ Fala com a recepção pra resolver! Você volta logo ao ambiente! 💪
+                  ℹ️ {t('unavailableNote')} 💪
                 </p>
               </div>
             </>
@@ -224,7 +226,7 @@ export default function TeenCheckinFinanceiroPage() {
           {checkinDone && (
             <div className="mt-4 p-4 bg-green-500/20 border-2 border-green-500 rounded-xl animate-fade-in">
               <p className="text-center text-green-600 font-black font-teen mb-2 text-lg">
-                ✓ Check-in feito!
+                ✓ {t('checkinDone')}
               </p>
               <p className="text-center text-sm teen-text-muted font-teen">
                 Registrado hoje às 09:15 • Bom treino! 🥋
@@ -236,8 +238,8 @@ export default function TeenCheckinFinanceiroPage() {
         {/* Histórico */}
         <div className="teen-card rounded-2xl p-6 shadow-lg border-2 border-transparent">
           <div className="mb-5">
-            <h2 className="text-xl font-black text-teen-ocean font-teen mb-1">Histórico 📊</h2>
-            <p className="text-sm teen-text-muted font-teen">Últimos 6 meses</p>
+            <h2 className="text-xl font-black text-teen-ocean font-teen mb-1">{t('historyTitle')} 📊</h2>
+            <p className="text-sm teen-text-muted font-teen">{t('last6Months')}</p>
           </div>
 
           <div className="space-y-3">
@@ -255,11 +257,11 @@ export default function TeenCheckinFinanceiroPage() {
                       item.color === 'yellow' ? 'text-yellow-600' :
                       'text-red-600'
                     }`}>
-                      {item.status === 'ativo' ? 'OK' : item.status === 'atraso' ? 'PENDENTE' : 'BLOQUEADO'}
+                      {item.status === 'ativo' ? t('statusOk') : item.status === 'atraso' ? t('statusPending') : t('statusBlocked')}
                     </span>
                   </div>
                   <span className="text-sm teen-text-muted font-teen">
-                    {item.status === 'ativo' ? 'Tudo certo em' : 'Resolvido em'} {item.date}
+                    {item.status === 'ativo' ? t('okOn') : t('resolvedOn')} {item.date}
                   </span>
                 </div>
               </div>

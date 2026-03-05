@@ -4,6 +4,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Save, Check, Loader2 } from 'lucide-react';
 
 interface SaveButtonProps {
@@ -27,14 +28,18 @@ type BtnState = 'idle' | 'loading' | 'success';
 
 export function SaveButton({
   onSave,
-  label = 'Salvar',
-  loadingLabel = 'Salvando...',
-  successLabel = 'Salvo!',
+  label,
+  loadingLabel,
+  successLabel,
   disabled = false,
   variant = 'primary',
   className = '',
   fullWidth = true,
 }: SaveButtonProps) {
+  const t = useTranslations('common.actions');
+  const effectiveLabel = label || t('save');
+  const effectiveLoadingLabel = loadingLabel || t('saving');
+  const effectiveSuccessLabel = successLabel || t('saved');
   const [state, setState] = useState<BtnState>('idle');
 
   useEffect(() => {
@@ -61,7 +66,7 @@ export function SaveButton({
       ? <Check size={16} />
       : <Save size={16} />;
 
-  const text = state === 'loading' ? loadingLabel : state === 'success' ? successLabel : label;
+  const text = state === 'loading' ? effectiveLoadingLabel : state === 'success' ? effectiveSuccessLabel : effectiveLabel;
 
   const successStyles = state === 'success'
     ? 'bg-gradient-to-r from-green-600 to-green-500 text-white'

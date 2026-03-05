@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { ActionableInsightVM } from '@/lib/application/intelligence';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // ACTIONABLE INSIGHTS LIST — Lista priorizada de insights
@@ -11,14 +12,21 @@ interface ActionableInsightsListProps {
   insights: ActionableInsightVM[];
 }
 
-const PRIORITY_CONFIG: Record<string, { dot: string; border: string; bg: string; text: string; label: string }> = {
-  critical: { dot: 'bg-red-500', border: 'border-red-500/30', bg: 'bg-red-500/10', text: 'text-red-400', label: 'Critico' },
-  high: { dot: 'bg-orange-500', border: 'border-orange-500/30', bg: 'bg-orange-500/10', text: 'text-orange-400', label: 'Alto' },
-  medium: { dot: 'bg-yellow-500', border: 'border-yellow-500/30', bg: 'bg-yellow-500/10', text: 'text-yellow-400', label: 'Medio' },
-  low: { dot: 'bg-blue-500', border: 'border-blue-500/30', bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Baixo' },
+const PRIORITY_STYLE: Record<string, { dot: string; border: string; bg: string; text: string }> = {
+  critical: { dot: 'bg-red-500', border: 'border-red-500/30', bg: 'bg-red-500/10', text: 'text-red-400' },
+  high: { dot: 'bg-orange-500', border: 'border-orange-500/30', bg: 'bg-orange-500/10', text: 'text-orange-400' },
+  medium: { dot: 'bg-yellow-500', border: 'border-yellow-500/30', bg: 'bg-yellow-500/10', text: 'text-yellow-400' },
+  low: { dot: 'bg-blue-500', border: 'border-blue-500/30', bg: 'bg-blue-500/10', text: 'text-blue-400' },
 };
 
 export function ActionableInsightsList({ insights }: ActionableInsightsListProps) {
+  const t = useTranslations('admin');
+  const PRIORITY_LABELS: Record<string, string> = {
+    critical: t('insights.priority.critical'),
+    high: t('insights.priority.high'),
+    medium: t('insights.priority.medium'),
+    low: t('insights.priority.low'),
+  };
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const sorted = [...insights].sort((a, b) => {
@@ -29,7 +37,7 @@ export function ActionableInsightsList({ insights }: ActionableInsightsListProps
   if (sorted.length === 0) {
     return (
       <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6 text-center">
-        <p className="text-sm text-zinc-500">Nenhum insight disponivel no momento</p>
+        <p className="text-sm text-zinc-500">{t('insights.noInsightsAvailable')}</p>
       </div>
     );
   }
@@ -37,13 +45,14 @@ export function ActionableInsightsList({ insights }: ActionableInsightsListProps
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
       <div className="px-4 py-3 border-b border-zinc-800">
-        <h3 className="text-sm font-medium text-zinc-300">Insights Acionaveis</h3>
+        <h3 className="text-sm font-medium text-zinc-300">{t('insights.title')}</h3>
         <p className="text-[10px] text-zinc-600 mt-0.5">{sorted.length} insight(s) identificados</p>
       </div>
 
       <div className="divide-y divide-zinc-800/50">
         {sorted.map((insight, index) => {
-          const config = PRIORITY_CONFIG[insight.priority] ?? PRIORITY_CONFIG.low;
+          const config = PRIORITY_STYLE[insight.priority] ?? PRIORITY_STYLE.low;
+          const priorityLabel = PRIORITY_LABELS[insight.priority] ?? PRIORITY_LABELS.low;
           const isExpanded = expandedIndex === index;
 
           return (
@@ -57,7 +66,7 @@ export function ActionableInsightsList({ insights }: ActionableInsightsListProps
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`text-[10px] px-1.5 py-0.5 rounded ${config.bg} ${config.text}`}>
-                        {config.label}
+                        {priorityLabel}
                       </span>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-500">
                         {insight.category}
@@ -75,11 +84,11 @@ export function ActionableInsightsList({ insights }: ActionableInsightsListProps
               {isExpanded && (
                 <div className="mt-3 ml-5.5 pl-3 border-l-2 border-zinc-800 space-y-2">
                   <div>
-                    <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Impacto Estimado</span>
+                    <span className="text-[10px] text-zinc-600 uppercase tracking-wider">{t('insights.estimatedImpact')}</span>
                     <p className="text-xs text-zinc-400 mt-0.5">{insight.estimatedImpact}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Acao Sugerida</span>
+                    <span className="text-[10px] text-zinc-600 uppercase tracking-wider">{t('insights.suggestedAction')}</span>
                     <p className="text-xs text-zinc-300 mt-0.5">{insight.suggestedAction}</p>
                   </div>
                 </div>

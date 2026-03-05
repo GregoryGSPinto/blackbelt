@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard, TeenProgressBar } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenConquista } from '@/lib/api/teen.service';
@@ -11,6 +12,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenConquistasPage() {
+  const t = useTranslations('teen.achievements');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -36,14 +38,14 @@ export default function TeenConquistasPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (teenconquistas.length === 0) {
-    return <PageEmpty icon={Trophy} title="Nenhuma conquista ainda" message="Continue treinando para desbloquear conquistas!" />;
+    return <PageEmpty icon={Trophy} title={t('noAchievements')} message={t('keepTraining')} />;
   }
 
 
@@ -56,10 +58,10 @@ export default function TeenConquistasPage() {
       {/* Header */}
       <div>
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
-          Suas Conquistas
+          {t('title')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
-          {conquistadas.length} de {teenconquistas.length} desbloqueadas
+          {t('unlockedCount', { unlocked: conquistadas.length, total: teenconquistas.length })}
         </p>
       </div>
 
@@ -82,7 +84,7 @@ export default function TeenConquistasPage() {
       {conquistadas.length > 0 && (
         <div>
           <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-            Desbloqueadas
+            {t('unlockedTab')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {conquistadas.map((conquista) => (
@@ -111,7 +113,7 @@ export default function TeenConquistasPage() {
       {emProgresso.length > 0 && (
         <div>
           <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-            Em Progresso
+            {t('inProgressTab')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {emProgresso.map((conquista) => (
@@ -149,7 +151,7 @@ export default function TeenConquistasPage() {
       {bloqueadas.length > 0 && (
         <div>
           <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-            Próximas Conquistas
+            {t('nextAchievements')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {bloqueadas.map((conquista) => (

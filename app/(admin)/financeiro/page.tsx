@@ -9,8 +9,10 @@ import type { Usuario, HistoricoStatus } from '@/lib/api/admin.service';
 import { AlunoEmAtrasoActions, AlunoBloqueadoActions } from './_components/AlunoActions';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTranslations } from 'next-intl';
 
 export default function FinanceiroPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [alunos, setAlunos] = useState<Usuario[]>([]);
@@ -61,8 +63,8 @@ export default function FinanceiroPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Financeiro</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted, marginTop: '0.25rem' }}>Controle de status de pagamento dos alunos</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('financial.title')}</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted, marginTop: '0.25rem' }}>{t('financial.paymentStatusControl')}</p>
       </div>
 
       <div style={{ ...glass, padding: '1rem' }}>
@@ -80,7 +82,7 @@ export default function FinanceiroPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Pagamentos em Dia</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.onTime')}</p>
               <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: '#4ade80' }}>{stats.emDia}</p>
             </div>
             <CheckCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
@@ -93,23 +95,23 @@ export default function FinanceiroPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Em Atraso</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.overdue')}</p>
               <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: tokens.warning }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
-          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Requer atenção</div>
+          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('financial.requiresAttention')}</div>
         </div>
 
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Bloqueados</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.blocked')}</p>
               <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: tokens.error }}>{stats.bloqueados}</p>
             </div>
             <DollarSign className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
-          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Inadimplência crítica</div>
+          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('financial.criticalDefault')}</div>
         </div>
       </div>
 
@@ -118,7 +120,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="flex items-center gap-2" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
               <AlertCircle className="w-5 h-5" style={{ color: tokens.warning }} />
-              Alunos em Atraso ({alunosPorStatus.emAtraso.length})
+              {t('financial.overdueStudents')} ({alunosPorStatus.emAtraso.length})
             </h3>
           </div>
           <div className="space-y-3">
@@ -151,7 +153,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="flex items-center gap-2" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
               <DollarSign className="w-5 h-5" style={{ color: tokens.error }} />
-              Alunos Bloqueados ({alunosPorStatus.bloqueados.length})
+              {t('financial.blockedStudents')} ({alunosPorStatus.bloqueados.length})
             </h3>
           </div>
           <div className="space-y-3">
@@ -178,7 +180,7 @@ export default function FinanceiroPage() {
       )}
 
       <div style={{ ...glass, padding: '1.5rem' }}>
-        <h3 className="mb-6" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Histórico de Alterações de Status</h3>
+        <h3 className="mb-6" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('financial.statusChangeHistory')}</h3>
         <div className="space-y-3">
           {historico.slice(0, 5).map((hist) => {
             const aluno = allUsuarios.find(u => u.id === hist.alunoId);

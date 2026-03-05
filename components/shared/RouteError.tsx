@@ -4,6 +4,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import Link from 'next/link';
 import { errorTracker } from '@/lib/monitoring/error-tracker';
@@ -21,6 +22,8 @@ export function RouteError({
   moduleName = 'BlackBelt',
   homeHref = '/dashboard',
 }: RouteErrorProps) {
+  const t = useTranslations('auth.error');
+  const tActions = useTranslations('common.actions');
   useEffect(() => {
     errorTracker.captureError(error, {
       component: `ErrorBoundary:${moduleName}`,
@@ -46,9 +49,9 @@ export function RouteError({
           <AlertTriangle size={24} className="text-red-400" />
         </div>
 
-        <h2 className="text-lg font-bold text-white mb-1.5">Ops! Algo deu errado</h2>
+        <h2 className="text-lg font-bold text-white mb-1.5">{t('routeError')}</h2>
         <p className="text-xs text-white/40 mb-5">
-          Erro no módulo {moduleName}. Sua sessão continua ativa.
+          {t('moduleLabel')} {moduleName}. {t('feedbackHelps')}
         </p>
 
         {error.digest && (
@@ -63,14 +66,14 @@ export function RouteError({
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm
                        bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400 transition-all"
           >
-            <RefreshCw size={14} /> Tentar Novamente
+            <RefreshCw size={14} /> {tActions('tryAgain')}
           </button>
           <Link
             href={homeHref}
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm
                        bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 transition-colors"
           >
-            <Home size={14} /> Início
+            <Home size={14} /> {tActions('goHome')}
           </Link>
         </div>
       </div>

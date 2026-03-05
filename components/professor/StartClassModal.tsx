@@ -8,6 +8,7 @@ import { X, Play, Users, Clock, Loader2 } from 'lucide-react';
 import { useActiveClass } from '@/contexts/ActiveClassContext';
 import * as professorService from '@/lib/api/instrutor.service';
 import type { TurmaResumo } from '@/lib/api/instrutor.service';
+import { useTranslations } from 'next-intl';
 
 const MODAL_STYLES = `
   @keyframes scm-overlay { from { opacity: 0; } to { opacity: 1; } }
@@ -21,6 +22,7 @@ interface StartClassModalProps {
 }
 
 export function StartClassModal({ turmas, onClose, onStarted }: StartClassModalProps) {
+  const t = useTranslations('professor.startClassModal');
   const { startClass } = useActiveClass();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -79,8 +81,8 @@ export function StartClassModal({ turmas, onClose, onStarted }: StartClassModalP
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/[0.06]">
           <div>
-            <h2 className="text-white font-bold text-lg">Iniciar Sessão</h2>
-            <p className="text-white/30 text-xs mt-0.5">Selecione a turma</p>
+            <h2 className="text-white font-bold text-lg">{t('title')}</h2>
+            <p className="text-white/30 text-xs mt-0.5">{t('selectClass')}</p>
           </div>
           <button
             onClick={onClose}
@@ -146,12 +148,12 @@ export function StartClassModal({ turmas, onClose, onStarted }: StartClassModalP
             {loading ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                Carregando alunos...
+                {t('loadingStudents')}
               </>
             ) : (
               <>
                 <Play size={16} fill="black" />
-                Iniciar Sessão
+                {t('title')}
               </>
             )}
           </button>

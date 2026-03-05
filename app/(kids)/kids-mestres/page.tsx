@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { KidsHeader, MascotCard } from '@/components/kids';
 import * as kidsService from '@/lib/api/kids.service';
 import type { KidsMascot } from '@/lib/api/kids.service';
@@ -10,6 +11,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsMestresPage() {
+  const t = useTranslations('kids.masters');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [mascotes, setMascotes] = useState<KidsMascot[]>([]);
@@ -33,7 +35,7 @@ export default function KidsMestresPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando mestres..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
@@ -43,8 +45,8 @@ export default function KidsMestresPage() {
   if (mascotes.length === 0) {
     return (
       <div className="space-y-6">
-        <KidsHeader title="Mestres Animais" subtitle="Conheça seus guias!" icon="🥋" color="purple" />
-        <PageEmpty title="Nenhum mestre encontrado" message="Os mestres animais estão a caminho!" />
+        <KidsHeader title={t('title')} subtitle={t('subtitle')} icon="🥋" color="purple" />
+        <PageEmpty title={t('noMasters')} message={t('noMastersDesc')} />
       </div>
     );
   }
@@ -61,8 +63,8 @@ export default function KidsMestresPage() {
   return (
     <div className="space-y-6">
       <KidsHeader
-        title="🐯 Mestres Animais"
-        subtitle="Conheça seus guias no treinamento especializado!"
+        title={`🐯 ${t('title')}`}
+        subtitle={t('subtitle')}
         icon="🥋"
         color="purple"
       />
@@ -73,8 +75,7 @@ export default function KidsMestresPage() {
         style={{ background: c.cardBg, borderColor: c.border }}
       >
         <p className="font-kids text-center text-lg" style={{ color: c.label }}>
-          Cada Mestre Animal tem uma lição especial para você!
-          Aprenda com eles e se torne um grande guerreiro! 💪
+          {t('lessonIntro')} 💪
         </p>
       </div>
 
@@ -99,10 +100,10 @@ export default function KidsMestresPage() {
         <div className="text-center">
           <div className="text-6xl mb-3">🏆</div>
           <h3 className="font-kids font-bold text-white text-2xl mb-2">
-            Todos os Mestres Estão Orgulhosos de Você!
+            {t('allProud')}
           </h3>
           <p className="font-kids text-white/90 text-lg">
-            Continue treinando e aprendendo. Você está no caminho certo, pequeno guerreiro!
+            {t('allProudDesc')}
           </p>
         </div>
       </div>

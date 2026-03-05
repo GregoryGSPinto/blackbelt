@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile } from '@/lib/api/teen.service';
@@ -11,6 +12,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenCheckinPage() {
+  const t = useTranslations('teen.checkin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -41,14 +43,14 @@ export default function TeenCheckinPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
   }
   if (!currentTeen) {
-    return <PageEmpty icon={UserX} title="Perfil não encontrado" message="Não foi possível carregar o perfil do aluno." />;
+    return <PageEmpty icon={UserX} title={t('loading')} message={t('loading')} />;
   }
 
 
@@ -61,17 +63,17 @@ export default function TeenCheckinPage() {
       if (currentTeen.status === 'ATIVO') {
         setResultado({
           tipo: 'sucesso',
-          mensagem: 'Check-in confirmado! Você está pronto para treinar.',
+          mensagem: t('confirmedDesc'),
         });
       } else if (currentTeen.status === 'EM_ATRASO') {
         setResultado({
           tipo: 'pendente',
-          mensagem: 'Seu treino precisa de validação. Um responsável foi notificado.',
+          mensagem: t('validationDesc'),
         });
       } else {
         setResultado({
           tipo: 'negado',
-          mensagem: 'Seu acesso está temporariamente suspenso. Entre em contato com um responsável.',
+          mensagem: t('accessSuspended'),
         });
       }
       setSubmitting(false);
@@ -88,7 +90,7 @@ export default function TeenCheckinPage() {
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
-            Resultado do Check-in
+            {t('resultTitle')}
           </h2>
         </div>
 
@@ -98,7 +100,7 @@ export default function TeenCheckinPage() {
               <CheckCircle className="w-12 h-12 text-teen-emerald-dark flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="text-xl font-bold font-teen text-teen-emerald-dark mb-2">
-                  Check-in Confirmado
+                  {t('confirmed')}
                 </h3>
                 <p className="teen-text-body font-teen">
                   {resultado.mensagem}
@@ -114,13 +116,13 @@ export default function TeenCheckinPage() {
               <AlertTriangle className="w-12 h-12 text-teen-energy-dark flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="text-xl font-bold font-teen text-teen-energy-dark mb-2">
-                  Validação Necessária
+                  {t('validationNeeded')}
                 </h3>
                 <p className="teen-text-body font-teen mb-3">
                   {resultado.mensagem}
                 </p>
                 <p className="text-sm teen-text-muted font-teen">
-                  Fale com a recepção ou aguarde a confirmação.
+                  {t('contactReception')}
                 </p>
               </div>
             </div>
@@ -134,7 +136,7 @@ export default function TeenCheckinPage() {
                 <XCircle className="w-12 h-12 text-red-600 flex-shrink-0" />
                 <div className="flex-1">
                   <h3 className="text-xl font-bold font-teen text-red-900 mb-2">
-                    Check-in Indisponível
+                    {t('checkinUnavailable')}
                   </h3>
                   <p className="text-red-800 font-teen">
                     {resultado.mensagem}
@@ -145,12 +147,12 @@ export default function TeenCheckinPage() {
 
             <TeenCard>
               <h3 className="font-bold font-teen teen-text-heading mb-3">
-                Como Resolver:
+                {t('howToResolve')}
               </h3>
               <ol className="list-decimal list-inside space-y-2 text-sm teen-text-body font-teen">
-                <li>Entre em contato com um responsável</li>
-                <li>Procure a secretaria da unidade</li>
-                <li>Aguarde a regularização</li>
+                <li>{t('resolveSteps.contactParent')}</li>
+                <li>{t('resolveSteps.contactUnit')}</li>
+                <li>{t('resolveSteps.waitRegularization')}</li>
               </ol>
             </TeenCard>
           </>
@@ -160,7 +162,7 @@ export default function TeenCheckinPage() {
           onClick={resetCheckin}
           className="w-full px-6 py-3 bg-teen-ocean text-white rounded-lg font-teen font-semibold hover:bg-teen-ocean-dark transition-colors"
         >
-          Fazer Novo Check-in
+          {t('newCheckin')}
         </button>
       </div>
     );
@@ -171,10 +173,10 @@ export default function TeenCheckinPage() {
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
-          Check-in para Treino
+          {t('checkinTitle')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
-          Confirme sua presença no treino de hoje
+          {t('confirmPresence')}
         </p>
       </div>
 
@@ -183,11 +185,10 @@ export default function TeenCheckinPage() {
         <Info className="w-5 h-5 text-teen-ocean-dark flex-shrink-0 mt-0.5" />
         <div>
           <p className="text-sm font-semibold font-teen text-teen-ocean-dark">
-            Seu responsável será notificado do check-in
+            {t('parentNotified')}
           </p>
           <p className="text-xs font-teen text-teen-ocean-dark/70 mt-0.5">
-            Por ser menor de idade, o sistema envia automaticamente uma notificação
-            ao seu responsável cadastrado sempre que um check-in é realizado.
+            {t('parentNotice')}
           </p>
         </div>
       </div>
@@ -200,10 +201,10 @@ export default function TeenCheckinPage() {
           </div>
           <div className="flex-1">
             <h3 className="font-bold font-teen teen-text-heading mb-1">
-              Próximo Treino
+              {t('nextTraining')}
             </h3>
             <p className="teen-text-muted font-teen">
-              Hoje, 18:00
+              {t('nextTrainingTime')}
             </p>
             <p className="text-sm teen-text-muted font-teen">
               {currentTeen.turma}
@@ -217,10 +218,10 @@ export default function TeenCheckinPage() {
           </div>
           <div className="flex-1">
             <h3 className="font-bold font-teen teen-text-heading mb-1">
-              Local
+              {t('locationLabel')}
             </h3>
             <p className="teen-text-muted font-teen">
-              Unidade Centro
+              {t('locationValue')}
             </p>
             <p className="text-sm teen-text-muted font-teen">
               {currentTeen.instrutor}
@@ -232,10 +233,10 @@ export default function TeenCheckinPage() {
       {/* Status */}
       <TeenCard>
         <h3 className="font-bold font-teen teen-text-heading mb-3">
-          Seu Status
+          {t('yourStatus')}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="teen-text-body font-teen">Status de Acesso:</span>
+          <span className="teen-text-body font-teen">{t('accessStatus')}</span>
           <span className={`px-4 py-2 rounded-lg font-teen font-semibold ${
             currentTeen.status === 'ATIVO'
               ? 'bg-teen-emerald-light text-teen-emerald-dark'
@@ -243,9 +244,9 @@ export default function TeenCheckinPage() {
               ? 'bg-teen-energy-light text-teen-energy-dark'
               : 'bg-red-100 text-red-700'
           }`}>
-            {currentTeen.status === 'ATIVO' ? '✓ Apto para Treinar' : 
-             currentTeen.status === 'EM_ATRASO' ? '⚠ Pendente' : 
-             '✕ Suspenso'}
+            {currentTeen.status === 'ATIVO' ? `✓ ${t('ready')}` :
+             currentTeen.status === 'EM_ATRASO' ? `⚠ ${t('pendingStatus')}` :
+             `✕ ${t('suspended')}`}
           </span>
         </div>
       </TeenCard>
@@ -259,12 +260,12 @@ export default function TeenCheckinPage() {
         {submitting ? (
           <>
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            Validando...
+            {t('validating')}
           </>
         ) : (
           <>
             <CheckCircle className="w-6 h-6" />
-            Confirmar Check-in
+            {t('confirmCheckin')}
           </>
         )}
       </button>
@@ -272,7 +273,7 @@ export default function TeenCheckinPage() {
       {/* Dica */}
       <div className="teen-card-subtle rounded-xl p-4">
         <p className="text-sm teen-text-muted font-teen text-center">
-          💡 Faça check-in até 30 minutos antes da sessão
+          💡 {t('checkinTip')}
         </p>
       </div>
     </div>

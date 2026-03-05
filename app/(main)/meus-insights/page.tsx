@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useStudentDNA } from '@/hooks/useStudentDNA';
 import { useEngagementScore } from '@/hooks/useEngagementScore';
 import { PersonalInsightsCard } from '@/components/aluno/PersonalInsightsCard';
@@ -21,6 +22,7 @@ function getMoodDriver(dna: { dimensions: { consistency: number; intensity: numb
 }
 
 export default function MeusInsightsPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -75,7 +77,7 @@ export default function MeusInsightsPage() {
       <div className="min-h-screen p-4 md:p-6 max-w-5xl mx-auto">
         <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
           <p className="text-red-400 text-sm font-medium">
-            Erro ao carregar insights
+            {t('insights.error')}
           </p>
           <p className="text-red-400/60 text-xs mt-1">{error}</p>
         </div>
@@ -88,12 +90,12 @@ export default function MeusInsightsPage() {
       {/* Header */}
       <div>
         <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-          Meus Insights
+          {t('insights.title')}
         </h1>
         <p className="text-sm text-zinc-500 mt-1">
           {memberName
-            ? `Ola, ${memberName}! Veja o que a IA descobriu sobre seu treino.`
-            : 'Descubra o que a IA descobriu sobre seu treino.'}
+            ? t('insights.greeting', { name: memberName })
+            : t('insights.greetingGeneric')}
         </p>
       </div>
 

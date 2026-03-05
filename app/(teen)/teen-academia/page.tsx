@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   GraduationCap, Brain, BookOpen, Shield, Users, Heart,
   ArrowRight, CheckCircle2, Sparkles,
@@ -89,6 +90,7 @@ const BAR_COLOR: Record<string, 'ocean' | 'purple' | 'emerald' | 'energy'> = {
 };
 
 export default function TeenUnidadePage() {
+  const t = useTranslations('teen.unit');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [activeTab, setActiveTab] = useState<'areas' | 'testes'>('areas');
@@ -119,10 +121,10 @@ export default function TeenUnidadePage() {
 
             <div className="flex-1 text-center md:text-left">
               <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
-                Unidade de Conhecimento
+                {t('title')}
               </h1>
               <p className="text-sm md:text-base font-teen teen-text-muted mt-1.5 max-w-lg">
-                Dominar esses conceitos vai acelerar sua evolução no ambiente.
+                {t('subtitle')}
               </p>
             </div>
 
@@ -134,7 +136,7 @@ export default function TeenUnidadePage() {
                 strokeWidth={9}
                 color={isDark ? '#4DB8D4' : '#006B8F'}
                 trailColor={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(107,68,35,0.06)'}
-                label="média geral"
+                label={t('overallAvg')}
               />
             </div>
           </div>
@@ -147,7 +149,7 @@ export default function TeenUnidadePage() {
       <div className="teen-enter-2 flex gap-2">
         {(['areas', 'testes'] as const).map((tab) => {
           const active = activeTab === tab;
-          const label = tab === 'areas' ? 'Áreas de Conhecimento' : 'Testes';
+          const label = tab === 'areas' ? t('tabs.areas') : t('tabs.tests');
           return (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className="px-4 py-2 rounded-xl text-sm font-teen font-semibold transition-all duration-200"
@@ -201,14 +203,14 @@ export default function TeenUnidadePage() {
                           progress={area.progress}
                           color={BAR_COLOR[area.accent]}
                           height="sm"
-                          label="Progresso"
+                          label={t('progressTitle')}
                         />
                       </div>
 
                       {/* Action hint */}
                       <div className="mt-3 flex items-center gap-1.5 text-xs font-teen font-semibold transition-all duration-200 group-hover:gap-2.5"
                         style={{ color: isDark ? textColor.dark : textColor.light }}>
-                        <span>Continuar</span>
+                        <span>{t('continueBtn')}</span>
                         <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
                       </div>
                     </TeenCard>
@@ -222,7 +224,7 @@ export default function TeenUnidadePage() {
           <div className="teen-enter-3">
             <TeenCard>
               <h2 className="text-base font-bold font-teen teen-text-heading mb-5">
-                Progresso por Área
+                {t('progressByArea')}
               </h2>
 
               <div className="space-y-0">
@@ -263,13 +265,13 @@ export default function TeenUnidadePage() {
               {/* Average footer */}
               <div className="mt-4 pt-4 text-center"
                 style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(107,68,35,0.06)'}` }}>
-                <p className="text-xs font-teen teen-text-muted mb-1">Média geral</p>
+                <p className="text-xs font-teen teen-text-muted mb-1">{t('overallAvg')}</p>
                 <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen"
                   style={{ color: isDark ? '#4DB8D4' : '#006B8F' }}>
                   {average}%
                 </p>
                 <p className="text-xs font-teen teen-text-muted mt-1.5">
-                  Continue no seu ritmo — cada passo conta.
+                  {t('keepGoing')}
                 </p>
               </div>
             </TeenCard>
@@ -288,7 +290,7 @@ export default function TeenUnidadePage() {
               <Sparkles size={18} />
             </div>
             <p className="text-sm font-teen teen-text-body">
-              Teste o que você aprendeu. Sem pressão — só evolução.
+              {t('testPrompt')}
             </p>
           </TeenCard>
 
@@ -312,7 +314,7 @@ export default function TeenUnidadePage() {
                         <div className="flex items-center gap-1.5 mt-0.5">
                           <CheckCircle2 size={12} className="text-teen-emerald" />
                           <span className="text-[11px] font-teen font-semibold text-teen-emerald">
-                            {area.answered}/{area.questions} Completo
+                            {area.answered}/{area.questions} {t('complete')}
                           </span>
                         </div>
                       ) : (

@@ -9,6 +9,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 const TIPO_CONFIG = {
   graduacao: { label: 'Graduação', icon: Award, bg: 'bg-amber-500/15', text: 'text-amber-300', border: 'border-amber-500/20' },
@@ -23,6 +24,7 @@ const PRIORIDADE_CONFIG = {
 };
 
 export default function ProfessorAvaliacoesPage() {
+  const t = useTranslations('professor.evaluations');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -76,9 +78,9 @@ export default function ProfessorAvaliacoesPage() {
     <div className="space-y-8 pt-6 pb-8">
       {/* Header */}
       <section className="prof-enter-1">
-        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Pendências</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Avaliações</h1>
-        <p className="text-white/55 text-sm mt-2">{avaliacoes.length} pendentes · {avaliacoes.filter(a => a.prioridade === 'alta').length} urgentes</p>
+        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('pendingTitle')}</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('evaluationsTitle')}</h1>
+        <p className="text-white/55 text-sm mt-2">{avaliacoes.length} {t('pendingCount')} · {avaliacoes.filter(a => a.prioridade === 'alta').length} {t('urgentCount')}</p>
         <div className="prof-gold-line mt-6" />
       </section>
 
@@ -87,9 +89,9 @@ export default function ProfessorAvaliacoesPage() {
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
             { key: 'todas' as const, label: 'Todas' },
-            { key: 'graduacao' as const, label: 'Graduação' },
-            { key: 'tecnica' as const, label: 'Técnica' },
-            { key: 'comportamento' as const, label: 'Comportamento' },
+            { key: 'graduacao' as const, label: t('types.graduation') },
+            { key: 'tecnica' as const, label: t('types.technique') },
+            { key: 'comportamento' as const, label: t('types.behavior') },
           ].map((f) => (
             <button
               key={f.key}
@@ -149,17 +151,17 @@ export default function ProfessorAvaliacoesPage() {
                     </span>
                     <span className="text-[10px] text-white/45 flex items-center gap-1">
                       <Timer size={10} />
-                      Prazo: {aval.prazo}
+                      {aval.prazo}
                     </span>
                   </div>
 
                   {/* Actions */}
                   <div className="flex gap-2 mt-4">
                     <button className="px-4 py-2 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 text-xs font-semibold rounded-xl transition-all duration-300">
-                      Avaliar Agora
+                      {t('evaluateNow')}
                     </button>
                     <button className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/40 text-xs font-medium rounded-xl transition-all duration-300">
-                      Adiar
+                      {t('postpone')}
                     </button>
                   </div>
                 </div>
@@ -171,7 +173,7 @@ export default function ProfessorAvaliacoesPage() {
         {filtered.length === 0 && (
           <div className="text-center py-16">
             <CheckCircle size={32} className="mx-auto text-emerald-500/40 mb-3" />
-            <p className="text-white/55 text-sm">Nenhuma avaliação pendente nesta categoria</p>
+            <p className="text-white/55 text-sm">{t('noPending')}</p>
           </div>
         )}
       </section>

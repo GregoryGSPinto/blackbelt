@@ -11,6 +11,7 @@ import { BeltStripes } from '@/components/shared/BeltStripes';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type TabView = 'exames' | 'subniveis' | 'requisitos';
 

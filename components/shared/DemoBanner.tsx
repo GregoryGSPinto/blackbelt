@@ -13,11 +13,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { X, Eye } from 'lucide-react';
 
 const DISMISS_KEY = 'blackbelt-demo-banner-dismissed';
 
 export function DemoBanner() {
+  const t = useTranslations('common.demo');
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -50,9 +52,9 @@ export function DemoBanner() {
       role="status"
     >
       <Eye size={11} style={{ opacity: 0.7 }} />
-      <span>MODO DEMONSTRAÇÃO</span>
+      <span>{t('demoMode')}</span>
       <span style={{ opacity: 0.4, margin: '0 4px' }}>•</span>
-      <span style={{ opacity: 0.6, fontWeight: 400 }}>Dados fictícios para avaliação</span>
+      <span style={{ opacity: 0.6, fontWeight: 400 }}>{t('demoData')}</span>
       <button
         onClick={dismiss}
         className="ml-2 p-0.5 rounded hover:bg-white/10 transition-colors"

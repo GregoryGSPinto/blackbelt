@@ -8,8 +8,10 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function ConfiguracoesPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -66,7 +68,7 @@ export default function ConfiguracoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Configurações da Unidade</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('config.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Políticas operacionais e regras do sistema</p>
       </div>
 
@@ -252,7 +254,7 @@ export default function ConfiguracoesPage() {
           className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium disabled:opacity-50"
         >
           <Save className="w-5 h-5" />
-          <span>{saving ? 'Salvando...' : 'Salvar Configurações'}</span>
+          <span>{saving ? t('config.saveConfig') + '...' : t('config.saveConfig')}</span>
         </button>
       </div>
     </div>

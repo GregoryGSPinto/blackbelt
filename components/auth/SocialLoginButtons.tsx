@@ -6,21 +6,24 @@
 // ============================================================
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 interface SocialLoginButtonsProps {
   /** 'login' ou 'signup' — altera o texto do separador */
   mode?: 'login' | 'signup';
 }
 
 export function SocialLoginButtons({ mode = 'login' }: SocialLoginButtonsProps) {
-  const label = mode === 'signup' ? 'ou cadastre-se com' : 'ou continue com';
+  const t = useTranslations('auth');
+  const label = mode === 'signup' ? t('login.orSignUpWith') : t('login.orContinueWith');
 
   const handleApple = () => {
-    alert('Login com Apple estará disponível após integração com o servidor.');
+    alert(t('login.socialUnavailable', { provider: 'Apple' }));
     // TODO BE-060: window.location.href = '/api/auth/apple';
   };
 
   const handleGoogle = () => {
-    alert('Login com Google estará disponível após integração com o servidor.');
+    alert(t('login.socialUnavailable', { provider: 'Google' }));
     // TODO BE-061: window.location.href = '/api/auth/google';
   };
 

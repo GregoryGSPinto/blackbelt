@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 const ChurnDashboard = dynamic(
   () => import('@/components/admin/ChurnDashboard').then(m => ({ default: m.ChurnDashboard })),
-  { loading: () => <LoadingSkeleton message="Carregando risco de evasao..." /> }
+  { loading: () => <LoadingSkeleton /> }
 );
 
 const AIInsightsDashboard = dynamic(
   () => import('@/components/admin/AIInsightsDashboard').then(m => ({ default: m.AIInsightsDashboard })),
-  { loading: () => <LoadingSkeleton message="Carregando insights de IA..." /> }
+  { loading: () => <LoadingSkeleton /> }
 );
 
 type TabKey = 'visao-geral' | 'risco-evasao';
@@ -20,6 +21,7 @@ type TabKey = 'visao-geral' | 'risco-evasao';
 export default function AIInsightsPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('admin');
 
   const [academyId, setAcademyId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('visao-geral');
@@ -35,8 +37,8 @@ export default function AIInsightsPage() {
   }, []);
 
   const tabs: { key: TabKey; label: string }[] = [
-    { key: 'visao-geral', label: 'Visao Geral' },
-    { key: 'risco-evasao', label: 'Risco de Evasao' },
+    { key: 'visao-geral', label: t('aiInsights.tabs.overview') },
+    { key: 'risco-evasao', label: t('aiInsights.tabs.churnRisk') },
   ];
 
   return (
@@ -45,10 +47,10 @@ export default function AIInsightsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-            IA Insights
+            {t('aiInsights.title')}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">
-            Analise preditiva, DNA comportamental e recomendacoes inteligentes
+            {t('aiInsights.description')}
           </p>
         </div>
         <AIStatusBadge />
@@ -80,7 +82,7 @@ export default function AIInsightsPage() {
               analytics={null}
             />
           ) : (
-            <LoadingSkeleton message="Carregando insights de IA..." />
+            <LoadingSkeleton message={t('aiInsights.loadingInsights')} />
           )}
         </div>
       )}
@@ -90,7 +92,7 @@ export default function AIInsightsPage() {
           {academyId ? (
             <ChurnDashboard academyId={academyId} />
           ) : (
-            <LoadingSkeleton message="Carregando academia..." />
+            <LoadingSkeleton message={t('aiInsights.loadingAcademy')} />
           )}
         </div>
       )}
@@ -103,6 +105,7 @@ export default function AIInsightsPage() {
 // ════════════════════════════════════════════════════════════════════
 
 function AIStatusBadge() {
+  const t = useTranslations('admin');
   const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
@@ -121,12 +124,12 @@ function AIStatusBadge() {
 
   return (
     <span className={`px-2.5 py-1 rounded-full text-xs border ${color}`}>
-      IA {status === 'ok' ? 'Ativa' : status === 'error' ? 'Erro' : '...'}
+      {status === 'ok' ? t('aiInsights.iaActive') : status === 'error' ? t('aiInsights.iaError') : '...'}
     </span>
   );
 }
 
-function LoadingSkeleton({ message }: { message: string }) {
+function LoadingSkeleton({ message }: { message?: string }) {
   return (
     <div className="flex items-center justify-center h-48">
       <div className="text-center">
@@ -138,9 +141,10 @@ function LoadingSkeleton({ message }: { message: string }) {
 }
 
 function ErrorCard({ message }: { message: string }) {
+  const t = useTranslations('common');
   return (
     <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-6 text-center">
-      <p className="text-red-400 text-sm font-medium">Erro ao carregar dados</p>
+      <p className="text-red-400 text-sm font-medium">{t('errors.loadError')}</p>
       <p className="text-red-400/60 text-xs mt-1">{message}</p>
     </div>
   );

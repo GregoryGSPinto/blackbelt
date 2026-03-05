@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   FileText, CheckCircle, Clock, AlertCircle, Shield,
   ChevronDown, ChevronUp, PenTool, X, Lock,
@@ -22,6 +23,7 @@ const STATUS_CONFIG: Record<string, { Icon: typeof CheckCircle; color: string; l
 };
 
 export default function AssinaturaPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

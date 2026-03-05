@@ -1,11 +1,13 @@
 'use client';
 
 import { useUserProfile, PERMISSOES, PERFIL_INFO } from '@/contexts/AuthContext';
+import { useTranslations } from 'next-intl';
 import { Shield, CheckCircle, XCircle, Info } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function PermissoesUsuarioPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

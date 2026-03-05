@@ -10,8 +10,10 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function CheckInPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -121,7 +123,7 @@ export default function CheckInPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Check-in Administrativo</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkin.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Validar presença dos alunos</p>
       </div>
 
@@ -130,7 +132,7 @@ export default function CheckInPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Check-ins Hoje</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.todayCheckins')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{checkInsHoje.length}</p>
             </div>
             <Check className="w-10 h-10 text-white/40" />
@@ -140,7 +142,7 @@ export default function CheckInPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Total de Alunos</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.totalStudents')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alunos.length}</p>
             </div>
             <UsersIcon className="w-10 h-10 text-white/40" />
@@ -150,7 +152,7 @@ export default function CheckInPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Taxa de Presença</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.attendanceRate')}</p>
               <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>
                 {Math.round((checkInsHoje.length / alunos.length) * 100)}%
               </p>
@@ -168,7 +170,7 @@ export default function CheckInPage() {
               <Check className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Check-in Realizado!</h3>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.checkinDone')}</h3>
               <p className="text-green-400">{selectedAluno.nome} - {new Date().toLocaleTimeString('pt-BR')}</p>
             </div>
           </div>
@@ -183,7 +185,7 @@ export default function CheckInPage() {
               <X className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Aluno Bloqueado!</h3>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.studentBlocked')}</h3>
               <p className="text-red-400">{selectedAluno.nome} não pode fazer check-in</p>
               <p className="text-sm text-white/50 mt-1">
                 Motivo: {selectedAluno.observacoes || 'Regularize a situação na recepção'}
@@ -196,7 +198,7 @@ export default function CheckInPage() {
       {/* Search Area */}
       <div style={{ ...glass, padding: '1.5rem' }}>
         <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>
-          Buscar Aluno
+          {t('checkin.searchStudent')}
         </label>
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-white/40" />
@@ -285,15 +287,15 @@ export default function CheckInPage() {
                       {jaFezCheckIn ? (
                         <span className="flex items-center gap-2">
                           <Check className="w-5 h-5" />
-                          Check-in Feito
+                          {t('checkin.checkinMade')}
                         </span>
                       ) : aluno.status === 'BLOQUEADO' ? (
                         <span className="flex items-center gap-2">
                           <AlertCircle className="w-5 h-5" />
-                          Bloqueado
+                          {t('financial.blocked')}
                         </span>
                       ) : (
-                        'Validar Check-in'
+                        t('checkin.validateCheckin')
                       )}
                     </button>
                   </div>
@@ -314,7 +316,7 @@ export default function CheckInPage() {
       {/* Check-ins Today */}
       <div style={{ ...glass, overflow: 'hidden' }}>
         <div className="p-6 border-b border-white/10">
-          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Check-ins de Hoje</h3>
+          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.todayCheckinsList')}</h3>
         </div>
         <div className="divide-y">
           {checkInsHoje.map((checkIn) => {

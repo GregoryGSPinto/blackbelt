@@ -3,12 +3,15 @@
 // ============================================================
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Wifi, WifiOff } from 'lucide-react';
 import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 
 const isMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
 export function SlowConnectionBanner() {
+  const t = useTranslations('common.connection');
+  const tErr = useTranslations('common.errors');
   const { isOnline, isSlow, effectiveType } = useNetworkStatus();
 
   if (isMock) return null;
@@ -30,12 +33,12 @@ export function SlowConnectionBanner() {
       {isOnline ? (
         <>
           <Wifi size={12} />
-          <span>Conexão lenta ({effectiveType}). Carregamento pode demorar.</span>
+          <span>{t('slowConnection')} ({effectiveType}). {t('slowLoadWarning')}.</span>
         </>
       ) : (
         <>
           <WifiOff size={12} />
-          <span>Sem conexão. Alguns recursos podem não funcionar.</span>
+          <span>{tErr('offline')}</span>
         </>
       )}
     </div>

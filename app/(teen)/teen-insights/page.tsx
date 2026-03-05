@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useStudentDNA } from '@/hooks/useStudentDNA';
 import XPProgressBar from '@/components/teen/XPProgressBar';
 import DailyQuestCard from '@/components/teen/DailyQuestCard';
@@ -10,6 +11,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenInsightsPage() {
+  const t = useTranslations('teen.insights');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -69,10 +71,10 @@ export default function TeenInsightsPage() {
       {/* Header */}
       <div>
         <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-          Seus Insights
+          {t('title')}
         </h1>
         <p className="text-sm text-zinc-500 mt-1">
-          A IA analisou seus treinos e trouxe novidades pra voce!
+          {t('subtitle')}
         </p>
       </div>
 
@@ -83,18 +85,18 @@ export default function TeenInsightsPage() {
           nextLevelXP: 1500,
           progress: dna ? dna.dimensions.progression : 0,
           title: dna && dna.dimensions.progression >= 80
-            ? 'Guerreiro'
+            ? t('levels.warrior')
             : dna && dna.dimensions.progression >= 50
-            ? 'Aprendiz Avancado'
-            : 'Iniciante',
+            ? t('levels.advancedApprentice')
+            : t('levels.beginner'),
         }}
       />
 
       {/* Daily Quest */}
       <DailyQuestCard
         quest={{
-          title: 'Treino do Dia',
-          description: 'Complete seu treino de hoje para ganhar XP!',
+          title: t('dailyQuest'),
+          description: t('dailyQuestDesc'),
           xpReward: 50,
           emoji: '🥋',
         }}
@@ -103,10 +105,10 @@ export default function TeenInsightsPage() {
       {/* Fun Stats Carousel */}
       <FunStatsCarousel
         stats={[
-          { emoji: '🔥', text: `Consistencia: ${dna?.dimensions.consistency ?? 0}%` },
-          { emoji: '💪', text: `Intensidade: ${dna?.dimensions.intensity ?? 0}%` },
-          { emoji: '📈', text: `Progressao: ${dna?.dimensions.progression ?? 0}%` },
-          { emoji: '🤝', text: `Social: ${dna?.dimensions.socialConnection ?? 0}%` },
+          { emoji: '🔥', text: `${t('consistency')} ${dna?.dimensions.consistency ?? 0}%` },
+          { emoji: '💪', text: `${t('intensity')} ${dna?.dimensions.intensity ?? 0}%` },
+          { emoji: '📈', text: `${t('progression')} ${dna?.dimensions.progression ?? 0}%` },
+          { emoji: '🤝', text: `${t('social')} ${dna?.dimensions.socialConnection ?? 0}%` },
         ]}
       />
 

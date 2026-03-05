@@ -1,6 +1,7 @@
 'use client';
 
 import { Moon, Sun } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface ThemeToggleProps {
@@ -9,6 +10,7 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ variant = 'row' }: ThemeToggleProps) {
+  const t = useTranslations('common.theme');
   const { theme, toggleTheme, isDark } = useTheme();
 
   if (variant === 'pill') {
@@ -21,7 +23,7 @@ export default function ThemeToggle({ variant = 'row' }: ThemeToggleProps) {
             ? 'rgba(140,98,57,0.08)'
             : 'rgba(107,68,35,0.06)',
         }}
-        aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
+        aria-label={isDark ? t('enableLight') : t('enableDark')}
       >
         {isDark ? (
           <Sun size={17} style={{ color: 'rgb(var(--color-primary-light))' }} />
@@ -60,7 +62,7 @@ export default function ThemeToggle({ variant = 'row' }: ThemeToggleProps) {
       {/* Label */}
       <div className="flex-1">
         <span className="text-sm font-medium text-heading">
-          {isDark ? 'Modo Claro' : 'Modo Escuro'}
+          {isDark ? t('lightMode') : t('darkMode')}
         </span>
       </div>
 

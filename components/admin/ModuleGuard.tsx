@@ -23,6 +23,7 @@ import type { AdminModule, SecurityRole } from '@/lib/api/contracts';
 import { resolveCanonicalRole, MODULE_ACCESS } from '@/lib/api/contracts';
 import { MODULE_META } from '@/lib/admin/module-registry';
 import { structuredLog } from '@/lib/monitoring/structured-logger';
+import { useTranslations } from 'next-intl';
 
 interface ModuleGuardProps {
   children: ReactNode;
@@ -30,6 +31,7 @@ interface ModuleGuardProps {
 }
 
 export function ModuleGuard({ children, module }: ModuleGuardProps) {
+  const t = useTranslations('admin');
   const { user, loading } = useAuth();
   const [checked, setChecked] = useState(false);
 
@@ -66,7 +68,7 @@ export function ModuleGuard({ children, module }: ModuleGuardProps) {
       <div className="min-h-[50vh] flex items-center justify-center">
         <div className="animate-pulse flex items-center gap-3 text-white/30">
           <Lock className="w-4 h-4" />
-          <span className="text-sm">Verificando acesso ao módulo...</span>
+          <span className="text-sm">{t('moduleGuard.checkingAccess')}</span>
         </div>
       </div>
     );
@@ -85,7 +87,7 @@ export function ModuleGuard({ children, module }: ModuleGuardProps) {
 
           {/* Title */}
           <div>
-            <h2 className="text-xl font-bold text-white">Acesso Negado</h2>
+            <h2 className="text-xl font-bold text-white">{t('moduleGuard.accessDenied')}</h2>
             <p className="text-sm text-white/40 mt-1">
               Módulo <span className={`font-semibold ${meta.color}`}>{meta.label}</span> não está autorizado para seu perfil.
             </p>
@@ -119,7 +121,7 @@ export function ModuleGuard({ children, module }: ModuleGuardProps) {
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm text-white/60 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Voltar ao Dashboard
+            {t('moduleGuard.backToDashboard')}
           </Link>
         </div>
       </div>

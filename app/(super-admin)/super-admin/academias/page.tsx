@@ -6,6 +6,7 @@ import {
   Eye, Edit2, X, Users, GraduationCap, Mail, Phone,
   MapPin, Calendar, CreditCard, ChevronDown,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import type { MockAcademy, PlanoAcademia, StatusAcademia } from '@/lib/__mocks__/super-admin.mock';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -88,11 +89,11 @@ function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy
         <div className="flex gap-2 pt-2">
           {academy.status === 'BLOQUEADA' ? (
             <button className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500">
-              <Unlock className="w-4 h-4" /> Desbloquear
+              <Unlock className="w-4 h-4" /> {t('unblock')}
             </button>
           ) : (
             <button className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-500">
-              <Lock className="w-4 h-4" /> Bloquear
+              <Lock className="w-4 h-4" /> {t('block')}
             </button>
           )}
           <button className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
@@ -121,6 +122,8 @@ function InfoRow({ icon: Icon, label, value, isDark }: { icon: React.ElementType
 // ============================================================
 
 export default function AcademiasPage() {
+  const t = useTranslations('superAdmin.academies');
+  const tActions = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [academies, setAcademies] = useState<MockAcademy[]>([]);
@@ -157,7 +160,7 @@ export default function AcademiasPage() {
   });
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir esta academia?')) return;
+    if (!confirm(t('confirmDelete'))) return;
     try {
       await fetch(`/api/super-admin/academies/${id}`, { method: 'DELETE' });
       setAcademies(prev => prev.filter(a => a.id !== id));
@@ -183,7 +186,7 @@ export default function AcademiasPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Academias</h1>
+          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('title')}</h1>
           <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
             {academies.length} academias cadastradas
           </p>
@@ -206,7 +209,7 @@ export default function AcademiasPage() {
           <Search className={`w-4 h-4 ${isDark ? 'text-white/40' : 'text-slate-400'}`} />
           <input
             type="text"
-            placeholder="Buscar por nome, cidade ou email..."
+            placeholder={t('searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-inherit/40"
@@ -264,7 +267,7 @@ export default function AcademiasPage() {
         {filtered.length === 0 ? (
           <div className={`text-center py-12 rounded-2xl border ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white border-slate-200'}`}>
             <Building2 className={`w-10 h-10 mx-auto mb-3 ${isDark ? 'text-white/20' : 'text-slate-300'}`} />
-            <p className={`text-sm ${isDark ? 'text-white/40' : 'text-slate-500'}`}>Nenhuma academia encontrada</p>
+            <p className={`text-sm ${isDark ? 'text-white/40' : 'text-slate-500'}`}>{t('noAcademies')}</p>
           </div>
         ) : (
           filtered.map((academy) => (

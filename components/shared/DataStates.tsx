@@ -2,6 +2,7 @@
 
 import { AlertTriangle, RefreshCw, Inbox, WifiOff, ShieldX, ServerCrash } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { PremiumLoader } from './PremiumLoader';
@@ -55,8 +56,8 @@ function StatusIcon({ status, color }: { status: number | null; color: string })
  * PageLoading — Spinner centralizado full-height.
  * Réplica exata do padrão existente no projeto.
  */
-export function PageLoading({ message = 'Carregando...' }: { message?: string }) {
-  return <PremiumLoader text={message} />;
+export function PageLoading({ message }: { message?: string }) {
+  return <PremiumLoader text={message || 'Carregando...'} />;
 }
 
 /**
@@ -122,8 +123,8 @@ export function PageError({
  */
 export function PageEmpty({
   icon: Icon = Inbox,
-  title = 'Nenhum dado encontrado',
-  message = 'Não há registros para exibir no momento.',
+  title,
+  message,
 }: {
   icon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   title?: string;
@@ -132,12 +133,14 @@ export function PageEmpty({
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
+  const defaultTitle = title || 'Nenhum dado encontrado';
+  const defaultMessage = message || 'Não há registros para exibir no momento.';
   return (
     <div className="flex items-center justify-center min-h-[40vh]">
       <div className="text-center max-w-sm px-6">
         <Icon className="w-12 h-12 mx-auto mb-4" style={{ color: tokens.textMuted }} />
-        <p className="font-medium mb-1" style={{ color: tokens.text }}>{title}</p>
-        <p className="text-sm" style={{ color: tokens.textMuted }}>{message}</p>
+        <p className="font-medium mb-1" style={{ color: tokens.text }}>{defaultTitle}</p>
+        <p className="text-sm" style={{ color: tokens.textMuted }}>{defaultMessage}</p>
       </div>
     </div>
   );

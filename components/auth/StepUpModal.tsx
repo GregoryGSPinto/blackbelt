@@ -5,6 +5,7 @@
 
 import { useCallback } from 'react';
 import { MFAVerifyModal } from './MFAVerifyModal';
+import { useTranslations } from 'next-intl';
 
 interface StepUpModalProps {
   isOpen: boolean;
@@ -15,8 +16,10 @@ interface StepUpModalProps {
 
 export function StepUpModal({
   isOpen, onClose, onAuthorized,
-  actionDescription = 'Esta ação requer confirmação de identidade',
+  actionDescription,
 }: StepUpModalProps) {
+  const t = useTranslations('auth');
+
   const handleVerified = useCallback((code: string) => {
     // Mock: generate a step-up token
     const token = `step-up-${Date.now()}-${code}`;
@@ -29,8 +32,8 @@ export function StepUpModal({
       isOpen={isOpen}
       onClose={onClose}
       onVerified={handleVerified}
-      title="Confirmar Identidade"
-      subtitle={actionDescription}
+      title={t('stepUp.confirmIdentity')}
+      subtitle={actionDescription ?? t('stepUp.actionRequiresConfirmation')}
     />
   );
 }

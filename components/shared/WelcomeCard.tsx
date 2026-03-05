@@ -8,6 +8,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { X, ChevronRight, Sparkles } from 'lucide-react';
 
 // ── Types ──
@@ -36,8 +37,8 @@ interface WelcomeCardProps {
 
 const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
   aluno: {
-    greeting: 'Bem-vindo ao BlackBelt',
-    subtitle: 'Sua jornada no treinamento especializado começa aqui. Veja como aproveitar ao máximo:',
+    greeting: 'welcomeBlackBelt',
+    subtitle: 'welcomeSubtitle',
     steps: [
       { emoji: '🥋', text: 'Confira sua próxima sessão e faça check-in', href: '/inicio' },
       { emoji: '📊', text: 'Acompanhe sua frequência e evolução', href: '/meu-perfil-esportivo' },
@@ -49,8 +50,8 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     gradientTo: 'rgba(239,68,68,0.03)',
   },
   instrutor: {
-    greeting: 'Bem-vindo ao BlackBelt',
-    subtitle: 'Seu painel está pronto. Veja os primeiros passos:',
+    greeting: 'welcomeBlackBelt',
+    subtitle: 'welcomeSubtitle',
     steps: [
       { emoji: '📋', text: 'Confira o dashboard com alertas e ações', href: '/professor-dashboard' },
       { emoji: '✅', text: 'Inicie sua primeira chamada', href: '/professor-chamada' },
@@ -62,8 +63,8 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     gradientTo: 'rgba(59,130,246,0.03)',
   },
   responsavel: {
-    greeting: 'Bem-vindo ao BlackBelt',
-    subtitle: 'Acompanhe a jornada do seu filho na unidade:',
+    greeting: 'welcomeBlackBelt',
+    subtitle: 'welcomeSubtitle',
     steps: [
       { emoji: '📈', text: 'Veja a frequência semanal', href: '/painel-responsavel' },
       { emoji: '🏅', text: 'Acompanhe conquistas e progresso', href: '/painel-responsavel/progresso' },
@@ -74,8 +75,8 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     gradientTo: 'rgba(34,197,94,0.03)',
   },
   admin: {
-    greeting: 'Bem-vindo ao BlackBelt',
-    subtitle: 'Gerencie sua unidade com facilidade:',
+    greeting: 'welcomeBlackBelt',
+    subtitle: 'welcomeSubtitle',
     steps: [
       { emoji: '📊', text: 'Acesse o dashboard com métricas-chave', href: '/dashboard' },
       { emoji: '👥', text: 'Gerencie alunos e matrículas', href: '/usuarios' },
@@ -113,6 +114,7 @@ function setDismissed(profileKey: string) {
 // ── Component ──
 
 export function WelcomeCard({ profileKey, userName }: WelcomeCardProps) {
+  const t = useTranslations('common.greeting');
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
 
@@ -167,9 +169,9 @@ export function WelcomeCard({ profileKey, userName }: WelcomeCardProps) {
           </div>
           <div>
             <h3 className="text-base font-bold text-white/90">
-              {config.greeting}{displayName}! 🦁
+              {t(config.greeting)}{displayName}! 🦁
             </h3>
-            <p className="text-[11px] text-white/35 mt-0.5">{config.subtitle}</p>
+            <p className="text-[11px] text-white/35 mt-0.5">{t(config.subtitle)}</p>
           </div>
         </div>
 

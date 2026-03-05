@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import VideoCarousel from '@/components/ui/VideoCarousel';
 import { VideoCardEnhanced } from '@/components/video/VideoCardEnhanced';
 import type { Video, Serie } from '@/lib/api/content.service';
@@ -11,6 +12,7 @@ interface SeriesContentProps {
 }
 
 export default function SeriesContent({ videos, series }: SeriesContentProps) {
+  const t = useTranslations('athlete');
   const router = useRouter();
 
   return (
@@ -38,7 +40,7 @@ export default function SeriesContent({ videos, series }: SeriesContentProps) {
           </div>
         ))}
 
-        <VideoCarousel title="Todas as Técnicas">
+        <VideoCarousel title={t('series.allTechniques')}>
           {videos.map((video) => (
             <VideoCardEnhanced
               key={video.id}

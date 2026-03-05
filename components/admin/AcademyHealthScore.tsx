@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 // ════════════════════════════════════════════════════════════════════
 // ACADEMY HEALTH SCORE — Gauge visual da saude da academia
 // ════════════════════════════════════════════════════════════════════
@@ -42,20 +44,21 @@ function getTrendIcon(trend: string): string {
 }
 
 export function AcademyHealthScore({ overallScore, trend, breakdown }: AcademyHealthScoreProps) {
+  const t = useTranslations('admin');
   const scoreColor = getScoreColor(overallScore);
   const circumference = 2 * Math.PI * 54;
   const strokeDashoffset = circumference - (overallScore / 100) * circumference;
 
   const dimensions = [
-    { key: 'retention', ...breakdown.retention, label: 'Retencao' },
-    { key: 'engagement', ...breakdown.engagement, label: 'Engajamento' },
-    { key: 'revenue', ...breakdown.revenue, label: 'Receita' },
-    { key: 'growth', ...breakdown.growth, label: 'Crescimento' },
+    { key: 'retention', ...breakdown.retention, label: t('academyHealth.retention') },
+    { key: 'engagement', ...breakdown.engagement, label: t('academyHealth.engagement') },
+    { key: 'revenue', ...breakdown.revenue, label: t('academyHealth.revenue') },
+    { key: 'growth', ...breakdown.growth, label: t('academyHealth.growth') },
   ];
 
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6">
-      <h3 className="text-sm font-medium text-zinc-300 mb-4">Saude da Academia</h3>
+      <h3 className="text-sm font-medium text-zinc-300 mb-4">{t('academyHealth.title')}</h3>
 
       <div className="flex flex-col sm:flex-row items-center gap-6">
         {/* Circular progress indicator */}
@@ -86,7 +89,7 @@ export function AcademyHealthScore({ overallScore, trend, breakdown }: AcademyHe
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className={`text-3xl font-bold ${scoreColor}`}>{overallScore}</span>
-            <span className="text-[10px] text-zinc-500 mt-0.5">de 100</span>
+            <span className="text-[10px] text-zinc-500 mt-0.5">{t('academyHealth.outOf100')}</span>
           </div>
         </div>
 
@@ -114,7 +117,7 @@ export function AcademyHealthScore({ overallScore, trend, breakdown }: AcademyHe
 
       {/* Trend */}
       <div className="mt-4 pt-3 border-t border-zinc-800 flex items-center gap-2">
-        <span className="text-xs text-zinc-500">Tendencia:</span>
+        <span className="text-xs text-zinc-500">{t('academyHealth.trend')}:</span>
         <span className={`text-xs font-medium ${
           trend.toLowerCase().includes('alta') ? 'text-green-400' :
           trend.toLowerCase().includes('queda') ? 'text-red-400' :

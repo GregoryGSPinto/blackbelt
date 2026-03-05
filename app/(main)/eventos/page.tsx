@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import {
   Trophy, Calendar, MapPin, Users, ChevronRight, Tag, Ticket,
@@ -42,6 +43,7 @@ function formatDate(d: string) {
 // ── Componente principal ──────────────────────────────────
 
 export default function EventosPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -82,10 +84,10 @@ export default function EventosPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Eventos</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('events.title')}</h1>
           </div>
           <p className="text-white/40 text-sm">
-            Campeonatos, seminários e desafios
+            {t('events.subtitle')}
           </p>
         </div>
 
@@ -116,7 +118,7 @@ export default function EventosPage() {
         ) : eventos.length === 0 ? (
           <div className="text-center py-16">
             <Calendar size={48} className="mx-auto text-white/10 mb-4" />
-            <p className="text-white/30 text-sm">Nenhum evento encontrado</p>
+            <p className="text-white/30 text-sm">{t('events.noEvents')}</p>
           </div>
         ) : (
           <div className="space-y-4">

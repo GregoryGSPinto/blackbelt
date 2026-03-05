@@ -19,6 +19,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react';
 import { AlertTriangle, Trash2, Info, CheckCircle, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 
 type Variant = 'danger' | 'warning' | 'info' | 'success';
@@ -83,17 +84,21 @@ export function ConfirmModal({
   open,
   title,
   message,
-  confirmLabel = 'Confirmar',
-  cancelLabel = 'Cancelar',
+  confirmLabel,
+  cancelLabel,
   variant = 'danger',
   loading = false,
   requireTyping,
   onConfirm,
   onCancel,
 }: ConfirmModalProps) {
+  const t = useTranslations('common.confirm');
+  const tActions = useTranslations('common.actions');
   const inputRef = useRef<HTMLInputElement>(null);
   const typingMatch = useRef(false);
   const { isDark } = useTheme();
+  const effectiveConfirmLabel = confirmLabel || tActions('confirm');
+  const effectiveCancelLabel = cancelLabel || tActions('cancel');
 
   // ESC close
   useEffect(() => {
@@ -179,7 +184,7 @@ export function ConfirmModal({
           {requireTyping && (
             <div className="mb-4">
               <p className={`text-xs mb-2 ${isDark ? 'text-white/30' : 'text-slate-400'}`}>
-                Digite <span className={`font-mono px-1.5 py-0.5 rounded ${isDark ? 'text-white/60 bg-white/5' : 'text-slate-700 bg-slate-100'}`}>{requireTyping}</span> para confirmar:
+                {t('typeToConfirm', { text: requireTyping })}
               </p>
               <input
                 ref={inputRef}
@@ -201,7 +206,7 @@ export function ConfirmModal({
               className={`flex-1 py-2.5 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${isDark ? 'text-white/50 hover:bg-white/5' : 'text-slate-500 hover:bg-slate-100'}`}
               style={{ border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}
             >
-              {cancelLabel}
+              {effectiveCancelLabel}
             </button>
             <button
               onClick={handleConfirm}
@@ -215,9 +220,9 @@ export function ConfirmModal({
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Processando...
+                  {tActions('processing')}
                 </span>
-              ) : confirmLabel}
+              ) : effectiveConfirmLabel}
             </button>
           </div>
         </div>

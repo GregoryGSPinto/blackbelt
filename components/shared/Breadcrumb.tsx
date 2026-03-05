@@ -13,6 +13,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 
@@ -32,105 +33,54 @@ interface BreadcrumbProps {
   className?: string;
 }
 
-// ── Route label mapping ──
-// Maps pathname segments to human-readable labels.
+// ── Route segment keys ──
+// Lists all segments that have a translation key in navigation.routes.*
+// The actual labels come from the translation files.
 
-const ROUTE_LABELS: Record<string, string> = {
+const ROUTE_SEGMENTS = [
   // Main
-  'inicio': 'Início',
-  'unidade': 'Unidades',
-  'shop': 'Loja',
-  'produto': 'Produto',
-  'ranking': 'Ranking',
-  'series': 'Séries',
-  'novidades': 'Novidades',
-  'minhas-turmas': 'Minhas Turmas',
-  'minha-evolucao': 'Minha Evolução',
-  'meu-perfil-esportivo': 'Perfil Esportivo',
-  'meus-pagamentos': 'Pagamentos',
-  'perfil': 'Perfil',
-  'configuracoes': 'Configurações',
-  'permissoes-usuario': 'Permissões',
-  'eventos': 'Eventos',
-  'teste': 'Teste',
+  'inicio', 'unidade', 'shop', 'produto', 'ranking', 'series', 'novidades',
+  'minhas-turmas', 'minha-evolucao', 'meu-perfil-esportivo', 'meus-pagamentos',
+  'perfil', 'configuracoes', 'permissoes-usuario', 'eventos', 'teste',
   // Instrutor
-  'professor-dashboard': 'Dashboard',
-  'professor-alunos': 'Alunos',
-  'professor-aluno-detalhe': 'Detalhe do Aluno',
-  'professor-turmas': 'Turmas',
-  'professor-chamada': 'Chamada',
-  'professor-avaliacoes': 'Avaliações',
-  'professor-cronometro': 'Cronômetro',
-  'professor-plano-aula': 'Plano de Sessão',
-  'professor-videos': 'Vídeos',
-  'professor-perfil': 'Perfil',
-  'professor-particulares': 'Particulares',
+  'professor-dashboard', 'professor-alunos', 'professor-aluno-detalhe',
+  'professor-turmas', 'professor-chamada', 'professor-avaliacoes',
+  'professor-cronometro', 'professor-plano-aula', 'professor-videos',
+  'professor-perfil', 'professor-particulares',
   // Admin
-  'dashboard': 'Dashboard',
-  'turmas': 'Turmas',
-  'usuarios': 'Usuários',
-  'financeiro': 'Financeiro',
-  'comunicacoes': 'Comunicações',
-  'graduacoes': 'Graduações',
-  'analytics': 'Analytics',
-  'automacoes': 'Automações',
-  'relatorios': 'Relatórios',
-  'alertas': 'Alertas',
-  'agenda': 'Agenda',
-  'check-in': 'Check-in',
-  'estoque': 'Estoque',
-  'pagamentos': 'Pagamentos',
-  'leads': 'Leads',
-  'comissoes': 'Comissões',
-  'pdv': 'PDV',
-  'seguranca': 'Segurança',
-  'permissoes': 'Permissões',
-  'recepcao': 'Recepção',
-  'visitantes': 'Visitantes',
-  'particulares': 'Particulares',
-  'gestao-eventos': 'Eventos',
+  'dashboard', 'turmas', 'usuarios', 'financeiro', 'comunicacoes', 'graduacoes',
+  'analytics', 'automacoes', 'relatorios', 'alertas', 'agenda', 'check-in',
+  'estoque', 'pagamentos', 'leads', 'comissoes', 'pdv', 'seguranca', 'permissoes',
+  'recepcao', 'visitantes', 'particulares', 'gestao-eventos',
   // Parent
-  'painel-responsavel': 'Painel',
-  'meus-filhos': 'Meus Filhos',
-  'progresso': 'Progresso',
-  'autorizacoes': 'Autorizações',
-  'checkin': 'Check-in',
+  'painel-responsavel', 'meus-filhos', 'progresso', 'autorizacoes', 'checkin',
   // Teen
-  'teen-inicio': 'Início',
-  'teen-aulas': 'Sessões',
-  'teen-progresso': 'Progresso',
-  'teen-conquistas': 'Conquistas',
-  'teen-perfil': 'Perfil',
-  'teen-academia': 'Unidade',
-  'teen-checkin': 'Check-in',
-  'teen-downloads': 'Downloads',
+  'teen-inicio', 'teen-aulas', 'teen-progresso', 'teen-conquistas', 'teen-perfil',
+  'teen-academia', 'teen-checkin', 'teen-downloads',
   // Kids
-  'kids-inicio': 'Início',
-  'kids-aulas': 'Sessões',
-  'kids-desafios': 'Desafios',
-  'kids-medalhas': 'Conquistas',
-  'kids-mestres': 'Mestres',
-};
+  'kids-inicio', 'kids-aulas', 'kids-desafios', 'kids-medalhas', 'kids-mestres',
+] as const;
 
 // ── Route group → root mapping ──
+// Label keys reference navigation.routes.* translations.
 
-const GROUP_ROOTS: Record<string, BreadcrumbItem> = {
-  'inicio': { label: 'Início', href: '/inicio' },
-  'academia': { label: 'Início', href: '/inicio' },
-  'shop': { label: 'Início', href: '/inicio' },
-  'perfil': { label: 'Início', href: '/inicio' },
-  'ranking': { label: 'Início', href: '/inicio' },
-  'professor-aluno-detalhe': { label: 'Alunos', href: '/professor-alunos' },
-  'professor-alunos': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-turmas': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-chamada': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-avaliacoes': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-cronometro': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-plano-aula': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-videos': { label: 'Dashboard', href: '/professor-dashboard' },
-  'professor-perfil': { label: 'Dashboard', href: '/professor-dashboard' },
-  'painel-responsavel': { label: 'Painel', href: '/painel-responsavel' },
-  'meus-filhos': { label: 'Painel', href: '/painel-responsavel' },
+const GROUP_ROOT_CONFIG: Record<string, { labelKey: string; href: string }> = {
+  'inicio': { labelKey: 'inicio', href: '/inicio' },
+  'academia': { labelKey: 'inicio', href: '/inicio' },
+  'shop': { labelKey: 'inicio', href: '/inicio' },
+  'perfil': { labelKey: 'inicio', href: '/inicio' },
+  'ranking': { labelKey: 'inicio', href: '/inicio' },
+  'professor-aluno-detalhe': { labelKey: 'professor-alunos', href: '/professor-alunos' },
+  'professor-alunos': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-turmas': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-chamada': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-avaliacoes': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-cronometro': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-plano-aula': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-videos': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'professor-perfil': { labelKey: 'dashboard', href: '/professor-dashboard' },
+  'painel-responsavel': { labelKey: 'painel-responsavel', href: '/painel-responsavel' },
+  'meus-filhos': { labelKey: 'painel-responsavel', href: '/painel-responsavel' },
 };
 
 // ── Helpers ──
@@ -139,15 +89,26 @@ function isUUID(segment: string): boolean {
   return /^[a-f0-9-]{8,}$/i.test(segment) || /^\d+$/.test(segment);
 }
 
-function getSegmentLabel(segment: string): string {
-  return ROUTE_LABELS[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-}
-
 // ══════════════════════════════════════════════════════════════
 
 export function Breadcrumb({ items: customItems, dynamicLabel, className = '' }: BreadcrumbProps) {
+  const tActions = useTranslations('common.actions');
+  const tRoutes = useTranslations('navigation.routes');
   const pathname = usePathname();
   const router = useRouter();
+
+  const getSegmentLabel = (segment: string): string => {
+    if ((ROUTE_SEGMENTS as readonly string[]).includes(segment)) {
+      return tRoutes(segment);
+    }
+    return segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+  };
+
+  const getGroupRoot = (segment: string): BreadcrumbItem | null => {
+    const cfg = GROUP_ROOT_CONFIG[segment];
+    if (!cfg) return null;
+    return { label: tRoutes(cfg.labelKey), href: cfg.href };
+  };
 
   const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
     if (customItems) return customItems;
@@ -162,7 +123,7 @@ export function Breadcrumb({ items: customItems, dynamicLabel, className = '' }:
 
     // Add root based on first segment
     const firstSeg = segments[0];
-    const root = GROUP_ROOTS[firstSeg];
+    const root = getGroupRoot(firstSeg);
     if (root) items.push(root);
 
     // Build path incrementally
@@ -193,7 +154,7 @@ export function Breadcrumb({ items: customItems, dynamicLabel, className = '' }:
     }
 
     return items;
-  }, [pathname, customItems, dynamicLabel]);
+  }, [pathname, customItems, dynamicLabel, tRoutes]);
 
   // Don't render if only 0-1 items
   if (breadcrumbs.length < 2) return null;
@@ -204,10 +165,10 @@ export function Breadcrumb({ items: customItems, dynamicLabel, className = '' }:
       <button
         onClick={() => router.back()}
         className="md:hidden flex items-center gap-1.5 text-white/35 hover:text-white/60 text-xs transition-colors py-1"
-        aria-label="Voltar"
+        aria-label={tActions('back')}
       >
         <ArrowLeft size={14} />
-        <span>{breadcrumbs.length >= 2 ? breadcrumbs[breadcrumbs.length - 2].label : 'Voltar'}</span>
+        <span>{breadcrumbs.length >= 2 ? breadcrumbs[breadcrumbs.length - 2].label : tActions('back')}</span>
       </button>
 
       {/* Desktop: full breadcrumb trail */}

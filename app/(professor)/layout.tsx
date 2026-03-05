@@ -15,6 +15,7 @@ import { PROFESSOR_SHELL_CONFIG } from './shell.config';
 import { OnboardingTour } from '@/components/shared/OnboardingTour';
 import { OnboardingTrigger } from '@/components/shared/OnboardingTrigger';
 import { QuickActionsFAB } from '@/components/professor/QuickActionsFAB';
+import { useTranslations } from 'next-intl';
 
 /**
  * Professor-specific background overlays.
@@ -64,8 +65,9 @@ function ProfessorLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function ProfessorLayout({ children }: { children: ReactNode }) {
+  const t = useTranslations('common.actions');
   return (
-    <ProtectedRoute allowedTypes={['INSTRUTOR']} loadingText="Preparando sua área...">
+    <ProtectedRoute allowedTypes={['INSTRUTOR']} loadingText={t('preparing')}>
       <GlobalSearchProvider>
         <ActiveClassProvider>
           <ProfessorLayoutInner>{children}</ProfessorLayoutInner>

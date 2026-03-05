@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useParentInsights } from '@/hooks/useParentInsights';
 import { ChildProgressSummary } from '@/components/parent/ChildProgressSummary';
 import { BehavioralRadarChart } from '@/components/parent/BehavioralRadarChart';
@@ -13,6 +14,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProgressoPage() {
+  const t = useTranslations('parent.progress');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -34,7 +36,7 @@ export default function ProgressoPage() {
   if (filhos.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-zinc-500">Nenhum filho cadastrado.</p>
+        <p className="text-zinc-500">{t('noChildren')}</p>
       </div>
     );
   }
@@ -48,10 +50,10 @@ export default function ProgressoPage() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-            Progresso {childName ? `de ${childName}` : ''}
+            {t('title', { name: childName ? `de ${childName}` : '' })}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">
-            Acompanhe a evolucao com insights de inteligencia artificial
+            {t('subtitle')}
           </p>
         </div>
 
@@ -92,14 +94,14 @@ export default function ProgressoPage() {
       ) : error ? (
         <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
           <p className="text-red-400 text-sm font-medium">
-            Erro ao carregar progresso
+            {t('title', { name: '' })}
           </p>
           <p className="text-red-400/60 text-xs mt-1">{error.message}</p>
         </div>
       ) : !insights ? (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
           <p className="text-zinc-500 text-sm">
-            Insights ainda nao disponiveis para este filho.
+            {t('noInsights')}
           </p>
         </div>
       ) : (
@@ -107,8 +109,8 @@ export default function ProgressoPage() {
           {/* Progress Summary */}
           <ChildProgressSummary
             summary={{
-              headline: `${insights.childName} esta progredindo bem!`,
-              engagementLevel: insights.engagementSummary || 'Bom',
+              headline: t('isProgressing', { name: insights.childName }),
+              engagementLevel: insights.engagementSummary || t('good'),
               attendanceThisMonth: insights.progress.totalSessions,
               totalClassesThisMonth: Math.max(insights.progress.totalSessions, 12),
             }}
@@ -126,11 +128,11 @@ export default function ProgressoPage() {
             {/* Behavioral Radar */}
             <BehavioralRadarChart
               development={{
-                discipline:     { level: 'good' as const, trend: 'stable' as const, description: 'Em desenvolvimento' },
-                respect:        { level: 'good' as const, trend: 'stable' as const, description: 'Em desenvolvimento' },
-                teamwork:       { level: 'good' as const, trend: 'stable' as const, description: 'Em desenvolvimento' },
-                confidence:     { level: 'good' as const, trend: 'stable' as const, description: 'Em desenvolvimento' },
-                focusAndAttention: { level: 'good' as const, trend: 'stable' as const, description: 'Em desenvolvimento' },
+                discipline:     { level: 'good' as const, trend: 'stable' as const, description: t('inDevelopment') },
+                respect:        { level: 'good' as const, trend: 'stable' as const, description: t('inDevelopment') },
+                teamwork:       { level: 'good' as const, trend: 'stable' as const, description: t('inDevelopment') },
+                confidence:     { level: 'good' as const, trend: 'stable' as const, description: t('inDevelopment') },
+                focusAndAttention: { level: 'good' as const, trend: 'stable' as const, description: t('inDevelopment') },
               }}
             />
 
@@ -139,7 +141,7 @@ export default function ProgressoPage() {
           </div>
 
           {/* Tips Banner */}
-          <ParentTipsBanner tips={['Incentive a pratica regular para melhores resultados!']} />
+          <ParentTipsBanner tips={[t('encouragePractice')]} />
 
           {/* Upcoming Events */}
           <UpcomingEventsTimeline events={[]} />

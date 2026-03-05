@@ -11,10 +11,13 @@ import CinematicBackground from '@/components/ui/CinematicBackground';
 import { ACADEMY_CONTACT } from '@/lib/academy/contactInfo';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function EsqueciEmailPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -30,7 +33,7 @@ export default function EsqueciEmailPage() {
             className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-300 mb-8 group"
           >
             <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="text-sm font-medium">Voltar para login</span>
+            <span className="text-sm font-medium">{t('forgotEmail.backToLogin')}</span>
           </Link>
 
           {/* Container */}
@@ -38,10 +41,10 @@ export default function EsqueciEmailPage() {
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
-                Esqueci meu Email
+                {t('forgotEmail.title')}
               </h1>
               <p className="text-white/60 text-base leading-relaxed">
-                Escolha uma das opções abaixo para recuperar o email vinculado à sua conta.
+                {t('forgotEmail.description')}
               </p>
             </div>
 
@@ -62,16 +65,16 @@ export default function EsqueciEmailPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-base font-semibold text-white mb-1">
-                      Recuperar via telefone
+                      {t('forgotEmail.recoverByPhone')}
                     </h3>
                     <p className="text-sm text-white/50 leading-relaxed">
-                      Enviaremos um SMS com seu email cadastrado.
+                      {t('forgotEmail.recoverByPhoneDesc')}
                     </p>
                     {selectedOption === 'phone' && (
                       <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                        <p className="text-sm text-blue-400 font-medium">⚠️ Em desenvolvimento</p>
+                        <p className="text-sm text-blue-400 font-medium">{t('forgotEmail.inDevelopment')}</p>
                         <p className="text-xs text-blue-400/70 mt-1">
-                          Entre em contato com o suporte para recuperação.
+                          {t('forgotEmail.contactSupportDesc')}
                         </p>
                       </div>
                     )}
@@ -94,14 +97,14 @@ export default function EsqueciEmailPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-base font-semibold text-white mb-1">
-                      Falar com o suporte
+                      {t('forgotEmail.contactSupport')}
                     </h3>
                     <p className="text-sm text-white/50 leading-relaxed">
-                      Nossa equipe ajudará você a recuperar seu email.
+                      {t('forgotEmail.contactSupportDesc')}
                     </p>
                     {selectedOption === 'support' && (
                       <div className="mt-4 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-                        <p className="text-sm text-emerald-400 font-semibold mb-3">Canais de Atendimento:</p>
+                        <p className="text-sm text-emerald-400 font-semibold mb-3">{t('forgotEmail.supportChannels')}</p>
                         <div className="space-y-2 text-sm">
                           <div className="flex items-center gap-2">
                             <Mail size={14} className="text-emerald-400" />
@@ -123,7 +126,7 @@ export default function EsqueciEmailPage() {
                           </div>
                         </div>
                         <p className="text-[11px] text-white/30 mt-3">
-                          Tempo médio de resposta: 24 horas úteis
+                          {t('forgotEmail.avgResponseTime')}
                         </p>
                       </div>
                     )}
@@ -135,27 +138,27 @@ export default function EsqueciEmailPage() {
             {/* Dica */}
             <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
               <p className="text-sm text-white/60 leading-relaxed">
-                <span className="font-semibold text-white">💡 Dica:</span> Tenha em mãos seu nome completo, data de nascimento e último método de pagamento.
+                <span className="font-semibold text-white">{t('forgotEmail.tip')}</span> {t('forgotEmail.tipText')}
               </p>
             </div>
 
             {/* Divider + Link */}
             <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-2">
-              <p className="text-sm" style={{ color: tokens.textMuted }}>Lembrou seu email?</p>
+              <p className="text-sm" style={{ color: tokens.textMuted }}>{t('forgotEmail.rememberedEmail')}</p>
               <Link
                 href="/login"
                 className="inline-block text-sm font-semibold text-white hover:text-white/80 transition-all duration-300 hover:translate-x-1"
               >
-                Voltar para o login →
+                {t('forgotEmail.backToLogin')} →
               </Link>
             </div>
           </div>
 
           {/* Footer */}
           <p className="text-center text-sm text-white/40 mt-8">
-            Precisa criar uma conta?{' '}
+            {t('forgotPassword.needAccount')}{' '}
             <Link href="/cadastro" className="text-white hover:text-white/80 transition-colors font-medium">
-              Cadastre-se grátis
+              {t('forgotPassword.signUpFree')}
             </Link>
           </p>
         </div>

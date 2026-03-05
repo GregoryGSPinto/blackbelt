@@ -19,6 +19,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type FaturaFilter = 'todas' | 'pendente' | 'atrasado' | 'pago';
 type TabView = 'faturas' | 'assinaturas';
@@ -45,6 +46,7 @@ function formatCurrency(v: number): string {
 }
 
 export default function PagamentosPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -87,7 +89,7 @@ export default function PagamentosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Pagamentos</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('payments.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Gateway de pagamento e controle de assinaturas</p>
       </div>
 

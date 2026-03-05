@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import { Eye, Type } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface MensagemTemplateEditorProps {
   value: string;
@@ -40,6 +41,7 @@ export default function MensagemTemplateEditor({
   variaveisDisponiveis,
   previewNome,
 }: MensagemTemplateEditorProps) {
+  const t = useTranslations('admin');
   const [showPreview, setShowPreview] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -78,7 +80,7 @@ export default function MensagemTemplateEditor({
           rows={4}
           aria-label="Template da mensagem"
           className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/80 text-sm placeholder:text-white/20 focus:outline-none focus:border-white/20 resize-none font-mono leading-relaxed"
-          placeholder="Digite a mensagem template..."
+          placeholder={t('reengagement.typePlaceholder')}
         />
         <div className="absolute bottom-2 right-2 flex items-center gap-1">
           <span className="text-[9px] text-white/15">{value.length} chars</span>
@@ -89,7 +91,7 @@ export default function MensagemTemplateEditor({
       <div>
         <p className="text-[10px] text-white/25 uppercase tracking-wider mb-1.5 flex items-center gap-1">
           <Type size={10} />
-          Variáveis disponíveis (clique para inserir)
+          {t('reengagement.availableVariables')}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {variaveisDisponiveis.map(v => (
@@ -110,13 +112,13 @@ export default function MensagemTemplateEditor({
         className="flex items-center gap-1.5 text-xs text-white/30 hover:text-white/50 transition-colors"
       >
         <Eye size={12} />
-        {showPreview ? 'Ocultar preview' : 'Ver preview'}
+        {showPreview ? t('reengagement.hidePreview') : t('reengagement.showPreview')}
       </button>
 
       {/* Preview */}
       {showPreview && (
         <div className="px-4 py-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
-          <p className="text-[9px] text-emerald-400/50 uppercase tracking-wider mb-2">Preview com dados de exemplo</p>
+          <p className="text-[9px] text-emerald-400/50 uppercase tracking-wider mb-2">{t('reengagement.previewWithSample')}</p>
           <p className="text-sm text-white/70 leading-relaxed whitespace-pre-wrap">
             {previewText}
           </p>

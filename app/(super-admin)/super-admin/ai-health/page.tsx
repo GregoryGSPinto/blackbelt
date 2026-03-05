@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Activity, AlertTriangle, CheckCircle, Server, Database, Cpu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
@@ -19,6 +20,7 @@ interface PlatformHealth {
 }
 
 export default function SuperAdminAIHealthPage() {
+  const t = useTranslations('superAdmin.aiHealth');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -31,7 +33,7 @@ export default function SuperAdminAIHealthPage() {
 
     fetch('/api/ai/health?scope=platform')
       .then(res => {
-        if (!res.ok) throw new Error(`Erro ao carregar saude da IA: ${res.status}`);
+        if (!res.ok) throw new Error(`Load error: ${res.status}`);
         return res.json();
       })
       .then(json => {
@@ -42,7 +44,7 @@ export default function SuperAdminAIHealthPage() {
       })
       .catch(err => {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Erro desconhecido');
+          setError(err instanceof Error ? err.message : 'Unknown error');
           setLoading(false);
         }
       });
@@ -142,13 +144,13 @@ export default function SuperAdminAIHealthPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <MetricCard
           icon={<Server size={18} className="text-blue-400" />}
-          label="Uptime"
+          label={t('uptime')}
           value={health?.uptime ? `${health.uptime.toFixed(2)}%` : '--'}
           accent="blue"
         />
         <MetricCard
           icon={<Database size={18} className="text-violet-400" />}
-          label="Academias Ativas"
+          label={t('activeAcademies') || 'Active Academies'}
           value={
             health
               ? `${health.activeAcademies}/${health.totalAcademies}`
@@ -158,7 +160,7 @@ export default function SuperAdminAIHealthPage() {
         />
         <MetricCard
           icon={<Activity size={18} className="text-emerald-400" />}
-          label="Predicoes Totais"
+          label={t('totalPredictions')}
           value={
             health?.totalPredictions
               ? health.totalPredictions.toLocaleString('pt-BR')
@@ -168,7 +170,7 @@ export default function SuperAdminAIHealthPage() {
         />
         <MetricCard
           icon={<Cpu size={18} className="text-amber-400" />}
-          label="Tempo Medio"
+          label={t('avgTime')}
           value={
             health?.avgResponseTime
               ? `${health.avgResponseTime}ms`
@@ -178,7 +180,7 @@ export default function SuperAdminAIHealthPage() {
         />
         <MetricCard
           icon={<AlertTriangle size={18} className="text-red-400" />}
-          label="Taxa de Erro"
+          label={t('errorRate')}
           value={
             health?.errorRate != null
               ? `${(health.errorRate * 100).toFixed(2)}%`
@@ -188,7 +190,7 @@ export default function SuperAdminAIHealthPage() {
         />
         <MetricCard
           icon={<CheckCircle size={18} className="text-cyan-400" />}
-          label="Modelos Ativos"
+          label={t('activeModels')}
           value={
             health?.modelsActive
               ? String(health.modelsActive.length)

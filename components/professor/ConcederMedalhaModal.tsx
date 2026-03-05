@@ -9,6 +9,7 @@ import { X, Search, Award, Loader2, Sparkles } from 'lucide-react';
 import * as conquistasService from '@/lib/api/conquistas.service';
 import type { ConquistaDisponivel } from '@/lib/api/conquistas.service';
 import { useToast } from '@/contexts/ToastContext';
+import { useTranslations } from 'next-intl';
 
 interface ConcederConquistaModalProps {
   isOpen: boolean;
@@ -43,6 +44,8 @@ const CONFETTI_STYLES = `
 export function ConcederConquistaModal({
   isOpen, onClose, onConcedida, alunoNome, alunoId, professorNome,
 }: ConcederConquistaModalProps) {
+  const t = useTranslations('professor.quickActions');
+  const tMedal = useTranslations('professor.medalTypes');
   const toast = useToast();
   const [conquistas, setConquistas] = useState<ConquistaDisponivel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -116,7 +119,7 @@ export function ConcederConquistaModal({
           <div className="flex items-center justify-between p-5 border-b border-white/6">
             <div>
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Award size={18} className="text-amber-400" /> Conceder Conquista
+                <Award size={18} className="text-amber-400" /> {t('grantAchievement')}
               </h2>
               <p className="text-xs text-white/40 mt-0.5">Para: {alunoNome}</p>
             </div>
@@ -131,7 +134,7 @@ export function ConcederConquistaModal({
               <span className="text-6xl mb-4">{selected.emoji}</span>
               <Sparkles size={32} className="text-amber-400 mb-2" />
               <p className="text-xl font-bold text-white">{selected.nome}</p>
-              <p className="text-white/40 text-sm mt-1">Concedida com sucesso!</p>
+              <p className="text-white/40 text-sm mt-1">{t('achievementGranted')}</p>
             </div>
           ) : (
             <>
@@ -170,7 +173,7 @@ export function ConcederConquistaModal({
                     <Loader2 size={24} className="animate-spin text-white/30" />
                   </div>
                 ) : filtered.length === 0 ? (
-                  <p className="text-white/30 text-sm text-center py-8">Nenhuma conquista encontrada.</p>
+                  <p className="text-white/30 text-sm text-center py-8">-</p>
                 ) : (
                   filtered.map(med => {
                     const isSelected = selected?.id === med.id;
@@ -223,7 +226,7 @@ export function ConcederConquistaModal({
                     aria-label="Confirmar concessão de conquista"
                   >
                     {saving ? <Loader2 size={16} className="animate-spin" /> : <Award size={16} />}
-                    {saving ? 'Concedendo...' : `Conceder ${selected.emoji} ${selected.nome}`}
+                    {saving ? '...' : `${t('grant')} ${selected.emoji} ${selected.nome}`}
                   </button>
                 </div>
               )}

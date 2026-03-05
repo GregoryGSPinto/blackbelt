@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Bell } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -17,15 +18,17 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
  * h-[96px]
  */
 
-const navItems = [
-  { label: 'Início', href: '/inicio' },
-  { label: 'Sessões', href: '/aulas' },
-  { label: 'Unidade', href: '/academia' },
-  { label: 'Séries', href: '/series' },
-  { label: 'Minha Lista', href: '/minha-lista' },
+const navItemDefs = [
+  { labelKey: 'home', href: '/inicio' },
+  { labelKey: 'sessions', href: '/aulas' },
+  { labelKey: 'unit', href: '/academia' },
+  { labelKey: 'series', href: '/series' },
+  { labelKey: 'myList', href: '/minha-lista' },
 ];
 
 export default function DesktopHeader() {
+  const t = useTranslations('common');
+  const tShell = useTranslations('shell');
   const pathname = usePathname();
   const { user } = useAuth();
   const { open: openDrawer } = useDesktopDrawer();
@@ -35,9 +38,13 @@ export default function DesktopHeader() {
   const perfil = user ? PERFIL_INFO[user.tipo] : null;
   const initial = user?.nome?.charAt(0)?.toUpperCase() || 'U';
 
+  const navItems = useMemo(() =>
+    navItemDefs.map(n => ({ label: t(`menu.${n.labelKey}`), href: n.href }))
+  , [t]);
+
   const activeIdx = useMemo(() =>
     navItems.findIndex(n => pathname === n.href || pathname.startsWith(n.href + '/'))
-  , [pathname]);
+  , [pathname, navItems]);
 
   /* ─── Theme-aware colors ─── */
   const brandColor = isDark ? 'rgba(255,255,255,0.9)' : '#15120C';
@@ -110,7 +117,7 @@ export default function DesktopHeader() {
             style={{ background: 'transparent' }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-            aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} novas)` : ''}`}>
+            aria-label={`${t('notifications.title')}${unreadCount > 0 ? ` (${t('notifications.newCount', { count: unreadCount })})` : ''}`}>
             <Bell size={24} style={{ color: iconColor }} />
             {unreadCount > 0 && (
               <span className={`absolute -top-0.5 -right-0.5 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center rounded-full bg-red-500 text-white text-[13px] font-bold leading-none ${justReceived ? 'notif-badge-pulse' : ''}`}
@@ -124,7 +131,7 @@ export default function DesktopHeader() {
 
           <button onClick={openDrawer}
             className="w-[54px] h-[54px] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 ml-1.5"
-            aria-label="Minha conta">
+            aria-label={tShell('header.myAccount')}>
             <div className={`w-12 h-12 bg-gradient-to-br ${perfil?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-[19px] font-bold transition-all duration-300`}
               style={{ boxShadow: `0 0 0 3px ${ringColor}` }}>
               {user?.avatar || initial}

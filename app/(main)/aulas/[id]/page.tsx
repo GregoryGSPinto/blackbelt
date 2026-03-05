@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   ChevronRight,
   VideoOff } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
 import { PremiumPlayer } from '@/components/video/PremiumPlayer';
@@ -50,6 +51,9 @@ function getLevelStyle(level: string) {
 }
 
 export default function AulaDetailPage() {
+  const t = useTranslations('athlete');
+  const tCommon = useTranslations('common');
+  const tVideo = useTranslations('video');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -111,22 +115,22 @@ export default function AulaDetailPage() {
 
   // ─── Loading skeleton ───
   if (loading) {
-    return <PremiumLoader text="Carregando aula..." />;
+    return <PremiumLoader text={t('sessions.loadingSession')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!video) {
-    return <PageEmpty icon={VideoOff} title="Sessão não encontrada" message="O conteúdo solicitado não está disponível." />;
+    return <PageEmpty icon={VideoOff} title={t('sessions.sessionNotFound')} message={t('sessions.contentUnavailable')} />;
   }
 
 
   const level = getLevelStyle(video.level);
   const objectives = OBJECTIVES[video.id] || [
-    'Aprimorar técnica fundamental',
-    'Desenvolver consciência corporal',
-    'Aplicar em treino e competição',
+    t('sessions.objectives.technique'),
+    t('sessions.objectives.bodyAwareness'),
+    t('sessions.objectives.apply'),
   ];
 
   return (
@@ -164,7 +168,7 @@ export default function AulaDetailPage() {
               size={16}
               className="group-hover/back:-translate-x-0.5 transition-transform"
             />
-            Voltar
+            {tCommon('actions.goBack')}
           </button>
 
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
@@ -198,10 +202,10 @@ export default function AulaDetailPage() {
 
               {/* Instructor line */}
               <p className="text-sm text-white/30 mb-8">
-                Instrutor:{' '}
+                {t('sessions.instructorLabel')}:{' '}
                 <span className="text-white/60 font-medium">{video.instructor}</span>
                 <span className="mx-2 text-white/10">|</span>
-                {video.views.toLocaleString()} visualizações
+                {video.views.toLocaleString()} {tVideo('views')}
               </p>
 
               {/* CTA buttons */}
@@ -215,7 +219,7 @@ export default function AulaDetailPage() {
                   }}
                 >
                   <Play size={18} fill="white" className="ml-0.5" />
-                  Assistir Agora
+                  {tCommon('actions.watchNow')}
                 </a>
 
                 <button
@@ -227,7 +231,7 @@ export default function AulaDetailPage() {
                   }`}
                 >
                   {inList ? <CheckCircle2 size={16} /> : <Plus size={16} />}
-                  {inList ? 'Na Lista' : 'Minha Lista'}
+                  {inList ? t('sessions.inList') : tCommon('menu.myList')}
                 </button>
 
                 <button
@@ -237,7 +241,7 @@ export default function AulaDetailPage() {
                       ? 'bg-red-500/15 border-red-500/20 text-red-400'
                       : 'bg-white/[0.04] border-white/[0.08] text-white/40 hover:text-white/70 hover:bg-white/[0.08]'
                   }`}
-                  aria-label="Curtir"
+                  aria-label={tCommon('actions.like')}
                 >
                   <Heart size={16} fill={liked ? 'currentColor' : 'none'} />
                 </button>
@@ -313,7 +317,7 @@ export default function AulaDetailPage() {
           <div className="lg:col-span-2 space-y-10">
             {/* Full description */}
             <div>
-              <h2 className="text-xl font-bold mb-4 text-white/90">Sobre esta sessão</h2>
+              <h2 className="text-xl font-bold mb-4 text-white/90">{t('sessions.aboutSession')}</h2>
               <p className="text-[15px] text-white/45 leading-[1.8] max-w-2xl">
                 {video.description} Esta sessão faz parte do programa técnico avançado do
                 BlackBelt, desenvolvida para alunos que desejam aprimorar seus
@@ -326,7 +330,7 @@ export default function AulaDetailPage() {
             {/* Objectives */}
             <div>
               <h2 className="text-xl font-bold mb-5 text-white/90">
-                Objetivos da sessão
+                {t('sessions.sessionObjectives')}
               </h2>
               <div className="space-y-3">
                 {objectives.map((obj, i) => (
@@ -356,7 +360,7 @@ export default function AulaDetailPage() {
             >
               <div className="flex items-center gap-2 text-white/30 text-xs font-medium uppercase tracking-wider">
                 <User size={13} />
-                Instrutor
+                {t('sessions.instructorLabel')}
               </div>
               <p className="text-white font-semibold">{video.instructor}</p>
               <p className="text-xs text-white/30">Nível Máximo · 15 anos de experiência</p>
@@ -372,7 +376,7 @@ export default function AulaDetailPage() {
             >
               <div className="flex items-center gap-2 text-white/30 text-xs font-medium uppercase tracking-wider">
                 <Tag size={13} />
-                Categoria
+                {t('sessions.category')}
               </div>
               <p className="text-white font-semibold">{video.category}</p>
             </div>
@@ -387,7 +391,7 @@ export default function AulaDetailPage() {
             >
               <div className="flex items-center gap-2 text-white/30 text-xs font-medium uppercase tracking-wider">
                 <Clock size={13} />
-                Duração
+                {t('sessions.durationLabel')}
               </div>
               <p className="text-white font-semibold">{video.duration}</p>
             </div>
@@ -402,7 +406,7 @@ export default function AulaDetailPage() {
             >
               <div className="flex items-center gap-2 text-white/30 text-xs font-medium uppercase tracking-wider">
                 <Signal size={13} />
-                Nível
+                {t('sessions.levelLabel')}
               </div>
               <span
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${level.bg} ${level.text}`}
@@ -419,7 +423,7 @@ export default function AulaDetailPage() {
           PLAYER SECTION
           ═══════════════════════════════════════════════════════ */}
       <section id="player" className="max-w-6xl mx-auto px-6 md:px-10 pb-16 md:pb-20">
-        <h2 className="text-xl font-bold mb-6 text-white/90">Player</h2>
+        <h2 className="text-xl font-bold mb-6 text-white/90">{t('sessions.player')}</h2>
         <PremiumPlayer
           youtubeId={video.youtubeId}
           title={video.title}
@@ -433,7 +437,7 @@ export default function AulaDetailPage() {
       {related.length > 0 && (
         <section className="max-w-7xl mx-auto px-6 md:px-10 pb-16 md:pb-24">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-white/90">Sessões Relacionadas</h2>
+            <h2 className="text-xl font-bold text-white/90">{t('sessions.relatedSessions')}</h2>
             <div className="hidden md:flex items-center gap-2">
               <button
                 onClick={() => scrollRelated('left')}

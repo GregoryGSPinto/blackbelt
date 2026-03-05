@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,6 +14,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function CarteirinhaPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -33,14 +35,14 @@ export default function CarteirinhaPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando carteirinha..." />;
+    return <PremiumLoader text={t('card.loadingCard')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
 
-  if (!carteirinha) return <PageLoading message="Carregando carteirinha..." />;
+  if (!carteirinha) return <PageLoading message={t('card.loadingCard')} />;
 
   return (
     <div className="min-h-screen px-4 md:px-8 py-8 md:py-12">
@@ -74,11 +76,10 @@ export default function CarteirinhaPage() {
 
         {/* Info adicional */}
         <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 space-y-3">
-          <p className="text-xs text-white/50 font-medium">Informações</p>
+          <p className="text-xs text-white/50 font-medium">{t('card.info')}</p>
           <div className="space-y-2 text-xs text-white/35">
             <p>
-              Apresente o QR code na recepção para realizar o check-in.
-              A carteirinha é atualizada automaticamente.
+              {t('card.qrInstruction')}
             </p>
             <p>
               O botão de carteira digital (Apple/Google Wallet) será ativado

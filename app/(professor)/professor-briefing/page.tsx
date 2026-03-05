@@ -5,11 +5,14 @@ import { DailyBriefing } from '@/components/professor/DailyBriefing';
 import { RefreshCw } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function ProfessorBriefingPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
+  const t = useTranslations('professor.briefing');
+  const tCommon = useTranslations('common');
   const { briefing, loading, error, refetch } = useInstructorCoach();
 
   return (
@@ -18,17 +21,17 @@ export default function ProfessorBriefingPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-            Briefing do Dia
+            {t('title')}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">
-            Resumo inteligente preparado pela IA para sua jornada de hoje
+            {t('subtitle')}
           </p>
         </div>
         <button
           onClick={refetch}
           disabled={loading}
           className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
-          title="Atualizar briefing"
+          title={t('refresh')}
         >
           <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
         </button>
@@ -51,20 +54,20 @@ export default function ProfessorBriefingPage() {
       ) : error ? (
         <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
           <p className="text-red-400 text-sm font-medium">
-            Erro ao carregar briefing
+            {t('error')}
           </p>
           <p className="text-red-400/60 text-xs mt-1">{error.message}</p>
           <button
             onClick={refetch}
             className="mt-4 px-4 py-2 text-xs rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-colors"
           >
-            Tentar novamente
+            {tCommon('actions.tryAgain')}
           </button>
         </div>
       ) : !briefing ? (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
           <p className="text-zinc-500 text-sm">
-            Nenhum briefing disponivel no momento.
+            {t('noBriefing')}
           </p>
         </div>
       ) : (

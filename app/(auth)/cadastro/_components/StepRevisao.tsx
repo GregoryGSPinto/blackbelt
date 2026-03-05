@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Check, CheckCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { ErrorAlert } from './ErrorAlert';
 import { calcIdade } from './utils';
 import type { DadosUsuario, DadosKid, StepBaseProps } from './types';
@@ -14,17 +15,18 @@ interface StepRevisaoProps extends StepBaseProps {
 }
 
 export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: StepRevisaoProps) {
+  const t = useTranslations('auth');
   const [aceite, setAceite] = useState(false);
 
   const perfilLabel = dados.perfilAutomatico === 'adulto'
-    ? (kids.length > 0 ? 'Responsável (com filhos)' : 'Adulto')
-    : dados.perfilAutomatico === 'adolescente' ? 'Adolescente' : 'Kids';
+    ? (kids.length > 0 ? t('review.parentWithKids') : t('register.profileAdult'))
+    : dados.perfilAutomatico === 'adolescente' ? t('register.profileTeen') : t('register.profileKids');
 
   return (
     <div className="space-y-6">
       {/* Dados do usuário */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold mb-4">Revise seus dados:</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('review.reviewTitle')}</h3>
         <div className="p-4 bg-white/5 rounded-lg border border-white/10 space-y-3">
           <div className="flex items-center gap-3">
             {dados.avatarFile ? (
@@ -43,27 +45,27 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
             {dados.dataNascimento && (
               <>
                 <p className="text-white/70">
-                  <span className="text-white/50">Data de nascimento:</span>{' '}
+                  <span className="text-white/50">{t('review.dateOfBirth')}</span>{' '}
                   {new Date(dados.dataNascimento).toLocaleDateString('pt-BR')}
                 </p>
                 <p className="text-white/70">
-                  <span className="text-white/50">Idade:</span> {dados.idade} anos
+                  <span className="text-white/50">{t('review.ageLabel')}</span> {dados.idade} anos
                 </p>
               </>
             )}
             <p className="text-white/70">
-              <span className="text-white/50">Perfil:</span> {perfilLabel}
+              <span className="text-white/50">{t('review.profileLabel')}</span> {perfilLabel}
             </p>
             {dados.perfilAutomatico === 'adolescente' && dados.nomeResponsavel && (
               <>
                 <p className="text-white/70">
-                  <span className="text-white/50">Responsável:</span> {dados.nomeResponsavel}
+                  <span className="text-white/50">{t('review.parentLabel')}</span> {dados.nomeResponsavel}
                 </p>
                 <p className="text-white/70">
-                  <span className="text-white/50">Email responsável:</span> {dados.emailResponsavel}
+                  <span className="text-white/50">{t('review.parentEmailLabel')}</span> {dados.emailResponsavel}
                 </p>
                 <p className="text-green-400/70 text-xs flex items-center gap-1">
-                  ✅ Consentimento autorizado
+                  {t('review.consentAuthorized')}
                 </p>
               </>
             )}
@@ -73,7 +75,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
         {/* Filhos vinculados */}
         {kids.length > 0 && (
           <div className="p-4 bg-white/5 rounded-lg border border-white/10">
-            <p className="text-sm font-medium mb-3">Filhos vinculados ({kids.length}):</p>
+            <p className="text-sm font-medium mb-3">{t('review.linkedKids', { count: kids.length })}</p>
             <div className="space-y-2">
               {kids.map((k, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm">
@@ -93,7 +95,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
 
       {/* Termos e Condições */}
       <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
-        <h3 className="text-base font-semibold mb-3">Termos e Condições</h3>
+        <h3 className="text-base font-semibold mb-3">{t('review.termsTitle')}</h3>
         <label className="flex items-start gap-3 cursor-pointer group">
           <div className="relative flex-shrink-0 mt-0.5">
             <input type="checkbox" checked={aceite} onChange={e => setAceite(e.target.checked)}
@@ -103,16 +105,21 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
             )}
           </div>
           <div className="flex-1 text-sm text-white/80 leading-relaxed">
-            Li e aceito os{' '}
-            <button type="button" onClick={() => onOpenModal('Termos de Uso')}
-              className="text-white font-medium hover:underline">Termos de Uso</button>
-            , a{' '}
-            <button type="button" onClick={() => onOpenModal('Política de Privacidade')}
-              className="text-white font-medium hover:underline">Política de Privacidade</button>
-            , o{' '}
-            <button type="button" onClick={() => onOpenModal('Contrato de Assinatura')}
-              className="text-white font-medium hover:underline">Contrato de Assinatura</button>
-            {' '}e demais políticas do BLACKBELT.
+            {t('review.termsAcceptance', {
+              termsLink: '',
+              privacyLink: '',
+              contractLink: '',
+              text: t('review.andOtherPolicies'),
+            }).split(t('review.andOtherPolicies'))[0]}
+            <button type="button" onClick={() => onOpenModal(t('consent.termsOfUse'))}
+              className="text-white font-medium hover:underline">{t('consent.termsOfUse')}</button>
+            , {' '}
+            <button type="button" onClick={() => onOpenModal(t('consent.privacyPolicy'))}
+              className="text-white font-medium hover:underline">{t('consent.privacyPolicy')}</button>
+            , {' '}
+            <button type="button" onClick={() => onOpenModal(t('review.subscriptionContract'))}
+              className="text-white font-medium hover:underline">{t('review.subscriptionContract')}</button>
+            {' '}{t('review.andOtherPolicies')}
           </div>
         </label>
       </div>
@@ -123,7 +130,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
         className={`w-full py-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
           aceite ? 'bg-white text-black hover:bg-white/90' : 'bg-white/10 text-white/40 cursor-not-allowed'
         }`}>
-        <CheckCircle size={20} /> Criar Conta
+        <CheckCircle size={20} /> {t('register.createButton')}
       </button>
     </div>
   );

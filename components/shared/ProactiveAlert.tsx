@@ -4,6 +4,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { X, ChevronRight } from 'lucide-react';
 import type { AlertaInteligente, AlertaCategoria } from '@/lib/api/alertas-inteligentes.service';
@@ -43,6 +44,7 @@ interface AlertCardProps {
 }
 
 function AlertCard({ alerta, onDismiss, index }: AlertCardProps) {
+  const t = useTranslations('common.actions');
   const router = useRouter();
   const style = CATEGORY_STYLES[alerta.categoria];
 
@@ -80,7 +82,7 @@ function AlertCard({ alerta, onDismiss, index }: AlertCardProps) {
       <button
         onClick={() => onDismiss(alerta.id)}
         className="flex-shrink-0 p-1 rounded-lg text-white/15 hover:text-white/40 hover:bg-white/5 transition-all opacity-0 group-hover:opacity-100"
-        aria-label="Dispensar alerta"
+        aria-label={t('close')}
       >
         <X size={14} />
       </button>
@@ -102,6 +104,8 @@ export function ProactiveAlertList({
   maxVisible = 5,
   className = '',
 }: ProactiveAlertListProps) {
+  const tAlerts = useTranslations('admin.alerts');
+  const tStatus = useTranslations('common.status');
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
 
   const handleDismiss = useCallback((id: string) => {
@@ -119,7 +123,7 @@ export function ProactiveAlertList({
     <section className={className}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold text-white/70">Alertas Inteligentes</h3>
+          <h3 className="text-sm font-semibold text-white/70">{tAlerts('title')}</h3>
           <span
             className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
             style={{ background: 'rgba(251,191,36,0.2)', color: '#FBBF24' }}
@@ -129,7 +133,7 @@ export function ProactiveAlertList({
         </div>
         {visible.length > 3 && (
           <span className="text-[10px] text-white/25 tracking-wider uppercase">
-            {visible.length} ativos
+            {visible.length} {tStatus('active')}
           </span>
         )}
       </div>

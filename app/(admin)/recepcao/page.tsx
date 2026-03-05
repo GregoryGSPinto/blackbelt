@@ -12,10 +12,12 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type CheckinMode = 'manual' | 'qr';
 
 export default function RecepcaoPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -133,8 +135,8 @@ export default function RecepcaoPage() {
                 <span className="text-white font-bold text-2xl">C</span>
               </div>
               <div>
-                <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>MODO RECEPÇÃO</h1>
-                <p className="text-white/50 text-lg">Check-in Rápido</p>
+                <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('reception.title')}</h1>
+                <p className="text-white/50 text-lg">{t('reception.quickCheckin')}</p>
               </div>
             </div>
           </div>
@@ -155,7 +157,7 @@ export default function RecepcaoPage() {
                 <Check className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">BEM-VINDO(A)!</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.welcome')}</h3>
                 <p className="text-2xl text-green-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-1">
                   Check-in realizado às {new Date().toLocaleTimeString('pt-BR')}
@@ -173,7 +175,7 @@ export default function RecepcaoPage() {
                 <X className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">ACESSO BLOQUEADO</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.accessBlocked')}</h3>
                 <p className="text-2xl text-red-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-2">
                   {selectedAluno.observacoes || 'Por favor, dirija-se à recepção para regularizar sua situação.'}
@@ -194,7 +196,7 @@ export default function RecepcaoPage() {
             }`}
           >
             <Keyboard size={22} />
-            Busca Manual
+            {t('reception.manualSearch')}
           </button>
           <button
             onClick={() => setMode('qr')}
@@ -205,7 +207,7 @@ export default function RecepcaoPage() {
             }`}
           >
             <QrCode size={22} />
-            Scanner QR
+            {t('reception.qrScanner')}
           </button>
         </div>
 

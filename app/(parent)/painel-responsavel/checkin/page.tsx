@@ -4,6 +4,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle, AlertCircle, Calendar, BarChart3 } from 'lucide-react';
 import { useParent, type FilhoUnificado } from '@/contexts/ParentContext';
@@ -15,6 +16,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function CheckinPage() {
+  const t = useTranslations('parent.checkin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -66,7 +68,7 @@ export default function CheckinPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <AlertCircle size={40} className="mx-auto mb-3 text-yellow-400/50" />
-          <p className="text-lg font-bold text-white/60">Nenhum filho selecionado</p>
+          <p className="text-lg font-bold text-white/60">{t('noChildSelected')}</p>
         </div>
       </div>
     );
@@ -78,8 +80,8 @@ export default function CheckinPage() {
     <AnimatedPage className="space-y-6 pb-8 max-w-2xl mx-auto px-4 sm:px-6">
       {/* Header */}
       <section className="pt-4" style={staggerStyle(0)}>
-        <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">Frequência</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Check-in de {primeiroNome}</h1>
+        <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">{t('title')}</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkinOf', { name: primeiroNome })}</h1>
       </section>
 
       {/* Kid selector (if multiple) */}
@@ -104,16 +106,16 @@ export default function CheckinPage() {
 
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3" style={staggerStyle(2)}>
-        <StatCard label="Presentes" value={String(stats.presentes)} color="#4ADE80" />
-        <StatCard label="Ausentes" value={String(stats.total - stats.presentes)} color="#F87171" />
-        <StatCard label="Frequência" value={`${stats.pct}%`}
+        <StatCard label={t('present')} value={String(stats.presentes)} color="#4ADE80" />
+        <StatCard label={t('absent')} value={String(stats.total - stats.presentes)} color="#F87171" />
+        <StatCard label={t('frequency')} value={`${stats.pct}%`}
           color={stats.pct >= 75 ? '#4ADE80' : stats.pct >= 50 ? '#FBBF24' : '#F87171'}
         />
       </div>
 
       {/* Summary text */}
       <p className="text-sm text-white/40 text-center" style={staggerStyle(3)}>
-        {primeiroNome} foi a <strong className="text-white/70">{stats.presentes} de {stats.total}</strong> sessões este mês
+        {t('attendedCount', { name: primeiroNome, attended: stats.presentes, total: stats.total })}
       </p>
 
       {/* Calendar */}
@@ -127,7 +129,7 @@ export default function CheckinPage() {
       >
         <div className="flex items-center gap-2 mb-4">
           <Calendar size={14} className="text-white/30" />
-          <p className="text-xs font-medium text-white/40">Calendário de Presença</p>
+          <p className="text-xs font-medium text-white/40">{t('attendanceCalendar')}</p>
         </div>
         <CheckinCalendar days={history} classDays={classDays} />
       </section>
@@ -136,7 +138,7 @@ export default function CheckinPage() {
       <section style={staggerStyle(5)}>
         <div className="flex items-center gap-2 mb-3">
           <BarChart3 size={14} className="text-white/30" />
-          <p className="text-xs font-medium text-white/40">Últimos Registros</p>
+          <p className="text-xs font-medium text-white/40">{t('lastRecords')}</p>
         </div>
         <div className="space-y-1.5">
           {recentCheckins.map((item) => {
@@ -159,7 +161,7 @@ export default function CheckinPage() {
                 <div className="flex items-center gap-2">
                   {item.confirmadoPor && (
                     <span className="text-[9px] text-white/20">
-                      via {item.confirmadoPor === 'responsavel' ? 'responsável' : item.confirmadoPor}
+                      {item.confirmadoPor === 'responsavel' ? t('viaParent') : `via ${item.confirmadoPor}`}
                     </span>
                   )}
                   <span
@@ -169,7 +171,7 @@ export default function CheckinPage() {
                       color: item.presente ? '#4ADE80' : '#F87171',
                     }}
                   >
-                    {item.presente ? 'Presente' : 'Ausente'}
+                    {item.presente ? t('presentStatus') : t('absentStatus')}
                   </span>
                 </div>
               </div>

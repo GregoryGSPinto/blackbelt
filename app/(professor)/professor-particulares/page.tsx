@@ -13,6 +13,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
@@ -24,6 +25,8 @@ const STATUS_STYLE: Record<string, { bg: string; text: string; label: string }> 
 };
 
 export default function ProfessorParticularesPage() {
+  const t = useTranslations('professor.privateSessions');
+  const tCommon = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -45,27 +48,27 @@ export default function ProfessorParticularesPage() {
   const realizadas = useMemo(() => sessões.filter((a: AulaParticular) => a.status === 'realizada'), [sessões]);
   const ganhosMes = realizadas.reduce((s: number, a: AulaParticular) => s + (a.valor * a.splitInstrutor / 100), 0);
 
-  if (loading) return <PremiumLoader text="Carregando..." />;
+  if (loading) return <PremiumLoader text={tCommon('actions.loading')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Minhas Particulares</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Agenda e extrato de sessões particulares</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div style={{ ...glass, padding: '1.25rem' }}>
-          <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Próximas</span></div>
+          <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">{t('upcoming')}</span></div>
           <p className="text-xl sm:text-2xl font-bold text-white">{proximas.length}</p>
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
-          <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">Realizadas</span></div>
+          <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">{t('done')}</span></div>
           <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{realizadas.length}</p>
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
-          <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Ganhos Mês</span></div>
+          <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-amber-400" /><span className="text-white/40 text-xs">{t('monthEarnings')}</span></div>
           <p className="text-xl font-bold text-amber-400">{formatCurrency(ganhosMes)}</p>
         </div>
       </div>

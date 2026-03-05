@@ -8,6 +8,7 @@ import type { User, TipoPerfil } from '@/contexts/AuthContext';
 import { LogOut, Settings, Shield, Lock, Eye, EyeOff, X } from 'lucide-react';
 import { KidsGatekeeper } from '@/components/shared/KidsGatekeeper';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslations } from 'next-intl';
 
 /**
  * Tela de seleção de perfil — Design premium estilo streaming.
@@ -23,6 +24,8 @@ export default function ProfileSelectionPage() {
   const router = useRouter();
   const { user, availableProfiles, setPerfil, logout, verifyPassword } = useAuth();
   const { isDark } = useTheme();
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showGatekeeper, setShowGatekeeper] = useState(false);
@@ -84,7 +87,7 @@ export default function ProfileSelectionPage() {
 
   const handlePasswordSubmit = async () => {
     if (!password.trim()) {
-      setPasswordError('Digite a senha');
+      setPasswordError(t('profileSelection.enterPassword'));
       return;
     }
 
@@ -100,12 +103,12 @@ export default function ProfileSelectionPage() {
           activateProfile(pendingProfile);
         }
       } else {
-        setPasswordError('Senha incorreta');
+        setPasswordError(t('profileSelection.wrongPassword'));
         setPassword('');
         passwordInputRef.current?.focus();
       }
     } catch {
-      setPasswordError('Erro ao verificar senha');
+      setPasswordError(t('profileSelection.errorVerifying'));
     } finally {
       setVerifying(false);
     }
@@ -166,7 +169,7 @@ export default function ProfileSelectionPage() {
             height={64}
             className="rounded-lg mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
           />
-          <h1 className="text-xl md:text-2xl lg:text-4xl font-bold tracking-tight">Quem está treinando?</h1>
+          <h1 className="text-xl md:text-2xl lg:text-4xl font-bold tracking-tight">{t('profileSelection.title')}</h1>
           <p className="text-white/40 mt-2 text-sm">{user.email}</p>
         </div>
 
@@ -265,7 +268,7 @@ export default function ProfileSelectionPage() {
             className="flex items-center gap-2 text-sm text-white/40 hover:text-red-400 transition-all duration-300 group"
           >
             <LogOut size={16} className="group-hover:scale-110 transition-transform" />
-            <span>Sair</span>
+            <span>{tCommon('menu.logout')}</span>
           </button>
 
           <div className="w-px h-4 bg-white/10" />
@@ -275,7 +278,7 @@ export default function ProfileSelectionPage() {
             className="flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-all duration-300 group"
           >
             <Settings size={16} className="group-hover:rotate-45 transition-transform" />
-            <span>Gerenciar Perfis</span>
+            <span>{t('profileSelection.manageProfiles')}</span>
           </button>
         </div>
       </div>
@@ -286,7 +289,7 @@ export default function ProfileSelectionPage() {
       {showPasswordModal && pendingProfile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Backdrop */}
-          <div 
+          <div
             className="absolute inset-0 backdrop-blur-sm"
             style={{ background: isDark ? 'rgba(0,0,0,0.8)' : 'rgba(107,68,35,0.25)' }}
             onClick={() => {
@@ -318,10 +321,10 @@ export default function ProfileSelectionPage() {
                 {pendingProfile.avatar || PERFIL_INFO[pendingProfile.tipo].icone}
               </div>
               <h3 className="text-lg font-bold text-white">
-                Trocar para {pendingProfile.nome?.split(' ')[0]}
+                {t('profileSelection.switchTo', { name: pendingProfile.nome?.split(' ')[0] })}
               </h3>
               <p className="text-sm text-white/50 mt-1">
-                Digite a senha da conta para continuar
+                {t('profileSelection.switchDescription')}
               </p>
             </div>
 
@@ -338,11 +341,11 @@ export default function ProfileSelectionPage() {
                     setPasswordError('');
                   }}
                   onKeyDown={handlePasswordKeyDown}
-                  placeholder="Senha"
-                  aria-label="Senha do perfil"
+                  placeholder={t('profileSelection.passwordLabel')}
+                  aria-label={t('profileSelection.passwordLabel')}
                   className={`w-full pl-11 pr-12 py-3.5 bg-white/5 border rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 transition-all ${
-                    passwordError 
-                      ? 'border-red-500/50 focus:ring-red-500/30' 
+                    passwordError
+                      ? 'border-red-500/50 focus:ring-red-500/30'
                       : 'border-white/10 focus:ring-white/20 focus:border-white/20'
                   }`}
                   disabled={verifying}
@@ -376,10 +379,10 @@ export default function ProfileSelectionPage() {
                 {verifying ? (
                   <>
                     <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                    Verificando...
+                    {t('mfa.verifying')}
                   </>
                 ) : (
-                  'Confirmar'
+                  tCommon('actions.confirm')
                 )}
               </button>
 
@@ -392,7 +395,7 @@ export default function ProfileSelectionPage() {
                 }}
                 className="w-full mt-3 text-sm text-white/30 hover:text-white/60 transition-colors text-center"
               >
-                Esqueceu a senha?
+                {t('profileSelection.forgotPassword')}
               </button>
             </div>
           </div>

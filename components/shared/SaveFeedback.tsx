@@ -11,6 +11,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { Check } from 'lucide-react';
 
 const SAVE_STYLES = `
@@ -36,7 +37,9 @@ interface SaveFeedbackProps {
   className?: string;
 }
 
-export function SaveFeedback({ visible, label = 'Salvo!', className = '' }: SaveFeedbackProps) {
+export function SaveFeedback({ visible, label, className = '' }: SaveFeedbackProps) {
+  const t = useTranslations('common.actions');
+  const displayLabel = label || t('saved');
   if (!visible) return null;
 
   return (

@@ -6,6 +6,7 @@
 // ============================================================
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { WifiOff, RefreshCw, CheckCircle } from 'lucide-react';
 
 interface OfflineBannerProps {
@@ -23,6 +24,7 @@ export function OfflineBanner({
   lastSyncedCount,
   onSync,
 }: OfflineBannerProps) {
+  const t = useTranslations('common.connection');
   // Nothing to show: online with no pending
   if (isOnline && pendingCount === 0 && !syncing && !lastSyncedCount) return null;
 
@@ -39,7 +41,7 @@ export function OfflineBanner({
         }}
       >
         <CheckCircle size={14} />
-        <span>{lastSyncedCount} check-in(s) sincronizado(s)</span>
+        <span>{t('synced', { count: lastSyncedCount })}</span>
       </div>
     );
   }
@@ -56,7 +58,7 @@ export function OfflineBanner({
         }}
       >
         <RefreshCw size={14} className="animate-spin" />
-        <span>Sincronizando {pendingCount} check-in(s)...</span>
+        <span>{t('syncing', { count: pendingCount })}</span>
       </div>
     );
   }
@@ -74,7 +76,7 @@ export function OfflineBanner({
         }}
       >
         <RefreshCw size={14} />
-        <span>{pendingCount} pendente(s) — toque para sincronizar</span>
+        <span>{t('syncPending', { count: pendingCount })}</span>
       </button>
     );
   }
@@ -91,8 +93,8 @@ export function OfflineBanner({
     >
       <WifiOff size={14} />
       <span>
-        Modo Offline
-        {pendingCount > 0 && <> — {pendingCount} pendente(s)</>}
+        {t('offlineMode')}
+        {pendingCount > 0 && <> — {pendingCount}</>}
       </span>
     </div>
   );

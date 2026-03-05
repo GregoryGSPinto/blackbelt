@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
@@ -19,6 +20,8 @@ interface Props {
 const MORPH = 'transition-all duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)]';
 
 export function ShellDesktopHeader({ config, state }: Props) {
+  const t = useTranslations('common');
+  const tShell = useTranslations('shell');
   const { theme, nav } = config;
   const {
     mounted, isDark, toggleTheme, pathname, searchOpen, query, setQuery,
@@ -151,9 +154,9 @@ export function ShellDesktopHeader({ config, state }: Props) {
                     : theme.navInactiveColor(isDark),
                 }}
                 aria-expanded={moreOpen}
-                aria-label="Mais opções de navegação"
+                aria-label={t('menu.moreOptions')}
               >
-                Mais
+                {t('menu.more')}
                 <ChevronDown
                   size={14}
                   className={`transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`}
@@ -233,8 +236,8 @@ export function ShellDesktopHeader({ config, state }: Props) {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={nav.searchPlaceholder || 'Buscar...'}
-              aria-label="Buscar"
+              placeholder={nav.searchPlaceholder || t('search.placeholder')}
+              aria-label={t('search.openSearch')}
               className={`w-full pl-11 pr-10 py-2.5 rounded-full text-sm outline-none transition-all duration-200 ${font}`}
               style={{
                 background: theme.searchBg(isDark),
@@ -251,7 +254,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
                 onClick={() => setQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center transition-colors"
                 style={{ background: theme.searchBg(isDark) }}
-                aria-label="Limpar busca"
+                aria-label={t('search.clearSearch')}
               >
                 <X size={10} style={{ color: theme.textMuted(isDark) }} />
               </button>
@@ -271,7 +274,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
           style={{
             color: searchOpen ? theme.textHeading(isDark) : theme.textMuted(isDark),
           }}
-          aria-label={searchOpen ? 'Fechar busca' : 'Buscar'}
+          aria-label={searchOpen ? t('search.closeSearch') : t('search.openSearch')}
           title="⌘K"
         >
           {searchOpen ? <X size={20} /> : <Search size={20} />}
@@ -282,7 +285,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
           onClick={state.toggleNotif}
           className="relative w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-200"
           style={{ color: theme.textMuted(isDark) }}
-          aria-label="Notificações"
+          aria-label={t('notifications.title')}
           aria-expanded={state.notifOpen}
         >
           <Bell size={20} />
@@ -302,8 +305,8 @@ export function ShellDesktopHeader({ config, state }: Props) {
             onClick={toggleTheme}
             className="w-[48px] h-[48px] rounded-full flex items-center justify-center transition-colors duration-200"
             style={{ color: theme.textMuted(isDark) }}
-            aria-label={isDark ? 'Modo claro' : 'Modo escuro'}
-            title={isDark ? 'Modo claro' : 'Modo escuro'}
+            aria-label={isDark ? t('theme.lightMode') : t('theme.darkMode')}
+            title={isDark ? t('theme.lightMode') : t('theme.darkMode')}
           >
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
@@ -319,7 +322,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="w-[54px] h-[54px] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200"
-            aria-label="Minha conta"
+            aria-label={tShell('header.myAccount')}
           >
             <div
               className={`w-12 h-12 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-full flex items-center justify-center text-white text-[19px] font-bold`}
@@ -388,19 +391,19 @@ export function ShellDesktopHeader({ config, state }: Props) {
                 <div className="py-2 px-2">
                   <MenuBtn
                     icon={User}
-                    label="Meu Perfil"
+                    label={t('menu.myProfile')}
                     onClick={() => navTo(nav.profileHref)}
                     color={theme.textMuted(isDark)}
                   />
                   <MenuBtn
                     icon={Settings}
-                    label="Configurações"
+                    label={t('menu.settings')}
                     onClick={() => navTo(nav.settingsHref)}
                     color={theme.textMuted(isDark)}
                   />
                   <MenuBtn
                     icon={ArrowRightLeft}
-                    label="Trocar Perfil"
+                    label={t('menu.switchProfile')}
                     onClick={handleSwitchProfile}
                     color={theme.textMuted(isDark)}
                   />
@@ -413,7 +416,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors hover:bg-red-500/10"
                   >
                     <LogOut size={16} className="text-red-400" />
-                    <span className="text-sm font-medium text-red-400">Sair</span>
+                    <span className="text-sm font-medium text-red-400">{t('menu.logout')}</span>
                   </button>
                 </div>
               </div>

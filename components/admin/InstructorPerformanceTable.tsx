@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { InstructorPerformanceVM } from '@/lib/application/intelligence';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // INSTRUCTOR PERFORMANCE TABLE — Tabela de performance por professor
@@ -27,6 +28,7 @@ function getScoreBg(value: number): string {
 }
 
 export function InstructorPerformanceTable({ instructors }: InstructorPerformanceTableProps) {
+  const t = useTranslations('admin');
   const [sortKey, setSortKey] = useState<SortKey>('avgStudentEngagement');
   const [sortDir, setSortDir] = useState<SortDirection>('desc');
 
@@ -51,17 +53,17 @@ export function InstructorPerformanceTable({ instructors }: InstructorPerformanc
   });
 
   const columns: { key: SortKey; label: string; hideOnMobile?: boolean }[] = [
-    { key: 'name', label: 'Professor' },
-    { key: 'studentsRetentionRate', label: 'Retencao' },
-    { key: 'avgStudentEngagement', label: 'Engajamento' },
-    { key: 'classCount', label: 'Turmas', hideOnMobile: true },
-    { key: 'avgClassHealth', label: 'Saude Turma' },
+    { key: 'name', label: t('instructorPerformance.instructor') },
+    { key: 'studentsRetentionRate', label: t('instructorPerformance.retention') },
+    { key: 'avgStudentEngagement', label: t('instructorPerformance.engagement') },
+    { key: 'classCount', label: t('instructorPerformance.classes'), hideOnMobile: true },
+    { key: 'avgClassHealth', label: t('instructorPerformance.classHealth') },
   ];
 
   if (instructors.length === 0) {
     return (
       <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6 text-center">
-        <p className="text-sm text-zinc-500">Nenhum dado de instrutor disponivel</p>
+        <p className="text-sm text-zinc-500">{t('instructorPerformance.noData')}</p>
       </div>
     );
   }
@@ -73,7 +75,7 @@ export function InstructorPerformanceTable({ instructors }: InstructorPerformanc
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
       <div className="px-4 py-3 border-b border-zinc-800">
-        <h3 className="text-sm font-medium text-zinc-300">Performance por Instrutor</h3>
+        <h3 className="text-sm font-medium text-zinc-300">{t('instructorPerformance.title')}</h3>
       </div>
 
       <div className="overflow-x-auto">

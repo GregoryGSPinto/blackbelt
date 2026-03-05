@@ -9,8 +9,10 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function AlertasPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -123,7 +125,7 @@ export default function AlertasPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Alertas Operacionais</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('alerts.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Monitoramento de eventos que requerem atenção</p>
       </div>
 
@@ -132,7 +134,7 @@ export default function AlertasPage() {
         <div className="bg-black/40 backdrop-blur-xl border border-red-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Prioridade Alta</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>t('alerts.priorities.high')</p>
               <p className="text-red-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{alertasPorPrioridade.ALTA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
@@ -142,7 +144,7 @@ export default function AlertasPage() {
         <div className="bg-black/40 backdrop-blur-xl border border-yellow-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Prioridade Média</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>t('alerts.priorities.medium')</p>
               <p className="text-yellow-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{alertasPorPrioridade.MEDIA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
@@ -152,7 +154,7 @@ export default function AlertasPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Prioridade Baixa</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>t('alerts.priorities.low')</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alertasPorPrioridade.BAIXA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/40" />
@@ -231,7 +233,7 @@ export default function AlertasPage() {
 
                   {!alerta.lido && (
                     <button className="mt-4 px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-medium">
-                      Marcar como Lido
+                      {t('alerts.markAsRead')}
                     </button>
                   )}
                 </div>
@@ -244,7 +246,7 @@ export default function AlertasPage() {
       {filteredAlertas.length === 0 && (
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-12 text-center">
           <CheckCircle className="w-16 h-16 text-white/50 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">Tudo Tranquilo!</h3>
+          <h3 className="text-xl font-bold text-white mb-2">{t('alerts.allClear')}</h3>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Não há alertas nesta categoria</p>
         </div>
       )}

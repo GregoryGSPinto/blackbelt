@@ -19,6 +19,7 @@ import {
   Signal,
   CheckCircle,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import type { Video } from '@/lib/api/content.service';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -200,6 +201,7 @@ function PreviewPanel({
   onMouseEnter,
   onMouseLeave,
 }: PreviewPanelProps) {
+  const t = useTranslations('video');
   const panelRef = useRef<HTMLDivElement>(null);
   const { isDark } = useTheme();
   const [pos, setPos] = useState<{
@@ -392,14 +394,14 @@ function PreviewPanel({
           <div className="flex flex-wrap gap-2 mb-4">
             <ActionBtn
               icon={downloaded ? CheckCircle : Download}
-              label={downloaded ? 'Salvo!' : 'Download'}
+              label={downloaded ? t('savedToList') : t('save')}
               active={downloaded}
               c={c}
               onClick={handleDownload}
             />
             <ActionBtn
               icon={addedToList ? CheckCircle : Plus}
-              label={addedToList ? 'Na Lista ✓' : 'Adicionar à Lista'}
+              label={addedToList ? t('inList') : t('save')}
               active={addedToList}
               c={c}
               onClick={handleAddToList}
@@ -408,14 +410,14 @@ function PreviewPanel({
           <div className="flex flex-wrap gap-2 mb-5">
             <ActionBtn
               icon={shared ? CheckCircle : Share2}
-              label={shared ? 'Link Copiado!' : 'Compartilhar'}
+              label={shared ? t('linkCopied') : t('share')}
               active={shared}
               c={c}
               onClick={handleShare}
             />
             <ActionBtn
               icon={Info}
-              label="Mais Detalhes"
+              label={t('moreDetails')}
               active={false}
               c={c}
               onClick={handleDetails}
@@ -426,12 +428,12 @@ function PreviewPanel({
           <div className="flex items-center gap-4 pt-3" style={{ borderTop: `1px solid ${c.border}` }}>
             <div className="flex items-center gap-1.5 text-[12px]" style={{ color: c.metaLabel }}>
               <Clock size={13} style={{ color: c.metaIcon }} />
-              Duração:{' '}
+              {t('duration')}{' '}
               <span className="font-semibold" style={{ color: c.metaVal }}>{video.duration}</span>
             </div>
             <div className="flex items-center gap-1.5 text-[12px]" style={{ color: c.metaLabel }}>
               <Signal size={13} style={{ color: c.metaIcon }} />
-              Nível:{' '}
+              {t('level')}{' '}
               <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${levelColor}`}>
                 {video.level}
               </span>

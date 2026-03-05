@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard, TeenProgressBar } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile, TeenAula } from '@/lib/api/teen.service';
@@ -9,6 +10,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenSessõesPage() {
+  const t = useTranslations('teen.sessions');
   const [teensessões, setTeensessões] = useState<TeenAula[]>([]);
   const [currentTeen, setCurrentTeen] = useState<TeenProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ export default function TeenSessõesPage() {
   }, [retryCount]);
 
   if (loading || !currentTeen) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
@@ -56,10 +58,10 @@ export default function TeenSessõesPage() {
       {/* Header */}
       <div>
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
-          Sessões de treinamento especializado
+          {t('subtitle')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
-          Conteúdo para Nível {currentTeen.nivel} e anteriores
+          {t('contentForLevel', { level: currentTeen.nivel })}
         </p>
       </div>
 
@@ -73,7 +75,7 @@ export default function TeenSessõesPage() {
               : 'teen-card teen-text-body'
           }`}
         >
-          Todas
+          {t('tabs.all')}
         </button>
         <button
           onClick={() => setFiltro('em-andamento')}
@@ -83,7 +85,7 @@ export default function TeenSessõesPage() {
               : 'teen-card teen-text-body'
           }`}
         >
-          Em Andamento
+          {t('tabs.inProgress')}
         </button>
         <button
           onClick={() => setFiltro('concluidas')}
@@ -93,7 +95,7 @@ export default function TeenSessõesPage() {
               : 'teen-card teen-text-body'
           }`}
         >
-          Concluídas
+          {t('tabs.completed')}
         </button>
       </div>
 
@@ -156,7 +158,7 @@ export default function TeenSessõesPage() {
       {sessõesFiltradas.length === 0 && (
         <div className="text-center py-12">
           <p className="teen-text-muted font-teen">
-            Nenhuma sessão encontrada nesta categoria
+            {t('noSessions')}
           </p>
         </div>
       )}

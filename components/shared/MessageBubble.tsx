@@ -4,6 +4,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { Send, ArrowLeft, Check, CheckCheck } from 'lucide-react';
 import type { Mensagem } from '@/lib/api/mensagens.service';
 
@@ -83,6 +84,8 @@ export function ConversationView({
   onBack,
   sending,
 }: ConversationViewProps) {
+  const t = useTranslations('common.messages');
+  const tActions = useTranslations('common.actions');
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -108,7 +111,7 @@ export function ConversationView({
         style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(12px)' }}
       >
         {onBack && (
-          <button onClick={onBack} className="p-1 rounded-lg hover:bg-white/[0.06] transition-colors" aria-label="Voltar">
+          <button onClick={onBack} className="p-1 rounded-lg hover:bg-white/[0.06] transition-colors" aria-label={tActions('back')}>
             <ArrowLeft size={18} className="text-white/50" />
           </button>
         )}
@@ -117,7 +120,7 @@ export function ConversationView({
         </div>
         <div>
           <p className="text-white font-semibold text-sm">{contactName}</p>
-          <p className="text-white/25 text-[10px]">Mensagens internas</p>
+          <p className="text-white/25 text-[10px]">{t('internalMessages')}</p>
         </div>
       </div>
 
@@ -125,8 +128,8 @@ export function ConversationView({
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-0.5">
         {mensagens.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-white/20 text-sm">Nenhuma mensagem ainda</p>
-            <p className="text-white/10 text-xs mt-1">Envie a primeira mensagem!</p>
+            <p className="text-white/20 text-sm">{t('noMessages')}</p>
+            <p className="text-white/10 text-xs mt-1">{t('sendFirst')}</p>
           </div>
         )}
         {mensagens.map((msg) => (
@@ -152,15 +155,15 @@ export function ConversationView({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-            placeholder="Digite uma mensagem..."
-            aria-label="Mensagem"
+            placeholder={t('typePlaceholder')}
+            aria-label={t('sendMessage')}
             className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-amber-500/30"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || sending}
             className="w-10 h-10 rounded-xl bg-amber-500/90 flex items-center justify-center text-black hover:bg-amber-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed active:scale-95"
-            aria-label="Enviar mensagem"
+            aria-label={tActions('send')}
           >
             <Send size={16} />
           </button>

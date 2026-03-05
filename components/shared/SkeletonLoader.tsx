@@ -17,6 +17,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 
 // ── CSS for shimmer effect ──
 const SKELETON_STYLES = `
@@ -443,13 +444,14 @@ export function PageSkeleton({
   variant?: SkeletonVariant;
   className?: string;
 }) {
+  const t = useTranslations('common.actions');
   const Component = useMemo(() => VARIANT_MAP[variant], [variant]);
 
   return (
-    <div className={`animate-pulse ${className}`} role="status" aria-label="Carregando conteúdo">
+    <div className={`animate-pulse ${className}`} role="status" aria-label={t('loading')}>
       <style dangerouslySetInnerHTML={{ __html: SKELETON_STYLES }} />
       <Component />
-      <span className="sr-only">Carregando...</span>
+      <span className="sr-only">{t('loading')}</span>
     </div>
   );
 }

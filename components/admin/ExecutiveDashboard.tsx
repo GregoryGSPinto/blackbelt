@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import type { EstatisticasDashboard } from '@/lib/__mocks__/admin.mock';
 import { TrendIndicator } from '@/components/shared/TrendIndicator';
+import { useTranslations } from 'next-intl';
 
 // ── Types ──
 
@@ -44,6 +45,7 @@ interface ExecutiveDashboardProps {
 }
 
 export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
+  const t = useTranslations('admin');
   const fin = stats.financeiroResumo;
 
   // Calculate derived metrics
@@ -67,7 +69,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
   const kpis: KPICard[] = useMemo(() => [
     {
       id: 'frequencia',
-      label: 'Frequência Hoje',
+      label: t('dashboard.todayFrequency'),
       value: `${frequenciaMedia}%`,
       sublabel: `${stats.checkInsHoje} check-ins`,
       trend: { current: frequenciaMedia, previous: frequenciaOntem },
@@ -78,7 +80,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     },
     {
       id: 'evasao',
-      label: 'Taxa de Evasão',
+      label: t('dashboard.churnRate'),
       value: `${taxaEvasao}%`,
       sublabel: `${stats.alunosInativos} inativos`,
       trend: { current: 100 - taxaEvasao, previous: 100 - taxaEvasao + 2 }, // simulated
@@ -89,7 +91,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     },
     {
       id: 'retencao',
-      label: 'Retenção',
+      label: t('dashboard.retention'),
       value: `${retencao}%`,
       sublabel: `${stats.alunosAtivos} de ${stats.totalAlunos}`,
       icon: ShieldCheck,
@@ -99,7 +101,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     },
     {
       id: 'receita',
-      label: 'Receita Mensal',
+      label: t('dashboard.monthlyRevenueLabel'),
       value: `R$ ${(fin.receitaMes / 1000).toFixed(1)}k`,
       sublabel: `Ticket médio R$ ${fin.ticketMedio}`,
       trend: { current: fin.receitaMes, previous: fin.receitaMesAnterior },
@@ -110,7 +112,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     },
     {
       id: 'novos',
-      label: 'Novos Alunos',
+      label: t('dashboard.newStudents'),
       value: String(novosAlunos),
       sublabel: 'Este mês',
       icon: UserPlus,
@@ -120,7 +122,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     },
     {
       id: 'alertas',
-      label: 'Alertas Ativos',
+      label: t('dashboard.activeAlerts'),
       value: String(stats.alertasNaoLidos),
       sublabel: `${stats.riscoEvasao.quantidade} em risco`,
       icon: AlertTriangle,
@@ -261,8 +263,8 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-sm font-semibold text-white/70">Evolução de Alunos Ativos</h3>
-            <p className="text-[10px] text-white/25 mt-0.5">Últimos 6 meses</p>
+            <h3 className="text-sm font-semibold text-white/70">{t('dashboard.activeStudentsEvolution')}</h3>
+            <p className="text-[10px] text-white/25 mt-0.5">{t('dashboard.last6Months')}</p>
           </div>
           <div className="flex items-center gap-1.5">
             <Users size={13} className="text-blue-400/50" />
@@ -303,7 +305,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
         <div>
           <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3 flex items-center gap-2">
             <AlertTriangle size={12} className="text-amber-400/50" />
-            Alertas Estratégicos
+            {t('dashboard.strategicAlerts')}
           </h3>
           <div className="space-y-2">
             {strategicAlerts.map((alert, idx) => {
@@ -337,15 +339,15 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       >
         <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-4 flex items-center gap-2">
           <DollarSign size={12} className="text-amber-400/50" />
-          Resumo Financeiro
+          {t('dashboard.financialQuickSummary')}
         </h3>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Receita Mês', value: `R$ ${fin.receitaMes.toLocaleString('pt-BR')}`, color: 'text-emerald-400' },
-            { label: 'Mês Anterior', value: `R$ ${fin.receitaMesAnterior.toLocaleString('pt-BR')}`, color: 'text-white/50' },
-            { label: 'Inadimplência', value: `${fin.inadimplenciaPct}%`, color: fin.inadimplenciaPct > 10 ? 'text-red-400' : 'text-amber-400' },
-            { label: 'Previsão', value: `R$ ${fin.previsaoCaixa.toLocaleString('pt-BR')}`, color: 'text-blue-400' },
+            { label: t('dashboard.monthlyRevenueLabel'), value: `R$ ${fin.receitaMes.toLocaleString('pt-BR')}`, color: 'text-emerald-400' },
+            { label: t('dashboard.previousMonth'), value: `R$ ${fin.receitaMesAnterior.toLocaleString('pt-BR')}`, color: 'text-white/50' },
+            { label: t('dashboard.defaultRate'), value: `${fin.inadimplenciaPct}%`, color: fin.inadimplenciaPct > 10 ? 'text-red-400' : 'text-amber-400' },
+            { label: t('dashboard.forecast'), value: `R$ ${fin.previsaoCaixa.toLocaleString('pt-BR')}`, color: 'text-blue-400' },
           ].map(item => (
             <div key={item.label}>
               <p className="text-[10px] text-white/25 mb-1">{item.label}</p>
@@ -356,7 +358,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
 
         {/* Distribution bar */}
         <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <p className="text-[10px] text-white/25 mb-2">Distribuição de Planos</p>
+          <p className="text-[10px] text-white/25 mb-2">{t('dashboard.planDistribution')}</p>
           <div className="flex gap-1 h-3 rounded-full overflow-hidden">
             {fin.distribuicaoPlanos.map((p, i) => {
               const total = fin.distribuicaoPlanos.reduce((s, x) => s + x.quantidade, 0);

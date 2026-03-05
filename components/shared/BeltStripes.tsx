@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 /**
  * BeltStripes — Visual representation of BlackBelt belt with stripes (subniveis).
  *
@@ -28,6 +30,7 @@ interface BeltStripesProps {
 }
 
 export function BeltStripes({ nivel, subniveis, size = 'md', className = '', showLabel = false }: BeltStripesProps) {
+  const t = useTranslations('domain');
   const color = NIVEL_HEX[nivel] || '#E5E7EB';
   const isDark = ['Nível Máximo', 'Nível Avançado', 'Nível Intermediário', 'Nível Básico'].includes(nivel);
   const stripeColor = nivel === 'Nível Máximo' ? '#DC2626' : '#FFFFFF';
@@ -67,7 +70,7 @@ export function BeltStripes({ nivel, subniveis, size = 'md', className = '', sho
 
       {showLabel && (
         <span className={`${dims.text} text-white/40 font-medium`}>
-          {subniveis > 0 ? `${subniveis}° subnível` : 'Sem subnível'}
+          {subniveis > 0 ? t('sublevel', { count: subniveis }) : t('noSublevel')}
         </span>
       )}
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Trophy, Users, Calendar, History, Flame, Star,
   ChevronDown, Info, ScanLine, CheckCircle, Medal,
@@ -45,6 +46,7 @@ function RegraIcon({ icone }: { icone: string }) {
 // ── Componente principal ──────────────────────────────────
 
 export default function RankingPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

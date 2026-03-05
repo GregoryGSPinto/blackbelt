@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth, getRedirectForProfile, type TipoPerfil } from '@/contexts/AuthContext';
 import { logger } from '@/lib/logger';
@@ -40,8 +41,10 @@ function FullScreenSpinner({ text }: { text: string }) {
 export function ProtectedRoute({
   children,
   allowedTypes = [],
-  loadingText = 'Carregando...',
+  loadingText,
 }: ProtectedRouteProps) {
+  const t = useTranslations('common.actions');
+  const effectiveLoadingText = loadingText || t('loading');
   const { user, loading } = useAuth();
   const router = useRouter();
   const redirectedRef = useRef(false);
@@ -113,11 +116,11 @@ export function ProtectedRoute({
   }, [loading, waitingForSync, user, allowedTypes, router]);
 
   // RENDER
-  if (loading) return <FullScreenSpinner text={loadingText} />;
-  if (waitingForSync) return <FullScreenSpinner text="Entrando..." />;
-  if (!user) return <FullScreenSpinner text="Redirecionando..." />;
+  if (loading) return <FullScreenSpinner text={effectiveLoadingText} />;
+  if (waitingForSync) return <FullScreenSpinner text={t('entering')} />;
+  if (!user) return <FullScreenSpinner text={t('redirecting')} />;
   if (allowedTypes.length > 0 && !allowedTypes.includes(user.tipo)) {
-    return <FullScreenSpinner text="Redirecionando..." />;
+    return <FullScreenSpinner text={t('redirecting')} />;
   }
 
   return <>{children}</>;

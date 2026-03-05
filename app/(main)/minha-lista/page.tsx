@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
+import { useTranslations } from 'next-intl';
 import { Bookmark, Play, Trash2, Clock, Signal, ListX } from 'lucide-react';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -17,6 +18,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
  */
 
 export default function MinhaListaPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -79,11 +81,11 @@ export default function MinhaListaPage() {
           <div className="flex items-center gap-3 mb-2">
             <Bookmark size={24} className="text-primary-light" />
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
-              Minha Lista
+              {t('myList.title')}
             </h1>
           </div>
           <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-            {favorites.length} {favorites.length === 1 ? 'vídeo salvo' : 'vídeos salvos'}
+            {t('myList.videoCount', { count: favorites.length })}
           </p>
         </div>
 
@@ -100,11 +102,11 @@ export default function MinhaListaPage() {
               <ListX size={36} style={{ color: 'rgb(var(--color-text-subtle) / 0.3)' }} />
             </div>
             <h2 className="text-xl font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
-              Sua lista está vazia
+              {t('myList.emptyTitle')}
             </h2>
             <p className="text-sm max-w-sm mx-auto mb-8"
               style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-              Adicione sessões aos favoritos para encontrar rapidamente o conteúdo que mais interessa
+              {t('myList.emptyDesc')}
             </p>
             <button
               onClick={() => router.push('/aulas')}
@@ -113,7 +115,7 @@ export default function MinhaListaPage() {
                 background: 'linear-gradient(135deg, #6B4423, #8C6239)',
                 boxShadow: '0 4px 16px rgba(107,68,35,0.3)',
               }}>
-              Explorar Sessões
+              {t('myList.exploreSessions')}
             </button>
           </div>
         ) : (

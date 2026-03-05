@@ -3,40 +3,42 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { 
-  Home, 
-  Search, 
-  PlaySquare, 
-  Tv, 
-  Users, 
-  Star, 
+import {
+  Home,
+  Search,
+  PlaySquare,
+  Tv,
+  Users,
+  Star,
   Grid,
   ShoppingBag,
-  User, 
+  User,
   Settings,
   Pin,
   PinOff,
   GraduationCap,
   ClipboardCheck,
 } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 
-const menuItems = [
-  { icon: Home, label: 'Início', href: '/inicio' },
-  { icon: Search, label: 'Buscar', href: '/buscar' },
-  { icon: PlaySquare, label: 'Sessões', href: '/aulas' },
-  { icon: Tv, label: 'Séries', href: '/series' },
-  { icon: Users, label: 'Infantil & Família', href: '/infantil', locked: true },
-  { icon: Star, label: 'Novidades', href: '/novidades' },
-  { icon: Grid, label: 'Categorias', href: '/categorias' },
-  { icon: ShoppingBag, label: 'Loja', href: '/shop' },
-  { icon: User, label: 'Meu BlackBelt', href: '/minha-lista' },
-  { icon: GraduationCap, label: 'Unidade', href: '/academia' },
-  { icon: ClipboardCheck, label: 'Check-in / Financeiro', href: '/checkin-financeiro', hasStatus: true },
-  { icon: Settings, label: 'Configurações', href: '/perfil/configuracoes' },
+const menuItemDefs = [
+  { icon: Home, labelKey: 'home', href: '/inicio' },
+  { icon: Search, labelKey: 'search', href: '/buscar' },
+  { icon: PlaySquare, labelKey: 'sessions', href: '/aulas' },
+  { icon: Tv, labelKey: 'series', href: '/series' },
+  { icon: Users, labelKey: 'kidsFamily', href: '/infantil', locked: true },
+  { icon: Star, labelKey: 'news', href: '/novidades' },
+  { icon: Grid, labelKey: 'categories', href: '/categorias' },
+  { icon: ShoppingBag, labelKey: 'shop', href: '/shop' },
+  { icon: User, labelKey: 'myBlackBelt', href: '/minha-lista' },
+  { icon: GraduationCap, labelKey: 'unit', href: '/academia' },
+  { icon: ClipboardCheck, labelKey: 'checkinFinancial', href: '/checkin-financeiro', hasStatus: true },
+  { icon: Settings, labelKey: 'settings', href: '/perfil/configuracoes' },
 ];
 
 export default function Sidebar() {
+  const t = useTranslations('common');
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
@@ -111,6 +113,10 @@ export default function Sidebar() {
     };
   }, [isTablet, isPinned]);
   
+  const menuItems = useMemo(() =>
+    menuItemDefs.map(d => ({ ...d, label: t(`menu.${d.labelKey}`) }))
+  , [t]);
+
   const isExpanded = isPinned || isHovered;
 
   return (
@@ -143,7 +149,7 @@ export default function Sidebar() {
           <button
             onClick={() => setIsPinned(!isPinned)}
             className="p-2 hover:bg-white/10 rounded-lg transition-all duration-200 flex-shrink-0"
-            title={isPinned ? 'Desfixar menu' : 'Fixar menu'}
+            title={isPinned ? t('menu.unpinMenu') : t('menu.pinMenu')}
           >
             {isPinned ? <Pin size={16} /> : <PinOff size={16} className="opacity-50" />}
           </button>
@@ -192,8 +198,8 @@ export default function Sidebar() {
       {/* Footer */}
       {isExpanded && (
         <div className="p-4 border-t border-white/10 text-xs text-white/40 animate-fade-in">
-          <p>BlackBelt © 2026</p>
-          <p className="mt-1">Versão 1.0.0</p>
+          <p>{t('meta.copyright')}</p>
+          <p className="mt-1">{t('meta.version')}</p>
         </div>
       )}
       

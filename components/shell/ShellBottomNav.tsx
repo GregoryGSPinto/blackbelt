@@ -8,6 +8,7 @@
 
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export function ShellBottomNav({ config, state }: Props) {
+  const t = useTranslations('common');
   const { theme, nav } = config;
   const { isDark, pathname, drawerOpen, setDrawerOpen } = state;
   const font = theme.fontClass || '';
@@ -27,7 +29,7 @@ export function ShellBottomNav({ config, state }: Props) {
 
   return (
     <nav
-      aria-label="Menu inferior"
+      aria-label={t('menu.bottomNav')}
       className="md:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md"
       style={{
         background: theme.bottomNavBg(isDark),
@@ -104,10 +106,10 @@ export function ShellBottomNav({ config, state }: Props) {
               ? theme.bottomNavActive(isDark)
               : theme.bottomNavInactive(isDark),
           }}
-          aria-label="Abrir menu"
+          aria-label={t('menu.openMenu')}
         >
           <Menu className="w-6 h-6" />
-          <span className={`text-[10px] font-semibold ${font}`}>Menu</span>
+          <span className={`text-[10px] font-semibold ${font}`}>{t('menu.menu')}</span>
         </button>
       </div>
     </nav>

@@ -9,6 +9,7 @@
 // ============================================================
 'use client';
 
+import { useTranslations } from 'next-intl';
 import {
   Calendar, Flame, TrendingUp, Trophy,
 } from 'lucide-react';
@@ -65,6 +66,7 @@ const PAGE_STYLES = `
 `;
 
 export default function MinhaEvolucaoPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

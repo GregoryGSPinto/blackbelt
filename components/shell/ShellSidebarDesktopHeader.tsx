@@ -7,6 +7,7 @@
 'use client';
 
 import { Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { UserAccountMenu } from '@/components/shared/UserAccountMenu';
 import { AppShellConfig, ShellState } from './types';
 
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export function ShellSidebarDesktopHeader({ config, state }: Props) {
+  const t = useTranslations('common');
   const { theme, nav } = config;
   const sb = theme.sidebar!;
   const { pathname, searchOpen, closeSearch, setSidebarOpen } = state;
@@ -43,7 +45,7 @@ export function ShellSidebarDesktopHeader({ config, state }: Props) {
         {/* Page Title */}
         <div className="flex-1 min-w-0">
           <h2 className="text-lg font-bold text-white truncate">{pageTitle}</h2>
-          <p className="text-xs text-white/40 truncate">Sistema de Gestão Institucional</p>
+          <p className="text-xs text-white/40 truncate">{t('meta.institutionalSubtitle')}</p>
         </div>
 
         {/* Right Section — custom actions + avatar */}

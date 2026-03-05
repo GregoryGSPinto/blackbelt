@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useStudentDNA } from '@/hooks/useStudentDNA';
 import AdventureProgress from '@/components/kids/AdventureProgress';
 import StickerCollection from '@/components/kids/StickerCollection';
@@ -10,6 +11,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsAventuraPage() {
+  const t = useTranslations('kids.adventure');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -21,14 +23,14 @@ export default function KidsAventuraPage() {
   useEffect(() => {
     fetch('/api/me')
       .then(res => {
-        if (!res.ok) throw new Error('Erro ao carregar perfil');
+        if (!res.ok) throw new Error(t('error'));
         return res.json();
       })
       .then(json => {
         if (json.data?.memberId) setMemberId(json.data.memberId);
       })
       .catch(err => {
-        setUserError(err instanceof Error ? err.message : 'Erro desconhecido');
+        setUserError(err instanceof Error ? err.message : t('unknownError'));
       })
       .finally(() => setLoadingUser(false));
   }, []);
@@ -57,10 +59,10 @@ export default function KidsAventuraPage() {
         <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-8 text-center">
           <p className="text-4xl mb-3">😢</p>
           <p className="text-red-300 text-sm font-medium">
-            Opa! Algo deu errado...
+            {t('oops')}
           </p>
           <p className="text-red-300/60 text-xs mt-1">
-            Tenta de novo daqui a pouquinho!
+            {t('tryAgainLater')}
           </p>
         </div>
       </div>
@@ -72,17 +74,17 @@ export default function KidsAventuraPage() {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-zinc-100 font-kids">
-          Sua Aventura
+          {t('title')}
         </h1>
         <p className="text-sm text-zinc-400 mt-1 font-kids">
-          Continue treinando e desbloqueie novas conquistas!
+          {t('subtitle')}
         </p>
       </div>
 
       {/* Mascot greeting at top */}
       <MascotBubble
         mood={dna && dna.dimensions.consistency >= 70 ? 'proud' : 'encouraging'}
-        message="Oi, campeao! Vamos ver como voce esta indo na sua aventura?"
+        message={t('greeting')}
       />
 
       {/* Adventure Progress Map */}
@@ -92,8 +94,8 @@ export default function KidsAventuraPage() {
           starsCollected: dna ? Math.round(dna.dimensions.progression / 20) : 0,
           totalStars: 5,
           mascotMessage: dna && dna.dimensions.consistency >= 60
-            ? 'Voce esta mandando muito bem!'
-            : 'Continue treinando, voce consegue!',
+            ? t('doingGreat')
+            : t('keepGoing'),
           mascotMood: dna && dna.dimensions.consistency >= 70 ? 'proud' : 'encouraging',
         }}
       />
@@ -113,8 +115,8 @@ export default function KidsAventuraPage() {
         stickers={{
           earned: [],
           nextToEarn: {
-            name: 'Primeiro Treino',
-            hint: 'Continue treinando para desbloquear!',
+            name: t('firstTraining'),
+            hint: t('unlockMore'),
             progress: dna ? Math.min(100, dna.dimensions.consistency) : 0,
           },
         }}

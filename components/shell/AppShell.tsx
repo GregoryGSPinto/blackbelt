@@ -18,6 +18,7 @@
 
 import { ReactNode, useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
 import { useGlobalSearch } from '@/contexts/GlobalSearchContext';
 import { SearchResultsOverlay } from '@/components/ui/SearchResultsOverlay';
@@ -78,6 +79,7 @@ export function AppShell({
   config, children, isDark: isDarkOverride, toggleTheme,
   onLogout, onSwitchProfile,
 }: AppShellProps) {
+  const t = useTranslations('common');
   const { theme, nav } = config;
   const isSidebar = theme.variant === 'sidebar';
   const pathname = usePathname();
@@ -307,7 +309,7 @@ export function AppShell({
               <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
             <span className="text-sm text-white/50 ml-2">
-              {nav.desktopNav.find(i => pathname === i.href || pathname.startsWith(i.href + '/'))?.label || 'Menu'}
+              {nav.desktopNav.find(i => pathname === i.href || pathname.startsWith(i.href + '/'))?.label || t('menu.menu')}
             </span>
           </div>
 
@@ -324,10 +326,10 @@ export function AppShell({
         {/* Logout Confirmation */}
         <ConfirmModal
           open={showLogoutConfirm}
-          title="Sair da conta"
-          message="Tem certeza que deseja sair? Você precisará fazer login novamente."
-          confirmLabel="Sim, sair"
-          cancelLabel="Cancelar"
+          title={t('confirm.logoutTitle')}
+          message={t('confirm.logoutMessage')}
+          confirmLabel={t('confirm.logoutConfirm')}
+          cancelLabel={t('actions.cancel')}
           variant="warning"
           onConfirm={confirmLogout}
           onCancel={() => setShowLogoutConfirm(false)}
@@ -396,10 +398,10 @@ export function AppShell({
       {/* Logout Confirmation */}
       <ConfirmModal
         open={showLogoutConfirm}
-        title="Sair da conta"
-        message="Tem certeza que deseja sair? Você precisará fazer login novamente."
-        confirmLabel="Sim, sair"
-        cancelLabel="Cancelar"
+        title={t('confirm.logoutTitle')}
+        message={t('confirm.logoutMessage')}
+        confirmLabel={t('confirm.logoutConfirm')}
+        cancelLabel={t('actions.cancel')}
         variant="warning"
         onConfirm={confirmLogout}
         onCancel={() => setShowLogoutConfirm(false)}

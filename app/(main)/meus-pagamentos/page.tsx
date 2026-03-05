@@ -7,6 +7,7 @@
 // ============================================================
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   CreditCard, CheckCircle, AlertCircle, Clock, QrCode,
   Copy, Check, ChevronDown, ChevronUp,
@@ -37,6 +38,7 @@ const SUB_STATUS: Record<string, { color: string; label: string }> = {
 };
 
 export default function MeusPagamentosPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -121,14 +123,14 @@ export default function MeusPagamentosPage() {
       <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
         {/* Header */}
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Meus Pagamentos</h1>
-          <p className="text-white/60">Seu plano, faturas e pagamentos</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('payments.title')}</h1>
+          <p className="text-white/60">{t('payments.subtitle')}</p>
         </div>
 
         {/* Current Plan */}
         {assinatura && plano && (
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
-            <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">Seu Plano</p>
+            <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">{t('payments.yourPlan')}</p>
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-white">{plano.nome}</h2>
@@ -166,7 +168,7 @@ export default function MeusPagamentosPage() {
 
             {/* Renewal info */}
             <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-sm">
-              <span className="text-white/30">Próxima renovação</span>
+              <span className="text-white/30">{t('payments.nextRenewal')}</span>
               <span className="text-white/60 font-medium">
                 {new Date(assinatura.dataRenovacao + 'T12:00:00').toLocaleDateString('pt-BR')}
               </span>
@@ -180,7 +182,7 @@ export default function MeusPagamentosPage() {
             <div className="flex items-center gap-3">
               <AlertCircle size={20} className="text-yellow-400 flex-shrink-0" />
               <div className="flex-1">
-                <p className="text-yellow-300 font-bold text-sm">Pagamento pendente</p>
+                <p className="text-yellow-300 font-bold text-sm">{t('payments.pendingPayment')}</p>
                 <p className="text-white/40 text-xs mt-0.5">
                   {formatCurrency(totalPendente)} em aberto
                   {proximoVencimento && ` · Vence em ${new Date(proximoVencimento + 'T12:00:00').toLocaleDateString('pt-BR')}`}
@@ -193,8 +195,8 @@ export default function MeusPagamentosPage() {
         {/* Faturas */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl overflow-hidden">
           <div className="px-6 pt-6 pb-4">
-            <h2 className="text-xl font-bold text-white">Faturas</h2>
-            <p className="text-sm text-white/40 mt-1">{faturas.length} faturas</p>
+            <h2 className="text-xl font-bold text-white">{t('payments.invoices')}</h2>
+            <p className="text-sm text-white/40 mt-1">{t('payments.invoiceCount', { count: faturas.length })}</p>
           </div>
 
           <div className="divide-y">
@@ -248,13 +250,13 @@ export default function MeusPagamentosPage() {
                           </div>
                         ) : pixData ? (
                           <div className="text-center">
-                            <p className="text-blue-300 font-bold text-sm mb-3">Pague via Pix</p>
+                            <p className="text-blue-300 font-bold text-sm mb-3">{t('payments.payViaPix')}</p>
 
                             {/* QR placeholder (em produção: imagem real do QR) */}
                             <div className="w-48 h-48 mx-auto bg-white rounded-xl flex items-center justify-center mb-4">
                               <div className="text-center">
                                 <QrCode size={48} className="text-gray-600 mx-auto mb-2" />
-                                <p className="text-gray-500 text-xs font-medium">QR Code Pix</p>
+                                <p className="text-gray-500 text-xs font-medium">{t('payments.qrCodePix')}</p>
                                 <p className="text-gray-400 text-[10px]">{formatCurrency(fatura.valor)}</p>
                               </div>
                             </div>

@@ -10,6 +10,7 @@ import type { Evento, StatusEvento, TipoEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 // ── Constants ─────────────────────────────────────────────
 
@@ -291,6 +292,7 @@ function StatCard({ label, value, color }: { label: string; value: number; color
 }
 
 function EventoFormModal({ onClose, onCreated }: { onClose: () => void; onCreated: (e: Evento) => void }) {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [nome, setNome] = useState('');
@@ -323,7 +325,7 @@ function EventoFormModal({ onClose, onCreated }: { onClose: () => void; onCreate
           <X size={20} />
         </button>
 
-        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Novo Evento</h3>
+        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('events.newEvent')}</h3>
 
         <Field label="Nome" value={nome} onChange={setNome} placeholder="Ex: Copa BlackBelt 2026" />
         <Field label="Descrição" value={descricao} onChange={setDescricao} placeholder="Descrição do evento" multiline />

@@ -7,6 +7,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -29,8 +30,9 @@ function TeenLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function TeenLayout({ children }: { children: ReactNode }) {
+  const t = useTranslations('common.actions');
   return (
-    <ProtectedRoute allowedTypes={['ALUNO_TEEN']} loadingText="Carregando...">
+    <ProtectedRoute allowedTypes={['ALUNO_TEEN']} loadingText={t('loading')}>
       <GlobalSearchProvider>
         <TeenLayoutInner>{children}</TeenLayoutInner>
       </GlobalSearchProvider>

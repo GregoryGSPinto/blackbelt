@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { X, ThumbsUp, Share2, Download } from 'lucide-react';
 import { VideoPlayer } from './VideoPlayer';
 import type { Video } from '@/lib/api/content.service';
@@ -10,6 +11,8 @@ interface VideoModalProps {
 }
 
 export function VideoModal({ video, onClose }: VideoModalProps) {
+  const t = useTranslations('video');
+  const tActions = useTranslations('common.actions');
   return (
     <>
       {/* Overlay */}
@@ -32,7 +35,7 @@ export function VideoModal({ video, onClose }: VideoModalProps) {
             <button
               onClick={onClose}
               className="text-white/40 hover:text-white transition-colors"
-              aria-label="Fechar"
+              aria-label={tActions('close')}
             >
               <X size={24} />
             </button>
@@ -53,15 +56,15 @@ export function VideoModal({ video, onClose }: VideoModalProps) {
             <div className="flex items-center gap-3">
               <button className="flex items-center gap-2 px-4 py-2 bg-dark-hover rounded-lg hover:bg-dark-surface transition-colors">
                 <ThumbsUp size={18} />
-                <span className="text-sm">Curtir</span>
+                <span className="text-sm">{t('like')}</span>
               </button>
               <button className="flex items-center gap-2 px-4 py-2 bg-dark-hover rounded-lg hover:bg-dark-surface transition-colors">
                 <Share2 size={18} />
-                <span className="text-sm">Compartilhar</span>
+                <span className="text-sm">{t('share')}</span>
               </button>
               <button className="flex items-center gap-2 px-4 py-2 bg-dark-hover rounded-lg hover:bg-dark-surface transition-colors">
                 <Download size={18} />
-                <span className="text-sm">Salvar</span>
+                <span className="text-sm">{t('save')}</span>
               </button>
             </div>
 
@@ -78,18 +81,18 @@ export function VideoModal({ video, onClose }: VideoModalProps) {
               <span>•</span>
               <span>{video.duration}</span>
               <span>•</span>
-              <span>{video.views} visualizações</span>
+              <span>{video.views} {t('views')}</span>
             </div>
 
             {/* Instructor */}
             <div className="pt-4 border-t border-dark-elevated">
-              <p className="text-sm text-white/40 mb-1">Instrutor</p>
+              <p className="text-sm text-white/40 mb-1">{t('instructor')}</p>
               <p className="font-semibold">{video.instructor}</p>
             </div>
 
             {/* Description */}
             <div className="pt-4 border-t border-dark-elevated">
-              <p className="text-sm text-white/40 mb-2">Descrição</p>
+              <p className="text-sm text-white/40 mb-2">{t('description')}</p>
               <p className="text-white/55 leading-relaxed">
                 {video.description}
               </p>

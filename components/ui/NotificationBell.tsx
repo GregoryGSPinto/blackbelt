@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { Bell } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { NotificationPanel } from './NotificationPanel';
@@ -10,6 +11,7 @@ import { NotificationPanel } from './NotificationPanel';
  * NotificationBell — Self-contained bell icon + badge + panel
  */
 export function NotificationBell() {
+  const t = useTranslations('common.notifications');
   const { unreadCount, togglePanel, justReceived } = useNotifications();
   const { isDark } = useTheme();
   const bellRef = useRef<HTMLButtonElement>(null);
@@ -26,7 +28,7 @@ export function NotificationBell() {
         className="relative w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-all duration-200"
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-        aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} novas)` : ''}`}
+        aria-label={`${t('title')}${unreadCount > 0 ? ` (${t('newCount', { count: unreadCount })})` : ''}`}
       >
         <Bell size={19} style={{ color: iconColor }} />
 

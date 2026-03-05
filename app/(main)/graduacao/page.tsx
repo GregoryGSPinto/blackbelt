@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { GraduationCap, ChevronRight, CheckCircle } from 'lucide-react';
 import * as gradService from '@/lib/api/graduacao.service';
 import type { GraduacaoHistorico, RequisitoGraduacao } from '@/lib/api/graduacao.service';
@@ -25,6 +26,7 @@ const NIVEL_COLORS: Record<string, { bg: string; border: string; text: string }>
 const BELT_ORDER = ['Nível Iniciante', 'Nível Cinza', 'Nível Amarelo', 'Nível Laranja', 'Nível Verde', 'Nível Básico', 'Nível Intermediário', 'Nível Avançado', 'Nível Máximo'];
 
 export default function GraduacaoPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

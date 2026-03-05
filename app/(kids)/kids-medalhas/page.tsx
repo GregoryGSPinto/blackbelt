@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { KidsHeader } from '@/components/kids';
 import * as kidsService from '@/lib/api/kids.service';
 import type { KidsMedal } from '@/lib/api/kids.service';
@@ -8,10 +9,13 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function KidsConquistasPage() {
+  const t = useTranslations('kids.medals');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
   const [kidsmedals, setKidsmedals] = useState<KidsMedal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,14 +37,14 @@ export default function KidsConquistasPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (kidsmedals.length === 0) {
-    return <PageEmpty title="Nenhuma conquista conquistada" message="Continue treinando para ganhar suas primeiras conquistas!" />;
+    return <PageEmpty title={t('loading')} message={t('loading')} />;
   }
 
   const conquistadas = kidsmedals.filter(m => m.conquistada);
@@ -61,8 +65,8 @@ export default function KidsConquistasPage() {
   return (
     <div className="space-y-6">
       <KidsHeader
-        title="🎖️ Suas Conquistas"
-        subtitle={`${conquistadas.length} conquistas conquistadas!`}
+        title={`🎖️ ${t('title')}`}
+        subtitle={t('achievementCount', { count: conquistadas.length })}
         icon="🏆"
         color="yellow"
       />
@@ -77,14 +81,14 @@ export default function KidsConquistasPage() {
           <p className="text-2xl sm:text-3xl lg:text-4xl font-bold font-kids mb-2" style={{ color: c.yellow }}>
             {conquistadas.length}
           </p>
-          <p className="font-kids" style={{ color: c.label }}>Conquistas Conquistadas</p>
+          <p className="font-kids" style={{ color: c.label }}>{t('unlockedTab')}</p>
         </div>
       </div>
 
       {/* Conquistas Conquistadas */}
       <div>
         <h3 className="text-xl font-bold font-kids mb-4 flex items-center gap-2" style={{ color: c.heading }}>
-          ✨ Conquistas Conquistadas
+          ✨ {t('unlockedTab')}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -109,7 +113,7 @@ export default function KidsConquistasPage() {
                     {conquista.descricao}
                   </p>
                   <p className="font-kids text-xs" style={{ color: c.hint }}>
-                    Conquistada em {new Date(conquista.dataConquista!).toLocaleDateString('pt-BR')}
+                    {formatDate(conquista.dataConquista!)}
                   </p>
                 </div>
               </div>
@@ -118,10 +122,10 @@ export default function KidsConquistasPage() {
         </div>
       </div>
 
-      {/* Próximas Conquistas */}
+      {/* Proximas Conquistas */}
       <div>
         <h3 className="text-xl font-bold font-kids mb-4 flex items-center gap-2" style={{ color: c.heading }}>
-          🎯 Próximas Conquistas
+          🎯 {t('nextTab')}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -152,9 +156,9 @@ export default function KidsConquistasPage() {
         <div className="flex items-start gap-3">
           <span className="text-4xl">🦁</span>
           <div>
-            <p className="font-kids font-bold text-white mb-1">Leo diz:</p>
+            <p className="font-kids font-bold text-white mb-1">{t('mascotSays', { name: 'Leo' })}</p>
             <p className="font-kids text-white/90 text-sm">
-              Você já conquistou {conquistadas.length} conquistas! Continue treinando para desbloquear mais {proximas.length} conquistas!
+              {t('mascotEncouragement', { unlocked: conquistadas.length, remaining: proximas.length })}
             </p>
           </div>
         </div>

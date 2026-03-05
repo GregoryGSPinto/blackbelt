@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertCircle, XCircle, CheckSquare, Clock, Calendar, QrCode } from 'lucide-react';
 import { QRGenerator } from '@/components/checkin/QRGenerator';
 import { createPortal } from 'react-dom';
@@ -74,6 +75,7 @@ const historico = [
 ];
 
 export default function CheckinFinanceiroPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

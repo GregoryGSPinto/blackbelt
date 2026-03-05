@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { KidsHeader, KidsCard, StarRating } from '@/components/kids';
 import * as kidsService from '@/lib/api/kids.service';
 import type { KidsChallenge } from '@/lib/api/kids.service';
@@ -10,6 +11,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsDesafiosPage() {
+  const t = useTranslations('kids.challenges');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [kidschallenges, setKidschallenges] = useState<KidsChallenge[]>([]);
@@ -33,7 +35,7 @@ export default function KidsDesafiosPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
@@ -56,8 +58,8 @@ export default function KidsDesafiosPage() {
   return (
     <div className="space-y-6">
       <KidsHeader
-        title="🏆 Desafios do Samurai"
-        subtitle="Complete e ganhe estrelas!"
+        title={`🏆 ${t('title')}`}
+        subtitle={t('subtitle')}
         icon="🎯"
         color="orange"
       />
@@ -89,14 +91,14 @@ export default function KidsDesafiosPage() {
             <StarRating stars={3} maxStars={5} size="lg" />
           </div>
 
-          <p className="font-kids text-white/80">Complete para ganhar 3 estrelas!</p>
+          <p className="font-kids text-white/80">{t('completeForStars')}</p>
         </div>
       </KidsCard>
 
       {/* Lista de Desafios */}
       <div>
         <h3 className="text-xl font-bold font-kids mb-4 flex items-center gap-2" style={{ color: c.heading }}>
-          📋 Todos os Desafios
+          📋 {t('allChallenges')}
         </h3>
 
         <div className="space-y-3">
@@ -128,7 +130,7 @@ export default function KidsDesafiosPage() {
                           color: isDark ? '#4ADE80' : '#15803D',
                         }}
                       >
-                        ✓ Concluído
+                        ✓ {t('completedLabel')}
                       </span>
                     ) : (
                       <span
@@ -138,7 +140,7 @@ export default function KidsDesafiosPage() {
                           color: isDark ? '#FB923C' : '#C2410C',
                         }}
                       >
-                        {desafio.progresso}% Completo
+                        {t('percentComplete', { pct: desafio.progresso })}
                       </span>
                     )}
                   </div>
@@ -146,7 +148,7 @@ export default function KidsDesafiosPage() {
 
                 {!desafio.concluido && (
                   <button className="px-4 py-2 bg-kids-blue text-white rounded-xl font-kids font-semibold hover:bg-kids-blue-dark transition-colors">
-                    Jogar
+                    {t('playBtn')}
                   </button>
                 )}
               </div>
@@ -172,9 +174,9 @@ export default function KidsDesafiosPage() {
         <div className="flex items-start gap-3">
           <span className="text-4xl">🐼</span>
           <div>
-            <p className="font-kids font-bold text-white mb-1">Pandi diz:</p>
+            <p className="font-kids font-bold text-white mb-1">{t('mascotSays', { name: 'Pandi' })}</p>
             <p className="font-kids text-white/90 text-sm">
-              Faça os desafios com calma e atenção. Você vai aprender muito!
+              {t('mascotAdvice')}
             </p>
           </div>
         </div>

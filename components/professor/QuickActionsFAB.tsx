@@ -6,6 +6,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Plus, X, Film, ClipboardList, Medal, FileText, Loader2, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 // ── Mock student list for medal/observation ──
 const MOCK_ALUNOS = [
@@ -26,14 +27,15 @@ const CONQUISTAS = [
 
 type ModalType = null | 'conquista' | 'observacao';
 
-const ACTIONS = [
-  { id: 'video', icon: Film, label: 'Vídeo', color: '#D97706' },
-  { id: 'plano', icon: ClipboardList, label: 'Plano de Sessão', color: '#3B82F6' },
-  { id: 'conquista', icon: Medal, label: 'Conquista', color: '#22C55E' },
-  { id: 'obs', icon: FileText, label: 'Observação', color: '#8B5CF6' },
+const ACTIONS_CONFIG = [
+  { id: 'video', icon: Film, labelKey: 'video', color: '#D97706' },
+  { id: 'plano', icon: ClipboardList, labelKey: 'lessonPlan', color: '#3B82F6' },
+  { id: 'conquista', icon: Medal, labelKey: 'achievement', color: '#22C55E' },
+  { id: 'obs', icon: FileText, labelKey: 'observation', color: '#8B5CF6' },
 ] as const;
 
 export function QuickActionsFAB() {
+  const tq = useTranslations('professor.quickActions');
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState<ModalType>(null);
@@ -66,7 +68,7 @@ export function QuickActionsFAB() {
 
       {/* Mini action buttons */}
       <div className="fixed z-[46]" style={{ bottom: '110px', right: '20px' }}>
-        {open && ACTIONS.map((action, idx) => (
+        {open && ACTIONS_CONFIG.map((action, idx) => (
           <button
             key={action.id}
             onClick={() => handleAction(action.id)}
@@ -79,7 +81,7 @@ export function QuickActionsFAB() {
             }}
           >
             <action.icon size={14} style={{ color: action.color }} />
-            {action.label}
+            {tq(action.labelKey)}
           </button>
         ))}
       </div>
@@ -120,6 +122,7 @@ export function QuickActionsFAB() {
 // ── Conquista Modal ──
 
 function ConquistaModal({ onClose }: { onClose: () => void }) {
+  const tq = useTranslations('professor.quickActions');
   const [search, setSearch] = useState('');
   const [selectedAluno, setSelectedAluno] = useState('');
   const [selectedConquista, setSelectedConquista] = useState('');
@@ -138,14 +141,14 @@ function ConquistaModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <BottomSheet onClose={onClose} title="🏅 Conceder Conquista">
+    <BottomSheet onClose={onClose} title={`🏅 ${tq('grantAchievement')}`}>
       {/* Aluno search */}
       <div className="relative mb-3">
         <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
         <input
           value={search}
           onChange={(e: { target: { value: string } }) => setSearch(e.target.value)}
-          placeholder="Buscar aluno..."
+          placeholder={tq('searchStudent')}
           className="w-full pl-8 pr-3 py-2 rounded-lg text-xs text-white/70 placeholder:text-white/15 outline-none"
           style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
         />
@@ -187,7 +190,7 @@ function ConquistaModal({ onClose }: { onClose: () => void }) {
         className="w-full py-2.5 rounded-xl text-xs font-bold text-white transition-all disabled:opacity-30"
         style={{ background: done ? 'rgba(74,222,128,0.2)' : 'linear-gradient(135deg, #D97706, #B45309)' }}
       >
-        {done ? '✅ Conquista Concedida!' : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : 'Conceder'}
+        {done ? `✅ ${tq('achievementGranted')}` : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : tq('grant')}
       </button>
     </BottomSheet>
   );
@@ -196,6 +199,7 @@ function ConquistaModal({ onClose }: { onClose: () => void }) {
 // ── Observação Modal ──
 
 function ObservacaoModal({ onClose }: { onClose: () => void }) {
+  const tq = useTranslations('professor.quickActions');
   const [selectedAluno, setSelectedAluno] = useState('');
   const [text, setText] = useState('');
   const [saving, setSaving] = useState(false);
@@ -211,7 +215,7 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <BottomSheet onClose={onClose} title="📝 Observação">
+    <BottomSheet onClose={onClose} title={`📝 ${tq('observationTitle')}`}>
       <div className="flex flex-wrap gap-1 mb-3">
         {MOCK_ALUNOS.map((a) => (
           <button
@@ -229,7 +233,7 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
       <textarea
         value={text}
         onChange={(e: { target: { value: string } }) => setText(e.target.value)}
-        placeholder="Escreva a observação..."
+        placeholder={tq('observationPlaceholder')}
         maxLength={200}
         rows={3}
         className="w-full px-3 py-2 rounded-xl text-xs text-white/70 placeholder:text-white/15 outline-none resize-none mb-3"
@@ -244,7 +248,7 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
         className="w-full py-2.5 rounded-xl text-xs font-bold text-white transition-all disabled:opacity-30"
         style={{ background: done ? 'rgba(74,222,128,0.2)' : 'linear-gradient(135deg, #8B5CF6, #7C3AED)' }}
       >
-        {done ? '✅ Observação Salva!' : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : 'Salvar'}
+        {done ? `✅ ${tq('observationSaved')}` : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : tq('grant')}
       </button>
     </BottomSheet>
   );

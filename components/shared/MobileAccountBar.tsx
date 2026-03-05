@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { LogOut, ArrowRightLeft, ChevronDown, Settings } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/contexts/AuthContext';
 import { ProfileDropdownPortal } from '@/components/layout/ProfileDropdownPortal';
 
@@ -29,6 +30,7 @@ export function MobileAccountBar({
   variant = 'dark',
   className = '',
 }: MobileAccountBarProps) {
+  const t = useTranslations('common.menu');
   const { user, logout } = useAuth();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -158,7 +160,7 @@ export function MobileAccountBar({
             role="menuitem"
           >
             <ArrowRightLeft size={16} className="opacity-70 shrink-0" />
-            <span className="font-medium">Trocar Perfil</span>
+            <span className="font-medium">{t('switchProfile')}</span>
           </button>
 
           {/* Configurações */}
@@ -176,7 +178,7 @@ export function MobileAccountBar({
             role="menuitem"
           >
             <Settings size={16} className="opacity-70 shrink-0" />
-            <span className="font-medium">Configurações</span>
+            <span className="font-medium">{t('settings')}</span>
           </button>
 
           {/* Divider */}
@@ -193,7 +195,7 @@ export function MobileAccountBar({
             role="menuitem"
           >
             <LogOut size={16} className="shrink-0" />
-            <span className="font-medium">Sair</span>
+            <span className="font-medium">{t('logout')}</span>
           </button>
         </div>
       </ProfileDropdownPortal>

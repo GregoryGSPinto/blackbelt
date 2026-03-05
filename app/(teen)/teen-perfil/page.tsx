@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile } from '@/lib/api/teen.service';
@@ -13,6 +14,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 import { useFormatting } from '@/hooks/useFormatting';
 
 export default function TeenPerfilPage() {
+  const t = useTranslations('teen.profile');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate } = useFormatting();
@@ -40,14 +42,14 @@ export default function TeenPerfilPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!currentTeen) {
-    return <PageEmpty icon={UserX} title="Perfil não encontrado" message="Não foi possível carregar o perfil do aluno." />;
+    return <PageEmpty icon={UserX} title={t('notFound')} message={t('notFoundDesc')} />;
   }
 
 
@@ -63,7 +65,7 @@ export default function TeenPerfilPage() {
       {/* Header */}
       <div>
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
-          Meu Perfil
+          {t('title')}
         </h2>
       </div>
 
@@ -107,7 +109,7 @@ export default function TeenPerfilPage() {
               <Calendar className="w-5 h-5 text-teen-ocean-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Data de Nascimento</p>
+              <p className="text-sm font-teen teen-text-muted">{t('dob')}</p>
               <p className="font-teen teen-text-heading">
                 {formatDate(currentTeen.dataNascimento)}
               </p>
@@ -119,7 +121,7 @@ export default function TeenPerfilPage() {
               <User className="w-5 h-5 text-teen-purple-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Professor</p>
+              <p className="text-sm font-teen teen-text-muted">{t('professor')}</p>
               <p className="font-teen teen-text-heading">
                 {user?.instrutor || currentTeen.instrutor}
               </p>
@@ -131,7 +133,7 @@ export default function TeenPerfilPage() {
               <Award className="w-5 h-5 text-teen-emerald-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Graduação</p>
+              <p className="text-sm font-teen teen-text-muted">{t('graduation')}</p>
               <p className="font-teen teen-text-heading">{graduacao}</p>
             </div>
           </div>
@@ -141,7 +143,7 @@ export default function TeenPerfilPage() {
               <Mail className="w-5 h-5 text-teen-energy-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Email</p>
+              <p className="text-sm font-teen teen-text-muted">{t('email')}</p>
               <p className="font-teen teen-text-heading">{email}</p>
             </div>
           </div>
@@ -151,7 +153,7 @@ export default function TeenPerfilPage() {
       {/* Responsável */}
       <TeenCard>
         <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-          Responsável Legal
+          {t('legalGuardian')}
         </h3>
         <div className="space-y-4">
           <div className="flex items-center gap-4">
@@ -159,7 +161,7 @@ export default function TeenPerfilPage() {
               <User className="w-5 h-5 text-teen-ocean-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Nome</p>
+              <p className="text-sm font-teen teen-text-muted">{t('name')}</p>
               <p className="font-teen teen-text-heading">{currentTeen.responsavel.nome}</p>
             </div>
           </div>
@@ -169,7 +171,7 @@ export default function TeenPerfilPage() {
               <Mail className="w-5 h-5 text-teen-purple-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Email</p>
+              <p className="text-sm font-teen teen-text-muted">{t('email')}</p>
               <p className="font-teen teen-text-heading">{currentTeen.responsavel.email}</p>
             </div>
           </div>
@@ -179,7 +181,7 @@ export default function TeenPerfilPage() {
               <Phone className="w-5 h-5 text-teen-emerald-dark" />
             </div>
             <div>
-              <p className="text-sm font-teen teen-text-muted">Telefone</p>
+              <p className="text-sm font-teen teen-text-muted">{t('phone')}</p>
               <p className="font-teen teen-text-heading">{currentTeen.responsavel.telefone}</p>
             </div>
           </div>
@@ -194,8 +196,8 @@ export default function TeenPerfilPage() {
               <Settings className="w-5 h-5 text-teen-energy-dark" />
             </div>
             <div>
-              <h3 className="font-bold font-teen teen-text-heading">Configurações</h3>
-              <p className="text-sm teen-text-muted font-teen">Notificações e preferências</p>
+              <h3 className="font-bold font-teen teen-text-heading">{t('settingsTitle')}</h3>
+              <p className="text-sm teen-text-muted font-teen">{t('settingsDesc')}</p>
             </div>
           </div>
           <button className="px-4 py-2 bg-teen-ocean text-white rounded-lg font-teen font-semibold hover:bg-teen-ocean-dark transition-colors text-sm">
@@ -207,16 +209,16 @@ export default function TeenPerfilPage() {
       {/* Ajuda */}
       <TeenCard>
         <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-          Precisa de Ajuda?
+          {t('needHelp')}
         </h3>
         <div className="space-y-3">
           <button className="w-full p-4 teen-card-subtle rounded-lg text-left hover:teen-card-subtle transition-colors">
-            <p className="font-teen font-semibold teen-text-heading">Central de Ajuda</p>
-            <p className="text-sm teen-text-muted font-teen">Perguntas frequentes e tutoriais</p>
+            <p className="font-teen font-semibold teen-text-heading">{t('helpCenter')}</p>
+            <p className="text-sm teen-text-muted font-teen">{t('helpCenterDesc')}</p>
           </button>
           <button className="w-full p-4 teen-card-subtle rounded-lg text-left hover:teen-card-subtle transition-colors">
-            <p className="font-teen font-semibold teen-text-heading">Falar com Responsável</p>
-            <p className="text-sm teen-text-muted font-teen">Enviar mensagem para seu responsável</p>
+            <p className="font-teen font-semibold teen-text-heading">{t('contactParent')}</p>
+            <p className="text-sm teen-text-muted font-teen">{t('contactParentDesc')}</p>
           </button>
         </div>
       </TeenCard>
@@ -228,7 +230,7 @@ export default function TeenPerfilPage() {
           className="w-full flex items-center justify-center gap-3 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-teen font-semibold"
         >
           <LogOut className="w-5 h-5" />
-          Sair da Conta
+          {t('logout')}
         </button>
       </TeenCard>
     </div>

@@ -13,6 +13,7 @@ import { Check, X, User, MessageSquare,
 } from 'lucide-react';
 import { useActiveClass } from '@/contexts/ActiveClassContext';
 import * as professorService from '@/lib/api/instrutor.service';
+import { useTranslations } from 'next-intl';
 
 const ACM_STYLES = `
   @keyframes acm-fade-in {
@@ -79,6 +80,8 @@ interface ActiveClassModeProps {
 }
 
 export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
+  const t = useTranslations('professor.class');
+  const tCommon = useTranslations('common');
   const { classData, elapsedSeconds, toggleStudent, setObservacao, endClass } = useActiveClass();
   const [showObs, setShowObs] = useState(false);
   const [confirmEnd, setConfirmEnd] = useState(false);
@@ -133,21 +136,21 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
           <div className="w-16 h-16 rounded-full bg-emerald-500/15 mx-auto mb-4 flex items-center justify-center">
             <Check size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Sessão Finalizada!</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{t('endClass')}!</h2>
           <p className="text-white/40 text-sm mb-6">{classData.turmaNome} · {formatTime(elapsedSeconds)}</p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
             <div className="rounded-xl p-3 bg-emerald-500/10 border border-emerald-500/20">
               <p className="text-emerald-400 text-2xl font-bold">{summary.presentes}</p>
-              <p className="text-emerald-400/50 text-[10px]">Presentes</p>
+              <p className="text-emerald-400/50 text-[10px]">{t('present')}</p>
             </div>
             <div className="rounded-xl p-3 bg-red-500/10 border border-red-500/20">
               <p className="text-red-400 text-2xl font-bold">{summary.ausentes}</p>
-              <p className="text-red-400/50 text-[10px]">Ausentes</p>
+              <p className="text-red-400/50 text-[10px]">{t('absent')}</p>
             </div>
             <div className="rounded-xl p-3 bg-white/[0.04] border border-white/[0.08]">
               <p className="text-white/50 text-2xl font-bold">{summary.naoMarcados}</p>
-              <p className="text-white/25 text-[10px]">Não marcados</p>
+              <p className="text-white/25 text-[10px]">{tCommon('status.pending')}</p>
             </div>
           </div>
 
@@ -155,7 +158,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
             onClick={onClose}
             className="w-full py-3 rounded-xl bg-amber-500/90 text-black font-bold text-sm hover:bg-amber-400 transition-colors active:scale-[0.98]"
           >
-            Voltar ao Dashboard
+            {tCommon('actions.goBack')}
           </button>
         </div>
       </div>
@@ -171,7 +174,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
       <div className="sticky top-0 z-10 px-4 py-3 border-b border-white/[0.06]" style={{ background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(16px)' }}>
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <div>
-            <p className="text-amber-400/60 text-[10px] tracking-[0.2em] uppercase font-semibold">Sessão Ativa</p>
+            <p className="text-amber-400/60 text-[10px] tracking-[0.2em] uppercase font-semibold">{t('activeNow')}</p>
             <h1 className="text-white font-bold text-lg">{classData.turmaNome}</h1>
           </div>
           <div className="text-right">
@@ -191,15 +194,15 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
         <div className="flex items-center gap-3 text-xs">
           <span className="flex items-center gap-1.5 text-emerald-400/70">
             <div className="w-2 h-2 rounded-full bg-emerald-500" />
-            {counts.presentes} presentes
+            {counts.presentes} {t('present').toLowerCase()}
           </span>
           <span className="flex items-center gap-1.5 text-red-400/70">
             <div className="w-2 h-2 rounded-full bg-red-500" />
-            {counts.ausentes} ausentes
+            {counts.ausentes} {t('absent').toLowerCase()}
           </span>
           <span className="flex items-center gap-1.5 text-white/30">
             <div className="w-2 h-2 rounded-full bg-white/20" />
-            {counts.naoMarcados} pendentes
+            {counts.naoMarcados}
           </span>
         </div>
       </div>
@@ -251,7 +254,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
         >
           <span className="flex items-center gap-2">
             <MessageSquare size={14} />
-            {classData.observacao ? 'Observação adicionada' : 'Adicionar observação'}
+            {classData.observacao ? '✓' : '+'}
           </span>
           {showObs ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
@@ -259,7 +262,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
           <textarea
             value={classData.observacao}
             onChange={(e) => setObservacao(e.target.value)}
-            placeholder="Observação sobre a sessão..."
+            placeholder=""
             className="w-full mt-2 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white text-sm placeholder:text-white/20 resize-none focus:outline-none focus:border-amber-500/30"
             rows={3}
             style={{ animation: 'acm-fade-in 200ms ease both' }}
@@ -279,13 +282,13 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
               disabled={saving}
               className="w-full py-3.5 rounded-xl bg-red-500/90 text-white font-bold text-sm hover:bg-red-500 transition-colors active:scale-[0.98] disabled:opacity-50"
             >
-              {saving ? 'Salvando chamada...' : 'Confirmar — Finalizar Sessão'}
+              {saving ? tCommon('actions.saving') : t('endClass')}
             </button>
             <button
               onClick={() => setConfirmEnd(false)}
               className="w-full py-3 rounded-xl bg-white/[0.04] text-white/50 text-sm hover:bg-white/[0.08] transition-colors"
             >
-              Cancelar
+              {tCommon('actions.cancel')}
             </button>
           </div>
         ) : (
@@ -294,7 +297,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
             className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white/60 font-semibold text-sm hover:bg-red-500/15 hover:border-red-500/20 hover:text-red-400 transition-all active:scale-[0.98]"
           >
             <StopCircle size={16} />
-            Finalizar Sessão
+            {t('endClass')}
           </button>
         )}
       </div>

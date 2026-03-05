@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Play,
   Pause,
@@ -28,6 +29,7 @@ interface PremiumPlayerProps {
  * - Overlay fades on inactivity, shows on mouse move
  */
 export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProps) {
+  const t = useTranslations('video');
   const [isPlaying, setIsPlaying] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [showControls, setShowControls] = useState(true);
@@ -122,7 +124,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
         <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
           <div>
             <p className="text-white/40 text-xs font-medium tracking-wider uppercase mb-1">
-              Reproduzir aula
+              {t('play')}
             </p>
             <p className="text-white text-lg font-semibold line-clamp-1">{title}</p>
           </div>
@@ -183,7 +185,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
                 style={{ animation: 'player-bar-slide 1.2s ease-in-out infinite' }}
               />
             </div>
-            <p className="text-white/30 text-sm">Carregando player...</p>
+            <p className="text-white/30 text-sm">{t('loading')}</p>
           </div>
           <style>{`
             @keyframes player-bar-slide {
@@ -218,7 +220,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
               {/* Play/Pause */}
               <button
                 className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Pausar"
+                aria-label={t('pause')}
               >
                 <Pause size={20} className="text-white" />
               </button>
@@ -226,7 +228,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
               {/* -10s */}
               <button
                 className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Voltar 10 segundos"
+                aria-label={t('rewind')}
               >
                 <RotateCcw size={17} className="text-white/70" />
               </button>
@@ -234,7 +236,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
               {/* +10s */}
               <button
                 className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Avançar 10 segundos"
+                aria-label={t('forward')}
               >
                 <RotateCw size={17} className="text-white/70" />
               </button>
@@ -243,7 +245,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
               <button
                 onClick={() => setIsMuted(!isMuted)}
                 className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
-                aria-label={isMuted ? 'Ativar som' : 'Silenciar'}
+                aria-label={isMuted ? t('unmute') : t('mute')}
               >
                 {isMuted ? (
                   <VolumeX size={17} className="text-white/70" />
@@ -301,7 +303,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
               <button
                 onClick={handleFullscreen}
                 className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Tela cheia"
+                aria-label={t('fullscreen')}
               >
                 <Maximize size={18} className="text-white/70" />
               </button>

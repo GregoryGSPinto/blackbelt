@@ -10,6 +10,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { X, Sun, Moon, User, LogOut, ArrowRightLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export function ShellMobileDrawer({ config, state }: Props) {
+  const t = useTranslations('common');
   const { theme, nav } = config;
   const {
     isDark, toggleTheme, pathname, drawerOpen, setDrawerOpen,
@@ -53,7 +55,7 @@ export function ShellMobileDrawer({ config, state }: Props) {
       {/* Bottom sheet */}
       <div
         role="dialog"
-        aria-label="Menu de navegação"
+        aria-label={t('menu.navigationMenu')}
         aria-modal="true"
         className="md:hidden fixed bottom-0 left-0 right-0 z-[90] rounded-t-3xl shadow-2xl overflow-hidden"
         style={{
@@ -82,13 +84,13 @@ export function ShellMobileDrawer({ config, state }: Props) {
             className={`text-base font-bold ${font}`}
             style={{ color: theme.textHeading(isDark) }}
           >
-            Menu
+            {t('menu.menu')}
           </h3>
           <button
             onClick={() => setDrawerOpen(false)}
             className="p-2 rounded-full transition-colors"
             style={{ color: theme.textMuted(isDark) }}
-            aria-label="Fechar menu"
+            aria-label={t('menu.closeMenu')}
           >
             <X className="w-5 h-5" />
           </button>
@@ -132,10 +134,10 @@ export function ShellMobileDrawer({ config, state }: Props) {
               onClick={() => { setDrawerOpen(false); navTo(nav.profileHref); }}
               className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/40"
               style={{ color: theme.textMuted(isDark) }}
-              aria-label="Meu Perfil"
+              aria-label={t('menu.myProfile')}
             >
               <User className="w-5 h-5" />
-              <span className={`text-sm font-semibold ${font}`}>Meu Perfil</span>
+              <span className={`text-sm font-semibold ${font}`}>{t('menu.myProfile')}</span>
             </button>
 
             {/* Switch profile */}
@@ -143,10 +145,10 @@ export function ShellMobileDrawer({ config, state }: Props) {
               onClick={() => { setDrawerOpen(false); handleSwitchProfile(); }}
               className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/40"
               style={{ color: theme.textMuted(isDark) }}
-              aria-label="Trocar Perfil"
+              aria-label={t('menu.switchProfile')}
             >
               <ArrowRightLeft className="w-5 h-5" />
-              <span className={`text-sm font-semibold ${font}`}>Trocar Perfil</span>
+              <span className={`text-sm font-semibold ${font}`}>{t('menu.switchProfile')}</span>
             </button>
 
             {/* Theme toggle */}
@@ -155,11 +157,11 @@ export function ShellMobileDrawer({ config, state }: Props) {
                 onClick={() => { toggleTheme(); setDrawerOpen(false); }}
                 className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/40"
                 style={{ color: theme.textMuted(isDark) }}
-                aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
+                aria-label={isDark ? t('theme.enableLight') : t('theme.enableDark')}
               >
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 <span className={`text-sm font-semibold ${font}`}>
-                  {isDark ? 'Modo Claro' : 'Modo Escuro'}
+                  {isDark ? t('theme.lightMode') : t('theme.darkMode')}
                 </span>
               </button>
             )}
@@ -173,10 +175,10 @@ export function ShellMobileDrawer({ config, state }: Props) {
             <button
               onClick={() => { setDrawerOpen(false); handleLogout(); }}
               className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors hover:bg-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-400/40"
-              aria-label="Sair da conta"
+              aria-label={t('confirm.logoutTitle')}
             >
               <LogOut className="w-5 h-5 text-red-400" />
-              <span className={`text-sm font-semibold text-red-400 ${font}`}>Sair</span>
+              <span className={`text-sm font-semibold text-red-400 ${font}`}>{t('menu.logout')}</span>
             </button>
           </div>
         </div>

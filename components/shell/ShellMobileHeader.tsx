@@ -14,6 +14,7 @@ import Image from 'next/image';
 import {
   Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 
 interface Props {
@@ -24,6 +25,8 @@ interface Props {
 const MORPH = 'transition-all duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)]';
 
 export function ShellMobileHeader({ config, state }: Props) {
+  const t = useTranslations('common');
+  const tShell = useTranslations('shell');
   const { theme, nav } = config;
   const {
     mounted, isDark, toggleTheme, searchOpen, query, setQuery, menuOpen, setMenuOpen,
@@ -96,8 +99,8 @@ export function ShellMobileHeader({ config, state }: Props) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={nav.searchPlaceholder || 'Buscar...'}
-                aria-label="Buscar"
+                placeholder={nav.searchPlaceholder || t('search.placeholder')}
+                aria-label={t('search.openSearch')}
                 className={`w-full pl-9 pr-4 py-2.5 rounded-full text-sm outline-none ${font}`}
                 style={{
                   background: theme.searchBg(isDark),
@@ -120,7 +123,7 @@ export function ShellMobileHeader({ config, state }: Props) {
               onClick={handleSearchToggle}
               className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90"
               style={{ color: theme.textMuted(isDark) }}
-              aria-label={searchOpen ? 'Fechar busca' : 'Buscar'}
+              aria-label={searchOpen ? t('search.closeSearch') : t('search.openSearch')}
             >
               {searchOpen ? <X size={17} /> : <Search size={17} />}
             </button>
@@ -132,7 +135,7 @@ export function ShellMobileHeader({ config, state }: Props) {
               onClick={toggleNotif}
               className="relative w-9 h-9 rounded-full flex items-center justify-center transition-colors"
               style={{ color: theme.textMuted(isDark) }}
-              aria-label="Notificações"
+              aria-label={t('notifications.title')}
             >
               <Bell size={17} />
               <span
@@ -150,8 +153,8 @@ export function ShellMobileHeader({ config, state }: Props) {
               onClick={toggleTheme}
               className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 active:scale-90"
               style={{ color: theme.textMuted(isDark) }}
-              aria-label={isDark ? 'Modo claro' : 'Modo escuro'}
-              title={isDark ? 'Modo claro' : 'Modo escuro'}
+              aria-label={isDark ? t('theme.lightMode') : t('theme.darkMode')}
+              title={isDark ? t('theme.lightMode') : t('theme.darkMode')}
             >
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
@@ -162,7 +165,7 @@ export function ShellMobileHeader({ config, state }: Props) {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="w-10 h-10 rounded-full flex items-center justify-center"
-              aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-label={menuOpen ? t('menu.closeMenu') : t('menu.openMenu')}
               aria-expanded={menuOpen}
             >
               <div
@@ -214,16 +217,16 @@ export function ShellMobileHeader({ config, state }: Props) {
 
                   {/* Actions */}
                   <div className="py-1.5 px-1.5">
-                    <MobileMenuBtn icon={User} label="Meu Perfil" onClick={() => navTo(nav.profileHref)} color={theme.textMuted(isDark)} />
-                    <MobileMenuBtn icon={Settings} label="Configurações" onClick={() => navTo(nav.settingsHref)} color={theme.textMuted(isDark)} />
-                    <MobileMenuBtn icon={ArrowRightLeft} label="Trocar Perfil" onClick={handleSwitchProfile} color={theme.textMuted(isDark)} />
+                    <MobileMenuBtn icon={User} label={t('menu.myProfile')} onClick={() => navTo(nav.profileHref)} color={theme.textMuted(isDark)} />
+                    <MobileMenuBtn icon={Settings} label={t('menu.settings')} onClick={() => navTo(nav.settingsHref)} color={theme.textMuted(isDark)} />
+                    <MobileMenuBtn icon={ArrowRightLeft} label={t('menu.switchProfile')} onClick={handleSwitchProfile} color={theme.textMuted(isDark)} />
                     <div className="my-1 mx-3 h-px" style={{ background: theme.panelBorder(isDark) }} />
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-colors hover:bg-red-500/10"
                     >
                       <LogOut size={15} className="text-red-400" />
-                      <span className="text-sm font-medium text-red-400">Sair</span>
+                      <span className="text-sm font-medium text-red-400">{t('menu.logout')}</span>
                     </button>
                   </div>
                 </div>

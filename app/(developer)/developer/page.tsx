@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { getSystemHealth, getObservability } from '@/lib/api/developer.service';
 import type { SystemHealthMetric, ObservabilitySnapshot } from '@/lib/api/developer.service';
 import { getMockDeviceInsights, type DeviceInsight } from '@/lib/api/device-fingerprint.service';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
@@ -43,16 +44,16 @@ function deriveAlerts(
       alerts.push({
         id: `h-${m.name}`,
         severity: 'critical',
-        title: `${m.name} em estado crítico`,
-        detail: `${m.value}${m.unit} — requer ação imediata`,
+        title: `${m.name} — critical`,
+        detail: `${m.value}${m.unit}`,
         time: now,
       });
     } else if (m.status === 'warning') {
       alerts.push({
         id: `h-${m.name}`,
         severity: 'warning',
-        title: `${m.name} em alerta`,
-        detail: `${m.value}${m.unit} — monitorar`,
+        title: `${m.name} — warning`,
+        detail: `${m.value}${m.unit}`,
         time: now,
       });
     }
@@ -65,7 +66,7 @@ function deriveAlerts(
         id: 'obs-error',
         severity: obs.errorRate > 5 ? 'critical' : 'warning',
         title: `Error rate: ${obs.errorRate}%`,
-        detail: 'Acima do threshold aceitável (2%)',
+        detail: 'Above acceptable threshold (2%)',
         time: now,
       });
     }
@@ -74,7 +75,7 @@ function deriveAlerts(
         id: 'obs-latency',
         severity: obs.avgLatencyMs > 1000 ? 'critical' : 'warning',
         title: `Latência elevada: ${obs.avgLatencyMs}ms`,
-        detail: 'Acima do limite recomendado (500ms)',
+        detail: 'Above recommended limit (500ms)',
         time: now,
       });
     }
@@ -82,8 +83,8 @@ function deriveAlerts(
       alerts.push({
         id: 'obs-anomaly',
         severity: obs.anomaliesLast24h >= 5 ? 'critical' : 'warning',
-        title: `${obs.anomaliesLast24h} anomalias detectadas`,
-        detail: 'Últimas 24h — investigar padrões',
+        title: `${obs.anomaliesLast24h} anomalies detected`,
+        detail: 'Last 24h',
         time: now,
       });
     }
@@ -98,6 +99,7 @@ function deriveAlerts(
 // ── Component ─────────────────────────────────────────────
 
 export default function DeveloperDashboard() {
+  const t = useTranslations('developer.dashboard');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [health, setHealth] = useState<SystemHealthMetric[]>([]);
@@ -184,11 +186,11 @@ export default function DeveloperDashboard() {
   };
 
   const quickLinks = [
-    { href: '/developer-audit', icon: ScrollText, label: 'Audit Logs', desc: 'Trilha de eventos' },
-    { href: '/developer-logins', icon: LogIn, label: 'Login Monitor', desc: 'Atividade de autenticação' },
-    { href: '/developer-ai', icon: Brain, label: 'AI Governance', desc: 'Registry de modelos' },
-    { href: '/developer-observability', icon: Activity, label: 'Observability', desc: 'Métricas e traces' },
-    { href: '/developer-danger', icon: AlertTriangle, label: 'Danger Zone', desc: 'Controles do sistema' },
+    { href: '/developer-audit', icon: ScrollText, label: t('auditLogs'), desc: t('auditLogsDesc') },
+    { href: '/developer-logins', icon: LogIn, label: t('loginMonitor'), desc: t('loginMonitorDesc') },
+    { href: '/developer-ai', icon: Brain, label: t('aiGovernance'), desc: t('aiGovernanceDesc') },
+    { href: '/developer-observability', icon: Activity, label: t('observability'), desc: t('observabilityDesc') },
+    { href: '/developer-danger', icon: AlertTriangle, label: t('dangerZone'), desc: t('dangerZoneDesc') },
   ];
 
   return (
@@ -203,8 +205,8 @@ export default function DeveloperDashboard() {
             <Terminal className="w-5 h-5 text-emerald-500" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>BlackBelt Suporte</h1>
-            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Painel Técnico — Monitoramento em tempo real</p>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('subtitle')}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -321,7 +323,7 @@ export default function DeveloperDashboard() {
       {/* ── Device Insights (AI) ── */}
       <div>
         <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
-          <Smartphone className="w-4 h-4" /> Análise por Dispositivo
+          <Smartphone className="w-4 h-4" /> Device Analysis
           <span className={`text-[9px] px-1.5 py-0.5 ${isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-100 text-violet-700'}`} style={{ borderRadius: '2px' }}>AI</span>
         </h2>
         <div className="space-y-2">
@@ -345,7 +347,7 @@ export default function DeveloperDashboard() {
 
       {/* ── Footer ── */}
       <p className="text-[10px] text-center font-mono" style={{ color: tokens.textMuted }}>
-        Atualizado: {lastRefresh.toLocaleTimeString('pt-BR')} • Isolamento SUPPORT ativo • Sem acesso a PII/financeiro
+        {t('isolationNotice')}
       </p>
     </div>
   );

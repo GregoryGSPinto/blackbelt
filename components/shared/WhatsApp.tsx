@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { MessageCircle, X, Send, Eye } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import {
   openWhatsApp, renderTemplate,
   TEMPLATES, type WhatsAppTemplate,
@@ -86,6 +87,8 @@ interface ComposeModalProps {
  * Permite: seleção de template, edição livre, preview, enviar via deeplink.
  */
 export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: ComposeModalProps) {
+  const t = useTranslations('athlete.whatsapp');
+  const tActions = useTranslations('common.actions');
   const [selectedTemplate, setSelectedTemplate] = useState<WhatsAppTemplate | null>(null);
   const [mensagem, setMensagem] = useState('');
   const [showPreview, setShowPreview] = useState(false);
@@ -103,12 +106,12 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
   }, [phone, mensagem, onClose]);
 
   const CATEGORIA_LABELS: Record<string, { label: string; color: string }> = {
-    cobranca: { label: 'Cobrança', color: 'text-red-400 bg-red-500/10' },
-    convite: { label: 'Convite', color: 'text-blue-400 bg-blue-500/10' },
-    followup: { label: 'Follow-up', color: 'text-purple-400 bg-purple-500/10' },
-    geral: { label: 'Geral', color: 'text-white/40 bg-white/5' },
-    evento: { label: 'Evento', color: 'text-amber-400 bg-amber-500/10' },
-    reativacao: { label: 'Reativação', color: 'text-cyan-400 bg-cyan-500/10' },
+    cobranca: { label: t('templates.billing'), color: 'text-red-400 bg-red-500/10' },
+    convite: { label: t('templates.invite'), color: 'text-blue-400 bg-blue-500/10' },
+    followup: { label: t('templates.followup'), color: 'text-purple-400 bg-purple-500/10' },
+    geral: { label: t('templates.general'), color: 'text-white/40 bg-white/5' },
+    evento: { label: t('templates.event'), color: 'text-amber-400 bg-amber-500/10' },
+    reativacao: { label: t('templates.reactivation'), color: 'text-cyan-400 bg-cyan-500/10' },
   };
 
   return (
@@ -118,7 +121,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] sticky top-0 bg-[#0D1117] z-10">
           <div className="flex items-center gap-2">
             <MessageCircle size={18} className="text-[#25D366]" />
-            <h3 className="text-base font-bold text-white">Enviar WhatsApp</h3>
+            <h3 className="text-base font-bold text-white">{t('send')}</h3>
           </div>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-white/[0.06] text-white/30"><X size={18} /></button>
         </div>
@@ -137,7 +140,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
 
           {/* Template selection */}
           <div>
-            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">Template de mensagem</p>
+            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">{t('messageTemplate')}</p>
             <div className="grid grid-cols-2 gap-2">
               {TEMPLATES.map(tpl => {
                 const catCfg = CATEGORIA_LABELS[tpl.categoria];
@@ -167,24 +170,24 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
           {/* Message editor */}
           <div>
             <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">
-              Mensagem {selectedTemplate ? '(editável)' : '(livre)'}
+              {selectedTemplate ? t('messageEditable') : t('messageFree')}
             </p>
             <textarea
               value={mensagem}
               onChange={e => setMensagem(e.target.value)}
               rows={6}
-              placeholder="Digite sua mensagem ou selecione um template acima..."
-              aria-label="Mensagem"
+              placeholder={t('composePlaceholder')}
+              aria-label={t('messageLabel')}
               className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/70 text-sm placeholder:text-white/20 focus:outline-none focus:border-white/20 resize-none leading-relaxed"
             />
             <div className="flex items-center justify-between mt-1">
-              <span className="text-[9px] text-white/15">{mensagem.length} caracteres</span>
+              <span className="text-[9px] text-white/15">{mensagem.length} {t('characters')}</span>
               <button
                 onClick={() => setShowPreview(p => !p)}
                 className="flex items-center gap-1 text-[10px] text-white/25 hover:text-white/40"
               >
                 <Eye size={10} />
-                {showPreview ? 'Ocultar' : 'Preview'}
+                {showPreview ? t('hidePreview') : t('preview')}
               </button>
             </div>
           </div>
@@ -192,7 +195,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
           {/* Preview */}
           {showPreview && mensagem && (
             <div className="rounded-xl bg-[#0B141A] border border-white/[0.06] p-4">
-              <p className="text-[9px] text-[#25D366]/40 uppercase tracking-wider mb-2">Preview WhatsApp</p>
+              <p className="text-[9px] text-[#25D366]/40 uppercase tracking-wider mb-2">{t('previewWhatsApp')}</p>
               <div className="bg-[#005C4B]/20 rounded-xl px-4 py-3 max-w-[280px] ml-auto">
                 <p className="text-sm text-white/80 whitespace-pre-wrap leading-relaxed">{mensagem}</p>
               </div>
@@ -204,7 +207,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
         <div className="flex gap-3 px-5 py-4 border-t border-white/[0.06] sticky bottom-0 bg-[#0D1117]">
           <button onClick={onClose}
             className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-bold hover:bg-white/[0.08] transition-colors">
-            Cancelar
+            {tActions('cancel')}
           </button>
           <button
             onClick={handleSend}
@@ -212,7 +215,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-sm font-bold hover:bg-[#25D366]/30 transition-colors disabled:opacity-30"
           >
             <Send size={14} />
-            Abrir WhatsApp
+            {t('open')}
           </button>
         </div>
       </div>

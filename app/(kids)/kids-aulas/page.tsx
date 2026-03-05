@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import * as kidsService from '@/lib/api/kids.service';
 import type { KidProfile } from '@/lib/api/kids.service';
 import { Play, Clock, Star, Lock, UserX } from 'lucide-react';
@@ -10,17 +11,18 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
 
-const SESSÕES_MOCK = [
-  { id: 1, titulo: 'Posição de Guarda', duracao: '8 min', nivel: 'Fácil', thumb: '🛡️', disponivel: true, completada: true },
-  { id: 2, titulo: 'Aprendendo a Rolar', duracao: '6 min', nivel: 'Fácil', thumb: '🤸', disponivel: true, completada: true },
-  { id: 3, titulo: 'Defesa Básica', duracao: '10 min', nivel: 'Fácil', thumb: '🛡️', disponivel: true, completada: false },
-  { id: 4, titulo: 'Passagem de Guarda Simples', duracao: '12 min', nivel: 'Médio', thumb: '🥋', disponivel: true, completada: false },
-  { id: 5, titulo: 'Raspagem Básica', duracao: '9 min', nivel: 'Médio', thumb: '⚡', disponivel: true, completada: false },
-  { id: 6, titulo: 'Posições de Montada', duracao: '11 min', nivel: 'Médio', thumb: '🎯', disponivel: false, completada: false },
-  { id: 7, titulo: 'Finalização - Armlock', duracao: '15 min', nivel: 'Difícil', thumb: '🌟', disponivel: false, completada: false },
+const SESSOES_MOCK = [
+  { id: 1, titulo: 'Posicao de Guarda', duracao: '8 min', nivel: 'Facil', thumb: '🛡️', disponivel: true, completada: true },
+  { id: 2, titulo: 'Aprendendo a Rolar', duracao: '6 min', nivel: 'Facil', thumb: '🤸', disponivel: true, completada: true },
+  { id: 3, titulo: 'Defesa Basica', duracao: '10 min', nivel: 'Facil', thumb: '🛡️', disponivel: true, completada: false },
+  { id: 4, titulo: 'Passagem de Guarda Simples', duracao: '12 min', nivel: 'Medio', thumb: '🥋', disponivel: true, completada: false },
+  { id: 5, titulo: 'Raspagem Basica', duracao: '9 min', nivel: 'Medio', thumb: '⚡', disponivel: true, completada: false },
+  { id: 6, titulo: 'Posicoes de Montada', duracao: '11 min', nivel: 'Medio', thumb: '🎯', disponivel: false, completada: false },
+  { id: 7, titulo: 'Finalizacao - Armlock', duracao: '15 min', nivel: 'Dificil', thumb: '🌟', disponivel: false, completada: false },
 ];
 
-export default function KidsSessõesPage() {
+export default function KidsSessoesPage() {
+  const t = useTranslations('kids.sessions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
@@ -49,7 +51,7 @@ export default function KidsSessõesPage() {
           setCurrentKid(all[0] ?? null);
         }
       } catch (err) {
-        setError(handleServiceError(err, 'KidsSessões'));
+        setError(handleServiceError(err, 'KidsSessoes'));
       } finally {
         setLoading(false);
       }
@@ -58,14 +60,14 @@ export default function KidsSessõesPage() {
   }, [retryCount, user?.id]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!currentKid) {
-    return <PageEmpty icon={UserX} title="Perfil não encontrado" message="Não foi possível carregar o perfil do aluno." />;
+    return <PageEmpty icon={UserX} title={t('loading')} message={t('loading')} />;
   }
 
   // ─── Theme-aware colors ───
@@ -87,17 +89,26 @@ export default function KidsSessõesPage() {
   const getNivelColor = (nivel: string) => {
     if (isDark) {
       switch (nivel) {
-        case 'Fácil': return { bg: 'rgba(74,222,128,0.1)', border: 'rgba(74,222,128,0.2)', text: '#4ADE80' };
-        case 'Médio': return { bg: 'rgba(250,204,21,0.1)', border: 'rgba(250,204,21,0.2)', text: '#FACC15' };
-        case 'Difícil': return { bg: 'rgba(251,146,60,0.1)', border: 'rgba(251,146,60,0.2)', text: '#FB923C' };
+        case 'Facil': return { bg: 'rgba(74,222,128,0.1)', border: 'rgba(74,222,128,0.2)', text: '#4ADE80' };
+        case 'Medio': return { bg: 'rgba(250,204,21,0.1)', border: 'rgba(250,204,21,0.2)', text: '#FACC15' };
+        case 'Dificil': return { bg: 'rgba(251,146,60,0.1)', border: 'rgba(251,146,60,0.2)', text: '#FB923C' };
         default: return { bg: 'rgba(255,255,255,0.05)', border: 'rgba(255,255,255,0.1)', text: '#94A3B8' };
       }
     }
     switch (nivel) {
-      case 'Fácil': return { bg: 'linear-gradient(135deg, #DCFCE7, #BBF7D0)', border: '#86EFAC', text: '#15803D' };
-      case 'Médio': return { bg: 'linear-gradient(135deg, #FEF9C3, #FDE68A)', border: '#FCD34D', text: '#A16207' };
-      case 'Difícil': return { bg: 'linear-gradient(135deg, #FFEDD5, #FED7AA)', border: '#FDBA74', text: '#C2410C' };
+      case 'Facil': return { bg: 'linear-gradient(135deg, #DCFCE7, #BBF7D0)', border: '#86EFAC', text: '#15803D' };
+      case 'Medio': return { bg: 'linear-gradient(135deg, #FEF9C3, #FDE68A)', border: '#FCD34D', text: '#A16207' };
+      case 'Dificil': return { bg: 'linear-gradient(135deg, #FFEDD5, #FED7AA)', border: '#FDBA74', text: '#C2410C' };
       default: return { bg: '#F3F4F6', border: '#D1D5DB', text: '#6B7280' };
+    }
+  };
+
+  const getNivelLabel = (nivel: string) => {
+    switch (nivel) {
+      case 'Facil': return t('difficulties.easy');
+      case 'Medio': return t('difficulties.medium');
+      case 'Dificil': return t('difficulties.hard');
+      default: return nivel;
     }
   };
 
@@ -106,10 +117,10 @@ export default function KidsSessõesPage() {
       {/* Header */}
       <div className="text-center space-y-3 py-6">
         <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tracking-tight flex items-center justify-center gap-3" style={{ color: c.heading }}>
-          <span>🎬</span> Sessões
+          <span>🎬</span> {t('title')}
         </h2>
         <p className="text-xl md:text-2xl font-semibold" style={{ color: c.heading }}>
-          Aprenda técnicas incríveis!
+          {t('subtitle')}
         </p>
       </div>
 
@@ -120,34 +131,34 @@ export default function KidsSessõesPage() {
       >
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">📚</span>
-          <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: c.heading }}>Seu Progresso</h3>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: c.heading }}>{t('yourProgress')}</h3>
         </div>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <span className="text-base font-bold" style={{ color: c.label }}>Sessões Assistidas</span>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: c.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
+            <span className="text-base font-bold" style={{ color: c.label }}>{t('watchedSessions')}</span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: c.blue }}>{currentKid.progresso.sessoesAssistidas}</span>
           </div>
           <div className="h-4 rounded-full overflow-hidden" style={{ background: c.trail }}>
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{
-                width: `${(currentKid.progresso.sessõesAssistidas / SESSÕES_MOCK.length) * 100}%`,
+                width: `${(currentKid.progresso.sessoesAssistidas / SESSOES_MOCK.length) * 100}%`,
                 background: `linear-gradient(to right, ${isDark ? '#7DD3FC' : '#60A5FA'}, ${c.blue})`,
               }}
             />
           </div>
-          <p className="text-sm font-semibold" style={{ color: c.label }}>Você está aprendendo muito! Continue assim! 🌟</p>
+          <p className="text-sm font-semibold" style={{ color: c.label }}>{t('progressEncouragement')} 🌟</p>
         </div>
       </div>
 
-      {/* Lista de Sessões */}
+      {/* Lista de Sessoes */}
       <div className="space-y-6">
         <h3 className="text-lg sm:text-xl md:text-2xl font-black flex items-center gap-2" style={{ color: c.heading }}>
-          <span>📖</span> Todas as Sessões
+          <span>📖</span> {t('allSessions')}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {SESSÕES_MOCK.map((aula) => {
+          {SESSOES_MOCK.map((aula) => {
             const nivel = getNivelColor(aula.nivel);
             const disabled = !aula.disponivel;
 
@@ -174,13 +185,13 @@ export default function KidsSessõesPage() {
                     </div>
                     {aula.completada && (
                       <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                        <Star size={14} fill="white" /> Completada
+                        <Star size={14} fill="white" /> {t('completed')}
                       </div>
                     )}
                     {disabled && (
                       <div className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
                         style={{ background: isDark ? 'rgba(255,255,255,0.1)' : '#D1D5DB', color: isDark ? '#94A3B8' : '#FFF' }}>
-                        <Lock size={14} /> Bloqueado
+                        <Lock size={14} /> {t('locked')}
                       </div>
                     )}
                   </div>
@@ -202,7 +213,7 @@ export default function KidsSessõesPage() {
                         color: nivel.text,
                       }}
                     >
-                      {aula.nivel}
+                      {getNivelLabel(aula.nivel)}
                     </div>
                   </div>
 
@@ -213,14 +224,14 @@ export default function KidsSessõesPage() {
                       style={{ background: c.btnBg, color: c.btnText }}
                     >
                       <Play size={20} fill="currentColor" />
-                      {aula.completada ? 'Assistir Novamente' : 'Começar Aula'}
+                      {aula.completada ? t('watchAgain') : t('startLesson')}
                     </button>
                   ) : (
                     <div
                       className="w-full py-4 rounded-2xl font-black text-lg text-center"
                       style={{ background: c.disabledBg, color: c.disabledText }}
                     >
-                      Peça para seu responsável
+                      {t('askParent')}
                     </div>
                   )}
                 </div>
@@ -241,9 +252,9 @@ export default function KidsSessõesPage() {
         <div className="flex items-start gap-6">
           <div className="text-6xl">💪</div>
           <div className="flex-1 space-y-2">
-            <p className="text-lg font-black" style={{ color: c.heading }}>Você É Incrível!</p>
+            <p className="text-lg font-black" style={{ color: c.heading }}>{t('youAreAwesome')}</p>
             <p className="text-xl font-semibold leading-relaxed" style={{ color: c.label }}>
-              Cada sessão que você assiste te deixa mais forte e mais preparado. Continue treinando!
+              {t('awesomeDesc')}
             </p>
           </div>
         </div>

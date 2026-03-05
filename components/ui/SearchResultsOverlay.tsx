@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useGlobalSearch, type SearchResult } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export function SearchResultsOverlay() {
+  const t = useTranslations('common.search');
   const { isOpen, query, results, close } = useGlobalSearch();
   const { isDark } = useTheme();
   const router = useRouter();
@@ -153,8 +155,8 @@ export function SearchResultsOverlay() {
             ) : query.trim().length > 1 ? (
               <div className="py-12 text-center">
                 <Search size={28} className="mx-auto mb-3" style={{ color: c.emptyIcon }} />
-                <p className="text-sm" style={{ color: c.emptyText }}>Nenhum resultado para &ldquo;{query}&rdquo;</p>
-                <p className="text-[11px] mt-1" style={{ color: c.emptySub }}>Tente um termo diferente</p>
+                <p className="text-sm" style={{ color: c.emptyText }}>{t('noResultsFor', { query })}</p>
+                <p className="text-[11px] mt-1" style={{ color: c.emptySub }}>{t('tryDifferent')}</p>
               </div>
             ) : null}
           </div>

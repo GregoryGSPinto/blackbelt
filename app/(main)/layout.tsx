@@ -10,6 +10,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -36,8 +37,9 @@ function MainLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function MainLayout({ children }: { children: ReactNode }) {
+  const tCommon = useTranslations('common');
   return (
-    <ProtectedRoute allowedTypes={['ALUNO_ADULTO']} loadingText="Carregando...">
+    <ProtectedRoute allowedTypes={['ALUNO_ADULTO']} loadingText={tCommon('actions.loading')}>
       <GlobalSearchProvider>
         <MainLayoutInner>{children}</MainLayoutInner>
       </GlobalSearchProvider>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import VideoCarousel from '@/components/ui/VideoCarousel';
 import { VideoCardEnhanced } from '@/components/video/VideoCardEnhanced';
 import type { Video } from '@/lib/api/content.service';
@@ -20,6 +21,8 @@ const categorias = [
 ];
 
 export default function CategoriasContent({ videos }: CategoriasContentProps) {
+  const t = useTranslations('athlete');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -31,9 +34,9 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
     <div className="min-h-screen p-4 md:p-8">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-bold mb-4">Categorias</h1>
+        <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-bold mb-4">{t('categories.title')}</h1>
         <p className="text-lg text-white/40">
-          Explore nosso conteúdo por categoria técnica
+          {t('categories.subtitle')}
         </p>
       </div>
 
@@ -66,13 +69,13 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">
-              Categoria: {selectedCategory}
+              {t('categories.selected', { name: selectedCategory })}
             </h2>
             <button
               onClick={() => setSelectedCategory(null)}
               className="text-primary hover:underline text-sm"
             >
-              Ver todas
+              {tCommon('actions.viewAll')}
             </button>
           </div>
           <VideoCarousel title="">
@@ -89,7 +92,7 @@ export default function CategoriasContent({ videos }: CategoriasContentProps) {
       )}
 
       {!selectedCategory && (
-        <VideoCarousel title="Todas as Técnicas">
+        <VideoCarousel title={t('categories.allTechniques')}>
           {videos.map((video) => (
             <VideoCardEnhanced
               key={video.id}

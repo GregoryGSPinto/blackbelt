@@ -1,9 +1,10 @@
 // ============================================================
-// Mensagens do Responsável — Parent messaging page
+// Mensagens do Responsavel — Parent messaging page
 // ============================================================
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { Send, ArrowLeft, User, Loader2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
@@ -29,17 +30,19 @@ interface Conversa {
 }
 
 const MOCK_CONVERSAS: Conversa[] = [
-  { id: 'c1', professorNome: 'Prof. Ricardo', professorId: 'prof-001', ultimaMensagem: 'Seu filho teve ótimo desempenho hoje!', timestamp: '14:30', naoLidas: 2 },
-  { id: 'c2', professorNome: 'Prof. Ana', professorId: 'prof-002', ultimaMensagem: 'Lembrete: treino extra amanhã às 15h', timestamp: 'Ontem', naoLidas: 0 },
+  { id: 'c1', professorNome: 'Prof. Ricardo', professorId: 'prof-001', ultimaMensagem: 'Seu filho teve otimo desempenho hoje!', timestamp: '14:30', naoLidas: 2 },
+  { id: 'c2', professorNome: 'Prof. Ana', professorId: 'prof-002', ultimaMensagem: 'Lembrete: treino extra amanha as 15h', timestamp: 'Ontem', naoLidas: 0 },
 ];
 
 const MOCK_MSGS: Mensagem[] = [
-  { id: 'm1', remetenteId: 'prof-001', remetenteNome: 'Prof. Ricardo', conteudo: 'Olá! Queria informar que o Miguel teve excelente desempenho no sparring hoje.', timestamp: '14:25', lida: true },
-  { id: 'm2', remetenteId: 'parent-001', remetenteNome: 'Você', conteudo: 'Que ótimo! Ele tem treinado bastante em casa também.', timestamp: '14:28', lida: true },
-  { id: 'm3', remetenteId: 'prof-001', remetenteNome: 'Prof. Ricardo', conteudo: 'Seu filho teve ótimo desempenho hoje! Parabéns pela dedicação.', timestamp: '14:30', lida: false },
+  { id: 'm1', remetenteId: 'prof-001', remetenteNome: 'Prof. Ricardo', conteudo: 'Ola! Queria informar que o Miguel teve excelente desempenho no sparring hoje.', timestamp: '14:25', lida: true },
+  { id: 'm2', remetenteId: 'parent-001', remetenteNome: 'Voce', conteudo: 'Que otimo! Ele tem treinado bastante em casa tambem.', timestamp: '14:28', lida: true },
+  { id: 'm3', remetenteId: 'prof-001', remetenteNome: 'Prof. Ricardo', conteudo: 'Seu filho teve otimo desempenho hoje! Parabens pela dedicacao.', timestamp: '14:30', lida: false },
 ];
 
 export default function MensagensParentPage() {
+  const t = useTranslations('parent.messages');
+  const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -66,7 +69,7 @@ export default function MensagensParentPage() {
       const msg: Mensagem = {
         id: `m-${Date.now()}`,
         remetenteId: 'parent-001',
-        remetenteNome: 'Você',
+        remetenteNome: 'Voce',
         conteudo: newMsg.trim(),
         timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
         lida: true,
@@ -87,10 +90,10 @@ export default function MensagensParentPage() {
         {/* Header */}
         <div className="mb-6 pt-6 px-4">
           <Link href="/painel-responsavel" className="text-white/40 text-xs flex items-center gap-1 mb-2 hover:text-white/60 transition-colors">
-            <ArrowLeft size={14} /> Voltar ao Painel
+            <ArrowLeft size={14} /> {t('backToPanel')}
           </Link>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Mensagens</h1>
-          <p className="text-white/40 text-sm">Comunicação com instrutores</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+          <p className="text-white/40 text-sm">{t('subtitle')}</p>
         </div>
 
         {!activeConversa ? (
@@ -99,7 +102,7 @@ export default function MensagensParentPage() {
             {conversas.length === 0 ? (
               <div className="p-8 text-center rounded-2xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
                 <User size={32} className="mx-auto mb-3 text-white/15" />
-                <p className="text-white/30 text-sm">Nenhuma conversa ainda.</p>
+                <p className="text-white/30 text-sm">{t('noConversations')}</p>
               </div>
             ) : (
               conversas.map(c => (
@@ -108,7 +111,7 @@ export default function MensagensParentPage() {
                   onClick={() => setActiveConversa(c)}
                   className="w-full flex items-center gap-3 p-4 rounded-2xl text-left transition-colors hover:bg-white/6"
                   style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
-                  aria-label={`Conversa com ${c.professorNome}`}
+                  aria-label={t('conversationWith', { name: c.professorNome })}
                 >
                   <div className="w-10 h-10 rounded-full bg-teal-600/20 flex items-center justify-center flex-shrink-0">
                     <User size={18} className="text-teal-400" />
@@ -134,7 +137,7 @@ export default function MensagensParentPage() {
           <div className="flex flex-col" style={{ height: 'calc(100vh - 160px)' }}>
             {/* Chat header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/6">
-              <button onClick={() => setActiveConversa(null)} className="p-1 rounded-lg hover:bg-white/10" aria-label="Voltar">
+              <button onClick={() => setActiveConversa(null)} className="p-1 rounded-lg hover:bg-white/10" aria-label={tc('back')}>
                 <ArrowLeft size={18} style={{ color: tokens.textMuted }} />
               </button>
               <div className="w-8 h-8 rounded-full bg-teal-600/20 flex items-center justify-center">
@@ -172,16 +175,16 @@ export default function MensagensParentPage() {
                   value={newMsg}
                   onChange={e => setNewMsg(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleSend()}
-                  placeholder="Digite sua mensagem..."
+                  placeholder={tc('send') + '...'}
                   className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white/80
                              focus:outline-none focus:border-white/25 transition-colors"
-                  aria-label="Mensagem"
+                  aria-label={t('title')}
                 />
                 <button
                   onClick={handleSend}
                   disabled={sending || !newMsg.trim()}
                   className="px-4 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white transition-colors disabled:opacity-40"
-                  aria-label="Enviar mensagem"
+                  aria-label={tc('send')}
                 >
                   {sending ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
                 </button>

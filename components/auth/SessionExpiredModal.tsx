@@ -6,6 +6,7 @@
 import { createPortal } from 'react-dom';
 import { Lock, LogIn } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 interface SessionExpiredModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface SessionExpiredModalProps {
 
 export function SessionExpiredModal({ isOpen }: SessionExpiredModalProps) {
   const router = useRouter();
+  const t = useTranslations('auth');
 
   if (!isOpen || typeof window === 'undefined') return null;
 
@@ -28,7 +30,7 @@ export function SessionExpiredModal({ isOpen }: SessionExpiredModalProps) {
         }}
         role="alertdialog"
         aria-modal="true"
-        aria-label="Sessão expirada"
+        aria-label={t('session.expired')}
         aria-describedby="session-expired-desc"
       >
         {/* Icon */}
@@ -38,9 +40,9 @@ export function SessionExpiredModal({ isOpen }: SessionExpiredModalProps) {
           <Lock size={28} className="text-amber-400" />
         </div>
 
-        <h2 className="text-xl font-bold text-white mb-2">Sessão Expirada</h2>
+        <h2 className="text-xl font-bold text-white mb-2">{t('session.expired')}</h2>
         <p id="session-expired-desc" className="text-sm text-white/45 mb-8">
-          Sua sessão expirou por segurança. Faça login novamente para continuar.
+          {t('session.expiredMessage')}
         </p>
 
         <button
@@ -48,9 +50,9 @@ export function SessionExpiredModal({ isOpen }: SessionExpiredModalProps) {
           className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm
                      bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400
                      transition-all shadow-lg"
-          aria-label="Fazer login novamente"
+          aria-label={t('session.loginAgain')}
         >
-          <LogIn size={18} /> Fazer Login Novamente
+          <LogIn size={18} /> {t('session.loginAgain')}
         </button>
 
         <style>{`

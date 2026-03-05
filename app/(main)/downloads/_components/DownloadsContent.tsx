@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Download, Trash2, Play, Clock, Signal, CheckCircle, HardDrive } from 'lucide-react';
 import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
@@ -20,6 +21,7 @@ function addDownloadMeta(videos: Video[]): DownloadItem[] {
 }
 
 export default function DownloadsContent() {
+  const t = useTranslations('athlete');
   const [items, setItems] = useState<DownloadItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +66,7 @@ export default function DownloadsContent() {
   }
 
   if (items.length === 0) {
-    return <PageEmpty title="Nenhum download" message="Você ainda não baixou conteúdo para assistir offline." />;
+    return <PageEmpty title={t('downloads.noDownloads')} message={t('downloads.noDownloadsDesc')} />;
   }
 
   return (
@@ -77,10 +79,10 @@ export default function DownloadsContent() {
           </div>
           <div className="flex-1">
             <p className="text-sm font-semibold" style={{ color: 'rgb(var(--color-text))' }}>
-              {downloaded.length} {downloaded.length === 1 ? 'vídeo baixado' : 'vídeos baixados'}
+              {t('downloads.videoCount', { count: downloaded.length })}
             </p>
             <p className="text-xs mt-0.5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-              {totalSize} MB utilizados
+              {t('downloads.storageUsed', { size: totalSize })}
             </p>
           </div>
         </div>
@@ -88,7 +90,7 @@ export default function DownloadsContent() {
 
       {downloaded.length > 0 && (
         <section>
-          <h2 className="text-lg font-bold mb-4" style={{ color: 'rgb(var(--color-text))' }}>Baixados</h2>
+          <h2 className="text-lg font-bold mb-4" style={{ color: 'rgb(var(--color-text))' }}>{t('downloads.downloaded')}</h2>
           <div className="space-y-3">
             {downloaded.map(item => (
               <DownloadRow key={item.id} item={item} />
@@ -99,7 +101,7 @@ export default function DownloadsContent() {
 
       {available.length > 0 && (
         <section>
-          <h2 className="text-lg font-bold mb-4" style={{ color: 'rgb(var(--color-text))' }}>Disponíveis para Download</h2>
+          <h2 className="text-lg font-bold mb-4" style={{ color: 'rgb(var(--color-text))' }}>{t('downloads.availableForDownload')}</h2>
           <div className="space-y-3">
             {available.map(item => (
               <DownloadRow key={item.id} item={item} />

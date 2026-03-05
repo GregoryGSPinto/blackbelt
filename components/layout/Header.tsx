@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserAccountMenu } from '@/components/shared/UserAccountMenu';
 
@@ -12,6 +13,7 @@ import { UserAccountMenu } from '@/components/shared/UserAccountMenu';
  * Escopo: hidden md:flex (zero impacto mobile)
  */
 export default function Header() {
+  const t = useTranslations('common');
   const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -48,15 +50,15 @@ export default function Header() {
           <button
             onClick={handleBack}
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200 hover:scale-105 group"
-            title="Voltar"
+            title={t('actions.back')}
           >
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform duration-200" />
-            <span className="text-sm font-medium">Voltar</span>
+            <span className="text-sm font-medium">{t('actions.back')}</span>
           </button>
         )}
 
         <p className="text-base">
-          Bem-vindo, <span className="font-bold text-white">{user?.nome}</span> 🥋
+          {t('greeting.welcome')} <span className="font-bold text-white">{user?.nome}</span> 🥋
         </p>
       </div>
 

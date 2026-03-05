@@ -2,10 +2,12 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useGlobalSearch } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export function DesktopSearchHover() {
+  const t = useTranslations('common');
   const { query, setQuery, open: openSearch, close: closeSearch } = useGlobalSearch();
   const { isDark } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -86,13 +88,13 @@ export function DesktopSearchHover() {
         <button onClick={() => !isExpanded && expand()} className="w-[54px] h-[54px] flex items-center justify-center flex-shrink-0 rounded-full transition-colors duration-150"
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-          aria-label="Buscar (⌘K)">
+          aria-label={t('search.openSearch') + ' (⌘K)'}>
           <Search size={24} style={{ color: iconColor }} />
         </button>
         <div className="flex-1 flex items-center gap-3 pr-3 transition-opacity" style={{ opacity: isExpanded ? 1 : 0, transitionDuration: '180ms', transitionDelay: isExpanded ? '60ms' : '0ms' }}>
           <input ref={inputRef} type="text" value={query} onChange={(e) => setQuery(e.target.value)}
-            placeholder={showPlaceholder ? 'Buscar sessões, mestres, conteúdo...' : ''}
-            aria-label="Buscar sessões, mestres, conteúdo"
+            placeholder={showPlaceholder ? t('search.searchPlaceholder') : ''}
+            aria-label={t('search.searchContent')}
             className="flex-1 bg-transparent text-[19px] outline-none"
             style={{ color: inputColor, caretColor: inputColor }}
             autoComplete="off" autoCorrect="off" spellCheck={false} tabIndex={isExpanded ? 0 : -1} />
@@ -100,7 +102,7 @@ export function DesktopSearchHover() {
             <button onClick={collapse} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors flex-shrink-0"
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-              aria-label="Limpar"><X size={17} style={{ color: clearIcon }} /></button>
+              aria-label={t('actions.clear')}><X size={17} style={{ color: clearIcon }} /></button>
           ) : (
             <kbd className="hidden lg:flex items-center px-2 py-0.5 rounded text-[14px] font-mono flex-shrink-0"
               style={{ background: kbdBg, border: `1px solid ${kbdBorder}`, color: kbdText }}>⌘K</kbd>

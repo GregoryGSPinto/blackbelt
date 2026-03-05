@@ -8,8 +8,10 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function PermissoesPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -77,7 +79,7 @@ export default function PermissoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Permissões (RBAC)</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('permissions.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Controle de acesso baseado em perfis</p>
       </div>
 
@@ -169,7 +171,7 @@ export default function PermissoesPage() {
                             : 'bg-white/5 text-green-400 hover:bg-white/10 border border-white/10/30'
                         }`}
                       >
-                        {hasPermission ? 'Remover' : 'Conceder'}
+                        {hasPermission ? t('permissions.revoke') : t('permissions.grant')}
                       </button>
                     </div>
                   );

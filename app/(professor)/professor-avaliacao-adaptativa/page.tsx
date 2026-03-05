@@ -5,8 +5,10 @@ import { AdaptiveTestGenerator } from '@/components/professor/AdaptiveTestGenera
 import { Brain } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function ProfessorAvaliacaoAdaptativaPage() {
+  const t = useTranslations('professor.adaptiveEval');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -21,13 +23,11 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
             <Brain size={20} className="text-violet-400" />
           </div>
           <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-            Avaliacao Adaptativa
+            {t('title')}
           </h1>
         </div>
         <p className="text-sm text-zinc-500 mt-2 max-w-2xl">
-          Gere provas personalizadas com inteligencia artificial. A IA analisa o
-          historico do aluno, identifica pontos fortes e fracos, e cria
-          avaliacoes sob medida para cada nivel e objetivo pedagogico.
+          {t('subtitle')}
         </p>
       </div>
 
@@ -37,12 +37,10 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
           <span className="text-lg mt-0.5">💡</span>
           <div>
             <p className="text-zinc-300 text-sm font-medium">
-              Como funciona?
+              {t('howItWorks')}
             </p>
             <p className="text-zinc-500 text-xs mt-1 leading-relaxed">
-              Selecione o aluno, a turma e o tipo de avaliacao. A IA ira gerar
-              questoes adaptadas ao nivel atual do praticante, considerando
-              tecnicas ja dominadas e areas que precisam de mais pratica.
+              {t('howItWorksDesc')}
             </p>
           </div>
         </div>
@@ -52,7 +50,7 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
       {error && (
         <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-4">
           <p className="text-red-400 text-sm font-medium">
-            Erro ao gerar avaliacao
+            {t('error')}
           </p>
           <p className="text-red-400/60 text-xs mt-1">{error.message}</p>
         </div>

@@ -7,6 +7,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import Link from 'next/link';
 import { errorTracker } from '@/lib/monitoring/error-tracker';
@@ -17,6 +18,8 @@ interface ErrorPageProps {
 }
 
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
+  const t = useTranslations('common.errors');
+  const tActions = useTranslations('common.actions');
   useEffect(() => {
     errorTracker.captureError(error, {
       component: 'RootErrorBoundary',
@@ -44,7 +47,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         </div>
 
         {/* Title */}
-        <h1 className="text-xl font-bold text-white mb-2">Algo deu errado</h1>
+        <h1 className="text-xl font-bold text-white mb-2">{t('generic')}</h1>
         <p className="text-sm text-white/40 mb-6">
           Ocorreu um erro inesperado. Não se preocupe, sua sessão está segura.
         </p>
@@ -66,7 +69,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
                        bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400
                        transition-all shadow-lg"
           >
-            <RefreshCw size={16} /> Tentar Novamente
+            <RefreshCw size={16} /> {tActions('tryAgain')}
           </button>
 
           <Link
@@ -74,7 +77,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium text-sm
                        bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 transition-colors"
           >
-            <Home size={16} /> Voltar ao Início
+            <Home size={16} /> {tActions('goHome')}
           </Link>
         </div>
 

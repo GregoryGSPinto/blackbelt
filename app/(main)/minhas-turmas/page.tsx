@@ -4,6 +4,7 @@
 'use client';
 
 import { GraduationCap, Calendar, Clock, TrendingUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import * as turmasService from '@/lib/api/minhas-turmas.service';
 import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';
 import { useServiceCall, RetryToast } from '@/hooks/useServiceCall';
@@ -27,6 +28,7 @@ function StatPill({ label, value, icon: Icon }: { label: string; value: string |
 }
 
 export default function MinhasTurmasPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -38,7 +40,7 @@ export default function MinhasTurmasPage() {
   if (loading) return <PageSkeleton variant="grid" />;
   if (error) return <PageError error={error} onRetry={retry} />;
   if (!turmas || turmas.length === 0) {
-    return <PageEmpty icon={GraduationCap} title="Nenhuma turma" message="Você ainda não está matriculado em nenhuma turma." />;
+    return <PageEmpty icon={GraduationCap} title={t('myClasses.noClasses')} message={t('myClasses.noClassesDesc')} />;
   }
 
   // Summary stats
@@ -52,8 +54,8 @@ export default function MinhasTurmasPage() {
 
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Minhas Turmas</h1>
-        <p className="text-white/40 text-sm mt-1">{turmas.length} turmas matriculadas</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('myClasses.title')}</h1>
+        <p className="text-white/40 text-sm mt-1">{t('myClasses.enrolledCount', { count: turmas.length })}</p>
       </div>
 
       {/* Summary */}

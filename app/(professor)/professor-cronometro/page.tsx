@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 // ── Types ──
 type TimerState = 'idle' | 'round' | 'rest' | 'paused' | 'finished';
@@ -111,6 +112,7 @@ const STATE_COLORS: Record<TimerState, { bg: string; text: string; ring: string;
 
 // ── Component ──
 export default function ProfessorCronometroPage() {
+  const t = useTranslations('professor.timer');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -352,7 +354,7 @@ export default function ProfessorCronometroPage() {
           </span>
           {state !== 'idle' && (
             <span className="text-white/25 text-xs mt-1">
-              {state === 'rest' ? 'próximo round' : `de ${formatTime(maxTime)}`}
+              {state === 'rest' ? t('nextRound') : `${t('ofTotal')} ${formatTime(maxTime)}`}
             </span>
           )}
         </div>
@@ -390,7 +392,7 @@ export default function ProfessorCronometroPage() {
           onClick={handleReset}
           className="w-12 h-12 rounded-xl flex items-center justify-center transition-all hover:scale-105"
           style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
-          title="Resetar"
+          title={t('reset')}
         >
           <RotateCcw size={18} style={{ color: tokens.textMuted }} />
         </button>
@@ -419,7 +421,7 @@ export default function ProfessorCronometroPage() {
           disabled={state === 'idle' || state === 'finished'}
           className="w-12 h-12 rounded-xl flex items-center justify-center transition-all hover:scale-105 disabled:opacity-20"
           style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
-          title="Pular"
+          title={t('skip')}
         >
           <SkipForward size={18} style={{ color: tokens.textMuted }} />
         </button>
@@ -487,9 +489,9 @@ export default function ProfessorCronometroPage() {
     <div className="space-y-6 pt-6 pb-8">
       {/* Header */}
       <section className="prof-enter-1">
-        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Ferramenta</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Cronômetro</h1>
-        <p className="text-white/55 text-sm mt-2">Timer de rounds para treino</p>
+        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('tool')}</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+        <p className="text-white/55 text-sm mt-2">{t('subtitle')}</p>
         <div className="prof-gold-line mt-6" />
       </section>
 
@@ -525,12 +527,12 @@ export default function ProfessorCronometroPage() {
       {/* Config panel */}
       {showConfig && state === 'idle' && (
         <section className="prof-enter-4 prof-glass-card p-6 space-y-5">
-          <h3 className="text-sm font-bold text-white/60 uppercase tracking-wider">Configuração</h3>
+          <h3 className="text-sm font-bold text-white/60 uppercase tracking-wider">{t('config')}</h3>
 
           {/* Round duration */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-white/50 text-sm">Duração do Round</span>
+              <span className="text-white/50 text-sm">{t('roundDuration')}</span>
               <span className="text-white font-mono font-bold">{formatTime(roundSec)}</span>
             </div>
             <div className="flex items-center gap-3">
@@ -557,7 +559,7 @@ export default function ProfessorCronometroPage() {
           {/* Rest duration */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-white/50 text-sm">Descanso</span>
+              <span className="text-white/50 text-sm">{t('restDuration')}</span>
               <span className="text-white font-mono font-bold">{formatTime(restSec)}</span>
             </div>
             <div className="flex items-center gap-3">
@@ -584,7 +586,7 @@ export default function ProfessorCronometroPage() {
           {/* Number of rounds */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-white/50 text-sm">Rounds</span>
+              <span className="text-white/50 text-sm">{t('rounds')}</span>
               <span className="text-white font-mono font-bold">{totalRounds}</span>
             </div>
             <div className="flex items-center gap-3">
@@ -611,8 +613,8 @@ export default function ProfessorCronometroPage() {
           {/* Summary */}
           <div className="pt-3 border-t border-white/5">
             <p className="text-white/25 text-xs text-center">
-              Tempo total: {formatTime((roundSec + restSec) * totalRounds - restSec)}
-              {' · '}{totalRounds} rounds de {formatTime(roundSec)} + {formatTime(restSec)} descanso
+              {t('totalTime')}: {formatTime((roundSec + restSec) * totalRounds - restSec)}
+              {' · '}{totalRounds} {t('roundsOf')} {formatTime(roundSec)} + {formatTime(restSec)} {t('rest')}
             </p>
           </div>
         </section>

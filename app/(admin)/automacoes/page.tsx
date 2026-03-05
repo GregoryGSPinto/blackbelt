@@ -12,8 +12,10 @@ import AutomacaoCard from '@/components/admin/AutomacaoCard';
 import ReengagementRules from '@/components/admin/ReengagementRules';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function AutomacoesPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -74,7 +76,7 @@ export default function AutomacoesPage() {
           Automações
         </h1>
         <p className="text-sm text-white/40 mt-1">
-          Configure notificações e mensagens automáticas
+          {t('automation.configNotifications')} e mensagens automáticas
         </p>
       </div>
 

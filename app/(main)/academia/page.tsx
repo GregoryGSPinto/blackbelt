@@ -3,12 +3,14 @@
 import {
   ArrowRight, CheckCircle, Target, Trophy,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { ACADEMY_AREAS, useAcademyProgress } from '@/lib/academy';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function UnidadePage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -23,15 +25,15 @@ export default function UnidadePage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-3"
             style={{ background: 'rgb(var(--color-border) / 0.12)' }}>
             <Trophy size={14} className="text-primary-light" />
-            <span className="text-xs font-semibold text-primary-light">Unidade</span>
+            <span className="text-xs font-semibold text-primary-light">{t('unit.title')}</span>
           </div>
           <h1 className="text-2xl font-extrabold mb-2 leading-tight tracking-tight"
             style={{ color: 'rgb(var(--color-text))' }}>
-            Conhecimento que Sustenta a Evolução
+            {t('unit.subtitle')}
           </h1>
           <p className="text-sm leading-relaxed"
             style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-            Fundamentos, conceitos e filosofia para sua jornada no treinamento especializado
+            {t('unit.fullSubtitle')}
           </p>
         </div>
       </div>
@@ -43,18 +45,16 @@ export default function UnidadePage() {
             style={{ background: 'rgb(var(--color-border) / 0.1)', border: '1px solid rgb(var(--color-border) / var(--color-border-alpha))' }}>
             <Trophy size={16} className="text-primary-light" />
             <span className="text-xs font-semibold text-primary-light tracking-wider uppercase">
-              Unidade do Conhecimento
+              {t('unit.title')}
             </span>
           </div>
           <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] mb-4"
             style={{ color: 'rgb(var(--color-text))' }}>
-            Conhecimento que Sustenta
-            <br />
-            <span className="text-primary-light">a Evolução no Ambiente</span>
+            {t('unit.subtitle')}
           </h1>
           <p className="text-lg font-medium max-w-xl leading-relaxed"
             style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-            Fundamentos, conceitos e filosofia para sua jornada no treinamento especializado
+            {t('unit.fullSubtitle')}
           </p>
         </div>
       </div>
@@ -64,17 +64,17 @@ export default function UnidadePage() {
         <div className="flex items-center justify-between mb-6 md:mb-8">
           <div>
             <h2 className="text-xl font-bold mb-1" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>
-              Áreas de Conhecimento
+              {t('unit.knowledgeAreas')}
             </h2>
             <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-              Aprenda conceitos fundamentais e evolua tecnicamente
+              {t('unit.knowledgeAreasDesc')}
             </p>
           </div>
           <div className="hidden md:flex items-center gap-2.5 px-4 py-2 rounded-xl"
             style={{ background: 'rgb(var(--color-border) / 0.06)', border: '1px solid rgb(var(--color-border) / 0.06)' }}>
             <Trophy size={15} className="text-primary-light" />
             <span className="text-sm font-semibold" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-              Média: <span className="text-primary-light">{avgProgress}%</span>
+              {t('unit.average')} <span className="text-primary-light">{avgProgress}%</span>
             </span>
           </div>
         </div>
@@ -123,7 +123,7 @@ export default function UnidadePage() {
                 <div className="flex items-center gap-2 mb-4">
                   {p?.contentRead && (
                     <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400">
-                      <CheckCircle size={10} /> Lido
+                      <CheckCircle size={10} /> {t('unit.read')}
                     </span>
                   )}
                   {p?.testCompleted && (
@@ -136,7 +136,7 @@ export default function UnidadePage() {
                 {/* Progress bar */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span style={{ color: 'rgb(var(--color-text-subtle) / 0.35)' }} className="font-medium">Progresso</span>
+                    <span style={{ color: 'rgb(var(--color-text-subtle) / 0.35)' }} className="font-medium">{t('unit.progressLabel')}</span>
                     <span className="font-bold" style={{ color: area.accent }}>{pct}%</span>
                   </div>
                   <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgb(var(--color-border) / 0.08)' }}>
@@ -172,9 +172,9 @@ export default function UnidadePage() {
               <Target size={22} className="text-white" />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold mb-1" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>Testes de Conhecimento</h2>
+              <h2 className="text-xl font-bold mb-1" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>{t('unit.knowledgeTests')}</h2>
               <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-                Reforce o que aprendeu com perguntas e feedback construtivo
+                {t('unit.knowledgeTestsDesc')}
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function UnidadePage() {
                     </div>
                   ) : (
                     <div className="text-sm mb-3 font-medium" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-                      Não realizado
+                      {t('unit.notTaken')}
                     </div>
                   )}
                   <div className="w-full py-2.5 rounded-lg text-sm font-medium text-center transition-all active:scale-95"
@@ -210,7 +210,7 @@ export default function UnidadePage() {
                       border: '1px solid rgb(var(--color-border) / 0.1)',
                       color: 'rgba(184,154,106,0.8)',
                     }}>
-                    {completed ? 'Refazer' : 'Iniciar Teste'}
+                    {completed ? t('unit.retake') : t('unit.startTest')}
                   </div>
                 </Link>
               );
@@ -236,7 +236,7 @@ export default function UnidadePage() {
           }}>
           <div className="flex items-center gap-3 mb-6">
             <Trophy size={20} className="text-primary-light" />
-            <h2 className="text-xl font-bold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>Seu Progresso na Unidade</h2>
+            <h2 className="text-xl font-bold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>{t('unit.yourProgress')}</h2>
           </div>
 
           <div className="space-y-4">
@@ -265,7 +265,7 @@ export default function UnidadePage() {
 
           <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid rgb(var(--color-border) / 0.06)' }}>
             <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }} className="text-sm">
-              Média geral: <span className="text-primary-light font-bold text-lg">{avgProgress}%</span>
+              {t('unit.overallAvg')} <span className="text-primary-light font-bold text-lg">{avgProgress}%</span>
             </p>
           </div>
         </div>

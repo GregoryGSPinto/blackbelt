@@ -18,6 +18,7 @@ import { AlunoDetailPanel } from '@/components/professor/AlunoDetailPanel';
 import { useResponsive } from '@/contexts/ResponsiveContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type Filtro = 'Todos' | CategoriaAluno;
 
@@ -49,6 +50,9 @@ const GRAD_CONFIG = {
 const PAGE_SIZE = 20;
 
 export default function ProfessorAlunosPage() {
+  const t = useTranslations('professor.students');
+  const tCommon = useTranslations('common');
+  const tDetail = useTranslations('professor.studentDetail');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -158,9 +162,9 @@ export default function ProfessorAlunosPage() {
     <div className={`space-y-6 ${isMobile ? 'pb-32' : 'pb-4 px-4'}`}>
       {/* ═══ Header ═══ */}
       <div className="prof-enter-1">
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Alunos</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{tCommon('menu.students')}</h1>
         <p className="text-white/40 text-sm">
-          Visão pedagógica completa — {stats?.totalAlunos ?? 0} alunos ativos
+          {t('title')} — {stats?.totalAlunos ?? 0} {tCommon('menu.students').toLowerCase()}
         </p>
       </div>
 
@@ -212,7 +216,7 @@ export default function ProfessorAlunosPage() {
             type="text"
             value={busca}
             onChange={e => setBusca(e.target.value)}
-            placeholder="Buscar por nome, nivel ou turma..."
+            placeholder={t('searchPlaceholder')}
             className="w-full pl-11 pr-4 py-3 rounded-2xl text-sm text-white placeholder:text-white/25 outline-none transition-all focus:ring-1 focus:ring-amber-500/30"
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
           />
@@ -249,7 +253,7 @@ export default function ProfessorAlunosPage() {
         }}>
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle size={16} className="text-red-400" />
-            <span className="text-red-300 text-sm font-medium">Atenção Pedagógica</span>
+            <span className="text-red-300 text-sm font-medium">{t('attention')}</span>
             <span className="ml-auto text-white/20 text-[10px]">{alertAlunos.length} aluno(s)</span>
           </div>
           <div className="space-y-2">
@@ -294,7 +298,7 @@ export default function ProfessorAlunosPage() {
         {alunos.length === 0 && !listLoading && (
           <div className="prof-glass-card p-8 text-center">
             <Search size={32} className="mx-auto mb-3 text-white/20" />
-            <p className="text-white/40 text-sm">Nenhum aluno encontrado.</p>
+            <p className="text-white/40 text-sm">{t('studentNotFound')}</p>
           </div>
         )}
 
@@ -503,8 +507,8 @@ export default function ProfessorAlunosPage() {
                 >
                   <Users size={24} className="text-white/15" />
                 </div>
-                <p className="text-sm text-white/20">Selecione um aluno para ver detalhes</p>
-                <p className="text-xs text-white/10 mt-1">Clique em qualquer aluno da lista</p>
+                <p className="text-sm text-white/20">{t('selectStudent')}</p>
+                <p className="text-xs text-white/10 mt-1">{t('clickAny')}</p>
               </div>
             </div>
           )}

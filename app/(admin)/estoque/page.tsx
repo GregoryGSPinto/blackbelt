@@ -22,6 +22,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useTranslations } from 'next-intl';
 
 type CategoriaFilter = 'todas' | 'uniformes' | 'roupas' | 'acessorios' | 'conveniencia';
 type TabView = 'produtos' | 'movimentos' | 'abc' | 'fornecedores';
@@ -47,6 +48,7 @@ const ABC_COLORS: Record<string, { bg: string; text: string; label: string }> = 
 };
 
 export default function EstoquePage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber, currencyCode } = useFormatting();

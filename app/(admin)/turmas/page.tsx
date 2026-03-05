@@ -9,8 +9,10 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function TurmasPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -76,12 +78,12 @@ export default function TurmasPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Gestão de Turmas</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('classes.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Organizar turmas, horários e alunos</p>
         </div>
         <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
           <Plus className="w-5 h-5" />
-          <span>Nova Turma</span>
+          <span>{t('classes.newClass')}</span>
         </button>
       </div>
 
@@ -139,7 +141,7 @@ export default function TurmasPage() {
                 </div>
               </div>
 
-              {/* Ocupação */}
+              {/* {t('classes.occupancy')} */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <span style={{ color: tokens.textMuted }}>Ocupação</span>
@@ -208,7 +210,7 @@ export default function TurmasPage() {
 
               {/* Alunos */}
               <div className="mb-6">
-                <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1rem' }}>Alunos Matriculados ({alunosDaTurma.length})</h3>
+                <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1rem' }}>{t('classes.enrolledStudents')} ({alunosDaTurma.length})</h3>
                 <div className="bg-white/10 rounded-lg divide-y max-h-80 overflow-y-auto">
                   {alunosDaTurma.map((aluno) => (
                     <div key={aluno.id} className="p-3 flex items-center justify-between">
@@ -241,7 +243,7 @@ export default function TurmasPage() {
               <div className="flex gap-3">
                 <button className="flex-1 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2">
                   <Edit2 className="w-4 h-4" />
-                  Editar Turma
+                  {t('classes.editClass')}
                 </button>
                 <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium flex items-center gap-2">
                   {turma.status === 'ATIVA' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}

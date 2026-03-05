@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ArrowLeft, Clock, User, MessageSquare, Filter } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -57,6 +58,7 @@ function tipoBorderColor(tipo: string) {
 }
 
 export default function HistoricoDetalhes() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -88,13 +90,13 @@ export default function HistoricoDetalhes() {
             className="flex items-center gap-2 text-sm mb-4 transition-colors"
             style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}
           >
-            <ArrowLeft size={16} /> Voltar ao resumo
+            <ArrowLeft size={16} /> {t('history.backToSummary')}
           </button>
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
-            Todos os Treinos
+            {t('history.allTrainings')}
           </h1>
           <p style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-            {filtered.length} {filtered.length === 1 ? 'treino registrado' : 'treinos registrados'}
+            {t('history.trainingCount', { count: filtered.length })}
           </p>
         </div>
 

@@ -15,6 +15,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { MoreVertical, Flag, Ban, AlertTriangle, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
 
 interface MessageActionsProps {
@@ -33,6 +34,7 @@ const REPORT_REASONS: { value: ReportReason; label: string }[] = [
 ];
 
 export function MessageActions({ recipientName, recipientId, onBlock }: MessageActionsProps) {
+  const t = useTranslations('common.feedback');
   const [menuOpen, setMenuOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [blockConfirm, setBlockConfirm] = useState(false);
@@ -95,14 +97,14 @@ export function MessageActions({ recipientName, recipientId, onBlock }: MessageA
             className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-white/60 hover:bg-white/5 transition-colors"
           >
             <Flag size={14} className="text-amber-400/60" />
-            Denunciar
+            {t('reportTitle')}
           </button>
           <button
             onClick={() => setBlockConfirm(true)}
             className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-red-400/70 hover:bg-red-500/5 transition-colors"
           >
             <Ban size={14} />
-            Bloquear {recipientName.split(' ')[0]}
+            {t('blockTitle')} {recipientName.split(' ')[0]}
           </button>
         </div>
       )}
@@ -121,13 +123,13 @@ export function MessageActions({ recipientName, recipientId, onBlock }: MessageA
           {reportSent ? (
             <div className="text-center py-3">
               <AlertTriangle size={20} className="mx-auto text-amber-400 mb-2" />
-              <p className="text-sm text-white/70">Denúncia enviada</p>
-              <p className="text-xs text-white/30 mt-1">Nossa equipe irá analisar</p>
+              <p className="text-sm text-white/70">{t('reportSent')}</p>
+              <p className="text-xs text-white/30 mt-1">{t('reportAnalysis')}</p>
             </div>
           ) : (
             <>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-white/50 font-medium">Motivo da denúncia</span>
+                <span className="text-xs text-white/50 font-medium">{t('reportReason')}</span>
                 <button onClick={() => { setReportOpen(false); }} className="text-white/20 hover:text-white/50">
                   <X size={14} />
                 </button>
@@ -158,20 +160,20 @@ export function MessageActions({ recipientName, recipientId, onBlock }: MessageA
           }}
         >
           <Ban size={20} className="text-red-400 mb-2" />
-          <p className="text-sm text-white/70 mb-1">Bloquear {recipientName}?</p>
-          <p className="text-xs text-white/30 mb-3">Você não receberá mais mensagens desta pessoa.</p>
+          <p className="text-sm text-white/70 mb-1">{t('blockTitle')} {recipientName}?</p>
+          <p className="text-xs text-white/30 mb-3"></p>
           <div className="flex gap-2">
             <button
               onClick={() => setBlockConfirm(false)}
               className="flex-1 py-1.5 rounded-lg text-xs text-white/40 border border-white/10 hover:bg-white/5 transition-colors"
             >
-              Cancelar
+              {t('reportTitle') && 'Cancelar'}
             </button>
             <button
               onClick={handleBlock}
               className="flex-1 py-1.5 rounded-lg text-xs text-white font-medium bg-red-500/80 hover:bg-red-500 transition-colors"
             >
-              Bloquear
+              {t('blockTitle')}
             </button>
           </div>
         </div>

@@ -7,10 +7,13 @@ import Image from 'next/image';
 import { ArrowLeft, Mail, MessageSquare } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function EsqueciSenhaPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
 
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -62,13 +65,13 @@ export default function EsqueciSenhaPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">Link Enviado!</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">{t('forgotPassword.linkSent')}</h2>
               <p className="text-white/70 text-base leading-relaxed mb-6">
-                Enviamos um link de recuperação para {method === 'email' ? 'seu e-mail' : 'seu WhatsApp'}
+                {t('forgotPassword.linkSentDesc', { target: method === 'email' ? 'e-mail' : 'WhatsApp' })}
               </p>
               <div className="inline-flex items-center gap-2 text-sm text-white/50">
                 <div className="w-2 h-2 bg-white/50 rounded-full animate-pulse"></div>
-                <span>Redirecionando para o login...</span>
+                <span>{tCommon('actions.redirecting')}</span>
               </div>
             </div>
           </div>
@@ -100,7 +103,7 @@ export default function EsqueciSenhaPage() {
             className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-300 mb-8 group"
           >
             <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="text-sm font-medium">Voltar para login</span>
+            <span className="text-sm font-medium">{t('forgotEmail.backToLogin')}</span>
           </Link>
 
           {/* Container Principal */}
@@ -108,10 +111,10 @@ export default function EsqueciSenhaPage() {
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
-                Esqueceu a Senha?
+                {t('forgotPassword.title')}
               </h1>
               <p className="text-white/70 text-base leading-relaxed">
-                Escolha como deseja recuperar sua conta
+                {t('forgotPassword.description')}
               </p>
             </div>
 
@@ -128,7 +131,7 @@ export default function EsqueciSenhaPage() {
               >
                 <Mail className={`w-8 h-8 mx-auto mb-2 ${method === 'email' ? 'text-white' : 'text-white/60'}`} />
                 <span className={`text-sm font-medium ${method === 'email' ? 'text-white' : 'text-white/70'}`}>
-                  E-mail
+                  {t('forgotPassword.emailMethod')}
                 </span>
               </button>
 
@@ -143,7 +146,7 @@ export default function EsqueciSenhaPage() {
               >
                 <MessageSquare className={`w-8 h-8 mx-auto mb-2 ${method === 'whatsapp' ? 'text-white' : 'text-white/60'}`} />
                 <span className={`text-sm font-medium ${method === 'whatsapp' ? 'text-white' : 'text-white/70'}`}>
-                  WhatsApp
+                  {t('forgotPassword.whatsappMethod')}
                 </span>
               </button>
             </div>
@@ -152,7 +155,7 @@ export default function EsqueciSenhaPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-white mb-2.5">
-                  E-mail cadastrado
+                  {t('forgotPassword.emailLabel')}
                 </label>
                 <input
                   id="email"
@@ -160,7 +163,7 @@ export default function EsqueciSenhaPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
-                  placeholder="seu@email.com"
+                  placeholder={t('forgotPassword.emailPlaceholder')}
                   required
                 />
               </div>
@@ -170,7 +173,7 @@ export default function EsqueciSenhaPage() {
                 disabled={loading}
                 className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Enviando...' : `Enviar via ${method === 'email' ? 'E-mail' : 'WhatsApp'}`}
+                {loading ? tCommon('actions.sending') : t('forgotPassword.sendVia', { method: method === 'email' ? t('forgotPassword.emailMethod') : t('forgotPassword.whatsappMethod') })}
               </button>
             </form>
 
@@ -180,22 +183,22 @@ export default function EsqueciSenhaPage() {
             {/* Link alternativo */}
             <div className="text-center space-y-3">
               <p className="text-sm text-white/60">
-                Não tem acesso ao e-mail?
+                {t('forgotPassword.noEmailAccess')}
               </p>
               <Link
                 href="/esqueci-email"
                 className="inline-block text-sm font-semibold text-white hover:text-white/80 transition-all duration-300"
               >
-                Recuperar meu e-mail →
+                {t('forgotPassword.recoverEmail')} →
               </Link>
             </div>
           </div>
 
           {/* Footer */}
           <p className="text-center text-sm text-white/40 mt-8 animate-fade-in-delay">
-            Precisa criar uma conta?{' '}
+            {t('forgotPassword.needAccount')}{' '}
             <Link href="/cadastro" className="text-white hover:text-white/80 transition-colors font-medium">
-              Cadastre-se grátis
+              {t('forgotPassword.signUpFree')}
             </Link>
           </p>
         </div>

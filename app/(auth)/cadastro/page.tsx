@@ -17,10 +17,13 @@ import { useAutoSave, restoreDraft } from '@/hooks/useAutoSave';
 import { AutoSaveIndicator, RestoreDialog } from '@/components/shared/AutoSaveIndicator';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function CadastroPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
 
   const router = useRouter();
   const [step, setStep] = useState<Step>('email');
@@ -58,13 +61,13 @@ export default function CadastroPage() {
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!dados.email) { setError('Digite seu email'); return; }
+    if (!dados.email) { setError(t('register.enterEmail')); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dados.email)) {
-      setError('Email inválido'); return;
+      setError(t('register.invalidEmail')); return;
     }
     const available = await authService.checkEmailAvailable(dados.email);
     if (!available) {
-      setError('Email já cadastrado. Use "Entrar" para acessar.');
+      setError(t('register.emailExists'));
       return;
     }
     setStep('senha');
@@ -73,11 +76,11 @@ export default function CadastroPage() {
   const handleSenha = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!dados.senha) { setError('Digite uma senha'); return; }
+    if (!dados.senha) { setError(t('register.enterPassword')); return; }
     const v = validaSenha(dados.senha);
     if (!v.ok) { setError(v.msg); return; }
     if (dados.senha !== dados.confirmarSenha) {
-      setError('Senhas não coincidem'); return;
+      setError(t('register.passwordsDontMatch')); return;
     }
     setStep('dados');
   };
@@ -85,17 +88,17 @@ export default function CadastroPage() {
   const handleDados = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!dados.nome) { setError('Digite seu nome'); return; }
+    if (!dados.nome) { setError(t('register.enterName')); return; }
 
     let idade = 0;
     let p = determinaPerfil(0);
 
     if (dados.dataNascimento) {
       idade = calcIdade(dados.dataNascimento);
-      if (idade < 0 || idade > 120) { setError('Data inválida'); return; }
+      if (idade < 0 || idade > 120) { setError(t('register.invalidDate')); return; }
       p = determinaPerfil(idade);
       if (p === 'kids') {
-        setError('Menores de 13 anos precisam de cadastro por responsável legal.');
+        setError(t('register.minorRequiresParent'));
         return;
       }
     }
@@ -108,31 +111,31 @@ export default function CadastroPage() {
     e.preventDefault();
     setError('');
     if (!dados.nomeResponsavel || dados.nomeResponsavel.trim().length < 3) {
-      setError('Digite o nome do responsável'); return;
+      setError(t('consent.parentName')); return;
     }
     if (!dados.emailResponsavel || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dados.emailResponsavel)) {
-      setError('Email do responsável inválido'); return;
+      setError(t('register.invalidEmail')); return;
     }
     if (dados.emailResponsavel === dados.email) {
-      setError('Email do responsável deve ser diferente do seu'); return;
+      setError(t('consent.parentEmail')); return;
     }
     if (!dados.consentimentoAceito) {
-      setError('O responsável precisa autorizar o cadastro'); return;
+      setError(t('consent.declaration')); return;
     }
     setStep('avatar');
   };
 
   const continueAvatar = () => {
-    if (!dados.avatar && !dados.avatarFile) { setError('Selecione um avatar'); return; }
+    if (!dados.avatar && !dados.avatarFile) { setError(t('register.chooseAvatar')); return; }
     setError('');
     setStep(dados.perfilAutomatico === 'adulto' ? 'kids' : 'revisao');
   };
 
   const handleAddKid = (kid: DadosKid): string | null => {
-    if (!kid.nome || !kid.dataNascimento) return 'Preencha todos os campos';
+    if (!kid.nome || !kid.dataNascimento) return t('register.enterName');
     const idade = calcIdade(kid.dataNascimento);
-    if (idade >= 13) return 'Crianças 13+ devem ter cadastro próprio';
-    if (idade < 0) return 'Data inválida';
+    if (idade >= 13) return t('register.minorRequiresParent');
+    if (idade < 0) return t('register.invalidDate');
     setKids(prev => [...prev, kid]);
     return null;
   };
@@ -148,7 +151,7 @@ export default function CadastroPage() {
 
   const finalizar = async (aceite: boolean) => {
     setError('');
-    if (!aceite) { setError('Aceite os termos para continuar'); return; }
+    if (!aceite) { setError(t('register.acceptTerms')); return; }
 
     setLoading(true);
     try {
@@ -165,7 +168,7 @@ export default function CadastroPage() {
       });
 
       if (!result) {
-        setError('Email já cadastrado ou erro ao criar conta.');
+        setError(t('register.emailExists'));
         setLoading(false); return;
       }
 
@@ -173,7 +176,7 @@ export default function CadastroPage() {
       autoSave.clearDraft();
       router.push('/login?cadastro=sucesso');
     } catch {
-      setError('Erro ao criar conta'); setLoading(false);
+      setError(tCommon('errors.generic')); setLoading(false);
     }
   };
 
@@ -204,12 +207,12 @@ export default function CadastroPage() {
           {step !== 'email' ? (
             <button onClick={voltar} className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 group">
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-sm font-medium">Voltar</span>
+              <span className="text-sm font-medium">{tCommon('actions.back')}</span>
             </button>
           ) : (
             <Link href="/login" className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 group">
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-sm font-medium">Voltar para início</span>
+              <span className="text-sm font-medium">{t('register.backToHome')}</span>
             </Link>
           )}
 

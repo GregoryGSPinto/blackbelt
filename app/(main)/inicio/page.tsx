@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import VideoCarousel from '@/components/ui/VideoCarousel';
 import { VideoCardEnhanced } from '@/components/video/VideoCardEnhanced';
 import { VideoPreviewProvider } from '@/components/video/VideoHoverPreview';
@@ -29,6 +30,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
  * Desktop-only, never blocks initial render.
  */
 function TrailerPreview({ youtubeId, onClose }: { youtubeId: string; onClose: () => void }) {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [loaded, setLoaded] = useState(false);
@@ -63,13 +65,15 @@ function TrailerPreview({ youtubeId, onClose }: { youtubeId: string; onClose: ()
         />
       </div>
       <div className="px-3 py-2 text-center" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
-        Previa silenciosa · Passe o mouse para continuar
+        {t('home.silentPreview')}
       </div>
     </div>
   );
 }
 
 export default function InicioPage() {
+  const t = useTranslations('athlete');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const [showTrailer, setShowTrailer] = useState(false);
   const [feedbackDone, setFeedbackDone] = useState(false);
@@ -122,7 +126,7 @@ export default function InicioPage() {
     return <PageError error={error} onRetry={retry} />;
   }
   if (videos.length === 0) {
-    return <PageEmpty title="Nenhum conteudo disponivel" message="Novos videos e series serao adicionados em breve." />;
+    return <PageEmpty title={t('home.noContent')} message={t('home.contentSoon')} />;
   }
 
 
@@ -182,12 +186,12 @@ export default function InicioPage() {
               style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              Assistir
+              {tCommon('actions.watch')}
             </button>
             <button
               style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
             >
-              Minha Lista
+              {tCommon('menu.myList')}
             </button>
           </div>
         </div>
@@ -229,9 +233,9 @@ export default function InicioPage() {
 
           {/* Duracao + Instrutor */}
           <p className="text-sm mb-8" style={{ color: tokens.textMuted }}>
-            Duracao: <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.duration}</span>
+            {t('home.duration')} <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.duration}</span>
             <span className="mx-2" style={{ color: tokens.divider }}>|</span>
-            Instrutor: <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.instructor}</span>
+            {t('home.instructor')} <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.instructor}</span>
           </p>
 
           {/* Botoes */}
@@ -257,13 +261,13 @@ export default function InicioPage() {
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>
                 </svg>
-                Assistir
+                {tCommon('actions.watch')}
               </button>
             </div>
             <button
               style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
             >
-              Adicionar a Minha Lista
+              {t('home.addToList')}
             </button>
           </div>
         </div>
@@ -292,7 +296,7 @@ export default function InicioPage() {
       {/* Carousels — wrapped with hover preview system */}
       <VideoPreviewProvider>
       <div className="space-y-8" data-tour="videos">
-        <VideoCarousel title="Recomendado para Voce">
+        <VideoCarousel title={t('home.recommendedForYou')}>
           {recentVideos.map((video) => (
             <VideoCardEnhanced
               key={video.id}
@@ -303,7 +307,7 @@ export default function InicioPage() {
           ))}
         </VideoCarousel>
 
-        <VideoCarousel title="Top 10 da Semana">
+        <VideoCarousel title={t('home.topWeek')}>
           {topWeek.map((video) => (
             <VideoCardEnhanced
               key={video.id}
@@ -313,7 +317,7 @@ export default function InicioPage() {
           ))}
         </VideoCarousel>
 
-        <VideoCarousel title="Series para Voce">
+        <VideoCarousel title={t('home.seriesForYou')}>
           {advancedVideos.map((video) => (
             <VideoCardEnhanced
               key={video.id}
@@ -324,7 +328,7 @@ export default function InicioPage() {
           ))}
         </VideoCarousel>
 
-        <VideoCarousel title="Novos Videos">
+        <VideoCarousel title={t('home.newVideos')}>
           {latestVideos.map((video) => (
             <VideoCardEnhanced
               key={video.id}

@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { Camera, Upload, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { ErrorAlert } from './ErrorAlert';
 import { AVATARES } from './constants';
 import { useCamera } from './useCamera';
@@ -14,6 +15,8 @@ interface StepAvatarProps extends StepBaseProps {
 }
 
 export function StepAvatar({ dados, setDados, onContinue, error, setError }: StepAvatarProps) {
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
   const fileRef = useRef<HTMLInputElement>(null);
   const { showCamera, videoRef, canvasRef, openCamera, capturePhoto, closeCamera } = useCamera();
 
@@ -52,12 +55,10 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
       {dados.idade && (
         <div className="text-center mb-2">
           <p className="text-white/70">
-            Seu perfil: <span className="font-bold text-white">
-              {dados.perfilAutomatico === 'adulto' ? 'Adulto' :
-               dados.perfilAutomatico === 'adolescente' ? 'Adolescente' : 'Kids'}
-            </span>
+            {t('register.profileType', { profile: dados.perfilAutomatico === 'adulto' ? t('register.profileAdult') :
+               dados.perfilAutomatico === 'adolescente' ? t('register.profileTeen') : t('register.profileKids') })}
           </p>
-          <p className="text-sm text-white/50 mt-1">Baseado na sua idade ({dados.idade} anos)</p>
+          <p className="text-sm text-white/50 mt-1">{t('register.basedOnAge', { age: dados.idade })}</p>
         </div>
       )}
 
@@ -83,7 +84,7 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
       {/* Grid de emojis */}
       {!dados.avatarFile && (
         <div>
-          <p className="text-sm text-white/70 mb-3 text-center">Escolha um avatar:</p>
+          <p className="text-sm text-white/70 mb-3 text-center">{t('register.chooseAvatar')}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
             {AVATARES[perfilKey].map(e => (
               <button key={e} onClick={() => selectAvatar(e)}
@@ -99,15 +100,15 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
 
       {/* Foto / Upload */}
       <div className="space-y-3 pt-6 border-t border-white/10">
-        <p className="text-sm text-white/60 text-center mb-3">Ou use sua própria foto:</p>
+        <p className="text-sm text-white/60 text-center mb-3">{t('register.useOwnPhoto')}</p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={handleOpenCamera}
             className="py-3 px-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-medium">
-            <Camera size={18} /> Tirar Foto
+            <Camera size={18} /> {t('register.takePhoto')}
           </button>
           <button type="button" onClick={() => fileRef.current?.click()}
             className="py-3 px-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-medium">
-            <Upload size={18} /> Escolher Arquivo
+            <Upload size={18} /> {t('register.chooseFile')}
           </button>
           <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} className="hidden" />
         </div>
@@ -141,7 +142,7 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
 
       <ErrorAlert message={error} />
       <button onClick={onContinue} className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all">
-        Continuar
+        {tCommon('actions.continue')}
       </button>
     </div>
   );

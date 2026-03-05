@@ -9,6 +9,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
 const MORPH = 'transition-all duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)]';
 
 export function ShellSidebar({ config, state }: Props) {
+  const t = useTranslations('common');
   const { theme, nav } = config;
   const sb = theme.sidebar!;
   const {
@@ -37,7 +39,7 @@ export function ShellSidebar({ config, state }: Props) {
   return (
     <>
       <aside
-        aria-label="Menu lateral"
+        aria-label={t('menu.sidebarMenu')}
         className={`
           fixed top-0 left-0 z-40 h-screen flex flex-col
           ${sb.bg} backdrop-blur-2xl
@@ -82,7 +84,7 @@ export function ShellSidebar({ config, state }: Props) {
               >
                 <Search size={15} className={`flex-shrink-0 ${MORPH} ${searchOpen ? 'text-white/60' : 'text-white/30'}`} />
                 {!searchOpen && (
-                  <span className="text-white/25 text-sm flex-1 text-left">Buscar...</span>
+                  <span className="text-white/25 text-sm flex-1 text-left">{t('search.placeholder')}</span>
                 )}
                 {!searchOpen && (
                   <kbd className="hidden lg:inline text-[10px] text-white/15 bg-white/[0.04] border border-white/[0.06] px-1.5 py-0.5 rounded font-mono">⌘K</kbd>
@@ -100,8 +102,8 @@ export function ShellSidebar({ config, state }: Props) {
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder={nav.searchPlaceholder || 'Buscar...'}
-                    aria-label="Buscar"
+                    placeholder={nav.searchPlaceholder || t('search.placeholder')}
+                    aria-label={t('search.openSearch')}
                     className="w-full pl-9 pr-8 py-2.5 bg-white/10 border border-white/15 rounded-lg text-sm text-white placeholder:text-white/25 outline-none focus:border-white/25 focus:bg-white/[0.12] transition-all duration-200"
                     autoComplete="off" autoCorrect="off" spellCheck={false}
                   />

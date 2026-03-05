@@ -30,10 +30,15 @@ import { WelcomeCard } from '@/components/shared/WelcomeCard';
 import { ActiveClassMode } from '@/components/professor/ActiveClassMode';
 import { StartClassModal } from '@/components/professor/StartClassModal';
 import { FeedbackAlerts } from '@/components/professor/FeedbackAlerts';
+import { useTranslations } from 'next-intl';
 
 type DashboardData = [ProfessorDashboard, EstatisticasPedagogicas, AlunoPedagogico[]];
 
 export default function ProfessorDashboardPage() {
+  const t = useTranslations('professor.dashboard');
+  const tCommon = useTranslations('common');
+  const tQuick = useTranslations('professor.quickActions');
+  const tEval = useTranslations('professor.evaluations');
   const { user } = useAuth();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -113,7 +118,7 @@ export default function ProfessorDashboardPage() {
 
   const primeiroNome = user?.nome?.split(' ')[0] || 'Instrutor';
   const horaAtual = new Date().getHours();
-  const saudacao = horaAtual < 12 ? 'Bom dia' : horaAtual < 18 ? 'Boa tarde' : 'Boa noite';
+  const saudacao = horaAtual < 12 ? tCommon('greeting.goodMorning') : horaAtual < 18 ? tCommon('greeting.goodAfternoon') : tCommon('greeting.goodEvening');
 
   // Contextual menu - must be before early returns (Rules of Hooks)
   const { turmaAtual, proximaTurma, turmasContextuais, temAulaHoje } = useContextualMenu(data?.turmas ?? []);
@@ -126,7 +131,7 @@ export default function ProfessorDashboardPage() {
     return <PageError error={error} onRetry={retry} />;
   }
   if (!data) {
-    return <PageEmpty icon={BarChart3} title="Dashboard indisponível" message="Não foi possível carregar os dados do instrutor." />;
+    return <PageEmpty icon={BarChart3} title={t('title')} message={tCommon('errors.loadError')} />;
   }
 
 
@@ -163,10 +168,10 @@ export default function ProfessorDashboardPage() {
         >
           <div className="flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-emerald-400 text-sm font-semibold">Sessão em andamento</span>
+            <span className="text-emerald-400 text-sm font-semibold">{t('sessionInProgress')}</span>
           </div>
           <span className="text-emerald-400/60 text-xs group-hover:text-emerald-400 transition-colors">
-            Retomar →
+            {t('resume')} →
           </span>
         </button>
       )}
@@ -196,7 +201,7 @@ export default function ProfessorDashboardPage() {
                 className="px-4 py-2.5 rounded-xl bg-amber-500/90 text-black font-bold text-xs flex items-center gap-2 hover:bg-amber-400 transition-colors active:scale-[0.97]"
               >
                 <Play size={14} fill="black" />
-                {turmaAtual ? `Chamada · ${turmaAtual.nome}` : 'Iniciar Sessão'}
+                {turmaAtual ? `${t('attendance')} · ${turmaAtual.nome}` : t('startSession')}
               </button>
             )}
             <div className="px-4 py-2.5 prof-glass-card flex items-center gap-2.5">
@@ -204,21 +209,21 @@ export default function ProfessorDashboardPage() {
                 <>
                   <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
                   <span className="text-xs text-amber-400/80 font-medium tracking-wide">
-                    {turmaAtual.nome} em andamento
+                    {turmaAtual.nome} — {t('sessionInProgress')}
                   </span>
                 </>
               ) : proximaTurma ? (
                 <>
                   <div className="w-2 h-2 rounded-full bg-blue-400" />
                   <span className="text-xs text-blue-400/70 font-medium tracking-wide">
-                    Próxima: {proximaTurma.nome} {formatMinutosParaInicio(proximaTurma.minutosParaInicio)}
+                    {t('nextClass')}: {proximaTurma.nome} {formatMinutosParaInicio(proximaTurma.minutosParaInicio)}
                   </span>
                 </>
               ) : (
                 <>
                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs text-emerald-400/70 font-medium tracking-wide">
-                    {turmas.filter(t => t.proximaSessao.includes('Hoje')).length} aula(s) hoje
+                    {turmas.filter(tr => tr.proximaSessao.includes('Hoje')).length} {t('classesToday')}
                   </span>
                 </>
               )}
@@ -246,12 +251,12 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 prof-enter-2" data-tour="prof-quick-actions">
         {[
-          { href: '/professor-alunos', icon: GraduationCap, label: 'Alunos', color: '#60A5FA' },
-          { href: '/professor-chamada', icon: ClipboardCheck, label: 'Chamada', color: '#4ADE80' },
+          { href: '/professor-alunos', icon: GraduationCap, label: tCommon('menu.students'), color: '#60A5FA' },
+          { href: '/professor-chamada', icon: ClipboardCheck, label: t('attendance'), color: '#4ADE80' },
           { href: '/professor-cronometro', icon: Timer, label: 'Timer', color: '#FB923C' },
-          { href: '/professor-avaliacoes', icon: ClipboardCheck, label: 'Avaliações', color: '#F87171' },
-          { href: '/professor-plano-aula', icon: BookOpen, label: 'Planos', color: '#A78BFA' },
-          { href: '/professor-videos', icon: Play, label: 'Vídeos', color: '#FBBF24' },
+          { href: '/professor-avaliacoes', icon: ClipboardCheck, label: t('evaluations'), color: '#F87171' },
+          { href: '/professor-plano-aula', icon: BookOpen, label: tQuick('lessonPlan'), color: '#A78BFA' },
+          { href: '/professor-videos', icon: Play, label: tQuick('video'), color: '#FBBF24' },
         ].map(({ href, icon: Icon, label, color }) => (
           <Link
             key={href}
@@ -274,11 +279,11 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 prof-enter-2">
         {[
-          { label: 'Alunos Ativos', value: estatisticas.totalAlunos, icon: Users, accent: 'text-sky-400', bg: 'bg-sky-500/10', ring: 'ring-sky-500/20' },
-          { label: 'Presença Média', value: `${estatisticas.presencaMedia}%`, icon: TrendingUp, accent: 'text-emerald-400', bg: 'bg-emerald-500/10', ring: 'ring-emerald-500/20' },
-          { label: 'Sessões no Mês', value: estatisticas.sessõesEsteMes, icon: Calendar, accent: 'text-amber-400', bg: 'bg-amber-500/10', ring: 'ring-amber-500/20' },
+          { label: t('activeStudents'), value: estatisticas.totalAlunos, icon: Users, accent: 'text-sky-400', bg: 'bg-sky-500/10', ring: 'ring-sky-500/20' },
+          { label: t('avgAttendance'), value: `${estatisticas.presencaMedia}%`, icon: TrendingUp, accent: 'text-emerald-400', bg: 'bg-emerald-500/10', ring: 'ring-emerald-500/20' },
+          { label: t('monthSessions'), value: estatisticas.sessõesEsteMes, icon: Calendar, accent: 'text-amber-400', bg: 'bg-amber-500/10', ring: 'ring-amber-500/20' },
           {
-            label: 'Avaliações',
+            label: t('evaluations'),
             value: estatisticas.avaliacoesPendentes,
             icon: ClipboardCheck,
             accent: estatisticas.avaliacoesPendentes > 0 ? 'text-rose-400' : 'text-emerald-400',
@@ -305,23 +310,23 @@ export default function ProfessorDashboardPage() {
         <section className="space-y-4 prof-enter-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <h2 style={{ fontWeight: 300, color: tokens.text }} className="text-lg tracking-tight">Análise Pedagógica</h2>
+              <h2 style={{ fontWeight: 300, color: tokens.text }} className="text-lg tracking-tight">{t('pedagogicalAnalysis')}</h2>
               <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{pedStats.totalAlunos} alunos</span>
             </div>
             <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-              Ver todos <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+              {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </div>
 
           {/* Pedagógico stat cards */}
           <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
             {[
-              { label: 'Destaque', value: pedStats.alunosDestaque, color: '#4ADE80' },
-              { label: 'Baixa Freq.', value: pedStats.alunosBaixaFrequencia, color: '#F87171' },
-              { label: 'Aptos Grad.', value: pedStats.alunosAptoGraduacao, color: '#A78BFA' },
-              { label: 'Conquistas/Mês', value: pedStats.conquistasConcedidasMes, color: '#FBBF24' },
-              { label: 'Desaf. Pend.', value: pedStats.desafiosPendentes, color: '#60A5FA' },
-              { label: 'Freq. Média', value: `${pedStats.frequenciaMedia}%`, color: '#22D3EE' },
+              { label: t('highlight'), value: pedStats.alunosDestaque, color: '#4ADE80' },
+              { label: t('lowFreq'), value: pedStats.alunosBaixaFrequencia, color: '#F87171' },
+              { label: t('readyForGrad'), value: pedStats.alunosAptoGraduacao, color: '#A78BFA' },
+              { label: t('achievementsMonth'), value: pedStats.conquistasConcedidasMes, color: '#FBBF24' },
+              { label: t('challengesPending'), value: pedStats.desafiosPendentes, color: '#60A5FA' },
+              { label: t('avgFreq'), value: `${pedStats.frequenciaMedia}%`, color: '#22D3EE' },
             ].map((s, i) => (
               <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
                 <span style={{ fontSize: '2rem', fontWeight: 200 }} className="leading-none" >{s.value}</span>
@@ -335,7 +340,7 @@ export default function ProfessorDashboardPage() {
 
             {/* Evolução Mensal */}
             <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
-              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Evolução Mensal</h3>
+              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('monthlyEvolution')}</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.evolucaoMensal} barCategoryGap="20%">
                   <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} />
@@ -353,7 +358,7 @@ export default function ProfessorDashboardPage() {
 
             {/* Frequência Semanal */}
             <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
-              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Frequência Semanal</h3>
+              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('weeklyFrequency')}</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.frequenciaSemanal} barCategoryGap="15%">
                   <XAxis dataKey="dia" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} />
@@ -376,7 +381,7 @@ export default function ProfessorDashboardPage() {
 
           {/* Distribuição por Nível */}
           <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
-            <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-4">Distribuição por Nível</h3>
+            <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-4">{t('levelDistribution')}</h3>
             <div className="flex items-end gap-2 h-24">
               {pedStats.distribuicaoNiveis.map((f) => {
                 const maxVal = Math.max(...pedStats.distribuicaoNiveis.map(x => x.total));
@@ -409,7 +414,7 @@ export default function ProfessorDashboardPage() {
             <div className="prof-glass-card p-4" style={{ borderColor: 'rgba(248,113,113,0.15)' }}>
               <div className="flex items-center gap-2 mb-3">
                 <AlertTriangle size={15} className="text-red-400" />
-                <h3 className="text-sm font-semibold text-red-300/80">Atenção Pedagógica</h3>
+                <h3 className="text-sm font-semibold text-red-300/80">{t('pedagogicalAttention')}</h3>
                 <span className="ml-auto text-[10px] text-white/25">{alertAlunos.length} aluno(s)</span>
               </div>
               <div className="space-y-2">
@@ -431,7 +436,7 @@ export default function ProfessorDashboardPage() {
                         {a.frequencia.presenca30d}%
                       </span>
                       <p className="text-white/20 text-[9px]">
-                        {a.frequencia.diasAusente > 0 ? `${a.frequencia.diasAusente}d ausente` : 'freq. baixa'}
+                        {a.frequencia.diasAusente > 0 ? `${a.frequencia.diasAusente}${t('daysAbsent')}` : t('lowFrequency')}
                       </p>
                     </div>
                   </Link>
@@ -448,7 +453,7 @@ export default function ProfessorDashboardPage() {
       <section className="prof-enter-4">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-bold text-white/85 tracking-tight">Suas Turmas</h2>
+            <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('yourClasses')}</h2>
             <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{turmas.length} ativas</span>
           </div>
           <div className="flex items-center gap-3">
@@ -456,10 +461,10 @@ export default function ProfessorDashboardPage() {
               onClick={() => setShowBroadcast(true)}
               className="text-[10px] text-amber-400/40 hover:text-amber-400/80 transition-colors flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-amber-500/10"
             >
-              📢 Broadcast
+              📢 {t('broadcast')}
             </button>
             <Link href="/professor-turmas" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-            Ver todas <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            {tCommon('actions.viewAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
           </div>
         </div>
@@ -499,7 +504,7 @@ export default function ProfessorDashboardPage() {
 
               <div className="text-right flex-shrink-0">
                 <p className="text-emerald-400/70 text-sm font-bold">{turma.presencaMedia}%</p>
-                <p className="text-white/35 text-[10px] mt-0.5 tracking-wider">presença</p>
+                <p className="text-white/35 text-[10px] mt-0.5 tracking-wider">{t('attendanceLabel')}</p>
               </div>
             </Link>
           ))}
@@ -515,7 +520,7 @@ export default function ProfessorDashboardPage() {
         <section className="lg:col-span-3 prof-enter-5">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-white/85 tracking-tight">Avaliações Pendentes</h2>
+              <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('pendingEvals')}</h2>
               {avaliacoesPendentes.length > 0 && (
                 <span className="w-5 h-5 bg-rose-500/70 rounded-full flex items-center justify-center text-[10px] font-bold text-white prof-badge-urgent">
                   {avaliacoesPendentes.length}
@@ -523,7 +528,7 @@ export default function ProfessorDashboardPage() {
               )}
             </div>
             <Link href="/professor-avaliacoes" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-              Ver todas <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+              {tCommon('actions.viewAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </div>
 
@@ -545,7 +550,7 @@ export default function ProfessorDashboardPage() {
                     aval.tipo === 'tecnica' ? 'bg-blue-500/12 text-blue-300/80 ring-1 ring-blue-500/15' :
                     'bg-purple-500/12 text-purple-300/80 ring-1 ring-purple-500/15'
                   }`}>
-                    {aval.tipo === 'graduacao' ? 'Graduação' : aval.tipo === 'tecnica' ? 'Técnica' : 'Comportamento'}
+                    {aval.tipo === 'graduacao' ? tEval('types.graduation') : aval.tipo === 'tecnica' ? tEval('types.technique') : tEval('types.behavior')}
                   </span>
                   <span className={`text-[10px] flex items-center gap-1 ${
                     aval.prioridade === 'alta' ? 'text-rose-400/70' :
@@ -563,7 +568,7 @@ export default function ProfessorDashboardPage() {
 
         {/* ATIVIDADE RECENTE */}
         <section className="lg:col-span-2 prof-enter-6">
-          <h2 className="text-lg font-bold text-white/85 tracking-tight mb-5">Atividade Recente</h2>
+          <h2 className="text-lg font-bold text-white/85 tracking-tight mb-5">{t('recentActivity')}</h2>
 
           <div className="prof-glass-card p-4">
             {atividadesRecentes.map((ativ, i) => (
@@ -585,9 +590,9 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="prof-enter-7">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-white/85 tracking-tight">Alunos em Destaque</h2>
+          <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('highlightStudents')}</h2>
           <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-            Ver todos <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 
@@ -625,9 +630,9 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="prof-enter-8">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-white/85 tracking-tight">Últimos Vídeos</h2>
+          <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('latestVideos')}</h2>
           <Link href="/professor-videos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-            Ver todos <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 
@@ -651,7 +656,7 @@ export default function ProfessorDashboardPage() {
                 </div>
                 {/* Type badge */}
                 <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 bg-black/30 backdrop-blur-sm rounded-md text-[10px] text-amber-300/70 font-medium tracking-wide">
-                  {video.tipo === 'aula' ? 'Sessão' : video.tipo === 'analise' ? 'Análise' : 'Demonstração'}
+                  {video.tipo === 'aula' ? t('videoTypes.session') : video.tipo === 'analise' ? t('videoTypes.analysis') : t('videoTypes.demo')}
                 </div>
               </div>
 
@@ -684,7 +689,7 @@ export default function ProfessorDashboardPage() {
       <div className="prof-enter-8">
         <div className="prof-gold-line" />
         <p className="text-center text-white/50 text-[10px] tracking-[0.3em] uppercase mt-4 font-medium">
-          BlackBelt · Excelência no Ensino
+          {t('excellence')}
         </p>
       </div>
     </div>

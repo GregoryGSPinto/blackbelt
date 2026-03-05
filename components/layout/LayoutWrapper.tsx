@@ -21,6 +21,7 @@
 'use client';
 
 import { type ReactNode, useState, useCallback, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useResponsive } from '@/contexts/ResponsiveContext';
 
 // ── Types ──
@@ -111,6 +112,7 @@ function SplitLayout({
   isMobile,
   isTabletOrAbove,
 }: SplitLayoutInternalProps) {
+  const t = useTranslations('common');
   // Track selection for mobile navigation
   const [showDetail, setShowDetail] = useState(false);
 
@@ -152,12 +154,12 @@ function SplitLayout({
             <button
               onClick={handleBack}
               className="flex items-center gap-1.5 mb-3 px-1 py-1 text-sm text-white/50 hover:text-white/80 transition-colors"
-              aria-label="Voltar para lista"
+              aria-label={t('actions.goBack')}
             >
               <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-              Voltar
+              {t('actions.back')}
             </button>
             {detail}
           </div>
@@ -202,6 +204,7 @@ function SplitLayout({
 // ── Empty Detail Placeholder ──
 
 function EmptyDetail() {
+  const t = useTranslations('common');
   return (
     <div className="h-full flex items-center justify-center">
       <div className="text-center">
@@ -214,7 +217,7 @@ function EmptyDetail() {
             <path d="M14 2v4a2 2 0 002 2h4" />
           </svg>
         </div>
-        <p className="text-sm text-white/20">Selecione um item para ver detalhes</p>
+        <p className="text-sm text-white/20">{t('empty.selectItem')}</p>
       </div>
     </div>
   );

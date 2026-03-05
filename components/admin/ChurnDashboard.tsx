@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useChurnInsights } from '@/hooks/useChurnInsights';
 import type {
   AdminChurnOverviewVM,
@@ -13,6 +14,7 @@ import type {
 // ════════════════════════════════════════════════════════════════════
 
 export function ChurnDashboard({ academyId }: { academyId: string }) {
+  const t = useTranslations('admin');
   const { overview, loading, error, refetch } = useChurnInsights(academyId);
 
   if (loading) {
@@ -71,11 +73,12 @@ function ChurnOverviewCards({
   summary: AdminChurnOverviewVM['summary'];
   averageScore: number;
 }) {
+  const t = useTranslations('admin');
   const cards = [
-    { label: 'Risco Crítico', value: summary.critical, color: 'bg-red-500/20 text-red-400 border-red-500/30' },
-    { label: 'Em Risco', value: summary.atRisk, color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
-    { label: 'Observação', value: summary.watch, color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
-    { label: 'Seguros', value: summary.safe, color: 'bg-green-500/20 text-green-400 border-green-500/30' },
+    { label: t('churn.critical'), value: summary.critical, color: 'bg-red-500/20 text-red-400 border-red-500/30' },
+    { label: t('churn.atRisk'), value: summary.atRisk, color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
+    { label: t('churn.observation'), value: summary.watch, color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
+    { label: t('churn.safe'), value: summary.safe, color: 'bg-green-500/20 text-green-400 border-green-500/30' },
   ];
 
   return (
@@ -98,12 +101,13 @@ function ChurnOverviewCards({
 // ════════════════════════════════════════════════════════════════════
 
 function ChurnRiskList({ overview }: { overview: AdminChurnOverviewVM }) {
+  const t = useTranslations('admin');
   const [activeTab, setActiveTab] = useState<'critical' | 'at_risk' | 'watch'>('critical');
 
   const tabs = [
-    { key: 'critical' as const, label: 'Crítico', count: overview.summary.critical, color: 'text-red-400' },
-    { key: 'at_risk' as const, label: 'Em Risco', count: overview.summary.atRisk, color: 'text-orange-400' },
-    { key: 'watch' as const, label: 'Observação', count: overview.summary.watch, color: 'text-yellow-400' },
+    { key: 'critical' as const, label: t('churn.critical'), count: overview.summary.critical, color: 'text-red-400' },
+    { key: 'at_risk' as const, label: t('churn.atRisk'), count: overview.summary.atRisk, color: 'text-orange-400' },
+    { key: 'watch' as const, label: t('churn.observation'), count: overview.summary.watch, color: 'text-yellow-400' },
   ];
 
   const students =
@@ -134,7 +138,7 @@ function ChurnRiskList({ overview }: { overview: AdminChurnOverviewVM }) {
       <div className="divide-y divide-zinc-800/50">
         {students.length === 0 && (
           <div className="p-6 text-center text-zinc-500 text-sm">
-            Nenhum aluno nesta categoria
+            {t('churn.noStudentsCategory')}
           </div>
         )}
         {students.map(student => (
@@ -196,6 +200,7 @@ function ChurnRecommendations({
 }: {
   recommendations: AggregatedRecommendation[];
 }) {
+  const t = useTranslations('admin');
   if (recommendations.length === 0) return null;
 
   const priorityIcons: Record<string, string> = {
@@ -214,7 +219,7 @@ function ChurnRecommendations({
 
   return (
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
-      <h3 className="text-sm font-medium text-zinc-300 mb-3">Ações Recomendadas</h3>
+      <h3 className="text-sm font-medium text-zinc-300 mb-3">{t('churn.recommendedActions')}</h3>
       <div className="space-y-3">
         {recommendations.slice(0, 5).map((rec, i) => (
           <div key={i} className="flex items-start gap-2">

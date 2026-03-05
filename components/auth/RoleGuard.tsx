@@ -20,6 +20,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { ROLE_PERMISSIONS } from '@/lib/api/contracts';
 import type { SecurityRole, SecurityPermission } from '@/lib/api/contracts';
 import { Shield, Lock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface RoleGuardProps {
   children: ReactNode;
@@ -45,6 +46,7 @@ export function RoleGuard({
 }: RoleGuardProps) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const t = useTranslations('auth');
   const [checked, setChecked] = useState(false);
   const [allowed, setAllowed] = useState(false);
 
@@ -92,7 +94,7 @@ export function RoleGuard({
       <div className="min-h-screen flex items-center justify-center bg-[#0d0d1a]">
         <div className="animate-pulse flex items-center gap-3 text-white/40">
           <Shield className="w-5 h-5" />
-          <span className="text-sm">Verificando acesso...</span>
+          <span className="text-sm">{t('profileSelection.verifyingAccess')}</span>
         </div>
       </div>
     );
@@ -109,9 +111,9 @@ export function RoleGuard({
           <div className="w-16 h-16 mx-auto rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
             <Lock className="w-8 h-8 text-red-400" />
           </div>
-          <h2 className="text-lg font-bold text-white">Acesso Restrito</h2>
+          <h2 className="text-lg font-bold text-white">{t('profileSelection.accessRestricted')}</h2>
           <p className="text-sm text-white/60 max-w-sm">
-            {deniedMessage || 'Você não tem permissão para acessar esta área. Redirecionando...'}
+            {deniedMessage || t('profileSelection.noPermission')}
           </p>
         </div>
       </div>

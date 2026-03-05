@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback, createContext, useContext, ty
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { X, Award, History, ClipboardCheck, Download, Settings, LogOut, ChevronRight, Shield, Star, ShoppingBag, Bookmark, Tv, TrendingUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -25,17 +26,17 @@ export function useDesktopDrawer() {
   return ctx;
 }
 
-const menuItems = [
-  { icon: Award, label: 'Unidade', href: '/academia', desc: 'Nível, subnívels e evolução' },
-  { icon: History, label: 'Histórico de Treinos', href: '/historico', desc: 'Frequência e sessões' },
-  { icon: TrendingUp, label: 'Minha Evolução', href: '/minha-evolucao', desc: 'Timeline e progresso' },
-  { icon: ClipboardCheck, label: 'Minhas Turmas', href: '/minhas-turmas', desc: 'Turmas e horários' },
-  { icon: Download, label: 'Downloads', href: '/downloads', desc: 'Conteúdo salvo offline' },
-  { icon: Star, label: 'Novidades', href: '/novidades', desc: 'Lançamentos recentes' },
-  { icon: Tv, label: 'Séries', href: '/series', desc: 'Séries e programas' },
-  { icon: ShoppingBag, label: 'Loja', href: '/shop', desc: 'Uniformes e acessórios' },
-  { icon: Bookmark, label: 'Minha Lista', href: '/minha-lista', desc: 'Conteúdo salvo e favoritos' },
-  { icon: Settings, label: 'Configurações', href: '/perfil/configuracoes', desc: 'Conta e preferências' },
+const menuItemDefs = [
+  { icon: Award, labelKey: 'unit', href: '/academia', descKey: 'unitDesc' },
+  { icon: History, labelKey: 'trainingHistory', href: '/historico', descKey: 'trainingHistoryDesc' },
+  { icon: TrendingUp, labelKey: 'myEvolution', href: '/minha-evolucao', descKey: 'myEvolutionDesc' },
+  { icon: ClipboardCheck, labelKey: 'myClasses', href: '/minhas-turmas', descKey: 'myClassesDesc' },
+  { icon: Download, labelKey: 'downloads', href: '/downloads', descKey: 'downloadsDesc' },
+  { icon: Star, labelKey: 'news', href: '/novidades', descKey: 'newsDesc' },
+  { icon: Tv, labelKey: 'series', href: '/series', descKey: 'seriesDesc' },
+  { icon: ShoppingBag, labelKey: 'shop', href: '/shop', descKey: 'shopDesc' },
+  { icon: Bookmark, labelKey: 'myList', href: '/minha-lista', descKey: 'myListDesc' },
+  { icon: Settings, labelKey: 'settingsItem', href: '/perfil/configuracoes', descKey: 'accountPreferences' },
 ];
 
 function beltStyle(grad?: string): { bg: string; text: string } {
@@ -50,6 +51,8 @@ function beltStyle(grad?: string): { bg: string; text: string } {
 }
 
 export function DesktopUserDrawer() {
+  const t = useTranslations('shell');
+  const tCommon = useTranslations('common');
   const { isOpen, close } = useDesktopDrawer();
   const { user, logout } = useAuth();
   const { isDark } = useTheme();
@@ -126,7 +129,7 @@ export function DesktopUserDrawer() {
         {/* ─── Header ─── */}
         <div className="flex-shrink-0 p-6 pb-4" style={{ borderBottom: `1px solid ${c.border}` }}>
           <div className="flex justify-end mb-4">
-            <button onClick={close} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors" aria-label="Fechar"
+            <button onClick={close} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors" aria-label={tCommon('actions.close')}
               style={{ color: c.closeIcon }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.closeBgH; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
@@ -157,7 +160,7 @@ export function DesktopUserDrawer() {
 
         {/* ─── Menu Items ─── */}
         <nav className="flex-1 overflow-y-auto overscroll-contain py-3 px-3">
-          {menuItems.map((item, i) => {
+          {menuItemDefs.map((item, i) => {
             const Icon = item.icon;
             return (
               <button key={item.href} onClick={() => nav(item.href)} className="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left transition-all duration-200 group"
@@ -169,8 +172,8 @@ export function DesktopUserDrawer() {
                   <Icon size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate transition-colors" style={{ color: c.label }}>{item.label}</p>
-                  <p className="text-[11px] truncate mt-0.5" style={{ color: c.desc }}>{item.desc}</p>
+                  <p className="text-sm font-medium truncate transition-colors" style={{ color: c.label }}>{t(`drawer.${item.labelKey}`)}</p>
+                  <p className="text-[11px] truncate mt-0.5" style={{ color: c.desc }}>{t(`drawer.${item.descKey}`)}</p>
                 </div>
                 <ChevronRight size={14} className="flex-shrink-0 transition-all" style={{ color: c.chevron }} />
               </button>
@@ -185,11 +188,11 @@ export function DesktopUserDrawer() {
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.rowBgH; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: c.iconBg, color: c.icon }}><Shield size={18} /></div>
-            <p className="text-sm font-medium transition-colors" style={{ color: c.switchLabel }}>Trocar Perfil</p>
+            <p className="text-sm font-medium transition-colors" style={{ color: c.switchLabel }}>{tCommon('menu.switchProfile')}</p>
           </button>
           <button onClick={doLogout} className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left transition-all duration-200 hover:bg-red-500/[0.06] group">
             <div className="w-10 h-10 rounded-xl bg-red-500/[0.06] flex items-center justify-center flex-shrink-0"><LogOut size={18} className="text-red-400/50 group-hover:text-red-400/80 transition-colors" /></div>
-            <p className="text-sm font-medium text-red-400/60 group-hover:text-red-400 transition-colors">Sair</p>
+            <p className="text-sm font-medium text-red-400/60 group-hover:text-red-400 transition-colors">{tCommon('menu.logout')}</p>
           </button>
           <div className="px-4 pt-2 pb-1"><p className="text-[10px]" style={{ color: c.version }}>BlackBelt © 2026 · v1.0.0</p></div>
         </div>

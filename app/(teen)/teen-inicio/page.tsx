@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard, ProgressCircle, TeenProgressBar, StatCard } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import { TEEN_SESSÕES, getProximaMeta } from '@/lib/api/teen.service';
@@ -13,6 +14,8 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenInicioPage() {
+  const t = useTranslations('teen.home');
+  const tc = useTranslations('common.actions');
   const { user } = useAuth();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -38,7 +41,7 @@ export default function TeenInicioPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando sua jornada..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
@@ -72,7 +75,7 @@ export default function TeenInicioPage() {
       <div className="teen-enter-1 flex items-start justify-between">
         <div>
           <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
-            Olá, {nomeExibicao}
+            {t('greeting', { name: nomeExibicao })}
           </h2>
           <p className="text-sm font-teen mt-1.5" style={{ fontWeight: 300, color: tokens.textMuted }}>
             {graduacao} · {currentTeen.turma.split(' - ')[0]}
@@ -87,7 +90,7 @@ export default function TeenInicioPage() {
             <p className="leading-none" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
               {currentTeen.progresso.sequenciaAtual}
             </p>
-            <p className="leading-tight mt-0.5" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>dias seguidos</p>
+            <p className="leading-tight mt-0.5" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('consecutiveDays')}</p>
           </div>
         </div>
       </div>
@@ -115,7 +118,7 @@ export default function TeenInicioPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="mb-1" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
-                  Continue de onde parou
+                  {t('continueWatching')}
                 </p>
                 <h3 className="truncate" style={{ fontWeight: 300, color: tokens.text, fontSize: '1.1rem' }}>
                   {aulaEmAndamento.titulo}
@@ -146,7 +149,7 @@ export default function TeenInicioPage() {
               showGlow={true}
             />
             <h3 className="text-base font-bold font-teen teen-text-heading mt-4">
-              Jornada na {graduacao}
+              {t('journey', { level: graduacao })}
             </h3>
             <p className="text-xs teen-text-muted font-teen mt-1">
               {proximaMeta}
@@ -160,25 +163,25 @@ export default function TeenInicioPage() {
         <StatCard 
           icon={<Calendar className="w-5 h-5" />}
           value={`${currentTeen.progresso.presenca30dias}%`}
-          label="Presença"
+          label={t('stats.attendance')}
           color="ocean"
         />
         <StatCard 
           icon={<Clock className="w-5 h-5" />}
           value={`${currentTeen.progresso.tempoTreinoTotal}h`}
-          label="Horas"
+          label={t('stats.hours')}
           color="purple"
         />
         <StatCard 
           icon={<Video className="w-5 h-5" />}
           value={currentTeen.progresso.sessõesAssistidas}
-          label="Sessões"
+          label={t('stats.sessions')}
           color="emerald"
         />
         <StatCard 
           icon={<TrendingUp className="w-5 h-5" />}
           value={`${currentTeen.progresso.sequenciaAtual}d`}
-          label="Sequência"
+          label={t('stats.streak')}
           color="energy"
         />
       </div>
@@ -188,14 +191,14 @@ export default function TeenInicioPage() {
         <TeenCard>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-bold font-teen teen-text-heading">
-              Sua Jornada na {graduacao}
+              {t('levelProgress', { level: graduacao })}
             </h3>
             <span className="text-xs font-teen font-semibold px-2.5 py-1 rounded-lg"
               style={{
                 background: isDark ? 'rgba(0,107,143,0.12)' : 'rgba(0,107,143,0.08)',
                 color: isDark ? '#4DB8D4' : '#005A78',
               }}>
-              {evolucao}% completo
+              {t('percentComplete', { pct: evolucao })}
             </span>
           </div>
 
@@ -242,11 +245,11 @@ export default function TeenInicioPage() {
       <div className="teen-enter-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-base font-bold font-teen teen-text-heading">
-            Recomendadas para Você
+            {t('recommendedForYou')}
           </h3>
           <button className="flex items-center gap-1 text-xs font-teen font-semibold transition-colors"
             style={{ color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(109,93,75,0.5)' }}>
-            Ver todas
+            {tc('viewAll')}
             <ChevronRight size={14} />
           </button>
         </div>
@@ -303,7 +306,7 @@ export default function TeenInicioPage() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold font-teen teen-text-heading text-sm">
-                Próximo Treino
+                {t('nextTraining')}
               </h3>
               <p className="text-xs teen-text-muted font-teen mt-0.5">
                 Quinta-feira, 18:00 · {currentTeen.turma.split(' - ')[0]}
@@ -320,7 +323,7 @@ export default function TeenInicioPage() {
                 color: '#FFFFFF',
                 boxShadow: '0 2px 12px rgba(0,107,143,0.25)',
               }}>
-              Check-in
+              {t('checkinBtn')}
             </button>
           </div>
         </TeenCard>

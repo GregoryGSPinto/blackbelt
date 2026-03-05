@@ -14,6 +14,7 @@ import type { Anomaly, AlertSeverity } from '@/lib/monitoring/anomaly-detector';
 import type { StructuredLog } from '@/lib/monitoring/structured-logger';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 // ============================================================
 // CONSTANTS

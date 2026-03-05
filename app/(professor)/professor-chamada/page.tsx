@@ -20,12 +20,14 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type PresencaStatus = 'presente' | 'falta' | 'nao_marcado';
 type ViewState = 'select_turma' | 'chamada' | 'resumo';
 type AlunoComStatus = AlunoPresenca & { status: PresencaStatus };
 
 export default function ProfessorChamadaPage() {
+  const t = useTranslations('professor.attendance');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -157,8 +159,8 @@ export default function ProfessorChamadaPage() {
     return (
       <div className="space-y-8 pt-6 pb-8">
         <section className="prof-enter-1">
-          <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Chamada Finalizada</p>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Resumo</h1>
+          <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('attendanceFinished')}</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('summary')}</h1>
           <div className="prof-gold-line mt-6" />
         </section>
 
@@ -175,21 +177,21 @@ export default function ProfessorChamadaPage() {
         <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-3">
           <div className="prof-glass-card p-5 text-center">
             <p className="text-xl sm:text-2xl lg:text-3xl font-bold prof-stat-value">{resumo.presentes}</p>
-            <p className="text-white/40 text-xs mt-1">Presentes</p>
+            <p className="text-white/40 text-xs mt-1">{t('presentCount')}</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
             <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{resumo.faltas}</p>
-            <p className="text-white/40 text-xs mt-1">Faltas</p>
+            <p className="text-white/40 text-xs mt-1">{t('absentCount')}</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
             <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{resumo.percentual}%</p>
-            <p className="text-white/40 text-xs mt-1">Frequência</p>
+            <p className="text-white/40 text-xs mt-1">{t('frequency')}</p>
           </div>
         </section>
 
         {resumo.observacao && (
           <section className="prof-enter-4 prof-glass-card p-5">
-            <p className="text-white/40 text-xs uppercase tracking-wider mb-2">Observação</p>
+            <p className="text-white/40 text-xs uppercase tracking-wider mb-2">{t('sessionNote')}</p>
             <p className="text-white/80 text-sm">{resumo.observacao}</p>
           </section>
         )}
@@ -201,7 +203,7 @@ export default function ProfessorChamadaPage() {
             className="flex-1 py-3 rounded-xl text-sm font-bold text-white/60 hover:text-white transition-all"
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
-            Nova Chamada
+            {t('quickAttendance')}
           </button>
         </section>
       </div>
@@ -220,9 +222,9 @@ export default function ProfessorChamadaPage() {
             onClick={() => { setViewState('select_turma'); setSelectedTurma(null); }}
             className="flex items-center gap-2 text-white/50 hover:text-white text-sm mb-3 transition-colors"
           >
-            <ChevronLeft size={16} /> Voltar
+            <ChevronLeft size={16} />
           </button>
-          <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Chamada Rápida</p>
+          <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('quickAttendance')}</p>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{selectedTurma.nome}</h1>
           <p className="text-white/50 text-sm mt-1">
             {selectedTurma.dias} · {selectedTurma.horario} · {new Date().toLocaleDateString('pt-BR')}
@@ -234,15 +236,15 @@ export default function ProfessorChamadaPage() {
         <section className="grid grid-cols-2 sm:grid-cols-3 gap-3 prof-enter-2">
           <div className="prof-glass-card p-3 text-center">
             <p className="text-xl font-bold text-green-400">{presentes}</p>
-            <p className="text-white/40 text-[10px]">Presentes</p>
+            <p className="text-white/40 text-[10px]">{t('presentCount')}</p>
           </div>
           <div className="prof-glass-card p-3 text-center">
             <p className="text-xl font-bold text-red-400">{faltas}</p>
-            <p className="text-white/40 text-[10px]">Faltas</p>
+            <p className="text-white/40 text-[10px]">{t('absentCount')}</p>
           </div>
           <div className="prof-glass-card p-3 text-center">
             <p className="text-xl font-bold text-white/40">{naoMarcados}</p>
-            <p className="text-white/40 text-[10px]">Pendentes</p>
+            <p className="text-white/40 text-[10px]">{t('pendingCount')}</p>
           </div>
         </section>
 
@@ -254,14 +256,14 @@ export default function ProfessorChamadaPage() {
               className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all"
               style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#4ade80' }}
             >
-              <CheckCheck size={14} /> Todos presentes
+              <CheckCheck size={14} /> {t('allPresent')}
             </button>
             <button
               onClick={resetarChamada}
               className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white/40 hover:text-white transition-all"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
-              <RotateCcw size={14} /> Limpar
+              <RotateCcw size={14} /> {t('clearAll')}
             </button>
           </div>
 
@@ -272,7 +274,7 @@ export default function ProfessorChamadaPage() {
               type="text"
               value={busca}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusca(e.target.value)}
-              placeholder="Buscar aluno..."
+              placeholder={t('searchStudent')}
               className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-white placeholder-white/25 outline-none focus:ring-1 focus:ring-amber-500/30"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             />
@@ -342,7 +344,7 @@ export default function ProfessorChamadaPage() {
           <textarea
             value={observacao}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setObservacao(e.target.value)}
-            placeholder="Observação da sessão (opcional)..."
+            placeholder={t('sessionNote')}
             rows={3}
             className="w-full p-4 rounded-xl text-sm text-white placeholder-white/25 resize-none outline-none focus:ring-1 focus:ring-amber-500/30"
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
@@ -368,12 +370,12 @@ export default function ProfessorChamadaPage() {
               {saving ? (
                 <>
                   <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  Salvando...
+                  {t('savingAttendance')}
                 </>
               ) : (
                 <>
                   <Send size={18} />
-                  Finalizar Chamada ({presentes}/{alunos.length})
+                  {t('finishAttendance')} ({presentes}/{alunos.length})
                 </>
               )}
             </button>
@@ -390,9 +392,9 @@ export default function ProfessorChamadaPage() {
     <div className="space-y-8 pt-6 pb-8">
       {/* Header */}
       <section className="prof-enter-1">
-        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Frequência</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Chamada Rápida</h1>
-        <p className="text-white/55 text-sm mt-2">Selecione a turma para iniciar a chamada</p>
+        <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('title')}</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('quickAttendance')}</h1>
+        <p className="text-white/55 text-sm mt-2">{t('selectClass')}</p>
         <div className="prof-gold-line mt-6" />
       </section>
 
@@ -414,14 +416,14 @@ export default function ProfessorChamadaPage() {
               </div>
               <div className="text-right">
                 <p className="text-xl font-bold prof-stat-value">{turma.totalAlunos}</p>
-                <p className="text-white/30 text-[10px]">alunos</p>
+                <p className="text-white/30 text-[10px]">{t('studentsCount')}</p>
               </div>
             </div>
 
             {/* Presence bar */}
             <div className="mt-4">
               <div className="flex justify-between text-[10px] mb-1">
-                <span className="text-white/30">Presença média</span>
+                <span className="text-white/30">{t('avgAttendance')}</span>
                 <span className="text-amber-400/60">{turma.presencaMedia}%</span>
               </div>
               <div className="h-1 bg-white/5 rounded-full overflow-hidden">

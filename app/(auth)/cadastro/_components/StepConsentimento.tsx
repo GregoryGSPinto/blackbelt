@@ -7,6 +7,7 @@
 'use client';
 
 import { Shield, Mail, UserCheck, CheckCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import type { DadosUsuario, StepBaseProps } from './types';
 
 interface Props extends StepBaseProps {
@@ -16,6 +17,8 @@ interface Props extends StepBaseProps {
 }
 
 export function StepConsentimento({ dados, setDados, onSubmit, error, setError }: Props) {
+  const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
   const isValid =
     dados.emailResponsavel &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dados.emailResponsavel) &&
@@ -33,17 +36,16 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
         >
           <Shield size={24} className="text-blue-400" />
         </div>
-        <h2 className="text-lg font-bold text-white">Autorização do Responsável</h2>
+        <h2 className="text-lg font-bold text-white">{t('consent.title')}</h2>
         <p className="text-xs text-white/40 mt-1.5">
-          Como você tem {dados.idade} anos, precisamos da autorização de um responsável legal
-          para criar sua conta (LGPD Art. 14).
+          {t('consent.description', { age: dados.idade })}
         </p>
       </div>
 
       {/* Guardian name */}
       <div>
         <label className="block text-xs font-medium text-white/60 mb-1.5">
-          Nome do Responsável
+          {t('consent.parentName')}
         </label>
         <div className="relative">
           <UserCheck size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/25" />
@@ -51,10 +53,10 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
             type="text"
             value={dados.nomeResponsavel || ''}
             onChange={e => { setDados(d => ({ ...d, nomeResponsavel: e.target.value })); setError(''); }}
-            placeholder="Nome completo do pai, mãe ou responsável"
+            placeholder={t('consent.parentNamePlaceholder')}
             className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm
                        placeholder:text-white/20 focus:border-blue-500/40 focus:outline-none transition-colors"
-            aria-label="Nome do responsável legal"
+            aria-label={t('consent.parentName')}
             aria-required="true"
           />
         </div>
@@ -63,7 +65,7 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
       {/* Guardian email */}
       <div>
         <label className="block text-xs font-medium text-white/60 mb-1.5">
-          Email do Responsável
+          {t('consent.parentEmail')}
         </label>
         <div className="relative">
           <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/25" />
@@ -74,12 +76,12 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
             placeholder="email@responsavel.com"
             className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm
                        placeholder:text-white/20 focus:border-blue-500/40 focus:outline-none transition-colors"
-            aria-label="Email do responsável legal"
+            aria-label={t('consent.parentEmail')}
             aria-required="true"
           />
         </div>
         <p className="text-[10px] text-white/25 mt-1">
-          O responsável receberá um email de confirmação.
+          {t('consent.emailConfirmation')}
         </p>
       </div>
 
@@ -103,16 +105,11 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
           </div>
         </div>
         <span className="text-xs text-white/50 leading-relaxed">
-          Declaro que sou responsável legal pelo menor <strong className="text-white/70">{dados.nome}</strong> e
-          autorizo a criação de conta na plataforma BlackBelt, incluindo o tratamento de dados pessoais
-          conforme a{' '}
-          <a href="/politica-privacidade.html" target="_blank" className="text-blue-400 underline">
-            Política de Privacidade
-          </a>{' '}
-          e{' '}
-          <a href="/termos-de-uso.html" target="_blank" className="text-blue-400 underline">
-            Termos de Uso
-          </a>.
+          {t('consent.declaration', {
+            name: dados.nome,
+            privacyLink: t('consent.privacyPolicy'),
+            termsLink: t('consent.termsOfUse'),
+          })}
         </span>
       </label>
 
@@ -121,11 +118,11 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
         className="p-3 rounded-xl text-xs text-white/40 leading-relaxed"
         style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.1)' }}
       >
-        <p className="font-medium text-blue-300/60 mb-1">O que acontece a seguir:</p>
+        <p className="font-medium text-blue-300/60 mb-1">{t('consent.whatHappensNext')}</p>
         <ul className="space-y-0.5 text-white/30">
-          <li>• Email de verificação será enviado ao responsável</li>
-          <li>• A conta ficará vinculada ao responsável</li>
-          <li>• O responsável poderá acompanhar pelo Painel Responsável</li>
+          <li>• {t('consent.step1')}</li>
+          <li>• {t('consent.step2')}</li>
+          <li>• {t('consent.step3')}</li>
         </ul>
       </div>
 
@@ -144,7 +141,7 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
             : 'bg-white/5 text-white/20 cursor-not-allowed'
           }`}
       >
-        Continuar
+        {tCommon('actions.continue')}
       </button>
     </form>
   );

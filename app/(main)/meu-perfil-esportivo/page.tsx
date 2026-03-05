@@ -5,6 +5,7 @@
 // ============================================================
 
 import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Award, Scale, FileCheck, FileText, Target, AlertTriangle,
   CheckCircle, Clock, XCircle, Heart, Dumbbell,
@@ -46,6 +47,7 @@ const STATUS_DOC: Record<StatusDocumento, { label: string; color: string; icon: 
 };
 
 export default function PerfilEsportivoPage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -63,9 +65,9 @@ export default function PerfilEsportivoPage() {
       .finally(() => setLoading(false));
   }, [retryCount]);
 
-  if (loading) return <PremiumLoader text="Carregando..." />;
+  if (loading) return <PremiumLoader text={t('sportProfile.loadingProfile')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
-  if (!perfil) return <PageLoading message="Carregando perfil..." />;
+  if (!perfil) return <PageLoading message={t('sportProfile.loadingProfile')} />;
 
   const cat = perfil.categoriaCompetidor ? CATEGORIAS_PESO[perfil.categoriaCompetidor] : null;
   const atestado = STATUS_DOC[perfil.atestadoMedico.status as StatusDocumento];
@@ -73,13 +75,13 @@ export default function PerfilEsportivoPage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Perfil Esportivo</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Modalidades, peso, documentos e objetivos</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('sportProfile.title')}</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('sportProfile.subtitle')}</p>
       </div>
 
       {/* Modalidades */}
       <div style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Award size={16} className="text-blue-400" />Modalidades</h2>
+        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Award size={16} className="text-blue-400" />{t('sportProfile.modalities')}</h2>
         <div className="flex flex-wrap gap-2">
           {perfil.modalidades.map((m: Modalidade) => {
             const info = MODALIDADES_INFO[m];
@@ -94,21 +96,21 @@ export default function PerfilEsportivoPage() {
 
       {/* Peso + Categoria */}
       <div style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Scale size={16} className="text-purple-400" />Peso & Categoria</h2>
+        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Scale size={16} className="text-purple-400" />{t('sportProfile.weightCategory')}</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-white/30 text-xs mb-1">Peso Atual</p>
+            <p className="text-white/30 text-xs mb-1">{t('sportProfile.currentWeight')}</p>
             <p className="text-white text-2xl font-bold">{perfil.peso ? `${perfil.peso} kg` : '—'}</p>
           </div>
           <div>
-            <p className="text-white/30 text-xs mb-1">Categoria</p>
+            <p className="text-white/30 text-xs mb-1">{t('sportProfile.categoryLabel')}</p>
             {cat ? (
               <div>
                 <p className="text-white text-lg font-bold">{cat.label}</p>
                 <p className="text-white/30 text-xs">até {cat.pesoMax}</p>
               </div>
             ) : (
-              <p className="text-white/30 text-sm">Não definida</p>
+              <p className="text-white/30 text-sm">{t('sportProfile.notDefined')}</p>
             )}
           </div>
         </div>
@@ -116,7 +118,7 @@ export default function PerfilEsportivoPage() {
 
       {/* Atestado Médico */}
       <div style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileCheck size={16} className="text-green-400" />Atestado Médico</h2>
+        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileCheck size={16} className="text-green-400" />{t('sportProfile.medicalCert')}</h2>
         <div className="flex items-center gap-3 mb-3">
           {atestado.icon}
           <span className={`font-bold text-sm ${atestado.color}`}>{atestado.label}</span>
@@ -131,10 +133,10 @@ export default function PerfilEsportivoPage() {
 
       {/* Termos */}
       <div style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileText size={16} className="text-amber-400" />Termos & Consentimentos</h2>
+        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileText size={16} className="text-amber-400" />{t('sportProfile.termsConsents')}</h2>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-white/60 text-sm">Termo de Responsabilidade</span>
+            <span className="text-white/60 text-sm">{t('sportProfile.responsibilityTerm')}</span>
             {perfil.termoResponsabilidade.aceito ? (
               <span className="flex items-center gap-1 text-green-400 text-xs"><CheckCircle size={12} /> Aceito {perfil.termoResponsabilidade.versao && `(${perfil.termoResponsabilidade.versao})`}</span>
             ) : (
@@ -142,7 +144,7 @@ export default function PerfilEsportivoPage() {
             )}
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-white/60 text-sm">Termo de Uso de Imagem</span>
+            <span className="text-white/60 text-sm">{t('sportProfile.imageTerm')}</span>
             {perfil.termoImagem.aceito ? (
               <span className="flex items-center gap-1 text-green-400 text-xs"><CheckCircle size={12} /> Aceito</span>
             ) : (
@@ -156,19 +158,19 @@ export default function PerfilEsportivoPage() {
       <div className="grid grid-cols-1 gap-4">
         {perfil.objetivos && (
           <div style={{ ...glass, padding: '1.25rem' }}>
-            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Target size={16} className="text-blue-400" />Objetivos</h2>
+            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Target size={16} className="text-blue-400" />{t('sportProfile.objectives')}</h2>
             <p className="text-white/60 text-sm">{perfil.objetivos}</p>
           </div>
         )}
         {perfil.lesoes && (
           <div style={{ ...glass, padding: '1.25rem' }}>
-            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Heart size={16} className="text-red-400" />Lesões / Restrições</h2>
+            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Heart size={16} className="text-red-400" />{t('sportProfile.injuries')}</h2>
             <p className="text-white/60 text-sm">{perfil.lesoes}</p>
           </div>
         )}
         {perfil.experienciaPrevia && (
           <div style={{ ...glass, padding: '1.25rem' }}>
-            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Dumbbell size={16} className="text-purple-400" />Experiência Prévia</h2>
+            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Dumbbell size={16} className="text-purple-400" />{t('sportProfile.previousExperience')}</h2>
             <p className="text-white/60 text-sm">{perfil.experienciaPrevia}</p>
           </div>
         )}

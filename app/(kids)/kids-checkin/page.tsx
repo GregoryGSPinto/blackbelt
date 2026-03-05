@@ -8,6 +8,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import * as kidsService from '@/lib/api/kids.service';
 import type { KidProfile } from '@/lib/api/kids.service';
 import { ShieldAlert, CheckCircle, Clock, UserX, Info } from 'lucide-react';
@@ -18,6 +19,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsCheckinPage() {
+  const t = useTranslations('kids.checkin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
@@ -52,14 +54,14 @@ export default function KidsCheckinPage() {
   }, [retryCount, user?.id]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!currentKid) {
-    return <PageEmpty icon={UserX} title="Perfil não encontrado" message="Não foi possível carregar o perfil do aluno." />;
+    return <PageEmpty icon={UserX} title={t('loading')} message={t('loading')} />;
   }
 
   // ─── Theme-aware colors ───
@@ -91,10 +93,10 @@ export default function KidsCheckinPage() {
           className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-black tracking-tight flex items-center justify-center gap-3"
           style={{ color: c.heading }}
         >
-          <span>📋</span> Minha Presença
+          <span>📋</span> {t('title')}
         </h2>
         <p className="text-xl md:text-2xl font-semibold" style={{ color: c.heading }}>
-          Veja como está sua frequência!
+          {t('subtitle')}
         </p>
       </div>
 
@@ -115,20 +117,19 @@ export default function KidsCheckinPage() {
               className="text-lg font-black"
               style={{ color: c.guardText }}
             >
-              Check-in deve ser feito pelo responsável ou instrutor
+              {t('adultRequired')}
             </h3>
             <p className="text-sm font-semibold" style={{ color: isDark ? '#FDE68A' : '#A16207' }}>
-              Para sua segurança, o check-in de alunos Kids precisa ser
-              confirmado por um adulto responsável ou pelo instrutor da turma.
+              {t('adultRequiredDesc')}
             </p>
             <p className="text-xs" style={{ color: isDark ? '#FCD34D80' : '#B4590880' }}>
-              Peça para o seu responsável ou professor fazer o check-in para você!
+              {t('askAdult')}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Status de Presença Hoje (read-only) */}
+      {/* Status de Presenca Hoje (read-only) */}
       <div
         className="rounded-3xl p-8 shadow-md border-2 backdrop-blur-sm"
         style={{ background: c.cardBg, borderColor: c.border }}
@@ -136,7 +137,7 @@ export default function KidsCheckinPage() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">📅</span>
           <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: c.heading }}>
-            Hoje — {hoje}
+            {t('todayDate', { date: hoje })}
           </h3>
         </div>
 
@@ -155,17 +156,17 @@ export default function KidsCheckinPage() {
             <>
               <CheckCircle size={28} style={{ color: c.green }} />
               <div>
-                <p className="text-lg font-black" style={{ color: c.green }}>Presença Confirmada!</p>
-                <p className="text-sm font-semibold" style={{ color: c.label }}>Bom treino hoje!</p>
+                <p className="text-lg font-black" style={{ color: c.green }}>{t('confirmed')}</p>
+                <p className="text-sm font-semibold" style={{ color: c.label }}>{t('confirmedDesc')}</p>
               </div>
             </>
           ) : (
             <>
               <Clock size={28} style={{ color: c.hint }} />
               <div>
-                <p className="text-lg font-black" style={{ color: c.label }}>Aguardando Check-in</p>
+                <p className="text-lg font-black" style={{ color: c.label }}>{t('waitingCheckin')}</p>
                 <p className="text-sm font-semibold" style={{ color: c.hint }}>
-                  Seu responsável ou instrutor fará o check-in para você
+                  {t('waitingDesc')}
                 </p>
               </div>
             </>
@@ -173,7 +174,7 @@ export default function KidsCheckinPage() {
         </div>
       </div>
 
-      {/* Resumo de Presença (read-only) */}
+      {/* Resumo de Presenca (read-only) */}
       <div
         className="rounded-3xl p-8 shadow-md border-2 backdrop-blur-sm"
         style={{ background: c.cardBg, borderColor: c.border }}
@@ -181,15 +182,15 @@ export default function KidsCheckinPage() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-3xl">📊</span>
           <h3 className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: c.heading }}>
-            Sua Frequência
+            {t('yourFrequency')}
           </h3>
         </div>
 
         <div className="space-y-4">
-          {/* Presença mensal */}
+          {/* Presenca mensal */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-base font-bold" style={{ color: c.label }}>Presença no mês</span>
+              <span className="text-base font-bold" style={{ color: c.label }}>{t('monthAttendance')}</span>
               <span className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: c.green }}>
                 {currentKid.progresso.presenca30dias}%
               </span>
@@ -205,10 +206,10 @@ export default function KidsCheckinPage() {
             </div>
             <p className="text-sm mt-2 font-semibold" style={{ color: c.label }}>
               {currentKid.progresso.presenca30dias >= 80
-                ? 'Excelente frequência! Continue assim!'
+                ? t('excellentFreq')
                 : currentKid.progresso.presenca30dias >= 50
-                ? 'Boa frequência! Tente vir mais vezes!'
-                : 'Que tal treinar mais vezes esta semana?'}
+                ? t('goodFreq')
+                : t('lowFreq')}
             </p>
           </div>
         </div>
@@ -226,11 +227,10 @@ export default function KidsCheckinPage() {
           <Info size={24} style={{ color: c.blue }} className="flex-shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="text-sm font-bold" style={{ color: c.heading }}>
-              Como funciona o check-in?
+              {t('howItWorks')}
             </p>
             <p className="text-sm" style={{ color: c.label }}>
-              Quando você chegar na academia, seu responsável ou instrutor vai confirmar
-              que você está presente. Assim a gente sabe que você está treinando direitinho!
+              {t('howItWorksDesc')}
             </p>
           </div>
         </div>
@@ -247,9 +247,9 @@ export default function KidsCheckinPage() {
         <div className="flex items-start gap-6">
           <div className="text-6xl">🥋</div>
           <div className="flex-1 space-y-2">
-            <p className="text-lg font-black" style={{ color: c.heading }}>Continue Treinando!</p>
+            <p className="text-lg font-black" style={{ color: c.heading }}>{t('keepTraining')}</p>
             <p className="text-xl font-semibold leading-relaxed" style={{ color: c.label }}>
-              Cada treino te deixa mais forte. Quanto mais você vem, mais conquistas você ganha!
+              {t('keepTrainingDesc')}
             </p>
           </div>
         </div>

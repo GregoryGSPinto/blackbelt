@@ -5,6 +5,7 @@
 
 import { useEffect } from 'react';
 import { X, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export function ShellNotificationPanel({ config, state }: Props) {
+  const t = useTranslations('common');
+  const tShell = useTranslations('shell');
   const { theme, nav } = config;
   const { isDark, notifOpen, setNotifOpen, notifRef } = state;
   const font = theme.fontClass || '';
@@ -31,7 +34,7 @@ export function ShellNotificationPanel({ config, state }: Props) {
     <div
       ref={notifRef}
       role="region"
-      aria-label="Painel de notificações"
+      aria-label={tShell('notification.panelTitle')}
       aria-live="polite"
       className="fixed z-[80]"
       style={{
@@ -60,7 +63,7 @@ export function ShellNotificationPanel({ config, state }: Props) {
             className={`text-base font-bold ${font}`}
             style={{ color: theme.textHeading(isDark) }}
           >
-            Notificações
+            {t('notifications.title')}
           </h3>
           <button
             onClick={() => setNotifOpen(false)}
@@ -115,7 +118,7 @@ export function ShellNotificationPanel({ config, state }: Props) {
             className={`text-xs font-semibold transition-colors ${font}`}
             style={{ color: theme.accentColor(isDark) }}
           >
-            Ver todas as notificações
+            {t('notifications.viewAll')}
           </button>
         </div>
       </div>

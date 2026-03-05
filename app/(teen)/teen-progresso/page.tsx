@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TeenCard, ProgressCircle, TeenProgressBar } from '@/components/teen';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile } from '@/lib/api/teen.service';
@@ -11,6 +12,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenProgressoPage() {
+  const t = useTranslations('teen.progress');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -36,14 +38,14 @@ export default function TeenProgressoPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!currentTeen) {
-    return <PageEmpty icon={UserX} title="Perfil não encontrado" message="Não foi possível carregar o perfil do aluno." />;
+    return <PageEmpty icon={UserX} title={t('loading')} message={t('loading')} />;
   }
 
 
@@ -52,17 +54,17 @@ return (
       {/* Header */}
       <div>
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
-          Seu Progresso
+          {t('title')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
-          Acompanhe sua evolução no treinamento especializado
+          {t('subtitle')}
         </p>
       </div>
 
       {/* Evolução do Nível */}
       <TeenCard>
         <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-          Evolução no Nível {currentTeen.nivel}
+          {t('levelEvolution', { level: currentTeen.nivel })}
         </h3>
         <div className="flex flex-col md:flex-row items-center gap-6">
           <div className="flex-shrink-0">
@@ -76,15 +78,15 @@ return (
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-teen teen-text-body">Tempo Mínimo</span>
-                  <span className="text-sm font-teen font-semibold text-teen-emerald">✓ 12 meses completos</span>
+                  <span className="text-sm font-teen teen-text-body">{t('minTime')}</span>
+                  <span className="text-sm font-teen font-semibold text-teen-emerald">✓ {t('monthsComplete', { months: 12 })}</span>
                 </div>
                 <TeenProgressBar progress={100} color="emerald" showPercentage={false} height="sm" />
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-teen teen-text-body">Técnicas Dominadas</span>
+                  <span className="text-sm font-teen teen-text-body">{t('techniquesMastered')}</span>
                   <span className="text-sm font-teen font-semibold text-teen-ocean">45/60</span>
                 </div>
                 <TeenProgressBar progress={75} color="ocean" showPercentage={false} height="sm" />
@@ -92,7 +94,7 @@ return (
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-teen teen-text-body">Treinos Realizados</span>
+                  <span className="text-sm font-teen teen-text-body">{t('trainingsDone')}</span>
                   <span className="text-sm font-teen font-semibold text-teen-purple">80/100</span>
                 </div>
                 <TeenProgressBar progress={80} color="purple" showPercentage={false} height="sm" />
@@ -102,7 +104,7 @@ return (
         </div>
         <div className="mt-6 p-4 bg-teen-ocean-light rounded-lg">
           <p className="text-sm font-teen text-teen-ocean-dark text-center">
-            Você está no caminho certo! Continue treinando para alcançar a Nível Intermediário.
+            {t('onTrack')}
           </p>
         </div>
       </TeenCard>
@@ -119,7 +121,7 @@ return (
                 {currentTeen.progresso.presenca30dias}%
               </p>
               <p className="text-sm font-teen teen-text-muted mt-1">
-                Presença nos últimos 30 dias
+                {t('last30Days')}
               </p>
               <div className="mt-3">
                 <TeenProgressBar 
@@ -143,10 +145,10 @@ return (
                 {currentTeen.progresso.tempoTreinoTotal}h
               </p>
               <p className="text-sm font-teen teen-text-muted mt-1">
-                Tempo total de treino acumulado
+                {t('totalTime')}
               </p>
               <p className="text-xs font-teen teen-text-muted mt-2">
-                Desde o início na unidade
+                {t('sinceStart')}
               </p>
             </div>
           </div>
@@ -161,10 +163,10 @@ return (
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-bold font-teen teen-text-heading mb-2">
-              Sequência de Treinos
+              {t('streakTitle')}
             </h3>
             <p className="teen-text-muted font-teen mb-4">
-              Você treinou por <span className="font-bold text-teen-energy">{currentTeen.progresso.sequenciaAtual} dias consecutivos</span>!
+              {t('streakDesc', { count: currentTeen.progresso.sequenciaAtual })}
             </p>
             <div className="flex gap-2">
               {Array.from({ length: 10 }).map((_, i) => (
@@ -181,7 +183,7 @@ return (
               ))}
             </div>
             <p className="text-xs teen-text-muted font-teen mt-3">
-              Continue assim para desbloquear a conquista "Sequência de 10 dias"!
+              {t('unlockStreak')}
             </p>
           </div>
         </div>
@@ -190,7 +192,7 @@ return (
       {/* Histórico Recente */}
       <TeenCard>
         <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
-          Histórico de Treinos (Últimos 7 dias)
+          {t('last7Days')}
         </h3>
         <div className="space-y-3">
           {[
@@ -209,7 +211,7 @@ return (
                   ? 'bg-teen-emerald-light text-teen-emerald-dark'
                   : 'teen-progress-track teen-text-muted'
               }`}>
-                {item.presente ? '✓ Presente' : '－ Falta'}
+                {item.presente ? `✓ ${t('presentMark')}` : `－ ${t('absentMark')}`}
               </span>
             </div>
           ))}
@@ -224,20 +226,20 @@ return (
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-bold font-teen teen-text-heading mb-2">
-              Próximas Metas
+              {t('nextGoals')}
             </h3>
             <ul className="space-y-2 text-sm font-teen teen-text-body">
               <li className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-teen-ocean rounded-full"></div>
-                Completar 100 treinos para Nível Intermediário
+                {t('goals.trainings')}
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-teen-purple rounded-full"></div>
-                Dominar mais 15 técnicas
+                {t('goals.techniques')}
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-teen-emerald rounded-full"></div>
-                Participar de uma competição
+                {t('goals.competition')}
               </li>
             </ul>
           </div>

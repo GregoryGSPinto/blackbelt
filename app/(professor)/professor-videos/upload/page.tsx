@@ -17,6 +17,7 @@ import type {
 } from '@/lib/api/video-provider.types';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 // ── Constants ──
 
@@ -48,6 +49,8 @@ const TURMAS_OPTIONS = [
 // ── Component ──
 
 export default function VideoUploadPage() {
+  const t = useTranslations('professor.videoUpload');
+  const tCommon = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -97,11 +100,11 @@ export default function VideoUploadPage() {
   const handleSubmit = useCallback(
     async (asDraft: boolean) => {
       if (!videoFile) {
-        toast.error('Selecione um arquivo de vídeo');
+        toast.error(t('selectVideoFile'));
         return;
       }
       if (!title.trim()) {
-        toast.error('Título é obrigatório');
+        toast.error(t('titleRequired'));
         return;
       }
 
@@ -113,7 +116,7 @@ export default function VideoUploadPage() {
 
   // Redirect after success
   const handleDone = useCallback(() => {
-    toast.success('Vídeo enviado com sucesso!');
+    toast.success(t('success'));
     router.push('/professor-videos');
   }, [toast, router]);
 
@@ -147,8 +150,8 @@ export default function VideoUploadPage() {
             <Upload size={18} className="text-amber-400/60" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Enviar Vídeo</h1>
-            <p className="text-white/35 text-xs">Upload de arquivo .mp4, .mov ou .webm</p>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+            <p className="text-white/35 text-xs">{t('subtitle')}</p>
           </div>
         </div>
         <div className="prof-gold-line mt-5" />
@@ -172,12 +175,12 @@ export default function VideoUploadPage() {
       {/* Done state — redirect */}
       {isDone && (
         <section className="prof-enter-2 text-center space-y-4">
-          <p className="text-sm text-green-300/80">Vídeo enviado com sucesso!</p>
+          <p className="text-sm text-green-300/80">{t('success')}</p>
           <button
             onClick={handleDone}
             className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500/80 hover:to-amber-600/80 transition-all shadow-lg shadow-amber-900/30"
           >
-            Voltar para Vídeos
+            {t('backToVideos')}
           </button>
         </section>
       )}
@@ -187,11 +190,11 @@ export default function VideoUploadPage() {
         <>
           {/* Video Drop Zone */}
           <section className="prof-enter-2">
-            <label className={labelClass}>Arquivo de Vídeo *</label>
+            <label className={labelClass}>{t('fileLabel')}</label>
             <VideoDropZone
               accept=".mp4,.mov,.webm,video/mp4,video/quicktime,video/webm"
-              label="Arraste o vídeo aqui ou clique para selecionar"
-              hint=".mp4, .mov, .webm — Máximo 2 GB"
+              label={t('dragDrop')}
+              hint={t('formats')}
               file={videoFile}
               onFileSelect={setVideoFile}
               variant="video"
@@ -201,7 +204,7 @@ export default function VideoUploadPage() {
           {/* Video Preview */}
           {previewUrl && (
             <section className="prof-enter-2">
-              <label className={labelClass}>Preview</label>
+              <label className={labelClass}>{t('preview')}</label>
               <div className="rounded-xl overflow-hidden border border-white/[0.06]">
                 <video
                   src={previewUrl}
@@ -214,11 +217,11 @@ export default function VideoUploadPage() {
 
           {/* Thumbnail Drop Zone */}
           <section className="prof-enter-2">
-            <label className={labelClass}>Thumbnail (Opcional)</label>
+            <label className={labelClass}>{t('thumbnailLabel')}</label>
             <VideoDropZone
               accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-              label="Arraste uma imagem ou clique para selecionar"
-              hint="JPG, PNG, WebP — Máximo 5 MB"
+              label={t('thumbnailDrag')}
+              hint={t('thumbnailFormats')}
               file={thumbnailFile}
               onFileSelect={setThumbnailFile}
               variant="thumbnail"
@@ -227,12 +230,12 @@ export default function VideoUploadPage() {
 
           {/* Title */}
           <section className="prof-enter-2">
-            <label className={labelClass}>Título *</label>
+            <label className={labelClass}>{t('titleLabel')}</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Ex: Guard Retention — Conceitos Chave"
+              placeholder={t('titlePlaceholder')}
               maxLength={100}
               className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none"
               style={inputStyle}
@@ -241,11 +244,11 @@ export default function VideoUploadPage() {
 
           {/* Description */}
           <section className="prof-enter-3">
-            <label className={labelClass}>Descrição</label>
+            <label className={labelClass}>{t('descLabel')}</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Breve descrição do conteúdo..."
+              placeholder={t('descPlaceholder')}
               maxLength={500}
               rows={3}
               className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none resize-none"
@@ -257,7 +260,7 @@ export default function VideoUploadPage() {
           <section className="prof-enter-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={labelClass}>Categoria</label>
+                <label className={labelClass}>{t('categoryLabel')}</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -270,7 +273,7 @@ export default function VideoUploadPage() {
                 </select>
               </div>
               <div>
-                <label className={labelClass}>Nível</label>
+                <label className={labelClass}>{t('levelLabel')}</label>
                 <select
                   value={level}
                   onChange={(e) => setLevel(e.target.value as typeof level)}
@@ -289,7 +292,7 @@ export default function VideoUploadPage() {
           <section className="prof-enter-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={labelClass}>Tipo de Conteúdo</label>
+                <label className={labelClass}>{t('contentType')}</label>
                 <select
                   value={contentType}
                   onChange={(e) => setContentType(e.target.value as VideoContentType)}
@@ -302,7 +305,7 @@ export default function VideoUploadPage() {
                 </select>
               </div>
               <div>
-                <label className={labelClass}>Turma / Categoria</label>
+                <label className={labelClass}>{t('classCategory')}</label>
                 <select
                   value={turmaCategory}
                   onChange={(e) => setTurmaCategory(e.target.value as VideoTurmaCategory)}
@@ -319,7 +322,7 @@ export default function VideoUploadPage() {
 
           {/* Turmas Associadas */}
           <section className="prof-enter-3">
-            <label className={labelClass}>Turmas Associadas</label>
+            <label className={labelClass}>{t('linkedClasses')}</label>
             <div className="flex flex-wrap gap-1.5">
               {TURMAS_OPTIONS.map((t) => {
                 const selected = selectedTurmas.includes(t.id);
@@ -347,19 +350,19 @@ export default function VideoUploadPage() {
 
           {/* Tags */}
           <section className="prof-enter-3">
-            <label className={labelClass}>Tags</label>
+            <label className={labelClass}>{t('tags')}</label>
             <TagsInput
               tags={tags}
               onChange={setTags}
               max={10}
               maxLength={30}
-              placeholder="Digite e pressione Enter..."
+              placeholder={t('tagsPlaceholder')}
             />
           </section>
 
           {/* Visibility Toggle */}
           <section className="prof-enter-3">
-            <label className={labelClass}>Visibilidade</label>
+            <label className={labelClass}>{t('visibility')}</label>
             <div className="flex gap-2">
               <button
                 type="button"
@@ -382,7 +385,7 @@ export default function VideoUploadPage() {
                 }}
               >
                 <Eye size={14} />
-                Público
+                {t('public')}
               </button>
               <button
                 type="button"
@@ -405,7 +408,7 @@ export default function VideoUploadPage() {
                 }}
               >
                 <EyeOff size={14} />
-                Privado
+                {t('private')}
               </button>
             </div>
           </section>
@@ -418,7 +421,7 @@ export default function VideoUploadPage() {
               className="flex-1 py-2.5 rounded-xl text-xs font-medium text-white/40 hover:bg-white/5 transition-colors"
               style={{ border: '1px solid rgba(255,255,255,0.06)' }}
             >
-              Salvar como Rascunho
+              {tCommon('actions.saveDraft')}
             </button>
             <button
               type="button"
@@ -429,7 +432,7 @@ export default function VideoUploadPage() {
                 boxShadow: '0 4px 12px rgba(217,119,6,0.25)',
               }}
             >
-              Publicar
+              {tCommon('actions.publish')}
             </button>
           </section>
         </>

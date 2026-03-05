@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   ShieldCheck, UserPlus, X, Phone, User,
   CheckCircle, ToggleLeft, ToggleRight, History,
@@ -15,6 +16,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AutorizacoesPage() {
+  const t = useTranslations('parent.authorizations');
+  const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -31,7 +34,7 @@ export default function AutorizacoesPage() {
     setLoading(true);
     Promise.all([kidsSafety.getPessoasAutorizadas('RESP001'), kidsSafety.getHistoricoSaidas()])
       .then(([p, s]) => { setPessoas(p); setSaidas(s); })
-      .catch((err: unknown) => setError(handleServiceError(err, 'Autorizações')))
+      .catch((err: unknown) => setError(handleServiceError(err, 'Autorizacoes')))
       .finally(() => setLoading(false));
   }, []);
 
@@ -69,13 +72,13 @@ export default function AutorizacoesPage() {
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <ShieldCheck size={20} className="text-emerald-400" />
-            Pessoas Autorizadas
+            {t('title')}
           </h1>
-          <p className="text-sm text-white/40 mt-1">Gerencie quem pode buscar seu(s) filho(s)</p>
+          <p className="text-sm text-white/40 mt-1">{t('subtitle')}</p>
         </div>
         <button onClick={() => setShowAdd(true)}
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-xs font-bold hover:bg-emerald-500/25 transition-colors">
-          <UserPlus size={14} /> Adicionar
+          <UserPlus size={14} /> {tc('add')}
         </button>
       </div>
 
@@ -83,19 +86,19 @@ export default function AutorizacoesPage() {
       <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-blue-500/5 border border-blue-500/10">
         <ShieldCheck size={16} className="text-blue-400/60 mt-0.5 shrink-0" />
         <p className="text-xs text-blue-300/50 leading-relaxed">
-          Apenas pessoas cadastradas aqui poderão buscar seu filho na unidade. A recepção verificará a identidade antes de liberar.
+          {t('securityNote')}
         </p>
       </div>
 
       {/* Active persons */}
       <div>
-        <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Ativas ({ativas.length})</h2>
+        <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('activeTab')} ({ativas.length})</h2>
         <div className="space-y-2">
           {ativas.map(p => (
             <PersonCard key={p.id} pessoa={p} onToggle={handleToggle} />
           ))}
           {ativas.length === 0 && (
-            <p className="text-xs text-white/20 italic py-4 text-center">Nenhuma pessoa autorizada ativa</p>
+            <p className="text-xs text-white/20 italic py-4 text-center">{t('noAuthorized')}</p>
           )}
         </div>
       </div>
@@ -103,7 +106,7 @@ export default function AutorizacoesPage() {
       {/* Inactive */}
       {inativas.length > 0 && (
         <div>
-          <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Desativadas ({inativas.length})</h2>
+          <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('disabledTab')} ({inativas.length})</h2>
           <div className="space-y-2">
             {inativas.map(p => (
               <PersonCard key={p.id} pessoa={p} onToggle={handleToggle} />
@@ -115,7 +118,7 @@ export default function AutorizacoesPage() {
       {/* Exit history */}
       <div>
         <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3 flex items-center gap-2">
-          <History size={14} /> Histórico de Saídas
+          <History size={14} /> {t('exitHistory')}
         </h2>
         <div className="space-y-2">
           {saidas.map(s => (
@@ -138,37 +141,38 @@ export default function AutorizacoesPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl bg-[#0D1117] border border-white/10">
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
-              <h3 className="text-base font-bold text-white">Nova Pessoa Autorizada</h3>
+              <h3 className="text-base font-bold text-white">{t('newPerson')}</h3>
               <button onClick={() => setShowAdd(false)} className="p-1 rounded-lg hover:bg-white/[0.06] text-white/30"><X size={18} /></button>
             </div>
             <div className="p-5 space-y-3">
-              <Input label="Nome completo" value={form.nome} onChange={v => setForm(p => ({ ...p, nome: v }))} placeholder="Maria Helena Santos" />
-              <Input label="CPF" value={form.cpf} onChange={v => setForm(p => ({ ...p, cpf: v }))} placeholder="123.456.789-00" />
-              <Input label="Telefone" value={form.telefone} onChange={v => setForm(p => ({ ...p, telefone: v }))} placeholder="(31) 99876-1234" />
-              <Input label="Parentesco" value={form.parentesco} onChange={v => setForm(p => ({ ...p, parentesco: v }))} placeholder="Avó, Tio, Babá, etc." />
+              <Input label={t('nameLabel')} value={form.nome} onChange={v => setForm(p => ({ ...p, nome: v }))} placeholder="Maria Helena Santos" />
+              <Input label={t('cpfLabel')} value={form.cpf} onChange={v => setForm(p => ({ ...p, cpf: v }))} placeholder="123.456.789-00" />
+              <Input label={t('phoneLabel')} value={form.telefone} onChange={v => setForm(p => ({ ...p, telefone: v }))} placeholder="(31) 99876-1234" />
+              <Input label={t('relationLabel')} value={form.parentesco} onChange={v => setForm(p => ({ ...p, parentesco: v }))} placeholder={t('relationPlaceholder')} />
             </div>
             <div className="flex gap-3 px-5 py-4 border-t border-white/[0.06]">
-              <button onClick={() => setShowAdd(false)} className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-bold">Cancelar</button>
+              <button onClick={() => setShowAdd(false)} className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-bold">{tc('cancel')}</button>
               <button onClick={handleAdd} disabled={!form.nome || !form.cpf}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-sm font-bold disabled:opacity-30">
-                Adicionar
+                {tc('add')}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ── Autorizações Legais (Wave 13.3) ── */}
-      <AuthorizacoesLegais />
+      {/* ── Autorizacoes Legais (Wave 13.3) ── */}
+      <AutorizacoesLegais />
 
-      {/* ── Preferências de Comunicação ── */}
+      {/* ── Preferencias de Comunicacao ── */}
       <ParentPreferences />
     </div>
   );
 }
 
-// ── Autorizações Legais sub-component ──
-function AuthorizacoesLegais() {
+// ── Autorizacoes Legais sub-component ──
+function AutorizacoesLegais() {
+  const t = useTranslations('parent.authorizations');
   const AUTH_KEY = 'blackbelt_parent_auths';
   const loadAuths = () => {
     try { const r = localStorage.getItem(AUTH_KEY); return r ? JSON.parse(r) : {}; } catch { return {}; }
@@ -182,27 +186,27 @@ function AuthorizacoesLegais() {
 
   return (
     <section className="space-y-3">
-      <p className="text-white/30 text-xs tracking-[0.15em] uppercase font-medium">Autorizações Legais</p>
+      <p className="text-white/30 text-xs tracking-[0.15em] uppercase font-medium">{t('legalTitle')}</p>
       <AuthorizationToggle
-        label="Autorização de Uso de Imagem"
-        description="Permitir uso de fotos/vídeos do seu filho em materiais da unidade"
-        legalText="Nos termos da Lei 13.709/2018 (LGPD) e do Estatuto da Criança e do Adolescente (ECA), autorizo o uso de imagem do(a) menor sob minha responsabilidade para fins de divulgação institucional da unidade, incluindo redes sociais, materiais impressos e digitais. Esta autorização pode ser revogada a qualquer momento."
+        label={t('imageAuth')}
+        description={t('imageAuthDesc')}
+        legalText="Nos termos da Lei 13.709/2018 (LGPD) e do Estatuto da Crianca e do Adolescente (ECA), autorizo o uso de imagem do(a) menor sob minha responsabilidade para fins de divulgacao institucional da unidade, incluindo redes sociais, materiais impressos e digitais. Esta autorizacao pode ser revogada a qualquer momento."
         enabled={auths.imagem?.enabled || false}
         date={auths.imagem?.date}
         onChange={(v: boolean) => toggle('imagem', v)}
       />
       <AuthorizationToggle
-        label="Autorização para Competições"
-        description="Permitir participação em campeonatos e competições oficiais"
-        legalText="Autorizo a participação do(a) menor em competições de treinamento especializado organizadas pela unidade ou por entidades parceiras. Declaro estar ciente dos riscos inerentes à prática esportiva competitiva e que a unidade tomará todas as precauções de segurança necessárias."
+        label={t('competitionAuth')}
+        description={t('competitionAuthDesc')}
+        legalText="Autorizo a participacao do(a) menor em competicoes de treinamento especializado organizadas pela unidade ou por entidades parceiras. Declaro estar ciente dos riscos inerentes a pratica esportiva competitiva e que a unidade tomara todas as precaucoes de seguranca necessarias."
         enabled={auths.competicao?.enabled || false}
         date={auths.competicao?.date}
         onChange={(v: boolean) => toggle('competicao', v)}
       />
       <AuthorizationToggle
-        label="Autorização para Eventos Externos"
-        description="Permitir participação em seminários e treinos em outras unidades"
-        legalText="Autorizo que o(a) menor participe de eventos externos promovidos pela unidade, incluindo seminários, confraternizações e treinos em unidades parceiras, sob supervisão dos instrutores responsáveis."
+        label={t('externalAuth')}
+        description={t('externalAuthDesc')}
+        legalText="Autorizo que o(a) menor participe de eventos externos promovidos pela unidade, incluindo seminarios, confraternizacoes e treinos em unidades parceiras, sob supervisao dos instrutores responsaveis."
         enabled={auths.eventos?.enabled || false}
         date={auths.eventos?.date}
         onChange={(v: boolean) => toggle('eventos', v)}

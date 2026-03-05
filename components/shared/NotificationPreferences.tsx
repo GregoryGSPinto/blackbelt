@@ -7,6 +7,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { Bell, BookOpen, Megaphone, MessageSquare, Trophy, Clock } from 'lucide-react';
 
 // ── Types ──
@@ -27,16 +28,16 @@ interface NotifPrefs {
 }
 
 const CATEGORIES: NotifCategory[] = [
-  { id: 'sessões', label: 'Sessões', description: 'Lembretes de sessões e horários', icon: BookOpen, color: '#3B82F6' },
-  { id: 'mensagens', label: 'Mensagens', description: 'Mensagens de instrutores e admin', icon: MessageSquare, color: '#22C55E' },
-  { id: 'ranking', label: 'Ranking & Conquistas', description: 'Posição no ranking e novos badges', icon: Trophy, color: '#FBBF24' },
-  { id: 'promocoes', label: 'Promoções', description: 'Ofertas e eventos da unidade', icon: Megaphone, color: '#8B5CF6' },
+  { id: 'sessões', label: 'sessions', description: 'sessionsDesc', icon: BookOpen, color: '#3B82F6' },
+  { id: 'mensagens', label: 'messages', description: 'messagesDesc', icon: MessageSquare, color: '#22C55E' },
+  { id: 'ranking', label: 'rankingAchievements', description: 'rankingAchievements', icon: Trophy, color: '#FBBF24' },
+  { id: 'promocoes', label: 'promotions', description: 'promotions', icon: Megaphone, color: '#8B5CF6' },
 ];
 
 const FREQUENCY_OPTIONS: { value: Frequency; label: string; desc: string }[] = [
-  { value: 'imediato', label: 'Imediato', desc: 'Receber na hora' },
-  { value: 'diario', label: 'Diário', desc: 'Resumo 1x ao dia' },
-  { value: 'semanal', label: 'Semanal', desc: 'Resumo semanal' },
+  { value: 'imediato', label: 'realtime', desc: 'realtime' },
+  { value: 'diario', label: 'daily', desc: 'daily' },
+  { value: 'semanal', label: 'weekly', desc: 'weekly' },
 ];
 
 const STORAGE_KEY = 'blackbelt_notif_prefs';
@@ -66,6 +67,7 @@ function savePrefs(prefs: NotifPrefs) {
 // ── Component ──
 
 export function NotificationPreferences() {
+  const t = useTranslations('athlete.notificationPrefs');
   const [prefs, setPrefs] = useState<NotifPrefs>(defaultPrefs);
 
   useEffect(() => {
@@ -116,9 +118,9 @@ export function NotificationPreferences() {
               </div>
               <div className="flex-1 text-left min-w-0">
                 <p className={`text-sm font-medium ${enabled ? 'text-white/80' : 'text-white/30'}`}>
-                  {cat.label}
+                  {t(cat.label)}
                 </p>
-                <p className="text-[10px] text-white/25 truncate">{cat.description}</p>
+                <p className="text-[10px] text-white/25 truncate">{t(cat.description)}</p>
               </div>
               {/* Toggle pill */}
               <div
@@ -143,7 +145,7 @@ export function NotificationPreferences() {
       <div>
         <div className="flex items-center gap-2 mb-3">
           <Clock size={12} className="text-white/25" />
-          <p className="text-xs text-white/40 font-medium">Frequência</p>
+          <p className="text-xs text-white/40 font-medium">{t('frequency')}</p>
         </div>
         <div className="flex gap-2">
           {FREQUENCY_OPTIONS.map((opt) => {
@@ -158,8 +160,8 @@ export function NotificationPreferences() {
                     : 'bg-white/[0.02] text-white/30 border border-white/[0.04] hover:bg-white/[0.04]'
                 }`}
               >
-                <p className="text-xs font-semibold">{opt.label}</p>
-                <p className="text-[9px] text-white/20 mt-0.5">{opt.desc}</p>
+                <p className="text-xs font-semibold">{t(`freqOptions.${opt.label}`)}</p>
+                <p className="text-[9px] text-white/20 mt-0.5">{t(`freqOptions.${opt.desc}`)}</p>
               </button>
             );
           })}

@@ -9,6 +9,7 @@ import { PredictionsCards } from './PredictionsCards';
 import { ActionableInsightsList } from './ActionableInsightsList';
 import { InstructorPerformanceTable } from './InstructorPerformanceTable';
 import { AISystemROI } from './AISystemROI';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // AI INSIGHTS DASHBOARD — Container principal do admin AI
@@ -24,13 +25,6 @@ interface AIInsightsDashboardProps {
 
 type TabKey = 'overview' | 'risk' | 'instructors' | 'roi';
 
-const TABS: { key: TabKey; label: string }[] = [
-  { key: 'overview', label: 'Visao Geral' },
-  { key: 'risk', label: 'Mapa de Risco' },
-  { key: 'instructors', label: 'Instrutores' },
-  { key: 'roi', label: 'ROI da IA' },
-];
-
 export function AIInsightsDashboard({
   academyId,
   analytics,
@@ -38,7 +32,16 @@ export function AIInsightsDashboard({
   analyticsError,
   onRefresh,
 }: AIInsightsDashboardProps) {
+  const t = useTranslations('admin');
+  const tCommon = useTranslations('common');
   const [activeTab, setActiveTab] = useState<TabKey>('overview');
+
+  const TABS: { key: TabKey; label: string }[] = [
+    { key: 'overview', label: t('aiInsights.tabs.overview') },
+    { key: 'risk', label: t('aiInsights.tabs.riskMap') },
+    { key: 'instructors', label: t('aiInsights.tabs.instructors') },
+    { key: 'roi', label: t('aiInsights.tabs.roi') },
+  ];
   const { overview: churnOverview } = useChurnInsights(academyId);
 
   // Loading state
@@ -64,14 +67,14 @@ export function AIInsightsDashboard({
   if (analyticsError) {
     return (
       <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-6 text-center">
-        <p className="text-red-400 mb-2">Erro ao carregar analytics de IA</p>
+        <p className="text-red-400 mb-2">{t('aiInsights.errorLoadingAnalytics')}</p>
         <p className="text-sm text-zinc-500">{analyticsError.message}</p>
         {onRefresh && (
           <button
             onClick={onRefresh}
             className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg text-red-300 text-sm transition-colors"
           >
-            Tentar novamente
+            {tCommon('actions.tryAgain')}
           </button>
         )}
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Users, UserCheck, AlertCircle, Ban, ClipboardCheck, GraduationCap,
   TrendingUp, TrendingDown, ArrowRight, Clock, BarChart3, UserPlus,
@@ -37,6 +38,7 @@ type AdminDashData = [EstatisticasDashboard, Alerta[]];
 export default function DashboardPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('admin');
   const { data: result, loading, error, retry, cacheInfo, refreshing, refresh } = useCachedServiceCall<AdminDashData>(
     'admin:dashboard',
     () => Promise.all([
@@ -97,10 +99,10 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
-            {viewMode === 'executive' ? 'Visão Executiva' : 'Dashboard Avançado'}
+            {viewMode === 'executive' ? t('dashboard.executiveView') : t('dashboard.advancedDashboard')}
           </h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }} className="text-sm mt-1">
-            {viewMode === 'executive' ? 'Métricas-chave da unidade' : 'Visão completa da operação'}
+            {viewMode === 'executive' ? t('dashboard.executiveViewDesc') : t('dashboard.advancedDashboard')}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -119,7 +121,7 @@ export default function DashboardPage() {
               aria-label="Visão Operacional"
             >
               <LayoutDashboard size={13} />
-              <span className="hidden md:inline">Operacional</span>
+              <span className="hidden md:inline">{t('dashboard.operational')}</span>
             </button>
             <button
               onClick={() => setViewMode('executive')}
@@ -128,15 +130,15 @@ export default function DashboardPage() {
                   ? 'bg-white/10 text-white'
                   : 'text-white/30 hover:text-white/50'
               }`}
-              aria-label="Visão Executiva"
+              aria-label={t('dashboard.executiveView')}
             >
               <Crown size={13} />
-              <span className="hidden md:inline">Executiva</span>
+              <span className="hidden md:inline">{t('dashboard.executive')}</span>
             </button>
           </div>
           <div className="flex items-center gap-2 text-xs" style={{ color: tokens.textMuted }}>
             <Clock size={14} />
-            <span className="hidden sm:inline">Atualizado agora</span>
+            <span className="hidden sm:inline">{t('dashboard.updatedNow')}</span>
           </div>
         </div>
       </div>
@@ -168,31 +170,31 @@ export default function DashboardPage() {
       )}
 
       {/* STATUS OPERACIONAL CRÍTICO */}
-      <Section title="Status Operacional Crítico">
+      <Section title={t('dashboard.operationalStatus')}>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <CriticalCard title="Alunos Ativos" value={stats.alunosAtivos} total={stats.totalAlunos}
+          <CriticalCard title={t('dashboard.activeStudents')} value={stats.alunosAtivos} total={stats.totalAlunos}
             percentage={Math.round((stats.alunosAtivos / stats.totalAlunos) * 100)}
             icon={UserCheck} link="/usuarios?status=ativo" status="success" />
-          <CriticalCard title="Em Atraso" value={stats.alunosEmAtraso} icon={AlertCircle}
+          <CriticalCard title={t('dashboard.overdue')} value={stats.alunosEmAtraso} icon={AlertCircle}
             link="/usuarios?status=atraso" status={stats.alunosEmAtraso > 5 ? 'warning' : 'info'}
             alert={stats.alunosEmAtraso > 0} />
-          <CriticalCard title="Bloqueados" value={stats.alunosBloqueados} icon={Ban}
+          <CriticalCard title={t('dashboard.blocked')} value={stats.alunosBloqueados} icon={Ban}
             link="/usuarios?status=bloqueado" status={stats.alunosBloqueados > 0 ? 'critical' : 'info'}
             alert={stats.alunosBloqueados > 0} />
-          <CriticalCard title="Congelados" value={stats.alunosCongelados} icon={Snowflake}
+          <CriticalCard title={t('dashboard.frozen')} value={stats.alunosCongelados} icon={Snowflake}
             link="/usuarios?status=congelado" status={stats.alunosCongelados > 0 ? 'frozen' : 'info'} />
-          <CriticalCard title="Inativos" value={stats.alunosInativos} icon={UserX}
+          <CriticalCard title={t('dashboard.inactive')} value={stats.alunosInativos} icon={UserX}
             link="/usuarios?status=inativo" status={stats.alunosInativos > 0 ? 'inactive' : 'info'} />
         </div>
       </Section>
 
       {/* MÉTRICAS OPERACIONAIS */}
-      <Section title="Métricas Operacionais">
+      <Section title={t('dashboard.operationalMetrics')}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MetricCard title="Check-ins Hoje" value={stats.checkInsHoje} icon={ClipboardCheck}
+          <MetricCard title={t('dashboard.todayCheckins')} value={stats.checkInsHoje} icon={ClipboardCheck}
             link="/check-in" comparison={{ value: stats.checkInsOntem, label: 'vs ontem' }} />
-          <MetricCard title="Turmas Ativas" value={stats.turmasAtivas} icon={GraduationCap} link="/turmas" />
-          <MetricCard title="Total de Alunos" value={stats.totalAlunos} icon={Users} link="/usuarios" />
+          <MetricCard title={t('dashboard.activeClasses')} value={stats.turmasAtivas} icon={GraduationCap} link="/turmas" />
+          <MetricCard title={t('dashboard.totalStudents')} value={stats.totalAlunos} icon={Users} link="/usuarios" />
         </div>
       </Section>
 
@@ -201,9 +203,9 @@ export default function DashboardPage() {
           ═══════════════════════════════════════════════════ */}
 
       {/* 1. ALERTAS DE GESTÃO */}
-      <Section title="Alertas de Gestão">
+      <Section title={t('dashboard.managementAlerts')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <GestaoCard title="Novatos (< 30 dias)" count={stats.novatos.quantidade}
+          <GestaoCard title={t('dashboard.newStudents30d')} count={stats.novatos.quantidade}
             icon={UserPlus} color="#3B82F6" emptyText="Nenhum novato recente">
             {stats.novatos.lista.map(n => (
               <div key={n.id} className="flex items-center justify-between py-1.5">
@@ -213,7 +215,7 @@ export default function DashboardPage() {
             ))}
           </GestaoCard>
 
-          <GestaoCard title="Risco de Evasão" count={stats.riscoEvasao.quantidade}
+          <GestaoCard title={t('dashboard.churnRisk')} count={stats.riscoEvasao.quantidade}
             icon={AlertTriangle} color="#F97316" emptyText="Nenhum aluno em risco">
             {stats.riscoEvasao.lista.map(r => (
               <div key={r.id} className="flex items-center justify-between py-1.5">
@@ -231,7 +233,7 @@ export default function DashboardPage() {
             ))}
           </GestaoCard>
 
-          <GestaoCard title="Planos Congelados" count={stats.congelados.quantidade}
+          <GestaoCard title={t('dashboard.frozenPlans')} count={stats.congelados.quantidade}
             icon={Snowflake} color="#06B6D4" emptyText="Nenhum plano congelado">
             {stats.congelados.lista.map(c => (
               <div key={c.id} className="flex items-center justify-between py-1.5">
@@ -241,7 +243,7 @@ export default function DashboardPage() {
             ))}
           </GestaoCard>
 
-          <GestaoCard title="Aniversariantes do Mês" count={stats.aniversariantes.quantidade}
+          <GestaoCard title={t('dashboard.birthdaysMonth')} count={stats.aniversariantes.quantidade}
             icon={Cake} color="#EC4899" emptyText="Nenhum aniversariante">
             {stats.aniversariantes.lista.map(a => (
               <div key={a.id} className="flex items-center justify-between py-1.5">
@@ -256,17 +258,17 @@ export default function DashboardPage() {
       </Section>
 
       {/* 2. MAPA DE CALOR */}
-      <Section title="Mapa de Calor — Frequência por Horário">
+      <Section title={t('dashboard.heatMap')}>
         <HeatmapChart data={stats.mapaCalor} />
       </Section>
 
       {/* 3. GRADUAÇÕES */}
-      <Section title="Graduações">
+      <Section title={t('dashboard.graduations')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
             <div className="flex items-center gap-2 mb-4">
               <Award size={16} className="text-amber-400" />
-              <h3 className="text-sm font-bold text-white/70">Aptos para Exame</h3>
+              <h3 className="text-sm font-bold text-white/70">{t('dashboard.readyForExam')}</h3>
               <span className="ml-auto text-xs text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full">
                 {stats.aptosExame.quantidade}
               </span>
@@ -292,7 +294,7 @@ export default function DashboardPage() {
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
             <div className="flex items-center gap-2 mb-4">
               <GraduationCap size={16} className="text-purple-400" />
-              <h3 className="text-sm font-bold text-white/70">Tempo Médio por Nível</h3>
+              <h3 className="text-sm font-bold text-white/70">{t('dashboard.avgTimePerLevel')}</h3>
             </div>
             <div className="space-y-3">
               {stats.tempoMedioPorNível.map((item, i) => {
@@ -318,7 +320,7 @@ export default function DashboardPage() {
       </Section>
 
       {/* 4. FINANCEIRO RESUMO */}
-      <Section title="Financeiro — Resumo">
+      <Section title={t('dashboard.financialSummary')}>
         <FinanceiroResumo data={stats.financeiroResumo} />
       </Section>
 
@@ -328,7 +330,7 @@ export default function DashboardPage() {
       )}
 
       {/* AÇÕES RÁPIDAS */}
-      <Section title="Ações Rápidas">
+      <Section title={t('dashboard.quickActions')}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <QuickAction href="/check-in" icon={ClipboardCheck} title="Validar Check-in" subtitle="Confirmar presença" />
           <QuickAction href="/usuarios" icon={Users} title="Gerenciar Usuários" subtitle="Ver todos os alunos" />
@@ -338,7 +340,7 @@ export default function DashboardPage() {
 
       {/* ALERTAS RECENTES */}
       {alertasAtivos.length > 0 && (
-        <Section title="Alertas Recentes" action={{ label: 'Ver Todos', href: '/alertas' }}>
+        <Section title={t('dashboard.recentAlerts')} action={{ label: t('dashboard.seeAll'), href: '/alertas' }}>
           <div className="space-y-2">
             {alertasAtivos.slice(0, 3).map((alerta) => (
               <div key={alerta.id} className="flex items-start gap-3 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg">
@@ -390,6 +392,7 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
   title: string; value: number; total?: number; percentage?: number;
   icon: typeof Users; link: string; status: 'success' | 'warning' | 'critical' | 'info' | 'frozen' | 'inactive'; alert?: boolean;
 }) {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const isW = status === 'warning'; const isC = status === 'critical';
@@ -415,7 +418,7 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
       </div>
       {alert && (
         <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '2px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }} className={`inline-flex items-center gap-1.5 px-2.5 py-1 ${isC ? 'text-red-400' : 'text-yellow-400'}`}>
-          <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" /> Requer Atenção
+          <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" /> {t('dashboard.requiresAttention')}
         </div>
       )}
     </Link>

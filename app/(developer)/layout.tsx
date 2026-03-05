@@ -8,6 +8,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -31,8 +32,9 @@ function DevLayoutInner({ children }: { children: ReactNode }) {
 }
 
 export default function DeveloperLayout({ children }: { children: ReactNode }) {
+  const t = useTranslations('developer.layout');
   return (
-    <ProtectedRoute allowedTypes={[...DEV_TYPES]} loadingText="Carregando painel técnico...">
+    <ProtectedRoute allowedTypes={[...DEV_TYPES]} loadingText={t('loading')}>
       <GlobalSearchProvider>
         <DevLayoutInner>{children}</DevLayoutInner>
       </GlobalSearchProvider>

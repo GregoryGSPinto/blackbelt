@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
 import {
   Trophy, Calendar, MapPin, Users, ArrowLeft, Ticket,
@@ -36,6 +37,7 @@ function formatDate(d: string) {
 // ── Page ──────────────────────────────────────────────────
 
 export default function EventoDetalhePage() {
+  const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 

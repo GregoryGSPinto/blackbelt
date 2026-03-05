@@ -20,6 +20,7 @@ import {
 import * as pedagogicoService from '@/lib/api/professor-pedagogico.service';
 import type { AlunoPedagogico } from '@/lib/api/professor-pedagogico.service';
 import { handleServiceError } from '@/components/shared/DataStates';
+import { useTranslations } from 'next-intl';
 
 import { QuickMessage } from '@/components/shared/QuickMessage';
 
@@ -28,11 +29,7 @@ const alunoCache = new Map<string, AlunoPedagogico>();
 
 type Tab = 'visao' | 'progresso' | 'conquistas';
 
-const TABS: { id: Tab; label: string; icon: typeof User }[] = [
-  { id: 'visao', label: 'Visão Geral', icon: User },
-  { id: 'progresso', label: 'Progresso', icon: TrendingUp },
-  { id: 'conquistas', label: 'Conquistas', icon: Award },
-];
+// TABS moved inside component to use translations
 
 const NIVEL_COLORS: Record<string, string> = {
   'Branca': '#FFFFFF', 'Cinza': '#9CA3AF', 'Amarela': '#FBBF24',
@@ -52,6 +49,14 @@ interface Props {
 }
 
 export function AlunoDetailPanel({ alunoId, onClose }: Props) {
+  const t = useTranslations('professor.studentDetail');
+
+  const TABS: { id: Tab; label: string; icon: typeof User }[] = [
+    { id: 'visao', label: t('tabs.overview'), icon: User },
+    { id: 'progresso', label: t('tabs.progress'), icon: TrendingUp },
+    { id: 'conquistas', label: t('tabs.achievements'), icon: Award },
+  ];
+
   const [aluno, setAluno] = useState<AlunoPedagogico | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -76,7 +81,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
     setActiveTab('visao');
     pedagogicoService.getAlunoById(alunoId)
       .then(data => {
-        if (!data) { setError('Aluno não encontrado'); return; }
+        if (!data) { setError(t('studentNotFound')); return; }
         alunoCache.set(alunoId, data); // Cache for instant re-access
         setAluno(data);
       })
@@ -98,7 +103,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-center">
         <AlertTriangle size={24} className="text-red-400 mb-2" />
-        <p className="text-sm text-white/40">{error || 'Aluno não encontrado'}</p>
+        <p className="text-sm text-white/40">{error || t('studentNotFound')}</p>
       </div>
     );
   }
@@ -144,9 +149,9 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
 
         {/* Quick stats */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">
-          <StatBox label="Frequência 30d" value={`${freqPct}%`} color={freqColor} />
-          <StatBox label="Sessões mês" value={`${aluno.frequencia.totalSessões}`} color="#60A5FA" />
-          <StatBox label="Total sessões" value={`${aluno.frequencia.totalSessões}`} color="#A78BFA" />
+          <StatBox label={t('freq30d')} value={`${freqPct}%`} color={freqColor} />
+          <StatBox label={t('monthSessions')} value={`${aluno.frequencia.totalSessões}`} color="#60A5FA" />
+          <StatBox label={t('totalSessions')} value={`${aluno.frequencia.totalSessões}`} color="#A78BFA" />
         </div>
 
         {/* Actions */}
@@ -156,14 +161,14 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
             className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium
                        bg-amber-500/10 border border-amber-500/20 text-amber-300 hover:bg-amber-500/15 transition-colors"
           >
-            <MessageSquare size={12} /> Mensagem
+            <MessageSquare size={12} /> {t('message')}
           </button>
           <Link
             href={`/professor-aluno-detalhe?id=${alunoId}`}
             className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium
                        bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 transition-colors"
           >
-            <ExternalLink size={12} /> Página Completa
+            <ExternalLink size={12} /> {t('fullPage')}
           </Link>
         </div>
       </div>
@@ -191,7 +196,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
           <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: 'rgba(255,255,255,0.02)' }}>
             <Calendar size={14} className="text-white/20" />
             <div>
-              <p className="text-xs font-medium text-white/60">Próxima sessão</p>
+              <p className="text-xs font-medium text-white/60">{t('nextSession')}</p>
               <p className="text-xs text-white/30">
                 {aluno.turma}
               </p>
@@ -203,14 +208,14 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
             <div className="rounded-xl p-3 flex items-center gap-3"
               style={{ background: 'rgba(251,191,36,0.05)', border: '1px solid rgba(251,191,36,0.1)' }}>
               <AlertTriangle size={14} className="text-amber-400/60" />
-              <p className="text-xs text-amber-300/60">Frequência abaixo do esperado nos últimos 30 dias</p>
+              <p className="text-xs text-amber-300/60">{t('lowFreqWarning')}</p>
             </div>
           )}
           {aluno.status === 'ausente' && (
             <div className="rounded-xl p-3 flex items-center gap-3"
               style={{ background: 'rgba(248,113,113,0.05)', border: '1px solid rgba(248,113,113,0.1)' }}>
               <AlertTriangle size={14} className="text-red-400/60" />
-              <p className="text-xs text-red-300/60">Ausente há mais de 7 dias</p>
+              <p className="text-xs text-red-300/60">{t('absentWarning')}</p>
             </div>
           )}
         </div>
@@ -235,7 +240,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
               </div>
               <p className="text-[10px] text-white/15 mt-1">Atualizado: {mod.ultimaAtualizacao}</p>
             </div>
-          )) || <p className="text-xs text-white/20 text-center py-4">Nenhum módulo de progresso registrado</p>}
+          )) || <p className="text-xs text-white/20 text-center py-4">{t('noProgressModules')}</p>}
         </div>
       )}
 
@@ -254,7 +259,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
           ) : (
             <div className="flex flex-col items-center py-6">
               <Award size={24} className="text-white/10 mb-2" />
-              <p className="text-xs text-white/20">Nenhuma conquista ainda</p>
+              <p className="text-xs text-white/20">{t('noAchievements')}</p>
             </div>
           )}
         </div>

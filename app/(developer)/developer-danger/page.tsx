@@ -16,10 +16,12 @@ import { getDangerZoneInfo, forceLogoutAll, toggleMaintenanceMode } from '@/lib/
 import type { DangerZoneInfo } from '@/lib/api/developer.service';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
 import { useToast } from '@/contexts/ToastContext';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function DeveloperDangerPage() {
+  const t = useTranslations('developer.danger');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -46,11 +48,11 @@ export default function DeveloperDangerPage() {
     setActionLoading(true);
     try {
       const result = await forceLogoutAll();
-      toast.success(`Force logout executado. ${result.affected} sessões encerradas.`);
+      toast.success(`${t('forceLogoutSuccess')} ${t('sessionsEnded', { count: result.affected })}`);
       setShowLogoutAll(false);
       refresh();
     } catch {
-      toast.error('Erro ao executar force logout.');
+      toast.error('Force logout error');
     } finally {
       setActionLoading(false);
     }
@@ -62,12 +64,12 @@ export default function DeveloperDangerPage() {
     try {
       await toggleMaintenanceMode(!info.maintenanceMode);
       toast.success(
-        info.maintenanceMode ? 'Modo manutenção desativado.' : 'Modo manutenção ativado.'
+        info.maintenanceMode ? t('maintenanceDisabled') : t('maintenanceEnabled')
       );
       setShowMaintenance(false);
       refresh();
     } catch {
-      toast.error('Erro ao alterar modo manutenção.');
+      toast.error('Maintenance mode error');
     } finally {
       setActionLoading(false);
     }
@@ -127,20 +129,20 @@ export default function DeveloperDangerPage() {
           <div className="flex items-center gap-2">
             <Wrench className={`w-4 h-4 ${info.maintenanceMode ? 'text-yellow-400' : 'text-emerald-400'}`} />
             <span className="text-sm font-semibold text-white">
-              Maintenance Mode: {info.maintenanceMode ? 'ATIVO' : 'INATIVO'}
+              {t('maintenanceMode')} {info.maintenanceMode ? t('active') : t('inactive')}
             </span>
           </div>
           <p className="text-[10px] text-white/40 mt-1">
             {info.maintenanceMode
-              ? 'O sistema está em manutenção. Apenas SYS_AUDITOR pode acessar.'
-              : 'Sistema operando normalmente.'}
+              ? t('maintenanceActiveMsg')
+              : t('systemNormal')}
           </p>
         </div>
       )}
 
       {/* Danger Actions */}
       <div className="space-y-3">
-        <h2 className="text-xs font-semibold text-red-400/60 uppercase tracking-wider">Ações Destrutivas</h2>
+        <h2 className="text-xs font-semibold text-red-400/60 uppercase tracking-wider">{t('destructiveActions')}</h2>
 
         {/* Force Logout All */}
         <div className="p-4 bg-red-500/[0.03] border-2 border-red-500/20 rounded-lg">
@@ -151,7 +153,7 @@ export default function DeveloperDangerPage() {
                 <h3 className="text-sm font-bold text-white">Force Logout All</h3>
               </div>
               <p className="text-[10px] text-white/40 mt-1">
-                Encerra TODAS as sessões ativas. Todos os usuários serão forçados a fazer login novamente.
+                {t('forceLogoutDesc')}
               </p>
             </div>
             <button
@@ -173,8 +175,8 @@ export default function DeveloperDangerPage() {
               </div>
               <p className="text-[10px] text-white/40 mt-1">
                 {info?.maintenanceMode
-                  ? 'Desativar modo manutenção. O sistema voltará ao funcionamento normal.'
-                  : 'Ativar modo manutenção. Apenas SYS_AUDITOR poderá acessar o sistema.'}
+                  ? t('disableMaintenance')
+                  : t('enableMaintenance')}
               </p>
             </div>
             <button
@@ -195,9 +197,9 @@ export default function DeveloperDangerPage() {
         loading={actionLoading}
         variant="danger"
         title="Force Logout All"
-        message={`Tem certeza? Isso encerrará ${info?.activeSessions || 'todas as'} sessões ativas. Todos os usuários serão desconectados imediatamente.`}
+        message={t('forceLogoutDesc')}
         requireTyping="LOGOUT"
-        confirmLabel="Executar Force Logout"
+        confirmLabel={t('execute')}
       />
 
       <ConfirmModal
@@ -206,11 +208,11 @@ export default function DeveloperDangerPage() {
         onConfirm={handleToggleMaintenance}
         loading={actionLoading}
         variant="warning"
-        title={info?.maintenanceMode ? 'Desativar Manutenção' : 'Ativar Manutenção'}
+        title={info?.maintenanceMode ? t('disableMaintenance') : t('enableMaintenance')}
         message={info?.maintenanceMode
-          ? 'O sistema voltará ao funcionamento normal e todos os perfis poderão acessar.'
-          : 'O sistema entrará em modo manutenção. Apenas SYS_AUDITOR terá acesso.'}
-        confirmLabel={info?.maintenanceMode ? 'Desativar' : 'Ativar Manutenção'}
+          ? t('disableMaintenance')
+          : t('enableMaintenance')}
+        confirmLabel={info?.maintenanceMode ? t('disableMaintenance') : t('enableMaintenance')}
       />
     </div>
   );

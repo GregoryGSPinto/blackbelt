@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   FileText,
   ClipboardCheck, DollarSign, Users, Award, Trophy,
@@ -33,6 +34,7 @@ const FORMATO_CONFIG: Record<FormatoExportacao, { label: string; Icon: typeof Fi
 export default function RelatoriosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const t = useTranslations('admin');
 
   const [configs, setConfigs] = useState<RelatorioConfig[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,16 +90,16 @@ export default function RelatoriosPage() {
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <BarChart3 size={24} className="text-blue-400" />
-          Relatórios e Exportações
+          {t('reports.title')}
         </h1>
         <p className="text-sm text-white/40 mt-1">
-          Gere relatórios detalhados e exporte em CSV, Excel ou PDF
+          {t('reports.description')}
         </p>
       </div>
 
       {/* Step 1: Select report type */}
       <div>
-        <StepHeader number={1} title="Selecione o tipo de relatório" />
+        <StepHeader number={1} title={t('reports.selectType')} />
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[...Array(6)].map((_, i) => (
@@ -156,11 +158,11 @@ export default function RelatoriosPage() {
       {/* Step 2: Period selection */}
       {selectedTipo && (
         <div>
-          <StepHeader number={2} title="Defina o período" />
+          <StepHeader number={2} title={t('reports.definePeriod')} />
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
             <div>
               <label className="text-[10px] text-white/30 uppercase tracking-wider block mb-1.5">
-                Data início
+                {t('reports.startDate')}
               </label>
               <input
                 type="date"
@@ -171,7 +173,7 @@ export default function RelatoriosPage() {
             </div>
             <div>
               <label className="text-[10px] text-white/30 uppercase tracking-wider block mb-1.5">
-                Data fim
+                {t('reports.endDate')}
               </label>
               <input
                 type="date"
@@ -186,9 +188,9 @@ export default function RelatoriosPage() {
               className="flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-300 text-sm font-bold hover:bg-blue-500/30 transition-colors disabled:opacity-40"
             >
               {generating ? (
-                <><Loader2 size={16} className="animate-spin" /> Gerando...</>
+                <><Loader2 size={16} className="animate-spin" /> {t('reports.generating')}</>
               ) : (
-                <><Eye size={16} /> Gerar Relatório</>
+                <><Eye size={16} /> {t('reports.generateReport')}</>
               )}
             </button>
           </div>
@@ -201,7 +203,7 @@ export default function RelatoriosPage() {
       {/* Step 3: Preview + Export */}
       {relatorio && (
         <div>
-          <StepHeader number={3} title="Resultado" />
+          <StepHeader number={3} title={t('reports.result')} />
 
           {/* Summary cards */}
           {relatorio.resumo && relatorio.resumo.length > 0 && (
@@ -217,7 +219,7 @@ export default function RelatoriosPage() {
 
           {/* Export buttons */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="text-xs text-white/30">Exportar como:</span>
+            <span className="text-xs text-white/30">{t('reports.exportAs')}:</span>
             {selectedConfig?.formatosDisponiveis.map(formato => {
               const cfg = FORMATO_CONFIG[formato];
               const FormatoIcon = cfg.Icon;
@@ -273,7 +275,7 @@ export default function RelatoriosPage() {
             {relatorio.totalLinhas > 20 && (
               <div className="px-4 py-3 border-t border-white/[0.04] text-center">
                 <p className="text-[10px] text-white/20">
-                  Exibindo 20 de {relatorio.totalLinhas} linhas. Exporte o relatório completo acima.
+                  {t('reports.showing20of', { total: relatorio.totalLinhas })}
                 </p>
               </div>
             )}

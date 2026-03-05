@@ -19,6 +19,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 // ── Etapa config ──
 interface EtapaConfig {
@@ -55,6 +56,7 @@ function formatPhone(tel: string): string {
 }
 
 export default function LeadsPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
@@ -124,7 +126,7 @@ export default function LeadsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Funil de Vendas</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('leads.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Acompanhe e gerencie seus leads</p>
         </div>
         <button
@@ -141,28 +143,28 @@ export default function LeadsPage() {
           <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Users size={16} className="text-blue-400" />
-              <span className="text-white/40 text-xs">Total Leads</span>
+              <span className="text-white/40 text-xs">{t('leads.totalLeads')}</span>
             </div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.totalLeads}</p>
           </div>
           <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Target size={16} className="text-green-400" />
-              <span className="text-white/40 text-xs">Taxa Conversão</span>
+              <span className="text-white/40 text-xs">{t('leads.conversionRate')}</span>
             </div>
             <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.taxaConversao}%</p>
           </div>
           <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp size={16} className="text-amber-400" />
-              <span className="text-white/40 text-xs">Convertidos/Mês</span>
+              <span className="text-white/40 text-xs">{t('leads.convertedMonth')}</span>
             </div>
             <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.conversaoMes}</p>
           </div>
           <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Clock size={16} className="text-purple-400" />
-              <span className="text-white/40 text-xs">Tempo Médio</span>
+              <span className="text-white/40 text-xs">{t('leads.avgTime')}</span>
             </div>
             <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.tempoMedioConversao}d</p>
           </div>
@@ -172,7 +174,7 @@ export default function LeadsPage() {
       {/* Origin breakdown */}
       {stats && (
         <div style={{ ...glass, padding: '1.25rem' }}>
-          <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">Origem dos Leads</p>
+          <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">{t('leads.leadSources')}</p>
           <div className="flex gap-3 flex-wrap">
             {(Object.entries(stats.porOrigem) as [string, number][])
               .filter(([, v]) => v > 0)
@@ -445,6 +447,7 @@ function getNextEtapas(current: LeadEtapa): EtapaConfig[] {
 
 // ── New Lead Modal ──
 function NewLeadModal({ onClose, onSave }: { onClose: () => void; onSave: (lead: Lead) => void }) {
+  const t = useTranslations('admin');
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
@@ -495,7 +498,7 @@ function NewLeadModal({ onClose, onSave }: { onClose: () => void; onSave: (lead:
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-white">Novo Lead</h3>
+            <h3 className="text-xl font-bold text-white">{t('leads.newLead')}</h3>
             <button onClick={onClose} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>
           </div>
 

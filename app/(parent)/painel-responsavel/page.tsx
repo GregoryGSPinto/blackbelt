@@ -1,11 +1,12 @@
 'use client';
 
 // ============================================================
-// PAINEL DO RESPONSÁVEL — Enhanced with visual frequency,
+// PAINEL DO RESPONSAVEL — Enhanced with visual frequency,
 // behavioral indicator, quick message, and premium design
 // ============================================================
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   CheckCircle, AlertCircle, XCircle, Clock, Award,
   TrendingUp, Calendar, MessageCircle,
@@ -23,34 +24,35 @@ import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Status helpers ──
 
-function getStatusBadge(status: string) {
-  switch (status) {
-    case 'ATIVO': return { text: 'Ativo', color: 'text-emerald-400 bg-emerald-500/15 border-emerald-500/25', icon: <CheckCircle size={14} className="text-emerald-400" /> };
-    case 'EM_ATRASO': return { text: 'Em Atraso', color: 'text-amber-400 bg-amber-500/15 border-amber-500/25', icon: <AlertCircle size={14} className="text-amber-400" /> };
-    case 'BLOQUEADO': return { text: 'Bloqueado', color: 'text-red-400 bg-red-500/15 border-red-500/25', icon: <XCircle size={14} className="text-red-400" /> };
-    default: return { text: 'Desconhecido', color: 'text-white/40 bg-white/5 border-white/10', icon: null };
-  }
+function StatusBadgeHelper(t: ReturnType<typeof useTranslations>) {
+  return (status: string) => {
+    switch (status) {
+      case 'ATIVO': return { text: t('statusActive'), color: 'text-emerald-400 bg-emerald-500/15 border-emerald-500/25', icon: <CheckCircle size={14} className="text-emerald-400" /> };
+      case 'EM_ATRASO': return { text: t('statusOverdue'), color: 'text-amber-400 bg-amber-500/15 border-amber-500/25', icon: <AlertCircle size={14} className="text-amber-400" /> };
+      case 'BLOQUEADO': return { text: t('statusBlocked'), color: 'text-red-400 bg-red-500/15 border-red-500/25', icon: <XCircle size={14} className="text-red-400" /> };
+      default: return { text: t('statusUnknown'), color: 'text-white/40 bg-white/5 border-white/10', icon: null };
+    }
+  };
 }
 
 // ── Behavioral indicator based on frequency ──
 
-function getBehavior(presenca: number) {
-  if (presenca >= 85) return { emoji: '😊', label: 'Excelente', color: 'text-emerald-400', bg: 'bg-emerald-500/10' };
-  if (presenca >= 60) return { emoji: '😐', label: 'Regular', color: 'text-amber-400', bg: 'bg-amber-500/10' };
-  return { emoji: '😟', label: 'Atenção', color: 'text-red-400', bg: 'bg-red-500/10' };
+function getBehaviorHelper(t: ReturnType<typeof useTranslations>) {
+  return (presenca: number) => {
+    if (presenca >= 85) return { emoji: '😊', label: t('statusExcellent'), color: 'text-emerald-400', bg: 'bg-emerald-500/10' };
+    if (presenca >= 60) return { emoji: '😐', label: t('statusRegular'), color: 'text-amber-400', bg: 'bg-amber-500/10' };
+    return { emoji: '😟', label: t('statusAttention'), color: 'text-red-400', bg: 'bg-red-500/10' };
+  };
 }
 
 // ── Weekly frequency mock ──
 
 type DayStatus = 'presente' | 'ausente' | 'sem_aula';
-const DIAS_SEMANA = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'];
 
 function getMockWeeklyFrequency(): DayStatus[] {
   // Simulates this week: present on class days, absent once
   return ['presente', 'sem_aula', 'presente', 'sem_aula', 'ausente'];
 }
-
-// ── Quick message: uses shared QuickMessage component ──
 
 // ── Page styles ──
 
@@ -77,6 +79,8 @@ const STYLES = `
 // ── Weekly Frequency Circles ──
 
 function WeeklyFrequency({ days }: { days: DayStatus[] }) {
+  const tw = useTranslations('common.time.weekdays');
+  const DIAS_SEMANA = [tw('mon'), tw('tue'), tw('wed'), tw('thu'), tw('fri')];
   return (
     <div className="flex items-center gap-3 justify-center">
       {days.map((status, i) => {
@@ -123,6 +127,8 @@ function StatMini({ icon: Icon, value, label, color }: { icon: typeof Award; val
 // ══════════════════════════════════════════════════════════════
 
 export default function PainelResponsavelPage() {
+  const t = useTranslations('parent.dashboard');
+  const ts = useTranslations('common.status');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -130,10 +136,25 @@ export default function PainelResponsavelPage() {
   const [showMessage, setShowMessage] = useState(false);
   const weeklyDays = getMockWeeklyFrequency();
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'ATIVO': return { text: ts('active'), color: 'text-emerald-400 bg-emerald-500/15 border-emerald-500/25', icon: <CheckCircle size={14} className="text-emerald-400" /> };
+      case 'EM_ATRASO': return { text: ts('overdue'), color: 'text-amber-400 bg-amber-500/15 border-amber-500/25', icon: <AlertCircle size={14} className="text-amber-400" /> };
+      case 'BLOQUEADO': return { text: ts('blocked'), color: 'text-red-400 bg-red-500/15 border-red-500/25', icon: <XCircle size={14} className="text-red-400" /> };
+      default: return { text: ts('inactive'), color: 'text-white/40 bg-white/5 border-white/10', icon: null };
+    }
+  };
+
+  const getBehavior = (presenca: number) => {
+    if (presenca >= 85) return { emoji: '😊', label: t('statusExcellent'), color: 'text-emerald-400', bg: 'bg-emerald-500/10' };
+    if (presenca >= 60) return { emoji: '😐', label: t('statusRegular'), color: 'text-amber-400', bg: 'bg-amber-500/10' };
+    return { emoji: '😟', label: t('statusAttention'), color: 'text-red-400', bg: 'bg-red-500/10' };
+  };
+
   if (!selectedKid) {
     return (
       <div className="text-center py-20">
-        <p className="text-white/60 text-lg">Selecione um filho para visualizar o dashboard</p>
+        <p className="text-white/60 text-lg">{t('trackProgress', { name: '' })}</p>
       </div>
     );
   }
@@ -149,17 +170,17 @@ export default function PainelResponsavelPage() {
 
       {/* ── Header ── */}
       <section className="pt-4">
-        <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">Painel do Responsável</p>
+        <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">{t('title')}</p>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
-          Olá, {parentProfile?.nome?.split(' ')[0] || 'Responsável'}! 👋
+          {t('greeting', { name: parentProfile?.nome?.split(' ')[0] || '' })} 👋
         </h1>
-        <p className="text-white/50 text-sm mt-1">Acompanhe o progresso de {selectedKid.nome}</p>
+        <p className="text-white/50 text-sm mt-1">{t('trackProgress', { name: selectedKid.nome })}</p>
       </section>
 
       {/* Welcome card — first visit only */}
       <WelcomeCard profileKey="responsavel" userName={parentProfile?.nome} />
 
-      {/* ── Check-in contextual (se filho tem sessão agora) ── */}
+      {/* ── Check-in contextual ── */}
       <ParentCheckinCard />
 
       {/* ── Kid Card + Behavioral ── */}
@@ -175,7 +196,7 @@ export default function PainelResponsavelPage() {
           </div>
           <div className="flex-1">
             <h2 className="text-white font-bold text-lg">{selectedKid.nome}</h2>
-            <p className="text-white/40 text-xs">Nível {selectedKid.nivel} · {selectedKid.idade} anos · {selectedKid.turma.split(' - ')[0]}</p>
+            <p className="text-white/40 text-xs">{t('trackProgress', { name: '' }).replace(/ de$/, '')} {selectedKid.nivel} · {selectedKid.idade} anos · {selectedKid.turma.split(' - ')[0]}</p>
           </div>
           <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold border ${statusBadge.color}`}>
             {statusBadge.icon}
@@ -188,20 +209,20 @@ export default function PainelResponsavelPage() {
           <span className="text-2xl">{behavior.emoji}</span>
           <div>
             <p className={`text-sm font-bold ${behavior.color}`}>{behavior.label}</p>
-            <p className="text-white/30 text-[10px]">Baseado na frequência e participação</p>
+            <p className="text-white/30 text-[10px]">{t('statusBasedOn')}</p>
           </div>
         </div>
 
         {/* Weekly Frequency Circles */}
         <div className="mb-5">
-          <p className="text-white/40 text-[10px] uppercase tracking-wider text-center mb-3">Frequência desta semana</p>
+          <p className="text-white/40 text-[10px] uppercase tracking-wider text-center mb-3">{t('weekFrequency')}</p>
           <WeeklyFrequency days={weeklyDays} />
         </div>
 
         {/* Presence bar */}
         <div className="mb-5">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-white/50 text-xs">Presença (30 dias)</span>
+            <span className="text-white/50 text-xs">{t('monthAttendance')}</span>
             <span className={`${presenca >= 85 ? 'text-emerald-400' : presenca >= 60 ? 'text-amber-400' : 'text-red-400'} font-bold text-sm tabular-nums`}>{presenca}%</span>
           </div>
           <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
@@ -218,7 +239,7 @@ export default function PainelResponsavelPage() {
             href={`/painel-responsavel/checkin?kid=${selectedKid.id}`}
             className="flex-1 py-3 rounded-xl bg-white text-black font-bold text-sm text-center hover:bg-white/90 transition-colors active:scale-[0.98]"
           >
-            Check-in
+            {t('checkinBtn')}
           </Link>
           <button
             data-tour="parent-mensagem"
@@ -226,23 +247,23 @@ export default function PainelResponsavelPage() {
             className="flex items-center gap-2 px-4 py-3 rounded-xl bg-blue-500/15 border border-blue-500/25 text-blue-400 font-semibold text-sm hover:bg-blue-500/25 transition-colors active:scale-[0.98]"
           >
             <MessageCircle size={14} />
-            Professor
+            {t('professorBtn')}
           </button>
           <Link
             href={`/painel-responsavel/meus-filhos/${selectedKid.id}`}
             className="px-4 py-3 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white/60 text-sm hover:bg-white/[0.1] transition-colors active:scale-[0.98]"
           >
-            Perfil
+            {t('profileBtn')}
           </Link>
         </div>
       </section>
 
       {/* ── Stats Grid ── */}
       <section data-tour="parent-progresso" className="grid grid-cols-2 md:grid-cols-4 gap-3" style={staggerStyle(1, undefined, 0, 60)}>
-        <StatMini icon={Calendar} value={selectedKid.progresso.sessõesAssistidas} label="Sessões Assistidas" color="text-blue-400" />
-        <StatMini icon={Target} value={selectedKid.progresso.desafiosConcluidos} label="Desafios" color="text-purple-400" />
-        <StatMini icon={Award} value={selectedKid.progresso.conquistasConquistadas} label="Conquistas" color="text-amber-400" />
-        <StatMini icon={TrendingUp} value={`${presenca}%`} label="Presença Geral" color="text-emerald-400" />
+        <StatMini icon={Calendar} value={selectedKid.progresso.sessoesAssistidas} label={t('myChildren')} color="text-blue-400" />
+        <StatMini icon={Target} value={selectedKid.progresso.desafiosConcluidos} label={t('myChildren')} color="text-purple-400" />
+        <StatMini icon={Award} value={selectedKid.progresso.conquistasConquistadas} label={t('myChildren')} color="text-amber-400" />
+        <StatMini icon={TrendingUp} value={`${presenca}%`} label={t('attendance')} color="text-emerald-400" />
       </section>
 
       {/* ── Simulated Push Notification ── */}
@@ -256,19 +277,19 @@ export default function PainelResponsavelPage() {
               <Star size={16} className="text-emerald-400" />
             </div>
             <div>
-              <p className="text-emerald-400 font-bold text-sm">Nova Conquista! 🎉</p>
+              <p className="text-emerald-400 font-bold text-sm">{t('newAchievement')} 🎉</p>
               <p className="text-white/50 text-xs mt-0.5">{selectedKid.nome} desbloqueou a conquista "Estudante Dedicado"!</p>
-              <p className="text-white/20 text-[10px] mt-1">Há 2 horas</p>
+              <p className="text-white/20 text-[10px] mt-1">2h</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Próximas Sessões ── */}
+      {/* ── Proximas Sessoes ── */}
       <section style={staggerStyle(3, undefined, 0, 60)}>
         <h3 className="text-white font-bold text-sm mb-3 flex items-center gap-2">
           <Calendar size={16} className="text-blue-400" />
-          Próximas Sessões
+          {t('nextSessions')}
         </h3>
         <div
           className="rounded-xl overflow-hidden"
@@ -276,7 +297,7 @@ export default function PainelResponsavelPage() {
         >
           {[
             { dia: 'Hoje', hora: '18:00', badge: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
-            { dia: 'Amanhã', hora: '18:00', badge: 'bg-white/[0.06] text-white/50 border-white/10' },
+            { dia: 'Amanha', hora: '18:00', badge: 'bg-white/[0.06] text-white/50 border-white/10' },
           ].map((aula, i) => (
             <div key={i} className={`flex items-center justify-between px-4 py-3.5 ${i > 0 ? 'border-t border-white/[0.04]' : ''}`}>
               <div>
@@ -295,13 +316,13 @@ export default function PainelResponsavelPage() {
       <section style={staggerStyle(4, undefined, 0, 60)}>
         <h3 className="text-white font-bold text-sm mb-3 flex items-center gap-2">
           <AlertCircle size={16} className="text-amber-400" />
-          Avisos
+          {t('notices')}
         </h3>
         <div className="space-y-2">
           <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-blue-500/[0.06] border border-blue-500/15">
             <Clock size={14} className="text-blue-400 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-blue-400 font-semibold text-xs">Próximo Pagamento</p>
+              <p className="text-blue-400 font-semibold text-xs">{t('nextPayment')}</p>
               <p className="text-white/40 text-[11px]">Vencimento em 12 dias — R$ 150,00</p>
             </div>
           </div>
@@ -313,7 +334,7 @@ export default function PainelResponsavelPage() {
         <QuickMessage
           recipientName={selectedKid.instrutor}
           recipientId="prof-1"
-          senderName={parentProfile?.nome || 'Responsável'}
+          senderName={parentProfile?.nome || ''}
           senderId="resp-1"
           senderTipo="responsavel"
           conversaId="conv-2"

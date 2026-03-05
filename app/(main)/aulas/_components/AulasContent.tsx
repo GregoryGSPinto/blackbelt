@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import VideoCarousel from '@/components/ui/VideoCarousel';
 import { VideoCardEnhanced } from '@/components/video/VideoCardEnhanced';
 import { VideoPreviewProvider } from '@/components/video/VideoHoverPreview';
@@ -11,6 +12,7 @@ interface SessõesContentProps {
 }
 
 export default function SessõesContent({ videos }: SessõesContentProps) {
+  const t = useTranslations('athlete');
   const router = useRouter();
 
   const fundamentais = videos.filter((v) => v.level === 'Iniciante');
@@ -22,7 +24,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
       <VideoPreviewProvider>
         <div className="space-y-8 px-4 md:px-8">
           {fundamentais.length > 0 && (
-            <VideoCarousel title="Sessões Fundamentais">
+            <VideoCarousel title={t('sessions.fundamental')}>
               {fundamentais.map((video) => (
                 <VideoCardEnhanced
                   key={video.id}
@@ -35,7 +37,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
           )}
 
           {intermediarias.length > 0 && (
-            <VideoCarousel title="Sessões Intermediárias">
+            <VideoCarousel title={t('sessions.intermediate')}>
               {intermediarias.map((video) => (
                 <VideoCardEnhanced
                   key={video.id}
@@ -48,7 +50,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
           )}
 
           {avancadas.length > 0 && (
-            <VideoCarousel title="Sessões Avançadas">
+            <VideoCarousel title={t('sessions.advanced')}>
               {avancadas.map((video) => (
                 <VideoCardEnhanced
                   key={video.id}
@@ -60,7 +62,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
             </VideoCarousel>
           )}
 
-          <VideoCarousel title="Todas as Sessões">
+          <VideoCarousel title={t('sessions.allSessions')}>
             {videos.map((video) => (
               <VideoCardEnhanced
                 key={video.id}
