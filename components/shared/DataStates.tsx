@@ -2,7 +2,6 @@
 
 import { AlertTriangle, RefreshCw, Inbox, WifiOff, ShieldX, ServerCrash } from 'lucide-react';
 import { logger } from '@/lib/logger';
-import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { PremiumLoader } from './PremiumLoader';

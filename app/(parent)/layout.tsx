@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode, useState, useRef } from 'react';
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';

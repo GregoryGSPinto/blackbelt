@@ -43,6 +43,7 @@ function StatusBadge({ status, isDark }: { status: StatusAcademia; isDark: boole
 }
 
 function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy; isDark: boolean; onClose: () => void }) {
+  const t = useTranslations('superAdmin.academies');
   return (
     <div className={`
       fixed inset-0 z-50 flex items-center justify-center p-4

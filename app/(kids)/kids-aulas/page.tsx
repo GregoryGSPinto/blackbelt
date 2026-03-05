@@ -136,13 +136,13 @@ export default function KidsSessoesPage() {
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-base font-bold" style={{ color: c.label }}>{t('watchedSessions')}</span>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: c.blue }}>{currentKid.progresso.sessoesAssistidas}</span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: c.blue }}>{currentKid.progresso.sessõesAssistidas}</span>
           </div>
           <div className="h-4 rounded-full overflow-hidden" style={{ background: c.trail }}>
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{
-                width: `${(currentKid.progresso.sessoesAssistidas / SESSOES_MOCK.length) * 100}%`,
+                width: `${(currentKid.progresso.sessõesAssistidas / SESSOES_MOCK.length) * 100}%`,
                 background: `linear-gradient(to right, ${isDark ? '#7DD3FC' : '#60A5FA'}, ${c.blue})`,
               }}
             />

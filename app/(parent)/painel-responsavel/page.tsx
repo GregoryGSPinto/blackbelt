@@ -260,7 +260,7 @@ export default function PainelResponsavelPage() {
 
       {/* ── Stats Grid ── */}
       <section data-tour="parent-progresso" className="grid grid-cols-2 md:grid-cols-4 gap-3" style={staggerStyle(1, undefined, 0, 60)}>
-        <StatMini icon={Calendar} value={selectedKid.progresso.sessoesAssistidas} label={t('myChildren')} color="text-blue-400" />
+        <StatMini icon={Calendar} value={selectedKid.progresso.sessõesAssistidas} label={t('myChildren')} color="text-blue-400" />
         <StatMini icon={Target} value={selectedKid.progresso.desafiosConcluidos} label={t('myChildren')} color="text-purple-400" />
         <StatMini icon={Award} value={selectedKid.progresso.conquistasConquistadas} label={t('myChildren')} color="text-amber-400" />
         <StatMini icon={TrendingUp} value={`${presenca}%`} label={t('attendance')} color="text-emerald-400" />

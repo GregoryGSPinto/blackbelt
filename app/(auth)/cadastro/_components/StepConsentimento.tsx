@@ -38,7 +38,7 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
         </div>
         <h2 className="text-lg font-bold text-white">{t('consent.title')}</h2>
         <p className="text-xs text-white/40 mt-1.5">
-          {t('consent.description', { age: dados.idade })}
+          {t('consent.description', { age: dados.idade ?? 0 })}
         </p>
       </div>
 

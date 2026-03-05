@@ -135,21 +135,21 @@ export function QuickMessage({
             </div>
 
             <div className="flex-1 overflow-y-auto p-3 space-y-1.5">
-              {templates.map((t) => (
+              {templates.map((tpl) => (
                 <button
-                  key={t.id}
-                  onClick={() => handleSendTemplate(t)}
+                  key={tpl.id}
+                  onClick={() => handleSendTemplate(tpl)}
                   disabled={sending}
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.06] transition-colors text-left disabled:opacity-40 group"
                 >
-                  <span className="text-xl flex-shrink-0">{t.emoji}</span>
+                  <span className="text-xl flex-shrink-0">{tpl.emoji}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium text-sm">{t.label}</p>
+                    <p className="text-white font-medium text-sm">{tpl.label}</p>
                     <p className="text-white/25 text-[11px] mt-0.5 line-clamp-1">
-                      {t.texto.replace(/{nome}/g, firstName).replace(/{horario}/g, '18:00')}
+                      {tpl.texto.replace(/{nome}/g, firstName).replace(/{horario}/g, '18:00')}
                     </p>
                   </div>
-                  {sentTemplate === t.id ? (
+                  {sentTemplate === tpl.id ? (
                     <span className="text-emerald-400 text-xs font-bold flex-shrink-0">{t('sent')}</span>
                   ) : (
                     <Send size={12} className="text-white/15 group-hover:text-white/30 flex-shrink-0 transition-colors" />

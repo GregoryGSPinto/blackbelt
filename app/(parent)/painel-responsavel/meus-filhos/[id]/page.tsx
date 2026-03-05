@@ -139,7 +139,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">{t('watchedSessions')}</p>
-              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.sessoesAssistidas}</p>
+              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.sessõesAssistidas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">{t('totalCompleted')}</p>
