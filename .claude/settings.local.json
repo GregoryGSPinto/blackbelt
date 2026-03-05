@@ -51,7 +51,10 @@
       "Bash(npx next:*)",
       "Bash(vercel ls:*)",
       "Bash(pnpm dev:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(cat:*)",
+      "Bash(git restore:*)"
     ]
   }
 }

@@ -1,0 +1,15 @@
+**BLOCO 4 concluido.** Resumo:
+
+### O que foi verificado:
+- **8 ML engines** — todos pure functions, tipos corretos, pesos/thresholds sensatos, edge cases tratados
+- **10 projectors** — todos pure functions, input → ViewModel tipado, zero side effects
+- **6 ACL mappers** — separacao correta snapshot (pure) vs queries (async)
+- **Boundary check** — zero imports de React/Supabase/Next no domain intelligence
+
+### O que foi corrigido:
+- **Boundary violation**: `EngagementInput` movido de `lib/acl/mappers/` para `lib/domain/intelligence/models/engagement.types.ts` — o engine nao deve importar do ACL
+
+### Resultados:
+- **296/296 testes ML passando** (9 test files, zero falhas)
+- **pnpm build**: zero erros
+- **Commit**: `f483e06` — `audit: intelligence layer verified — 296/296 tests passing`

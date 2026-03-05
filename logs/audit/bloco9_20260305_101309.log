@@ -1,0 +1,16 @@
+**Block 9 complete.** Here's the summary:
+
+### 9.1 — Test Suite
+- **Before**: 469 passing, 4 failing, 1 skipped
+- **After**: 473 passing, 0 failing, 1 skipped
+- **Fixed**: RBAC test (wrong expectation for combined permissions) + 3 checkin tests (wrong mock IDs and invalid QR hash)
+
+### 9.2 — CI/CD Pipeline
+- **3 workflows reviewed**: `ci.yml`, `deploy.yml`, `supabase-deploy.yml`
+- **Fix 1**: CI `build` job now depends on `[quality, test]` (was only `quality`)
+- **Fix 2**: Deploy workflow now uses `workflow_run` trigger — waits for CI to pass before deploying
+
+### Verification
+- `pnpm build`: zero errors
+- `npx vitest run`: 473 passed, 0 failed, 1 skipped
+- Committed: `057909c`
