@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { CheckCircle, AlertTriangle, XCircle, Info, X } from 'lucide-react';
 
 // ─── Types ──────────────────────────────────────────────────
@@ -83,7 +84,12 @@ function ToastEntry({
   }, [paused, item.id, duration, onDismiss]);
 
   return (
-    <div
+    <motion.div
+      layout
+      initial={{ opacity: 0, x: 80, scale: 0.95 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: 80, scale: 0.95 }}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       role="alert"
       aria-live="polite"
       className={[
@@ -91,7 +97,6 @@ function ToastEntry({
         'bg-[var(--card-bg)] border border-[var(--border)] shadow-token-lg',
         'overflow-hidden',
       ].join(' ')}
-      style={{ animation: 'toast-slide-in 250ms cubic-bezier(0.16,1,0.3,1)' }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -116,13 +121,14 @@ function ToastEntry({
           style={{ width: `${progress}%` }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 // ─── Provider ───────────────────────────────────────────────
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const prefersReducedMotion = useReducedMotion();
 
   const dismiss = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -149,37 +155,26 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
 
       {/* Toast container */}
-      {toasts.length > 0 && (
-        <div
-          className="fixed bottom-4 right-4 z-[10000] flex flex-col-reverse gap-2 sm:bottom-6 sm:right-6"
-          aria-label="Notifications"
-        >
+      <div
+        className="fixed bottom-4 right-4 z-[10000] flex flex-col-reverse gap-2 sm:bottom-6 sm:right-6"
+        aria-label="Notifications"
+      >
+        <AnimatePresence mode="popLayout">
           {toasts.map((t, i) => (
             <div
               key={t.id}
               style={{
-                transform: `translateY(${i > 0 ? -4 * i : 0}px) scale(${1 - i * 0.02})`,
+                transform: i > 0 && !prefersReducedMotion
+                  ? `translateY(${-4 * i}px) scale(${1 - i * 0.02})`
+                  : undefined,
                 opacity: i > 2 ? 0 : 1,
               }}
             >
               <ToastEntry item={t} onDismiss={dismiss} />
             </div>
           ))}
-        </div>
-      )}
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes toast-slide-in {
-          from { opacity: 0; transform: translateX(100%); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @media (max-width: 640px) {
-          @keyframes toast-slide-in {
-            from { opacity: 0; transform: translateY(100%); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        }
-      `}} />
+        </AnimatePresence>
+      </div>
     </ToastContext.Provider>
   );
 }

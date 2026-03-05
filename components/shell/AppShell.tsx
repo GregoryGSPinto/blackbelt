@@ -37,6 +37,7 @@ import { ShellSidebar } from './ShellSidebar';
 import { ShellSidebarMobileHeader } from './ShellSidebarMobileHeader';
 import { ShellSidebarDesktopHeader } from './ShellSidebarDesktopHeader';
 import { FABCheckin } from '@/components/checkin/FABCheckin';
+import { PageTransition } from '@/components/transitions/PageTransition';
 
 interface AppShellProps {
   config: AppShellConfig;
@@ -317,7 +318,9 @@ export function AppShell({
           <main id="main-content" className={theme.contentClassName || 'p-4 md:p-6'}>
             <div className={`${theme.contentMaxWidth} mx-auto`}>
               <ModuleErrorBoundary moduleName={theme.moduleName as ModuleName}>
-                {children}
+                <PageTransition key={pathname}>
+                  {children}
+                </PageTransition>
               </ModuleErrorBoundary>
             </div>
           </main>
@@ -381,7 +384,9 @@ export function AppShell({
           style={theme.contentPadding ? { padding: theme.contentPadding } : undefined}
         >
           <ModuleErrorBoundary moduleName={theme.moduleName as ModuleName}>
-            {children}
+            <PageTransition key={pathname}>
+              {children}
+            </PageTransition>
           </ModuleErrorBoundary>
         </div>
       </main>

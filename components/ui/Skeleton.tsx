@@ -11,8 +11,7 @@ interface SkeletonProps {
 }
 
 const SHIMMER_BASE = [
-  'animate-pulse rounded-token-sm',
-  'bg-[var(--bg-tertiary)]',
+  'animate-shimmer rounded-token-sm',
 ].join(' ');
 
 export function Skeleton({
