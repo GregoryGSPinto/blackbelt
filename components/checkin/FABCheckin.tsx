@@ -108,6 +108,7 @@ function StudentRow({
     <button
       onClick={handleClick}
       disabled={aluno.checked || checking}
+      aria-label={`Check-in para ${aluno.nome}`}
       className={`
         w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200
         ${aluno.checked ? 'opacity-60' : 'hover:bg-white/5 active:scale-[0.98]'}

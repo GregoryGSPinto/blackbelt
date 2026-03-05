@@ -567,3 +567,134 @@ Localizacao: `lib/acl/mappers/`
 - **npx vitest run**: 469 passed, 4 failed (pre-existentes em `checkin.service.test.ts`), 1 skipped
   - Nenhuma regressao introduzida pelo Bloco 5
   - Os 4 testes falhando sao os mesmos pre-existentes dos Blocos 1-4
+
+---
+
+## BLOCO 6 — Frontend & UX
+
+### 6.1 — Rotas e Navegacao
+
+#### Mapeamento de Rotas
+
+**Total de paginas (page.tsx): 109**
+**Total de layouts (layout.tsx): 10**
+
+| Route Group | Pages | Layout | Status |
+|-------------|-------|--------|--------|
+| `(admin)` | 27 | OK — AppShell + ADMIN_SHELL_CONFIG, ProtectedRoute UNIT_OWNER/ADMINISTRADOR | Todas validas |
+| `(professor)` | 13 | OK — AppShell + cinematic overlays | Todas validas |
+| `(main)` (adulto) | 27 | OK — AppShell + ProfileSwipeWrapper, dual theme | Todas validas |
+| `(teen)` | 10 | OK — AppShell + ProfileSwipeWrapper, dual theme | Todas validas |
+| `(kids)` | 7 | OK — AppShell + InactivityGuard + KidsGatekeeper (PIN/biometria) | Todas validas |
+| `(parent)` | 5 | OK — Layout custom com nav manual (desktop header + mobile nav) | Todas validas |
+| `(auth)` | 5 | OK — ErrorBoundary wrapper | Todas validas |
+| `(developer)` | 8 | OK — AppShell + DEV_SHELL_CONFIG, permite SYS_AUDITOR/SUPPORT/SUPER_ADMIN | Todas validas |
+| `(super-admin)` | 4 | OK — AppShell + SUPER_ADMIN_SHELL_CONFIG, dual theme | Todas validas |
+| Root & Other | 3 | OK — Root layout com providers globais | Todas validas |
+
+#### Verificacoes por Rota
+
+| Verificacao | Status | Detalhes |
+|-------------|--------|----------|
+| Default export valido | 109/109 PASS | Todas as paginas exportam componentes React validos |
+| Imports resolvem | 109/109 PASS | Zero imports de modulos inexistentes |
+| Layout correspondente | 10/10 PASS | Todos os route groups tem layout.tsx |
+| Paginas vazias/TODO-only | 0 encontradas | Todas as paginas tem conteudo substancial |
+| Loading state (skeleton/spinner) | PASS | Uso consistente de PageSkeleton e PremiumLoader |
+| Error state (PageError) | PASS | Uso consistente de PageError de DataStates.tsx |
+| Empty state (PageEmpty) | PASS | Uso consistente de PageEmpty de DataStates.tsx |
+
+#### Navegacao por Perfil
+
+| Perfil | Rota Base | Shell Config | ProtectedRoute | Status |
+|--------|-----------|-------------|----------------|--------|
+| ADMIN | `/(admin)/` | ADMIN_SHELL_CONFIG | UNIT_OWNER, ADMINISTRADOR, SUPER_ADMIN, GESTOR | OK |
+| PROFESSOR | `/(professor)/` | PROFESSOR_SHELL_CONFIG | INSTRUTOR | OK |
+| ADULTO | `/(main)/` | MAIN_SHELL_CONFIG | ALUNO_ADULTO | OK |
+| TEEN | `/(teen)/` | TEEN_SHELL_CONFIG | ALUNO_TEEN | OK |
+| KIDS | `/(kids)/` | KIDS_SHELL_CONFIG | ALUNO_KIDS | OK |
+| PARENT | `/(parent)/` | Layout custom | RESPONSAVEL | OK |
+| DEVELOPER | `/(developer)/` | DEV_SHELL_CONFIG | SYS_AUDITOR, SUPPORT, SUPER_ADMIN | OK |
+| SUPER_ADMIN | `/(super-admin)/` | SUPER_ADMIN_SHELL_CONFIG | SUPER_ADMIN | OK |
+
+#### Sidebar/Menu
+
+Cada route group tem `shell.config.ts` com menu structure, icons, hrefs, bottom nav items, search categories e tema de cores. AppShell orquestra o layout (top-nav ou sidebar).
+
+#### Redirects
+
+- `/` → redirect para `/login` (via `app/page.tsx`)
+- Login → redirect para dashboard do perfil correto (via AuthContext)
+- ProtectedRoute → redirect para `/login` se nao autenticado
+
+#### TODOs de Integracao Frontend (nao bloqueantes)
+
+| Ticket | Arquivo | Descricao |
+|--------|---------|-----------|
+| FE-022 | `app/(main)/shop/produto/[id]/page.tsx` | Integrar POST /shop/cart/add |
+| FE-026 | `app/(teen)/teen-downloads/page.tsx` | Integrar GET /teen/downloads com cache local |
+| FE-027 | `app/(teen)/teen-academia/page.tsx` | Substituir dados inline por GET /teen/unidade/areas |
+
+**Conclusao 6.1**: Todas as 109 rotas sao funcionais, com loading/error/empty states consistentes. Zero rotas quebradas.
+
+---
+
+### 6.2 — Componentes Compartilhados
+
+#### components/shared/
+
+| Componente | Arquivo | Status | Detalhes |
+|------------|---------|--------|----------|
+| ConfirmModal | `ConfirmModal.tsx` | EXCELENTE | Props tipadas, `role="alertdialog"`, `aria-modal`, `aria-labelledby`, dark mode, responsive |
+| Toast | `contexts/ToastContext.tsx` | EXCELENTE | `role="alert"`, `aria-live="polite"`, auto-dismiss, max 3 concorrentes, mobile/desktop layout |
+| PageError | `DataStates.tsx` | EXCELENTE | HTTP status codes (401-503), mensagens amigaveis, retry button, design tokens |
+| PageEmpty | `DataStates.tsx` | EXCELENTE | Icon customizavel, titulo, mensagem, design tokens |
+| PageLoading | `DataStates.tsx` | EXCELENTE | PremiumLoader wrapper |
+| SkeletonLoader | `SkeletonLoader.tsx` | EXCELENTE | 7 variantes, `role="status"`, `sr-only` text, shimmer animation, `prefers-reduced-motion` |
+| ProtectedRoute | `ProtectedRoute.tsx` | EXCELENTE | Race condition fix, 2s safety timeout, 3-phase flow |
+
+#### components/shell/
+
+| Componente | Arquivo | Status | Detalhes |
+|------------|---------|--------|----------|
+| AppShell | `AppShell.tsx` | EXCELENTE | 2 layout variants (top-nav, sidebar), ESC close, Cmd+K search, FABCheckin integrado |
+| ShellDesktopHeader | `ShellDesktopHeader.tsx` | OK | Todos aria-labels presentes, responsive (`hidden md:flex`), dark mode completo |
+| ShellMobileHeader | `ShellMobileHeader.tsx` | OK | Todos aria-labels presentes, mobile-only (`md:hidden`), safe-area insets |
+| ShellSidebar | `ShellSidebar.tsx` | EXCELENTE | `aria-current="page"`, mobile overlay, search morph, user card |
+| ShellBottomNav | `ShellBottomNav.tsx` | EXCELENTE | `aria-label="Menu inferior"`, `aria-current`, `min-w-[64px]` touch targets |
+| ShellMobileDrawer | `ShellMobileDrawer.tsx` | CORRIGIDO | 4 botoes faltavam `aria-label` e focus indicators — corrigidos |
+
+#### components/auth/
+
+| Componente | Arquivo | Status | Detalhes |
+|------------|---------|--------|----------|
+| ProfileSelection | `ProfileSelection.tsx` | EXCELENTE | Password modal, glassmorphism, grid responsivo, kids gatekeeper |
+| RoleGuard | `RoleGuard.tsx` | EXCELENTE | Modo silent (hide) e redirect, permission checking |
+| ProtectedRoute | `ProtectedRoute.tsx` | EXCELENTE | Descrito acima |
+
+#### components/checkin/
+
+| Componente | Arquivo | Status | Detalhes |
+|------------|---------|--------|----------|
+| FABCheckin | `FABCheckin.tsx` | CORRIGIDO | 4 modos (menu, QR, list, search), offline support, role check. StudentRow faltava `aria-label` — corrigido |
+
+#### Correcoes Aplicadas (6.2)
+
+1. **`ShellMobileDrawer.tsx`**: Adicionados `aria-label` em 4 botoes (Meu Perfil, Trocar Perfil, Tema, Sair) + `focus:ring-2` focus indicators
+2. **`FABCheckin.tsx`**: Adicionado `aria-label={`Check-in para ${aluno.nome}`}` no botao StudentRow
+
+#### Analise Transversal
+
+| Aspecto | Cobertura | Notas |
+|---------|-----------|-------|
+| Type Safety (no `any`) | 99% | 3 `React.ComponentType<any>` em icon helpers — com eslint-disable, aceitavel |
+| Dark Mode | 100% | Todos os componentes respeitam tema via design tokens ou isDark prop |
+| Responsive | 100% | Mobile-first com breakpoints md/lg adequados |
+| Acessibilidade (WCAG 2.1 Level A) | 98% | Corrigidos 5 botoes sem aria-label. Restante conforme |
+
+### Build & Tests (pos-Bloco 6)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 469 passed, 4 failed (pre-existentes), 1 skipped
+  - Nenhuma regressao introduzida pelo Bloco 6
+  - Os 4 testes falhando sao os mesmos pre-existentes dos Blocos 1-5

@@ -129,8 +129,9 @@ export function ShellMobileDrawer({ config, state }: Props) {
             {/* Profile */}
             <button
               onClick={() => { setDrawerOpen(false); navTo(nav.profileHref); }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors"
+              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/40"
               style={{ color: theme.textMuted(isDark) }}
+              aria-label="Meu Perfil"
             >
               <User className="w-5 h-5" />
               <span className={`text-sm font-semibold ${font}`}>Meu Perfil</span>
@@ -139,8 +140,9 @@ export function ShellMobileDrawer({ config, state }: Props) {
             {/* Switch profile */}
             <button
               onClick={() => { setDrawerOpen(false); handleSwitchProfile(); }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors"
+              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/40"
               style={{ color: theme.textMuted(isDark) }}
+              aria-label="Trocar Perfil"
             >
               <ArrowRightLeft className="w-5 h-5" />
               <span className={`text-sm font-semibold ${font}`}>Trocar Perfil</span>
@@ -150,8 +152,9 @@ export function ShellMobileDrawer({ config, state }: Props) {
             {theme.supportsLightMode && toggleTheme && (
               <button
                 onClick={() => { toggleTheme(); setDrawerOpen(false); }}
-                className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors"
+                className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/40"
                 style={{ color: theme.textMuted(isDark) }}
+                aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
               >
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 <span className={`text-sm font-semibold ${font}`}>
@@ -163,7 +166,8 @@ export function ShellMobileDrawer({ config, state }: Props) {
             {/* Logout */}
             <button
               onClick={() => { setDrawerOpen(false); handleLogout(); }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors hover:bg-red-500/10"
+              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors hover:bg-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-400/40"
+              aria-label="Sair da conta"
             >
               <LogOut className="w-5 h-5 text-red-400" />
               <span className={`text-sm font-semibold text-red-400 ${font}`}>Sair</span>
