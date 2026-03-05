@@ -1,3 +1,9 @@
+// WARNING: This file is OUT OF DATE — missing 9 tables from migrations 00005, 00011, 00012.
+// Missing: event_subscriptions, ai_churn_labels, ai_student_dna_cache, ai_engagement_snapshots,
+//          ai_social_connections, ai_question_bank, ai_adaptive_tests, ai_test_responses,
+//          ai_instructor_briefings.
+// Regenerate with: npx supabase gen types typescript --local > lib/supabase/types.ts
+
 export type Json =
   | string
   | number

@@ -1,16 +1,12 @@
 // ============================================================
 // Mensagens Service — Internal messaging system
+//
+// TODO(BBOS-Phase-2): implement real backend — messaging endpoints
+// Required Supabase tables: messages, conversations
 // ============================================================
+import { useMock, mockDelay } from '@/lib/env';
 import type { Mensagem, Conversa, MensagemTemplate } from '@/lib/__mocks__/mensagens.mock';
 export type { Mensagem, Conversa, MensagemTemplate };
-
-function useMock() {
-  return process.env.NEXT_PUBLIC_USE_MOCK === 'true';
-}
-
-async function mockDelay(ms = 300) {
-  return new Promise(r => setTimeout(r, ms));
-}
 
 async function getMock() {
   return import('@/lib/__mocks__/mensagens.mock');

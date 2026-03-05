@@ -73,6 +73,7 @@ export async function getPendingFeedback(): Promise<PendingFeedback | null> {
     const { mockGetPendingFeedback } = await import('./daily-feedback.mock');
     return mockGetPendingFeedback();
   }
+  // TODO(BBOS-Phase-2): implement real backend — POST /feedback/pending
   throw new Error('Backend not connected');
 }
 
@@ -81,6 +82,7 @@ export async function submitFeedback(data: FeedbackSubmission): Promise<DailyFee
     const { mockSubmitFeedback } = await import('./daily-feedback.mock');
     return mockSubmitFeedback(data);
   }
+  // TODO(BBOS-Phase-2): implement real backend — POST /feedback/submit
   throw new Error('Backend not connected');
 }
 
@@ -89,6 +91,7 @@ export async function getFeedbackHistory(studentId: string): Promise<DailyFeedba
     const { mockGetFeedbackHistory } = await import('./daily-feedback.mock');
     return mockGetFeedbackHistory(studentId);
   }
+  // TODO(BBOS-Phase-2): implement real backend — GET /feedback/student/:id/history
   throw new Error('Backend not connected');
 }
 
@@ -97,5 +100,6 @@ export async function getProfessorFeedbackAlerts(): Promise<FeedbackAlert[]> {
     const { mockGetProfessorAlerts } = await import('./daily-feedback.mock');
     return mockGetProfessorAlerts();
   }
+  // TODO(BBOS-Phase-2): implement real backend — GET /feedback/alerts
   throw new Error('Backend not connected');
 }

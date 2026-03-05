@@ -351,8 +351,8 @@ export async function register(data: RegisterRequest): Promise<RegisterResponse 
     });
     if (error || !authData.user) return null;
 
-    // Create profile
-    await (supabase.from('profiles') as any).upsert({
+    // Create profile — cast needed due to Supabase SSR type resolution issue
+    await (supabase.from('profiles') as unknown as { upsert: (values: { id: string; full_name: string }) => Promise<unknown> }).upsert({
       id: authData.user.id,
       full_name: data.nome,
     });

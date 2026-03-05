@@ -67,12 +67,21 @@ export async function getContas(): Promise<ContaAluno[]> {
   return data;
 }
 
-export async function getStats() {
+export interface PDVStats {
+  vendasHoje: number;
+  receitaHoje: number;
+  vendasSemana: number;
+  receitaSemana: number;
+  produtosBaixoEstoque: number;
+  produtosSemEstoque: number;
+}
+
+export async function getStats(): Promise<PDVStats> {
   if (useMock()) {
     await mockDelay();
     const m = await getMock();
     return m.getStats();
   }
-  const { data } = await apiClient.get('/pdv/stats');
+  const { data } = await apiClient.get<PDVStats>('/pdv/stats');
   return data;
 }

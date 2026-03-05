@@ -2,6 +2,8 @@
  * Video Progress Service — Track watched/favorites
  *
  * TODO(BE-122): Implementar endpoints de progresso de vídeos
+ * TODO(BBOS-Phase-2): implement real backend — video progress endpoints
+ * Required Supabase tables: video_watch_history, video_favorites
  */
 
 import { useMock, mockDelay } from '@/lib/env';

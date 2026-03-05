@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-4 concluidos)
+> Status: Em andamento (Blocos 1-5 concluidos)
 
 ---
 
@@ -411,3 +411,159 @@ Localizacao: `lib/acl/mappers/`
 - **pnpm build**: PASS (zero erros)
 - **npx vitest run tests/ai/**: 296/296 PASS (zero falhas)
 - **Nenhuma regressao introduzida pelo Bloco 4**
+
+---
+
+## BLOCO 5 — API Services & Backend
+
+### 5.1 — Audit dos 47 Services
+
+**Total de services encontrados: 47** (originalmente estimados 41)
+
+#### Classificacao Completa
+
+| # | Service | Categoria | Problema / Notas |
+|---|---------|-----------|------------------|
+| 1 | `admin.service.ts` | A | OK — apiClient calls |
+| 2 | `alertas-inteligentes.service.ts` | A | OK — apiClient + localStorage |
+| 3 | `aluno-home.service.ts` | A | OK — apiClient |
+| 4 | `analytics.service.ts` | A | OK — apiClient |
+| 5 | `assinatura.service.ts` | A | OK — apiClient |
+| 6 | `auth.service.ts` | A | CORRIGIDO — `as any` removido na linha 355 (`supabase.from('profiles')`) |
+| 7 | `automacoes.service.ts` | A | OK — apiClient |
+| 8 | `carteirinha.service.ts` | A | OK — apiClient |
+| 9 | `checkin.service.ts` | A | OK — apiClient |
+| 10 | `comunicacoes.service.ts` | A | OK — apiClient |
+| 11 | `conquistas.service.ts` | N/A | Re-export barrel de `medalhas.service.ts` |
+| 12 | `content.service.ts` | A | OK — apiClient |
+| 13 | `daily-feedback.service.ts` | B | Else branches `throw new Error('Backend not connected')`. TODO comments adicionados |
+| 14 | `developer.service.ts` | B | Else branches `throw new Error('Backend not connected')`. TODO comments adicionados |
+| 15 | `device-fingerprint.service.ts` | C | Browser-only localStorage utility. Sem mock/prod split |
+| 16 | `eventos.service.ts` | A | OK — apiClient |
+| 17 | `evolucao.service.ts` | A | OK — apiClient |
+| 18 | `gateway.service.ts` | A | OK — apiClient. Mock PIX key inline (nao e secret real) |
+| 19 | `graduacao.service.ts` | A | OK — apiClient. Non-null assertion `exam!` |
+| 20 | `instrutor.service.ts` | N/A | Re-export barrel de `professor.service.ts` |
+| 21 | `kids-safety.service.ts` | A | OK — apiClient |
+| 22 | `kids.service.ts` | A | OK — apiClient. Re-exporta mock constants |
+| 23 | `leads.service.ts` | A | OK — apiClient |
+| 24 | `medalhas.service.ts` | A | OK — apiClient |
+| 25 | `mensagens.service.ts` | B | CORRIGIDO — local `useMock()`/`mockDelay()` substituidos por `@/lib/env`. Else branches retornam stubs |
+| 26 | `minhas-turmas.service.ts` | A | OK — apiClient |
+| 27 | `pagamentos.service.ts` | A | OK — apiClient |
+| 28 | `particulares.service.ts` | A | CORRIGIDO — `getInstrutoresSplit()` agora tipado com `ProfessorSplit` interface |
+| 29 | `pdv.service.ts` | A | CORRIGIDO — `getStats()` agora tipado com `PDVStats` interface |
+| 30 | `perfil-estendido.service.ts` | A | CORRIGIDO — `getModalidadesInfo()`/`getCategoriasInfo()` agora tipados |
+| 31 | `plano-aula.service.ts` | A | OK — apiClient |
+| 32 | `playlist.service.ts` | A | OK — apiClient |
+| 33 | `professor-pedagogico.service.ts` | A | OK — apiClient |
+| 34 | `professor.service.ts` | A | OK — apiClient |
+| 35 | `progresso.service.ts` | A | OK — apiClient |
+| 36 | `push.service.ts` | A | OK — apiClient. Fake token fallback em browser |
+| 37 | `ranking.service.ts` | A | OK — apiClient. Param `alunoId` unused |
+| 38 | `relatorios.service.ts` | A | OK — apiClient. PDF usa `alert()`, XLSX e fake TSV |
+| 39 | `shop.service.ts` | A | OK — apiClient. Re-exporta mock helpers |
+| 40 | `storage.service.ts` | A | OK — apiClient |
+| 41 | `teen.service.ts` | A | OK — apiClient. Re-exporta mock constants |
+| 42 | `turma-broadcast.service.ts` | B | Else branches retornam stubs vazios. TODO comments adicionados |
+| 43 | `video-management.service.ts` | A | OK — apiClient |
+| 44 | `video-progress.service.ts` | B | Else branches retornam stubs/false. TODO comments adicionados. `require()` sync em 2 funcoes |
+| 45 | `video-upload.service.ts` | A | OK — apiClient |
+| 46 | `visitantes.service.ts` | A | CORRIGIDO — `getVisitantesStats()` agora tipado com `VisitantesStats` interface |
+| 47 | `whatsapp-business.service.ts` | A | OK — apiClient |
+
+#### Resumo por Categoria
+
+| Categoria | Count | Descricao |
+|-----------|-------|-----------|
+| **A** (funcional) | 38 | Branch else usa apiClient/Supabase |
+| **B** (parcial/stub) | 5 | daily-feedback, developer, mensagens, turma-broadcast, video-progress |
+| **C** (mock only) | 1 | device-fingerprint (browser utility) |
+| **N/A** (barrel) | 2 | conquistas (→ medalhas), instrutor (→ professor) |
+| **Barrels** | 1 | conquistas → medalhas |
+
+#### Correcoes Aplicadas (5.1)
+
+1. **`auth.service.ts`**: Removido `as any` cast em `supabase.from('profiles')` (linha 355)
+2. **`particulares.service.ts`**: Adicionada interface `ProfessorSplit` + return type em `getInstrutoresSplit()`
+3. **`pdv.service.ts`**: Adicionada interface `PDVStats` + return type em `getStats()` + type param em `apiClient.get<PDVStats>()`
+4. **`perfil-estendido.service.ts`**: Adicionados tipos `ModalidadeInfo` e `CategoriaInfo` + return types + type params
+5. **`visitantes.service.ts`**: Adicionada interface `VisitantesStats` + return type em `getVisitantesStats()`
+6. **`mensagens.service.ts`**: Substituidas funcoes locais `useMock()`/`mockDelay()` por imports de `@/lib/env`
+7. **TODOs adicionados**: `daily-feedback`, `developer`, `turma-broadcast`, `video-progress`, `mensagens` — cada funcao stub agora tem `// TODO(BBOS-Phase-X)` com endpoint esperado
+
+#### handleServiceError
+
+`handleServiceError()` **nao existe** em nenhum lugar do codebase. Nao ha utility de error handling centralizado para services. Error handling e inconsistente — a maioria deixa exceptions propagarem, alguns usam try/catch retornando null.
+
+**Recomendacao**: Criar `lib/api/error-handler.ts` com utility de error handling padrao (Phase 2).
+
+#### Hardcoded URLs/Secrets
+
+- Nenhum secret real encontrado
+- `gateway.service.ts`: Mock PIX key e URL `https://mock-boleto.com/` (apenas no branch mock, risco baixo)
+- `mensagens.service.ts`: Hardcoded `'professor_01'` em `enviarMensagem()` (alias de conveniencia)
+
+---
+
+### 5.2 — Supabase Migrations Consistency
+
+#### Migrations (12 + 1 corretiva)
+
+| # | Migration | Tabelas | RLS | Policies | Indices |
+|---|-----------|---------|-----|----------|---------|
+| 00001 | foundation | academies, profiles, memberships, parent_child_links | OK | OK | OK |
+| 00002 | classes_attendance | class_schedules, class_sessions, class_enrollments, attendances | OK | OK | OK |
+| 00003 | progression | belt_systems, promotions, skill_tracks, skill_assessments, milestones | OK | OK | OK |
+| 00004 | rls_policies | (policies adicionais) | OK | OK | N/A |
+| 00005 | event_store | domain_events, snapshots, event_subscriptions | OK | OK (restrictive) | OK |
+| 00006 | financial | plans, subscriptions, invoices, payments | OK | OK | OK |
+| 00007 | gamification | points_ledger, streaks, achievements, member_achievements | OK | OK | OK |
+| 00008 | notifications | notifications | OK | OK (4 policies) | OK |
+| 00009 | lgpd | audit_log, lgpd_consent_log, data_export_requests, data_deletion_requests | OK | OK | OK |
+| 00010 | audit_monitoring | rate_limit_log | OK | OK (restrictive) | OK |
+| 00011 | ai_churn_labels | ai_churn_labels | OK | OK (4 policies) | OK |
+| 00012 | ai_intelligence_layer | ai_student_dna_cache, ai_engagement_snapshots, ai_social_connections, ai_question_bank, ai_adaptive_tests, ai_test_responses, ai_instructor_briefings | OK | OK | OK |
+| **00013** | **fix_missing_triggers** | **(corretiva)** | N/A | N/A | **NOVO** |
+
+**Total: 38 tabelas + 1 view (leaderboard_view)**
+
+#### Verificacoes
+
+| Verificacao | Status | Detalhes |
+|-------------|--------|----------|
+| SQL valido | PASS | Todos os 12 arquivos sao PostgreSQL valido |
+| RLS habilitado | PASS | Todas as 38 tabelas tem `ENABLE ROW LEVEL SECURITY` |
+| Policies (min 1) | PASS | Todas as tabelas tem ao menos 1 policy |
+| Foreign keys consistentes | PASS | Todas apontam para tabelas existentes em migrations anteriores |
+| DROP TABLE sem IF EXISTS | PASS | Nenhum DROP TABLE encontrado |
+| Dados sensiveis no seed | PASS | Apenas dados de referencia (belt systems, achievements) |
+| Indices | PASS | Cobertura abrangente |
+| `updated_at` triggers | CORRIGIDO | 2 tabelas faltavam triggers (ai_social_connections, ai_question_bank) — migration 00013 criada |
+
+#### Consistencia queries vs migrations
+
+| Verificacao | Status |
+|-------------|--------|
+| Tabelas em `lib/db/queries/` existem nas migrations | PASS |
+| Colunas referenciadas existem | PASS |
+| Tabelas sem query file | OK — 15 tabelas nao tem query (event_store, LGPD, AI) — acessadas via service_role ou pendentes |
+
+#### `lib/supabase/types.ts`
+
+| Verificacao | Status | Detalhes |
+|-------------|--------|----------|
+| Arquivo existe | OK | 856 linhas |
+| Tabelas presentes | PARCIAL | 29 de 38 tabelas presentes |
+| Tabelas faltando | WARN | 9 tabelas: event_subscriptions, ai_churn_labels, ai_student_dna_cache, ai_engagement_snapshots, ai_social_connections, ai_question_bank, ai_adaptive_tests, ai_test_responses, ai_instructor_briefings |
+| Colunas corretas | OK | Para as 29 tabelas presentes, todas as colunas correspondem ao SQL |
+| Como regenerar | Documentado | `npx supabase gen types typescript --local > lib/supabase/types.ts` |
+
+**Comentario adicionado ao topo de `lib/supabase/types.ts`** com lista de tabelas faltando e comando de regeneracao.
+
+### Build & Tests (pos-Bloco 5)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 469 passed, 4 failed (pre-existentes em `checkin.service.test.ts`), 1 skipped
+  - Nenhuma regressao introduzida pelo Bloco 5
+  - Os 4 testes falhando sao os mesmos pre-existentes dos Blocos 1-4

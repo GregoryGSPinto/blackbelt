@@ -13,7 +13,16 @@ export async function getVisitantes(): Promise<Visitante[]> {
   const { data } = await apiClient.get<Visitante[]>('/visitantes'); return data;
 }
 
-export async function getVisitantesStats() {
+export interface VisitantesStats {
+  visitantesHoje: number;
+  experimentaisHoje: number;
+  dropInsHoje: number;
+  receitaVisitas: number;
+  noShows: number;
+  pendentes: number;
+}
+
+export async function getVisitantesStats(): Promise<VisitantesStats> {
   if (useMock()) { await mockDelay(); const m = await getMock(); return m.getVisitantesStats(); }
-  const { data } = await apiClient.get('/visitantes/stats'); return data;
+  const { data } = await apiClient.get<VisitantesStats>('/visitantes/stats'); return data;
 }

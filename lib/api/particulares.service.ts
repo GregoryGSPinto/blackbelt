@@ -18,7 +18,14 @@ export async function getComissoes(mes?: string): Promise<Comissao[]> {
   const { data } = await apiClient.get<Comissao[]>(mes ? `/comissoes?mes=${mes}` : '/comissoes'); return data;
 }
 
-export async function getInstrutoresSplit() {
+export interface ProfessorSplit {
+  id: string;
+  nome: string;
+  splitPadrao: number;
+  valorHora: number;
+}
+
+export async function getInstrutoresSplit(): Promise<ProfessorSplit[]> {
   if (useMock()) { await mockDelay(); const m = await getMock(); return [...m.PROFESSORES_SPLIT]; }
-  const { data } = await apiClient.get('/particulares/instrutores'); return data;
+  const { data } = await apiClient.get<ProfessorSplit[]>('/particulares/instrutores'); return data;
 }
