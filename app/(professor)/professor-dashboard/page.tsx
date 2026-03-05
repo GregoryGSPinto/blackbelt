@@ -319,7 +319,7 @@ export default function ProfessorDashboardPage() {
           </div>
 
           {/* Pedagógico stat cards */}
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {[
               { label: t('highlight'), value: pedStats.alunosDestaque, color: '#4ADE80' },
               { label: t('lowFreq'), value: pedStats.alunosBaixaFrequencia, color: '#F87171' },
@@ -636,7 +636,7 @@ export default function ProfessorDashboardPage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {videosRecentes.map((video) => (
             <Link key={video.id} href="/professor-videos"
               className="prof-glass-card hover-card overflow-hidden group cursor-pointer">

@@ -192,7 +192,7 @@ export default function DashboardPage() {
 
       {/* MÉTRICAS OPERACIONAIS */}
       <Section title={t('dashboard.operationalMetrics')}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <MetricCard title={t('dashboard.todayCheckins')} value={stats.checkInsHoje} icon={ClipboardCheck}
             link="/check-in" comparison={{ value: stats.checkInsOntem, label: t('dashboard.vsYesterday') }} />
           <MetricCard title={t('dashboard.activeClasses')} value={stats.turmasAtivas} icon={GraduationCap} link="/turmas" />
@@ -333,7 +333,7 @@ export default function DashboardPage() {
 
       {/* AÇÕES RÁPIDAS */}
       <Section title={t('dashboard.quickActions')}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <QuickAction href="/check-in" icon={ClipboardCheck} title={t('dashboard.validateCheckin')} subtitle={t('dashboard.confirmPresence')} />
           <QuickAction href="/usuarios" icon={Users} title={t('dashboard.manageUsers')} subtitle={t('dashboard.seeAllStudents')} />
           <QuickAction href="/agenda" icon={GraduationCap} title={t('dashboard.dayAgenda')} subtitle={t('dashboard.seeTodayClasses')} />

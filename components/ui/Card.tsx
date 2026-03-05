@@ -53,7 +53,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
             {header}
           </div>
         )}
-        <div className={noPadding ? '' : 'p-5'}>
+        <div className={noPadding ? '' : 'p-4 sm:p-5'}>
           {children}
         </div>
         {footer && (

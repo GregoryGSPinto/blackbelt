@@ -96,7 +96,7 @@ export default function TeenInicioPage() {
       </div>
 
       {/* ═══ SECTION 2: Continue assistindo + Progresso central ═══ */}
-      <div className="teen-enter-2 grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-5">
+      <div className="teen-enter-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
         {/* Continue assistindo — ocupa mais espaço */}
         {aulaEmAndamento && (
           <TeenCard variant="elevated" className="lg:col-span-3"
@@ -159,7 +159,7 @@ export default function TeenInicioPage() {
       </div>
 
       {/* ═══ SECTION 3: Stats compactos ═══ */}
-      <div className="teen-enter-3 grid grid-cols-4 gap-2 md:gap-3">
+      <div className="teen-enter-3 grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
         <StatCard 
           icon={<Calendar className="w-5 h-5" />}
           value={`${currentTeen.progresso.presenca30dias}%`}

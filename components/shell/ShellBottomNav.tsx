@@ -81,7 +81,7 @@ export function ShellBottomNav({ config, state }: Props) {
               data-nav={href.replace('/', '')}
               aria-current={isActive ? 'page' : undefined}
               aria-label={label}
-              className={`flex flex-col items-center gap-1 py-1.5 min-w-[64px] rounded-xl transition-colors ${font}`}
+              className={`btn-inline flex flex-col items-center gap-1 py-2 min-w-[64px] min-h-[48px] rounded-xl transition-colors active:scale-95 ${font}`}
               style={{
                 color: isActive
                   ? theme.bottomNavActive(isDark)
@@ -100,7 +100,7 @@ export function ShellBottomNav({ config, state }: Props) {
         {/* Menu button — ALWAYS visible as 4th item */}
         <button
           onClick={() => setDrawerOpen(true)}
-          className={`flex flex-col items-center gap-1 py-1.5 min-w-[64px] transition-colors ${font}`}
+          className={`btn-inline flex flex-col items-center gap-1 py-2 min-w-[64px] min-h-[48px] transition-colors active:scale-95 ${font}`}
           style={{
             color: drawerOpen
               ? theme.bottomNavActive(isDark)

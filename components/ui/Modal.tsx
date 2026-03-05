@@ -104,7 +104,7 @@ export function Modal({
 
           {/* Panel */}
           <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center sm:p-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby={title ? 'modal-title' : undefined}
@@ -113,20 +113,22 @@ export function Modal({
             <motion.div
               key="modal-panel"
               ref={panelRef}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
               transition={{
                 duration: instant ? 0 : 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
               className={[
-                'w-full rounded-token-xl',
+                'w-full',
+                'rounded-t-3xl sm:rounded-token-xl',
                 'bg-[var(--card-bg)] border border-[var(--border)]',
                 'shadow-token-xl',
                 'max-h-[90vh] flex flex-col',
                 SIZE_MAP[size],
               ].join(' ')}
+              style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}

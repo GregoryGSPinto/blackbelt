@@ -391,7 +391,7 @@ export function AppShell({
       {/* Main Content */}
       <main id="main-content" className={theme.contentClassName || 'relative z-10 pt-[72px] md:pt-[96px] pb-24 md:pb-8'}>
         <div
-          className={`container mx-auto px-4 py-6 ${theme.contentMaxWidth}`}
+          className={`container mx-auto px-4 sm:px-6 lg:px-8 py-6 ${theme.contentMaxWidth}`}
           style={theme.contentPadding ? { padding: theme.contentPadding } : undefined}
         >
           <ModuleErrorBoundary moduleName={theme.moduleName as ModuleName}>

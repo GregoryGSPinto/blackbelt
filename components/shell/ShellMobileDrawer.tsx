@@ -13,6 +13,7 @@ import { X, Sun, Moon, User, LogOut, ArrowRightLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
+import { useSwipeGesture } from '@/hooks/useSwipeGesture';
 
 interface Props {
   config: AppShellConfig;
@@ -28,6 +29,12 @@ export function ShellMobileDrawer({ config, state }: Props) {
     displayName, perfilInfo,
   } = state;
   const font = theme.fontClass || '';
+
+  // Swipe down to close
+  const swipeHandlers = useSwipeGesture({
+    onSwipeDown: () => setDrawerOpen(false),
+    threshold: 60,
+  });
 
   // Close on Escape key
   useEffect(() => {
@@ -57,6 +64,7 @@ export function ShellMobileDrawer({ config, state }: Props) {
         role="dialog"
         aria-label={t('menu.navigationMenu')}
         aria-modal="true"
+        {...swipeHandlers}
         className="md:hidden fixed bottom-0 left-0 right-0 z-[90] rounded-t-3xl shadow-2xl overflow-hidden"
         style={{
           background: theme.drawerBg(isDark),
