@@ -174,7 +174,7 @@ export default function EventoDetalhePage() {
               {evento.inscritos.map(insc => (
                 <div
                   key={insc.id}
-                  className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.02]"
+                  className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/[0.02]"
                 >
                   <span className="text-sm text-white/60">{insc.alunoNome}</span>
                   <span className="text-[10px] text-white/25">{insc.categoriaDescricao}</span>
@@ -249,7 +249,7 @@ function Section({ title, icon: Icon, children }: { title: string; icon: typeof 
 
 function InfoCard({ icon: Icon, label, value }: { icon: typeof Calendar; label: string; value: string }) {
   return (
-    <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3">
+    <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3 hover-card">
       <div className="flex items-center gap-1.5 mb-1">
         <Icon size={12} className="text-white/25" />
         <span className="text-[10px] text-white/25 uppercase tracking-wider">{label}</span>

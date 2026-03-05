@@ -70,7 +70,7 @@ export default function AutomacoesPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
@@ -179,7 +179,7 @@ function StatCard({
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   return (
-    <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-4">
+    <div className="hover-card rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-4">
       <div className="flex items-center gap-2 mb-2">
         <Icon size={14} className={color} />
         <span className="text-[10px] text-white/25 uppercase tracking-wider">{label}</span>

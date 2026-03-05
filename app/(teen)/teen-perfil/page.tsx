@@ -105,7 +105,7 @@ export default function TeenPerfilPage() {
         </h3>
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-ocean-light rounded-lg">
+            <div className="p-2 bg-teen-ocean-light rounded-xl">
               <Calendar className="w-5 h-5 text-teen-ocean-dark" />
             </div>
             <div>
@@ -117,7 +117,7 @@ export default function TeenPerfilPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-purple-light rounded-lg">
+            <div className="p-2 bg-teen-purple-light rounded-xl">
               <User className="w-5 h-5 text-teen-purple-dark" />
             </div>
             <div>
@@ -129,7 +129,7 @@ export default function TeenPerfilPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-emerald-light rounded-lg">
+            <div className="p-2 bg-teen-emerald-light rounded-xl">
               <Award className="w-5 h-5 text-teen-emerald-dark" />
             </div>
             <div>
@@ -139,7 +139,7 @@ export default function TeenPerfilPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-energy-light rounded-lg">
+            <div className="p-2 bg-teen-energy-light rounded-xl">
               <Mail className="w-5 h-5 text-teen-energy-dark" />
             </div>
             <div>
@@ -157,7 +157,7 @@ export default function TeenPerfilPage() {
         </h3>
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-ocean-light rounded-lg">
+            <div className="p-2 bg-teen-ocean-light rounded-xl">
               <User className="w-5 h-5 text-teen-ocean-dark" />
             </div>
             <div>
@@ -167,7 +167,7 @@ export default function TeenPerfilPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-purple-light rounded-lg">
+            <div className="p-2 bg-teen-purple-light rounded-xl">
               <Mail className="w-5 h-5 text-teen-purple-dark" />
             </div>
             <div>
@@ -177,7 +177,7 @@ export default function TeenPerfilPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-emerald-light rounded-lg">
+            <div className="p-2 bg-teen-emerald-light rounded-xl">
               <Phone className="w-5 h-5 text-teen-emerald-dark" />
             </div>
             <div>
@@ -192,7 +192,7 @@ export default function TeenPerfilPage() {
       <TeenCard>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-teen-energy-light rounded-lg">
+            <div className="p-2 bg-teen-energy-light rounded-xl">
               <Settings className="w-5 h-5 text-teen-energy-dark" />
             </div>
             <div>
@@ -200,7 +200,7 @@ export default function TeenPerfilPage() {
               <p className="text-sm teen-text-muted font-teen">{t('settingsDesc')}</p>
             </div>
           </div>
-          <button className="px-4 py-2 bg-teen-ocean text-white rounded-lg font-teen font-semibold hover:bg-teen-ocean-dark transition-colors text-sm">
+          <button className="px-4 py-2 bg-teen-ocean text-white rounded-xl font-teen font-semibold hover:bg-teen-ocean-dark transition-colors text-sm">
             Editar
           </button>
         </div>
@@ -212,11 +212,11 @@ export default function TeenPerfilPage() {
           {t('needHelp')}
         </h3>
         <div className="space-y-3">
-          <button className="w-full p-4 teen-card-subtle rounded-lg text-left hover:teen-card-subtle transition-colors">
+          <button className="w-full p-4 teen-card-subtle rounded-xl text-left hover:teen-card-subtle transition-colors hover-card">
             <p className="font-teen font-semibold teen-text-heading">{t('helpCenter')}</p>
             <p className="text-sm teen-text-muted font-teen">{t('helpCenterDesc')}</p>
           </button>
-          <button className="w-full p-4 teen-card-subtle rounded-lg text-left hover:teen-card-subtle transition-colors">
+          <button className="w-full p-4 teen-card-subtle rounded-xl text-left hover:teen-card-subtle transition-colors hover-card">
             <p className="font-teen font-semibold teen-text-heading">{t('contactParent')}</p>
             <p className="text-sm teen-text-muted font-teen">{t('contactParentDesc')}</p>
           </button>
@@ -227,7 +227,7 @@ export default function TeenPerfilPage() {
       <TeenCard>
         <button
           onClick={logout}
-          className="w-full flex items-center justify-center gap-3 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-teen font-semibold"
+          className="w-full flex items-center justify-center gap-3 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors font-teen font-semibold"
         >
           <LogOut className="w-5 h-5" />
           {t('logout')}

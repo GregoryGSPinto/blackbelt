@@ -118,7 +118,7 @@ export default function PlanoAulaPage() {
       <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 w-fit">
         {([['builder', t('tabs.build'), ClipboardList], ['planos', t('tabs.saved'), Copy], ['tecnicas', t('tabs.techniques'), BookOpen]] as const).map(([key, label, Icon]) => (
           <button key={key} onClick={() => setTab(key as TabView)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === key ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-colors ${tab === key ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
             <Icon size={13} /> {label}
           </button>
         ))}
@@ -147,7 +147,12 @@ export default function PlanoAulaPage() {
 
           {/* Items */}
           {itens.length === 0 ? (
-            <div className="py-12 text-center text-white/15 text-sm">{t('emptyHint')}</div>
+            <div className="prof-glass-card p-12 text-center">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+                <ClipboardList size={28} className="text-white/15" />
+              </div>
+              <p className="text-white/30 text-sm font-medium">{t('emptyHint')}</p>
+            </div>
           ) : (
             <div className="space-y-2">
               {itens.map((item, idx) => {
@@ -205,10 +210,15 @@ export default function PlanoAulaPage() {
       {tab === 'planos' && (
         <div className="space-y-3">
           {planos.length === 0 ? (
-            <p className="text-xs text-white/20 py-8 text-center">{t('noSavedPlans')}</p>
+            <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-12 text-center">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+                <Copy size={28} className="text-white/15" />
+              </div>
+              <p className="text-white/30 text-sm font-medium">{t('noSavedPlans')}</p>
+            </div>
           ) : (
             planos.map(plano => (
-              <div key={plano.id} className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4">
+              <div key={plano.id} className="rounded-xl hover-card bg-white/[0.02] border border-white/[0.06] p-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2">
@@ -248,7 +258,7 @@ export default function PlanoAulaPage() {
           </div>
           <div className="space-y-2">
             {filteredTecnicas.map(tec => (
-              <div key={tec.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div key={tec.id} className="flex items-center gap-3 p-3 rounded-xl hover-card bg-white/[0.02] border border-white/[0.06]">
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold text-white/60">{tec.nome}</p>
                   <div className="flex items-center gap-2 text-[9px] text-white/20 mt-0.5">

@@ -51,7 +51,7 @@ export default function ComunicacoesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate, formatDateTime } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [comunicados, setComunicados] = useState<Comunicado[]>([]);
   const [mensagens, setMensagens] = useState<MensagemDireta[]>([]);
@@ -95,7 +95,7 @@ export default function ComunicacoesPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -113,28 +113,28 @@ export default function ComunicacoesPage() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Send size={16} className="text-blue-400" />
               <span className="text-white/40 text-xs">Enviados</span>
             </div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.comunicadosEnviados}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Eye size={16} className="text-green-400" />
               <span className="text-white/40 text-xs">Taxa Leitura</span>
             </div>
             <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.taxaLeitura}%</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Mail size={16} className="text-amber-400" />
               <span className="text-white/40 text-xs">Msg Pendentes</span>
             </div>
             <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.mensagensPendentes}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Clock size={16} className="text-purple-400" />
               <span className="text-white/40 text-xs">Último Envio</span>
@@ -150,7 +150,7 @@ export default function ComunicacoesPage() {
       <div className="flex gap-2">
         <button
           onClick={() => setTab('comunicados')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             tab === 'comunicados' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'
           }`}
         >
@@ -159,7 +159,7 @@ export default function ComunicacoesPage() {
         </button>
         <button
           onClick={() => setTab('mensagens')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             tab === 'mensagens' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'
           }`}
         >
@@ -180,7 +180,7 @@ export default function ComunicacoesPage() {
               <button
                 key={f}
                 onClick={() => setComFilter(f)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                   comFilter === f ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/60'
                 }`}
               >
@@ -497,7 +497,7 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
                     <button
                       key={t.key}
                       onClick={() => setTipo(t.key)}
-                      className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                         tipo === t.key ? `${st.bg} ${st.text} border border-current/20` : 'bg-white/5 text-white/40 border border-white/8'
                       }`}
                     >
@@ -516,7 +516,7 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
                   <button
                     key={c.key}
                     onClick={() => toggleCanal(c.key)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                       canais.includes(c.key) ? 'bg-blue-600/20 text-blue-400 border border-blue-600/30' : 'bg-white/5 text-white/40 border border-white/8'
                     }`}
                   >
@@ -534,7 +534,7 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
                   <button
                     key={d.key}
                     onClick={() => setDestinatario(d.key)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                       destinatario === d.key ? 'bg-green-600/20 text-green-400 border border-green-600/30' : 'bg-white/5 text-white/40 border border-white/8'
                     }`}
                   >

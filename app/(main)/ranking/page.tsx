@@ -224,7 +224,7 @@ export default function RankingPage() {
               {pontosConfig.filter(r => r.ativa).map(regra => (
                 <div
                   key={regra.id}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06]"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] hover-card"
                 >
                   <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
                     <RegraIcon icone={regra.icone} />
@@ -256,7 +256,9 @@ function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
   if (!resumo) {
     return (
       <div className="text-center py-12">
-        <History size={48} className="mx-auto text-white/15 mb-4" />
+        <div className="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center bg-white/[0.04]">
+          <History size={24} className="text-white/20" />
+        </div>
         <p className="text-white/40 text-sm">Carregando histórico...</p>
       </div>
     );
@@ -315,7 +317,7 @@ function StatCard({
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   return (
-    <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
+    <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06] hover-card">
       <div className="flex items-center gap-2 mb-1">
         <Icon size={14} className={color} />
         <p className="text-[10px] text-white/30 uppercase tracking-wider">{label}</p>

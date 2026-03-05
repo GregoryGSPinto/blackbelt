@@ -28,8 +28,9 @@ export function getDesignTokens(isDark: boolean) {
     glass: {
       background: isDark ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)',
       border: `1px solid ${isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)'}`,
-      backdropFilter: 'blur(12px) saturate(1.2)',
-      WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+      backdropFilter: 'blur(16px) saturate(1.2)',
+      WebkitBackdropFilter: 'blur(16px) saturate(1.2)',
+      borderRadius: '12px',
     },
   };
 }

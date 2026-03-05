@@ -14,7 +14,7 @@ export default function PermissoesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [permissoes, setPermissoes] = useState<Permissao[]>([]);
   const [perfilPermissoes, setPerfilPermissoes] = useState<PerfilPermissoes[]>([]);
@@ -76,7 +76,7 @@ export default function PermissoesPage() {
   }, {} as Record<string, typeof permissoes>);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('permissions.title')}</h1>
@@ -102,7 +102,7 @@ export default function PermissoesPage() {
           <button
             key={perfil.id}
             onClick={() => setSelectedPerfil(perfil.id)}
-            className={`text-left p-4 rounded-xl transition-all ${
+            className={`hover-card text-left p-4 rounded-xl transition-all ${
               selectedPerfil === perfil.id
                 ? 'bg-white/10 border-2 border-white/20 shadow-lg shadow-white/5'
                 : 'bg-black/40 backdrop-blur-xl border border-white/10 hover:border-white/15'
@@ -123,7 +123,7 @@ export default function PermissoesPage() {
           Permissões do Perfil: {perfis.find(p => p.id === selectedPerfil)?.nome}
         </h3>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {Object.entries(permissoesPorCategoria).map(([categoria, perms]) => (
             <div key={categoria}>
               <h4 className="text-sm font-bold text-white/50 uppercase tracking-wider mb-3">
@@ -136,7 +136,7 @@ export default function PermissoesPage() {
                   return (
                     <div
                       key={perm.id}
-                      className={`flex items-center justify-between p-4 rounded-lg transition-colors ${
+                      className={`flex items-center justify-between p-4 rounded-xl transition-colors ${
                         hasPermission
                           ? 'bg-white/5 border border-white/10'
                           : 'bg-white/10'
@@ -165,7 +165,7 @@ export default function PermissoesPage() {
                       </div>
                       
                       <button
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
                           hasPermission
                             ? 'bg-red-600/20 text-red-400 hover:bg-red-600/30'
                             : 'bg-white/5 text-green-400 hover:bg-white/10 border border-white/10/30'

@@ -228,7 +228,7 @@ export default function MeusPagamentosPage() {
                         {showPixBtn && (
                           <button
                             onClick={() => isPixOpen ? setPixFaturaId(null) : handleGerarPix(fatura)}
-                            className="px-3 py-2 rounded-lg bg-blue-600/10 border border-blue-600/20 text-blue-400 text-xs font-bold hover:bg-blue-600/20 transition-all flex items-center gap-1"
+                            className="px-3 py-2 rounded-xl bg-blue-600/10 border border-blue-600/20 text-blue-400 text-xs font-bold hover:bg-blue-600/20 transition-all flex items-center gap-1"
                           >
                             <QrCode size={14} />
                             Pix
@@ -260,7 +260,7 @@ export default function MeusPagamentosPage() {
                             </div>
 
                             {/* Copy-paste code */}
-                            <div className="bg-black/30 rounded-lg p-3 mb-3">
+                            <div className="bg-black/30 rounded-xl p-3 mb-3">
                               <p className="text-white/30 text-[10px] uppercase tracking-wider mb-1">Pix Copia e Cola</p>
                               <p className="text-white/60 text-xs font-mono break-all leading-relaxed">
                                 {pixData.copiaECola.substring(0, 60)}...

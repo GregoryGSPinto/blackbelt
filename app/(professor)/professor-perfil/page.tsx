@@ -114,7 +114,7 @@ export default function ProfessorPerfilPage() {
         <h3 className="text-sm font-bold text-amber-300/60 tracking-wider uppercase mb-5">{t('securityTitle')}</h3>
 
         <div className="space-y-3">
-          <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all duration-300">
+          <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover-card hover:bg-white/5 transition-all duration-300">
             <Lock size={16} className="text-amber-400/60" />
             <div className="flex-1 text-left">
               <p className="text-sm" style={{ color: tokens.text }}>{t('changePasswordLabel')}</p>
@@ -123,7 +123,7 @@ export default function ProfessorPerfilPage() {
             <ChevronRight size={14} style={{ color: tokens.textMuted }} />
           </button>
 
-          <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all duration-300">
+          <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover-card hover:bg-white/5 transition-all duration-300">
             <Shield size={16} className="text-amber-400/60" />
             <div className="flex-1 text-left">
               <p className="text-sm" style={{ color: tokens.text }}>{t('twoFALabel')}</p>

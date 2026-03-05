@@ -75,7 +75,7 @@ export default function MeusInsightsPage() {
   if (error && !dna && !score) {
     return (
       <div className="min-h-screen p-4 md:p-6 max-w-5xl mx-auto">
-        <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
+        <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-8 text-center">
           <p className="text-red-400 text-sm font-medium">
             {t('insights.error')}
           </p>

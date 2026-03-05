@@ -119,7 +119,7 @@ export default function EstoquePage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
@@ -457,7 +457,7 @@ function MiniStat({ label, value, icon: Icon, color, alert }: {
   label: string; value: string; icon: typeof Package; color: string; alert?: boolean;
 }) {
   return (
-    <div className={`rounded-xl border p-3 ${alert ? 'bg-red-500/[0.03] border-red-500/10' : 'bg-black/30 border-white/10'}`}>
+    <div className={`hover-card rounded-xl border p-3 ${alert ? 'bg-red-500/[0.03] border-red-500/10' : 'bg-black/30 border-white/10'}`}>
       <div className="flex items-center gap-1.5 mb-1">
         <Icon size={12} className={color} />
         <span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span>
@@ -469,7 +469,7 @@ function MiniStat({ label, value, icon: Icon, color, alert }: {
 
 function DetailCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg bg-black/30 border border-white/10 px-3 py-2">
+    <div className="rounded-xl bg-black/30 border border-white/10 px-3 py-2">
       <p className="text-[9px] text-white/20 uppercase tracking-wider">{label}</p>
       <p className="text-xs text-white/50 font-medium mt-0.5 truncate">{value}</p>
     </div>

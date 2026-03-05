@@ -127,13 +127,13 @@ export default function RecepcaoPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="space-y-8">
+      <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-4 mb-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-white/20 to-white/10 rounded-lg flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-2xl">C</span>
               </div>
               <div>
@@ -144,7 +144,7 @@ export default function RecepcaoPage() {
           </div>
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium"
+            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/10 text-white rounded-xl transition-colors font-medium"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>{t('reception.backToPanel')}</span>

@@ -126,7 +126,7 @@ export default function ProfessorMensagensPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('actions.search')}
-              className="w-full pl-9 pr-3 py-2 bg-white/[0.04] border border-white/[0.06] rounded-lg text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-indigo-500/30"
+              className="w-full pl-9 pr-3 py-2 bg-white/[0.04] border border-white/[0.06] rounded-xl text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-indigo-500/30"
             />
           </div>
         </div>
@@ -134,7 +134,12 @@ export default function ProfessorMensagensPage() {
         {/* Conversation List */}
         <div className="flex-1 overflow-y-auto">
           {filteredConversas.length === 0 ? (
-            <div className="p-8 text-center text-white/20 text-sm">{t('empty.noData')}</div>
+            <div className="p-12 text-center">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-3">
+                <MessageSquare className="w-6 h-6 text-white/10" />
+              </div>
+              <p className="text-white/25 text-sm">{t('empty.noData')}</p>
+            </div>
           ) : filteredConversas.map((conv) => {
             const other = conv.participantes.find((p) => p.tipo !== 'instrutor');
             const isActive = conv.id === activeConversaId;
@@ -142,8 +147,8 @@ export default function ProfessorMensagensPage() {
               <button
                 key={conv.id}
                 onClick={() => setActiveConversaId(conv.id)}
-                className={`w-full flex items-center gap-3 p-3 border-b border-white/[0.03] transition-colors text-left ${
-                  isActive ? 'bg-indigo-500/10' : 'hover:bg-white/[0.03]'
+                className={`w-full flex items-center gap-3 p-3 border-b border-white/[0.03] transition-all text-left ${
+                  isActive ? 'bg-indigo-500/10' : 'hover:bg-white/[0.03] hover-card'
                 }`}
               >
                 <div className="w-10 h-10 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg shrink-0">
@@ -266,9 +271,14 @@ export default function ProfessorMensagensPage() {
         ) : (
           /* Empty state */
           <div className="flex-1 flex items-center justify-center">
-            <div className="text-center space-y-3">
-              <MessageSquare className="w-12 h-12 text-white/10 mx-auto" />
-              <p className="text-white/30 text-sm">{t('empty.selectConversation')}</p>
+            <div className="text-center space-y-4">
+              <div className="w-20 h-20 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
+                <MessageSquare className="w-8 h-8 text-white/10" />
+              </div>
+              <div>
+                <p className="text-white/30 text-sm font-medium">{t('empty.selectConversation')}</p>
+                <p className="text-white/15 text-xs mt-1.5">{t('empty.noData')}</p>
+              </div>
             </div>
           </div>
         )}

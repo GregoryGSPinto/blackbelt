@@ -293,7 +293,7 @@ export default function ProfessorVideosPage() {
           <button
             key={tabKey}
             onClick={() => setTab(tabKey)}
-            className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${
               tab === tabKey
                 ? 'bg-amber-600/20 text-amber-200'
                 : 'text-white/30 hover:text-white/50'
@@ -364,7 +364,7 @@ export default function ProfessorVideosPage() {
               videos.map((video: VideoRecente) => {
                 const tipoConf = TIPO_LABELS[video.tipo] || TIPO_LABELS.aula;
                 return (
-                  <div key={video.id} className="prof-glass-card overflow-hidden group cursor-pointer">
+                  <div key={video.id} className="prof-glass-card hover-card overflow-hidden group cursor-pointer">
                     <div className="relative h-40 md:h-44 bg-gradient-to-br from-black/60 to-black/30 overflow-hidden">
                       <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -417,7 +417,7 @@ export default function ProfessorVideosPage() {
                 const isUpload = video.source === 'upload';
 
                 return (
-                  <div key={video.id} className="prof-glass-card overflow-hidden group relative">
+                  <div key={video.id} className="prof-glass-card hover-card overflow-hidden group relative">
                     {/* Thumbnail */}
                     <div className="relative h-40 md:h-44 bg-gradient-to-br from-black/60 to-black/30 overflow-hidden">
                       <div
@@ -541,7 +541,7 @@ export default function ProfessorVideosPage() {
             {/* Upload CTA */}
             <div
               onClick={() => router.push('/professor-videos/upload')}
-              className="prof-glass-card overflow-hidden flex items-center justify-center min-h-[240px] border-2 border-dashed border-white/5 hover:border-amber-500/20 transition-all duration-300 cursor-pointer group"
+              className="prof-glass-card hover-card overflow-hidden flex items-center justify-center min-h-[240px] border-2 border-dashed border-white/5 hover:border-amber-500/20 transition-all duration-300 cursor-pointer group"
             >
               <div className="text-center">
                 <div className="w-12 h-12 mx-auto rounded-full bg-white/5 flex items-center justify-center group-hover:bg-amber-500/10 transition-all duration-300">
@@ -568,14 +568,16 @@ export default function ProfessorVideosPage() {
           </button>
 
           {playlists.length === 0 ? (
-            <div className="prof-glass-card p-8 text-center">
-              <Film size={32} className="mx-auto mb-3 text-white/15" />
-              <p className="text-white/30 text-sm">{t('noPlaylists')}</p>
+            <div className="prof-glass-card p-12 text-center">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+                <Film size={28} className="text-white/15" />
+              </div>
+              <p className="text-white/30 text-sm font-medium">{t('noPlaylists')}</p>
             </div>
           ) : (
             <div className="space-y-3">
               {playlists.map(pl => (
-                <div key={pl.id} className="prof-glass-card p-4">
+                <div key={pl.id} className="prof-glass-card hover-card p-4">
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-sm font-semibold text-white/80">{pl.titulo}</h3>

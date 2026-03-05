@@ -38,7 +38,7 @@ function StatCard({
 }) {
   return (
     <div
-      className="rounded-xl p-4 text-center group cursor-default hover:scale-[1.02] transition-transform"
+      className="rounded-xl p-4 text-center group cursor-default hover:scale-[1.02] transition-transform hover-card"
       style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.06)' }}
     >
       <div className={`inline-flex p-2 rounded-lg mb-2 ${accent}`}>

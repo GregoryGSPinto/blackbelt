@@ -30,7 +30,7 @@ export function StepSenha({ dados, setDados, onSubmit, error }: StepSenhaProps) 
             value={dados.senha}
             onChange={e => setDados({ ...dados, senha: e.target.value })}
             placeholder={t('register.passwordPlaceholder')}
-            className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+            className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
             autoFocus
             autoComplete="new-password"
             required
@@ -56,7 +56,7 @@ export function StepSenha({ dados, setDados, onSubmit, error }: StepSenhaProps) 
             value={dados.confirmarSenha}
             onChange={e => setDados({ ...dados, confirmarSenha: e.target.value })}
             placeholder={t('register.confirmPasswordPlaceholder')}
-            className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+            className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
             autoComplete="new-password"
             required
             minLength={6}
@@ -73,7 +73,7 @@ export function StepSenha({ dados, setDados, onSubmit, error }: StepSenhaProps) 
       </div>
 
       <ErrorAlert message={error} />
-      <button type="submit" className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all">
+      <button type="submit" className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all">
         {tCommon('actions.continue')}
       </button>
     </form>

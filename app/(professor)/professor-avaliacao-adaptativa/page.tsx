@@ -19,7 +19,7 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
       {/* Header */}
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-violet-500/10 border border-violet-500/20">
+          <div className="p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
             <Brain size={20} className="text-violet-400" />
           </div>
           <h1 className="text-xl md:text-2xl font-bold text-zinc-100">

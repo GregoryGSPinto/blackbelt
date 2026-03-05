@@ -162,7 +162,7 @@ export default function EsqueciSenhaPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+                  className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
                   placeholder={t('forgotPassword.emailPlaceholder')}
                   required
                 />
@@ -171,7 +171,7 @@ export default function EsqueciSenhaPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? tCommon('actions.sending') : t('forgotPassword.sendVia', { method: method === 'email' ? t('forgotPassword.emailMethod') : t('forgotPassword.whatsappMethod') })}
               </button>

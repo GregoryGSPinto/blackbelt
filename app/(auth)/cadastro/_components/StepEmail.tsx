@@ -27,7 +27,7 @@ export function StepEmail({ dados, setDados, onSubmit, error }: StepEmailProps) 
             value={dados.email}
             onChange={e => setDados({ ...dados, email: e.target.value })}
             placeholder="seu@email.com"
-            className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+            className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
             autoFocus
             autoComplete="email"
             required
@@ -35,7 +35,7 @@ export function StepEmail({ dados, setDados, onSubmit, error }: StepEmailProps) 
         </div>
       </div>
       <ErrorAlert message={error} />
-      <button type="submit" className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all">
+      <button type="submit" className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all">
         {tCommon('actions.continue')}
       </button>
       <SocialLoginButtons mode="signup" />

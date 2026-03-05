@@ -73,10 +73,10 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className={`px-4 py-2 rounded-lg font-bold text-sm border text-center ${getStatusColor(filho.status)}`}>
+                <span className={`px-4 py-2 rounded-xl font-bold text-sm border text-center ${getStatusColor(filho.status)}`}>
                   {getStatusText(filho.status)}
                 </span>
-                <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-semibold transition-all duration-200 border border-white/20">
+                <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-semibold transition-all duration-200 border border-white/20">
                   <Edit size={16} />
                   {t('editProfile')}
                 </button>
@@ -114,7 +114,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover-card">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-3 bg-green-500/20 rounded-xl">
               <TrendingUp size={24} className="text-green-400" />
@@ -132,7 +132,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
           </div>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover-card">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-3 bg-blue-500/20 rounded-xl">
               <BookOpen size={24} className="text-blue-400" />
@@ -145,7 +145,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
           <p className="text-xs text-white/60">{t('totalCompleted')}</p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover-card">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-3 bg-yellow-500/20 rounded-xl">
               <Trophy size={24} className="text-yellow-400" />

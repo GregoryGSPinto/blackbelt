@@ -59,11 +59,11 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
       {querKids === null && (
         <div className="grid grid-cols-2 gap-4">
           <button onClick={() => decidirKids(true)}
-            className="py-4 px-6 bg-white/10 border-2 border-white/20 rounded-lg hover:bg-white/20 font-medium">
+            className="py-4 px-6 bg-white/10 border-2 border-white/20 rounded-xl hover:bg-white/20 font-medium">
             {t('registerKids.yesAddKids')}
           </button>
           <button onClick={() => decidirKids(false)}
-            className="py-4 px-6 bg-white/10 border-2 border-white/20 rounded-lg hover:bg-white/20 font-medium">
+            className="py-4 px-6 bg-white/10 border-2 border-white/20 rounded-xl hover:bg-white/20 font-medium">
             {t('registerKids.noAddKids')}
           </button>
         </div>
@@ -77,7 +77,7 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
             <div className="space-y-3">
               <p className="text-sm font-medium">{t('registerKids.kidsAdded', { count: kids.length })}</p>
               {kids.map((k, i) => (
-                <div key={i} className="p-4 bg-white/5 rounded-lg border border-white/10 flex items-center gap-4">
+                <div key={i} className="p-4 bg-white/5 rounded-xl border border-white/10 flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
                     {k.nome.charAt(0).toUpperCase()}
                   </div>
@@ -101,7 +101,7 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
             <input type="text" value={kidAtual.nome}
               onChange={e => setKidAtual({ ...kidAtual, nome: e.target.value })}
               placeholder={t('registerKids.namePlaceholder')}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40" />
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40" />
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {([
                 { value: 'masculino', label: t('registerKids.boy') },
@@ -119,9 +119,9 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
             <input type="date" value={kidAtual.dataNascimento}
               onChange={e => setKidAtual({ ...kidAtual, dataNascimento: e.target.value })}
               max={new Date().toISOString().split('T')[0]}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/40 [color-scheme:dark]" />
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/40 [color-scheme:dark]" />
             <button onClick={handleAddKid}
-              className="w-full py-3 bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 font-medium flex items-center justify-center gap-2">
+              className="w-full py-3 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 font-medium flex items-center justify-center gap-2">
               <CheckCircle size={18} /> {t('registerKids.addToList')}
             </button>
           </div>
@@ -132,7 +132,7 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
 
       {querKids !== null && (
         <button onClick={handleContinue}
-          className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all flex items-center justify-center gap-2">
+          className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all flex items-center justify-center gap-2">
           {tCommon('actions.continue')} <ChevronRight size={20} />
         </button>
       )}

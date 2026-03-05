@@ -16,7 +16,7 @@ export default function AgendaPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDateFull } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [turmasHoje, setTurmasHoje] = useState<Turma[]>([]);
   const [checkInsHoje, setCheckInsHoje] = useState<CheckIn[]>([]);
@@ -66,7 +66,7 @@ export default function AgendaPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('agenda.title')}</h1>
@@ -75,7 +75,7 @@ export default function AgendaPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.classesToday')}</p>
@@ -85,7 +85,7 @@ export default function AgendaPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.checkinsDone')}</p>
@@ -95,7 +95,7 @@ export default function AgendaPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.totalStudents')}</p>
@@ -129,7 +129,7 @@ export default function AgendaPage() {
               return (
                 <div
                   key={turma.id}
-                  className="bg-white/10 rounded-lg p-5 border-l-4 border-white/20"
+                  className="bg-white/10 rounded-xl p-5 border-l-4 border-white/20"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -162,7 +162,7 @@ export default function AgendaPage() {
                     </div>
 
                     <div className="text-right">
-                      <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-2">
+                      <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2">
                         <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{checkInsDaTurma}</p>
                         <p className="text-xs" style={{ color: tokens.textMuted }}>Check-ins</p>
                       </div>

@@ -353,9 +353,11 @@ function AlunoDetalheContent() {
             </button>
 
             {aluno.conquistas.length === 0 ? (
-              <div className="prof-glass-card p-8 text-center">
-                <Award size={32} className="mx-auto mb-3 text-white/15" />
-                <p className="text-white/30 text-sm">{t('noAchievements')}</p>
+              <div className="prof-glass-card p-12 text-center">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/[0.04] border border-amber-500/[0.1] flex items-center justify-center mb-4">
+                  <Award size={28} className="text-white/15" />
+                </div>
+                <p className="text-white/30 text-sm font-medium">{t('noAchievements')}</p>
               </div>
             ) : (
               <div className="prof-glass-card p-4">
@@ -402,9 +404,11 @@ function AlunoDetalheContent() {
         {activeTab === 'desafios' && (
           <div className="space-y-4">
             {aluno.desafios.length === 0 ? (
-              <div className="prof-glass-card p-8 text-center">
-                <Target size={32} className="mx-auto mb-3 text-white/15" />
-                <p className="text-white/30 text-sm">{t('noChallenges')}</p>
+              <div className="prof-glass-card p-12 text-center">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+                  <Target size={28} className="text-white/15" />
+                </div>
+                <p className="text-white/30 text-sm font-medium">{t('noChallenges')}</p>
               </div>
             ) : (
               <div className="prof-glass-card p-4">
@@ -436,9 +440,11 @@ function AlunoDetalheContent() {
         {activeTab === 'observacoes' && (
           <div className="space-y-4">
             {aluno.observacoes.length === 0 ? (
-              <div className="prof-glass-card p-8 text-center">
-                <MessageSquare size={32} className="mx-auto mb-3 text-white/15" />
-                <p className="text-white/30 text-sm">{t('noNotes')}</p>
+              <div className="prof-glass-card p-12 text-center">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+                  <MessageSquare size={28} className="text-white/15" />
+                </div>
+                <p className="text-white/30 text-sm font-medium">{t('noNotes')}</p>
               </div>
             ) : (
               <div className="prof-glass-card p-4">
@@ -473,9 +479,11 @@ function AlunoDetalheContent() {
         {activeTab === 'historico' && (
           <div className="space-y-4">
             {aluno.historicoSessões.length === 0 ? (
-              <div className="prof-glass-card p-8 text-center">
-                <Calendar size={32} className="mx-auto mb-3 text-white/15" />
-                <p className="text-white/30 text-sm">{t('noSessions')}</p>
+              <div className="prof-glass-card p-12 text-center">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+                  <Calendar size={28} className="text-white/15" />
+                </div>
+                <p className="text-white/30 text-sm font-medium">{t('noSessions')}</p>
               </div>
             ) : (
               <div className="prof-glass-card p-4">

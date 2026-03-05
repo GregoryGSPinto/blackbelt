@@ -60,10 +60,10 @@ export default function FinanceiroPage() {
     bloqueados: alunos.filter(a => a.status === 'BLOQUEADO'),
   };
 
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('financial.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted, marginTop: '0.25rem' }}>{t('financial.paymentStatusControl')}</p>
@@ -79,7 +79,7 @@ export default function FinanceiroPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.onTime')}</p>
@@ -92,7 +92,7 @@ export default function FinanceiroPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.overdue')}</p>
@@ -103,7 +103,7 @@ export default function FinanceiroPage() {
           <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('financial.requiresAttention')}</div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.blocked')}</p>
@@ -125,7 +125,7 @@ export default function FinanceiroPage() {
           </div>
           <div className="space-y-3">
             {alunosPorStatus.emAtraso.map((aluno) => (
-              <div key={aluno.id} style={{ background: tokens.cardBg, border: `1px solid ${tokens.divider}`, borderRadius: '4px', padding: '1rem' }}>
+              <div key={aluno.id} style={{ background: tokens.cardBg, border: `1px solid ${tokens.divider}`, borderRadius: '12px', padding: '1rem' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}` }}>
@@ -158,7 +158,7 @@ export default function FinanceiroPage() {
           </div>
           <div className="space-y-3">
             {alunosPorStatus.bloqueados.map((aluno) => (
-              <div key={aluno.id} style={{ background: tokens.cardBg, border: `1px solid ${tokens.divider}`, borderRadius: '4px', padding: '1rem' }}>
+              <div key={aluno.id} style={{ background: tokens.cardBg, border: `1px solid ${tokens.divider}`, borderRadius: '12px', padding: '1rem' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}` }}>

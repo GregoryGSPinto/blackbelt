@@ -105,7 +105,7 @@ export default function KidsDesafiosPage() {
           {kidschallenges.map((desafio) => (
             <div
               key={desafio.id}
-              className="rounded-2xl p-4 shadow-md hover:shadow-lg transition-all cursor-pointer backdrop-blur-sm border"
+              className="rounded-2xl p-4 shadow-md hover:shadow-lg transition-all cursor-pointer backdrop-blur-sm border hover-card"
               style={{ background: c.cardBg, borderColor: c.border }}
             >
               <div className="flex items-center justify-between">

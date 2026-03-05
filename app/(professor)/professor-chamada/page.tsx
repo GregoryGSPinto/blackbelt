@@ -406,7 +406,7 @@ export default function ProfessorChamadaPage() {
           <button
             key={turma.id}
             onClick={() => handleSelectTurma(turma)}
-            className="prof-glass-card p-5 text-left transition-all active:scale-[0.98]"
+            className="prof-glass-card hover-card p-5 text-left transition-all active:scale-[0.98]"
           >
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${turma.cor} flex items-center justify-center shadow-lg`}>

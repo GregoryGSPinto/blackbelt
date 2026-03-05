@@ -29,7 +29,7 @@ export default function ProfessorParticularesPage() {
   const tCommon = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [sessões, setSessões] = useState<AulaParticular[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,7 +80,7 @@ export default function ProfessorParticularesPage() {
             {proximas.map((a: AulaParticular) => {
               const st = STATUS_STYLE[a.status] || STATUS_STYLE.agendada;
               return (
-                <div key={a.id} className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl px-5 py-4">
+                <div key={a.id} className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl hover-card px-5 py-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2 mb-1">

@@ -56,7 +56,7 @@ export default function DeveloperAIPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 flex items-center justify-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+          <div className="w-9 h-9 flex items-center justify-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
             <Brain className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
@@ -64,7 +64,7 @@ export default function DeveloperAIPage() {
             <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>{models.length} models registered • No PII access</p>
           </div>
         </div>
-        <button onClick={refresh} disabled={loading} className="p-2 transition-colors disabled:opacity-50" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, borderRadius: '4px', color: tokens.text }}>
+        <button onClick={refresh} disabled={loading} className="p-2 transition-colors disabled:opacity-50" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, borderRadius: '12px', color: tokens.text }}>
           <RefreshCw className={`w-4 h-4 text-emerald-400 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
@@ -77,7 +77,7 @@ export default function DeveloperAIPage() {
           { icon: Clock, label: 'Avg Latency', value: `${Math.round(avgLatency)}ms`, color: avgLatency > 2000 ? 'text-yellow-400' : '' },
           { icon: TrendingUp, label: 'Avg Success', value: `${avgSuccess.toFixed(1)}%`, color: avgSuccess > 95 ? 'text-emerald-400' : 'text-yellow-400' },
         ].map((m) => (
-          <div key={m.label} className="p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+          <div key={m.label} className="p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
             <div className="flex items-center gap-1.5 mb-1">
               <m.icon className="w-3.5 h-3.5" style={{ color: tokens.textMuted }} />
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{m.label}</p>
@@ -91,20 +91,20 @@ export default function DeveloperAIPage() {
       <div className="space-y-3">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-28 animate-pulse" style={{ background: tokens.cardBg, borderRadius: '4px' }} />
+            <div key={i} className="h-28 animate-pulse" style={{ background: tokens.cardBg, borderRadius: '12px' }} />
           ))
         ) : models.map((model) => {
           const cfg = statusConfig[model.status] || statusConfig.OFFLINE;
           const StatusIcon = cfg.icon;
           return (
-            <div key={model.id} className={`p-4 border ${cfg.bg} transition-colors`} style={{ borderRadius: '4px' }}>
+            <div key={model.id} className={`p-4 border ${cfg.bg} transition-colors`} style={{ borderRadius: '12px' }}>
               <div className="flex items-start justify-between">
                 {/* Left: Info */}
                 <div className="space-y-2 flex-1">
                   <div className="flex items-center gap-2">
                     <StatusIcon className={`w-4 h-4 ${cfg.color}`} />
                     <h3 style={{ fontWeight: 300, color: tokens.text, fontSize: '0.85rem' }}>{model.name}</h3>
-                    <span style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '2px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, padding: '2px 6px' }} className={cfg.color}>
+                    <span style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '8px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, padding: '2px 6px' }} className={cfg.color}>
                       {cfg.label}
                     </span>
                   </div>
@@ -116,7 +116,7 @@ export default function DeveloperAIPage() {
                     <span>Checked: <span style={{ color: tokens.text, fontWeight: 300 }}>{fmtTime(model.lastChecked)}</span></span>
                   </div>
                   {model.lastError && (
-                    <p className="text-[10px] text-red-400/70 font-mono bg-red-500/5 px-2 py-1" style={{ borderRadius: '4px' }}>
+                    <p className="text-[10px] text-red-400/70 font-mono bg-red-500/5 px-2 py-1" style={{ borderRadius: '12px' }}>
                       {model.lastError}
                     </p>
                   )}
@@ -156,7 +156,7 @@ export default function DeveloperAIPage() {
       </div>
 
       {/* Privacy Notice */}
-      <div className="text-center p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+      <div className="text-center p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
         <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>
           AI Governance Panel — No prompts, conversations, or student data visible.
           Only operational metrics (latency, success rate, status) are displayed.

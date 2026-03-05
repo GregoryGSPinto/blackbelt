@@ -37,7 +37,7 @@ export default function VisitantesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [visitantes, setVisitantes] = useState<Visitante[]>([]);
   const [stats, setStats] = useState<{ visitantesHoje: number; experimentaisHoje: number; dropInsHoje: number; receitaVisitas: number; noShows: number; pendentes: number } | null>(null);
@@ -66,7 +66,7 @@ export default function VisitantesPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('visitors.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Drop-in, day use e sessões experimentais</p>
@@ -75,19 +75,19 @@ export default function VisitantesPage() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><UserPlus size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Visitantes Hoje</span></div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.visitantesHoje}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><Target size={16} className="text-green-400" /><span className="text-white/40 text-xs">Experimentais</span></div>
             <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.experimentaisHoje}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Visitas</span></div>
             <p className="text-xl font-bold text-purple-400">{formatMoney(stats.receitaVisitas)}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><AlertCircle size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendentes</span></div>
             <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.pendentes}</p>
           </div>
@@ -98,13 +98,13 @@ export default function VisitantesPage() {
       <div className="flex flex-wrap gap-2 items-center">
         <Filter size={14} className="text-white/30" />
         {['todos', 'drop_in', 'day_use', 'aula_experimental', 'evento'].map((t: string) => (
-          <button key={t} onClick={() => setFiltroTipo(t)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${filtroTipo === t ? 'bg-white/10 text-white' : 'text-white/30'}`}>
+          <button key={t} onClick={() => setFiltroTipo(t)} className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${filtroTipo === t ? 'bg-white/10 text-white' : 'text-white/30'}`}>
             {t === 'todos' ? 'Todos' : TIPO_STYLE[t as TipoVisita]?.label || t}
           </button>
         ))}
         <span className="text-white/10">|</span>
         {['todos', 'pendente', 'check_in', 'finalizada', 'no_show'].map((s: string) => (
-          <button key={s} onClick={() => setFiltroStatus(s)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${filtroStatus === s ? 'bg-white/10 text-white' : 'text-white/30'}`}>
+          <button key={s} onClick={() => setFiltroStatus(s)} className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${filtroStatus === s ? 'bg-white/10 text-white' : 'text-white/30'}`}>
             {s === 'todos' ? 'Todos' : STATUS_STYLE[s as StatusVisita]?.label || s}
           </button>
         ))}

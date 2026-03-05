@@ -30,7 +30,7 @@ export default function ProfessorBriefingPage() {
         <button
           onClick={refetch}
           disabled={loading}
-          className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
+          className="p-2 rounded-xl border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
           title={t('refresh')}
         >
           <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
@@ -45,9 +45,9 @@ export default function ProfessorBriefingPage() {
               key={i}
               className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 animate-pulse"
             >
-              <div className="h-4 bg-zinc-800 rounded w-1/3 mb-3" />
-              <div className="h-3 bg-zinc-800/60 rounded w-2/3 mb-2" />
-              <div className="h-3 bg-zinc-800/40 rounded w-1/2" />
+              <div className="h-4 bg-zinc-800 rounded-lg w-1/3 mb-3" />
+              <div className="h-3 bg-zinc-800/60 rounded-lg w-2/3 mb-2" />
+              <div className="h-3 bg-zinc-800/40 rounded-lg w-1/2" />
             </div>
           ))}
         </div>
@@ -59,7 +59,7 @@ export default function ProfessorBriefingPage() {
           <p className="text-red-400/60 text-xs mt-1">{error.message}</p>
           <button
             onClick={refetch}
-            className="mt-4 px-4 py-2 text-xs rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-colors"
+            className="mt-4 px-4 py-2 text-xs rounded-xl bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-colors"
           >
             {tCommon('actions.tryAgain')}
           </button>

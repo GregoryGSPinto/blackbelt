@@ -83,7 +83,7 @@ export default function ProfessorTurmasPage() {
             <div
               key={turma.id}
               onClick={() => setSelectedTurma(isSelected ? null : turma.id)}
-              className={`prof-glass-card p-6 cursor-pointer transition-all duration-500 ${
+              className={`prof-glass-card hover-card p-6 cursor-pointer transition-all duration-500 ${
                 isSelected ? 'ring-1 ring-amber-500/30' : ''
               }`}
             >

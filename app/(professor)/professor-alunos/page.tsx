@@ -296,16 +296,19 @@ export default function ProfessorAlunosPage() {
         </div>
 
         {alunos.length === 0 && !listLoading && (
-          <div className="prof-glass-card p-8 text-center">
-            <Search size={32} className="mx-auto mb-3 text-white/20" />
-            <p className="text-white/40 text-sm">{t('studentNotFound')}</p>
+          <div className="prof-glass-card p-12 text-center">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
+              <Search size={28} className="text-white/15" />
+            </div>
+            <p className="text-white/40 text-sm font-medium">{t('studentNotFound')}</p>
+            <p className="text-white/20 text-xs mt-1.5">{busca ? t('searchPlaceholder') : ''}</p>
           </div>
         )}
 
         {alunos.map(aluno => {
           const gradCfg = GRAD_CONFIG[aluno.statusGraduacao];
           const isSelected = selectedAlunoId === aluno.id && isTabletOrAbove;
-          const cardClass = `prof-glass-card block p-4 active:scale-[0.99] cursor-pointer transition-all ${
+          const cardClass = `prof-glass-card hover-card block p-4 active:scale-[0.99] cursor-pointer transition-all ${
             isSelected
               ? 'border-[rgba(217,175,105,0.4)] bg-[rgba(217,175,105,0.06)]'
               : 'hover:border-[rgba(217,175,105,0.25)]'
@@ -500,15 +503,17 @@ export default function ProfessorAlunosPage() {
             </div>
           ) : (
             <div className="h-full flex items-center justify-center">
-              <div className="text-center">
+              <div className="text-center space-y-4">
                 <div
-                  className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4"
+                  className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center"
                   style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
                 >
-                  <Users size={24} className="text-white/15" />
+                  <Users size={28} className="text-white/15" />
                 </div>
-                <p className="text-sm text-white/20">{t('selectStudent')}</p>
-                <p className="text-xs text-white/10 mt-1">{t('clickAny')}</p>
+                <div>
+                  <p className="text-sm text-white/25 font-medium">{t('selectStudent')}</p>
+                  <p className="text-xs text-white/12 mt-1.5">{t('clickAny')}</p>
+                </div>
               </div>
             </div>
           )}

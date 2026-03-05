@@ -115,7 +115,7 @@ export default function GraduacaoPage() {
                 {/* Dot */}
                 <div className={`absolute -left-6 top-1 w-4 h-4 rounded-full border-2 ${colors.bg} ${colors.border} ${isLast ? 'ring-2 ring-white/10' : ''}`} />
 
-                <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4">
+                <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 hover-card">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-bold text-white/70">{grad.nivel}</p>
@@ -153,7 +153,7 @@ function ProgressMini({ label, current, required, unit }: { label: string; curre
   const pct = Math.min(100, Math.round((current / required) * 100));
   const met = current >= required;
   return (
-    <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-3">
+    <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3">
       <p className="text-[9px] text-white/20 uppercase tracking-wider">{label}</p>
       <p className={`text-sm font-bold mt-0.5 ${met ? 'text-emerald-400' : 'text-white/50'}`}>
         {current}/{required} {unit}

@@ -82,8 +82,8 @@ export default function TeenInicioPage() {
           </p>
         </div>
         {/* Streak badge */}
-        <div className="px-4 py-2.5 flex items-center gap-2.5 flex-shrink-0" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
-          <div className="w-9 h-9 flex items-center justify-center" style={{ borderRadius: '4px', background: 'rgba(255,107,53,0.12)' }}>
+        <div className="px-4 py-2.5 flex items-center gap-2.5 flex-shrink-0" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
+          <div className="w-9 h-9 flex items-center justify-center" style={{ borderRadius: '12px', background: 'rgba(255,107,53,0.12)' }}>
             <Flame size={18} className="text-teen-energy" />
           </div>
           <div>

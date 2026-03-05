@@ -121,7 +121,7 @@ export default function ProfessorAvaliacoesPage() {
           const TipoIcon = tipoConf.icon;
 
           return (
-            <div key={aval.id} className="prof-glass-card p-5 group">
+            <div key={aval.id} className="prof-glass-card hover-card p-5 group">
               <div className="flex items-start gap-4">
                 {/* Avatar */}
                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
@@ -171,9 +171,12 @@ export default function ProfessorAvaliacoesPage() {
         })}
 
         {filtered.length === 0 && (
-          <div className="text-center py-16">
-            <CheckCircle size={32} className="mx-auto text-emerald-500/40 mb-3" />
-            <p className="text-white/55 text-sm">{t('noPending')}</p>
+          <div className="prof-glass-card p-12 text-center">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/[0.06] border border-emerald-500/[0.12] flex items-center justify-center mb-4">
+              <CheckCircle size={28} className="text-emerald-500/40" />
+            </div>
+            <p className="text-white/55 text-sm font-medium">{t('noPending')}</p>
+            <p className="text-white/25 text-xs mt-1.5">{t('filterAll')}</p>
           </div>
         )}
       </section>

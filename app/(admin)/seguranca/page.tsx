@@ -78,7 +78,7 @@ export default function SecurityDashboardPage() {
   const healthCfg = HEALTH_CONFIG[data.healthStatus];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* ─── Header ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -230,7 +230,7 @@ function KPICard({ icon: Icon, label, value, subtext, trend }: {
   };
 
   return (
-    <div className={`rounded-xl border p-4 ${trendBg[trend]}`}>
+    <div className={`hover-card rounded-xl border p-4 ${trendBg[trend]}`}>
       <div className="flex items-center gap-2 mb-2">
         <Icon className={`w-4 h-4 ${trendColors[trend]}`} />
         <span className="text-xs text-white/50 font-medium">{label}</span>
@@ -371,7 +371,7 @@ function SecurityCounter({ label, value, warn, icon: Icon }: {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   return (
-    <div className={`rounded-lg p-3 border ${
+    <div className={`rounded-xl p-3 border ${
       warn ? 'bg-red-500/5 border-red-500/20' : 'bg-black/30 backdrop-blur-sm border-white/10'
     }`}>
       <div className="flex items-center gap-1.5 mb-1">
@@ -634,7 +634,7 @@ function RulesTab({ rules }: { rules: DashboardData['detectionRules'] }) {
 
 function LoadingSkeleton() {
   return (
-    <div className="space-y-6 animate-pulse">
+    <div className="space-y-8 animate-pulse">
       <div className="h-8 bg-white/5 rounded w-64" />
       <div className="h-20 bg-white/5 rounded-xl" />
       <div className="grid grid-cols-4 gap-4">

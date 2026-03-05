@@ -94,7 +94,7 @@ export default async function HistoricoDashboard() {
         {/* Streak & Weekly */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Streak card */}
-          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
+          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
             <div className="flex items-center gap-2 mb-4">
               <Flame size={18} className="text-amber-400" />
               <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.streakTitle')}</h2>
@@ -130,7 +130,7 @@ export default async function HistoricoDashboard() {
           </div>
 
           {/* Dias da semana */}
-          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
+          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
             <div className="flex items-center gap-2 mb-4">
               <BarChart3 size={18} className="text-blue-400" />
               <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.mostFrequentDays')}</h2>
@@ -161,7 +161,7 @@ export default async function HistoricoDashboard() {
         </div>
 
         {/* Últimos Treinos */}
-        <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
+        <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <TrendingUp size={18} className="text-emerald-400" />
@@ -214,7 +214,7 @@ function StatCard({ icon: Icon, label, value, accent }: {
   const c = colors[accent];
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-5">
+    <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-5 hover-card">
       <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center mb-3`}>
         <Icon size={18} className={c.icon} />
       </div>

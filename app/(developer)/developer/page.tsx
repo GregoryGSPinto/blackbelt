@@ -202,7 +202,7 @@ export default function DeveloperDashboard() {
         <div className="flex items-center gap-3">
           <div
             className="w-10 h-10 flex items-center justify-center"
-            style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}
+            style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}
           >
             <Terminal className="w-5 h-5 text-emerald-500" />
           </div>
@@ -218,7 +218,7 @@ export default function DeveloperDashboard() {
               criticalCount > 0
                 ? (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-100 text-red-700')
                 : (isDark ? 'bg-yellow-500/15 text-yellow-400' : 'bg-yellow-100 text-yellow-700')
-            }`} style={{ borderRadius: '4px' }}>
+            }`} style={{ borderRadius: '12px' }}>
               <Bell className="w-3.5 h-3.5" />
               {criticalCount > 0 ? `${criticalCount} crítico${criticalCount > 1 ? 's' : ''}` : `${warningCount} alerta${warningCount > 1 ? 's' : ''}`}
             </div>
@@ -227,7 +227,7 @@ export default function DeveloperDashboard() {
             onClick={refresh}
             disabled={loading}
             className="flex items-center gap-2 px-3 py-1.5 transition-colors disabled:opacity-50 text-emerald-500"
-            style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}
+            style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Atualizar
@@ -237,7 +237,7 @@ export default function DeveloperDashboard() {
 
       {/* ── Active Alerts ── */}
       {alerts.length > 0 && (
-        <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+        <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
           <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
             <Bell className="w-4 h-4 text-red-500" />
             Alertas Ativos ({alerts.length})
@@ -247,7 +247,7 @@ export default function DeveloperDashboard() {
               const sty = severityStyle(alert.severity);
               const Icon = sty.icon;
               return (
-                <div key={alert.id} className={`flex items-start gap-3 p-3 border ${sty.bg}`} style={{ borderRadius: '4px' }}>
+                <div key={alert.id} className={`flex items-start gap-3 p-3 border ${sty.bg}`} style={{ borderRadius: '12px' }}>
                   <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${sty.text}`} />
                   <div className="flex-1 min-w-0">
                     <p className={`text-sm font-medium ${sty.text}`}>{alert.title}</p>
@@ -268,7 +268,7 @@ export default function DeveloperDashboard() {
             key={link.href}
             href={link.href}
             className="group p-4 transition-all"
-            style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}
+            style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}
           >
             <link.icon className="w-5 h-5 text-emerald-500 opacity-60 group-hover:opacity-100 transition-opacity mb-2" />
             <p style={{ fontWeight: 300, color: tokens.text, fontSize: '0.85rem' }}>{link.label}</p>
@@ -286,7 +286,7 @@ export default function DeveloperDashboard() {
             { label: 'Error Rate', value: obs.errorRate, unit: '%' },
             { label: 'Anomalies 24h', value: obs.anomaliesLast24h, unit: '' },
           ].map((m) => (
-            <div key={m.label} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+            <div key={m.label} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{m.label}</p>
               <p className={`font-mono mt-1 ${obsMetricColor(m.label, m.value)}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: obsMetricColor(m.label, m.value) ? undefined : tokens.text }}>
                 {m.value}<span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{m.unit}</span>
@@ -303,10 +303,10 @@ export default function DeveloperDashboard() {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {health.map((metric) => (
-            <div key={metric.name} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+            <div key={metric.name} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
               <div className="flex items-center justify-between mb-1">
                 <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{metric.name}</p>
-                <span className={`text-[9px] px-1.5 py-0.5 font-mono ${statusBadge(metric.status)}`} style={{ borderRadius: '2px' }}>
+                <span className={`text-[9px] px-1.5 py-0.5 font-mono ${statusBadge(metric.status)}`} style={{ borderRadius: '8px' }}>
                   {metric.status}
                 </span>
               </div>
@@ -326,13 +326,13 @@ export default function DeveloperDashboard() {
       <div>
         <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
           <Smartphone className="w-4 h-4" /> Device Analysis
-          <span className={`text-[9px] px-1.5 py-0.5 ${isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-100 text-violet-700'}`} style={{ borderRadius: '2px' }}>AI</span>
+          <span className={`text-[9px] px-1.5 py-0.5 ${isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-100 text-violet-700'}`} style={{ borderRadius: '8px' }}>AI</span>
         </h2>
         <div className="space-y-2">
           {deviceInsights.map((insight) => {
             const sty = severityStyle(insight.severity);
             return (
-              <div key={insight.deviceId} className="flex items-start gap-3 p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+              <div key={insight.deviceId} className="flex items-start gap-3 p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
                 <div className={`mt-0.5 ${sty.text}`}>
                   {deviceIcon(insight.label)}
                 </div>

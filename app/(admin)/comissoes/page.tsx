@@ -20,7 +20,7 @@ export default function ComissoesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [comissoes, setComissoes] = useState<Comissao[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,30 +44,30 @@ export default function ComissoesPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('commissions.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Relatório de pagamento aos instrutores</p>
         </div>
-        <input type="month" value={mes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMes(e.target.value)} className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white outline-none" />
+        <input type="month" value={mes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMes(e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white outline-none" />
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><Users size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Instrutores</span></div>
           <p className="text-xl sm:text-2xl font-bold text-white">{comissoes.length}</p>
         </div>
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Total Bruto</span></div>
           <p className="text-xl font-bold text-green-400">{formatMoney(totalBruto)}</p>
         </div>
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">A Pagar</span></div>
           <p className="text-xl font-bold text-purple-400">{formatMoney(totalLiquido)}</p>
         </div>
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><Clock size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendente</span></div>
           <p className="text-xl font-bold text-amber-400">{formatMoney(totalPendente)}</p>
         </div>
@@ -107,7 +107,7 @@ export default function ComissoesPage() {
             </tbody>
           </table>
         </div>
-        {comissoes.length === 0 && <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhuma comissão para o período</div>}
+        {comissoes.length === 0 && <div className="empty-state-premium px-6 py-12 text-center text-white/30 text-sm">Nenhuma comissão para o período</div>}
       </div>
     </div>
   );

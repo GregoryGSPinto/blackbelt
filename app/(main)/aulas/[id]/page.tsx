@@ -338,7 +338,7 @@ export default function AulaDetailPage() {
                 {objectives.map((obj, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3.5 px-5 py-4 rounded-xl bg-white/[0.02] border border-white/[0.04]"
+                    className="flex items-start gap-3.5 px-5 py-4 rounded-xl bg-white/[0.02] border border-white/[0.04] hover-card"
                   >
                     <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Target size={14} className="text-primary-light" />

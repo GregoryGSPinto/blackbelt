@@ -131,10 +131,12 @@ export default function BuscarPage() {
               </div>
             </>
           ) : (
-            <div className="text-center py-12 bg-white/5 rounded-2xl">
-              <div className="text-6xl mb-4">🔍</div>
-              <h2 className="text-2xl font-semibold mb-2">Nenhum resultado encontrado</h2>
-              <p className="text-white/60">
+            <div className="text-center py-16 bg-white/[0.03] border border-white/[0.06] rounded-2xl">
+              <div className="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center bg-white/[0.04]">
+                <Search size={28} className="text-white/20" />
+              </div>
+              <h2 className="text-xl font-semibold mb-2 text-white/80">Nenhum resultado encontrado</h2>
+              <p className="text-white/40 text-sm max-w-sm mx-auto">
                 Tente buscar por outro termo ou navegue pelas categorias
               </p>
             </div>
@@ -158,7 +160,7 @@ export default function BuscarPage() {
               <button
                 key={term}
                 onClick={() => handleSearch(term)}
-                className="p-4 bg-white/10 backdrop-blur-sm rounded-xl text-center hover:bg-white/20 hover:scale-105 transition-all duration-200 border border-white/10 hover:border-white/30 group"
+                className="p-4 bg-white/10 backdrop-blur-sm rounded-xl text-center hover:bg-white/20 hover:scale-105 transition-all duration-200 border border-white/10 hover:border-white/30 group hover-card"
               >
                 <p className="font-medium text-white">{term}</p>
               </button>
@@ -178,7 +180,7 @@ export default function BuscarPage() {
                   className="group cursor-pointer"
                 >
                   {/* Thumbnail Container */}
-                  <div className="relative aspect-video bg-black rounded-lg overflow-hidden mb-3 shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-3 shadow-lg hover:shadow-2xl transition-all duration-300">
                     {/* YouTube Thumbnail */}
                     <img
                       src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}

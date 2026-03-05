@@ -17,7 +17,7 @@ export default function UsuariosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusOperacional | 'TODOS'>('TODOS');
@@ -138,7 +138,7 @@ export default function UsuariosPage() {
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('users.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.subtitle')}</p>
         </div>
-        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
+        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}>
           <UserPlus className="w-5 h-5" />
           <span>{t('users.newStudent')}</span>
         </button>
@@ -146,7 +146,7 @@ export default function UsuariosPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div style={{ ...glass, padding: '1rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.activeStudents')}</p>
@@ -156,7 +156,7 @@ export default function UsuariosPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.statusOverdue')}</p>
@@ -166,7 +166,7 @@ export default function UsuariosPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.statusBlocked')}</p>
@@ -178,7 +178,7 @@ export default function UsuariosPage() {
       </div>
 
       {/* Filters */}
-      <div style={{ ...glass, padding: '1.5rem' }}>
+      <div className="premium-card" style={{ ...glass, padding: '1.5rem' }}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div className="md:col-span-1">
@@ -239,22 +239,22 @@ export default function UsuariosPage() {
           <table className="w-full">
             <thead className="bg-white/5">
               <tr>
-                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
+                <th className="th-premium">
                   {t('users.thStudent')}
                 </th>
-                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
+                <th className="th-premium">
                   {t('users.thCategory')}
                 </th>
-                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
+                <th className="th-premium">
                   {t('users.thGraduation')}
                 </th>
-                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
+                <th className="th-premium">
                   {t('users.thStatus')}
                 </th>
-                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
+                <th className="th-premium">
                   {t('users.thDueDate')}
                 </th>
-                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
+                <th className="th-premium">
                   {t('users.thActions')}
                 </th>
               </tr>
@@ -332,7 +332,7 @@ export default function UsuariosPage() {
         </div>
 
         {filteredUsers.length === 0 && (
-          <div className="text-center py-12">
+          <div className="empty-state-premium text-center py-12">
             <Filter className="w-12 h-12 text-white/30 mx-auto mb-3" />
             <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.noUserFound')}</p>
           </div>
@@ -393,16 +393,16 @@ export default function UsuariosPage() {
                 </div>
 
                 {selectedUser.observacoes && (
-                  <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-4">
+                  <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                     <p className="text-sm text-yellow-400">{selectedUser.observacoes}</p>
                   </div>
                 )}
 
                 <div className="flex gap-3 pt-4">
-                  <button className="flex-1 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium">
+                  <button className="flex-1 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-xl transition-colors font-medium">
                     {t('users.editStudent')}
                   </button>
-                  <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium">
+                  <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-xl transition-colors font-medium">
                     {t('users.viewHistory')}
                   </button>
                 </div>

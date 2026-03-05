@@ -44,7 +44,7 @@ export default function MeusFilhosPage() {
         {filhos.map((filho) => (
           <div
             key={filho.id}
-            className="group bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+            className="group bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover-card"
           >
             <div className="flex flex-col items-center mb-6">
               <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-5xl border-4 border-white/30 mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -57,13 +57,13 @@ export default function MeusFilhosPage() {
             </div>
 
             <div className="flex justify-center mb-6">
-              <span className={`px-4 py-2 rounded-lg font-bold text-sm border ${getStatusColor(filho.status)}`}>
+              <span className={`px-4 py-2 rounded-xl font-bold text-sm border ${getStatusColor(filho.status)}`}>
                 {getStatusText(filho.status)}
               </span>
             </div>
 
             <div className="space-y-3 mb-6">
-              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <Award size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-xs text-white/60">{t('level')}</p>
@@ -71,7 +71,7 @@ export default function MeusFilhosPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <User size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-xs text-white/60">{t('professor')}</p>
@@ -79,7 +79,7 @@ export default function MeusFilhosPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <Calendar size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-xs text-white/60">{t('className')}</p>
@@ -87,7 +87,7 @@ export default function MeusFilhosPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <TrendingUp size={18} className="text-white/60 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-xs text-white/60">{t('monthAttendance')}</p>

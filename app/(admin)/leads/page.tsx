@@ -61,7 +61,7 @@ export default function LeadsPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate, formatTime } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [leads, setLeads] = useState<Lead[]>([]);
   const [stats, setStats] = useState<FunnelStats | null>(null);
@@ -124,7 +124,7 @@ export default function LeadsPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -142,28 +142,28 @@ export default function LeadsPage() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Users size={16} className="text-blue-400" />
               <span className="text-white/40 text-xs">{t('leads.totalLeads')}</span>
             </div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.totalLeads}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Target size={16} className="text-green-400" />
               <span className="text-white/40 text-xs">{t('leads.conversionRate')}</span>
             </div>
             <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.taxaConversao}%</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp size={16} className="text-amber-400" />
               <span className="text-white/40 text-xs">{t('leads.convertedMonth')}</span>
             </div>
             <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.conversaoMes}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Clock size={16} className="text-purple-400" />
               <span className="text-white/40 text-xs">{t('leads.avgTime')}</span>
@@ -185,7 +185,7 @@ export default function LeadsPage() {
                 const o = ORIGEM_ICON[origem] || ORIGEM_ICON.outro;
                 const Icon = o.icon;
                 return (
-                  <div key={origem} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/8">
+                  <div key={origem} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/8">
                     <Icon size={14} className="text-white/40" />
                     <span className="text-white/60 text-sm">{o.label}</span>
                     <span className="text-white font-bold text-sm">{count}</span>

@@ -103,11 +103,11 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
         <p className="text-sm text-white/60 text-center mb-3">{t('register.useOwnPhoto')}</p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={handleOpenCamera}
-            className="py-3 px-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-medium">
+            className="py-3 px-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-medium">
             <Camera size={18} /> {t('register.takePhoto')}
           </button>
           <button type="button" onClick={() => fileRef.current?.click()}
-            className="py-3 px-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-medium">
+            className="py-3 px-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-medium">
             <Upload size={18} /> {t('register.chooseFile')}
           </button>
           <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} className="hidden" />
@@ -141,7 +141,7 @@ export function StepAvatar({ dados, setDados, onContinue, error, setError }: Ste
       </div>
 
       <ErrorAlert message={error} />
-      <button onClick={onContinue} className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all">
+      <button onClick={onContinue} className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all">
         {tCommon('actions.continue')}
       </button>
     </div>

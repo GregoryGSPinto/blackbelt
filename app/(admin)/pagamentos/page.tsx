@@ -47,7 +47,7 @@ export default function PagamentosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [dashboard, setDashboard] = useState<AdminFinanceDashboard | null>(null);
   const [assinaturas, setAssinaturas] = useState<Assinatura[]>([]);
@@ -85,7 +85,7 @@ export default function PagamentosPage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('payments.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Gateway de pagamento e controle de assinaturas</p>
@@ -106,9 +106,9 @@ export default function PagamentosPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
               <TrendingUp size={18} className="text-green-400" />
             </div>
             <span className="text-white/40 text-xs">Receita Mês</span>
@@ -116,9 +116,9 @@ export default function PagamentosPage() {
           <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaMes)}</p>
         </div>
 
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
               <Clock size={18} className="text-yellow-400" />
             </div>
             <span className="text-white/40 text-xs">Pendente</span>
@@ -126,9 +126,9 @@ export default function PagamentosPage() {
           <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaPendente)}</p>
         </div>
 
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
               <AlertTriangle size={18} className="text-red-400" />
             </div>
             <span className="text-white/40 text-xs">Inadimplentes</span>
@@ -137,9 +137,9 @@ export default function PagamentosPage() {
           <p className="text-white/30 text-xs mt-1">de {dashboard.totalAssinaturas} assinaturas</p>
         </div>
 
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
               <Users size={18} className="text-blue-400" />
             </div>
             <span className="text-white/40 text-xs">Assinaturas Ativas</span>
@@ -160,7 +160,7 @@ export default function PagamentosPage() {
             const total = (Object.values(dashboard.porMetodo) as number[]).reduce((s, v) => s + v, 0);
             const pct = total > 0 ? Math.round((valor / total) * 100) : 0;
             return (
-              <div key={metodo} className="bg-white/5 rounded-lg p-4">
+              <div key={metodo} className="bg-white/5 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lg">{m.icon}</span>
                   <span className="text-white/60 text-sm">{m.label}</span>
@@ -180,7 +180,7 @@ export default function PagamentosPage() {
       <div className="flex gap-2">
         <button
           onClick={() => setTab('faturas')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             tab === 'faturas' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'
           }`}
         >
@@ -188,7 +188,7 @@ export default function PagamentosPage() {
         </button>
         <button
           onClick={() => setTab('assinaturas')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             tab === 'assinaturas' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'
           }`}
         >
@@ -206,7 +206,7 @@ export default function PagamentosPage() {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                   filter === f ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/60'
                 }`}
               >

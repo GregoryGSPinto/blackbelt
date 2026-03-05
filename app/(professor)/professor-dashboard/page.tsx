@@ -261,7 +261,7 @@ export default function ProfessorDashboardPage() {
           <Link
             key={href}
             href={href}
-            className="prof-glass-card flex flex-col items-center gap-1.5 py-3 px-1 hover:bg-white/5 active:scale-[0.96] transition-all"
+            className="prof-glass-card hover-card flex flex-col items-center gap-1.5 py-3 px-1 hover:bg-white/5 active:scale-[0.96] transition-all"
           >
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -291,9 +291,9 @@ export default function ProfessorDashboardPage() {
             ring: estatisticas.avaliacoesPendentes > 0 ? 'ring-rose-500/20' : 'ring-emerald-500/20',
           },
         ].map((stat) => (
-          <div key={stat.label} className="p-4 md:p-5 group cursor-default" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+          <div key={stat.label} className="p-4 md:p-5 group cursor-default" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
             <div className="flex items-start justify-between mb-4">
-              <div className={`p-2.5 ${stat.bg} ring-1 ${stat.ring} transition-all duration-500 group-hover:scale-110 group-hover:ring-2`} style={{ borderRadius: '4px' }}>
+              <div className={`p-2.5 ${stat.bg} ring-1 ${stat.ring} transition-all duration-500 group-hover:scale-110 group-hover:ring-2`} style={{ borderRadius: '12px' }}>
                 <stat.icon size={18} className={stat.accent} />
               </div>
             </div>
@@ -328,7 +328,7 @@ export default function ProfessorDashboardPage() {
               { label: t('challengesPending'), value: pedStats.desafiosPendentes, color: '#60A5FA' },
               { label: t('avgFreq'), value: `${pedStats.frequenciaMedia}%`, color: '#22D3EE' },
             ].map((s, i) => (
-              <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+              <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
                 <span style={{ fontSize: '2rem', fontWeight: 200 }} className="leading-none" >{s.value}</span>
                 <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mt-0.5">{s.label}</p>
               </div>
@@ -339,7 +339,7 @@ export default function ProfessorDashboardPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
             {/* Evolução Mensal */}
-            <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+            <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
               <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('monthlyEvolution')}</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.evolucaoMensal} barCategoryGap="20%">
@@ -357,7 +357,7 @@ export default function ProfessorDashboardPage() {
             </div>
 
             {/* Frequência Semanal */}
-            <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+            <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
               <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('weeklyFrequency')}</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.frequenciaSemanal} barCategoryGap="15%">
@@ -380,7 +380,7 @@ export default function ProfessorDashboardPage() {
           </div>
 
           {/* Distribuição por Nível */}
-          <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+          <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
             <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-4">{t('levelDistribution')}</h3>
             <div className="flex items-end gap-2 h-24">
               {pedStats.distribuicaoNiveis.map((f) => {
@@ -472,7 +472,7 @@ export default function ProfessorDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {turmasContextuais.map((turma) => (
             <Link key={turma.id} href="/professor-turmas"
-              className={`prof-glass-card p-5 flex items-center gap-4 group cursor-pointer ${
+              className={`prof-glass-card hover-card p-5 flex items-center gap-4 group cursor-pointer ${
                 turma.emAndamento ? 'ring-1 ring-amber-500/30' : ''
               }`}
               style={turma.emAndamento ? { background: 'rgba(217,175,105,0.06)' } : undefined}
@@ -639,7 +639,7 @@ export default function ProfessorDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {videosRecentes.map((video) => (
             <Link key={video.id} href="/professor-videos"
-              className="prof-glass-card overflow-hidden group cursor-pointer">
+              className="prof-glass-card hover-card overflow-hidden group cursor-pointer">
               {/* Thumbnail */}
               <div className="relative h-36 md:h-40 bg-gradient-to-br from-[#1a150e] to-[#0d0a06] overflow-hidden">
                 <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"

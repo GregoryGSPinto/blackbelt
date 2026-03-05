@@ -102,7 +102,7 @@ return (
             </div>
           </div>
         </div>
-        <div className="mt-6 p-4 bg-teen-ocean-light rounded-lg">
+        <div className="mt-6 p-4 bg-teen-ocean-light rounded-xl">
           <p className="text-sm font-teen text-teen-ocean-dark text-center">
             {t('onTrack')}
           </p>
@@ -113,7 +113,7 @@ return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TeenCard>
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-teen-emerald-light rounded-lg">
+            <div className="p-3 bg-teen-emerald-light rounded-xl">
               <Calendar className="w-6 h-6 text-teen-emerald-dark" />
             </div>
             <div className="flex-1">
@@ -137,7 +137,7 @@ return (
 
         <TeenCard>
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-teen-purple-light rounded-lg">
+            <div className="p-3 bg-teen-purple-light rounded-xl">
               <Clock className="w-6 h-6 text-teen-purple-dark" />
             </div>
             <div className="flex-1">
@@ -158,7 +158,7 @@ return (
       {/* Sequência Atual */}
       <TeenCard>
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-teen-energy-light rounded-lg">
+          <div className="p-3 bg-teen-energy-light rounded-xl">
             <TrendingUp className="w-6 h-6 text-teen-energy-dark" />
           </div>
           <div className="flex-1">
@@ -172,7 +172,7 @@ return (
               {Array.from({ length: 10 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center font-teen font-bold text-sm ${
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center font-teen font-bold text-sm ${
                     i < currentTeen.progresso.sequenciaAtual
                       ? 'bg-teen-energy text-white'
                       : 'teen-progress-track teen-text-muted'
@@ -204,7 +204,7 @@ return (
             { dia: 'Quarta', presente: false },
             { dia: 'Terça', presente: true },
           ].map((item, idx) => (
-            <div key={idx} className="flex items-center justify-between p-3 teen-card-subtle rounded-lg">
+            <div key={idx} className="flex items-center justify-between p-3 teen-card-subtle rounded-xl">
               <span className="font-teen teen-text-body">{item.dia}</span>
               <span className={`px-3 py-1 rounded-lg font-teen text-sm font-semibold ${
                 item.presente
@@ -221,7 +221,7 @@ return (
       {/* Próximas Metas */}
       <TeenCard>
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-teen-ocean-light rounded-lg">
+          <div className="p-3 bg-teen-ocean-light rounded-xl">
             <Target className="w-6 h-6 text-teen-ocean-dark" />
           </div>
           <div className="flex-1">

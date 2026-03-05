@@ -110,7 +110,7 @@ export default function AssinaturaPage() {
             const isExpanded = expandedDoc === doc.id;
 
             return (
-              <div key={doc.id} className={`rounded-xl border overflow-hidden ${
+              <div key={doc.id} className={`rounded-xl border overflow-hidden hover-card ${
                 doc.status === 'PENDENTE' ? 'bg-amber-500/[0.02] border-amber-500/15' : 'bg-white/[0.02] border-white/[0.06]'
               }`}>
                 <button
@@ -176,7 +176,7 @@ export default function AssinaturaPage() {
 
           <div className="space-y-2">
             {consentimentos.map(cons => (
-              <div key={cons.id} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div key={cons.id} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover-card">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-bold text-white/70">{cons.titulo}</p>

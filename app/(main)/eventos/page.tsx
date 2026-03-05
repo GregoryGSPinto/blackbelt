@@ -109,9 +109,12 @@ export default function EventosPage() {
             ))}
           </div>
         ) : eventos.length === 0 ? (
-          <div className="text-center py-16">
-            <Calendar size={48} className="mx-auto text-white/10 mb-4" />
-            <p className="text-white/30 text-sm">{t('events.noEvents')}</p>
+          <div className="text-center py-16 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+            <div className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center bg-white/[0.04]">
+              <Calendar size={28} className="text-white/20" />
+            </div>
+            <p className="text-white/40 text-sm font-medium">{t('events.noEvents')}</p>
+            <p className="text-white/20 text-xs mt-1">Tente outro filtro ou volte mais tarde</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -139,7 +142,7 @@ function EventoCard({ evento, onClick }: { evento: Evento; onClick: () => void }
   return (
     <button
       onClick={onClick}
-      className="w-full text-left rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 hover:bg-white/[0.05] transition-all group active:scale-[0.995]"
+      className="w-full text-left rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 hover:bg-white/[0.05] transition-all group active:scale-[0.995] hover-card"
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">

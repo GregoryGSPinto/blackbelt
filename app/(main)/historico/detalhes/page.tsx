@@ -148,7 +148,7 @@ export default function HistoricoDetalhes() {
               {treinos.map(treino => (
                 <div
                   key={treino.id}
-                  className={`bg-white/5 backdrop-blur-sm border rounded-2xl p-5 ${tipoBorderColor(treino.tipo)}`}
+                  className={`bg-white/5 backdrop-blur-sm border rounded-2xl p-5 hover-card ${tipoBorderColor(treino.tipo)}`}
                 >
                   <div className="flex items-start gap-4">
                     {/* Date block */}

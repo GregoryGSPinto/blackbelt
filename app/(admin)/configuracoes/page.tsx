@@ -14,7 +14,7 @@ export default function ConfiguracoesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [config, setConfig] = useState<ConfiguracaoUnidade | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,7 +90,7 @@ export default function ConfiguracoesPage() {
       {/* Políticas de Inadimplência */}
       <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center">
             <AlertCircle className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -108,7 +108,7 @@ export default function ConfiguracoesPage() {
               type="number"
               value={config.limiteAtrasoPermitido}
               onChange={(e) => setConfig({ ...config, limiteAtrasoPermitido: parseInt(e.target.value) })}
-              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <p className="text-xs text-white/40 mt-2">
               {t('config.overdueLimitDesc')}
@@ -123,7 +123,7 @@ export default function ConfiguracoesPage() {
               type="number"
               value={config.diasParaBloqueio}
               onChange={(e) => setConfig({ ...config, diasParaBloqueio: parseInt(e.target.value) })}
-              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <p className="text-xs text-white/40 mt-2">
               {t('config.daysToBlockDesc')}
@@ -135,7 +135,7 @@ export default function ConfiguracoesPage() {
       {/* Mensagem de Bloqueio */}
       <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center">
             <MessageSquare className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -152,7 +152,7 @@ export default function ConfiguracoesPage() {
             value={config.mensagemBloqueio}
             onChange={(e) => setConfig({ ...config, mensagemBloqueio: e.target.value })}
             rows={4}
-            className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30 resize-none"
+            className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30 resize-none"
           />
           <p className="text-xs text-white/40 mt-2">
             {t('config.blockMessageHint')}
@@ -163,7 +163,7 @@ export default function ConfiguracoesPage() {
       {/* Horário de Funcionamento */}
       <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center">
             <Clock className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -184,7 +184,7 @@ export default function ConfiguracoesPage() {
                 ...config,
                 horarioFuncionamento: { ...config.horarioFuncionamento, abertura: e.target.value }
               })}
-              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
 
@@ -199,7 +199,7 @@ export default function ConfiguracoesPage() {
                 ...config,
                 horarioFuncionamento: { ...config.horarioFuncionamento, fechamento: e.target.value }
               })}
-              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
         </div>
@@ -209,7 +209,7 @@ export default function ConfiguracoesPage() {
       <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center">
               <Clock className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -237,7 +237,7 @@ export default function ConfiguracoesPage() {
               type="number"
               value={config.minutosAntecedencia}
               onChange={(e) => setConfig({ ...config, minutosAntecedencia: parseInt(e.target.value) })}
-              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <p className="text-xs text-white/40 mt-2">
               {t('config.minutesAheadDesc', { minutes: config.minutosAntecedencia })}
@@ -251,7 +251,7 @@ export default function ConfiguracoesPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-xl transition-colors font-medium disabled:opacity-50"
         >
           <Save className="w-5 h-5" />
           <span>{saving ? t('config.saveConfig') + '...' : t('config.saveConfig')}</span>

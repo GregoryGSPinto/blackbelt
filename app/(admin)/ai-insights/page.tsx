@@ -42,7 +42,7 @@ export default function AIInsightsPage() {
   ];
 
   return (
-    <div className="min-h-screen p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen p-4 md:p-6 space-y-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -62,7 +62,7 @@ export default function AIInsightsPage() {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`px-4 py-2 text-sm rounded-lg transition-colors ${
+            className={`px-4 py-2 text-sm rounded-xl transition-colors ${
               activeTab === tab.key
                 ? 'bg-zinc-800 text-zinc-100 font-medium'
                 : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50'

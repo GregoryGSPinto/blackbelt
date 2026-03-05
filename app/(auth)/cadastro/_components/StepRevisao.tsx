@@ -29,7 +29,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
       {/* Dados do usuário */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold mb-4">{t('review.reviewTitle')}</h3>
-        <div className="p-4 bg-white/5 rounded-lg border border-white/10 space-y-3">
+        <div className="p-4 bg-white/5 rounded-xl border border-white/10 space-y-3">
           <div className="flex items-center gap-3">
             {dados.avatarFile ? (
               <img src={dados.avatarFile} alt="Avatar" className="w-16 h-16 rounded-full object-cover" />
@@ -76,7 +76,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
 
         {/* Filhos vinculados */}
         {kids.length > 0 && (
-          <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+          <div className="p-4 bg-white/5 rounded-xl border border-white/10">
             <p className="text-sm font-medium mb-3">{t('review.linkedKids', { count: kids.length })}</p>
             <div className="space-y-2">
               {kids.map((k, i) => (
@@ -129,7 +129,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
       <ErrorAlert message={error} />
 
       <button onClick={() => onFinalizar(aceite)} disabled={!aceite}
-        className={`w-full py-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
+        className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
           aceite ? 'bg-white text-black hover:bg-white/90' : 'bg-white/10 text-white/40 cursor-not-allowed'
         }`}>
         <CheckCircle size={20} /> {t('register.createButton')}

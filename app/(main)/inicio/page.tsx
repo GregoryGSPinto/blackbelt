@@ -45,7 +45,7 @@ function TrailerPreview({ youtubeId, onClose }: { youtubeId: string; onClose: ()
         border: '1px solid ' + tokens.cardBorder,
         backdropFilter: 'blur(12px) saturate(1.2)',
         WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-        borderRadius: '4px',
+        borderRadius: '12px',
         animation: 'trailer-fade-in 200ms cubic-bezier(0.16,1,0.3,1) both',
       }}
     >
@@ -164,7 +164,7 @@ export default function InicioPage() {
               border: '1px solid ' + tokens.cardBorder,
               backdropFilter: 'blur(12px) saturate(1.2)',
               WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-              borderRadius: '2px',
+              borderRadius: '8px',
               fontSize: '0.6rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase' as const,
@@ -210,7 +210,7 @@ export default function InicioPage() {
               border: '1px solid ' + tokens.cardBorder,
               backdropFilter: 'blur(12px) saturate(1.2)',
               WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-              borderRadius: '2px',
+              borderRadius: '8px',
               fontSize: '0.6rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase' as const,

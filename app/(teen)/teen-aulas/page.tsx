@@ -69,7 +69,7 @@ export default function TeenSessõesPage() {
       <div className="flex gap-2 flex-wrap">
         <button
           onClick={() => setFiltro('todas')}
-          className={`px-4 py-2 rounded-lg font-teen font-semibold transition-colors ${
+          className={`px-4 py-2 rounded-xl font-teen font-semibold transition-colors ${
             filtro === 'todas'
               ? 'bg-teen-ocean text-white'
               : 'teen-card teen-text-body'
@@ -79,7 +79,7 @@ export default function TeenSessõesPage() {
         </button>
         <button
           onClick={() => setFiltro('em-andamento')}
-          className={`px-4 py-2 rounded-lg font-teen font-semibold transition-colors ${
+          className={`px-4 py-2 rounded-xl font-teen font-semibold transition-colors ${
             filtro === 'em-andamento'
               ? 'bg-teen-ocean text-white'
               : 'teen-card teen-text-body'
@@ -89,7 +89,7 @@ export default function TeenSessõesPage() {
         </button>
         <button
           onClick={() => setFiltro('concluidas')}
-          className={`px-4 py-2 rounded-lg font-teen font-semibold transition-colors ${
+          className={`px-4 py-2 rounded-xl font-teen font-semibold transition-colors ${
             filtro === 'concluidas'
               ? 'bg-teen-ocean text-white'
               : 'teen-card teen-text-body'
@@ -105,7 +105,7 @@ export default function TeenSessõesPage() {
           <TeenCard key={aula.id} onClick={() => window.location.href = '/teen-aulas'}>
             <div className="flex flex-col sm:flex-row gap-4">
               {/* Thumbnail */}
-              <div className="w-32 h-32 bg-gradient-to-br from-teen-ocean to-teen-purple rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-32 h-32 bg-gradient-to-br from-teen-ocean to-teen-purple rounded-xl flex items-center justify-center flex-shrink-0">
                 {aula.assistido ? (
                   <CheckCircle className="w-12 h-12 text-white" />
                 ) : (
@@ -156,9 +156,15 @@ export default function TeenSessõesPage() {
       </div>
 
       {sessõesFiltradas.length === 0 && (
-        <div className="text-center py-12">
-          <p className="teen-text-muted font-teen">
+        <div className="text-center py-16 px-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-teen-ocean-light rounded-2xl mb-4">
+            <Play className="w-8 h-8 text-teen-ocean-dark" />
+          </div>
+          <p className="text-lg font-bold font-teen teen-text-heading mb-2">
             {t('noSessions')}
+          </p>
+          <p className="text-sm teen-text-muted font-teen max-w-sm mx-auto">
+            Tente alterar o filtro para ver mais conteudo.
           </p>
         </div>
       )}

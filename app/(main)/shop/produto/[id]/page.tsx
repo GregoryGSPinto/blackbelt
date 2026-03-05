@@ -100,7 +100,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     <div className="min-h-screen pb-20 md:pb-8">
       {/* Feedback Toast */}
       {feedback && (
-        <div className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-xl text-sm font-medium transition-all animate-pulse ${
+        <div className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-xl shadow-xl text-sm font-medium transition-all animate-pulse ${
           feedback.type === 'success'
             ? 'bg-green-600 text-white'
             : 'bg-red-600 text-white'
@@ -120,7 +120,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           {/* Left Column: Images */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="aspect-square bg-dark-card rounded-lg overflow-hidden">
+            <div className="aspect-square bg-dark-card rounded-xl overflow-hidden">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
@@ -136,7 +136,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`
-                      aspect-square rounded-lg overflow-hidden border-2 transition-all
+                      aspect-square rounded-xl overflow-hidden border-2 transition-all
                       ${
                         selectedImage === index
                           ? 'border-primary'
@@ -224,18 +224,18 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <button
                 onClick={handleAddToCart}
                 disabled={!selectedSize}
-                className="w-full h-14 bg-primary hover:bg-primary-dark disabled:bg-dark-surface disabled:text-white/35 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
+                className="w-full h-14 bg-primary hover:bg-primary-dark disabled:bg-dark-surface disabled:text-white/35 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
               >
                 <ShoppingCart size={20} />
                 {selectedSize ? 'Adicionar ao Carrinho' : 'Selecione um Tamanho'}
               </button>
 
               <div className="grid grid-cols-2 gap-3">
-                <button className="h-12 border-2 border-dark-surface hover:border-primary rounded-lg text-white/55 hover:text-white transition-colors flex items-center justify-center gap-2">
+                <button className="h-12 border-2 border-dark-surface hover:border-primary rounded-xl text-white/55 hover:text-white transition-colors flex items-center justify-center gap-2">
                   <Heart size={18} />
                   <span className="hidden md:inline">Favoritos</span>
                 </button>
-                <button className="h-12 border-2 border-dark-surface hover:border-primary rounded-lg text-white/55 hover:text-white transition-colors flex items-center justify-center gap-2">
+                <button className="h-12 border-2 border-dark-surface hover:border-primary rounded-xl text-white/55 hover:text-white transition-colors flex items-center justify-center gap-2">
                   <Share2 size={18} />
                   <span className="hidden md:inline">Compartilhar</span>
                 </button>
@@ -292,23 +292,23 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {activeTab === 'specs' && (
               <div className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-dark-card p-4 rounded-lg">
+                  <div className="bg-dark-card p-4 rounded-xl">
                     <p className="text-sm text-white/40 mb-1">Categoria</p>
                     <p className="font-semibold text-white capitalize">{product.category}</p>
                   </div>
-                  <div className="bg-dark-card p-4 rounded-lg">
+                  <div className="bg-dark-card p-4 rounded-xl">
                     <p className="text-sm text-white/40 mb-1">Tamanhos</p>
                     <p className="font-semibold text-white">
                       {product.sizes.map(s => s.label).join(', ')}
                     </p>
                   </div>
-                  <div className="bg-dark-card p-4 rounded-lg">
+                  <div className="bg-dark-card p-4 rounded-xl">
                     <p className="text-sm text-white/40 mb-1">Cores</p>
                     <p className="font-semibold text-white">
                       {product.colors.map(c => c.name).join(', ')}
                     </p>
                   </div>
-                  <div className="bg-dark-card p-4 rounded-lg">
+                  <div className="bg-dark-card p-4 rounded-xl">
                     <p className="text-sm text-white/40 mb-1">Estoque</p>
                     <p className="font-semibold text-white">{product.stock} unidades</p>
                   </div>
@@ -351,7 +351,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         <button
           onClick={handleAddToCart}
           disabled={!selectedSize}
-          className="w-full h-12 bg-primary hover:bg-primary-dark disabled:bg-dark-surface disabled:text-white/35 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
+          className="w-full h-12 bg-primary hover:bg-primary-dark disabled:bg-dark-surface disabled:text-white/35 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
         >
           <ShoppingCart size={18} />
           {selectedSize ? 'Adicionar' : 'Selecione Tamanho'}

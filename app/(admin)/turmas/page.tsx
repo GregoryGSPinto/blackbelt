@@ -74,14 +74,14 @@ export default function TurmasPage() {
   const alunosDaTurma = selectedTurma ? usuarios.filter(u => u.tipo === 'ALUNO' && u.turmaId === selectedTurma) : [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('classes.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('classes.subtitle')}</p>
         </div>
-        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
+        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}>
           <Plus className="w-5 h-5" />
           <span>{t('classes.newClass')}</span>
         </button>
@@ -97,7 +97,7 @@ export default function TurmasPage() {
             <button
               key={turma.id}
               onClick={() => setSelectedTurma(turma.id)}
-              className="text-left bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-white/20 transition-all group"
+              className="hover-card text-left bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-white/20 transition-all group"
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
@@ -188,19 +188,19 @@ export default function TurmasPage() {
 
               {/* Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
                   <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.professor')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{usuarios.find(u => u.id === turma.professorId)?.nome}</p>
                 </div>
-                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
                   <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.schedule')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.horario}</p>
                 </div>
-                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
                   <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.weekDays')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.diasSemana.join(', ')}</p>
                 </div>
-                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
                   <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.capacity')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>
                     {turma.alunosMatriculados}/{turma.capacidadeMaxima}
@@ -211,7 +211,7 @@ export default function TurmasPage() {
               {/* Alunos */}
               <div className="mb-6">
                 <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1rem' }}>{t('classes.enrolledStudents')} ({alunosDaTurma.length})</h3>
-                <div className="bg-white/10 rounded-lg divide-y max-h-80 overflow-y-auto">
+                <div className="bg-white/10 rounded-xl divide-y max-h-80 overflow-y-auto">
                   {alunosDaTurma.map((aluno) => (
                     <div key={aluno.id} className="p-3 flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -241,11 +241,11 @@ export default function TurmasPage() {
 
               {/* Actions */}
               <div className="flex gap-3">
-                <button className="flex-1 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2">
+                <button className="flex-1 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-xl transition-colors font-medium flex items-center justify-center gap-2">
                   <Edit2 className="w-4 h-4" />
                   {t('classes.editClass')}
                 </button>
-                <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium flex items-center gap-2">
+                <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-xl transition-colors font-medium flex items-center gap-2">
                   {turma.status === 'ATIVA' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   {turma.status === 'ATIVA' ? t('classes.pause') : t('classes.activate')}
                 </button>

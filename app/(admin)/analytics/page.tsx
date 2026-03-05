@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
 
       {/* Retention chart */}
       <Section title={t('analytics.monthlyRetention')}>
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
           <div className="flex items-end gap-1.5 h-40">
             {data.retencaoMensal.map((item, i) => {
               const height = ((item.taxa - 80) / 20) * 100; // Scale 80-100% to 0-100%
@@ -91,7 +91,7 @@ export default function AnalyticsPage() {
 
       {/* Churn chart */}
       <Section title={t('analytics.monthlyChurn')}>
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
           <div className="flex items-end gap-1.5 h-32">
             {data.churnMensal.map((item, i) => {
               const height = (item.taxa / 8) * 100;
@@ -110,7 +110,7 @@ export default function AnalyticsPage() {
 
       {/* Cohort table */}
       <Section title={t('analytics.cohortAnalysis')}>
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 overflow-x-auto">
+        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 overflow-x-auto">
           <table className="w-full text-[10px]">
             <thead>
               <tr>
@@ -152,7 +152,7 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Motivos cancelamento */}
         <Section title={t('analytics.cancellationReasons')}>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-3">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 space-y-3">
             {data.motivosCancelamento.sort((a, b) => b.quantidade - a.quantidade).map((item, i) => {
               const maxQty = Math.max(...data.motivosCancelamento.map(x => x.quantidade));
               const pct = (item.quantidade / maxQty) * 100;
@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
 
         {/* Retenção por nivel */}
         <Section title={t('analytics.retentionByLevel')}>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-3">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 space-y-3">
             {data.retencaoPorNível.map((item, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className="w-3 h-3 rounded-full border border-white/20 shrink-0"
@@ -195,7 +195,7 @@ export default function AnalyticsPage() {
 
       {/* Retenção por turma */}
       <Section title={t('analytics.retentionByClass')}>
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {data.retencaoPorTurma.sort((a, b) => b.retencao - a.retencao).map((item, i) => (
               <div key={i} className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-3">

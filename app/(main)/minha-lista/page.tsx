@@ -148,7 +148,7 @@ function FavoriteCard({ video, onPlay, onRemove }: {
     'text-red-400 bg-red-500/15';
 
   return (
-    <div className="rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] group"
+    <div className="rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] group hover-card"
       style={{
         background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
         backdropFilter: 'blur(20px)',

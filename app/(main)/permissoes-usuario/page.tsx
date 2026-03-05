@@ -46,7 +46,7 @@ export default function PermissoesUsuarioPage() {
       </div>
 
       {/* Perfil Atual */}
-      <div className="bg-dark-card border border-dark-elevated rounded-xl p-6">
+      <div className="bg-dark-card border border-dark-elevated rounded-xl p-6 hover-card">
         <div className="flex items-start gap-4">
           <div className={`w-16 h-16 bg-gradient-to-br ${info.cor} rounded-xl flex items-center justify-center text-3xl flex-shrink-0`}>
             {info.icone}
@@ -114,7 +114,7 @@ export default function PermissoesUsuarioPage() {
             return (
               <div key={permissao.id} className="p-6 flex items-center justify-between hover:bg-dark-elevated/30 transition-colors">
                 <div className="flex items-start gap-4 flex-1">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                     hasPermission ? 'bg-green-600/20' : 'bg-dark-elevated'
                   }`}>
                     {hasPermission ? (
@@ -151,7 +151,7 @@ export default function PermissoesUsuarioPage() {
       </div>
 
       {/* Total de Permissões */}
-      <div className="bg-dark-card border border-dark-elevated rounded-xl p-6">
+      <div className="bg-dark-card border border-dark-elevated rounded-xl p-6 hover-card">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-1">{t('permissions.summary')}</h3>

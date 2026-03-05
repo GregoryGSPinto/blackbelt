@@ -75,7 +75,7 @@ export default function CarteirinhaPage() {
         </div>
 
         {/* Info adicional */}
-        <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 space-y-3">
+        <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 space-y-3 hover-card">
           <p className="text-xs text-white/50 font-medium">{t('card.info')}</p>
           <div className="space-y-2 text-xs text-white/35">
             <p>

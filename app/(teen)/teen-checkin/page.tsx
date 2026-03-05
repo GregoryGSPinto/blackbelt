@@ -160,7 +160,7 @@ export default function TeenCheckinPage() {
 
         <button
           onClick={resetCheckin}
-          className="w-full px-6 py-3 bg-teen-ocean text-white rounded-lg font-teen font-semibold hover:bg-teen-ocean-dark transition-colors"
+          className="w-full px-6 py-3 bg-teen-ocean text-white rounded-xl font-teen font-semibold hover:bg-teen-ocean-dark transition-colors"
         >
           {t('newCheckin')}
         </button>
@@ -196,7 +196,7 @@ export default function TeenCheckinPage() {
       {/* Info do Treino */}
       <TeenCard>
         <div className="flex items-start gap-4 mb-4">
-          <div className="p-3 bg-teen-ocean-light rounded-lg">
+          <div className="p-3 bg-teen-ocean-light rounded-xl">
             <Clock className="w-6 h-6 text-teen-ocean-dark" />
           </div>
           <div className="flex-1">
@@ -213,7 +213,7 @@ export default function TeenCheckinPage() {
         </div>
 
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-teen-purple-light rounded-lg">
+          <div className="p-3 bg-teen-purple-light rounded-xl">
             <MapPin className="w-6 h-6 text-teen-purple-dark" />
           </div>
           <div className="flex-1">
@@ -255,7 +255,7 @@ export default function TeenCheckinPage() {
       <button
         onClick={handleCheckin}
         disabled={submitting}
-        className="w-full px-6 py-4 bg-teen-ocean text-white rounded-lg font-teen font-semibold text-lg hover:bg-teen-ocean-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full px-6 py-4 bg-teen-ocean text-white rounded-xl font-teen font-semibold text-lg hover:bg-teen-ocean-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {submitting ? (
           <>

@@ -87,7 +87,7 @@ export default function RelatoriosPage() {
   if (error) return <PageError error={error} onRetry={() => window.location.reload()} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
@@ -117,7 +117,7 @@ export default function RelatoriosPage() {
                 <button
                   key={config.tipo}
                   onClick={() => { setSelectedTipo(config.tipo); setRelatorio(null); }}
-                  className={`text-left p-4 rounded-xl border transition-all ${
+                  className={`hover-card text-left p-4 rounded-xl border transition-all ${
                     isSelected
                       ? 'bg-white/10 border-white/20 ring-1 ring-white/10'
                       : 'bg-black/30 border-white/10 hover:bg-black/40'

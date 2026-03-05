@@ -186,7 +186,7 @@ export default function UnidadePage() {
 
               return (
                 <Link key={area.id} href={`/academia/${area.id}/teste`}
-                  className="p-4 rounded-xl transition-all hover:scale-[1.02]"
+                  className="p-4 rounded-xl transition-all hover:scale-[1.02] hover-card"
                   style={{
                     background: 'rgb(var(--color-border) / 0.03)',
                     border: `1px solid ${completed ? 'rgba(143,175,122,0.12)' : 'rgb(var(--color-border) / 0.06)'}`,

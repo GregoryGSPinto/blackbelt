@@ -140,7 +140,7 @@ export default function AlterarSenhaPage() {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="flex gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                <div className="flex gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
                   <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-red-400">{error}</p>
                 </div>
@@ -157,7 +157,7 @@ export default function AlterarSenhaPage() {
                     type={showCurrent ? 'text' : 'password'}
                     value={formData.currentPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, currentPassword: e.target.value }))}
-                    className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+                    className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
                     placeholder={t('changePassword.currentPasswordPlaceholder')}
                     autoComplete="current-password"
                     required
@@ -184,7 +184,7 @@ export default function AlterarSenhaPage() {
                     type={showNew ? 'text' : 'password'}
                     value={formData.newPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, newPassword: e.target.value }))}
-                    className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+                    className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
                     placeholder={t('changePassword.newPasswordPlaceholder')}
                     autoComplete="new-password"
                     required
@@ -211,7 +211,7 @@ export default function AlterarSenhaPage() {
                     type={showConfirm ? 'text' : 'password'}
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                    className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+                    className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
                     placeholder={t('changePassword.confirmPlaceholder')}
                     autoComplete="new-password"
                     required
@@ -230,14 +230,14 @@ export default function AlterarSenhaPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? t('changePassword.changingPassword') : t('changePassword.changeButton')}
               </button>
             </form>
 
             {/* Dica de Segurança */}
-            <div className="mt-8 p-4 bg-white/5 border border-white/10 rounded-lg">
+            <div className="mt-8 p-4 bg-white/5 border border-white/10 rounded-xl">
               <p className="text-sm text-white/70 leading-relaxed">
                 <span className="font-semibold text-white">🔒 {t('changePassword.securityTip')}</span> {t('changePassword.securityTipText')}
               </p>

@@ -131,7 +131,7 @@ export default function CheckinFinanceiroPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Treino de Hoje */}
-          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
+          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
             <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">
               {t('checkin.todayTraining')}
             </p>
@@ -151,7 +151,7 @@ export default function CheckinFinanceiroPage() {
           </div>
 
           {/* Última Validação */}
-          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
+          <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
             <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">
               {t('checkin.lastValidation')}
             </p>
@@ -267,7 +267,7 @@ export default function CheckinFinanceiroPage() {
         )}
 
         {/* Grade de Horários de Treino */}
-        <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8">
+        <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8 hover-card">
           <div className="mb-6">
             <h2 className="text-xl font-bold text-white mb-1">{t('checkin.trainingSchedule')}</h2>
             <p className="text-sm text-white/60">{t('checkin.weeklyGrid')}</p>
@@ -326,7 +326,7 @@ export default function CheckinFinanceiroPage() {
         </div>
 
         {/* Histórico */}
-        <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8">
+        <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8 hover-card">
           <div className="mb-6">
             <h2 className="text-xl font-bold text-white mb-1">{t('checkin.statusHistory')}</h2>
             <p className="text-sm text-white/60">{t('checkin.last6Months')}</p>

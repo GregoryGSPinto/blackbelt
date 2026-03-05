@@ -153,9 +153,9 @@ export default function DashboardPage() {
 
       {/* CRITICAL ALERTS BANNER */}
       {alertasAtivos.length > 0 && (
-        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }} className="p-5">
+        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)' }} className="rounded-xl p-5">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-red-500/20 border border-red-500/30 flex items-center justify-center shrink-0" style={{ borderRadius: '4px' }}>
+            <div className="w-12 h-12 bg-red-500/20 border border-red-500/30 rounded-xl flex items-center justify-center shrink-0">
               <AlertCircle size={22} className="text-red-400" />
             </div>
             <div className="flex-1 min-w-0">
@@ -267,7 +267,7 @@ export default function DashboardPage() {
       {/* 3. GRADUAÇÕES */}
       <Section title={t('dashboard.graduations')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-4">
               <Award size={16} className="text-amber-400" />
               <h3 className="text-sm font-bold text-white/70">{t('dashboard.readyForExam')}</h3>
@@ -293,7 +293,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-4">
               <GraduationCap size={16} className="text-purple-400" />
               <h3 className="text-sm font-bold text-white/70">{t('dashboard.avgTimePerLevel')}</h3>
@@ -345,7 +345,7 @@ export default function DashboardPage() {
         <Section title={t('dashboard.recentAlerts')} action={{ label: t('dashboard.seeAll'), href: '/alertas' }}>
           <div className="space-y-2">
             {alertasAtivos.slice(0, 3).map((alerta) => (
-              <div key={alerta.id} className="flex items-start gap-3 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg">
+              <div key={alerta.id} className="flex items-start gap-3 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl">
                 <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
                   alerta.prioridade === 'ALTA' ? 'bg-red-400' :
                   alerta.prioridade === 'MEDIA' ? 'bg-yellow-400' : 'bg-white/30'
@@ -377,6 +377,7 @@ function Section({ title, children, action }: { title: string; children: React.R
   const tokens = getDesignTokens(isDark);
   return (
     <div>
+      <div className="gold-accent-bar mb-4" />
       <div className="flex items-center justify-between mb-3">
         <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{title}</h2>
         {action && (
@@ -404,8 +405,8 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
   const iconColor = isC ? 'text-red-400' : isW ? 'text-yellow-400' : isF ? 'text-cyan-400' : isI ? 'text-white/30' : 'text-white/70';
   const valueColor = isC ? 'text-red-400' : isW ? 'text-yellow-400' : isF ? 'text-cyan-400' : isI ? 'text-white/30' : '';
   return (
-    <Link href={link} className="group relative p-5 transition-all hover:bg-white/5" style={{ background: tokens.cardBg, border: '1px solid ' + borderColor, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
-      <div className={`w-11 h-11 flex items-center justify-center mb-4 ${iconBg}`} style={{ borderRadius: '4px' }}>
+    <Link href={link} className="hover-card group relative p-5 transition-all hover:bg-white/5 rounded-xl" style={{ background: tokens.cardBg, border: '1px solid ' + borderColor, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)' }}>
+      <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${iconBg}`}>
         <Icon size={20} className={iconColor} />
       </div>
       <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-2">{title}</h3>
@@ -419,7 +420,7 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
         )}
       </div>
       {alert && (
-        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '2px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }} className={`inline-flex items-center gap-1.5 px-2.5 py-1 ${isC ? 'text-red-400' : 'text-yellow-400'}`}>
+        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '8px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }} className={`inline-flex items-center gap-1.5 px-2.5 py-1 ${isC ? 'text-red-400' : 'text-yellow-400'}`}>
           <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" /> {t('dashboard.requiresAttention')}
         </div>
       )}
@@ -433,8 +434,8 @@ function MetricCard({ title, value, icon: Icon, link, comparison }: {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   return (
-    <Link href={link} className="group p-5 hover:bg-white/5 transition-all" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
-      <div className="w-11 h-11 bg-white/10 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-white/15 transition-colors" style={{ borderRadius: '4px' }}>
+    <Link href={link} className="hover-card group p-5 hover:bg-white/5 transition-all rounded-xl" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)' }}>
+      <div className="w-11 h-11 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/15 transition-colors">
         <Icon size={20} className="text-white/70" />
       </div>
       <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-2">{title}</h3>
@@ -460,7 +461,7 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
 }) {
   const [expanded, setExpanded] = useState(count <= 3);
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
       <button onClick={() => setExpanded(e => !e)} className="flex items-center gap-2 w-full text-left mb-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
           <Icon size={16} style={{ color }} />
@@ -472,7 +473,7 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
       {expanded && count > 0 ? (
         <div className="divide-y divide-white/[0.04]">{children}</div>
       ) : count === 0 ? (
-        <p className="text-xs text-white/20">{emptyText}</p>
+        <div className="empty-state-premium"><p className="text-xs text-white/20">{emptyText}</p></div>
       ) : null}
     </div>
   );
@@ -480,7 +481,7 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
 
 function QuickAction({ href, icon: Icon, title, subtitle }: { href: string; icon: typeof Users; title: string; subtitle: string }) {
   return (
-    <Link href={href} className="flex items-center gap-4 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg hover:bg-white/5 transition-all group">
+    <Link href={href} className="hover-card flex items-center gap-4 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl hover:bg-white/5 transition-all group">
       <div className="w-10 h-10 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/15 transition-colors">
         <Icon size={18} className="text-white/70" />
       </div>
@@ -514,7 +515,7 @@ function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins
     data.find(d => d.dia === dia && d.horario === horario);
 
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 overflow-x-auto">
+    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 overflow-x-auto">
       <div className="min-w-[600px]">
         <div className="flex gap-1 mb-1">
           <div className="w-10 shrink-0" />
@@ -560,7 +561,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-4">
+      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <DollarSign size={16} className="text-emerald-400" />
           <h3 className="text-sm font-bold text-white/70">{t('dashboard.indicators')}</h3>
@@ -588,7 +589,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
         </div>
       </div>
 
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
         <div className="flex items-center gap-2 mb-4">
           <CreditCard size={16} className="text-blue-400" />
           <h3 className="text-sm font-bold text-white/70">{t('dashboard.planDistribution')}</h3>
@@ -619,7 +620,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
 
 function FinKpi({ label, value, sub }: { label: string; value: string; sub?: React.ReactNode }) {
   return (
-    <div className="rounded-lg bg-black/30 backdrop-blur-xl border border-white/10 px-3 py-2.5">
+    <div className="rounded-xl bg-black/30 backdrop-blur-xl border border-white/10 px-3 py-2.5">
       <p className="text-[9px] text-white/25 uppercase tracking-wider">{label}</p>
       <p className="text-lg font-black text-white mt-0.5">{value}</p>
       {sub}

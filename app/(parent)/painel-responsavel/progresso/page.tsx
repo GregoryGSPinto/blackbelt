@@ -64,7 +64,7 @@ export default function ProgressoPage() {
               <button
                 key={filho.id}
                 onClick={() => setSelectedChildId(filho.id)}
-                className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                className={`px-3 py-2 text-sm rounded-xl border transition-colors ${
                   selectedChildId === filho.id
                     ? 'bg-zinc-800 text-zinc-100 border-zinc-700 font-medium'
                     : 'text-zinc-500 border-zinc-800 hover:text-zinc-300 hover:bg-zinc-800/50'

@@ -30,7 +30,7 @@ export default function ParticularesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [sessões, setSessões] = useState<AulaParticular[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +67,7 @@ export default function ParticularesPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('privateSessions.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Agenda de particulares e splits professor/unidade</p>
@@ -75,15 +75,15 @@ export default function ParticularesPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Agendadas</span></div>
           <p className="text-xl sm:text-2xl font-bold text-white">{totalAgendadas}</p>
         </div>
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">Realizadas</span></div>
           <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{totalRealizadas}</p>
         </div>
-        <div style={{ ...glass, padding: '1.25rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Mês</span></div>
           <p className="text-xl font-bold text-purple-400">{formatMoney(receitaMes)}</p>
         </div>
@@ -93,12 +93,12 @@ export default function ParticularesPage() {
       <div className="flex flex-wrap gap-2 items-center">
         <Filter size={14} className="text-white/30" />
         {['todas', 'agendada', 'confirmada', 'realizada', 'cancelada'].map((s: string) => (
-          <button key={s} onClick={() => setFiltroStatus(s)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${filtroStatus === s ? 'bg-white/10 text-white' : 'text-white/30'}`}>
+          <button key={s} onClick={() => setFiltroStatus(s)} className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${filtroStatus === s ? 'bg-white/10 text-white' : 'text-white/30'}`}>
             {s === 'todas' ? 'Todas' : STATUS_STYLE[s]?.label || s}
           </button>
         ))}
         <span className="text-white/10">|</span>
-        <select value={filtroProf} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFiltroProf(e.target.value)} className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white outline-none">
+        <select value={filtroProf} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFiltroProf(e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white outline-none">
           <option value="todos">Todos Instrutores</option>
           {instrutores.map((p: string) => <option key={p} value={p}>{p}</option>)}
         </select>

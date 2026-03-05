@@ -71,7 +71,7 @@ export default function EsqueciEmailPage() {
                       {t('forgotEmail.recoverByPhoneDesc')}
                     </p>
                     {selectedOption === 'phone' && (
-                      <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                      <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
                         <p className="text-sm text-blue-400 font-medium">{t('forgotEmail.inDevelopment')}</p>
                         <p className="text-xs text-blue-400/70 mt-1">
                           {t('forgotEmail.contactSupportDesc')}
@@ -103,7 +103,7 @@ export default function EsqueciEmailPage() {
                       {t('forgotEmail.contactSupportDesc')}
                     </p>
                     {selectedOption === 'support' && (
-                      <div className="mt-4 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                      <div className="mt-4 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                         <p className="text-sm text-emerald-400 font-semibold mb-3">{t('forgotEmail.supportChannels')}</p>
                         <div className="space-y-2 text-sm">
                           <div className="flex items-center gap-2">

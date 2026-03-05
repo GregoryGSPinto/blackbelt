@@ -82,7 +82,7 @@ export default function AdminEventosPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -237,7 +237,7 @@ export default function AdminEventosPage() {
                         <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">Inscritos</p>
                         <div className="space-y-1 max-h-48 overflow-y-auto">
                           {evento.inscritos.map(insc => (
-                            <div key={insc.id} className="flex items-center justify-between px-3 py-2 rounded-lg bg-black/25 text-xs">
+                            <div key={insc.id} className="flex items-center justify-between px-3 py-2 rounded-xl bg-black/25 text-xs">
                               <span className="text-white/60">{insc.alunoNome}</span>
                               <span className="text-white/25">{insc.categoriaDescricao}</span>
                             </div>
@@ -252,7 +252,7 @@ export default function AdminEventosPage() {
                         <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">Resultados</p>
                         <div className="space-y-1">
                           {evento.resultados.sort((a, b) => (a.resultado?.posicao ?? 99) - (b.resultado?.posicao ?? 99)).map(res => (
-                            <div key={res.id} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/25 text-xs">
+                            <div key={res.id} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/25 text-xs">
                               <span>{res.resultado?.conquista === 'OURO' ? '🥇' : res.resultado?.conquista === 'PRATA' ? '🥈' : res.resultado?.conquista === 'BRONZE' ? '🥉' : ''}</span>
                               <span className="text-white/60 flex-1">{res.alunoNome}</span>
                               <span className="text-white/25">{res.categoriaDescricao}</span>
@@ -280,7 +280,7 @@ export default function AdminEventosPage() {
 
 function StatCard({ label, value, color }: { label: string; value: number; color: string }) {
   return (
-    <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-3">
+    <div className="hover-card rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-3">
       <p className="text-[10px] text-white/25 uppercase tracking-wider">{label}</p>
       <p className={`text-2xl font-black ${color}`}>{value}</p>
     </div>

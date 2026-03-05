@@ -52,7 +52,7 @@ export default function PerfilEsportivoPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [perfil, setPerfil] = useState<PerfilEstendido | null>(null);
   const [loading, setLoading] = useState(true);
@@ -82,7 +82,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Modalidades */}
-      <div style={{ ...glass, padding: '1.25rem' }}>
+      <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Award size={16} className="text-blue-400" />{t('sportProfile.modalities')}</h2>
         <div className="flex flex-wrap gap-2">
           {perfil.modalidades.map((m: Modalidade) => {
@@ -97,7 +97,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Peso + Categoria */}
-      <div style={{ ...glass, padding: '1.25rem' }}>
+      <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Scale size={16} className="text-purple-400" />{t('sportProfile.weightCategory')}</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -119,7 +119,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Atestado Médico */}
-      <div style={{ ...glass, padding: '1.25rem' }}>
+      <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileCheck size={16} className="text-green-400" />{t('sportProfile.medicalCert')}</h2>
         <div className="flex items-center gap-3 mb-3">
           {atestado.icon}
@@ -134,7 +134,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Termos */}
-      <div style={{ ...glass, padding: '1.25rem' }}>
+      <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileText size={16} className="text-amber-400" />{t('sportProfile.termsConsents')}</h2>
         <div className="space-y-3">
           <div className="flex items-center justify-between">

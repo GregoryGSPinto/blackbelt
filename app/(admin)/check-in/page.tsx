@@ -18,7 +18,7 @@ export default function CheckInPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatTime } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [checkIns, setCheckins] = useState<CheckIn[]>([]);
   const [alunos, setAlunos] = useState<Usuario[]>([]);
@@ -122,7 +122,7 @@ export default function CheckInPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkin.title')}</h1>
@@ -131,7 +131,7 @@ export default function CheckInPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.todayCheckins')}</p>
@@ -141,7 +141,7 @@ export default function CheckInPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.totalStudents')}</p>
@@ -151,7 +151,7 @@ export default function CheckInPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.attendanceRate')}</p>
@@ -209,7 +209,7 @@ export default function CheckInPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={t('checkin.searchPlaceholder')}
-            className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/15 rounded-lg text-white text-lg placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+            className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/15 rounded-xl text-white text-lg placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
             autoFocus
           />
         </div>
@@ -278,7 +278,7 @@ export default function CheckInPage() {
                     <button
                       onClick={() => handleCheckIn(aluno)}
                       disabled={jaFezCheckIn || aluno.status === 'BLOQUEADO'}
-                      className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                      className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         jaFezCheckIn
                           ? 'bg-white/10 text-white/40 cursor-not-allowed'
                           : aluno.status === 'BLOQUEADO'
@@ -307,7 +307,7 @@ export default function CheckInPage() {
           </div>
 
           {filteredAlunos.length === 0 && (
-            <div className="text-center py-12">
+            <div className="empty-state-premium text-center py-12">
               <Search className="w-12 h-12 text-white/30 mx-auto mb-3" />
               <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('checkin.noStudentFound')}</p>
             </div>
@@ -352,7 +352,7 @@ export default function CheckInPage() {
         </div>
 
         {checkInsHoje.length === 0 && (
-          <div className="text-center py-12">
+          <div className="empty-state-premium text-center py-12">
             <Clock className="w-12 h-12 text-white/30 mx-auto mb-3" />
             <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('checkin.noCheckinToday')}</p>
           </div>

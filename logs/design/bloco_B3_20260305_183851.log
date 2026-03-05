@@ -1,0 +1,19 @@
+BLOCO B3 complete. Here's the summary:
+
+**Created 6 new transition/animation components** in `components/transitions/`:
+- **PageTransition** — fade-in + slide-up (20px) on every route change, integrated into AppShell
+- **AnimatedCounter** — count-up animation for dashboard stats (0 → value with ease-out cubic)
+- **StaggerList / StaggerItem** — staggered reveal for lists (50ms delay between items)
+- **ScrollReveal** — intersection-observer based reveal (up/down/left/right directions)
+- **MotionCard** — hover translateY(-2px) + tap scale(0.99) for interactive cards
+
+**Upgraded 3 existing UI components** with framer-motion:
+- **Modal** — AnimatePresence with scale + fade enter/exit (replaces CSS keyframes)
+- **Toast** — motion slide-in/out from right with popLayout stacking
+- **Skeleton** — shimmer gradient animation (replaces basic pulse)
+
+**All animations respect `prefers-reduced-motion`** via framer-motion's `useReducedMotion()` hook.
+
+- `pnpm build` — passed
+- `npx vitest run` — 473 tests passed
+- Committed as `a44950d`

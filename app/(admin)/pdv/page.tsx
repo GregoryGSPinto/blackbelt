@@ -40,7 +40,7 @@ export default function PDVPage() {
   const tokens = getDesignTokens(isDark);
   const { formatNumber, formatDateTime, currencyCode } = useFormatting();
   const formatCurrency = (v: number) => formatNumber(v, { style: 'currency', currency: currencyCode });
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [produtos, setProdutos] = useState<ProdutoEstoque[]>([]);
   const [vendas, setVendas] = useState<VendaBalcao[]>([]);
@@ -150,7 +150,7 @@ export default function PDVPage() {
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('pos.title')}</h1>
@@ -160,19 +160,19 @@ export default function PDVPage() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><Receipt size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Vendas Hoje</span></div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.vendasHoje}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Receita Hoje</span></div>
             <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaHoje)}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Semana</span></div>
             <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaSemana)}</p>
           </div>
-          <div style={{ ...glass, padding: '1.25rem' }}>
+          <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><AlertTriangle size={16} className="text-red-400" /><span className="text-white/40 text-xs">Estoque Crítico</span></div>
             <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
           </div>
@@ -181,10 +181,10 @@ export default function PDVPage() {
 
       {/* Tabs */}
       <div className="flex gap-2">
-        <button onClick={() => setTab('venda')} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === 'venda' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'}`}>
+        <button onClick={() => setTab('venda')} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${tab === 'venda' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'}`}>
           <ShoppingCart size={14} /> Nova Venda
         </button>
-        <button onClick={() => setTab('historico')} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === 'historico' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'}`}>
+        <button onClick={() => setTab('historico')} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${tab === 'historico' ? 'bg-white/10 text-white border border-white/15' : 'text-white/40 hover:text-white/60'}`}>
           <Clock size={14} /> Histórico
           <span className="text-xs bg-white/10 px-1.5 py-0.5 rounded-full">{vendas.length}</span>
         </button>
@@ -252,7 +252,7 @@ export default function PDVPage() {
                 <div className="flex items-center justify-center h-full text-white/20 text-sm">Adicione produtos ao carrinho</div>
               ) : (
                 cart.map((item: CartItem) => (
-                  <div key={item.produtoId} className="bg-black/30 backdrop-blur-xl rounded-lg p-3 border border-white/10">
+                  <div key={item.produtoId} className="bg-black/30 backdrop-blur-xl rounded-xl p-3 border border-white/10">
                     <div className="flex items-start justify-between mb-2">
                       <p className="text-white text-xs font-medium flex-1 mr-2">{item.produtoNome}</p>
                       <button onClick={() => removeFromCart(item.produtoId)} className="text-red-400/50 hover:text-red-400"><Trash2 size={12} /></button>
@@ -278,7 +278,7 @@ export default function PDVPage() {
                 value={clienteNome}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setClienteNome(e.target.value)}
                 placeholder="Nome do cliente (opcional)"
-                className="w-full px-3 py-2 rounded-lg text-xs text-white placeholder-white/25 bg-white/5 border border-white/10 outline-none"
+                className="w-full px-3 py-2 rounded-xl text-xs text-white placeholder-white/25 bg-white/5 border border-white/10 outline-none"
               />
 
               {/* Forma pagamento */}
@@ -287,7 +287,7 @@ export default function PDVPage() {
                   <button
                     key={fp.key}
                     onClick={() => setFormaPagamento(fp.key)}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-medium transition-all ${
                       formaPagamento === fp.key ? `bg-white/10 ${fp.color} border border-white/15` : 'text-white/30 bg-black/30 border border-white/10'
                     }`}
                   >

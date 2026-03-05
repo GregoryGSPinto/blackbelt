@@ -17,7 +17,7 @@ export default function AlertasPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate, formatTime } = useFormatting();
-  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
 
   const [alertas, setAlertas] = useState<Alerta[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -124,7 +124,7 @@ export default function AlertasPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('alerts.title')}</h1>
@@ -133,7 +133,7 @@ export default function AlertasPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-black/40 backdrop-blur-xl border border-red-500/20 rounded-xl p-6">
+        <div className="hover-card bg-black/40 backdrop-blur-xl border border-red-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>t('alerts.priorities.high')</p>
@@ -143,7 +143,7 @@ export default function AlertasPage() {
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-yellow-500/20 rounded-xl p-6">
+        <div className="hover-card bg-black/40 backdrop-blur-xl border border-yellow-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>t('alerts.priorities.medium')</p>
@@ -153,7 +153,7 @@ export default function AlertasPage() {
           </div>
         </div>
 
-        <div style={{ ...glass, padding: '1.5rem' }}>
+        <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>t('alerts.priorities.low')</p>
@@ -170,7 +170,7 @@ export default function AlertasPage() {
           <button
             key={prioridade}
             onClick={() => setFilter(prioridade)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-4 py-2 rounded-xl font-medium transition-colors ${
               filter === prioridade
                 ? 'bg-white/10 border border-white/10 text-white'
                 : 'bg-white/10 text-white/50 hover:text-white'
@@ -231,7 +231,7 @@ export default function AlertasPage() {
                   )}
 
                   {!alerta.lido && (
-                    <button className="mt-4 px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-medium">
+                    <button className="mt-4 px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-xl transition-colors text-sm font-medium">
                       {t('alerts.markAsRead')}
                     </button>
                   )}
@@ -243,7 +243,7 @@ export default function AlertasPage() {
       </div>
 
       {filteredAlertas.length === 0 && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-12 text-center">
+        <div className="empty-state-premium bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-12 text-center">
           <CheckCircle className="w-16 h-16 text-white/50 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white mb-2">{t('alerts.allClear')}</h3>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Não há alertas nesta categoria</p>
