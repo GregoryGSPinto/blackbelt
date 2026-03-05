@@ -18,6 +18,8 @@ import * as pdvService from '@/lib/api/pdv.service';
 import type { ProdutoEstoque, VendaBalcao, ItemVenda, FormaPagamentoPDV } from '@/lib/api/pdv.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 interface CartItem extends ItemVenda {
   estoqueDisponivel: number;
@@ -35,6 +37,10 @@ function formatCurrency(v: number) {
 }
 
 export default function PDVPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [produtos, setProdutos] = useState<ProdutoEstoque[]>([]);
   const [vendas, setVendas] = useState<VendaBalcao[]>([]);
   const [stats, setStats] = useState<{ vendasHoje: number; receitaHoje: number; vendasSemana: number; receitaSemana: number; produtosBaixoEstoque: number; produtosSemEstoque: number } | null>(null);
@@ -146,28 +152,28 @@ export default function PDVPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Ponto de Venda</h1>
-        <p className="text-white/50">Venda rápida de produtos no balcão</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Ponto de Venda</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Venda rápida de produtos no balcão</p>
       </div>
 
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><Receipt size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Vendas Hoje</span></div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.vendasHoje}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Receita Hoje</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-green-400">{formatCurrency(stats.receitaHoje)}</p>
+            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaHoje)}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Semana</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-purple-400">{formatCurrency(stats.receitaSemana)}</p>
+            <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaSemana)}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><AlertTriangle size={16} className="text-red-400" /><span className="text-white/40 text-xs">Estoque Crítico</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-red-400">{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
+            <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
           </div>
         </div>
       )}
@@ -325,8 +331,8 @@ export default function PDVPage() {
 
       {/* ══════════ HISTÓRICO ══════════ */}
       {tab === 'historico' && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
-          <div className="divide-y divide-white/5">
+        <div style={{ ...glass, overflow: 'hidden' }}>
+          <div className="divide-y">
             {vendas.map((v: VendaBalcao) => {
               const fp = FORMA_PAGAMENTO.find((f) => f.key === v.formaPagamento);
               return (

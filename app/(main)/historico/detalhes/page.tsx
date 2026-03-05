@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Clock, User, MessageSquare, Filter } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 /* ─── Mock: lista completa de treinos ─── */
 const TODOS_TREINOS = [
@@ -55,6 +57,9 @@ function tipoBorderColor(tipo: string) {
 }
 
 export default function HistoricoDetalhes() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const [filtro, setFiltro] = useState('Todos');
 

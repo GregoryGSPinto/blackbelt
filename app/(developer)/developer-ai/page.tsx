@@ -10,6 +10,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { Brain, CheckCircle, AlertTriangle, XCircle, Wrench, RefreshCw, Zap, Clock, TrendingUp } from 'lucide-react';
 import { getAIModels } from '@/lib/api/developer.service';
 import type { AIModelCard } from '@/lib/api/developer.service';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const statusConfig: Record<string, { icon: typeof CheckCircle; color: string; bg: string; label: string }> = {
   ONLINE:      { icon: CheckCircle,    color: 'text-emerald-400', bg: 'bg-emerald-400/10 border-emerald-500/20', label: 'Online' },
@@ -19,6 +21,8 @@ const statusConfig: Record<string, { icon: typeof CheckCircle; color: string; bg
 };
 
 export default function DeveloperAIPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [models, setModels] = useState<AIModelCard[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,16 +56,16 @@ export default function DeveloperAIPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+          <div className="w-9 h-9 flex items-center justify-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
             <Brain className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">AI Model Governance</h1>
-            <p className="text-[10px] text-white/30 font-mono">{models.length} models registered • No PII access</p>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>AI Model Governance</h1>
+            <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>{models.length} models registered • No PII access</p>
           </div>
         </div>
-        <button onClick={refresh} disabled={loading} className="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors disabled:opacity-50">
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+        <button onClick={refresh} disabled={loading} className="p-2 transition-colors disabled:opacity-50" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, borderRadius: '4px', color: tokens.text }}>
+          <RefreshCw className={`w-4 h-4 text-emerald-400 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
@@ -69,16 +73,16 @@ export default function DeveloperAIPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { icon: CheckCircle, label: 'Online', value: `${onlineCount}/${models.length}`, color: 'text-emerald-400' },
-          { icon: AlertTriangle, label: 'Degraded', value: degradedCount, color: degradedCount > 0 ? 'text-yellow-400' : 'text-white/20' },
-          { icon: Clock, label: 'Avg Latency', value: `${Math.round(avgLatency)}ms`, color: avgLatency > 2000 ? 'text-yellow-400' : 'text-white' },
+          { icon: AlertTriangle, label: 'Degraded', value: degradedCount, color: degradedCount > 0 ? 'text-yellow-400' : '' },
+          { icon: Clock, label: 'Avg Latency', value: `${Math.round(avgLatency)}ms`, color: avgLatency > 2000 ? 'text-yellow-400' : '' },
           { icon: TrendingUp, label: 'Avg Success', value: `${avgSuccess.toFixed(1)}%`, color: avgSuccess > 95 ? 'text-emerald-400' : 'text-yellow-400' },
         ].map((m) => (
-          <div key={m.label} className="p-3 bg-white/[0.03] border border-white/[0.06] rounded-lg">
+          <div key={m.label} className="p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
             <div className="flex items-center gap-1.5 mb-1">
-              <m.icon className="w-3.5 h-3.5 text-white/30" />
-              <p className="text-[10px] text-white/30 uppercase tracking-wider">{m.label}</p>
+              <m.icon className="w-3.5 h-3.5" style={{ color: tokens.textMuted }} />
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{m.label}</p>
             </div>
-            <p className={`text-xl font-mono font-bold ${m.color}`}>{m.value}</p>
+            <p className={`font-mono ${m.color}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: m.color ? undefined : tokens.text }}>{m.value}</p>
           </div>
         ))}
       </div>
@@ -87,33 +91,33 @@ export default function DeveloperAIPage() {
       <div className="space-y-3">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-28 bg-white/[0.03] rounded-lg animate-pulse" />
+            <div key={i} className="h-28 animate-pulse" style={{ background: tokens.cardBg, borderRadius: '4px' }} />
           ))
         ) : models.map((model) => {
           const cfg = statusConfig[model.status] || statusConfig.OFFLINE;
           const StatusIcon = cfg.icon;
           return (
-            <div key={model.id} className={`p-4 rounded-lg border ${cfg.bg} transition-colors`}>
+            <div key={model.id} className={`p-4 border ${cfg.bg} transition-colors`} style={{ borderRadius: '4px' }}>
               <div className="flex items-start justify-between">
                 {/* Left: Info */}
                 <div className="space-y-2 flex-1">
                   <div className="flex items-center gap-2">
                     <StatusIcon className={`w-4 h-4 ${cfg.color}`} />
-                    <h3 className="text-sm font-bold text-white">{model.name}</h3>
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${cfg.color} bg-black/20`}>
+                    <h3 style={{ fontWeight: 300, color: tokens.text, fontSize: '0.85rem' }}>{model.name}</h3>
+                    <span style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '2px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, padding: '2px 6px' }} className={cfg.color}>
                       {cfg.label}
                     </span>
                   </div>
-                  <div className="flex items-center gap-3 text-[10px] text-white/40">
-                    <span>Provider: <span className="text-white/60">{model.provider}</span></span>
+                  <div className="flex items-center gap-3 text-[10px]" style={{ color: tokens.textMuted }}>
+                    <span>Provider: <span style={{ color: tokens.text, fontWeight: 300 }}>{model.provider}</span></span>
                     <span>•</span>
-                    <span>Purpose: <span className="text-white/60">{model.purpose}</span></span>
+                    <span>Purpose: <span style={{ color: tokens.text, fontWeight: 300 }}>{model.purpose}</span></span>
                     <span>•</span>
-                    <span>Checked: <span className="text-white/60">{fmtTime(model.lastChecked)}</span></span>
+                    <span>Checked: <span style={{ color: tokens.text, fontWeight: 300 }}>{fmtTime(model.lastChecked)}</span></span>
                   </div>
                   {model.lastError && (
-                    <p className="text-[10px] text-red-400/70 font-mono bg-red-500/5 px-2 py-1 rounded">
-                      ⚠ {model.lastError}
+                    <p className="text-[10px] text-red-400/70 font-mono bg-red-500/5 px-2 py-1" style={{ borderRadius: '4px' }}>
+                      {model.lastError}
                     </p>
                   )}
                 </div>
@@ -121,15 +125,15 @@ export default function DeveloperAIPage() {
                 {/* Right: Metrics */}
                 <div className="flex items-center gap-4 shrink-0 ml-4">
                   <div className="text-center">
-                    <p className="text-[9px] text-white/30 uppercase">Latency</p>
+                    <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Latency</p>
                     <p className={`text-sm font-mono font-bold ${
-                      model.latencyMs > 3000 ? 'text-red-400' : model.latencyMs > 1500 ? 'text-yellow-400' : 'text-white'
-                    }`}>
+                      model.latencyMs > 3000 ? 'text-red-400' : model.latencyMs > 1500 ? 'text-yellow-400' : ''
+                    }`} style={{ color: model.latencyMs <= 1500 ? tokens.text : undefined }}>
                       {model.status === 'MAINTENANCE' ? '—' : `${model.latencyMs}ms`}
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-[9px] text-white/30 uppercase">Success</p>
+                    <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Success</p>
                     <p className={`text-sm font-mono font-bold ${
                       model.successRate > 97 ? 'text-emerald-400' : model.successRate > 90 ? 'text-yellow-400' : 'text-red-400'
                     }`}>
@@ -137,10 +141,10 @@ export default function DeveloperAIPage() {
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-[9px] text-white/30 uppercase">Failure</p>
+                    <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Failure</p>
                     <p className={`text-sm font-mono font-bold ${
-                      model.failureRate > 5 ? 'text-red-400' : model.failureRate > 2 ? 'text-yellow-400' : 'text-white/40'
-                    }`}>
+                      model.failureRate > 5 ? 'text-red-400' : model.failureRate > 2 ? 'text-yellow-400' : ''
+                    }`} style={{ color: model.failureRate <= 2 ? tokens.textMuted : undefined }}>
                       {model.status === 'MAINTENANCE' ? '—' : `${model.failureRate}%`}
                     </p>
                   </div>
@@ -152,9 +156,9 @@ export default function DeveloperAIPage() {
       </div>
 
       {/* Privacy Notice */}
-      <div className="text-center p-3 bg-white/[0.02] border border-white/[0.04] rounded-lg">
-        <p className="text-[10px] text-white/20 font-mono">
-          🔒 AI Governance Panel — No prompts, conversations, or student data visible.
+      <div className="text-center p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+        <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>
+          AI Governance Panel — No prompts, conversations, or student data visible.
           Only operational metrics (latency, success rate, status) are displayed.
         </p>
       </div>

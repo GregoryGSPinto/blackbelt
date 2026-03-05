@@ -16,8 +16,13 @@ import { getDangerZoneInfo, forceLogoutAll, toggleMaintenanceMode } from '@/lib/
 import type { DangerZoneInfo } from '@/lib/api/developer.service';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
 import { useToast } from '@/contexts/ToastContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function DeveloperDangerPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [info, setInfo] = useState<DangerZoneInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [showLogoutAll, setShowLogoutAll] = useState(false);

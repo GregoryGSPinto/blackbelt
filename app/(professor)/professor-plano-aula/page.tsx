@@ -11,6 +11,8 @@ import type { TecnicaPratica, PlanoAula, ItemPlanoAula, FaseSessão } from '@/li
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import Link from 'next/link';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const FASE_CONFIG: Record<FaseSessão, { label: string; icon: typeof Dumbbell; color: string }> = {
   aquecimento: { label: 'Aquecimento', icon: Heart, color: 'text-orange-400 bg-orange-500/10' },
@@ -25,6 +27,9 @@ const FASES_ORDEM: FaseSessão[] = ['aquecimento', 'tecnica', 'drill', 'sparring
 type TabView = 'builder' | 'planos' | 'tecnicas';
 
 export default function PlanoAulaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [tecnicas, setTecnicas] = useState<TecnicaPratica[]>([]);
   const [planos, setPlanos] = useState<PlanoAula[]>([]);
   const [loading, setLoading] = useState(true);
@@ -94,7 +99,7 @@ export default function PlanoAulaPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-black text-white flex items-center gap-2">
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <ClipboardList size={20} className="text-blue-400" />
             Plano de Sessão
           </h1>

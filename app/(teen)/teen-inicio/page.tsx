@@ -8,12 +8,14 @@ import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/ap
 import { Play, Calendar, TrendingUp, Clock, Target, Video, Flame, ChevronRight, CheckCircle2 , UserX} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenInicioPage() {
   const { user } = useAuth();
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [teenprofiles, setTeenprofiles] = useState<TeenProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -69,24 +71,23 @@ export default function TeenInicioPage() {
       {/* ═══ SECTION 1: Boas-vindas + Sequência ═══ */}
       <div className="teen-enter-1 flex items-start justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
+          <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             Olá, {nomeExibicao}
           </h2>
-          <p className="teen-text-muted text-sm font-teen mt-1.5">
+          <p className="text-sm font-teen mt-1.5" style={{ fontWeight: 300, color: tokens.textMuted }}>
             {graduacao} · {currentTeen.turma.split(' - ')[0]}
           </p>
         </div>
         {/* Streak badge */}
-        <div className="teen-card rounded-2xl px-4 py-2.5 flex items-center gap-2.5 flex-shrink-0">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background: 'rgba(255,107,53,0.12)' }}>
+        <div className="px-4 py-2.5 flex items-center gap-2.5 flex-shrink-0" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+          <div className="w-9 h-9 flex items-center justify-center" style={{ borderRadius: '4px', background: 'rgba(255,107,53,0.12)' }}>
             <Flame size={18} className="text-teen-energy" />
           </div>
           <div>
-            <p className="text-lg font-bold font-teen teen-text-heading leading-none">
+            <p className="leading-none" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
               {currentTeen.progresso.sequenciaAtual}
             </p>
-            <p className="text-[10px] font-teen teen-text-muted leading-tight mt-0.5">dias seguidos</p>
+            <p className="leading-tight mt-0.5" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>dias seguidos</p>
           </div>
         </div>
       </div>
@@ -113,13 +114,13 @@ export default function TeenInicioPage() {
                 </svg>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-teen teen-text-muted uppercase tracking-wider mb-1">
+                <p className="mb-1" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
                   Continue de onde parou
                 </p>
-                <h3 className="text-lg font-bold font-teen teen-text-heading truncate">
+                <h3 className="truncate" style={{ fontWeight: 300, color: tokens.text, fontSize: '1.1rem' }}>
                   {aulaEmAndamento.titulo}
                 </h3>
-                <p className="text-sm teen-text-muted font-teen mt-0.5">{aulaEmAndamento.instrutor}</p>
+                <p className="text-sm mt-0.5" style={{ fontWeight: 300, color: tokens.textMuted }}>{aulaEmAndamento.instrutor}</p>
                 <div className="mt-3">
                   <TeenProgressBar 
                     progress={aulaEmAndamento.progresso} 

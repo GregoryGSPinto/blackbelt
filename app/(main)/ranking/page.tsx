@@ -11,6 +11,8 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { LeaderboardCard, PointsBadge } from '@/components/gamification';
 import * as rankingService from '@/lib/api/ranking.service';
 import type { RankingEntry, PontoRegra, PontosResumo, CategoriaRanking } from '@/lib/api/contracts';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Tabs ──────────────────────────────────────────────────
 
@@ -43,6 +45,9 @@ function RegraIcon({ icone }: { icone: string }) {
 // ── Componente principal ──────────────────────────────────
 
 export default function RankingPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { user } = useAuth();
 
   // State
@@ -108,7 +113,7 @@ export default function RankingPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">Ranking</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Ranking</h1>
           </div>
           <p className="text-white/40 text-sm">
             Sua posição entre os guerreiros do BlackBelt
@@ -241,6 +246,8 @@ export default function RankingPage() {
 // ── Histórico View ────────────────────────────────────────
 
 function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   if (!resumo) {
     return (
       <div className="text-center py-12">
@@ -270,7 +277,7 @@ function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
               <div key={i}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs text-white/60">{fonte.fonte}</span>
-                  <span className="text-xs text-white/40">
+                  <span className="text-xs" style={{ color: tokens.textMuted }}>
                     {fonte.pontos.toLocaleString('pt-BR')} pts ({fonte.quantidade}×)
                   </span>
                 </div>
@@ -300,13 +307,15 @@ function StatCard({
   icon: typeof Trophy;
   color: string;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
     <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
       <div className="flex items-center gap-2 mb-1">
         <Icon size={14} className={color} />
         <p className="text-[10px] text-white/30 uppercase tracking-wider">{label}</p>
       </div>
-      <p className="text-lg font-bold text-white">{value}</p>
+      <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{value}</p>
     </div>
   );
 }

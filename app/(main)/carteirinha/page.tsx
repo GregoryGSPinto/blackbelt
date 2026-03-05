@@ -9,8 +9,13 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import CarteirinhaDigital from '@/components/aluno/CarteirinhaDigital';
 import * as carteirinhaService from '@/lib/api/carteirinha.service';
 import type { CarteirinhaDigital as CarteirinhaData } from '@/lib/api/contracts';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function CarteirinhaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [carteirinha, setCarteirinha] = useState<CarteirinhaData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +50,7 @@ export default function CarteirinhaPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <CreditCard size={24} className="text-blue-400" />
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
               Carteirinha Digital
             </h1>
           </div>

@@ -3,10 +3,15 @@
 import { useState, useEffect } from 'react';
 import { ChurnDashboard } from '@/components/admin/ChurnDashboard';
 import { AIInsightsDashboard } from '@/components/admin/AIInsightsDashboard';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type TabKey = 'visao-geral' | 'risco-evasao';
 
 export default function AIInsightsPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [academyId, setAcademyId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('visao-geral');
 

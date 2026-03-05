@@ -7,8 +7,13 @@ import type { Turma, Usuario } from '@/lib/api/admin.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TurmasPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [turmas, setTurmas] = useState<Turma[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,10 +76,10 @@ export default function TurmasPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Gestão de Turmas</h1>
-          <p className="text-white/50">Organizar turmas, horários e alunos</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Gestão de Turmas</h1>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Organizar turmas, horários e alunos</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium">
+        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
           <Plus className="w-5 h-5" />
           <span>Nova Turma</span>
         </button>
@@ -137,8 +142,8 @@ export default function TurmasPage() {
               {/* Ocupação */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-white/50">Ocupação</span>
-                  <span className="text-white font-medium">
+                  <span style={{ color: tokens.textMuted }}>Ocupação</span>
+                  <span style={{ color: tokens.text, fontWeight: 500 }}>
                     {turma.alunosMatriculados}/{turma.capacidadeMaxima}
                   </span>
                 </div>
@@ -162,14 +167,14 @@ export default function TurmasPage() {
 
       {/* Detalhes da Turma */}
       {selectedTurma && turma && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               {/* Header */}
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{turma.nome}</h2>
-                  <p className="text-white/50">{turma.sala}</p>
+                  <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.5rem' }}>{turma.nome}</h2>
+                  <p style={{ fontWeight: 300, color: tokens.textMuted }}>{turma.sala}</p>
                 </div>
                 <button
                   onClick={() => setSelectedTurma(null)}
@@ -181,21 +186,21 @@ export default function TurmasPage() {
 
               {/* Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div className="bg-white/10 rounded-lg p-4">
-                  <p className="text-sm text-white/50 mb-1">Professor</p>
-                  <p className="text-white font-medium">{usuarios.find(u => u.id === turma.professorId)?.nome}</p>
+                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Professor</p>
+                  <p style={{ color: tokens.text, fontWeight: 500 }}>{usuarios.find(u => u.id === turma.professorId)?.nome}</p>
                 </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <p className="text-sm text-white/50 mb-1">Horário</p>
-                  <p className="text-white font-medium">{turma.horario}</p>
+                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Horário</p>
+                  <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.horario}</p>
                 </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <p className="text-sm text-white/50 mb-1">Dias da Semana</p>
-                  <p className="text-white font-medium">{turma.diasSemana.join(', ')}</p>
+                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Dias da Semana</p>
+                  <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.diasSemana.join(', ')}</p>
                 </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <p className="text-sm text-white/50 mb-1">Capacidade</p>
-                  <p className="text-white font-medium">
+                <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Capacidade</p>
+                  <p style={{ color: tokens.text, fontWeight: 500 }}>
                     {turma.alunosMatriculados}/{turma.capacidadeMaxima}
                   </p>
                 </div>
@@ -203,8 +208,8 @@ export default function TurmasPage() {
 
               {/* Alunos */}
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-white mb-4">Alunos Matriculados ({alunosDaTurma.length})</h3>
-                <div className="bg-white/10 rounded-lg divide-y divide-white/10 max-h-80 overflow-y-auto">
+                <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1rem' }}>Alunos Matriculados ({alunosDaTurma.length})</h3>
+                <div className="bg-white/10 rounded-lg divide-y max-h-80 overflow-y-auto">
                   {alunosDaTurma.map((aluno) => (
                     <div key={aluno.id} className="p-3 flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -214,8 +219,8 @@ export default function TurmasPage() {
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-white">{aluno.nome}</p>
-                          <p className="text-xs text-white/50">{aluno.graduacao}</p>
+                          <p className="text-sm font-medium" style={{ color: tokens.text }}>{aluno.nome}</p>
+                          <p className="text-xs" style={{ color: tokens.textMuted }}>{aluno.graduacao}</p>
                         </div>
                       </div>
                       <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${

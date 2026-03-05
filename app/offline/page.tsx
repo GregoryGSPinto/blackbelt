@@ -4,8 +4,13 @@
 // ============================================================
 import { WifiOff } from 'lucide-react';
 import Link from 'next/link';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function OfflinePage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[#0A0908]">
       <div
@@ -23,7 +28,7 @@ export default function OfflinePage() {
           <WifiOff size={28} className="text-amber-400" />
         </div>
 
-        <h1 className="text-xl font-bold text-white mb-2">Sem Conexão</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Sem Conexão</h1>
         <p className="text-sm text-white/40 mb-6">
           Você está offline. Conecte-se à internet para acessar o BlackBelt.
         </p>

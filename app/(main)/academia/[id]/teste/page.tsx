@@ -4,10 +4,15 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState, useCallback } from 'react';
 import { ArrowLeft, CheckCircle, XCircle, RotateCcw, Trophy, ArrowRight } from 'lucide-react';
 import { getAreaById, getTestByAreaId, useAcademyProgress } from '@/lib/academy';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type Phase = 'quiz' | 'result';
 
 export default function TestPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const area = getAreaById(id);

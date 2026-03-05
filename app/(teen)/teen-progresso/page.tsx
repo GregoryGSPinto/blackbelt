@@ -7,8 +7,13 @@ import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/ap
 import { TrendingUp, Calendar, Clock, Target , UserX} from 'lucide-react';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenProgressoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [currentTeen, setCurrentTeen] = useState<TeenProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

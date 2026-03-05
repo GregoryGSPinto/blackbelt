@@ -3,8 +3,13 @@
 import { useInstructorCoach } from '@/hooks/useInstructorCoach';
 import { DailyBriefing } from '@/components/professor/DailyBriefing';
 import { RefreshCw } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProfessorBriefingPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { briefing, loading, error, refetch } = useInstructorCoach();
 
   return (

@@ -8,6 +8,7 @@ import { Download, Trash2, Play, Clock, CheckCircle, HardDrive, WifiOff } from '
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 /**
  * Teen Downloads — Conteúdo salvo para assistir offline
@@ -35,6 +36,7 @@ export default function TeenDownloadsPage() {
   const [retryCount, setRetryCount] = useState(0);
   const { isDark } = useTheme();
 
+  const tokens = getDesignTokens(isDark);
   useEffect(() => {
     const timer = setTimeout(() => {
       setItems(buildDownloadList(TEEN_SESSÕES));

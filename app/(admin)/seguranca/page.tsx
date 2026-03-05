@@ -13,6 +13,8 @@ import { getMockDashboardData } from '@/lib/monitoring/dashboard-service';
 import type { DashboardData, SecurityCounters } from '@/lib/monitoring/dashboard-service';
 import type { Anomaly, AlertSeverity } from '@/lib/monitoring/anomaly-detector';
 import type { StructuredLog } from '@/lib/monitoring/structured-logger';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ============================================================
 // CONSTANTS
@@ -46,6 +48,9 @@ const LOG_LEVEL_COLORS: Record<string, string> = {
 // ============================================================
 
 export default function SecurityDashboardPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [data, setData] = useState<DashboardData | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isLive, setIsLive] = useState(true);
@@ -74,7 +79,7 @@ export default function SecurityDashboardPage() {
       {/* ─── Header ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <Shield className="w-6 h-6 text-white/80" />
             Central de Segurança
           </h1>
@@ -117,7 +122,7 @@ export default function SecurityDashboardPage() {
             <div className={`text-sm font-semibold ${healthCfg.color}`}>
               {healthCfg.label}
             </div>
-            <div className="text-xs text-white/40">
+            <div className="text-xs" style={{ color: tokens.textMuted }}>
               Health Score — {data.anomalies.active} anomalia{data.anomalies.active !== 1 ? 's' : ''} ativa{data.anomalies.active !== 1 ? 's' : ''}
             </div>
           </div>
@@ -360,13 +365,15 @@ function OverviewTab({ data }: { data: DashboardData }) {
 function SecurityCounter({ label, value, warn, icon: Icon }: {
   label: string; value: number; warn?: boolean; icon: typeof Activity;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
     <div className={`rounded-lg p-3 border ${
       warn ? 'bg-red-500/5 border-red-500/20' : 'bg-black/30 backdrop-blur-sm border-white/10'
     }`}>
       <div className="flex items-center gap-1.5 mb-1">
         <Icon className={`w-3.5 h-3.5 ${warn ? 'text-red-400' : 'text-white/30'}`} />
-        <span className="text-xs text-white/40">{label}</span>
+        <span className="text-xs" style={{ color: tokens.textMuted }}>{label}</span>
       </div>
       <span className={`text-xl font-bold ${
         warn ? 'text-red-400' : value === 0 ? 'text-white/20' : 'text-white/70'
@@ -433,6 +440,8 @@ function AnomaliesTab({ anomalies }: { anomalies: Anomaly[] }) {
 function AnomalyCard({ anomaly, expanded, onToggle }: {
   anomaly: Anomaly; expanded: boolean; onToggle: () => void;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const cfg = SEVERITY_CONFIG[anomaly.severity];
   const Icon = cfg.icon;
   const isResolved = anomaly.resolved;
@@ -477,7 +486,7 @@ function AnomalyCard({ anomaly, expanded, onToggle }: {
           </div>
           {anomaly.resolvedBy && (
             <p className="text-xs text-white/30 mt-2">
-              Resolvida por <span className="text-white/50">{anomaly.resolvedBy}</span> em {new Date(anomaly.resolvedAt!).toLocaleString('pt-BR')}
+              Resolvida por <span style={{ color: tokens.textMuted }}>{anomaly.resolvedBy}</span> em {new Date(anomaly.resolvedAt!).toLocaleString('pt-BR')}
             </p>
           )}
         </div>
@@ -530,7 +539,7 @@ function LogsTab({ logs, logCounts }: { logs: StructuredLog[]; logCounts: Record
 
       {/* Log entries */}
       <div className="rounded-xl bg-black/30 border border-white/5 overflow-hidden">
-        <div className="divide-y divide-white/5">
+        <div className="divide-y">
           {filtered.map((log, i) => (
             <div key={i} className="px-4 py-2.5 hover:bg-black/20 transition-colors flex items-start gap-3">
               <span className={`text-xs font-mono font-bold uppercase w-12 shrink-0 mt-0.5 ${LOG_LEVEL_COLORS[log.level]}`}>
@@ -560,9 +569,11 @@ function LogsTab({ logs, logCounts }: { logs: StructuredLog[]; logCounts: Record
 // ============================================================
 
 function RulesTab({ rules }: { rules: DashboardData['detectionRules'] }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
     <div className="space-y-4">
-      <p className="text-sm text-white/40">
+      <p className="text-sm" style={{ color: tokens.textMuted }}>
         Regras de detecção automática de anomalias. Quando o threshold é atingido
         dentro da janela de tempo, um alerta é gerado automaticamente.
       </p>

@@ -15,8 +15,13 @@ import {
 import type { Step, DadosUsuario, DadosKid } from './_components';
 import { useAutoSave, restoreDraft } from '@/hooks/useAutoSave';
 import { AutoSaveIndicator, RestoreDialog } from '@/components/shared/AutoSaveIndicator';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function CadastroPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const [step, setStep] = useState<Step>('email');
   const [error, setError] = useState('');

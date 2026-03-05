@@ -9,6 +9,8 @@ import * as gradService from '@/lib/api/graduacao.service';
 import type { ExameGraduacao, RequisitoGraduacao, SubnivelAluno } from '@/lib/api/graduacao.service';
 import { BeltStripes } from '@/components/shared/BeltStripes';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type TabView = 'exames' | 'subniveis' | 'requisitos';
 
@@ -27,6 +29,9 @@ const STATUS_CFG: Record<string, { Icon: typeof Clock; color: string; bg: string
 };
 
 export default function GraduacoesAdminPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [exames, setExames] = useState<ExameGraduacao[]>([]);
   const [requisitos, setRequisitos] = useState<RequisitoGraduacao[]>([]);
   const [subniveis, setSubniveis] = useState<SubnivelAluno[]>([]);
@@ -72,7 +77,7 @@ export default function GraduacoesAdminPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <GraduationCap size={24} className="text-purple-400" />
           Graduações
         </h1>
@@ -106,7 +111,7 @@ export default function GraduacoesAdminPage() {
         <div className="space-y-4">
           {agendados.length > 0 && (
             <div>
-              <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3">Próximos Exames</h2>
+              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Próximos Exames</h2>
               <div className="space-y-2">
                 {agendados.map(exam => (
                   <ExamCard key={exam.id} exam={exam} expanded={expandedId === exam.id}
@@ -118,7 +123,7 @@ export default function GraduacoesAdminPage() {
           )}
           {historico.length > 0 && (
             <div>
-              <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3">Histórico</h2>
+              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Histórico</h2>
               <div className="space-y-2">
                 {historico.map(exam => (
                   <ExamCard key={exam.id} exam={exam} expanded={expandedId === exam.id}
@@ -229,10 +234,12 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
 }
 
 function StatCard({ label, value, icon: Icon, color }: { label: string; value: string; icon: typeof Clock; color: string }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
     <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-4">
       <div className="flex items-center gap-2 mb-1"><Icon size={12} className={color} /><span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span></div>
-      <p className="text-xl font-black text-white">{value}</p>
+      <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
     </div>
   );
 }

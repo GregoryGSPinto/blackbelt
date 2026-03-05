@@ -8,6 +8,8 @@ import { WeeklyChallengeCard } from '@/components/aluno/WeeklyChallengeCard';
 import { PromotionPredictionCard } from '@/components/aluno/PromotionPredictionCard';
 import { TrainingBuddiesWidget } from '@/components/aluno/TrainingBuddiesWidget';
 import { MotivationalBanner } from '@/components/aluno/MotivationalBanner';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 function getMoodDriver(dna: { dimensions: { consistency: number; intensity: number; progression: number } } | null): string {
   if (!dna) return 'mastery';
@@ -19,6 +21,9 @@ function getMoodDriver(dna: { dimensions: { consistency: number; intensity: numb
 }
 
 export default function MeusInsightsPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [memberId, setMemberId] = useState<string>('');
   const [memberName, setMemberName] = useState<string>('');
   const [loadingUser, setLoadingUser] = useState(true);

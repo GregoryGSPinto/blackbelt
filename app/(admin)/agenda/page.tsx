@@ -6,8 +6,14 @@ import * as adminService from '@/lib/api/admin.service';
 import type { Turma, CheckIn, Usuario } from '@/lib/api/admin.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AgendaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [turmasHoje, setTurmasHoje] = useState<Turma[]>([]);
   const [checkInsHoje, setCheckInsHoje] = useState<CheckIn[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -59,36 +65,36 @@ export default function AgendaPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Agenda do Dia</h1>
-        <p className="text-white/50">Segunda-feira, 02 de Fevereiro de 2026</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Agenda do Dia</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Segunda-feira, 02 de Fevereiro de 2026</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Turmas Hoje</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Turmas Hoje</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{turmasHoje.length}</p>
             </div>
             <Calendar className="w-10 h-10 text-white/40" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Check-ins Realizados</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400">{checkInsHoje.length}</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Check-ins Realizados</p>
+              <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{checkInsHoje.length}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Total de Alunos</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Total de Alunos</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                 {turmasHoje.reduce((sum, t) => sum + t.alunosMatriculados, 0)}
               </p>
@@ -99,8 +105,8 @@ export default function AgendaPage() {
       </div>
 
       {/* Timeline */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-white mb-6">Cronograma de Turmas</h3>
+      <div style={{ ...glass, padding: '1.5rem' }}>
+        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1.5rem' }}>Cronograma de Turmas</h3>
         <div className="space-y-4">
           {turmasHoje
             .sort((a, b) => {
@@ -153,8 +159,8 @@ export default function AgendaPage() {
 
                     <div className="text-right">
                       <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-2">
-                        <p className="text-xl sm:text-2xl font-bold text-green-400">{checkInsDaTurma}</p>
-                        <p className="text-xs text-white/50">Check-ins</p>
+                        <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{checkInsDaTurma}</p>
+                        <p className="text-xs" style={{ color: tokens.textMuted }}>Check-ins</p>
                       </div>
                     </div>
                   </div>

@@ -9,10 +9,15 @@ import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { NotificationPreferences } from '@/components/shared/NotificationPreferences';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type Tab = 'dados' | 'senha' | 'notificacoes';
 
 export default function PerfilParentPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { user } = useAuth();
   const toast = useToast();
   const [tab, setTab] = useState<Tab>('dados');
@@ -63,7 +68,7 @@ export default function PerfilParentPage() {
         <Link href="/painel-responsavel" className="text-white/40 text-xs flex items-center gap-1 mb-2 hover:text-white/60 transition-colors">
           <ArrowLeft size={14} /> Voltar ao Painel
         </Link>
-        <h1 className="text-xl sm:text-2xl font-bold text-white mb-6">Meu Perfil</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Meu Perfil</h1>
 
         {/* Avatar */}
         <div className="flex items-center gap-4 mb-8">

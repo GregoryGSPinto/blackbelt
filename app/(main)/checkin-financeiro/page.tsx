@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { CheckCircle, AlertCircle, XCircle, CheckSquare, Clock, Calendar, QrCode } from 'lucide-react';
 import { QRGenerator } from '@/components/checkin/QRGenerator';
 import { createPortal } from 'react-dom';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // Mock status - em produção viria do backend
 const MOCK_STATUS = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
@@ -72,6 +74,9 @@ const historico = [
 ];
 
 export default function CheckinFinanceiroPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [checkinDone, setCheckinDone] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showQR, setShowQR] = useState(false);
@@ -93,7 +98,7 @@ export default function CheckinFinanceiroPage() {
         
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white mb-2">Check-in / Financeiro</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Check-in / Financeiro</h1>
           <p className="text-white/60">Seu status de acesso e check-in diário</p>
         </div>
 
@@ -131,13 +136,13 @@ export default function CheckinFinanceiroPage() {
               {currentStatus.training.available ? (
                 <CheckCircle size={24} className="text-green-400" />
               ) : (
-                <XCircle size={24} className="text-white/50" />
+                <XCircle size={24} style={{ color: tokens.textMuted }} />
               )}
               <span className={`text-2xl font-bold ${currentStatus.training.available ? 'text-green-400' : 'text-white/50'}`}>
                 {currentStatus.training.available ? '✓' : '✗'} {currentStatus.training.text}
               </span>
             </div>
-            <p className="text-sm text-white/70">
+            <p className="text-sm" style={{ color: tokens.text }}>
               {currentStatus.training.description}
             </p>
           </div>

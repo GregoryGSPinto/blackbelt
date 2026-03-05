@@ -11,6 +11,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { ScrollText, Download, Filter, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import { getAuditLogs } from '@/lib/api/developer.service';
 import type { AuditLogEntry } from '@/lib/api/developer.service';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const SEVERITIES = ['ALL', 'INFO', 'WARN', 'ERROR', 'CRITICAL'] as const;
 
@@ -22,6 +24,8 @@ const severityStyle: Record<string, string> = {
 };
 
 export default function DeveloperAuditPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [logs, setLogs] = useState<AuditLogEntry[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -69,36 +73,37 @@ export default function DeveloperAuditPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+          <div className="w-9 h-9 flex items-center justify-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
             <ScrollText className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">System Audit Log</h1>
-            <p className="text-[10px] text-white/30 font-mono">{total} events • Page {page}/{totalPages || 1}</p>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>System Audit Log</h1>
+            <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>{total} events • Page {page}/{totalPages || 1}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={exportCSV} className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-white/5 border border-white/10 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors">
+          <button onClick={exportCSV} className="flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, borderRadius: '4px', color: tokens.textMuted, letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}>
             <Download className="w-3.5 h-3.5" /> CSV
           </button>
-          <button onClick={fetchLogs} disabled={loading} className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors disabled:opacity-50">
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+          <button onClick={fetchLogs} disabled={loading} className="flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors disabled:opacity-50" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, borderRadius: '4px', color: tokens.text }}>
+            <RefreshCw className={`w-3.5 h-3.5 text-emerald-400 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* Severity Filter */}
       <div className="flex items-center gap-1.5">
-        <Filter className="w-3.5 h-3.5 text-white/30" />
+        <Filter className="w-3.5 h-3.5" style={{ color: tokens.textMuted }} />
         {SEVERITIES.map((s) => (
           <button
             key={s}
             onClick={() => { setSeverity(s); setPage(1); }}
-            className={`px-2.5 py-1 text-[10px] font-mono rounded transition-colors ${
+            className={`px-2.5 py-1 text-[10px] font-mono transition-colors ${
               severity === s
                 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-white/40 hover:text-white/60 border border-transparent'
+                : 'border border-transparent'
             }`}
+            style={severity !== s ? { color: tokens.textMuted, borderRadius: '4px' } : { borderRadius: '4px' }}
           >
             {s}
           </button>
@@ -106,11 +111,11 @@ export default function DeveloperAuditPage() {
       </div>
 
       {/* Log Table */}
-      <div className="bg-black/30 border border-white/[0.06] rounded-lg overflow-hidden">
+      <div className="overflow-hidden" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
         <div className="overflow-x-auto">
           <table className="w-full text-[11px] font-mono">
             <thead>
-              <tr className="border-b border-white/[0.06] text-white/30">
+              <tr style={{ borderBottom: '1px solid ' + tokens.cardBorder, color: tokens.textMuted }}>
                 <th className="text-left px-3 py-2 font-medium">TIMESTAMP</th>
                 <th className="text-left px-3 py-2 font-medium">SEV</th>
                 <th className="text-left px-3 py-2 font-medium">ACTOR</th>
@@ -122,29 +127,29 @@ export default function DeveloperAuditPage() {
             <tbody>
               {loading ? (
                 Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={i} className="border-b border-white/[0.03]">
+                  <tr key={i} style={{ borderBottom: '1px solid ' + tokens.divider }}>
                     {Array.from({ length: 6 }).map((_, j) => (
                       <td key={j} className={`px-3 py-2 ${j >= 4 ? 'hidden md:table-cell' : ''} ${j >= 5 ? 'hidden lg:table-cell' : ''}`}>
-                        <div className="h-3 bg-white/5 rounded animate-pulse w-16" />
+                        <div className="h-3 rounded animate-pulse w-16" style={{ background: tokens.cardBg }} />
                       </td>
                     ))}
                   </tr>
                 ))
               ) : logs.map((log) => (
-                <tr key={log.id} className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-3 py-2 text-white/50 whitespace-nowrap">
-                    <span className="text-white/20">{fmtDate(log.timestamp)}</span>{' '}
+                <tr key={log.id} className="transition-colors" style={{ borderBottom: '1px solid ' + tokens.divider }}>
+                  <td className="px-3 py-2 whitespace-nowrap" style={{ color: tokens.textMuted }}>
+                    <span style={{ color: tokens.textMuted }}>{fmtDate(log.timestamp)}</span>{' '}
                     {fmtTime(log.timestamp)}
                   </td>
                   <td className="px-3 py-2">
-                    <span className={`px-1.5 py-0.5 rounded text-[9px] ${severityStyle[log.severity] || 'text-white/40'}`}>
+                    <span className={`px-1.5 py-0.5 text-[9px] ${severityStyle[log.severity] || ''}`} style={{ borderRadius: '2px', color: severityStyle[log.severity] ? undefined : tokens.textMuted }}>
                       {log.severity}
                     </span>
                   </td>
-                  <td className="px-3 py-2 text-white/40">{log.actorHash}</td>
-                  <td className="px-3 py-2 text-white/70">{log.action}</td>
-                  <td className="px-3 py-2 text-white/30 hidden md:table-cell">{log.ipHash}</td>
-                  <td className="px-3 py-2 text-white/20 hidden lg:table-cell">{log.deviceFingerprint}</td>
+                  <td className="px-3 py-2" style={{ color: tokens.textMuted }}>{log.actorHash}</td>
+                  <td className="px-3 py-2" style={{ color: tokens.text, fontWeight: 300 }}>{log.action}</td>
+                  <td className="px-3 py-2 hidden md:table-cell" style={{ color: tokens.textMuted }}>{log.ipHash}</td>
+                  <td className="px-3 py-2 hidden lg:table-cell" style={{ color: tokens.textMuted }}>{log.deviceFingerprint}</td>
                 </tr>
               ))}
             </tbody>
@@ -154,22 +159,24 @@ export default function DeveloperAuditPage() {
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <p className="text-[10px] text-white/20 font-mono">
+        <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>
           Showing {(page - 1) * 20 + 1}–{Math.min(page * 20, total)} of {total}
         </p>
         <div className="flex items-center gap-1">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page <= 1}
-            className="p-1.5 text-white/30 hover:text-white disabled:opacity-20 transition-colors"
+            className="p-1.5 disabled:opacity-20 transition-colors"
+            style={{ color: tokens.textMuted }}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs text-white/40 font-mono px-2">{page}/{totalPages || 1}</span>
+          <span className="text-xs font-mono px-2" style={{ color: tokens.textMuted }}>{page}/{totalPages || 1}</span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page >= totalPages}
-            className="p-1.5 text-white/30 hover:text-white disabled:opacity-20 transition-colors"
+            className="p-1.5 disabled:opacity-20 transition-colors"
+            style={{ color: tokens.textMuted }}
           >
             <ChevronRight className="w-4 h-4" />
           </button>

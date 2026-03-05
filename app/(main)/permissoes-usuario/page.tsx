@@ -2,8 +2,13 @@
 
 import { useUserProfile, PERMISSOES, PERFIL_INFO } from '@/contexts/AuthContext';
 import { Shield, CheckCircle, XCircle, Info } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function PermissoesUsuarioPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { perfil } = useUserProfile();
 
   if (!perfil) {
@@ -11,7 +16,7 @@ export default function PermissoesUsuarioPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Shield className="w-16 h-16 text-white/30 mx-auto mb-4" />
-          <p className="text-white/40">Você precisa estar logado para ver as permissões</p>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Você precisa estar logado para ver as permissões</p>
         </div>
       </div>
     );
@@ -34,8 +39,8 @@ export default function PermissoesUsuarioPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Minhas Permissões</h1>
-        <p className="text-white/40">Visualize suas permissões e nível de acesso no sistema</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Minhas Permissões</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Visualize suas permissões e nível de acesso no sistema</p>
       </div>
 
       {/* Perfil Atual */}
@@ -50,24 +55,24 @@ export default function PermissoesUsuarioPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <span className="text-sm text-white/40">Perfil Ativo</span>
-                <p className="text-white font-medium">{info.label}</p>
+                <span className="text-sm" style={{ color: tokens.textMuted }}>Perfil Ativo</span>
+                <p style={{ color: tokens.text, fontWeight: 500 }}>{info.label}</p>
               </div>
               {perfil.graduacao && (
                 <div>
-                  <span className="text-sm text-white/40">Graduação</span>
-                  <p className="text-white font-medium">{perfil.graduacao}</p>
+                  <span className="text-sm" style={{ color: tokens.textMuted }}>Graduação</span>
+                  <p style={{ color: tokens.text, fontWeight: 500 }}>{perfil.graduacao}</p>
                 </div>
               )}
               {perfil.unidade && (
                 <div>
-                  <span className="text-sm text-white/40">Unidade</span>
-                  <p className="text-white font-medium">{perfil.unidade}</p>
+                  <span className="text-sm" style={{ color: tokens.textMuted }}>Unidade</span>
+                  <p style={{ color: tokens.text, fontWeight: 500 }}>{perfil.unidade}</p>
                 </div>
               )}
               <div>
-                <span className="text-sm text-white/40">Nível de Acesso</span>
-                <p className="text-white font-medium">
+                <span className="text-sm" style={{ color: tokens.textMuted }}>Nível de Acesso</span>
+                <p style={{ color: tokens.text, fontWeight: 500 }}>
                   {perfil.tipo === 'SUPER_ADMIN' && 'Acesso Total'}
                   {perfil.tipo === 'ADMINISTRADOR' && 'Acesso Administrativo'}
                   {perfil.tipo === 'GESTOR' && 'Acesso Gestão'}
@@ -97,7 +102,7 @@ export default function PermissoesUsuarioPage() {
       {/* Lista de Permissões */}
       <div className="bg-dark-card border border-dark-elevated rounded-xl overflow-hidden">
         <div className="p-6 border-b border-dark-elevated">
-          <h3 className="text-lg font-bold text-white">Permissões do Sistema</h3>
+          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Permissões do Sistema</h3>
         </div>
         
         <div className="divide-y divide-dark-elevated">
@@ -120,7 +125,7 @@ export default function PermissoesUsuarioPage() {
                     <h4 className="text-sm font-medium text-white mb-1">
                       {permissao.nome}
                     </h4>
-                    <p className="text-sm text-white/40">
+                    <p className="text-sm" style={{ color: tokens.textMuted }}>
                       {permissao.descricao}
                     </p>
                   </div>
@@ -148,11 +153,11 @@ export default function PermissoesUsuarioPage() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-1">Resumo de Permissões</h3>
-            <p className="text-sm text-white/40">Total de permissões concedidas ao seu perfil</p>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>Total de permissões concedidas ao seu perfil</p>
           </div>
           <div className="text-right">
-            <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-400">{perfil.permissoes.length}</p>
-            <p className="text-sm text-white/40">de {todasPermissoes.length} possíveis</p>
+            <p className="text-purple-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{perfil.permissoes.length}</p>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>de {todasPermissoes.length} possíveis</p>
           </div>
         </div>
         

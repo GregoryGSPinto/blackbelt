@@ -23,6 +23,8 @@ import { TrainingHeatmap } from '@/components/aluno/TrainingHeatmap';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import type { TrainingDay } from '@/components/aluno/TrainingHeatmap';
 import { generateMockTrainingData } from '@/lib/__mocks__/atleta-perfil.mock';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Nivel colors ──
 const NIVEL_COLORS: Record<string, string> = {
@@ -105,6 +107,9 @@ function StatCard({
 // ══════════════════════════════════════════════════════════════
 
 export default function AtletaPublicoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const params = useParams();
   const id = params?.id as string;
   const [atleta, setAtleta] = useState<AtletaPublico | null>(null);
@@ -156,7 +161,7 @@ export default function AtletaPublicoPage() {
           <div className="w-20 h-20 rounded-full bg-white/5 mx-auto flex items-center justify-center">
             <Award size={32} className="text-white/20" />
           </div>
-          <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white">Atleta não encontrado</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Atleta não encontrado</h1>
           <p className="text-white/40 text-sm">Este perfil não existe ou foi removido.</p>
           <a href="/" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white/60 text-sm hover:bg-white/[0.1] transition-colors">
             Ir para o início
@@ -209,7 +214,7 @@ export default function AtletaPublicoPage() {
               {atleta.avatar || atleta.nome.charAt(0)}
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight">{atleta.nome}</h1>
+              <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{atleta.nome}</h1>
               <div className="flex items-center justify-center gap-2 mt-1.5">
                 <span className="w-4 h-4 rounded-full border-2" style={{ backgroundColor: nivelColor, borderColor: `${nivelColor}80` }} />
                 <span className="text-sm text-white/60 font-medium">{atleta.nivelAtual}</span>

@@ -11,6 +11,8 @@ import * as partService from '@/lib/api/particulares.service';
 import type { AulaParticular } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
@@ -22,6 +24,10 @@ const STATUS_STYLE: Record<string, { bg: string; text: string; label: string }> 
 };
 
 export default function ProfessorParticularesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [sessões, setSessões] = useState<AulaParticular[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,20 +51,20 @@ export default function ProfessorParticularesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Minhas Particulares</h1>
-        <p className="text-white/50">Agenda e extrato de sessões particulares</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Minhas Particulares</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Agenda e extrato de sessões particulares</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Próximas</span></div>
           <p className="text-xl sm:text-2xl font-bold text-white">{proximas.length}</p>
         </div>
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">Realizadas</span></div>
-          <p className="text-xl sm:text-2xl font-bold text-green-400">{realizadas.length}</p>
+          <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{realizadas.length}</p>
         </div>
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Ganhos Mês</span></div>
           <p className="text-xl font-bold text-amber-400">{formatCurrency(ganhosMes)}</p>
         </div>
@@ -99,7 +105,7 @@ export default function ProfessorParticularesPage() {
       {realizadas.length > 0 && (
         <>
           <h2 className="text-white/60 text-sm font-medium uppercase tracking-wider mt-4">Realizadas</h2>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden divide-y divide-white/5">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden divide-y">
             {realizadas.map((a: AulaParticular) => (
               <div key={a.id} className="px-5 py-3 flex items-center justify-between">
                 <div>

@@ -18,26 +18,7 @@ import { getSystemHealth, getObservability } from '@/lib/api/developer.service';
 import type { SystemHealthMetric, ObservabilitySnapshot } from '@/lib/api/developer.service';
 import { getMockDeviceInsights, type DeviceInsight } from '@/lib/api/device-fingerprint.service';
 import { useTheme } from '@/contexts/ThemeContext';
-
-// ── Theme helper ──────────────────────────────────────────
-
-function useCardStyles() {
-  const { isDark } = useTheme();
-  return {
-    card: isDark
-      ? 'bg-slate-900/75 border-white/[0.08] backdrop-blur-md'
-      : 'bg-white/75 border-slate-200/80 backdrop-blur-md shadow-sm',
-    cardHover: isDark
-      ? 'hover:bg-slate-900/85 hover:border-white/[0.12]'
-      : 'hover:bg-white/85 hover:border-slate-300/80',
-    text: isDark ? 'text-white' : 'text-slate-900',
-    textMuted: isDark ? 'text-white/50' : 'text-slate-500',
-    textSoft: isDark ? 'text-white/30' : 'text-slate-400',
-    accent: 'text-emerald-500',
-    alertBg: isDark ? 'bg-slate-800/60' : 'bg-slate-50/80',
-    isDark,
-  };
-}
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Alert severity ────────────────────────────────────────
 
@@ -117,7 +98,8 @@ function deriveAlerts(
 // ── Component ─────────────────────────────────────────────
 
 export default function DeveloperDashboard() {
-  const s = useCardStyles();
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [health, setHealth] = useState<SystemHealthMetric[]>([]);
   const [obs, setObs] = useState<ObservabilitySnapshot | null>(null);
   const [loading, setLoading] = useState(true);
@@ -146,14 +128,14 @@ export default function DeveloperDashboard() {
   const metricColor = (m: SystemHealthMetric) => {
     if (m.status === 'critical') return 'text-red-500';
     if (m.status === 'warning') return 'text-yellow-500';
-    return s.accent;
+    return 'text-emerald-500';
   };
 
   const statusBadge = (status: string) => {
     const map: Record<string, string> = {
-      healthy: `${s.isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`,
-      warning: `${s.isDark ? 'bg-yellow-500/15 text-yellow-400' : 'bg-yellow-100 text-yellow-700'}`,
-      critical: `${s.isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-100 text-red-700'}`,
+      healthy: `${isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`,
+      warning: `${isDark ? 'bg-yellow-500/15 text-yellow-400' : 'bg-yellow-100 text-yellow-700'}`,
+      critical: `${isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-100 text-red-700'}`,
     };
     return map[status] || map.healthy;
   };
@@ -167,7 +149,7 @@ export default function DeveloperDashboard() {
   const obsMetricColor = (label: string, value: number) => {
     if (label === 'Error Rate' && value > 2) return value > 5 ? 'text-red-500' : 'text-yellow-500';
     if (label === 'Avg Latency' && value > 500) return value > 1000 ? 'text-red-500' : 'text-yellow-500';
-    return s.text;
+    return '';
   };
 
   // ── Device icon ──
@@ -181,20 +163,20 @@ export default function DeveloperDashboard() {
     const map: Record<string, { dot: string; bg: string; text: string; icon: typeof XCircle }> = {
       critical: {
         dot: 'bg-red-500',
-        bg: s.isDark ? 'bg-red-500/10 border-red-500/20' : 'bg-red-50 border-red-200',
-        text: s.isDark ? 'text-red-400' : 'text-red-700',
+        bg: isDark ? 'bg-red-500/10 border-red-500/20' : 'bg-red-50 border-red-200',
+        text: isDark ? 'text-red-400' : 'text-red-700',
         icon: XCircle,
       },
       warning: {
         dot: 'bg-yellow-500',
-        bg: s.isDark ? 'bg-yellow-500/10 border-yellow-500/20' : 'bg-yellow-50 border-yellow-200',
-        text: s.isDark ? 'text-yellow-400' : 'text-yellow-700',
+        bg: isDark ? 'bg-yellow-500/10 border-yellow-500/20' : 'bg-yellow-50 border-yellow-200',
+        text: isDark ? 'text-yellow-400' : 'text-yellow-700',
         icon: AlertTriangle,
       },
       info: {
         dot: 'bg-blue-500',
-        bg: s.isDark ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-50 border-blue-200',
-        text: s.isDark ? 'text-blue-400' : 'text-blue-700',
+        bg: isDark ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-50 border-blue-200',
+        text: isDark ? 'text-blue-400' : 'text-blue-700',
         icon: CheckCircle,
       },
     };
@@ -214,22 +196,25 @@ export default function DeveloperDashboard() {
       {/* ── Header ── */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-xl ${s.card} border flex items-center justify-center`}>
-            <Terminal className={`w-5 h-5 ${s.accent}`} />
+          <div
+            className="w-10 h-10 flex items-center justify-center"
+            style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}
+          >
+            <Terminal className="w-5 h-5 text-emerald-500" />
           </div>
           <div>
-            <h1 className={`text-xl font-bold ${s.text}`}>BlackBelt Suporte</h1>
-            <p className={`text-xs ${s.textMuted}`}>Painel Técnico — Monitoramento em tempo real</p>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>BlackBelt Suporte</h1>
+            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Painel Técnico — Monitoramento em tempo real</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {/* Alert badge */}
           {(criticalCount > 0 || warningCount > 0) && (
-            <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium ${
+            <div className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium ${
               criticalCount > 0
-                ? (s.isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-100 text-red-700')
-                : (s.isDark ? 'bg-yellow-500/15 text-yellow-400' : 'bg-yellow-100 text-yellow-700')
-            }`}>
+                ? (isDark ? 'bg-red-500/15 text-red-400' : 'bg-red-100 text-red-700')
+                : (isDark ? 'bg-yellow-500/15 text-yellow-400' : 'bg-yellow-100 text-yellow-700')
+            }`} style={{ borderRadius: '4px' }}>
               <Bell className="w-3.5 h-3.5" />
               {criticalCount > 0 ? `${criticalCount} crítico${criticalCount > 1 ? 's' : ''}` : `${warningCount} alerta${warningCount > 1 ? 's' : ''}`}
             </div>
@@ -237,7 +222,8 @@ export default function DeveloperDashboard() {
           <button
             onClick={refresh}
             disabled={loading}
-            className={`flex items-center gap-2 px-3 py-1.5 text-xs rounded-lg transition-colors disabled:opacity-50 ${s.card} border ${s.cardHover} ${s.accent}`}
+            className="flex items-center gap-2 px-3 py-1.5 transition-colors disabled:opacity-50 text-emerald-500"
+            style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Atualizar
@@ -247,8 +233,8 @@ export default function DeveloperDashboard() {
 
       {/* ── Active Alerts ── */}
       {alerts.length > 0 && (
-        <div className={`rounded-xl border p-4 ${s.card}`}>
-          <h2 className={`text-sm font-semibold ${s.text} mb-3 flex items-center gap-2`}>
+        <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+          <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
             <Bell className="w-4 h-4 text-red-500" />
             Alertas Ativos ({alerts.length})
           </h2>
@@ -257,13 +243,13 @@ export default function DeveloperDashboard() {
               const sty = severityStyle(alert.severity);
               const Icon = sty.icon;
               return (
-                <div key={alert.id} className={`flex items-start gap-3 p-3 rounded-lg border ${sty.bg}`}>
+                <div key={alert.id} className={`flex items-start gap-3 p-3 border ${sty.bg}`} style={{ borderRadius: '4px' }}>
                   <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${sty.text}`} />
                   <div className="flex-1 min-w-0">
                     <p className={`text-sm font-medium ${sty.text}`}>{alert.title}</p>
-                    <p className={`text-xs ${s.textMuted} mt-0.5`}>{alert.detail}</p>
+                    <p className="text-xs mt-0.5" style={{ color: tokens.textMuted }}>{alert.detail}</p>
                   </div>
-                  <span className={`text-[10px] ${s.textSoft} shrink-0`}>{alert.time}</span>
+                  <span className="text-[10px] shrink-0" style={{ color: tokens.textMuted }}>{alert.time}</span>
                 </div>
               );
             })}
@@ -277,11 +263,12 @@ export default function DeveloperDashboard() {
           <Link
             key={link.href}
             href={link.href}
-            className={`group p-4 rounded-xl border transition-all ${s.card} ${s.cardHover}`}
+            className="group p-4 transition-all"
+            style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}
           >
-            <link.icon className={`w-5 h-5 ${s.accent} opacity-60 group-hover:opacity-100 transition-opacity mb-2`} />
-            <p className={`text-sm font-semibold ${s.text}`}>{link.label}</p>
-            <p className={`text-[11px] ${s.textSoft}`}>{link.desc}</p>
+            <link.icon className="w-5 h-5 text-emerald-500 opacity-60 group-hover:opacity-100 transition-opacity mb-2" />
+            <p style={{ fontWeight: 300, color: tokens.text, fontSize: '0.85rem' }}>{link.label}</p>
+            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', color: tokens.textMuted }}>{link.desc}</p>
           </Link>
         ))}
       </div>
@@ -295,10 +282,10 @@ export default function DeveloperDashboard() {
             { label: 'Error Rate', value: obs.errorRate, unit: '%' },
             { label: 'Anomalies 24h', value: obs.anomaliesLast24h, unit: '' },
           ].map((m) => (
-            <div key={m.label} className={`p-4 rounded-xl border ${s.card}`}>
-              <p className={`text-[10px] uppercase tracking-wider ${s.textSoft}`}>{m.label}</p>
-              <p className={`text-2xl font-mono font-bold mt-1 ${obsMetricColor(m.label, m.value)}`}>
-                {m.value}<span className={`text-xs ml-1 ${s.textSoft}`}>{m.unit}</span>
+            <div key={m.label} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{m.label}</p>
+              <p className={`font-mono mt-1 ${obsMetricColor(m.label, m.value)}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: obsMetricColor(m.label, m.value) ? undefined : tokens.text }}>
+                {m.value}<span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{m.unit}</span>
               </p>
             </div>
           ))}
@@ -307,22 +294,22 @@ export default function DeveloperDashboard() {
 
       {/* ── System Health Grid ── */}
       <div>
-        <h2 className={`text-sm font-semibold ${s.textMuted} mb-3 flex items-center gap-2`}>
+        <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
           <Shield className="w-4 h-4" /> System Health
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {health.map((metric) => (
-            <div key={metric.name} className={`p-4 rounded-xl border ${s.card}`}>
+            <div key={metric.name} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
               <div className="flex items-center justify-between mb-1">
-                <p className={`text-[10px] uppercase tracking-wider ${s.textSoft}`}>{metric.name}</p>
-                <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${statusBadge(metric.status)}`}>
+                <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{metric.name}</p>
+                <span className={`text-[9px] px-1.5 py-0.5 font-mono ${statusBadge(metric.status)}`} style={{ borderRadius: '2px' }}>
                   {metric.status}
                 </span>
               </div>
               <p className={`text-xl font-mono font-bold ${metricColor(metric)}`}>
-                {metric.value}<span className={`text-xs ml-1 ${s.textSoft}`}>{metric.unit}</span>
+                {metric.value}<span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{metric.unit}</span>
               </p>
-              <div className={`flex items-center gap-1 mt-1 ${s.textSoft}`}>
+              <div className="flex items-center gap-1 mt-1" style={{ color: tokens.textMuted }}>
                 {trendIcon(metric.trend)}
                 <span className="text-[10px]">{metric.trend}</span>
               </div>
@@ -333,21 +320,21 @@ export default function DeveloperDashboard() {
 
       {/* ── Device Insights (AI) ── */}
       <div>
-        <h2 className={`text-sm font-semibold ${s.textMuted} mb-3 flex items-center gap-2`}>
+        <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
           <Smartphone className="w-4 h-4" /> Análise por Dispositivo
-          <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${s.isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-100 text-violet-700'}`}>AI</span>
+          <span className={`text-[9px] px-1.5 py-0.5 ${isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-100 text-violet-700'}`} style={{ borderRadius: '2px' }}>AI</span>
         </h2>
         <div className="space-y-2">
           {deviceInsights.map((insight) => {
             const sty = severityStyle(insight.severity);
             return (
-              <div key={insight.deviceId} className={`flex items-start gap-3 p-4 rounded-xl border ${s.card}`}>
+              <div key={insight.deviceId} className="flex items-start gap-3 p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
                 <div className={`mt-0.5 ${sty.text}`}>
                   {deviceIcon(insight.label)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${s.text}`}>{insight.label}</p>
-                  <p className={`text-xs ${s.textMuted} mt-0.5`}>{insight.message}</p>
+                  <p style={{ fontWeight: 300, color: tokens.text, fontSize: '0.85rem' }}>{insight.label}</p>
+                  <p className="text-xs mt-0.5" style={{ color: tokens.textMuted }}>{insight.message}</p>
                 </div>
                 <span className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${sty.dot}`} />
               </div>
@@ -357,7 +344,7 @@ export default function DeveloperDashboard() {
       </div>
 
       {/* ── Footer ── */}
-      <p className={`text-[10px] ${s.textSoft} text-center font-mono`}>
+      <p className="text-[10px] text-center font-mono" style={{ color: tokens.textMuted }}>
         Atualizado: {lastRefresh.toLocaleTimeString('pt-BR')} • Isolamento SUPPORT ativo • Sem acesso a PII/financeiro
       </p>
     </div>

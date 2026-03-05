@@ -15,6 +15,8 @@ import * as pagService from '@/lib/api/pagamentos.service';
 import type { ResumoFinanceiroAluno, Fatura, PixPaymentResponse } from '@/lib/api/pagamentos.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 function formatCurrency(v: number): string {
   return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -35,6 +37,9 @@ const SUB_STATUS: Record<string, { color: string; label: string }> = {
 };
 
 export default function MeusPagamentosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [resumo, setResumo] = useState<ResumoFinanceiroAluno | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -116,7 +121,7 @@ export default function MeusPagamentosPage() {
       <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
         {/* Header */}
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white mb-2">Meus Pagamentos</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Meus Pagamentos</h1>
           <p className="text-white/60">Seu plano, faturas e pagamentos</p>
         </div>
 
@@ -192,7 +197,7 @@ export default function MeusPagamentosPage() {
             <p className="text-sm text-white/40 mt-1">{faturas.length} faturas</p>
           </div>
 
-          <div className="divide-y divide-white/5">
+          <div className="divide-y">
             {displayFaturas.map((fatura: Fatura) => {
               const st = STATUS_BADGE[fatura.status] || STATUS_BADGE.pendente;
               const Icon = st.icon;

@@ -7,8 +7,14 @@ import type { Usuario, StatusOperacional, TipoUsuario } from '@/lib/api/admin.se
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function UsuariosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusOperacional | 'TODOS'>('TODOS');
   const [tipoFilter, setTipoFilter] = useState<TipoUsuario | 'TODOS'>('TODOS');
@@ -125,10 +131,10 @@ export default function UsuariosPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Gestão de Usuários</h1>
-          <p className="text-white/50">Gerenciar alunos, instrutores e usuários do sistema</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Gestão de Usuários</h1>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Gerenciar alunos, instrutores e usuários do sistema</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium">
+        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
           <UserPlus className="w-5 h-5" />
           <span>Novo Aluno</span>
         </button>
@@ -136,31 +142,31 @@ export default function UsuariosPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+        <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Alunos Ativos</p>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400">{stats.ativos}</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Alunos Ativos</p>
+              <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.ativos}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+        <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Em Atraso</p>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-400">{stats.emAtraso}</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Em Atraso</p>
+              <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+        <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Bloqueados</p>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400">{stats.bloqueados}</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Bloqueados</p>
+              <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.bloqueados}</p>
             </div>
             <Ban className="w-10 h-10 text-white/30" />
           </div>
@@ -168,11 +174,11 @@ export default function UsuariosPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+      <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div className="md:col-span-1">
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Buscar
             </label>
             <div className="relative">
@@ -182,20 +188,20 @@ export default function UsuariosPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Nome ou e-mail..."
-                className="w-full pl-10 pr-4 py-2.5 bg-white/10 border border-white/15 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 focus:outline-none" style={{ background: 'transparent', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: `1px solid ${tokens.inputBorder}`, color: tokens.text, borderRadius: 0 }}
               />
             </div>
           </div>
 
           {/* Status Filter */}
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Status
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as StatusOperacional | 'TODOS')}
-              className="w-full px-4 py-2.5 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+              className="w-full px-4 py-2.5 focus:outline-none" style={{ background: 'transparent', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: `1px solid ${tokens.inputBorder}`, color: tokens.text, borderRadius: 0 }}
             >
               <option value="TODOS">Todos os Status</option>
               <option value="ATIVO">Ativos</option>
@@ -208,13 +214,13 @@ export default function UsuariosPage() {
 
           {/* Tipo Filter */}
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Categoria
             </label>
             <select
               value={tipoFilter}
               onChange={(e) => setTipoFilter(e.target.value as TipoUsuario | 'TODOS')}
-              className="w-full px-4 py-2.5 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+              className="w-full px-4 py-2.5 focus:outline-none" style={{ background: 'transparent', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: `1px solid ${tokens.inputBorder}`, color: tokens.text, borderRadius: 0 }}
             >
               <option value="TODOS">Todas as Categorias</option>
               <option value="ALUNO">Alunos</option>
@@ -224,32 +230,32 @@ export default function UsuariosPage() {
       </div>
 
       {/* Users Table */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+      <div style={{ ...glass, overflow: 'hidden' }}>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-white/5">
               <tr>
-                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
                   Aluno
                 </th>
-                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
                   Categoria
                 </th>
-                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
                   Graduação
                 </th>
-                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
                   Status
                 </th>
-                <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
                   Vencimento
                 </th>
-                <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium text-white/50 uppercase tracking-wider">
+                <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
                   Ações
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y">
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-white/5 transition-colors">
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
@@ -260,8 +266,8 @@ export default function UsuariosPage() {
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-white">{user.nome}</p>
-                        <p className="text-xs text-white/40">{user.email}</p>
+                        <p className="text-sm font-medium" style={{ color: tokens.text }}>{user.nome}</p>
+                        <p className="text-xs" style={{ color: tokens.textMuted }}>{user.email}</p>
                       </div>
                     </div>
                   </td>
@@ -275,7 +281,7 @@ export default function UsuariosPage() {
                     </span>
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
-                    <span className="text-sm text-white/70">{user.graduacao}</span>
+                    <span className="text-sm" style={{ color: tokens.text }}>{user.graduacao}</span>
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
                     {getStatusBadge(user.status)}
@@ -324,20 +330,20 @@ export default function UsuariosPage() {
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
             <Filter className="w-12 h-12 text-white/30 mx-auto mb-3" />
-            <p className="text-white/50">Nenhum usuário encontrado</p>
+            <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhum usuário encontrado</p>
           </div>
         )}
       </div>
 
       {/* User Details Modal */}
       {selectedUser && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">{selectedUser.nome}</h2>
-                  <p className="text-white/50">{selectedUser.email}</p>
+                  <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.25rem' }}>{selectedUser.nome}</h2>
+                  <p style={{ fontWeight: 300, color: tokens.textMuted }}>{selectedUser.email}</p>
                 </div>
                 <button
                   onClick={() => setSelectedUser(null)}
@@ -350,30 +356,30 @@ export default function UsuariosPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-white/50 mb-1">Telefone</p>
-                    <p className="text-white font-medium">{selectedUser.telefone}</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Telefone</p>
+                    <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.telefone}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-white/50 mb-1">Status</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Status</p>
                     {getStatusBadge(selectedUser.status)}
                   </div>
                   <div>
-                    <p className="text-sm text-white/50 mb-1">Categoria</p>
-                    <p className="text-white font-medium">{selectedUser.categoria}</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Categoria</p>
+                    <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.categoria}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-white/50 mb-1">Graduação</p>
-                    <p className="text-white font-medium">{selectedUser.graduacao}</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Graduação</p>
+                    <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.graduacao}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-white/50 mb-1">Data de Cadastro</p>
-                    <p className="text-white font-medium">
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Data de Cadastro</p>
+                    <p style={{ color: tokens.text, fontWeight: 500 }}>
                       {new Date(selectedUser.dataCadastro).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-white/50 mb-1">Próximo Vencimento</p>
-                    <p className="text-white font-medium">
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Próximo Vencimento</p>
+                    <p style={{ color: tokens.text, fontWeight: 500 }}>
                       {selectedUser.proximoVencimento 
                         ? new Date(selectedUser.proximoVencimento).toLocaleDateString('pt-BR')
                         : '-'

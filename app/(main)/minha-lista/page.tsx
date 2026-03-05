@@ -7,6 +7,8 @@ import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
 import { Bookmark, Play, Trash2, Clock, Signal, ListX } from 'lucide-react';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 /**
  * Minha Lista — Vídeos favoritados
@@ -15,6 +17,9 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
  */
 
 export default function MinhaListaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [favorites, setFavorites] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

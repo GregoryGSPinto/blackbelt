@@ -9,6 +9,8 @@ import * as assService from '@/lib/api/assinatura.service';
 import type { DocumentoAssinatura, ConsentimentoLGPD } from '@/lib/api/assinatura.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type TabView = 'documentos' | 'privacidade';
 
@@ -20,6 +22,9 @@ const STATUS_CONFIG: Record<string, { Icon: typeof CheckCircle; color: string; l
 };
 
 export default function AssinaturaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [documentos, setDocumentos] = useState<DocumentoAssinatura[]>([]);
   const [consentimentos, setConsentimentos] = useState<ConsentimentoLGPD[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +67,7 @@ export default function AssinaturaPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-black text-white flex items-center gap-2">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <FileText size={20} className="text-blue-400" />
           Documentos e Privacidade
         </h1>

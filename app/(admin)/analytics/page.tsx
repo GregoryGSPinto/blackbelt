@@ -9,6 +9,8 @@ import * as analyticsService from '@/lib/api/analytics.service';
 import type { AnalyticsRetencao } from '@/lib/api/analytics.service';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const NIVEL_COLORS: Record<string, string> = {
   'Nível Iniciante': '#E5E7EB', 'Nível Básico': '#3B82F6', 'Nível Intermediário': '#8B5CF6',
@@ -16,6 +18,9 @@ const NIVEL_COLORS: Record<string, string> = {
 };
 
 export default function AnalyticsPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [data, setData] = useState<AnalyticsRetencao | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +42,7 @@ export default function AnalyticsPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <BarChart3 size={24} className="text-cyan-400" />
           Analytics de Retenção
         </h1>
@@ -150,7 +155,7 @@ export default function AnalyticsPage() {
               return (
                 <div key={i}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-white/50">{item.motivo}</span>
+                    <span className="text-xs" style={{ color: tokens.textMuted }}>{item.motivo}</span>
                     <span className="text-xs text-white/40 font-bold">{item.quantidade} ({item.pct}%)</span>
                   </div>
                   <div className="h-2 rounded-full bg-black/30 overflow-hidden">
@@ -209,9 +214,11 @@ export default function AnalyticsPage() {
 // ── Sub-components ────────────────────────────────────────
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
     <div>
-      <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3">{title}</h2>
+      <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{title}</h2>
       {children}
     </div>
   );

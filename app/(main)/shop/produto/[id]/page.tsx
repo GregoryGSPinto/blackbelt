@@ -10,6 +10,8 @@ import dynamic from 'next/dynamic';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 /**
  * Lazy loading do SizeGuideModal
@@ -24,6 +26,9 @@ const SizeGuideModal = dynamic(
 );
 
 export default function ProductPage({ params }: { params: { id: string } }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -153,7 +158,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <div className="space-y-6">
             {/* Title & Rating */}
             <div>
-              <h1 className="text-2xl md:text-4xl font-bold text-white mb-3">
+              <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
                 {product.name}
               </h1>
               {product.rating && (
@@ -171,7 +176,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-white/40">
+                  <span className="text-sm" style={{ color: tokens.textMuted }}>
                     {product.rating} ({product.reviewCount} avaliações)
                   </span>
                 </div>
@@ -184,7 +189,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 {formatPrice(product.price)}
               </div>
               {product.installments > 1 && (
-                <p className="text-sm text-white/40">
+                <p className="text-sm" style={{ color: tokens.textMuted }}>
                   ou {product.installments}x de {formatPrice(product.price / product.installments)} sem juros
                 </p>
               )}
@@ -316,7 +321,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
             {activeTab === 'reviews' && (
               <div className="text-center py-12">
-                <p className="text-white/40">Nenhuma avaliação ainda.</p>
+                <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhuma avaliação ainda.</p>
               </div>
             )}
 

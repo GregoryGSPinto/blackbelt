@@ -6,8 +6,14 @@ import * as adminService from '@/lib/api/admin.service';
 import { type PerfilAcesso, type PerfilPermissoes, type Permissao } from '@/lib/api/admin.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function PermissoesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [permissoes, setPermissoes] = useState<Permissao[]>([]);
   const [perfilPermissoes, setPerfilPermissoes] = useState<PerfilPermissoes[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,16 +77,16 @@ export default function PermissoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Permissões (RBAC)</h1>
-        <p className="text-white/50">Controle de acesso baseado em perfis</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Permissões (RBAC)</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Controle de acesso baseado em perfis</p>
       </div>
 
       {/* Info Alert */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+      <div style={{ ...glass, padding: '1rem' }}>
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-white/70 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm text-white/50">
+            <p className="text-sm" style={{ color: tokens.textMuted }}>
               As permissões são simuladas visualmente neste painel. 
               Selecione um perfil para visualizar suas permissões disponíveis.
             </p>
@@ -104,14 +110,14 @@ export default function PermissoesPage() {
               <Shield className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-sm font-bold text-white mb-1">{perfil.nome}</h3>
-            <p className="text-xs text-white/50">{perfil.descricao}</p>
+            <p className="text-xs" style={{ color: tokens.textMuted }}>{perfil.descricao}</p>
           </button>
         ))}
       </div>
 
       {/* Permissões do Perfil Selecionado */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-white mb-6">
+      <div style={{ ...glass, padding: '1.5rem' }}>
+        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1.5rem' }}>
           Permissões do Perfil: {perfis.find(p => p.id === selectedPerfil)?.nome}
         </h3>
 
@@ -152,7 +158,7 @@ export default function PermissoesPage() {
                           }`}>
                             {perm.nome}
                           </p>
-                          <p className="text-xs text-white/40">{perm.descricao}</p>
+                          <p className="text-xs" style={{ color: tokens.textMuted }}>{perm.descricao}</p>
                         </div>
                       </div>
                       

@@ -19,6 +19,8 @@ import { WelcomeCard } from '@/components/shared/WelcomeCard';
 import { AlunoCheckinCard } from '@/components/checkin/AlunoCheckinCard';
 import { TurmaNotifications } from '@/components/aluno/TurmaNotifications';
 import { PostClassFeedback } from '@/components/shared/PostClassFeedback';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 
 /**
@@ -27,23 +29,28 @@ import { PostClassFeedback } from '@/components/shared/PostClassFeedback';
  * Desktop-only, never blocks initial render.
  */
 function TrailerPreview({ youtubeId, onClose }: { youtubeId: string; onClose: () => void }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [loaded, setLoaded] = useState(false);
 
   return (
     <div
       onMouseEnter={(e) => e.stopPropagation()}
       onMouseLeave={onClose}
-      className="absolute bottom-full left-0 mb-3 w-[420px] rounded-xl overflow-hidden shadow-2xl z-50"
+      className="absolute bottom-full left-0 mb-3 w-[420px] overflow-hidden shadow-2xl z-50"
       style={{
-        background: 'rgba(0,0,0,0.95)',
-        border: '1px solid rgba(255,255,255,0.08)',
+        background: tokens.cardBg,
+        border: '1px solid ' + tokens.cardBorder,
+        backdropFilter: 'blur(12px) saturate(1.2)',
+        WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+        borderRadius: '4px',
         animation: 'trailer-fade-in 200ms cubic-bezier(0.16,1,0.3,1) both',
       }}
     >
       <div className="relative aspect-video bg-black">
         {!loaded && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/30" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: tokens.textMuted }} />
           </div>
         )}
         <iframe
@@ -55,8 +62,8 @@ function TrailerPreview({ youtubeId, onClose }: { youtubeId: string; onClose: ()
           style={{ opacity: loaded ? 1 : 0, transition: 'opacity 300ms ease' }}
         />
       </div>
-      <div className="px-3 py-2 text-[11px] text-white/30 text-center">
-        Prévia silenciosa · Passe o mouse para continuar
+      <div className="px-3 py-2 text-center" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+        Previa silenciosa · Passe o mouse para continuar
       </div>
     </div>
   );
@@ -67,6 +74,8 @@ export default function InicioPage() {
   const [showTrailer, setShowTrailer] = useState(false);
   const [feedbackDone, setFeedbackDone] = useState(false);
   const trailerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
 
   type ContentData = [Video[], Video[]];
   const { data: result, loading, error, retry, cacheInfo, refreshing, refresh } = useCachedServiceCall<ContentData>(
@@ -113,29 +122,29 @@ export default function InicioPage() {
     return <PageError error={error} onRetry={retry} />;
   }
   if (videos.length === 0) {
-    return <PageEmpty title="Nenhum conteúdo disponível" message="Novos vídeos e séries serão adicionados em breve." />;
+    return <PageEmpty title="Nenhum conteudo disponivel" message="Novos videos e series serao adicionados em breve." />;
   }
 
 
-  // Vídeo em destaque (primeiro da lista)
+  // Video em destaque (primeiro da lista)
   const featuredVideo = videos[3] || videos[0];
   if (!featuredVideo) return <PageSkeleton variant="detail" />;
 
-  // Vídeos recentes (todos menos o destaque)
+  // Videos recentes (todos menos o destaque)
   const recentVideos = videos.filter(v => v.id !== featuredVideo.id);
 
   // Top 10
   const topWeek = top10.slice(0, 4);
 
-  // Vídeos avançados
+  // Videos avancados
   const advancedVideos = videos.filter(v => v.level === 'Avançado');
 
-  // Últimos vídeos
+  // Ultimos videos
   const latestVideos = [...videos].reverse();
 
   return (
     <div className="min-h-screen">
-      {/* Post-class feedback (obrigatório se pendente) */}
+      {/* Post-class feedback (obrigatorio se pendente) */}
       {!feedbackDone && <PostClassFeedback onComplete={() => setFeedbackDone(true)} />}
       {/* Cache indicator */}
       <CacheIndicator cacheInfo={cacheInfo} refreshing={refreshing} onRefresh={refresh} className="px-4 md:px-8" />
@@ -144,66 +153,88 @@ export default function InicioPage() {
       {/* ═══════════════════════════════════════════ */}
       <div className="md:hidden relative pt-6 pb-8 px-4 mb-4">
         <div className="max-w-2xl">
-          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-3 text-xs font-semibold ${
-            featuredVideo.level === 'Iniciante' ? 'bg-green-500/90' :
-            featuredVideo.level === 'Intermediário' ? 'bg-yellow-500/90' :
-            'bg-red-500/90'
-          }`}>
-            <span>{featuredVideo.level}</span>
-            <span className="text-white/60">•</span>
-            <span>{featuredVideo.category}</span>
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1.5 mb-3"
+            style={{
+              background: tokens.cardBg,
+              border: '1px solid ' + tokens.cardBorder,
+              backdropFilter: 'blur(12px) saturate(1.2)',
+              WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+              borderRadius: '2px',
+              fontSize: '0.6rem',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase' as const,
+            }}
+          >
+            <span style={{ color: tokens.text }}>{featuredVideo.level}</span>
+            <span style={{ color: tokens.textMuted }}>•</span>
+            <span style={{ color: tokens.text }}>{featuredVideo.category}</span>
           </div>
-          <h1 className="text-2xl font-extrabold mb-3 leading-tight tracking-tight">{featuredVideo.title}</h1>
-          <p className="text-sm text-white/40 mb-2 leading-relaxed line-clamp-2">{featuredVideo.description}</p>
-          <p className="text-xs text-white/25 mb-5">
+          <h1 className="text-2xl mb-3 leading-tight" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{featuredVideo.title}</h1>
+          <p className="text-sm mb-2 leading-relaxed line-clamp-2" style={{ fontWeight: 300, color: tokens.text }}>{featuredVideo.description}</p>
+          <p className="text-xs mb-5" style={{ color: tokens.textMuted }}>
             {featuredVideo.duration} · {featuredVideo.instructor}
           </p>
           <div className="flex flex-wrap gap-3">
-            <button onClick={() => router.push(`/aulas/${featuredVideo.id}`)} className="btn-primary flex items-center gap-2 text-sm py-2.5 px-5">
+            <button
+              onClick={() => router.push(`/aulas/${featuredVideo.id}`)}
+              className="flex items-center gap-2"
+              style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
+            >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               Assistir
             </button>
-            <button className="btn-secondary text-sm py-2.5 px-5">Minha Lista</button>
+            <button
+              style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
+            >
+              Minha Lista
+            </button>
           </div>
         </div>
       </div>
 
       {/* ═══════════════════════════════════════════ */}
       {/* HERO — Desktop: SEM imagem, apenas texto   */}
-      {/* Conectado ao header (pt-8, não cola no     */}
-      {/* topo nem afasta demais)                    */}
       {/* ═══════════════════════════════════════════ */}
       <div className="hidden md:block pt-8 tv:pt-12 pb-6 px-8 tv:px-16 mb-8">
         <div className="max-w-3xl">
-          {/* Badge de nível */}
-          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-4 text-xs font-semibold ${
-            featuredVideo.level === 'Iniciante' ? 'bg-green-500/90' :
-            featuredVideo.level === 'Intermediário' ? 'bg-yellow-500/90' :
-            'bg-red-500/90'
-          }`}>
-            <span>{featuredVideo.level}</span>
-            <span className="text-white/60">•</span>
-            <span>{featuredVideo.category}</span>
+          {/* Badge de nivel */}
+          <div
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-4"
+            style={{
+              background: tokens.cardBg,
+              border: '1px solid ' + tokens.cardBorder,
+              backdropFilter: 'blur(12px) saturate(1.2)',
+              WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+              borderRadius: '2px',
+              fontSize: '0.6rem',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase' as const,
+            }}
+          >
+            <span style={{ color: tokens.text }}>{featuredVideo.level}</span>
+            <span style={{ color: tokens.textMuted }}>•</span>
+            <span style={{ color: tokens.text }}>{featuredVideo.category}</span>
           </div>
 
-          {/* Título */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tv:text-7xl font-extrabold mb-4 tracking-tight leading-tight">
+          {/* Titulo */}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tv:text-7xl mb-4 leading-tight" style={{ fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
             {featuredVideo.title}
           </h1>
 
-          {/* Descrição */}
-          <p className="text-base tv:text-lg text-white/50 mb-2 leading-relaxed max-w-xl">
+          {/* Descricao */}
+          <p className="text-base tv:text-lg mb-2 leading-relaxed max-w-xl" style={{ fontWeight: 300, color: tokens.textMuted }}>
             {featuredVideo.description}
           </p>
 
-          {/* Duração + Instrutor */}
-          <p className="text-sm text-white/30 mb-8">
-            Duração: <span className="text-white/60 font-medium">{featuredVideo.duration}</span>
-            <span className="mx-2 text-white/10">|</span>
-            Instrutor: <span className="text-white/60 font-medium">{featuredVideo.instructor}</span>
+          {/* Duracao + Instrutor */}
+          <p className="text-sm mb-8" style={{ color: tokens.textMuted }}>
+            Duracao: <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.duration}</span>
+            <span className="mx-2" style={{ color: tokens.divider }}>|</span>
+            Instrutor: <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.instructor}</span>
           </p>
 
-          {/* Botões */}
+          {/* Botoes */}
           <div className="flex flex-wrap gap-4">
             {/* Assistir — com trailer hover */}
             <div
@@ -211,16 +242,17 @@ export default function InicioPage() {
               onMouseEnter={handleAssistirEnter}
               onMouseLeave={handleAssistirLeave}
             >
-              {/* Trailer Preview (aparece acima do botão) */}
+              {/* Trailer Preview (aparece acima do botao) */}
               {showTrailer && (
                 <TrailerPreview
                   youtubeId={featuredVideo.youtubeId}
                   onClose={closeTrailer}
                 />
               )}
-              <button 
+              <button
                 onClick={() => router.push(`/aulas/${featuredVideo.id}`)}
-                className="btn-primary flex items-center gap-2 relative z-10"
+                className="flex items-center gap-2 relative z-10"
+                style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>
@@ -228,8 +260,10 @@ export default function InicioPage() {
                 Assistir
               </button>
             </div>
-            <button className="btn-secondary">
-              Adicionar à Minha Lista
+            <button
+              style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
+            >
+              Adicionar a Minha Lista
             </button>
           </div>
         </div>
@@ -258,10 +292,10 @@ export default function InicioPage() {
       {/* Carousels — wrapped with hover preview system */}
       <VideoPreviewProvider>
       <div className="space-y-8" data-tour="videos">
-        <VideoCarousel title="Recomendado para Você">
+        <VideoCarousel title="Recomendado para Voce">
           {recentVideos.map((video) => (
-            <VideoCardEnhanced 
-              key={video.id} 
+            <VideoCardEnhanced
+              key={video.id}
               video={video}
               onClick={() => router.push(`/aulas/${video.id}`)}
               showInstructor
@@ -271,18 +305,18 @@ export default function InicioPage() {
 
         <VideoCarousel title="Top 10 da Semana">
           {topWeek.map((video) => (
-            <VideoCardEnhanced 
-              key={video.id} 
+            <VideoCardEnhanced
+              key={video.id}
               video={video}
               onClick={() => router.push(`/aulas/${video.id}`)}
             />
           ))}
         </VideoCarousel>
 
-        <VideoCarousel title="Séries para Você">
+        <VideoCarousel title="Series para Voce">
           {advancedVideos.map((video) => (
-            <VideoCardEnhanced 
-              key={video.id} 
+            <VideoCardEnhanced
+              key={video.id}
               video={video}
               onClick={() => router.push(`/aulas/${video.id}`)}
               showInstructor
@@ -290,10 +324,10 @@ export default function InicioPage() {
           ))}
         </VideoCarousel>
 
-        <VideoCarousel title="Novos Vídeos">
+        <VideoCarousel title="Novos Videos">
           {latestVideos.map((video) => (
-            <VideoCardEnhanced 
-              key={video.id} 
+            <VideoCardEnhanced
+              key={video.id}
               video={video}
               onClick={() => router.push(`/aulas/${video.id}`)}
             />

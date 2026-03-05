@@ -7,8 +7,14 @@ import type { Alerta, Usuario, Turma } from '@/lib/api/admin.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AlertasPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [alertas, setAlertas] = useState<Alerta[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [turmas, setTurmas] = useState<Turma[]>([]);
@@ -117,8 +123,8 @@ export default function AlertasPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Alertas Operacionais</h1>
-        <p className="text-white/50">Monitoramento de eventos que requerem atenção</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Alertas Operacionais</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Monitoramento de eventos que requerem atenção</p>
       </div>
 
       {/* Stats */}
@@ -126,8 +132,8 @@ export default function AlertasPage() {
         <div className="bg-black/40 backdrop-blur-xl border border-red-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Prioridade Alta</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-400">{alertasPorPrioridade.ALTA}</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Prioridade Alta</p>
+              <p className="text-red-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{alertasPorPrioridade.ALTA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
@@ -136,17 +142,17 @@ export default function AlertasPage() {
         <div className="bg-black/40 backdrop-blur-xl border border-yellow-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Prioridade Média</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400">{alertasPorPrioridade.MEDIA}</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Prioridade Média</p>
+              <p className="text-yellow-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{alertasPorPrioridade.MEDIA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Prioridade Baixa</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Prioridade Baixa</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alertasPorPrioridade.BAIXA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/40" />
@@ -211,13 +217,13 @@ export default function AlertasPage() {
                       {aluno && (
                         <div className="flex items-center gap-2">
                           <span className="text-white/40">Aluno:</span>
-                          <span className="text-white font-medium">{aluno.nome}</span>
+                          <span style={{ color: tokens.text, fontWeight: 500 }}>{aluno.nome}</span>
                         </div>
                       )}
                       {turma && (
                         <div className="flex items-center gap-2">
                           <span className="text-white/40">Turma:</span>
-                          <span className="text-white font-medium">{turma.nome}</span>
+                          <span style={{ color: tokens.text, fontWeight: 500 }}>{turma.nome}</span>
                         </div>
                       )}
                     </div>
@@ -239,7 +245,7 @@ export default function AlertasPage() {
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-12 text-center">
           <CheckCircle className="w-16 h-16 text-white/50 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white mb-2">Tudo Tranquilo!</h3>
-          <p className="text-white/50">Não há alertas nesta categoria</p>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Não há alertas nesta categoria</p>
         </div>
       )}
     </div>

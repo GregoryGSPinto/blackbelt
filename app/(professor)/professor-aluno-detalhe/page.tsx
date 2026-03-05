@@ -16,6 +16,8 @@ import { QuickMessage } from '@/components/shared/QuickMessage';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { ConcederConquistaModal } from '@/components/professor/ConcederConquistaModal';
 import { QuickProgressUpdate } from '@/components/professor/QuickProgressUpdate';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type Tab = 'visao' | 'progresso' | 'conquistas' | 'desafios' | 'observacoes' | 'historico';
 
@@ -41,6 +43,8 @@ const STATUS_CONFIG = {
 };
 
 function AlunoDetalheContent() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const searchParams = useSearchParams();
   const router = useRouter();
   const alunoId = searchParams.get('id');
@@ -91,7 +95,7 @@ function AlunoDetalheContent() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                <h1 className="text-xl font-bold text-white/90">{aluno.nome}</h1>
+                <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{aluno.nome}</h1>
                 <span className="px-2 py-0.5 rounded-lg text-[10px] font-medium"
                   style={{ background: STATUS_CONFIG[aluno.status].bg, color: STATUS_CONFIG[aluno.status].color }}>
                   {STATUS_CONFIG[aluno.status].label}
@@ -513,6 +517,9 @@ function AlunoDetalheContent() {
 }
 
 export default function ProfessorAlunoDetalhePage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   return (
     <Suspense fallback={<PremiumLoader />}>
       <AlunoDetalheContent />

@@ -16,6 +16,8 @@ import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { AlunoStatusIndicators } from '@/components/professor/AlunoStatusIndicators';
 import { AlunoDetailPanel } from '@/components/professor/AlunoDetailPanel';
 import { useResponsive } from '@/contexts/ResponsiveContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type Filtro = 'Todos' | CategoriaAluno;
 
@@ -47,6 +49,9 @@ const GRAD_CONFIG = {
 const PAGE_SIZE = 20;
 
 export default function ProfessorAlunosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   // ─── Responsive ───
   const { isTabletOrAbove, isMobile } = useResponsive();
 
@@ -153,7 +158,7 @@ export default function ProfessorAlunosPage() {
     <div className={`space-y-6 ${isMobile ? 'pb-32' : 'pb-4 px-4'}`}>
       {/* ═══ Header ═══ */}
       <div className="prof-enter-1">
-        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white/90 mb-1">Alunos</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Alunos</h1>
         <p className="text-white/40 text-sm">
           Visão pedagógica completa — {stats?.totalAlunos ?? 0} alunos ativos
         </p>
@@ -400,7 +405,7 @@ export default function ProfessorAlunosPage() {
             className="p-2 rounded-xl transition-all disabled:opacity-20"
             style={{ background: 'rgba(255,255,255,0.05)' }}
           >
-            <ChevronsLeft size={16} className="text-white/50" />
+            <ChevronsLeft size={16} style={{ color: tokens.textMuted }} />
           </button>
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
@@ -408,7 +413,7 @@ export default function ProfessorAlunosPage() {
             className="p-2 rounded-xl transition-all disabled:opacity-20"
             style={{ background: 'rgba(255,255,255,0.05)' }}
           >
-            <ChevronLeft size={16} className="text-white/50" />
+            <ChevronLeft size={16} style={{ color: tokens.textMuted }} />
           </button>
 
           <div className="flex items-center gap-1">
@@ -446,7 +451,7 @@ export default function ProfessorAlunosPage() {
             className="p-2 rounded-xl transition-all disabled:opacity-20"
             style={{ background: 'rgba(255,255,255,0.05)' }}
           >
-            <ChevronRight size={16} className="text-white/50" />
+            <ChevronRight size={16} style={{ color: tokens.textMuted }} />
           </button>
           <button
             onClick={() => setPage(totalPages)}
@@ -454,7 +459,7 @@ export default function ProfessorAlunosPage() {
             className="p-2 rounded-xl transition-all disabled:opacity-20"
             style={{ background: 'rgba(255,255,255,0.05)' }}
           >
-            <ChevronsRight size={16} className="text-white/50" />
+            <ChevronsRight size={16} style={{ color: tokens.textMuted }} />
           </button>
         </div>
       )}

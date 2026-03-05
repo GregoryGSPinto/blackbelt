@@ -17,8 +17,13 @@ import type { Conversa, Mensagem } from '@/lib/api/mensagens.service';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { MessageActions } from '@/components/shared/MessageActions';
 import { useToast } from '@/contexts/ToastContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProfessorMensagensPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [conversas, setConversas] = useState<Conversa[]>([]);
   const [activeConversaId, setActiveConversaId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Mensagem[]>([]);
@@ -106,7 +111,7 @@ export default function ProfessorMensagensPage() {
       } flex-col w-full md:w-80 lg:w-96 border-r border-white/[0.06] bg-black/20`}>
         {/* Header */}
         <div className="p-4 border-b border-white/[0.06]">
-          <h1 className="text-base font-bold text-white flex items-center gap-2">
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <MessageSquare className="w-4 h-4 text-indigo-400" />
             Mensagens
           </h1>

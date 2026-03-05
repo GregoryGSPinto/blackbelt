@@ -8,8 +8,13 @@ import { User, Mail, Phone, Calendar, Award, Settings, LogOut , UserX} from 'luc
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenPerfilPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { user, logout } = useAuth();
   const [currentTeen, setCurrentTeen] = useState<TeenProfile | null>(null);
   const [loading, setLoading] = useState(true);

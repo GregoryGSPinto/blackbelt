@@ -7,6 +7,8 @@ import type { TeenProfile, TeenAula, TeenConquista, TeenCheckin } from '@/lib/ap
 import { Play, CheckCircle } from 'lucide-react';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenSessõesPage() {
   const [teensessões, setTeensessões] = useState<TeenAula[]>([]);

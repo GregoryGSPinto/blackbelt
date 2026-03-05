@@ -7,6 +7,8 @@ import type { AvaliacaoPendente } from '@/lib/api/instrutor.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const TIPO_CONFIG = {
   graduacao: { label: 'Graduação', icon: Award, bg: 'bg-amber-500/15', text: 'text-amber-300', border: 'border-amber-500/20' },
@@ -21,6 +23,9 @@ const PRIORIDADE_CONFIG = {
 };
 
 export default function ProfessorAvaliacoesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [avaliacoes, setAvaliacoes] = useState<AvaliacaoPendente[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -72,7 +77,7 @@ export default function ProfessorAvaliacoesPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Pendências</p>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Avaliações</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Avaliações</h1>
         <p className="text-white/55 text-sm mt-2">{avaliacoes.length} pendentes · {avaliacoes.filter(a => a.prioridade === 'alta').length} urgentes</p>
         <div className="prof-gold-line mt-6" />
       </section>

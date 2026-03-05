@@ -9,8 +9,13 @@ import Link from 'next/link';
 import { ArrowLeft, Phone, Mail, MessageCircle } from 'lucide-react';
 import CinematicBackground from '@/components/ui/CinematicBackground';
 import { ACADEMY_CONTACT } from '@/lib/academy/contactInfo';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function EsqueciEmailPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   return (
@@ -101,19 +106,19 @@ export default function EsqueciEmailPage() {
                           <div className="flex items-center gap-2">
                             <Mail size={14} className="text-emerald-400" />
                             <span className="text-white/70">
-                              Email: <span className="text-white font-medium">{ACADEMY_CONTACT.email}</span>
+                              Email: <span style={{ color: tokens.text, fontWeight: 500 }}>{ACADEMY_CONTACT.email}</span>
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <MessageCircle size={14} className="text-emerald-400" />
                             <span className="text-white/70">
-                              WhatsApp: <span className="text-white font-medium">{ACADEMY_CONTACT.whatsapp}</span>
+                              WhatsApp: <span style={{ color: tokens.text, fontWeight: 500 }}>{ACADEMY_CONTACT.whatsapp}</span>
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <Phone size={14} className="text-emerald-400" />
                             <span className="text-white/70">
-                              Telefone: <span className="text-white font-medium">{ACADEMY_CONTACT.telefone}</span>
+                              Telefone: <span style={{ color: tokens.text, fontWeight: 500 }}>{ACADEMY_CONTACT.telefone}</span>
                             </span>
                           </div>
                         </div>
@@ -136,7 +141,7 @@ export default function EsqueciEmailPage() {
 
             {/* Divider + Link */}
             <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-2">
-              <p className="text-sm text-white/50">Lembrou seu email?</p>
+              <p className="text-sm" style={{ color: tokens.textMuted }}>Lembrou seu email?</p>
               <Link
                 href="/login"
                 className="inline-block text-sm font-semibold text-white hover:text-white/80 transition-all duration-300 hover:translate-x-1"

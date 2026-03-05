@@ -5,8 +5,13 @@ import { ArrowRight, CheckCircle, BookOpen, Target } from 'lucide-react';
 import { useEffect } from 'react';
 import { getAreaById, useAcademyProgress } from '@/lib/academy';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AreaDetailPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const area = getAreaById(id);

@@ -15,6 +15,8 @@ import type {
   VideoTurmaCategory,
   VideoVisibility,
 } from '@/lib/api/video-provider.types';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Constants ──
 
@@ -46,6 +48,9 @@ const TURMAS_OPTIONS = [
 // ── Component ──
 
 export default function VideoUploadPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const { user } = useAuth();
   const toast = useToast();
@@ -142,7 +147,7 @@ export default function VideoUploadPage() {
             <Upload size={18} className="text-amber-400/60" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white tracking-tight">Enviar Vídeo</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Enviar Vídeo</h1>
             <p className="text-white/35 text-xs">Upload de arquivo .mp4, .mov ou .webm</p>
           </div>
         </div>

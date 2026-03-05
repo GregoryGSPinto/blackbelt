@@ -8,6 +8,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const SESSÕES_MOCK = [
   { id: 1, titulo: 'Posição de Guarda', duracao: '8 min', nivel: 'Fácil', thumb: '🛡️', disponivel: true, completada: true },
@@ -21,6 +22,7 @@ const SESSÕES_MOCK = [
 
 export default function KidsSessõesPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
   const [currentKid, setCurrentKid] = useState<KidProfile | null>(null);
   const [loading, setLoading] = useState(true);

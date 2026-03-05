@@ -11,8 +11,13 @@ import { AuthorizationToggle } from '@/components/parent/AuthorizationToggle';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { ParentPreferences } from '@/components/parent/ParentPreferences';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AutorizacoesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [pessoas, setPessoas] = useState<PessoaAutorizada[]>([]);
   const [saidas, setSaidas] = useState<AutorizacaoSaida[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +67,7 @@ export default function AutorizacoesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-black text-white flex items-center gap-2">
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <ShieldCheck size={20} className="text-emerald-400" />
             Pessoas Autorizadas
           </h1>
@@ -84,7 +89,7 @@ export default function AutorizacoesPage() {
 
       {/* Active persons */}
       <div>
-        <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3">Ativas ({ativas.length})</h2>
+        <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Ativas ({ativas.length})</h2>
         <div className="space-y-2">
           {ativas.map(p => (
             <PersonCard key={p.id} pessoa={p} onToggle={handleToggle} />
@@ -98,7 +103,7 @@ export default function AutorizacoesPage() {
       {/* Inactive */}
       {inativas.length > 0 && (
         <div>
-          <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3">Desativadas ({inativas.length})</h2>
+          <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Desativadas ({inativas.length})</h2>
           <div className="space-y-2">
             {inativas.map(p => (
               <PersonCard key={p.id} pessoa={p} onToggle={handleToggle} />

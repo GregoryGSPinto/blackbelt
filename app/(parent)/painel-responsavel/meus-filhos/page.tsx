@@ -3,8 +3,13 @@
 import { User, Calendar, Award, TrendingUp, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { useParent } from '@/contexts/ParentContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function MeusFilhosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { filhos } = useParent();
 
   const getStatusColor = (status: string) => {

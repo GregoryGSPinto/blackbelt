@@ -5,8 +5,13 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { ACADEMY_AREAS, useAcademyProgress } from '@/lib/academy';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function UnidadePage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { progress, getAreaPercent, getOverallPercent } = useAcademyProgress();
   const avgProgress = getOverallPercent();
 

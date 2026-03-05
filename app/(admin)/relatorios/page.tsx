@@ -13,6 +13,8 @@ import type {
   PeriodoRelatorio, FormatoExportacao,
 } from '@/lib/api/relatorios.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Icon map ──────────────────────────────────────────────
 
@@ -29,6 +31,9 @@ const FORMATO_CONFIG: Record<FormatoExportacao, { label: string; Icon: typeof Fi
 // ── Page ──────────────────────────────────────────────────
 
 export default function RelatoriosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [configs, setConfigs] = useState<RelatorioConfig[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +86,7 @@ export default function RelatoriosPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <BarChart3 size={24} className="text-blue-400" />
           Relatórios e Exportações
         </h1>

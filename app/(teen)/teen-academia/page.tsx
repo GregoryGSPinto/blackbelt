@@ -8,6 +8,7 @@ import {
 import Link from 'next/link';
 import { TeenCard, ProgressCircle, TeenProgressBar } from '@/components/teen';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ============================================================
 // TODO(FE-027): Substituir dados inline por GET /teen/unidade/areas
@@ -89,6 +90,7 @@ const BAR_COLOR: Record<string, 'ocean' | 'purple' | 'emerald' | 'energy'> = {
 
 export default function TeenUnidadePage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [activeTab, setActiveTab] = useState<'areas' | 'testes'>('areas');
 
   const average = Math.round(

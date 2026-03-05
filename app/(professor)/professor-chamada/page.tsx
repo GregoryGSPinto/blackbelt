@@ -19,12 +19,17 @@ import type { TurmaResumo, AlunoPresenca, ChamadaResumo } from '@/lib/api/instru
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type PresencaStatus = 'presente' | 'falta' | 'nao_marcado';
 type ViewState = 'select_turma' | 'chamada' | 'resumo';
 type AlunoComStatus = AlunoPresenca & { status: PresencaStatus };
 
 export default function ProfessorChamadaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   // ── State ──
   const [turmas, setTurmas] = useState<TurmaResumo[]>([]);
   const [selectedTurma, setSelectedTurma] = useState<TurmaResumo | null>(null);
@@ -154,7 +159,7 @@ export default function ProfessorChamadaPage() {
       <div className="space-y-8 pt-6 pb-8">
         <section className="prof-enter-1">
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Chamada Finalizada</p>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Resumo</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Resumo</h1>
           <div className="prof-gold-line mt-6" />
         </section>
 
@@ -163,7 +168,7 @@ export default function ProfessorChamadaPage() {
           <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
             <Check size={32} className="text-green-400" />
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">{resumo.turmaNome}</h2>
+          <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.25rem' }}>{resumo.turmaNome}</h2>
           <p className="text-white/50 text-sm">{new Date(resumo.data).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</p>
         </section>
 
@@ -174,7 +179,7 @@ export default function ProfessorChamadaPage() {
             <p className="text-white/40 text-xs mt-1">Presentes</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
-            <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400">{resumo.faltas}</p>
+            <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{resumo.faltas}</p>
             <p className="text-white/40 text-xs mt-1">Faltas</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
@@ -219,7 +224,7 @@ export default function ProfessorChamadaPage() {
             <ChevronLeft size={16} /> Voltar
           </button>
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Chamada Rápida</p>
-          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{selectedTurma.nome}</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{selectedTurma.nome}</h1>
           <p className="text-white/50 text-sm mt-1">
             {selectedTurma.dias} · {selectedTurma.horario} · {new Date().toLocaleDateString('pt-BR')}
           </p>
@@ -387,7 +392,7 @@ export default function ProfessorChamadaPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Frequência</p>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Chamada Rápida</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Chamada Rápida</h1>
         <p className="text-white/55 text-sm mt-2">Selecione a turma para iniciar a chamada</p>
         <div className="prof-gold-line mt-6" />
       </section>

@@ -5,8 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function AlterarSenhaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const [formData, setFormData] = useState({
     currentPassword: '',

@@ -6,8 +6,13 @@ import XPProgressBar from '@/components/teen/XPProgressBar';
 import DailyQuestCard from '@/components/teen/DailyQuestCard';
 import RivalChallengeCard from '@/components/teen/RivalChallengeCard';
 import FunStatsCarousel from '@/components/teen/FunStatsCarousel';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function TeenInsightsPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [memberId, setMemberId] = useState<string>('');
   const [loadingUser, setLoadingUser] = useState(true);
   const [userError, setUserError] = useState<string | null>(null);

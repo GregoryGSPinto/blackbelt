@@ -16,6 +16,7 @@ import type {
   MockDashboardMetrics, MockMonthlyData, MockRevenueByPlan,
   MockAcademy,
 } from '@/lib/__mocks__/super-admin.mock';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ============================================================
 // HELPERS
@@ -105,6 +106,7 @@ function MetricCard({ icon: Icon, label, value, sub, alert, isDark }: {
 
 export default function SuperAdminDashboard() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [metrics, setMetrics] = useState<MockDashboardMetrics | null>(null);
   const [monthlyData, setMonthlyData] = useState<MockMonthlyData[]>([]);
   const [revenueByPlan, setRevenueByPlan] = useState<MockRevenueByPlan[]>([]);

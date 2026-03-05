@@ -13,6 +13,8 @@ import * as visService from '@/lib/api/visitantes.service';
 import type { Visitante, TipoVisita, StatusVisita } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const TIPO_STYLE: Record<TipoVisita, { label: string; bg: string; text: string }> = {
   drop_in: { label: 'Drop-in', bg: 'bg-blue-500/10', text: 'text-blue-400' },
@@ -31,6 +33,10 @@ const STATUS_STYLE: Record<StatusVisita, { label: string; icon: React.ReactNode;
 function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
 export default function VisitantesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [visitantes, setVisitantes] = useState<Visitante[]>([]);
   const [stats, setStats] = useState<{ visitantesHoje: number; experimentaisHoje: number; dropInsHoje: number; receitaVisitas: number; noShows: number; pendentes: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,28 +66,28 @@ export default function VisitantesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Visitantes</h1>
-        <p className="text-white/50">Drop-in, day use e sessões experimentais</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Visitantes</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Drop-in, day use e sessões experimentais</p>
       </div>
 
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><UserPlus size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Visitantes Hoje</span></div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.visitantesHoje}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><Target size={16} className="text-green-400" /><span className="text-white/40 text-xs">Experimentais</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-green-400">{stats.experimentaisHoje}</p>
+            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.experimentaisHoje}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Visitas</span></div>
             <p className="text-xl font-bold text-purple-400">{formatCurrency(stats.receitaVisitas)}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><AlertCircle size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendentes</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-amber-400">{stats.pendentes}</p>
+            <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.pendentes}</p>
           </div>
         </div>
       )}
@@ -103,7 +109,7 @@ export default function VisitantesPage() {
       </div>
 
       {/* List */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden divide-y divide-white/5">
+      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden divide-y">
         {filtered.map((v: Visitante) => {
           const tipo = TIPO_STYLE[v.tipoVisita];
           const status = STATUS_STYLE[v.status];

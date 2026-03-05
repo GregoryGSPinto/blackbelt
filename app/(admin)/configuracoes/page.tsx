@@ -6,8 +6,14 @@ import * as adminService from '@/lib/api/admin.service';
 import type { ConfiguracaoUnidade } from '@/lib/api/admin.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ConfiguracoesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [config, setConfig] = useState<ConfiguracaoUnidade | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -60,19 +66,19 @@ export default function ConfiguracoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Configurações da Unidade</h1>
-        <p className="text-white/50">Políticas operacionais e regras do sistema</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Configurações da Unidade</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Políticas operacionais e regras do sistema</p>
       </div>
 
       {/* Success Message */}
       {showSuccess && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+        <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/10 border border-white/10 rounded-full flex items-center justify-center">
               <Save className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Configurações Salvas!</p>
+              <p className="text-sm font-medium" style={{ color: tokens.text }}>Configurações Salvas!</p>
               <p className="text-xs text-green-400">As alterações foram aplicadas com sucesso</p>
             </div>
           </div>
@@ -80,20 +86,20 @@ export default function ConfiguracoesPage() {
       )}
 
       {/* Políticas de Inadimplência */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+      <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
             <AlertCircle className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Políticas de Inadimplência</h3>
-            <p className="text-sm text-white/50">Defina as regras de bloqueio por atraso</p>
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Políticas de Inadimplência</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>Defina as regras de bloqueio por atraso</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Limite de Atraso Permitido (dias)
             </label>
             <input
@@ -108,7 +114,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Dias Para Bloqueio Automático
             </label>
             <input
@@ -125,19 +131,19 @@ export default function ConfiguracoesPage() {
       </div>
 
       {/* Mensagem de Bloqueio */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+      <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
             <MessageSquare className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Mensagem de Bloqueio</h3>
-            <p className="text-sm text-white/50">Mensagem exibida ao aluno bloqueado</p>
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Mensagem de Bloqueio</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>Mensagem exibida ao aluno bloqueado</p>
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-white/50 mb-2">
+          <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
             Mensagem
           </label>
           <textarea
@@ -153,20 +159,20 @@ export default function ConfiguracoesPage() {
       </div>
 
       {/* Horário de Funcionamento */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+      <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
             <Clock className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Horário de Funcionamento</h3>
-            <p className="text-sm text-white/50">Defina os horários de abertura e fechamento</p>
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Horário de Funcionamento</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>Defina os horários de abertura e fechamento</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Horário de Abertura
             </label>
             <input
@@ -181,7 +187,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Horário de Fechamento
             </label>
             <input
@@ -198,15 +204,15 @@ export default function ConfiguracoesPage() {
       </div>
 
       {/* Check-in Antecipado */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+      <div style={{ ...glass, padding: '1.5rem' }}>
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center">
               <Clock className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Check-in Antecipado</h3>
-              <p className="text-sm text-white/50">Permitir check-in antes do horário da sessão</p>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Check-in Antecipado</h3>
+              <p className="text-sm" style={{ color: tokens.textMuted }}>Permitir check-in antes do horário da sessão</p>
             </div>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -222,7 +228,7 @@ export default function ConfiguracoesPage() {
 
         {config.permitirCheckInAntecipado && (
           <div>
-            <label className="block text-sm font-medium text-white/50 mb-2">
+            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
               Minutos de Antecedência
             </label>
             <input

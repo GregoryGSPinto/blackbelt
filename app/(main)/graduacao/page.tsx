@@ -7,6 +7,8 @@ import type { GraduacaoHistorico, RequisitoGraduacao } from '@/lib/api/graduacao
 import { BeltStripes } from '@/components/shared/BeltStripes';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const NIVEL_COLORS: Record<string, { bg: string; border: string; text: string }> = {
   'Nível Iniciante': { bg: 'bg-gray-200', border: 'border-gray-300', text: 'text-gray-700' },
@@ -23,6 +25,9 @@ const NIVEL_COLORS: Record<string, { bg: string; border: string; text: string }>
 const BELT_ORDER = ['Nível Iniciante', 'Nível Cinza', 'Nível Amarelo', 'Nível Laranja', 'Nível Verde', 'Nível Básico', 'Nível Intermediário', 'Nível Avançado', 'Nível Máximo'];
 
 export default function GraduacaoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [historico, setHistorico] = useState<GraduacaoHistorico[]>([]);
   const [requisitos, setRequisitos] = useState<RequisitoGraduacao[]>([]);
   const [meusSubniveis, setMeusSubniveis] = useState<{ subniveisAtuais: number; dataUltimoSubnivel?: string }>({ subniveisAtuais: 0 });
@@ -55,7 +60,7 @@ export default function GraduacaoPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-black text-white flex items-center gap-2">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <GraduationCap size={20} className="text-purple-400" />
           Minha Graduação
         </h1>
@@ -68,7 +73,7 @@ export default function GraduacaoPage() {
         <div className="flex items-center gap-4">
           <BeltStripes nivel={nivelAtual} subniveis={meusSubniveis.subniveisAtuais} size="lg" />
           <div>
-            <p className="text-xl font-black text-white">{nivelAtual}</p>
+            <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{nivelAtual}</p>
             <p className="text-xs text-white/30">
               {tempoNoNivel} meses neste nível · {meusSubniveis.subniveisAtuais}/4 subniveis
             </p>
@@ -80,7 +85,7 @@ export default function GraduacaoPage() {
           <div className="mt-5 pt-4 border-t border-white/[0.06]">
             <div className="flex items-center gap-2 mb-3">
               <ChevronRight size={14} className="text-white/20" />
-              <p className="text-xs text-white/40">Próximo nível: <span className="font-bold text-white/60">{proximoNivel}</span></p>
+              <p className="text-xs" style={{ color: tokens.textMuted }}>Próximo nível: <span className="font-bold text-white/60">{proximoNivel}</span></p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <ProgressMini label="Tempo" current={tempoNoNivel} required={reqProxima.tempoMinimoMeses} unit="meses" />

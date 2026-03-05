@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Activity, AlertTriangle, CheckCircle, Server, Database, Cpu } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 interface PlatformHealth {
   status: string;
@@ -17,6 +19,9 @@ interface PlatformHealth {
 }
 
 export default function SuperAdminAIHealthPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [health, setHealth] = useState<PlatformHealth | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

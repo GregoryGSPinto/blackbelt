@@ -8,6 +8,8 @@ import { Send, ArrowLeft, User, Loader2 } from 'lucide-react';
 import * as mensagensService from '@/lib/api/mensagens.service';
 import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 interface Mensagem {
   id: string;
@@ -39,6 +41,9 @@ const MOCK_MSGS: Mensagem[] = [
 ];
 
 export default function MensagensParentPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const toast = useToast();
   const [conversas] = useState<Conversa[]>(MOCK_CONVERSAS);
   const [activeConversa, setActiveConversa] = useState<Conversa | null>(null);
@@ -85,7 +90,7 @@ export default function MensagensParentPage() {
           <Link href="/painel-responsavel" className="text-white/40 text-xs flex items-center gap-1 mb-2 hover:text-white/60 transition-colors">
             <ArrowLeft size={14} /> Voltar ao Painel
           </Link>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Mensagens</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Mensagens</h1>
           <p className="text-white/40 text-sm">Comunicação com instrutores</p>
         </div>
 
@@ -131,7 +136,7 @@ export default function MensagensParentPage() {
             {/* Chat header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/6">
               <button onClick={() => setActiveConversa(null)} className="p-1 rounded-lg hover:bg-white/10" aria-label="Voltar">
-                <ArrowLeft size={18} className="text-white/50" />
+                <ArrowLeft size={18} style={{ color: tokens.textMuted }} />
               </button>
               <div className="w-8 h-8 rounded-full bg-teal-600/20 flex items-center justify-center">
                 <User size={14} className="text-teal-400" />

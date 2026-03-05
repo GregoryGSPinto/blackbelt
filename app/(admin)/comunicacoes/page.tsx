@@ -17,6 +17,8 @@ import * as comService from '@/lib/api/comunicacoes.service';
 import type { Comunicado, MensagemDireta, ComunicacoesStats } from '@/lib/api/comunicacoes.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type TabView = 'comunicados' | 'mensagens';
 type ComunicadoFilter = 'todos' | 'enviado' | 'rascunho' | 'agendado';
@@ -44,6 +46,10 @@ const DESTINATARIO_LABELS: Record<string, string> = {
 };
 
 export default function ComunicacoesPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [comunicados, setComunicados] = useState<Comunicado[]>([]);
   const [mensagens, setMensagens] = useState<MensagemDireta[]>([]);
   const [stats, setStats] = useState<ComunicacoesStats | null>(null);
@@ -90,8 +96,8 @@ export default function ComunicacoesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Comunicações</h1>
-          <p className="text-white/50">Envie comunicados e gerencie mensagens</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Comunicações</h1>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Envie comunicados e gerencie mensagens</p>
         </div>
         <button
           onClick={() => setShowCompose(true)}
@@ -104,28 +110,28 @@ export default function ComunicacoesPage() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Send size={16} className="text-blue-400" />
               <span className="text-white/40 text-xs">Enviados</span>
             </div>
             <p className="text-xl sm:text-2xl font-bold text-white">{stats.comunicadosEnviados}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Eye size={16} className="text-green-400" />
               <span className="text-white/40 text-xs">Taxa Leitura</span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-green-400">{stats.taxaLeitura}%</p>
+            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.taxaLeitura}%</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Mail size={16} className="text-amber-400" />
               <span className="text-white/40 text-xs">Msg Pendentes</span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-amber-400">{stats.mensagensPendentes}</p>
+            <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.mensagensPendentes}</p>
           </div>
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Clock size={16} className="text-purple-400" />
               <span className="text-white/40 text-xs">Último Envio</span>
@@ -163,7 +169,7 @@ export default function ComunicacoesPage() {
 
       {/* ══════════ COMUNICADOS TAB ══════════ */}
       {tab === 'comunicados' && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+        <div style={{ ...glass, overflow: 'hidden' }}>
           {/* Filter */}
           <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 overflow-x-auto">
             <Filter size={14} className="text-white/30 flex-shrink-0" />
@@ -181,7 +187,7 @@ export default function ComunicacoesPage() {
           </div>
 
           {/* List */}
-          <div className="divide-y divide-white/5">
+          <div className="divide-y">
             {filteredComs.map((com: Comunicado) => {
               const tipo = TIPO_STYLE[com.tipo] || TIPO_STYLE.geral;
               const status = STATUS_STYLE[com.status] || STATUS_STYLE.rascunho;
@@ -244,8 +250,8 @@ export default function ComunicacoesPage() {
 
       {/* ══════════ MENSAGENS TAB ══════════ */}
       {tab === 'mensagens' && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
-          <div className="divide-y divide-white/5">
+        <div style={{ ...glass, overflow: 'hidden' }}>
+          <div className="divide-y">
             {mensagens.map((msg: MensagemDireta) => {
               const isUnread = !msg.lida && msg.destinatarioId === 'adm01';
               const isIncoming = msg.destinatarioId === 'adm01';
@@ -355,7 +361,7 @@ export default function ComunicacoesPage() {
                   <p className="text-xs text-white/30 mb-1">
                     De: <span className="text-white/60">{selectedMsg.remetenteNome}</span> → <span className="text-white/60">{selectedMsg.destinatarioNome}</span>
                   </p>
-                  <h3 className="text-lg font-bold text-white">{selectedMsg.assunto}</h3>
+                  <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{selectedMsg.assunto}</h3>
                   <p className="text-white/25 text-xs mt-1">{new Date(selectedMsg.data).toLocaleString('pt-BR')}</p>
                 </div>
                 <button onClick={() => setSelectedMsg(null)} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>

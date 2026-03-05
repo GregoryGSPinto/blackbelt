@@ -13,6 +13,8 @@ import * as perfilService from '@/lib/api/perfil-estendido.service';
 import type { PerfilEstendido, Modalidade, StatusDocumento } from '@/lib/api/contracts';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const MODALIDADES_INFO: Record<string, { label: string; emoji: string }> = {
   pratica_gi: { label: 'Prática Gi', emoji: '🥋' },
@@ -44,6 +46,10 @@ const STATUS_DOC: Record<StatusDocumento, { label: string; color: string; icon: 
 };
 
 export default function PerfilEsportivoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [perfil, setPerfil] = useState<PerfilEstendido | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -67,12 +73,12 @@ export default function PerfilEsportivoPage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Perfil Esportivo</h1>
-        <p className="text-white/50">Modalidades, peso, documentos e objetivos</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Perfil Esportivo</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Modalidades, peso, documentos e objetivos</p>
       </div>
 
       {/* Modalidades */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+      <div style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Award size={16} className="text-blue-400" />Modalidades</h2>
         <div className="flex flex-wrap gap-2">
           {perfil.modalidades.map((m: Modalidade) => {
@@ -87,7 +93,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Peso + Categoria */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+      <div style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Scale size={16} className="text-purple-400" />Peso & Categoria</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -109,7 +115,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Atestado Médico */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+      <div style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileCheck size={16} className="text-green-400" />Atestado Médico</h2>
         <div className="flex items-center gap-3 mb-3">
           {atestado.icon}
@@ -124,7 +130,7 @@ export default function PerfilEsportivoPage() {
       </div>
 
       {/* Termos */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+      <div style={{ ...glass, padding: '1.25rem' }}>
         <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileText size={16} className="text-amber-400" />Termos & Consentimentos</h2>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -149,19 +155,19 @@ export default function PerfilEsportivoPage() {
       {/* Objetivos & Saúde */}
       <div className="grid grid-cols-1 gap-4">
         {perfil.objetivos && (
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Target size={16} className="text-blue-400" />Objetivos</h2>
             <p className="text-white/60 text-sm">{perfil.objetivos}</p>
           </div>
         )}
         {perfil.lesoes && (
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Heart size={16} className="text-red-400" />Lesões / Restrições</h2>
             <p className="text-white/60 text-sm">{perfil.lesoes}</p>
           </div>
         )}
         {perfil.experienciaPrevia && (
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div style={{ ...glass, padding: '1.25rem' }}>
             <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Dumbbell size={16} className="text-purple-400" />Experiência Prévia</h2>
             <p className="text-white/60 text-sm">{perfil.experienciaPrevia}</p>
           </div>

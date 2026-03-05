@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import type { MockAcademy, PlanoAcademia, StatusAcademia } from '@/lib/__mocks__/super-admin.mock';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ============================================================
 // HELPERS
@@ -121,6 +122,7 @@ function InfoRow({ icon: Icon, label, value, isDark }: { icon: React.ElementType
 
 export default function AcademiasPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [academies, setAcademies] = useState<MockAcademy[]>([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusAcademia | 'TODAS'>('TODAS');

@@ -7,9 +7,11 @@ import type { KidsChallenge } from '@/lib/api/kids.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsDesafiosPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [kidschallenges, setKidschallenges] = useState<KidsChallenge[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

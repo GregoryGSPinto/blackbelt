@@ -14,6 +14,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import type {
   MockFinancialData, MockMonthlyData, MockPaymentHistory,
 } from '@/lib/__mocks__/super-admin.mock';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ============================================================
 // HELPERS
@@ -72,6 +73,7 @@ function FinCard({ icon: Icon, label, value, sub, alert, isDark }: {
 
 export default function FinanceiroPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [financial, setFinancial] = useState<MockFinancialData | null>(null);
   const [monthlyData, setMonthlyData] = useState<MockMonthlyData[]>([]);
 
@@ -245,7 +247,7 @@ export default function FinanceiroPage() {
                 <th className="pb-3 font-medium text-xs uppercase tracking-wider">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y">
               {financial.pagamentos.map((p: MockPaymentHistory) => {
                 const st = PAYMENT_STATUS[p.status];
                 return (

@@ -14,8 +14,13 @@ import {
 } from 'lucide-react';
 import { getObservability, getSystemHealth } from '@/lib/api/developer.service';
 import type { ObservabilitySnapshot, SystemHealthMetric } from '@/lib/api/developer.service';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function DeveloperObservabilityPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [obs, setObs] = useState<ObservabilitySnapshot | null>(null);
   const [health, setHealth] = useState<SystemHealthMetric[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +67,7 @@ export default function DeveloperObservabilityPage() {
             <Activity className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">Observability</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Observability</h1>
             <p className="text-[10px] text-white/30 font-mono">
               Metrics Collector • Structured Logger • Anomaly Detector • HTTP Interceptor
             </p>

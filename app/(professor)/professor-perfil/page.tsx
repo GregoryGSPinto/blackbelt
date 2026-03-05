@@ -8,8 +8,13 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { ProfessorProfileSections } from '@/components/professor/ProfessorProfileSections';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProfessorPerfilPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { user } = useAuth();
   const [saved, setSaved] = useState(false);
 
@@ -23,7 +28,7 @@ export default function ProfessorPerfilPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Configurações</p>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Meu Perfil</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Meu Perfil</h1>
         <div className="prof-gold-line mt-6" />
       </section>
 
@@ -70,7 +75,7 @@ export default function ProfessorPerfilPage() {
                 <p className="text-[10px] text-white/50 uppercase tracking-wider">{field.label}</p>
                 <p className="text-sm text-white/70 mt-0.5">{field.value}</p>
               </div>
-              <ChevronRight size={14} className="text-white/50" />
+              <ChevronRight size={14} style={{ color: tokens.textMuted }} />
             </div>
           ))}
         </div>
@@ -89,7 +94,7 @@ export default function ProfessorPerfilPage() {
             <div key={pref.label} className="flex items-center gap-4 p-3 bg-white/3 rounded-xl">
               <pref.icon size={16} className="text-amber-400/70 flex-shrink-0" />
               <div className="flex-1">
-                <p className="text-sm text-white/70">{pref.label}</p>
+                <p className="text-sm" style={{ color: tokens.text }}>{pref.label}</p>
                 <p className="text-[10px] text-white/50 mt-0.5">{pref.desc}</p>
               </div>
               <div className={`w-10 h-6 rounded-full flex items-center transition-all duration-300 cursor-pointer ${
@@ -110,19 +115,19 @@ export default function ProfessorPerfilPage() {
           <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all duration-300">
             <Lock size={16} className="text-amber-400/60" />
             <div className="flex-1 text-left">
-              <p className="text-sm text-white/70">Alterar Senha</p>
+              <p className="text-sm" style={{ color: tokens.text }}>Alterar Senha</p>
               <p className="text-[10px] text-white/50 mt-0.5">Última alteração: 30 dias atrás</p>
             </div>
-            <ChevronRight size={14} className="text-white/50" />
+            <ChevronRight size={14} style={{ color: tokens.textMuted }} />
           </button>
 
           <button className="w-full flex items-center gap-4 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all duration-300">
             <Shield size={16} className="text-amber-400/60" />
             <div className="flex-1 text-left">
-              <p className="text-sm text-white/70">Autenticação 2FA</p>
+              <p className="text-sm" style={{ color: tokens.text }}>Autenticação 2FA</p>
               <p className="text-[10px] text-white/50 mt-0.5">Não configurado</p>
             </div>
-            <ChevronRight size={14} className="text-white/50" />
+            <ChevronRight size={14} style={{ color: tokens.textMuted }} />
           </button>
         </div>
       </section>

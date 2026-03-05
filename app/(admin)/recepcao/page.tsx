@@ -10,10 +10,15 @@ import { QRScanner } from '@/components/checkin/QRScanner';
 import Link from 'next/link';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type CheckinMode = 'manual' | 'qr';
 
 export default function RecepcaoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [mode, setMode] = useState<CheckinMode>('manual');
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
@@ -128,7 +133,7 @@ export default function RecepcaoPage() {
                 <span className="text-white font-bold text-2xl">C</span>
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">MODO RECEPÇÃO</h1>
+                <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>MODO RECEPÇÃO</h1>
                 <p className="text-white/50 text-lg">Check-in Rápido</p>
               </div>
             </div>

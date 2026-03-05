@@ -22,6 +22,8 @@ import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { FrequencyBar } from '@/components/aluno/FrequencyBar';
 import { FrequencyHistory } from '@/components/aluno/FrequencyHistory';
 import { EvolutionTimeline } from '@/components/aluno/EvolutionTimeline';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Summary stat card ──
 function StatCard({
@@ -65,6 +67,9 @@ const PAGE_STYLES = `
 `;
 
 export default function MinhaEvolucaoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { data, loading, error, retry, retryInfo } = useServiceCall<EvolucaoData>(
     () => evolucaoService.getEvolucaoData(),
     { label: 'MinhaEvolucao', maxRetries: 3 }
@@ -89,7 +94,7 @@ export default function MinhaEvolucaoPage() {
       {/* HEADER                                      */}
       {/* ═══════════════════════════════════════════ */}
       <div className="evo-section">
-        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           Minha Evolução
         </h1>
         <p className="text-white/40 text-sm mt-1">

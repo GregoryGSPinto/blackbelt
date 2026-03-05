@@ -8,8 +8,13 @@ import * as shopService from '@/lib/api/shop.service';
 import type { Product, ProductColor, ProductSize } from '@/lib/api/shop.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ShopPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
   const [uniformes, setUniformes] = useState<Product[]>([]);

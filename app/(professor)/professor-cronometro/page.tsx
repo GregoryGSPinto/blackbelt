@@ -15,6 +15,8 @@ import {
   Play, Pause, RotateCcw, SkipForward, Plus, Minus,
   Maximize2, Minimize2, Settings, Volume2, VolumeX,
 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Types ──
 type TimerState = 'idle' | 'round' | 'rest' | 'paused' | 'finished';
@@ -109,6 +111,9 @@ const STATE_COLORS: Record<TimerState, { bg: string; text: string; ring: string;
 
 // ── Component ──
 export default function ProfessorCronometroPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   // Config
   const [preset, setPreset] = useState<TimerPreset>(PRESETS[0]);
   const [roundSec, setRoundSec] = useState(PRESETS[0].roundSec);
@@ -387,7 +392,7 @@ export default function ProfessorCronometroPage() {
           style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
           title="Resetar"
         >
-          <RotateCcw size={18} className="text-white/50" />
+          <RotateCcw size={18} style={{ color: tokens.textMuted }} />
         </button>
 
         {/* Main play/pause */}
@@ -416,7 +421,7 @@ export default function ProfessorCronometroPage() {
           style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
           title="Pular"
         >
-          <SkipForward size={18} className="text-white/50" />
+          <SkipForward size={18} style={{ color: tokens.textMuted }} />
         </button>
       </div>
 
@@ -483,7 +488,7 @@ export default function ProfessorCronometroPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Ferramenta</p>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Cronômetro</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Cronômetro</h1>
         <p className="text-white/55 text-sm mt-2">Timer de rounds para treino</p>
         <div className="prof-gold-line mt-6" />
       </section>
@@ -534,7 +539,7 @@ export default function ProfessorCronometroPage() {
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <Minus size={16} className="text-white/50" />
+                <Minus size={16} style={{ color: tokens.textMuted }} />
               </button>
               <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full" style={{ width: `${(roundSec / 600) * 100}%` }} />
@@ -544,7 +549,7 @@ export default function ProfessorCronometroPage() {
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <Plus size={16} className="text-white/50" />
+                <Plus size={16} style={{ color: tokens.textMuted }} />
               </button>
             </div>
           </div>
@@ -561,7 +566,7 @@ export default function ProfessorCronometroPage() {
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <Minus size={16} className="text-white/50" />
+                <Minus size={16} style={{ color: tokens.textMuted }} />
               </button>
               <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full" style={{ width: `${(restSec / 300) * 100}%` }} />
@@ -571,7 +576,7 @@ export default function ProfessorCronometroPage() {
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <Plus size={16} className="text-white/50" />
+                <Plus size={16} style={{ color: tokens.textMuted }} />
               </button>
             </div>
           </div>
@@ -588,7 +593,7 @@ export default function ProfessorCronometroPage() {
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <Minus size={16} className="text-white/50" />
+                <Minus size={16} style={{ color: tokens.textMuted }} />
               </button>
               <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-green-600 to-green-400 rounded-full" style={{ width: `${(totalRounds / 20) * 100}%` }} />
@@ -598,7 +603,7 @@ export default function ProfessorCronometroPage() {
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <Plus size={16} className="text-white/50" />
+                <Plus size={16} style={{ color: tokens.textMuted }} />
               </button>
             </div>
           </div>

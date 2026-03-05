@@ -7,8 +7,13 @@ import type { TurmaResumo } from '@/lib/api/instrutor.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProfessorTurmasPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [turmas, setTurmas] = useState<TurmaResumo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +67,7 @@ export default function ProfessorTurmasPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Gerenciamento</p>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Suas Turmas</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Suas Turmas</h1>
         <p className="text-white/55 text-sm mt-2">{turmas.length} turmas ativas · {turmas.reduce((a, t) => a + t.totalAlunos, 0)} alunos matriculados</p>
         <div className="prof-gold-line mt-6" />
       </section>

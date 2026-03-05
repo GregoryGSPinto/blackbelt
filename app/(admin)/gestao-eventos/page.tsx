@@ -9,6 +9,8 @@ import {
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, StatusEvento, TipoEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Constants ─────────────────────────────────────────────
 
@@ -29,6 +31,9 @@ function formatDate(d: string) {
 // ── Page ──────────────────────────────────────────────────
 
 export default function AdminEventosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +90,7 @@ export default function AdminEventosPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <Trophy size={24} className="text-amber-400" />
             Eventos & Campeonatos
           </h1>
@@ -208,7 +213,7 @@ export default function AdminEventosPage() {
                 {/* Expanded detail */}
                 {expanded && (
                   <div className="border-t border-white/[0.05] p-4 space-y-4 bg-black/20 backdrop-blur-sm">
-                    <p className="text-xs text-white/40">{evento.descricao}</p>
+                    <p className="text-xs" style={{ color: tokens.textMuted }}>{evento.descricao}</p>
 
                     {/* Quick info */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
@@ -287,6 +292,8 @@ function StatCard({ label, value, color }: { label: string; value: number; color
 }
 
 function EventoFormModal({ onClose, onCreated }: { onClose: () => void; onCreated: (e: Evento) => void }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [data, setData] = useState('');
@@ -317,7 +324,7 @@ function EventoFormModal({ onClose, onCreated }: { onClose: () => void; onCreate
           <X size={20} />
         </button>
 
-        <h3 className="text-lg font-bold text-white">Novo Evento</h3>
+        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Novo Evento</h3>
 
         <Field label="Nome" value={nome} onChange={setNome} placeholder="Ex: Copa BlackBelt 2026" />
         <Field label="Descrição" value={descricao} onChange={setDescricao} placeholder="Descrição do evento" multiline />

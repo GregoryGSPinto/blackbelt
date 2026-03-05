@@ -7,9 +7,11 @@ import type { KidsMascot } from '@/lib/api/kids.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsMestresPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [mascotes, setMascotes] = useState<KidsMascot[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

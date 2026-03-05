@@ -18,6 +18,8 @@ import { staggerStyle } from '@/lib/animations';
 import { QuickMessage } from '@/components/shared/QuickMessage';
 import { WelcomeCard } from '@/components/shared/WelcomeCard';
 import { ParentCheckinCard } from '@/components/checkin/ParentCheckinCard';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Status helpers ──
 
@@ -121,6 +123,9 @@ function StatMini({ icon: Icon, value, label, color }: { icon: typeof Award; val
 // ══════════════════════════════════════════════════════════════
 
 export default function PainelResponsavelPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { selectedKid, parentProfile } = useParent();
   const [showMessage, setShowMessage] = useState(false);
   const weeklyDays = getMockWeeklyFrequency();
@@ -145,7 +150,7 @@ export default function PainelResponsavelPage() {
       {/* ── Header ── */}
       <section className="pt-4">
         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">Painel do Responsável</p>
-        <h1 className="text-xl sm:text-2xl font-bold text-white">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           Olá, {parentProfile?.nome?.split(' ')[0] || 'Responsável'}! 👋
         </h1>
         <p className="text-white/50 text-sm mt-1">Acompanhe o progresso de {selectedKid.nome}</p>

@@ -9,8 +9,13 @@ import { ParentTipsBanner } from '@/components/parent/ParentTipsBanner';
 import { UpcomingEventsTimeline } from '@/components/parent/UpcomingEventsTimeline';
 import { useParent } from '@/contexts/ParentContext';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProgressoPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { filhos } = useParent();
   const [selectedChildId, setSelectedChildId] = useState<string>('');
 

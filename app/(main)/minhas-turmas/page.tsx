@@ -13,6 +13,8 @@ import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { TurmaCard } from '@/components/aluno/TurmaCard';
 import { AnimatedPage } from '@/components/shared/AnimatedPage';
 import { AnimatedList } from '@/components/shared/AnimatedList';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Quick stat pill ──
 function StatPill({ label, value, icon: Icon }: { label: string; value: string | number; icon: typeof Calendar }) {
@@ -26,6 +28,9 @@ function StatPill({ label, value, icon: Icon }: { label: string; value: string |
 }
 
 export default function MinhasTurmasPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { data: turmas, loading, error, retry, retryInfo } = useServiceCall<TurmaAluno[]>(
     () => turmasService.getMinhasTurmas(),
     { label: 'MinhasTurmas', maxRetries: 3 }
@@ -48,7 +53,7 @@ export default function MinhasTurmasPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight">Minhas Turmas</h1>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Minhas Turmas</h1>
         <p className="text-white/40 text-sm mt-1">{turmas.length} turmas matriculadas</p>
       </div>
 

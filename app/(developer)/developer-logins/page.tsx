@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { getLoginRecords } from '@/lib/api/developer.service';
 import type { LoginRecord } from '@/lib/api/developer.service';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const deviceIcon = (d: string) => {
   if (d.includes('iPad') || d.includes('Tablet')) return Tablet;
@@ -22,6 +24,9 @@ const deviceIcon = (d: string) => {
 };
 
 export default function DeveloperLoginsPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [records, setRecords] = useState<LoginRecord[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -62,7 +67,7 @@ export default function DeveloperLoginsPage() {
             <LogIn className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">Login Monitor</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Login Monitor</h1>
             <p className="text-[10px] text-white/30 font-mono">
               {total} records • {failCount} failures this page
             </p>

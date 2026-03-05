@@ -19,6 +19,8 @@ import * as pdvService from '@/lib/api/pdv.service';
 import type { ProdutoEstoque, MovimentoEstoque } from '@/lib/api/pdv.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type CategoriaFilter = 'todas' | 'uniformes' | 'roupas' | 'acessorios' | 'conveniencia';
 type TabView = 'produtos' | 'movimentos' | 'abc' | 'fornecedores';
@@ -46,6 +48,9 @@ const ABC_COLORS: Record<string, { bg: string; text: string; label: string }> = 
 function fmt(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
 export default function EstoquePage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [produtos, setProdutos] = useState<ProdutoEstoque[]>([]);
   const [movimentos, setMovimentos] = useState<MovimentoEstoque[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,7 +119,7 @@ export default function EstoquePage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white flex items-center gap-3">
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <Package size={24} className="text-blue-400" />
           Controle de Estoque
         </h1>

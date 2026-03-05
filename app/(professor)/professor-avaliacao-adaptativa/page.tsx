@@ -3,8 +3,13 @@
 import { useAdaptiveTest } from '@/hooks/useAdaptiveTest';
 import { AdaptiveTestGenerator } from '@/components/professor/AdaptiveTestGenerator';
 import { Brain } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function ProfessorAvaliacaoAdaptativaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { error } = useAdaptiveTest();
 
   return (

@@ -8,8 +8,14 @@ import type { Usuario, CheckIn, Turma } from '@/lib/api/admin.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function CheckInPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [checkIns, setCheckins] = useState<CheckIn[]>([]);
   const [alunos, setAlunos] = useState<Usuario[]>([]);
   const [allUsuarios, setAllUsuarios] = useState<Usuario[]>([]);
@@ -115,37 +121,37 @@ export default function CheckInPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Check-in Administrativo</h1>
-        <p className="text-white/50">Validar presença dos alunos</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Check-in Administrativo</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Validar presença dos alunos</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Check-ins Hoje</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Check-ins Hoje</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{checkInsHoje.length}</p>
             </div>
             <Check className="w-10 h-10 text-white/40" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Total de Alunos</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Total de Alunos</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alunos.length}</p>
             </div>
             <UsersIcon className="w-10 h-10 text-white/40" />
           </div>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/50 mb-1">Taxa de Presença</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400">
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Taxa de Presença</p>
+              <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>
                 {Math.round((checkInsHoje.length / alunos.length) * 100)}%
               </p>
             </div>
@@ -162,7 +168,7 @@ export default function CheckInPage() {
               <Check className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Check-in Realizado!</h3>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Check-in Realizado!</h3>
               <p className="text-green-400">{selectedAluno.nome} - {new Date().toLocaleTimeString('pt-BR')}</p>
             </div>
           </div>
@@ -171,13 +177,13 @@ export default function CheckInPage() {
 
       {/* Blocked Alert */}
       {showBlocked && selectedAluno && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+        <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-red-500/20 border border-red-500/30 rounded-full flex items-center justify-center">
               <X className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Aluno Bloqueado!</h3>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Aluno Bloqueado!</h3>
               <p className="text-red-400">{selectedAluno.nome} não pode fazer check-in</p>
               <p className="text-sm text-white/50 mt-1">
                 Motivo: {selectedAluno.observacoes || 'Regularize a situação na recepção'}
@@ -188,8 +194,8 @@ export default function CheckInPage() {
       )}
 
       {/* Search Area */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-        <label className="block text-sm font-medium text-white/50 mb-3">
+      <div style={{ ...glass, padding: '1.5rem' }}>
+        <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>
           Buscar Aluno
         </label>
         <div className="relative">
@@ -207,13 +213,13 @@ export default function CheckInPage() {
 
       {/* Search Results */}
       {searchTerm && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+        <div style={{ ...glass, overflow: 'hidden' }}>
           <div className="p-4 border-b border-white/10">
-            <h3 className="text-lg font-bold text-white">
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
               {filteredAlunos.length} Resultado(s) Encontrado(s)
             </h3>
           </div>
-          <div className="divide-y divide-white/10 max-h-96 overflow-y-auto">
+          <div className="divide-y max-h-96 overflow-y-auto">
             {filteredAlunos.map((aluno) => {
               const jaFezCheckIn = getAlunoCheckInStatus(aluno.id);
               const turma = turmas.find(t => t.id === (aluno.turmaId || ''));
@@ -234,7 +240,7 @@ export default function CheckInPage() {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className="text-lg font-bold text-white">{aluno.nome}</h4>
+                          <h4 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{aluno.nome}</h4>
                           {aluno.status === 'ATIVO' && (
                             <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-xs text-green-400 font-medium">
                               Ativo
@@ -299,18 +305,18 @@ export default function CheckInPage() {
           {filteredAlunos.length === 0 && (
             <div className="text-center py-12">
               <Search className="w-12 h-12 text-white/30 mx-auto mb-3" />
-              <p className="text-white/50">Nenhum aluno encontrado</p>
+              <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhum aluno encontrado</p>
             </div>
           )}
         </div>
       )}
 
       {/* Check-ins Today */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+      <div style={{ ...glass, overflow: 'hidden' }}>
         <div className="p-6 border-b border-white/10">
-          <h3 className="text-lg font-bold text-white">Check-ins de Hoje</h3>
+          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Check-ins de Hoje</h3>
         </div>
-        <div className="divide-y divide-white/10">
+        <div className="divide-y">
           {checkInsHoje.map((checkIn) => {
             const aluno = allUsuarios.find(u => u.id === checkIn.alunoId);
             const turma = turmas.find(t => t.id === checkIn.turmaId);
@@ -325,14 +331,14 @@ export default function CheckInPage() {
                       <Check className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-white">{aluno.nome}</p>
-                      <p className="text-xs text-white/50">{turma?.nome}</p>
+                      <p className="text-sm font-medium" style={{ color: tokens.text }}>{aluno.nome}</p>
+                      <p className="text-xs" style={{ color: tokens.textMuted }}>{turma?.nome}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-white">{checkIn.hora}</p>
+                    <p className="text-sm font-medium" style={{ color: tokens.text }}>{checkIn.hora}</p>
                     {checkIn.validadoPor && (
-                      <p className="text-xs text-white/50">Via Responsável</p>
+                      <p className="text-xs" style={{ color: tokens.textMuted }}>Via Responsável</p>
                     )}
                   </div>
                 </div>
@@ -344,7 +350,7 @@ export default function CheckInPage() {
         {checkInsHoje.length === 0 && (
           <div className="text-center py-12">
             <Clock className="w-12 h-12 text-white/30 mx-auto mb-3" />
-            <p className="text-white/50">Nenhum check-in realizado hoje</p>
+            <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhum check-in realizado hoje</p>
           </div>
         )}
       </div>

@@ -17,6 +17,8 @@ import * as pagService from '@/lib/api/pagamentos.service';
 import type { AdminFinanceDashboard, Fatura, Assinatura } from '@/lib/api/pagamentos.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type FaturaFilter = 'todas' | 'pendente' | 'atrasado' | 'pago';
 type TabView = 'faturas' | 'assinaturas';
@@ -43,6 +45,10 @@ function formatCurrency(v: number): string {
 }
 
 export default function PagamentosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+  const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
+
   const [dashboard, setDashboard] = useState<AdminFinanceDashboard | null>(null);
   const [assinaturas, setAssinaturas] = useState<Assinatura[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,8 +87,8 @@ export default function PagamentosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Pagamentos</h1>
-        <p className="text-white/50">Gateway de pagamento e controle de assinaturas</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Pagamentos</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Gateway de pagamento e controle de assinaturas</p>
       </div>
 
       {/* Integration notice */}
@@ -100,45 +106,45 @@ export default function PagamentosPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
               <TrendingUp size={18} className="text-green-400" />
             </div>
             <span className="text-white/40 text-xs">Receita Mês</span>
           </div>
-          <p className="text-xl sm:text-2xl font-bold text-green-400">{formatCurrency(dashboard.receitaMes)}</p>
+          <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(dashboard.receitaMes)}</p>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
               <Clock size={18} className="text-yellow-400" />
             </div>
             <span className="text-white/40 text-xs">Pendente</span>
           </div>
-          <p className="text-xl sm:text-2xl font-bold text-yellow-400">{formatCurrency(dashboard.receitaPendente)}</p>
+          <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(dashboard.receitaPendente)}</p>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
               <AlertTriangle size={18} className="text-red-400" />
             </div>
             <span className="text-white/40 text-xs">Inadimplentes</span>
           </div>
-          <p className="text-xl sm:text-2xl font-bold text-red-400">{dashboard.inadimplentes}</p>
+          <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{dashboard.inadimplentes}</p>
           <p className="text-white/30 text-xs mt-1">de {dashboard.totalAssinaturas} assinaturas</p>
         </div>
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+        <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
               <Users size={18} className="text-blue-400" />
             </div>
             <span className="text-white/40 text-xs">Assinaturas Ativas</span>
           </div>
-          <p className="text-xl sm:text-2xl font-bold text-blue-400">{dashboard.assinaturasAtivas}</p>
+          <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{dashboard.assinaturasAtivas}</p>
           <p className="text-white/30 text-xs mt-1">
             {Math.round((dashboard.assinaturasAtivas / Math.max(dashboard.totalAssinaturas, 1)) * 100)}% do total
           </p>
@@ -146,8 +152,8 @@ export default function PagamentosPage() {
       </div>
 
       {/* Revenue by method */}
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-        <h3 className="text-sm font-bold text-white/60 uppercase tracking-wider mb-4">Receita por Método</h3>
+      <div style={{ ...glass, padding: '1.5rem' }}>
+        <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '1rem', fontWeight: 400 }}>Receita por Método</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {(Object.entries(dashboard.porMetodo) as [string, number][]).map(([metodo, valor]) => {
             const m = METODO_LABELS[metodo] || { icon: '💰', label: metodo };
@@ -192,7 +198,7 @@ export default function PagamentosPage() {
 
       {/* Faturas Tab */}
       {tab === 'faturas' && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+        <div style={{ ...glass, overflow: 'hidden' }}>
           {/* Filter bar */}
           <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 overflow-x-auto">
             <Filter size={14} className="text-white/30 flex-shrink-0" />
@@ -210,7 +216,7 @@ export default function PagamentosPage() {
           </div>
 
           {/* Invoice list */}
-          <div className="divide-y divide-white/5">
+          <div className="divide-y">
             {filteredFaturas.map((fatura: Fatura) => {
               const st = STATUS_STYLE[fatura.status] || STATUS_STYLE.pendente;
               const met = fatura.metodo ? METODO_LABELS[fatura.metodo] : null;
@@ -248,8 +254,8 @@ export default function PagamentosPage() {
 
       {/* Assinaturas Tab */}
       {tab === 'assinaturas' && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
-          <div className="divide-y divide-white/5">
+        <div style={{ ...glass, overflow: 'hidden' }}>
+          <div className="divide-y">
             {assinaturas.map((sub: Assinatura) => {
               const st = STATUS_STYLE[sub.status] || STATUS_STYLE.ativa;
               const met = METODO_LABELS[sub.formaPagamento];

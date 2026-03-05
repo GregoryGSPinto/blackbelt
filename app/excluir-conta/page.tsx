@@ -8,10 +8,15 @@
 import { useState } from 'react';
 import { AlertTriangle, CheckCircle, Loader2, Shield } from 'lucide-react';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type FormState = 'form' | 'loading' | 'success' | 'error';
 
 export default function ExcluirContaPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [email, setEmail] = useState('');
   const [reason, setReason] = useState('');
   const [state, setState] = useState<FormState>('form');
@@ -56,7 +61,7 @@ export default function ExcluirContaPage() {
                   <AlertTriangle size={18} className="text-yellow-400 mt-0.5 flex-shrink-0" />
                   <div className="text-sm">
                     <p className="text-yellow-300 font-bold mb-1">Antes de continuar</p>
-                    <p className="text-white/50">
+                    <p style={{ fontWeight: 300, color: tokens.textMuted }}>
                       Você também pode excluir sua conta diretamente pelo app:
                       <span className="text-white/70"> Configurações → Minha Conta → Excluir Conta</span>.
                     </p>

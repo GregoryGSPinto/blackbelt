@@ -8,6 +8,8 @@ import {
   BarChart3, AlertTriangle, GraduationCap, BookOpen } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import * as professorService from '@/lib/api/instrutor.service';
 import * as pedagogicoService from '@/lib/api/professor-pedagogico.service';
 import type { ProfessorDashboard } from '@/lib/api/instrutor.service';
@@ -33,6 +35,8 @@ type DashboardData = [ProfessorDashboard, EstatisticasPedagogicas, AlunoPedagogi
 
 export default function ProfessorDashboardPage() {
   const { user } = useAuth();
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const { isActive: isClassActive } = useActiveClass();
   const [showStartModal, setShowStartModal] = useState(false);
   const [showActiveClass, setShowActiveClass] = useState(false);
@@ -171,14 +175,14 @@ export default function ProfessorDashboardPage() {
       <section className="pt-6 md:pt-8 prof-enter-1" data-tour="prof-dashboard">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <p className="text-amber-500/50 text-xs tracking-[0.3em] uppercase font-medium mb-3">
+            <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }} className="mb-3">
               {saudacao}
             </p>
-            <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
+            <h1 style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }} className="md:text-2xl lg:text-4xl tracking-tight leading-tight">
               {primeiroNome}
               <span className="text-amber-400/60 font-extralight ml-0.5">.</span>
             </h1>
-            <p className="text-white/50 text-sm mt-2.5 max-w-md leading-relaxed">
+            <p style={{ fontWeight: 300, color: tokens.textMuted }} className="text-sm mt-2.5 max-w-md leading-relaxed">
               {user?.graduacao || 'Nível Máximo'} · {estatisticas.totalTurmas} turmas ativas · {estatisticas.totalAlunos} alunos
             </p>
           </div>
@@ -260,7 +264,7 @@ export default function ProfessorDashboardPage() {
             >
               <Icon size={16} style={{ color }} />
             </div>
-            <span className="text-[10px] text-white/50 font-medium truncate w-full text-center">{label}</span>
+            <span style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="font-medium truncate w-full text-center">{label}</span>
           </Link>
         ))}
       </section>
@@ -282,14 +286,14 @@ export default function ProfessorDashboardPage() {
             ring: estatisticas.avaliacoesPendentes > 0 ? 'ring-rose-500/20' : 'ring-emerald-500/20',
           },
         ].map((stat) => (
-          <div key={stat.label} className="prof-glass-card p-4 md:p-5 group cursor-default">
+          <div key={stat.label} className="p-4 md:p-5 group cursor-default" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
             <div className="flex items-start justify-between mb-4">
-              <div className={`p-2.5 rounded-xl ${stat.bg} ring-1 ${stat.ring} transition-all duration-500 group-hover:scale-110 group-hover:ring-2`}>
+              <div className={`p-2.5 ${stat.bg} ring-1 ${stat.ring} transition-all duration-500 group-hover:scale-110 group-hover:ring-2`} style={{ borderRadius: '4px' }}>
                 <stat.icon size={18} className={stat.accent} />
               </div>
             </div>
-            <p className="prof-stat-value text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold leading-none">{stat.value}</p>
-            <p className="text-white/50 text-[11px] mt-2 tracking-wide font-medium">{stat.label}</p>
+            <p style={{ fontSize: '2.5rem', fontWeight: 200, color: tokens.text }} className="leading-none">{stat.value}</p>
+            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mt-2">{stat.label}</p>
           </div>
         ))}
       </section>
@@ -301,7 +305,7 @@ export default function ProfessorDashboardPage() {
         <section className="space-y-4 prof-enter-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-white/85 tracking-tight">Análise Pedagógica</h2>
+              <h2 style={{ fontWeight: 300, color: tokens.text }} className="text-lg tracking-tight">Análise Pedagógica</h2>
               <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{pedStats.totalAlunos} alunos</span>
             </div>
             <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
@@ -319,9 +323,9 @@ export default function ProfessorDashboardPage() {
               { label: 'Desaf. Pend.', value: pedStats.desafiosPendentes, color: '#60A5FA' },
               { label: 'Freq. Média', value: `${pedStats.frequenciaMedia}%`, color: '#22D3EE' },
             ].map((s, i) => (
-              <div key={i} className="prof-glass-card p-3 text-center">
-                <span className="text-lg font-bold" style={{ color: s.color }}>{s.value}</span>
-                <p className="text-white/25 text-[9px] mt-0.5 tracking-wider">{s.label}</p>
+              <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+                <span style={{ fontSize: '2rem', fontWeight: 200 }} className="leading-none" >{s.value}</span>
+                <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
@@ -330,8 +334,8 @@ export default function ProfessorDashboardPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
             {/* Evolução Mensal */}
-            <div className="prof-glass-card p-4">
-              <h3 className="text-sm font-semibold text-white/60 mb-4">Evolução Mensal</h3>
+            <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Evolução Mensal</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.evolucaoMensal} barCategoryGap="20%">
                   <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} />
@@ -348,8 +352,8 @@ export default function ProfessorDashboardPage() {
             </div>
 
             {/* Frequência Semanal */}
-            <div className="prof-glass-card p-4">
-              <h3 className="text-sm font-semibold text-white/60 mb-4">Frequência Semanal</h3>
+            <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Frequência Semanal</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.frequenciaSemanal} barCategoryGap="15%">
                   <XAxis dataKey="dia" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} />
@@ -371,8 +375,8 @@ export default function ProfessorDashboardPage() {
           </div>
 
           {/* Distribuição por Nível */}
-          <div className="prof-glass-card p-4">
-            <h3 className="text-sm font-semibold text-white/60 mb-4">Distribuição por Nível</h3>
+          <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+            <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-4">Distribuição por Nível</h3>
             <div className="flex items-end gap-2 h-24">
               {pedStats.distribuicaoNiveis.map((f) => {
                 const maxVal = Math.max(...pedStats.distribuicaoNiveis.map(x => x.total));

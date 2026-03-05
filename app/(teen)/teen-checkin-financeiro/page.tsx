@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { CheckCircle, AlertCircle, XCircle, Clock, Calendar, Zap } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // Mock status - em produção viria do backend
 const MOCK_STATUS = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
@@ -73,6 +75,9 @@ const historico = [
 ];
 
 export default function TeenCheckinFinanceiroPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [checkinDone, setCheckinDone] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   

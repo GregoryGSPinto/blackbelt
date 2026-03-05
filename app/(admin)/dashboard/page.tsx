@@ -7,6 +7,8 @@ import {
   AlertTriangle, Snowflake, Cake, Award, DollarSign, CreditCard,
   ChevronDown, ChevronUp, UserX, LayoutDashboard, Crown,
 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import * as adminService from '@/lib/api/admin.service';
 import type { EstatisticasDashboard, Alerta } from '@/lib/api/admin.service';
 import Link from 'next/link';
@@ -33,6 +35,8 @@ const NIVEL_COLORS: Record<string, string> = {
 type AdminDashData = [EstatisticasDashboard, Alerta[]];
 
 export default function DashboardPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const { data: result, loading, error, retry, cacheInfo, refreshing, refresh } = useCachedServiceCall<AdminDashData>(
     'admin:dashboard',
     () => Promise.all([
@@ -92,10 +96,10 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             {viewMode === 'executive' ? 'Visão Executiva' : 'Dashboard Avançado'}
           </h1>
-          <p className="text-sm text-white/40 mt-1">
+          <p style={{ fontWeight: 300, color: tokens.textMuted }} className="text-sm mt-1">
             {viewMode === 'executive' ? 'Métricas-chave da unidade' : 'Visão completa da operação'}
           </p>
         </div>
@@ -130,7 +134,7 @@ export default function DashboardPage() {
               <span className="hidden md:inline">Executiva</span>
             </button>
           </div>
-          <div className="flex items-center gap-2 text-xs text-white/40">
+          <div className="flex items-center gap-2 text-xs" style={{ color: tokens.textMuted }}>
             <Clock size={14} />
             <span className="hidden sm:inline">Atualizado agora</span>
           </div>
@@ -145,17 +149,17 @@ export default function DashboardPage() {
 
       {/* CRITICAL ALERTS BANNER */}
       {alertasAtivos.length > 0 && (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
+        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }} className="p-5">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 bg-red-500/20 border border-red-500/30 flex items-center justify-center shrink-0" style={{ borderRadius: '4px' }}>
               <AlertCircle size={22} className="text-red-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-base font-bold text-white mb-1">
+              <h3 style={{ fontWeight: 300, color: tokens.text }} className="text-base mb-1">
                 {alertasAtivos.length} {alertasAtivos.length === 1 ? 'Alerta Operacional' : 'Alertas Operacionais'}
               </h3>
               <p className="text-sm text-red-300/70 mb-3">Ação imediata necessária</p>
-              <Link href="/alertas" className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/10 text-white rounded-lg transition-colors text-sm font-semibold">
+              <Link href="/alertas" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }} className="inline-flex items-center gap-2 transition-colors">
                 Visualizar Alertas <ArrowRight size={16} />
               </Link>
             </div>
@@ -365,12 +369,14 @@ export default function DashboardPage() {
 // ══════════════════════════════════════════════════════════
 
 function Section({ title, children, action }: { title: string; children: React.ReactNode; action?: { label: string; href: string } }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider">{title}</h2>
+        <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{title}</h2>
         {action && (
-          <Link href={action.href} className="text-xs text-white/50 hover:text-white/70 font-semibold flex items-center gap-1">
+          <Link href={action.href} className="flex items-center gap-1" style={{ fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
             {action.label} <ArrowRight size={14} />
           </Link>
         )}
@@ -384,29 +390,31 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
   title: string; value: number; total?: number; percentage?: number;
   icon: typeof Users; link: string; status: 'success' | 'warning' | 'critical' | 'info' | 'frozen' | 'inactive'; alert?: boolean;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const isW = status === 'warning'; const isC = status === 'critical';
   const isF = status === 'frozen'; const isI = status === 'inactive';
-  const borderCls = isC ? 'border-red-500/20' : isW ? 'border-yellow-500/20' : isF ? 'border-cyan-500/20' : isI ? 'border-white/[0.06]' : 'border-white/10';
+  const borderColor = isC ? 'rgba(239,68,68,0.2)' : isW ? 'rgba(234,179,8,0.2)' : isF ? 'rgba(6,182,212,0.2)' : isI ? 'rgba(255,255,255,0.06)' : tokens.cardBorder;
   const iconBg = isC ? 'bg-red-500/15 border border-red-500/20' : isW ? 'bg-yellow-500/15 border border-yellow-500/20' : isF ? 'bg-cyan-500/15 border border-cyan-500/20' : isI ? 'bg-white/5 border border-white/[0.06]' : 'bg-white/10 border border-white/10';
   const iconColor = isC ? 'text-red-400' : isW ? 'text-yellow-400' : isF ? 'text-cyan-400' : isI ? 'text-white/30' : 'text-white/70';
-  const valueColor = isC ? 'text-red-400' : isW ? 'text-yellow-400' : isF ? 'text-cyan-400' : isI ? 'text-white/30' : 'text-white';
+  const valueColor = isC ? 'text-red-400' : isW ? 'text-yellow-400' : isF ? 'text-cyan-400' : isI ? 'text-white/30' : '';
   return (
-    <Link href={link} className={`group relative rounded-lg p-5 transition-all bg-black/40 backdrop-blur-xl border hover:bg-white/5 ${borderCls}`}>
-      <div className={`w-11 h-11 rounded-lg flex items-center justify-center mb-4 ${iconBg}`}>
+    <Link href={link} className="group relative p-5 transition-all hover:bg-white/5" style={{ background: tokens.cardBg, border: '1px solid ' + borderColor, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+      <div className={`w-11 h-11 flex items-center justify-center mb-4 ${iconBg}`} style={{ borderRadius: '4px' }}>
         <Icon size={20} className={iconColor} />
       </div>
-      <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2">{title}</h3>
+      <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-2">{title}</h3>
       <div className="flex items-end justify-between mb-3">
-        <p className={`text-4xl font-bold ${valueColor}`}>{value}</p>
+        <p className={`${valueColor}`} style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.02em', color: valueColor ? undefined : tokens.text }}>{value}</p>
         {total !== undefined && percentage !== undefined && (
           <div className="text-right">
-            <p className="text-xs text-white/30">de {total}</p>
-            <p className="text-lg font-bold text-white/50">{percentage}%</p>
+            <p className="text-xs" style={{ color: tokens.textMuted }}>de {total}</p>
+            <p className="text-lg" style={{ fontWeight: 200, color: tokens.textMuted }}>{percentage}%</p>
           </div>
         )}
       </div>
       {alert && (
-        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${isC ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>
+        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '2px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }} className={`inline-flex items-center gap-1.5 px-2.5 py-1 ${isC ? 'text-red-400' : 'text-yellow-400'}`}>
           <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" /> Requer Atenção
         </div>
       )}
@@ -417,21 +425,23 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
 function MetricCard({ title, value, icon: Icon, link, comparison }: {
   title: string; value: number; icon: typeof Users; link: string; comparison?: { value: number; label: string };
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
-    <Link href={link} className="group bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 hover:bg-white/5 transition-all">
-      <div className="w-11 h-11 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-white/15 transition-colors">
+    <Link href={link} className="group p-5 hover:bg-white/5 transition-all" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' }}>
+      <div className="w-11 h-11 bg-white/10 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-white/15 transition-colors" style={{ borderRadius: '4px' }}>
         <Icon size={20} className="text-white/70" />
       </div>
-      <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2">{title}</h3>
+      <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-2">{title}</h3>
       <div className="flex items-end justify-between">
-        <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{value}</p>
+        <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
         {comparison && (
           <div className="flex items-center gap-1">
             {comparison.value < value ? <TrendingUp size={16} className="text-green-400" /> :
              comparison.value > value ? <TrendingDown size={16} className="text-red-400" /> : null}
             <div className="text-right">
-              <p className="text-xs text-white/30">{comparison.label}</p>
-              <p className={`text-sm font-bold ${comparison.value < value ? 'text-green-400' : comparison.value > value ? 'text-red-400' : 'text-white/50'}`}>{comparison.value}</p>
+              <p className="text-xs" style={{ color: tokens.textMuted }}>{comparison.label}</p>
+              <p className={`text-sm font-bold ${comparison.value < value ? 'text-green-400' : comparison.value > value ? 'text-red-400' : ''}`} style={comparison.value >= value && comparison.value <= value ? { color: tokens.textMuted } : undefined}>{comparison.value}</p>
             </div>
           </div>
         )}

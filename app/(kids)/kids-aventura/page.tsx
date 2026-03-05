@@ -6,8 +6,13 @@ import AdventureProgress from '@/components/kids/AdventureProgress';
 import StickerCollection from '@/components/kids/StickerCollection';
 import MascotBubble from '@/components/kids/MascotBubble';
 import SimpleProgressStars from '@/components/kids/SimpleProgressStars';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsAventuraPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const [memberId, setMemberId] = useState<string>('');
   const [loadingUser, setLoadingUser] = useState(true);
   const [userError, setUserError] = useState<string | null>(null);

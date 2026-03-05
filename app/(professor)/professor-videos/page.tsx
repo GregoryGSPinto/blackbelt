@@ -18,6 +18,8 @@ import { VideoFormModal } from '@/components/professor/VideoFormModal';
 import { PlaylistFormModal } from '@/components/professor/PlaylistFormModal';
 import * as playlistService from '@/lib/api/playlist.service';
 import type { Playlist } from '@/lib/api/playlist.service';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const TIPO_LABELS: Record<string, { label: string; color: string }> = {
   aula: { label: 'Sessão', color: 'text-sky-300 bg-sky-500/15' },
@@ -50,6 +52,9 @@ const TURMAS_OPTIONS = [
 type FilterStatus = 'all' | 'published' | 'draft' | 'processing';
 
 export default function ProfessorVideosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { user } = useAuth();
   const router = useRouter();
   const toast = useToast();
@@ -237,7 +242,7 @@ export default function ProfessorVideosPage() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
             <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">Biblioteca</p>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">Vídeos</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Vídeos</h1>
             <p className="text-white/55 text-sm mt-2">
               {totalVideos} vídeos · {totalViews} visualizações totais
             </p>

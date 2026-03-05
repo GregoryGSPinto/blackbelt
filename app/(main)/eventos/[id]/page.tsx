@@ -12,6 +12,8 @@ import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, InscricaoEvento, CategoriaEvento, StatusEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Helpers ───────────────────────────────────────────────
 
@@ -34,6 +36,9 @@ function formatDate(d: string) {
 // ── Page ──────────────────────────────────────────────────
 
 export default function EventoDetalhePage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const params = useParams();
   const router = useRouter();
   const { user } = useAuth();
@@ -92,7 +97,7 @@ export default function EventoDetalhePage() {
               {evento.tipo === 'INTERNO' ? 'Interno' : 'Externo'}
             </span>
           </div>
-          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-white">{evento.nome}</h1>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{evento.nome}</h1>
           <p className="text-sm text-white/40 mt-2">{evento.descricao}</p>
         </div>
 
@@ -267,6 +272,8 @@ function InscricaoModal({
   onClose: () => void;
   onSuccess: () => void;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [categoriaId, setCategoriaId] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -302,7 +309,7 @@ function InscricaoModal({
         </button>
 
         <div>
-          <h3 className="text-lg font-bold text-white">Inscrição</h3>
+          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Inscrição</h3>
           <p className="text-xs text-white/40 mt-1">{evento.nome}</p>
         </div>
 
@@ -331,7 +338,7 @@ function InscricaoModal({
         {evento.valorInscricao !== undefined && evento.valorInscricao > 0 && (
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
             <Ticket size={14} className="text-white/25" />
-            <span className="text-xs text-white/40">
+            <span className="text-xs" style={{ color: tokens.textMuted }}>
               Valor: <span className="text-white/70 font-bold">R$ {evento.valorInscricao}</span>
             </span>
           </div>

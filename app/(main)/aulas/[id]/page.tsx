@@ -23,6 +23,8 @@ import type { Video } from '@/lib/api/content.service';
 import { PremiumPlayer } from '@/components/video/PremiumPlayer';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 /* ─── Objectives mock (enriches Video data) ─── */
 const OBJECTIVES: Record<string, string[]> = {
@@ -48,6 +50,9 @@ function getLevelStyle(level: string) {
 }
 
 export default function AulaDetailPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
@@ -434,13 +439,13 @@ export default function AulaDetailPage() {
                 onClick={() => scrollRelated('left')}
                 className="w-9 h-9 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] transition-colors"
               >
-                <ChevronLeft size={16} className="text-white/50" />
+                <ChevronLeft size={16} style={{ color: tokens.textMuted }} />
               </button>
               <button
                 onClick={() => scrollRelated('right')}
                 className="w-9 h-9 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] transition-colors"
               >
-                <ChevronRight size={16} className="text-white/50" />
+                <ChevronRight size={16} style={{ color: tokens.textMuted }} />
               </button>
             </div>
           </div>

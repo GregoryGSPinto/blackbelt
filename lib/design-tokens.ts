@@ -20,6 +20,10 @@ export function getDesignTokens(isDark: boolean) {
     ssoBorder: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
     ssoText: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
     linkColor: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)',
+    divider: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
+    buttonHover: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+    success: isDark ? '#4ade80' : '#16a34a',
+    warning: isDark ? '#fbbf24' : '#d97706',
     // Glass card shared style
     glass: {
       background: isDark ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)',

@@ -8,8 +8,13 @@ import {
 import Link from 'next/link';
 import { useParent } from '@/contexts/ParentContext';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function PerfilFilhoPage({ params }: { params: Promise<{ id: string }> }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const { id } = use(params);
   const { filhos } = useParent();
   const filho = filhos.find(f => f.id === id);
@@ -18,7 +23,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <p className="text-xl sm:text-2xl font-bold text-white mb-2">Filho não encontrado</p>
+          <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.5rem' }}>Filho não encontrado</p>
           <Link href="/painel-responsavel/meus-filhos" className="text-blue-400 hover:underline">
             Voltar para Meus Filhos
           </Link>
@@ -113,7 +118,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">Presença (30 dias)</p>
-              <p className="text-xl sm:text-2xl font-bold text-green-400">{filho.progresso.presenca30dias}%</p>
+              <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.presenca30dias}%</p>
             </div>
           </div>
           <div className="h-3 bg-white/10 rounded-full overflow-hidden">
@@ -131,7 +136,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">Sessões Assistidas</p>
-              <p className="text-xl sm:text-2xl font-bold text-blue-400">{filho.progresso.sessõesAssistidas}</p>
+              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.sessõesAssistidas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">Total de sessões completadas</p>
@@ -144,7 +149,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">Conquistas</p>
-              <p className="text-xl sm:text-2xl font-bold text-yellow-400">{filho.progresso.conquistasConquistadas}</p>
+              <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.conquistasConquistadas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">Conquistas desbloqueadas</p>

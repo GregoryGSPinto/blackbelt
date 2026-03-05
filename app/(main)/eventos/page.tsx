@@ -9,6 +9,8 @@ import {
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, StatusEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Filtro tabs ───────────────────────────────────────────
 
@@ -41,6 +43,9 @@ function formatDate(d: string) {
 // ── Componente principal ──────────────────────────────────
 
 export default function EventosPage() {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
+
   const router = useRouter();
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [filtro, setFiltro] = useState<FiltroTab>('proximos');
@@ -78,7 +83,7 @@ export default function EventosPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">Eventos</h1>
+            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Eventos</h1>
           </div>
           <p className="text-white/40 text-sm">
             Campeonatos, seminários e desafios
