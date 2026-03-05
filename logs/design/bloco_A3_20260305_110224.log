@@ -1,0 +1,19 @@
+**Bloco A3 completo.** Resumo do que foi feito:
+
+### Arquivos criados (4):
+- `components/shared/LanguageSwitcher.tsx` — Componente com 3 variantes (desktop/mobile/landing), dropdown com bandeiras, animacao suave
+- `hooks/useFormatting.ts` — Hook de formatacao locale-aware (data, moeda, numero, tempo relativo)
+- `lib/i18n/format-server.ts` — Formatacao server-side para Server Components
+- `supabase/migrations/00021_preferred_locale.sql` — Coluna `preferred_locale` na tabela profiles
+
+### Arquivos modificados (19):
+- **LanguageSwitcher posicionado**: `ShellDesktopHeader.tsx`, `ShellMobileDrawer.tsx`, `login/page.tsx`
+- **Persistencia**: `hooks/useLocale.ts` — salva no cookie + Supabase profile, carrega do profile ao montar
+- **SEO**: `app/layout.tsx` — hreflang alternates para pt-BR/en-US
+- **Mensagens i18n**: `messages/pt-BR.json`, `messages/en-US.json` — chaves `common.language.*`
+- **Formatacao migrada** (9 componentes): FeedbackAlerts, TurmaBroadcastPanel, StudentHomeHeader, EvolutionTimeline, CarteirinhaDigital, teen-perfil, estoque, pdv, super-admin/financeiro
+
+### Resultados:
+- `pnpm build` — passou (0 erros)
+- `npx vitest run` — 473 testes passaram, 0 falhas
+- Commit: `ab60baa [bloco A3] Language Switcher + Persistencia`
