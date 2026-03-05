@@ -53,14 +53,14 @@ export default function ConfiguracoesPage() {
   };
 
   if (loading) {
-    return <PremiumLoader text="Carregando configurações..." />;
+    return <PremiumLoader text={t('config.loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!config) {
-    return <PageEmpty icon={Settings} title="Configurações indisponíveis" message="Não foi possível carregar as configurações da unidade." />;
+    return <PageEmpty icon={Settings} title={t('config.unavailable')} message={t('config.cannotLoad')} />;
   }
 
 
@@ -69,7 +69,7 @@ export default function ConfiguracoesPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('config.title')}</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Políticas operacionais e regras do sistema</p>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('config.subtitle')}</p>
       </div>
 
       {/* Success Message */}
@@ -80,8 +80,8 @@ export default function ConfiguracoesPage() {
               <Save className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-medium" style={{ color: tokens.text }}>Configurações Salvas!</p>
-              <p className="text-xs text-green-400">As alterações foram aplicadas com sucesso</p>
+              <p className="text-sm font-medium" style={{ color: tokens.text }}>{t('config.saved')}</p>
+              <p className="text-xs text-green-400">{t('config.changesApplied')}</p>
             </div>
           </div>
         </div>
@@ -94,15 +94,15 @@ export default function ConfiguracoesPage() {
             <AlertCircle className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Políticas de Inadimplência</h3>
-            <p className="text-sm" style={{ color: tokens.textMuted }}>Defina as regras de bloqueio por atraso</p>
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.defaultPolicies')}</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.defaultPoliciesDesc')}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Limite de Atraso Permitido (dias)
+              {t('config.overdueLimit')}
             </label>
             <input
               type="number"
@@ -111,13 +111,13 @@ export default function ConfiguracoesPage() {
               className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <p className="text-xs text-white/40 mt-2">
-              Após este período, o aluno será marcado como "Em Atraso"
+              {t('config.overdueLimitDesc')}
             </p>
           </div>
 
           <div>
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Dias Para Bloqueio Automático
+              {t('config.daysToBlock')}
             </label>
             <input
               type="number"
@@ -126,7 +126,7 @@ export default function ConfiguracoesPage() {
               className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <p className="text-xs text-white/40 mt-2">
-              Após este período, o aluno será bloqueado automaticamente
+              {t('config.daysToBlockDesc')}
             </p>
           </div>
         </div>
@@ -139,14 +139,14 @@ export default function ConfiguracoesPage() {
             <MessageSquare className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Mensagem de Bloqueio</h3>
-            <p className="text-sm" style={{ color: tokens.textMuted }}>Mensagem exibida ao aluno bloqueado</p>
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.blockMessage')}</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.blockMessageDesc')}</p>
           </div>
         </div>
 
         <div>
           <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-            Mensagem
+            {t('config.message')}
           </label>
           <textarea
             value={config.mensagemBloqueio}
@@ -155,7 +155,7 @@ export default function ConfiguracoesPage() {
             className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30 resize-none"
           />
           <p className="text-xs text-white/40 mt-2">
-            Esta mensagem será exibida quando um aluno bloqueado tentar fazer check-in
+            {t('config.blockMessageHint')}
           </p>
         </div>
       </div>
@@ -167,15 +167,15 @@ export default function ConfiguracoesPage() {
             <Clock className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Horário de Funcionamento</h3>
-            <p className="text-sm" style={{ color: tokens.textMuted }}>Defina os horários de abertura e fechamento</p>
+            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.businessHours')}</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.businessHoursDesc')}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Horário de Abertura
+              {t('config.openingTime')}
             </label>
             <input
               type="time"
@@ -190,7 +190,7 @@ export default function ConfiguracoesPage() {
 
           <div>
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Horário de Fechamento
+              {t('config.closingTime')}
             </label>
             <input
               type="time"
@@ -213,8 +213,8 @@ export default function ConfiguracoesPage() {
               <Clock className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Check-in Antecipado</h3>
-              <p className="text-sm" style={{ color: tokens.textMuted }}>Permitir check-in antes do horário da sessão</p>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.earlyCheckin')}</h3>
+              <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.earlyCheckinDesc')}</p>
             </div>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -231,7 +231,7 @@ export default function ConfiguracoesPage() {
         {config.permitirCheckInAntecipado && (
           <div>
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Minutos de Antecedência
+              {t('config.minutesAhead')}
             </label>
             <input
               type="number"
@@ -240,7 +240,7 @@ export default function ConfiguracoesPage() {
               className="w-full px-4 py-3 bg-white/10 border border-white/15 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <p className="text-xs text-white/40 mt-2">
-              Alunos poderão fazer check-in até {config.minutosAntecedencia} minutos antes da sessão
+              {t('config.minutesAheadDesc', { minutes: config.minutosAntecedencia })}
             </p>
           </div>
         )}

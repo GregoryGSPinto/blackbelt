@@ -13,6 +13,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Camera, CameraOff, RefreshCw, Zap, ZapOff, X } from 'lucide-react';
 import type { CheckInQR } from '@/lib/api/contracts';
 import jsQR from 'jsqr';
+import { useTranslations } from 'next-intl';
 
 interface QRScannerProps {
   onScan: (data: CheckInQR) => void;
@@ -70,6 +71,7 @@ function generateHash(alunoId: string, timestamp: number): string {
 }
 
 export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) {
+  const t = useTranslations('athlete.qrScanner');
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -174,7 +176,7 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
     } catch (err) {
       console.error('Camera error:', err);
       setCameraError(
-        'Não foi possível acessar a câmera. Verifique as permissões do navegador.'
+        t('cameraAccessError')
       );
       setCameraActive(false);
 
@@ -278,13 +280,13 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
               <Camera size={36} className="text-white/40" />
             </div>
             <p className="text-white/50 text-sm text-center px-6">
-              Aponte a câmera para o QR Code do aluno
+              {t('pointCamera')}
             </p>
             <button
               onClick={startCamera}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all"
             >
-              Iniciar Scanner
+              {t('startScanner')}
             </button>
           </div>
         )}
@@ -297,7 +299,7 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
             {mockMode && scanState === 'scanning' && (
               <div className="flex items-center gap-2 text-blue-400 text-xs">
                 <div className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
-                Simulando leitura QR...
+                {t('simulatingQR')}
               </div>
             )}
           </div>
@@ -369,7 +371,7 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
           className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all flex items-center gap-2"
         >
           <Camera size={16} />
-          {scanState === 'idle' ? 'Iniciar' : 'Escanear novamente'}
+          {scanState === 'idle' ? t('start') : t('scanAgain')}
         </button>
 
         <button
@@ -402,10 +404,10 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
         scanState === 'scanning' ? 'text-blue-400' :
         'text-white/40'
       }`}>
-        {scanState === 'idle' && 'Pressione iniciar para escanear'}
-        {scanState === 'scanning' && 'Procurando QR Code...'}
-        {scanState === 'success' && 'QR Code detectado!'}
-        {scanState === 'error' && 'Erro ao ler QR Code'}
+        {scanState === 'idle' && t('pressToScan')}
+        {scanState === 'scanning' && t('searchingQR')}
+        {scanState === 'success' && t('qrDetected')}
+        {scanState === 'error' && t('qrReadError')}
       </p>
 
       <style jsx>{`

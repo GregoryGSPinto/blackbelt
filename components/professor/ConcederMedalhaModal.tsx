@@ -66,7 +66,7 @@ export function ConcederConquistaModal({
     setCatFilter('todas');
     conquistasService.getConquistasDisponiveis()
       .then(setConquistas)
-      .catch(() => toast.error('Erro ao carregar conquistas'))
+      .catch(() => toast.error(t('errorLoadingAchievements')))
       .finally(() => setLoading(false));
   }, [isOpen, toast]);
 
@@ -92,7 +92,7 @@ export function ConcederConquistaModal({
         onClose();
       }, 1500);
     } catch {
-      toast.error('Erro ao conceder conquista');
+      toast.error(t('errorGrantingAchievement'));
     } finally {
       setSaving(false);
     }
@@ -113,7 +113,7 @@ export function ConcederConquistaModal({
           style={{ background: 'rgba(20,18,14,0.97)', border: '1px solid rgba(255,255,255,0.08)' }}
           role="dialog"
           aria-modal="true"
-          aria-label="Conceder conquista"
+          aria-label={t('grantAchievement')}
         >
           {/* Header */}
           <div className="flex items-center justify-between p-5 border-b border-white/6">
@@ -121,9 +121,9 @@ export function ConcederConquistaModal({
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Award size={18} className="text-amber-400" /> {t('grantAchievement')}
               </h2>
-              <p className="text-xs text-white/40 mt-0.5">Para: {alunoNome}</p>
+              <p className="text-xs text-white/40 mt-0.5">{t('forStudent')}: {alunoNome}</p>
             </div>
-            <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label="Fechar modal">
+            <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label={t('closeModal')}>
               <X size={18} className="text-white/50" />
             </button>
           </div>
@@ -146,10 +146,10 @@ export function ConcederConquistaModal({
                     type="text"
                     value={search}
                     onChange={e => setSearch(e.target.value)}
-                    placeholder="Buscar conquista..."
+                    placeholder={t('searchAchievement')}
                     className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white/80
                                focus:outline-none focus:border-white/25 transition-colors"
-                    aria-label="Buscar conquista"
+                    aria-label={t('searchAchievement')}
                   />
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
@@ -160,7 +160,7 @@ export function ConcederConquistaModal({
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors
                         ${catFilter === cat ? 'bg-amber-500/20 text-amber-300' : 'bg-white/5 text-white/40 hover:bg-white/10'}`}
                     >
-                      {cat === 'todas' ? 'Todas' : CATEGORIA_LABELS[cat]?.label}
+                      {cat === 'todas' ? t('allCategories') : CATEGORIA_LABELS[cat]?.label}
                     </button>
                   ))}
                 </div>
@@ -211,11 +211,11 @@ export function ConcederConquistaModal({
                     type="text"
                     value={observacao}
                     onChange={e => setObservacao(e.target.value)}
-                    placeholder="Observação do instrutor (opcional)"
+                    placeholder={t('instructorNote')}
                     className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white/80
                                focus:outline-none focus:border-white/25 transition-colors"
                     maxLength={200}
-                    aria-label="Observação sobre a conquista"
+                    aria-label={t('achievementNote')}
                   />
                   <button
                     onClick={handleConceder}
@@ -223,7 +223,7 @@ export function ConcederConquistaModal({
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm
                                bg-gradient-to-r from-amber-600 to-amber-500 text-white hover:from-amber-500 hover:to-amber-400
                                disabled:opacity-40 transition-all shadow-lg"
-                    aria-label="Confirmar concessão de conquista"
+                    aria-label={t('confirmGrant')}
                   >
                     {saving ? <Loader2 size={16} className="animate-spin" /> : <Award size={16} />}
                     {saving ? '...' : `${t('grant')} ${selected.emoji} ${selected.nome}`}

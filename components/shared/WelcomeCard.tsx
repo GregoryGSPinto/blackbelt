@@ -15,7 +15,7 @@ import { X, ChevronRight, Sparkles } from 'lucide-react';
 
 interface WelcomeStep {
   emoji: string;
-  text: string;
+  textKey: string;
   href?: string;
 }
 
@@ -40,10 +40,10 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     greeting: 'welcomeBlackBelt',
     subtitle: 'welcomeSubtitle',
     steps: [
-      { emoji: '🥋', text: 'Confira sua próxima sessão e faça check-in', href: '/inicio' },
-      { emoji: '📊', text: 'Acompanhe sua frequência e evolução', href: '/meu-perfil-esportivo' },
-      { emoji: '🎬', text: 'Explore o catálogo de técnicas em vídeo', href: '/inicio' },
-      { emoji: '🏆', text: 'Defina sua primeira meta no ranking', href: '/ranking' },
+      { emoji: '🥋', textKey: 'steps.aluno.session', href: '/inicio' },
+      { emoji: '📊', textKey: 'steps.aluno.frequency', href: '/meu-perfil-esportivo' },
+      { emoji: '🎬', textKey: 'steps.aluno.techniques', href: '/inicio' },
+      { emoji: '🏆', textKey: 'steps.aluno.ranking', href: '/ranking' },
     ],
     accentColor: '#EF4444',
     gradientFrom: 'rgba(239,68,68,0.15)',
@@ -53,10 +53,10 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     greeting: 'welcomeBlackBelt',
     subtitle: 'welcomeSubtitle',
     steps: [
-      { emoji: '📋', text: 'Confira o dashboard com alertas e ações', href: '/professor-dashboard' },
-      { emoji: '✅', text: 'Inicie sua primeira chamada', href: '/professor-chamada' },
-      { emoji: '👥', text: 'Veja o progresso dos seus alunos', href: '/professor-alunos' },
-      { emoji: '⏱️', text: 'Use o cronômetro durante as sessões', href: '/professor-cronometro' },
+      { emoji: '📋', textKey: 'steps.instrutor.dashboard', href: '/professor-dashboard' },
+      { emoji: '✅', textKey: 'steps.instrutor.attendance', href: '/professor-chamada' },
+      { emoji: '👥', textKey: 'steps.instrutor.progress', href: '/professor-alunos' },
+      { emoji: '⏱️', textKey: 'steps.instrutor.timer', href: '/professor-cronometro' },
     ],
     accentColor: '#3B82F6',
     gradientFrom: 'rgba(59,130,246,0.15)',
@@ -66,9 +66,9 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     greeting: 'welcomeBlackBelt',
     subtitle: 'welcomeSubtitle',
     steps: [
-      { emoji: '📈', text: 'Veja a frequência semanal', href: '/painel-responsavel' },
-      { emoji: '🏅', text: 'Acompanhe conquistas e progresso', href: '/painel-responsavel/progresso' },
-      { emoji: '💬', text: 'Envie mensagem para o instrutor', href: '/painel-responsavel' },
+      { emoji: '📈', textKey: 'steps.responsavel.frequency', href: '/painel-responsavel' },
+      { emoji: '🏅', textKey: 'steps.responsavel.achievements', href: '/painel-responsavel/progresso' },
+      { emoji: '💬', textKey: 'steps.responsavel.message', href: '/painel-responsavel' },
     ],
     accentColor: '#22C55E',
     gradientFrom: 'rgba(34,197,94,0.15)',
@@ -78,9 +78,9 @@ const PROFILE_CONFIGS: Record<string, WelcomeConfig> = {
     greeting: 'welcomeBlackBelt',
     subtitle: 'welcomeSubtitle',
     steps: [
-      { emoji: '📊', text: 'Acesse o dashboard com métricas-chave', href: '/dashboard' },
-      { emoji: '👥', text: 'Gerencie alunos e matrículas', href: '/usuarios' },
-      { emoji: '🔔', text: 'Configure alertas e automações', href: '/automacoes' },
+      { emoji: '📊', textKey: 'steps.admin.dashboard', href: '/dashboard' },
+      { emoji: '👥', textKey: 'steps.admin.manage', href: '/usuarios' },
+      { emoji: '🔔', textKey: 'steps.admin.alerts', href: '/automacoes' },
     ],
     accentColor: '#FBBF24',
     gradientFrom: 'rgba(251,191,36,0.15)',
@@ -153,7 +153,7 @@ export function WelcomeCard({ profileKey, userName }: WelcomeCardProps) {
       <button
         onClick={handleDismiss}
         className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center transition-colors bg-white/5 hover:bg-white/10"
-        aria-label="Fechar mensagem de boas-vindas"
+        aria-label={t('dismissWelcome')}
       >
         <X size={12} className="text-white/40" />
       </button>
@@ -184,7 +184,7 @@ export function WelcomeCard({ profileKey, userName }: WelcomeCardProps) {
               style={{ animation: `anim-fade-in 300ms ease ${(i + 1) * 80}ms both` }}
             >
               <span className="text-sm flex-shrink-0">{step.emoji}</span>
-              <p className="text-xs text-white/55 leading-relaxed flex-1">{step.text}</p>
+              <p className="text-xs text-white/55 leading-relaxed flex-1">{t(step.textKey)}</p>
               {step.href && (
                 <ChevronRight size={10} className="text-white/10 group-hover:text-white/30 transition-colors flex-shrink-0" />
               )}

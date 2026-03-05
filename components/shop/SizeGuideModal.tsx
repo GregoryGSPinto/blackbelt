@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { X, Target, ChevronRight, AlertTriangle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { adultSizeGuide, kidsSizeGuide, technicalMeasurements, suggestSize } from '@/lib/api/shop.service';
 
 interface SizeGuideModalProps {
@@ -12,6 +13,7 @@ interface SizeGuideModalProps {
 }
 
 export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }: SizeGuideModalProps) {
+  const t = useTranslations('sizeGuide');
   const [activeTab, setActiveTab] = useState<'quick' | 'visual' | 'technical'>('quick');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
@@ -37,9 +39,9 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
   };
 
   const tabs = [
-    { id: 'quick' as const, label: 'Tabela Rápida' },
-    { id: 'visual' as const, label: 'Visual' },
-    { id: 'technical' as const, label: 'Medidas Técnicas' },
+    { id: 'quick' as const, label: t('tabs.quick') },
+    { id: 'visual' as const, label: t('tabs.visual') },
+    { id: 'technical' as const, label: t('tabs.technical') },
   ];
 
   return (
@@ -59,12 +61,12 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
           {/* Header */}
           <div className="sticky top-0 bg-dark-card border-b border-dark-elevated p-4 md:p-6 flex items-center justify-between z-10">
             <h2 className="text-xl md:text-2xl font-bold text-white">
-              Guia de Medidas {isKids && '- Kids'}
+              {t('title')} {isKids && '- Kids'}
             </h2>
             <button
               onClick={onClose}
               className="text-white/40 hover:text-white transition-colors"
-              aria-label="Fechar"
+              aria-label={t('close')}
             >
               <X size={24} />
             </button>
@@ -103,11 +105,11 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                   <div className="flex items-center gap-2 mb-4">
                     <Target className="text-primary" size={24} />
                     <div>
-                      <h3 className="font-bold text-white">SUGESTÃO PERSONALIZADA</h3>
+                      <h3 className="font-bold text-white">{t('personalSuggestion')}</h3>
                       <p className="text-sm text-white/40">
                         {isKids
-                          ? 'Informe as medidas do seu filho'
-                          : 'Informe suas medidas e descubra seu tamanho'}
+                          ? t('enterKidsMeasures')
+                          : t('enterYourMeasures')}
                       </p>
                     </div>
                   </div>
@@ -115,7 +117,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                   <div className="grid md:grid-cols-2 gap-3 mb-4">
                     <div>
                       <label className="block text-sm font-medium text-white/55 mb-2">
-                        {isKids ? 'Idade (anos)' : 'Altura (cm)'}
+                        {isKids ? t('ageYears') : t('heightCm')}
                       </label>
                       <input
                         type="number"
@@ -129,7 +131,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-white/55 mb-2">
-                        Peso (kg)
+                        {t('weightKg')}
                       </label>
                       <input
                         type="number"
@@ -148,7 +150,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                     disabled={!height || !weight}
                     className="w-full h-12 bg-primary hover:bg-primary-dark disabled:bg-dark-surface disabled:text-white/35 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all"
                   >
-                    ✔️ Sugerir Tamanho Ideal
+                    ✔️ {t('suggestIdealSize')}
                   </button>
 
                   {/* Resultado */}
@@ -158,8 +160,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                         <Target className="text-green-400 flex-shrink-0" size={24} />
                         <div className="flex-1">
                           <p className="font-bold text-lg text-white mb-1">
-                            Para você{isKids && ' (seu filho)'}, recomendamos o tamanho{' '}
-                            <span className="text-green-400">{suggestedSize}</span>
+                            {t('recommendSize', { size: suggestedSize })}{isKids && ` (${t('forChild')})`}
                           </p>
                           <p className="text-sm text-white/40">
                             📊 Baseado em: Altura {height}cm, Peso {weight}kg
@@ -171,7 +172,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                           onClick={handleSelectAndClose}
                           className="w-full mt-4 h-11 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors"
                         >
-                          Selecionar {suggestedSize} e Fechar
+                          {t('selectAndClose', { size: suggestedSize })}
                         </button>
                       )}
                     </div>
@@ -181,10 +182,10 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                 {/* Tabela */}
                 <div>
                   <h3 className="text-lg font-bold text-white mb-2">
-                    ENCONTRE SEU TAMANHO IDEAL
+                    {t('findYourSize')}
                   </h3>
                   <p className="text-sm text-white/40 mb-4">
-                    Descubra o tamanho perfeito em segundos
+                    {t('findSizeSubtitle')}
                   </p>
 
                   <div className="overflow-x-auto">
@@ -192,13 +193,13 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                       <thead>
                         <tr className="bg-primary/20">
                           <th className="p-4 text-left text-sm font-semibold text-white/70 uppercase tracking-wide">
-                            Tamanho
+                            {t('size')}
                           </th>
                           <th className="p-4 text-center text-sm font-semibold text-white/70 uppercase tracking-wide">
-                            Altura (cm)
+                            {t('heightCm')}
                           </th>
                           <th className="p-4 text-center text-sm font-semibold text-white/70 uppercase tracking-wide">
-                            Peso (kg)
+                            {t('weightKg')}
                           </th>
                         </tr>
                       </thead>
@@ -222,8 +223,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                   <div className="mt-4 flex items-start gap-2 bg-blue-500/10 border-l-3 border-blue-500 p-3 rounded">
                     <span className="text-xl">💡</span>
                     <p className="text-sm text-white/55">
-                      <strong>Dica:</strong> Em caso de dúvida entre dois tamanhos, escolha o
-                      maior.
+                      <strong>{t('tip')}:</strong> {t('tipChooseLarger')}
                     </p>
                   </div>
                 </div>
@@ -234,8 +234,8 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
             {activeTab === 'visual' && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">REFERÊNCIA VISUAL</h3>
-                  <p className="text-sm text-white/40 mb-6">Veja como o produto veste</p>
+                  <h3 className="text-lg font-bold text-white mb-2">{t('visualReference')}</h3>
+                  <p className="text-sm text-white/40 mb-6">{t('seeHowItFits')}</p>
                 </div>
 
                 <div className="flex flex-col md:flex-row items-center gap-8">
@@ -293,9 +293,9 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
             {activeTab === 'technical' && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">MEDIDAS DETALHADAS</h3>
+                  <h3 className="text-lg font-bold text-white mb-2">{t('detailedMeasurements')}</h3>
                   <p className="text-sm text-white/40 mb-6">
-                    Para quem precisa de precisão máxima
+                    {t('forMaxPrecision')}
                   </p>
                 </div>
 
@@ -307,7 +307,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                     }
                     className="w-full p-4 flex items-center justify-between bg-dark-bg/50 hover:bg-primary/10 transition-colors"
                   >
-                    <span className="font-semibold text-white">Medidas da Casaca</span>
+                    <span className="font-semibold text-white">{t('jacketMeasurements')}</span>
                     <ChevronRight
                       className={`transition-transform ${
                         accordionOpen === 'jacket' ? 'rotate-90' : ''
@@ -363,7 +363,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                     }
                     className="w-full p-4 flex items-center justify-between bg-dark-bg/50 hover:bg-primary/10 transition-colors"
                   >
-                    <span className="font-semibold text-white">Medidas da Calça</span>
+                    <span className="font-semibold text-white">{t('pantsMeasurements')}</span>
                     <ChevronRight
                       className={`transition-transform ${
                         accordionOpen === 'pants' ? 'rotate-90' : ''
@@ -390,7 +390,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                     className="w-full p-4 flex items-center justify-between bg-dark-bg/50 hover:bg-primary/10 transition-colors"
                   >
                     <span className="font-semibold text-white">
-                      Encolhimento após Lavagem
+                      {t('shrinkageAfterWash')}
                     </span>
                     <ChevronRight
                       className={`transition-transform ${
@@ -443,7 +443,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
             <div className="flex items-start gap-3 bg-amber-500/10 border-l-3 border-amber-500 p-3 rounded">
               <AlertTriangle className="text-amber-400 flex-shrink-0" size={20} />
               <p className="text-sm text-amber-200">
-                As medidas podem variar de acordo com o modelo e lavagem do produto.
+                {t('measuresMayVary')}
               </p>
             </div>
           </div>

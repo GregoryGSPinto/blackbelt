@@ -239,7 +239,7 @@ export function KidsGatekeeper({
     if (isBioRunning.current) return;
     isBioRunning.current = true;
     setBioStatus('verifying');
-    setBioMessage('Coloque seu dedo no leitor...');
+    setBioMessage(t('placeFinger'));
 
     const savedCred = getSavedCredential();
 
@@ -249,7 +249,7 @@ export function KidsGatekeeper({
 
       if (result.ok) {
         setBioStatus('success');
-        setBioMessage('Identidade verificada!');
+        setBioMessage(t('identityVerified'));
         setTimeout(() => onSuccess(), 500);
         return;
       }
@@ -264,13 +264,13 @@ export function KidsGatekeeper({
       clearCredential();
     }
 
-    setBioMessage('Registrando biometria...');
+    setBioMessage(t('registeringBiometric'));
     const regResult = await webauthnRegister();
     if (!isBioRunning.current) return;
 
     if (regResult.ok) {
       setBioStatus('success');
-      setBioMessage('Biometria registrada e verificada!');
+      setBioMessage(t('biometricRegistered'));
       setTimeout(() => onSuccess(), 500);
       return;
     }
@@ -283,7 +283,7 @@ export function KidsGatekeeper({
     }
 
     setBioStatus('error');
-    setBioMessage(regResult.error || 'Erro na verificação biométrica.');
+    setBioMessage(regResult.error || t('biometricError'));
     isBioRunning.current = false;
   }, [onSuccess]);
 
@@ -425,7 +425,7 @@ export function KidsGatekeeper({
     if (verifyCode === MOCK_VERIFY_CODE) {
       setForgotStep('newPin');
     } else {
-      setForgotError('Código inválido. Verifique e tente novamente.');
+      setForgotError(t('invalidCode'));
     }
   };
 
@@ -622,7 +622,7 @@ export function KidsGatekeeper({
                 boxShadow: mode === 'biometric' ? colors.tabShadow : 'none',
               }}
             >
-              <Fingerprint size={14} className="inline mr-1.5 -mt-0.5" /> Biometria
+              <Fingerprint size={14} className="inline mr-1.5 -mt-0.5" /> {t('biometric')}
             </button>
           </div>
         )}
@@ -638,7 +638,7 @@ export function KidsGatekeeper({
               <div className="text-center mb-4">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 rounded-full">
                   <Lock size={14} className="text-red-400" />
-                  <span className="text-red-400 text-sm font-medium">Bloqueado — {lockTimer}s</span>
+                  <span className="text-red-400 text-sm font-medium">{t('locked')} — {lockTimer}s</span>
                 </div>
               </div>
             )}
@@ -664,7 +664,7 @@ export function KidsGatekeeper({
             {bioSupported === null && (
               <div className="text-center py-10">
                 <Loader2 size={32} className="animate-spin mx-auto mb-3" style={{ color: colors.hint }} />
-                <p className="text-sm" style={{ color: colors.hint }}>Verificando suporte...</p>
+                <p className="text-sm" style={{ color: colors.hint }}>{t('checkingSupport')}</p>
               </div>
             )}
 
@@ -673,8 +673,8 @@ export function KidsGatekeeper({
                 <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: colors.bioCircleBg }}>
                   <Fingerprint size={48} style={{ color: colors.hint }} />
                 </div>
-                <p className="text-sm mb-2" style={{ color: colors.subtitle }}>Biometria não disponível neste dispositivo.</p>
-                <p className="text-xs mb-4" style={{ color: colors.hint }}>Verifique se o navegador suporta WebAuthn e se a biometria está configurada no sistema.</p>
+                <p className="text-sm mb-2" style={{ color: colors.subtitle }}>{t('biometricNotAvailable')}</p>
+                <p className="text-xs mb-4" style={{ color: colors.hint }}>{t('biometricCheckBrowser')}</p>
                 <button onClick={() => setMode('pin')} className="text-sm font-medium px-4 py-2 rounded-lg transition-all hover:opacity-80"
                   style={{ color: colors.teal, background: colors.bioCircleActive }}>
                   PIN
@@ -688,8 +688,8 @@ export function KidsGatekeeper({
                   style={{ background: colors.bioCircleBg }}>
                   <Fingerprint size={52} style={{ color: colors.bioIcon }} />
                 </button>
-                <p className="text-sm mb-1" style={{ color: colors.subtitle }}>Toque para usar sua digital</p>
-                <p className="text-xs" style={{ color: colors.hint }}>Windows Hello, Touch ID ou leitor biométrico</p>
+                <p className="text-sm mb-1" style={{ color: colors.subtitle }}>{t('tapFingerprint')}</p>
+                <p className="text-xs" style={{ color: colors.hint }}>{t('biometricOptions')}</p>
               </div>
             )}
 
@@ -700,9 +700,9 @@ export function KidsGatekeeper({
                 </div>
                 <div className="flex items-center justify-center gap-2" style={{ color: colors.bioIconActive }}>
                   <Loader2 size={16} className="animate-spin" />
-                  <span className="text-sm font-medium">{bioMessage || 'Aguardando...'}</span>
+                  <span className="text-sm font-medium">{bioMessage || t('waiting')}</span>
                 </div>
-                <p className="text-xs mt-2" style={{ color: colors.hint }}>Coloque seu dedo no leitor biométrico</p>
+                <p className="text-xs mt-2" style={{ color: colors.hint }}>{t('placeFinger')}</p>
               </div>
             )}
 
@@ -711,7 +711,7 @@ export function KidsGatekeeper({
                 <div className="w-28 h-28 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: colors.bioCircleActive }}>
                   <CheckCircle size={52} style={{ color: colors.teal }} />
                 </div>
-                <p className="text-sm font-medium" style={{ color: colors.teal }}>{bioMessage || 'Verificado com sucesso!'}</p>
+                <p className="text-sm font-medium" style={{ color: colors.teal }}>{bioMessage || t('verifiedSuccess')}</p>
               </div>
             )}
 
@@ -750,7 +750,7 @@ export function KidsGatekeeper({
                   <Mail size={36} style={{ color: isDark ? '#FBBF24' : '#D97706' }} />
                 </div>
                 <p className="text-sm mb-2" style={{ color: colors.heading }}>
-                  Enviaremos um código de verificação para:
+                  {t('sendVerificationCode')}
                 </p>
                 <p className="text-base font-mono font-bold mb-6" style={{ color: colors.teal }}>
                   {maskEmail(PARENT_EMAIL)}
@@ -762,7 +762,7 @@ export function KidsGatekeeper({
                   style={{ background: colors.btnPrimaryBg, color: colors.btnPrimaryText, border: `1px solid ${colors.btnPrimaryBorder}` }}
                 >
                   {forgotLoading ? <Loader2 size={18} className="animate-spin" /> : <Mail size={18} />}
-                  {forgotLoading ? 'Enviando...' : 'Enviar Código'}
+                  {forgotLoading ? t('sending') : t('sendCode')}
                 </button>
 
                 <p className="text-xs mt-4" style={{ color: colors.hint }}>
@@ -779,7 +779,7 @@ export function KidsGatekeeper({
                   <Shield size={28} style={{ color: colors.teal }} />
                 </div>
                 <p className="text-sm mb-5" style={{ color: colors.subtitle }}>
-                  Digite o código de 6 dígitos enviado para {maskEmail(PARENT_EMAIL)}
+                  {t('enterCodeSentTo', { email: maskEmail(PARENT_EMAIL) })}
                 </p>
 
                 <div className="flex justify-center mb-5">
@@ -815,7 +815,7 @@ export function KidsGatekeeper({
                   style={{ background: colors.btnPrimaryBg, color: colors.btnPrimaryText, border: `1px solid ${colors.btnPrimaryBorder}` }}
                 >
                   {forgotLoading ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle size={18} />}
-                  {forgotLoading ? 'Verificando...' : 'Verificar'}
+                  {forgotLoading ? t('verifying') : t('verify')}
                 </button>
 
                 <button
@@ -824,7 +824,7 @@ export function KidsGatekeeper({
                   className="text-xs font-medium mt-4 transition-all hover:opacity-80"
                   style={{ color: colors.hint }}
                 >
-                  Reenviar código
+                  {t('resendCode')}
                 </button>
               </div>
             )}
@@ -833,7 +833,7 @@ export function KidsGatekeeper({
             {forgotStep === 'newPin' && (
               <div className="animate-gk-fade-in">
                 <p className="text-center text-sm mb-4 font-medium" style={{ color: colors.heading }}>
-                  Crie um novo PIN de 4 dígitos
+                  {t('createNewPin')}
                 </p>
 
                 {/* Toggle show/hide */}
@@ -844,7 +844,7 @@ export function KidsGatekeeper({
                     style={{ color: colors.hint }}
                   >
                     {showNewPin ? <EyeOff size={14} /> : <Eye size={14} />}
-                    {showNewPin ? 'Ocultar' : 'Mostrar'} PIN
+                    {showNewPin ? t('hidePin') : t('showPin')}
                   </button>
                 </div>
 
@@ -878,7 +878,7 @@ export function KidsGatekeeper({
             {forgotStep === 'confirmPin' && (
               <div className="animate-gk-fade-in">
                 <p className="text-center text-sm mb-4 font-medium" style={{ color: colors.heading }}>
-                  Confirme o novo PIN
+                  {t('confirmNewPin')}
                 </p>
 
                 {renderDots(confirmNewPin.length)}
@@ -902,7 +902,7 @@ export function KidsGatekeeper({
                   {t('pinUpdated')}
                 </p>
                 <p className="text-sm" style={{ color: colors.subtitle }}>
-                  Seu novo PIN foi salvo com sucesso.
+                  {t('pinSavedSuccess')}
                 </p>
               </div>
             )}

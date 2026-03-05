@@ -134,9 +134,9 @@ export default function ReengagementRules({
   const variaveis = ['{nome}', '{diasAusente}', '{turma}', '{professor}', '{ultimaSessao}'];
 
   const riskColors: Record<AlunoEmRisco['nivelRisco'], { bg: string; text: string; label: string }> = {
-    critico: { bg: 'bg-red-500/15', text: 'text-red-300', label: 'Crítico' },
-    alto: { bg: 'bg-amber-500/15', text: 'text-amber-300', label: 'Alto' },
-    moderado: { bg: 'bg-blue-500/15', text: 'text-blue-300', label: 'Moderado' },
+    critico: { bg: 'bg-red-500/15', text: 'text-red-300', label: t('reengagement.riskCritical') },
+    alto: { bg: 'bg-amber-500/15', text: 'text-amber-300', label: t('reengagement.riskHigh') },
+    moderado: { bg: 'bg-blue-500/15', text: 'text-blue-300', label: t('reengagement.riskModerate') },
   };
 
   const sortedAlunos = useMemo(() =>
@@ -234,7 +234,7 @@ export default function ReengagementRules({
                         <textarea
                           value={editTemplate}
                           onChange={e => setEditTemplate(e.target.value)}
-                          aria-label="Template da mensagem"
+                          aria-label={t('reengagement.messageTemplate')}
                           className="w-full bg-transparent text-white/70 text-xs resize-none border border-white/10 rounded-lg p-2 focus:outline-none focus:border-white/20"
                           rows={3}
                         />
@@ -272,7 +272,7 @@ export default function ReengagementRules({
                         <button
                           onClick={() => startEdit(rule)}
                           className="flex-shrink-0 p-1 rounded text-white/15 hover:text-white/40 transition-colors"
-                          aria-label="Editar template"
+                          aria-label={t('reengagement.editTemplate')}
                         >
                           <Pencil size={12} />
                         </button>
@@ -310,7 +310,7 @@ export default function ReengagementRules({
                 <span className="text-lg">{aluno.avatar}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white/75 truncate">{aluno.nome}</p>
-                  <p className="text-[10px] text-white/25">{aluno.turma} · Última sessão: {aluno.ultimaSessao}</p>
+                  <p className="text-[10px] text-white/25">{aluno.turma} · {t('reengagement.lastSession')}: {aluno.ultimaSessao}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${risk.bg} ${risk.text}`}>

@@ -11,20 +11,20 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
 
-const TIPO_CONFIG = {
-  graduacao: { label: 'Graduação', icon: Award, bg: 'bg-amber-500/15', text: 'text-amber-300', border: 'border-amber-500/20' },
-  tecnica: { label: 'Técnica', icon: BookOpen, bg: 'bg-blue-500/15', text: 'text-blue-300', border: 'border-blue-500/20' },
-  comportamento: { label: 'Comportamento', icon: Heart, bg: 'bg-purple-500/15', text: 'text-purple-300', border: 'border-purple-500/20' },
-};
-
-const PRIORIDADE_CONFIG = {
-  alta: { label: 'Alta', color: 'text-rose-400', bg: 'bg-rose-500/15', dot: 'bg-rose-500' },
-  media: { label: 'Média', color: 'text-amber-400', bg: 'bg-amber-500/15', dot: 'bg-amber-500' },
-  baixa: { label: 'Baixa', color: 'text-white/55', bg: 'bg-white/5', dot: 'bg-white/30' },
-};
-
 export default function ProfessorAvaliacoesPage() {
   const t = useTranslations('professor.evaluations');
+
+  const TIPO_CONFIG = {
+    graduacao: { label: t('types.graduation'), icon: Award, bg: 'bg-amber-500/15', text: 'text-amber-300', border: 'border-amber-500/20' },
+    tecnica: { label: t('types.technique'), icon: BookOpen, bg: 'bg-blue-500/15', text: 'text-blue-300', border: 'border-blue-500/20' },
+    comportamento: { label: t('types.behavior'), icon: Heart, bg: 'bg-purple-500/15', text: 'text-purple-300', border: 'border-purple-500/20' },
+  };
+
+  const PRIORIDADE_CONFIG = {
+    alta: { label: t('priorityHigh'), color: 'text-rose-400', bg: 'bg-rose-500/15', dot: 'bg-rose-500' },
+    media: { label: t('priorityMedium'), color: 'text-amber-400', bg: 'bg-amber-500/15', dot: 'bg-amber-500' },
+    baixa: { label: t('priorityLow'), color: 'text-white/55', bg: 'bg-white/5', dot: 'bg-white/30' },
+  };
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -54,8 +54,8 @@ export default function ProfessorAvaliacoesPage() {
     avaliacoes.map(a => ({
       id: `aval-${a.id}`,
       label: a.aluno,
-      sublabel: `${a.turma} · ${TIPO_CONFIG[a.tipo].label} · Prazo: ${a.prazo}`,
-      categoria: 'Avaliação',
+      sublabel: `${a.turma} · ${TIPO_CONFIG[a.tipo].label} · ${t('deadline')}: ${a.prazo}`,
+      categoria: t('evaluationsTitle'),
       icon: a.avatar,
       href: '/professor-avaliacoes',
       keywords: [a.tipo, a.turma, a.prioridade, TIPO_CONFIG[a.tipo].label],
@@ -88,7 +88,7 @@ export default function ProfessorAvaliacoesPage() {
       <section className="prof-enter-2">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
-            { key: 'todas' as const, label: 'Todas' },
+            { key: 'todas' as const, label: t('filterAll') },
             { key: 'graduacao' as const, label: t('types.graduation') },
             { key: 'tecnica' as const, label: t('types.technique') },
             { key: 'comportamento' as const, label: t('types.behavior') },

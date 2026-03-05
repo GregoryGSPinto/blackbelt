@@ -17,15 +17,15 @@ import { useTranslations } from 'next-intl';
 
 function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
-const STATUS_STYLE: Record<string, { bg: string; text: string; label: string }> = {
-  agendada: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Agendada' },
-  confirmada: { bg: 'bg-green-500/10', text: 'text-green-400', label: 'Confirmada' },
-  realizada: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', label: 'Realizada' },
-  cancelada: { bg: 'bg-red-500/10', text: 'text-red-400', label: 'Cancelada' },
-};
-
 export default function ProfessorParticularesPage() {
   const t = useTranslations('professor.privateSessions');
+
+  const STATUS_STYLE: Record<string, { bg: string; text: string; label: string }> = {
+    agendada: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: t('statusScheduled') },
+    confirmada: { bg: 'bg-green-500/10', text: 'text-green-400', label: t('statusConfirmed') },
+    realizada: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', label: t('statusCompleted') },
+    cancelada: { bg: 'bg-red-500/10', text: 'text-red-400', label: t('statusCancelled') },
+  };
   const tCommon = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -75,7 +75,7 @@ export default function ProfessorParticularesPage() {
 
       {proximas.length > 0 && (
         <>
-          <h2 className="text-white/60 text-sm font-medium uppercase tracking-wider">Próximas Sessões</h2>
+          <h2 className="text-white/60 text-sm font-medium uppercase tracking-wider">{t('upcomingSessions')}</h2>
           <div className="space-y-3">
             {proximas.map((a: AulaParticular) => {
               const st = STATUS_STYLE[a.status] || STATUS_STYLE.agendada;
@@ -107,7 +107,7 @@ export default function ProfessorParticularesPage() {
 
       {realizadas.length > 0 && (
         <>
-          <h2 className="text-white/60 text-sm font-medium uppercase tracking-wider mt-4">Realizadas</h2>
+          <h2 className="text-white/60 text-sm font-medium uppercase tracking-wider mt-4">{t('completedSessions')}</h2>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden divide-y">
             {realizadas.map((a: AulaParticular) => (
               <div key={a.id} className="px-5 py-3 flex items-center justify-between">

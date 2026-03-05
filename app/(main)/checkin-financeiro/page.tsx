@@ -11,56 +11,57 @@ import { getDesignTokens } from '@/lib/design-tokens';
 // Mock status - em produção viria do backend
 const MOCK_STATUS = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
 
+/* Status config — text/message keys resolved via t() inside component */
 const statusConfig = {
   ativo: {
     badge: {
       icon: CheckCircle,
-      text: 'ATIVO',
+      textKey: 'checkin.status.active.badge',
       color: 'green',
       bgColor: 'bg-green-600/20',
       borderColor: 'border-green-600',
       textColor: 'text-green-400',
       iconBg: 'bg-green-600',
     },
-    message: 'Seu acesso está regular e você pode treinar normalmente.',
+    messageKey: 'checkin.status.active.message',
     training: {
       available: true,
-      text: 'Liberado',
-      description: 'Você pode fazer check-in e treinar normalmente hoje.',
+      textKey: 'checkin.status.active.trainingText',
+      descriptionKey: 'checkin.status.active.trainingDesc',
     },
   },
   atraso: {
     badge: {
       icon: AlertCircle,
-      text: 'EM ATRASO',
+      textKey: 'checkin.status.late.badge',
       color: 'yellow',
       bgColor: 'bg-yellow-600/20',
       borderColor: 'border-yellow-600',
       textColor: 'text-yellow-400',
       iconBg: 'bg-yellow-600',
     },
-    message: 'Há pendências em seu acesso. Procure a recepção para regularizar.',
+    messageKey: 'checkin.status.late.message',
     training: {
       available: false,
-      text: 'Indisponível',
-      description: 'Check-in não disponível no momento.',
+      textKey: 'checkin.status.late.trainingText',
+      descriptionKey: 'checkin.status.late.trainingDesc',
     },
   },
   bloqueado: {
     badge: {
       icon: XCircle,
-      text: 'BLOQUEADO',
+      textKey: 'checkin.status.blocked.badge',
       color: 'red',
       bgColor: 'bg-red-600/20',
       borderColor: 'border-red-600',
       textColor: 'text-red-400',
       iconBg: 'bg-red-600',
     },
-    message: 'Seu acesso está temporariamente indisponível. Procure a recepção para mais informações.',
+    messageKey: 'checkin.status.blocked.message',
     training: {
       available: false,
-      text: 'Indisponível',
-      description: 'Check-in não disponível no momento.',
+      textKey: 'checkin.status.blocked.trainingText',
+      descriptionKey: 'checkin.status.blocked.trainingDesc',
     },
   },
 };
@@ -100,14 +101,14 @@ export default function CheckinFinanceiroPage() {
         
         {/* Header */}
         <div className="mb-8">
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Check-in / Financeiro</h1>
-          <p className="text-white/60">Seu status de acesso e check-in diário</p>
+          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkin.title')}</h1>
+          <p className="text-white/60">{t('checkin.subtitle')}</p>
         </div>
 
         {/* Status Atual */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8">
           <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">
-            Status Atual do Seu Acesso
+            {t('checkin.currentStatus')}
           </p>
           
           <div className={`${currentStatus.badge.bgColor} border-2 ${currentStatus.badge.borderColor} rounded-2xl p-6 mb-6`}>
@@ -116,13 +117,13 @@ export default function CheckinFinanceiroPage() {
                 <StatusIcon size={24} className="text-white" />
               </div>
               <span className={`text-3xl font-black ${currentStatus.badge.textColor}`}>
-                {currentStatus.badge.text}
+                {t(currentStatus.badge.textKey)}
               </span>
             </div>
           </div>
 
           <p className="text-base text-white/70">
-            {currentStatus.message}
+            {t(currentStatus.messageKey)}
           </p>
         </div>
 
@@ -132,7 +133,7 @@ export default function CheckinFinanceiroPage() {
           {/* Treino de Hoje */}
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
             <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">
-              Treino de Hoje
+              {t('checkin.todayTraining')}
             </p>
             <div className="flex items-center gap-2 mb-3">
               {currentStatus.training.available ? (
@@ -141,18 +142,18 @@ export default function CheckinFinanceiroPage() {
                 <XCircle size={24} style={{ color: tokens.textMuted }} />
               )}
               <span className={`text-2xl font-bold ${currentStatus.training.available ? 'text-green-400' : 'text-white/50'}`}>
-                {currentStatus.training.available ? '✓' : '✗'} {currentStatus.training.text}
+                {currentStatus.training.available ? '✓' : '✗'} {t(currentStatus.training.textKey)}
               </span>
             </div>
             <p className="text-sm" style={{ color: tokens.text }}>
-              {currentStatus.training.description}
+              {t(currentStatus.training.descriptionKey)}
             </p>
           </div>
 
           {/* Última Validação */}
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6">
             <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">
-              Última Validação
+              {t('checkin.lastValidation')}
             </p>
             <div className="flex items-center gap-3 mb-2">
               <Calendar size={20} className="text-blue-400" />
@@ -160,7 +161,7 @@ export default function CheckinFinanceiroPage() {
             </div>
             <div className="flex items-center gap-2 text-sm text-white/70">
               <Clock size={16} />
-              <span>às 08:30</span>
+              <span>{t('checkin.atTime', { time: '08:30' })}</span>
             </div>
           </div>
         </div>
@@ -175,7 +176,7 @@ export default function CheckinFinanceiroPage() {
               >
                 <div className="flex items-center justify-center gap-3">
                   <CheckCircle size={24} />
-                  <span>CHECK-IN JÁ REALIZADO HOJE</span>
+                  <span>{t('checkin.alreadyDone')}</span>
                 </div>
               </button>
             ) : (
@@ -188,12 +189,12 @@ export default function CheckinFinanceiroPage() {
                   {isProcessing ? (
                     <>
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                      <span>REGISTRANDO CHECK-IN...</span>
+                      <span>{t('checkin.registering')}</span>
                     </>
                   ) : (
                     <>
                       <CheckSquare size={24} />
-                      <span>FAZER CHECK-IN DE HOJE</span>
+                      <span>{t('checkin.doCheckin')}</span>
                     </>
                   )}
                 </div>
@@ -207,13 +208,13 @@ export default function CheckinFinanceiroPage() {
               >
                 <div className="flex items-center justify-center gap-3">
                   <XCircle size={24} />
-                  <span>CHECK-IN INDISPONÍVEL</span>
+                  <span>{t('checkin.unavailable')}</span>
                 </div>
               </button>
               
               <div className="mt-6 p-4 bg-blue-600/10 border border-blue-600/30 rounded-xl">
                 <p className="text-sm text-blue-300 text-center">
-                  ℹ️ Acesso temporariamente indisponível. Procure a recepção para regularizar sua situação.
+                  {t('checkin.unavailableInfo')}
                 </p>
               </div>
             </>
@@ -222,10 +223,10 @@ export default function CheckinFinanceiroPage() {
           {checkinDone && (
             <div className="mt-6 p-4 bg-green-600/10 border border-green-600/30 rounded-xl animate-fade-in">
               <p className="text-center text-green-300 font-medium mb-2">
-                ✓ Check-in realizado com sucesso!
+                {t('checkin.successMessage')}
               </p>
               <p className="text-center text-sm text-white/60">
-                Registrado em 08/02/2026 às 09:15 • Bom treino!
+                {t('checkin.registeredAt', { date: '08/02/2026', time: '09:15' })}
               </p>
             </div>
           )}
@@ -239,9 +240,9 @@ export default function CheckinFinanceiroPage() {
           >
             <div className="flex items-center justify-center gap-3">
               <QrCode size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
-              <span className="text-white font-bold text-lg">Meu QR Code</span>
+              <span className="text-white font-bold text-lg">{t('checkin.myQrCode')}</span>
             </div>
-            <p className="text-white/40 text-sm mt-1">Apresente na recepção para check-in rápido</p>
+            <p className="text-white/40 text-sm mt-1">{t('checkin.qrCodeHint')}</p>
           </button>
         )}
 
@@ -268,21 +269,21 @@ export default function CheckinFinanceiroPage() {
         {/* Grade de Horários de Treino */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8">
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-white mb-1">Horários de Treino</h2>
-            <p className="text-sm text-white/60">Grade semanal de sessões disponíveis</p>
+            <h2 className="text-xl font-bold text-white mb-1">{t('checkin.trainingSchedule')}</h2>
+            <p className="text-sm text-white/60">{t('checkin.weeklyGrid')}</p>
           </div>
 
           <div className="overflow-x-auto -mx-2">
             <table className="w-full min-w-[600px] text-sm">
               <thead>
                 <tr>
-                  <th className="text-left py-3 px-3 text-white/60 font-medium text-xs uppercase tracking-wider">Horário</th>
-                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">Seg</th>
-                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">Ter</th>
-                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">Qua</th>
-                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">Qui</th>
-                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">Sex</th>
-                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">Sáb</th>
+                  <th className="text-left py-3 px-3 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.time')}</th>
+                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.mon')}</th>
+                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.tue')}</th>
+                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.wed')}</th>
+                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.thu')}</th>
+                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.fri')}</th>
+                  <th className="text-center py-3 px-2 text-white/60 font-medium text-xs uppercase tracking-wider">{t('checkin.schedule.sat')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.04]">
@@ -327,8 +328,8 @@ export default function CheckinFinanceiroPage() {
         {/* Histórico */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8">
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-white mb-1">Histórico de Status</h2>
-            <p className="text-sm text-white/60">Últimos 6 meses</p>
+            <h2 className="text-xl font-bold text-white mb-1">{t('checkin.statusHistory')}</h2>
+            <p className="text-sm text-white/60">{t('checkin.last6Months')}</p>
           </div>
 
           <div className="space-y-4">
@@ -359,11 +360,11 @@ export default function CheckinFinanceiroPage() {
                       item.color === 'yellow' ? 'text-yellow-400' :
                       'text-red-400'
                     }`}>
-                      {item.status === 'ativo' ? 'ATIVO' : item.status === 'atraso' ? 'EM ATRASO' : 'BLOQUEADO'}
+                      {item.status === 'ativo' ? t('checkin.statusLabels.active') : item.status === 'atraso' ? t('checkin.statusLabels.late') : t('checkin.statusLabels.blocked')}
                     </span>
                   </div>
                   <span className="text-sm text-white/60">
-                    {item.status === 'ativo' ? 'Validado em' : 'Regularizado em'} {item.date}
+                    {item.status === 'ativo' ? t('checkin.validatedOn', { date: item.date }) : t('checkin.regularizedOn', { date: item.date })}
                   </span>
                 </div>
               </div>

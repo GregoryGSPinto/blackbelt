@@ -9,6 +9,7 @@ import { X, Star, BookOpen, Heart, Dumbbell, Loader2, Save } from 'lucide-react'
 import * as progressoService from '@/lib/api/progresso.service';
 import type { CategoriaProgresso } from '@/lib/api/progresso.service';
 import { useToast } from '@/contexts/ToastContext';
+import { useTranslations } from 'next-intl';
 
 interface QuickProgressUpdateProps {
   isOpen: boolean;
@@ -52,6 +53,7 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
 export function QuickProgressUpdate({
   isOpen, onClose, onSaved, alunoId, alunoNome, professorId = 'prof-001',
 }: QuickProgressUpdateProps) {
+  const t = useTranslations('professor.quickProgress');
   const toast = useToast();
   const [categoria, setCategoria] = useState<CategoriaProgresso>('tecnica');
   const [nota, setNota] = useState(0);
@@ -60,19 +62,19 @@ export function QuickProgressUpdate({
 
   const handleSave = useCallback(async () => {
     if (nota === 0) {
-      toast.warning('Selecione uma nota antes de salvar');
+      toast.warning(t('selectRatingFirst'));
       return;
     }
     setSaving(true);
     try {
       await progressoService.quickUpdateProgress(alunoId, { categoria, nota, observacao: observacao || undefined }, professorId);
-      toast.success(`Progresso de ${alunoNome} atualizado!`);
+      toast.success(t('progressUpdated', { name: alunoNome }));
       setNota(0);
       setObservacao('');
       onSaved();
       onClose();
     } catch {
-      toast.error('Erro ao salvar progresso');
+      toast.error(t('errorSavingProgress'));
     } finally {
       setSaving(false);
     }
@@ -100,7 +102,7 @@ export function QuickProgressUpdate({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-white">Atualizar Progresso</h3>
+            <h3 className="text-base font-bold text-white">{t('title')}</h3>
             <p className="text-xs text-white/40">{alunoNome}</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label="Fechar">
@@ -131,7 +133,7 @@ export function QuickProgressUpdate({
 
         {/* Star rating */}
         <div className="flex flex-col items-center gap-2">
-          <p className="text-xs text-white/40">Nota</p>
+          <p className="text-xs text-white/40">{t('rating')}</p>
           <StarRating value={nota} onChange={setNota} />
         </div>
 
@@ -140,7 +142,7 @@ export function QuickProgressUpdate({
           type="text"
           value={observacao}
           onChange={e => setObservacao(e.target.value)}
-          placeholder="Observação rápida (opcional)"
+          placeholder={t('quickNote')}
           className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white/80
                      focus:outline-none focus:border-white/25 transition-colors"
           maxLength={150}
@@ -157,7 +159,7 @@ export function QuickProgressUpdate({
           aria-label="Salvar progresso"
         >
           {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-          {saving ? 'Salvando...' : 'Salvar Progresso'}
+          {saving ? t('saving') : t('saveProgress')}
         </button>
       </div>
     </div>,

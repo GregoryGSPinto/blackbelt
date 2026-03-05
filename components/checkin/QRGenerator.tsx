@@ -13,6 +13,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Maximize2, Minimize2, RefreshCw, Shield } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface QRGeneratorProps {
   alunoId: string;
@@ -147,6 +148,7 @@ export function QRGenerator({
   onClose,
   fullscreen = false,
 }: QRGeneratorProps) {
+  const t = useTranslations('athlete.qrGenerator');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [timestamp, setTimestamp] = useState(Date.now());
   const [countdown, setCountdown] = useState(60);
@@ -236,7 +238,7 @@ export function QRGenerator({
       {/* Security badge */}
       <div className="flex items-center gap-2 mt-3 text-white/40 text-xs">
         <Shield size={12} />
-        <span>Código seguro • Expira em {countdown}s</span>
+        <span>{t('secureCode')} • {t('expiresIn', { seconds: countdown })}</span>
       </div>
 
       {/* Countdown bar */}
@@ -254,20 +256,20 @@ export function QRGenerator({
           className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 text-white text-sm rounded-lg transition-all"
         >
           <RefreshCw size={14} />
-          Renovar
+          {t('renew')}
         </button>
         <button
           onClick={() => isFullscreen && onClose ? onClose() : setIsFullscreen(!isFullscreen)}
           className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 text-white text-sm rounded-lg transition-all"
         >
           {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-          {isFullscreen ? 'Sair' : 'Tela cheia'}
+          {isFullscreen ? t('exit') : t('fullscreen')}
         </button>
       </div>
 
       {/* Instruction */}
       <p className="text-white/30 text-xs mt-4 text-center max-w-[240px]">
-        Apresente este código na recepção para registrar sua presença
+        {t('presentCode')}
       </p>
     </div>
   );

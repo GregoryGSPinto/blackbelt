@@ -59,14 +59,14 @@ export default function TurmasPage() {
   useSearchRegistration('admin-turmas', searchItems);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('classes.loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (turmas.length === 0) {
-    return <PageEmpty icon={GraduationCap} title="Nenhuma turma cadastrada" message="Cadastre turmas para começar a gerenciar a unidade." />;
+    return <PageEmpty icon={GraduationCap} title={t('classes.noClassRegistered')} message={t('classes.registerClassesToStart')} />;
   }
 
 
@@ -79,7 +79,7 @@ export default function TurmasPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('classes.title')}</h1>
-          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Organizar turmas, horários e alunos</p>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('classes.subtitle')}</p>
         </div>
         <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
           <Plus className="w-5 h-5" />
@@ -144,7 +144,7 @@ export default function TurmasPage() {
               {/* {t('classes.occupancy')} */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <span style={{ color: tokens.textMuted }}>Ocupação</span>
+                  <span style={{ color: tokens.textMuted }}>{t('classes.occupancy')}</span>
                   <span style={{ color: tokens.text, fontWeight: 500 }}>
                     {turma.alunosMatriculados}/{turma.capacidadeMaxima}
                   </span>
@@ -189,19 +189,19 @@ export default function TurmasPage() {
               {/* Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Professor</p>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.professor')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{usuarios.find(u => u.id === turma.professorId)?.nome}</p>
                 </div>
                 <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Horário</p>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.schedule')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.horario}</p>
                 </div>
                 <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Dias da Semana</p>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.weekDays')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.diasSemana.join(', ')}</p>
                 </div>
                 <div style={{ background: tokens.cardBg, borderRadius: '4px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Capacidade</p>
+                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.capacity')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>
                     {turma.alunosMatriculados}/{turma.capacidadeMaxima}
                   </p>
@@ -232,7 +232,7 @@ export default function TurmasPage() {
                           ? 'bg-yellow-600/20 text-yellow-400'
                           : 'bg-red-600/20 text-red-400'
                       }`}>
-                        {aluno.status === 'ATIVO' ? 'Ativo' : aluno.status === 'EM_ATRASO' ? 'Em Atraso' : 'Bloqueado'}
+                        {aluno.status === 'ATIVO' ? t('classes.statusActive') : aluno.status === 'EM_ATRASO' ? t('classes.statusOverdue') : t('classes.statusBlocked')}
                       </span>
                     </div>
                   ))}
@@ -247,7 +247,7 @@ export default function TurmasPage() {
                 </button>
                 <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium flex items-center gap-2">
                   {turma.status === 'ATIVA' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  {turma.status === 'ATIVA' ? 'Pausar' : 'Ativar'}
+                  {turma.status === 'ATIVA' ? t('classes.pause') : t('classes.activate')}
                 </button>
               </div>
             </div>

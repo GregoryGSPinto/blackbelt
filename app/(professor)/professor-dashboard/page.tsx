@@ -75,8 +75,8 @@ export default function ProfessorDashboardPage() {
       ...data.alunosDestaque.map(a => ({
         id: `aluno-${a.id}`,
         label: a.nome,
-        sublabel: `Nível ${a.nivel} · ${a.presenca30d}% presença`,
-        categoria: 'Aluno',
+        sublabel: `${t('level')} ${a.nivel} · ${a.presenca30d}% ${t('presence')}`,
+        categoria: t('categoryStudent'),
         icon: a.avatar,
         href: '/professor-turmas',
         keywords: [a.nivel, a.status],
@@ -85,8 +85,8 @@ export default function ProfessorDashboardPage() {
       ...data.turmas.map(t => ({
         id: `turma-${t.id}`,
         label: t.nome,
-        sublabel: `${t.dias} · ${t.horario} · ${t.totalAlunos} alunos`,
-        categoria: 'Turma',
+        sublabel: `${t.dias} · ${t.horario} · ${t.totalAlunos} ${tCommon('menu.students').toLowerCase()}`,
+        categoria: tCommon('menu.classes'),
         icon: '🥋',
         href: '/professor-turmas',
         keywords: [t.categoria, t.horario],
@@ -96,7 +96,7 @@ export default function ProfessorDashboardPage() {
         id: `video-${v.id}`,
         label: v.titulo,
         sublabel: `${v.turma} · ${v.duracao}`,
-        categoria: 'Vídeo',
+        categoria: t('categoryVideo'),
         icon: '🎬',
         href: '/professor-videos',
         keywords: [v.tipo, v.turma],
@@ -104,9 +104,9 @@ export default function ProfessorDashboardPage() {
       // Avaliações
       ...data.avaliacoesPendentes.map(a => ({
         id: `aval-${a.id}`,
-        label: `Avaliação: ${a.aluno}`,
-        sublabel: `${a.turma} · ${a.tipo} · Prazo: ${a.prazo}`,
-        categoria: 'Avaliação',
+        label: `${tEval('evaluationsTitle')}: ${a.aluno}`,
+        sublabel: `${a.turma} · ${a.tipo} · ${t('deadline')}: ${a.prazo}`,
+        categoria: tEval('evaluationsTitle'),
         icon: '📋',
         href: '/professor-avaliacoes',
         keywords: [a.tipo, a.turma, a.aluno, a.prioridade],
@@ -116,7 +116,7 @@ export default function ProfessorDashboardPage() {
 
   useSearchRegistration('dashboard', searchItems);
 
-  const primeiroNome = user?.nome?.split(' ')[0] || 'Instrutor';
+  const primeiroNome = user?.nome?.split(' ')[0] || t('defaultInstructor');
   const horaAtual = new Date().getHours();
   const saudacao = horaAtual < 12 ? tCommon('greeting.goodMorning') : horaAtual < 18 ? tCommon('greeting.goodAfternoon') : tCommon('greeting.goodEvening');
 
@@ -188,7 +188,7 @@ export default function ProfessorDashboardPage() {
               <span className="text-amber-400/60 font-extralight ml-0.5">.</span>
             </h1>
             <p style={{ fontWeight: 300, color: tokens.textMuted }} className="text-sm mt-2.5 max-w-md leading-relaxed">
-              {user?.graduacao || 'Nível Máximo'} · {estatisticas.totalTurmas} turmas ativas · {estatisticas.totalAlunos} alunos
+              {user?.graduacao || t('maxLevel')} · {t('activeClassesCount', { count: estatisticas.totalTurmas })} · {t('studentsCount', { count: estatisticas.totalAlunos })}
             </p>
           </div>
 
@@ -253,7 +253,7 @@ export default function ProfessorDashboardPage() {
         {[
           { href: '/professor-alunos', icon: GraduationCap, label: tCommon('menu.students'), color: '#60A5FA' },
           { href: '/professor-chamada', icon: ClipboardCheck, label: t('attendance'), color: '#4ADE80' },
-          { href: '/professor-cronometro', icon: Timer, label: 'Timer', color: '#FB923C' },
+          { href: '/professor-cronometro', icon: Timer, label: tQuick('timer'), color: '#FB923C' },
           { href: '/professor-avaliacoes', icon: ClipboardCheck, label: t('evaluations'), color: '#F87171' },
           { href: '/professor-plano-aula', icon: BookOpen, label: tQuick('lessonPlan'), color: '#A78BFA' },
           { href: '/professor-videos', icon: Play, label: tQuick('video'), color: '#FBBF24' },
@@ -311,7 +311,7 @@ export default function ProfessorDashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <h2 style={{ fontWeight: 300, color: tokens.text }} className="text-lg tracking-tight">{t('pedagogicalAnalysis')}</h2>
-              <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{pedStats.totalAlunos} alunos</span>
+              <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{t('studentsCount', { count: pedStats.totalAlunos })}</span>
             </div>
             <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
               {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
@@ -350,8 +350,8 @@ export default function ProfessorDashboardPage() {
                     itemStyle={{ color: 'rgba(255,255,255,0.7)' }}
                     labelStyle={{ color: '#D9AF69', fontWeight: 600 }}
                   />
-                  <Bar dataKey="ativos" name="Ativos" fill="#D9AF69" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="frequencia" name="Freq. %" fill="rgba(74,222,128,0.5)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="ativos" name={t('chartActive')} fill="#D9AF69" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="frequencia" name={t('chartFreqPercent')} fill="rgba(74,222,128,0.5)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -368,12 +368,12 @@ export default function ProfessorDashboardPage() {
                     itemStyle={{ color: 'rgba(255,255,255,0.7)' }}
                     labelStyle={{ color: '#D9AF69', fontWeight: 600 }}
                   />
-                  <Bar dataKey="presentes" name="Presentes" radius={[4, 4, 0, 0]}>
+                  <Bar dataKey="presentes" name={t('chartPresent')} radius={[4, 4, 0, 0]}>
                     {pedStats.frequenciaSemanal.map((entry, index) => (
                       <Cell key={index} fill={entry.presentes / entry.total >= 0.75 ? '#4ADE80' : entry.presentes / entry.total >= 0.6 ? '#FBBF24' : '#F87171'} fillOpacity={0.7} />
                     ))}
                   </Bar>
-                  <Bar dataKey="total" name="Total" fill="rgba(255,255,255,0.08)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="total" name={t('chartTotal')} fill="rgba(255,255,255,0.08)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -415,7 +415,7 @@ export default function ProfessorDashboardPage() {
               <div className="flex items-center gap-2 mb-3">
                 <AlertTriangle size={15} className="text-red-400" />
                 <h3 className="text-sm font-semibold text-red-300/80">{t('pedagogicalAttention')}</h3>
-                <span className="ml-auto text-[10px] text-white/25">{alertAlunos.length} aluno(s)</span>
+                <span className="ml-auto text-[10px] text-white/25">{t('studentsCount', { count: alertAlunos.length })}</span>
               </div>
               <div className="space-y-2">
                 {alertAlunos.slice(0, 3).map((a) => (
@@ -428,7 +428,7 @@ export default function ProfessorDashboardPage() {
                       <span className="text-lg">{a.avatar}</span>
                       <div>
                         <p className="text-white/70 text-xs font-medium">{a.nome}</p>
-                        <p className="text-white/25 text-[10px]">{a.categoria} · Nível {a.nivel}</p>
+                        <p className="text-white/25 text-[10px]">{a.categoria} · {t('level')} {a.nivel}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -454,7 +454,7 @@ export default function ProfessorDashboardPage() {
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('yourClasses')}</h2>
-            <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{turmas.length} ativas</span>
+            <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{t('activeCount', { count: turmas.length })}</span>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -487,7 +487,7 @@ export default function ProfessorDashboardPage() {
                   <h3 className="font-semibold text-white/85 text-sm truncate">{turma.nome}</h3>
                   {turma.emAndamento ? (
                     <span className="px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase flex-shrink-0 bg-amber-500/20 text-amber-400 border border-amber-500/30 animate-pulse">
-                      AGORA
+                      {t('now')}
                     </span>
                   ) : turma.minutosParaInicio > 0 && turma.minutosParaInicio <= 120 ? (
                     <span className="px-2 py-0.5 rounded-full text-[9px] font-medium tracking-wider uppercase flex-shrink-0 bg-blue-500/15 text-blue-400 border border-blue-500/20">
@@ -604,7 +604,7 @@ export default function ProfessorDashboardPage() {
                 {aluno.avatar}
               </div>
               <p className="text-sm font-semibold text-white/75 truncate">{aluno.nome}</p>
-              <p className="text-[10px] text-amber-400/65 mt-1 tracking-wider uppercase font-medium">Nível {aluno.nivel}</p>
+              <p className="text-[10px] text-amber-400/65 mt-1 tracking-wider uppercase font-medium">{t('level')} {aluno.nivel}</p>
 
               <div className="mt-3.5 flex items-center justify-center gap-1.5">
                 <div className={`w-1.5 h-1.5 rounded-full ${
@@ -617,7 +617,7 @@ export default function ProfessorDashboardPage() {
                   aluno.status === 'atencao' ? 'text-amber-400/60' :
                   'text-rose-400/60'
                 }`}>
-                  {aluno.presenca30d}% presença
+                  {aluno.presenca30d}% {t('presence')}
                 </span>
               </div>
             </div>

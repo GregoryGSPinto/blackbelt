@@ -18,7 +18,7 @@ export default function PermissoesUsuarioPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Shield className="w-16 h-16 text-white/30 mx-auto mb-4" />
-          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Você precisa estar logado para ver as permissões</p>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('permissions.loginRequired')}</p>
         </div>
       </div>
     );
@@ -27,22 +27,22 @@ export default function PermissoesUsuarioPage() {
   const info = PERFIL_INFO[perfil.tipo];
 
   const todasPermissoes = [
-    { id: PERMISSOES.VALIDAR_CHECKIN, nome: 'Validar Check-in', descricao: 'Pode validar presença de alunos' },
-    { id: PERMISSOES.BLOQUEAR_ALUNO, nome: 'Bloquear Aluno', descricao: 'Pode bloquear acesso de alunos' },
-    { id: PERMISSOES.EDITAR_TURMAS, nome: 'Editar Turmas', descricao: 'Pode editar e gerenciar turmas' },
-    { id: PERMISSOES.ACESSAR_FINANCEIRO, nome: 'Acessar Financeiro', descricao: 'Pode ver informações financeiras' },
-    { id: PERMISSOES.EDITAR_PAGAMENTOS, nome: 'Editar Pagamentos', descricao: 'Pode validar pagamentos' },
-    { id: PERMISSOES.VER_RELATORIOS, nome: 'Ver Relatórios', descricao: 'Pode acessar relatórios e analytics' },
-    { id: PERMISSOES.GERENCIAR_USUARIOS, nome: 'Gerenciar Usuários', descricao: 'Pode criar, editar e remover usuários' },
-    { id: PERMISSOES.ACESSAR_CONFIGURACOES, nome: 'Acessar Configurações', descricao: 'Pode alterar configurações do sistema' },
+    { id: PERMISSOES.VALIDAR_CHECKIN, nome: t('permissions.items.validateCheckin'), descricao: t('permissions.items.validateCheckinDesc') },
+    { id: PERMISSOES.BLOQUEAR_ALUNO, nome: t('permissions.items.blockStudent'), descricao: t('permissions.items.blockStudentDesc') },
+    { id: PERMISSOES.EDITAR_TURMAS, nome: t('permissions.items.editClasses'), descricao: t('permissions.items.editClassesDesc') },
+    { id: PERMISSOES.ACESSAR_FINANCEIRO, nome: t('permissions.items.accessFinancial'), descricao: t('permissions.items.accessFinancialDesc') },
+    { id: PERMISSOES.EDITAR_PAGAMENTOS, nome: t('permissions.items.editPayments'), descricao: t('permissions.items.editPaymentsDesc') },
+    { id: PERMISSOES.VER_RELATORIOS, nome: t('permissions.items.viewReports'), descricao: t('permissions.items.viewReportsDesc') },
+    { id: PERMISSOES.GERENCIAR_USUARIOS, nome: t('permissions.items.manageUsers'), descricao: t('permissions.items.manageUsersDesc') },
+    { id: PERMISSOES.ACESSAR_CONFIGURACOES, nome: t('permissions.items.accessSettings'), descricao: t('permissions.items.accessSettingsDesc') },
   ];
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Minhas Permissões</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Visualize suas permissões e nível de acesso no sistema</p>
+        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('permissions.title')}</h1>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('permissions.subtitle')}</p>
       </div>
 
       {/* Perfil Atual */}
@@ -57,31 +57,31 @@ export default function PermissoesUsuarioPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <span className="text-sm" style={{ color: tokens.textMuted }}>Perfil Ativo</span>
+                <span className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.activeProfile')}</span>
                 <p style={{ color: tokens.text, fontWeight: 500 }}>{info.label}</p>
               </div>
               {perfil.graduacao && (
                 <div>
-                  <span className="text-sm" style={{ color: tokens.textMuted }}>Graduação</span>
+                  <span className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.graduation')}</span>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{perfil.graduacao}</p>
                 </div>
               )}
               {perfil.unidade && (
                 <div>
-                  <span className="text-sm" style={{ color: tokens.textMuted }}>Unidade</span>
+                  <span className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.unit')}</span>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{perfil.unidade}</p>
                 </div>
               )}
               <div>
-                <span className="text-sm" style={{ color: tokens.textMuted }}>Nível de Acesso</span>
+                <span className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.accessLevel')}</span>
                 <p style={{ color: tokens.text, fontWeight: 500 }}>
-                  {perfil.tipo === 'SUPER_ADMIN' && 'Acesso Total'}
-                  {perfil.tipo === 'ADMINISTRADOR' && 'Acesso Administrativo'}
-                  {perfil.tipo === 'GESTOR' && 'Acesso Gestão'}
-                  {perfil.tipo === 'INSTRUTOR' && 'Acesso Professor'}
-                  {perfil.tipo === 'ALUNO_ADULTO' && 'Acesso Aluno'}
-                  {perfil.tipo === 'ALUNO_KIDS' && 'Acesso Kids'}
-                  {perfil.tipo === 'RESPONSAVEL' && 'Acesso Responsável'}
+                  {perfil.tipo === 'SUPER_ADMIN' && t('permissions.accessLevels.fullAccess')}
+                  {perfil.tipo === 'ADMINISTRADOR' && t('permissions.accessLevels.adminAccess')}
+                  {perfil.tipo === 'GESTOR' && t('permissions.accessLevels.managerAccess')}
+                  {perfil.tipo === 'INSTRUTOR' && t('permissions.accessLevels.instructorAccess')}
+                  {perfil.tipo === 'ALUNO_ADULTO' && t('permissions.accessLevels.studentAccess')}
+                  {perfil.tipo === 'ALUNO_KIDS' && t('permissions.accessLevels.kidsAccess')}
+                  {perfil.tipo === 'RESPONSAVEL' && t('permissions.accessLevels.guardianAccess')}
                 </p>
               </div>
             </div>
@@ -95,7 +95,7 @@ export default function PermissoesUsuarioPage() {
           <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-sm text-blue-300">
-              As permissões são definidas pelo seu perfil de acesso. Se você precisar de permissões adicionais, entre em contato com o administrador do sistema.
+              {t('permissions.infoAlert')}
             </p>
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function PermissoesUsuarioPage() {
       {/* Lista de Permissões */}
       <div className="bg-dark-card border border-dark-elevated rounded-xl overflow-hidden">
         <div className="p-6 border-b border-dark-elevated">
-          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Permissões do Sistema</h3>
+          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('permissions.systemPermissions')}</h3>
         </div>
         
         <div className="divide-y divide-dark-elevated">
@@ -136,11 +136,11 @@ export default function PermissoesUsuarioPage() {
                 <div>
                   {hasPermission ? (
                     <span className="px-3 py-1 bg-green-600/20 border border-green-600/30 text-green-400 text-xs font-medium rounded-full">
-                      Concedida
+                      {t('permissions.granted')}
                     </span>
                   ) : (
                     <span className="px-3 py-1 bg-dark-elevated border border-dark-surface text-white/35 text-xs font-medium rounded-full">
-                      Não Concedida
+                      {t('permissions.notGranted')}
                     </span>
                   )}
                 </div>
@@ -154,12 +154,12 @@ export default function PermissoesUsuarioPage() {
       <div className="bg-dark-card border border-dark-elevated rounded-xl p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-white mb-1">Resumo de Permissões</h3>
-            <p className="text-sm" style={{ color: tokens.textMuted }}>Total de permissões concedidas ao seu perfil</p>
+            <h3 className="text-lg font-bold text-white mb-1">{t('permissions.summary')}</h3>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.summaryDesc')}</p>
           </div>
           <div className="text-right">
             <p className="text-purple-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{perfil.permissoes.length}</p>
-            <p className="text-sm" style={{ color: tokens.textMuted }}>de {todasPermissoes.length} possíveis</p>
+            <p className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.ofTotal', { total: todasPermissoes.length })}</p>
           </div>
         </div>
         

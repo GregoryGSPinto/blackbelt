@@ -19,9 +19,9 @@ import type {
 import { getDesignTokens } from '@/lib/design-tokens';
 
 const PAYMENT_STATUS = {
-  pago:     { label: 'Pago',     dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
-  pendente: { label: 'Pendente', dotDark: 'bg-amber-400',   dotLight: 'bg-amber-500',   textDark: 'text-amber-400',   textLight: 'text-amber-700' },
-  atrasado: { label: 'Atrasado', dotDark: 'bg-red-400',     dotLight: 'bg-red-500',     textDark: 'text-red-400',     textLight: 'text-red-700' },
+  pago:     { labelKey: 'paid',     dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
+  pendente: { labelKey: 'pending', dotDark: 'bg-amber-400',   dotLight: 'bg-amber-500',   textDark: 'text-amber-400',   textLight: 'text-amber-700' },
+  atrasado: { labelKey: 'overdue', dotDark: 'bg-red-400',     dotLight: 'bg-red-500',     textDark: 'text-red-400',     textLight: 'text-red-700' },
 };
 
 // ============================================================
@@ -115,7 +115,7 @@ export default function FinanceiroPage() {
         <div>
           <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('title')}</h1>
           <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
-            Visão financeira detalhada da plataforma
+            {t('subtitle')}
           </p>
         </div>
         <button className={`
@@ -126,7 +126,7 @@ export default function FinanceiroPage() {
           }
         `}>
           <Download className="w-4 h-4" />
-          Exportar
+          {t('export')}
         </button>
       </div>
 
@@ -140,7 +140,7 @@ export default function FinanceiroPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <FinCard isDark={isDark} icon={TrendingUp} label={t('avgTicket')} value={formatBRL(financial.ticketMedio)} sub={t('perAcademyMonth')} />
-        <FinCard isDark={isDark} icon={Clock} label={t('payback')} value={`${financial.paybackMonths} meses`} sub={t('returnTime')} />
+        <FinCard isDark={isDark} icon={Clock} label={t('payback')} value={t('monthsValue', { count: financial.paybackMonths })} sub={t('returnTime')} />
         <FinCard isDark={isDark} icon={CreditCard} label={t('lastMonth')} value={formatBRL(financial.receitaMesAnterior)} />
         <FinCard isDark={isDark} icon={Users} label={t('ltvCac')} value={`${(financial.ltv / financial.cac).toFixed(1)}x`} sub={t('healthy')} />
       </div>
@@ -229,7 +229,7 @@ export default function FinanceiroPage() {
           <h3 className={`text-sm font-semibold ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('paymentHistory')}</h3>
           <button className={`text-xs ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
             <Download className="w-3.5 h-3.5 inline mr-1" />
-            Exportar CSV
+            {t('exportCsv')}
           </button>
         </div>
 
@@ -256,7 +256,7 @@ export default function FinanceiroPage() {
                     <td className="py-3">
                       <span className={`inline-flex items-center gap-1 text-xs font-medium ${isDark ? st.textDark : st.textLight}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${isDark ? st.dotDark : st.dotLight}`} />
-                        {st.label}
+                        {t(st.labelKey)}
                       </span>
                     </td>
                   </tr>

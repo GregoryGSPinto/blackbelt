@@ -245,7 +245,32 @@
       "goodEvening": "Boa noite",
       "welcome": "Bem-vindo,",
       "welcomeBlackBelt": "Bem-vindo ao BlackBelt",
-      "welcomeSubtitle": "Sua jornada no treinamento especializado começa aqui"
+      "welcomeSubtitle": "Sua jornada no treinamento especializado começa aqui",
+      "dismissWelcome": "Dispensar boas-vindas",
+      "steps": {
+        "aluno": {
+          "session": "Participe de sessões de treino",
+          "frequency": "Acompanhe sua frequência",
+          "techniques": "Evolua suas técnicas",
+          "ranking": "Acompanhe o ranking"
+        },
+        "instrutor": {
+          "dashboard": "Veja o painel do instrutor",
+          "attendance": "Faça chamada das turmas",
+          "progress": "Acompanhe o progresso dos alunos",
+          "timer": "Use o timer de aula"
+        },
+        "responsavel": {
+          "frequency": "Veja a frequência dos filhos",
+          "achievements": "Acompanhe conquistas",
+          "message": "Envie mensagens aos instrutores"
+        },
+        "admin": {
+          "dashboard": "Veja o painel administrativo",
+          "manage": "Gerencie alunos e turmas",
+          "alerts": "Configure alertas"
+        }
+      }
     },
     "confirm": {
       "logoutTitle": "Sair da conta",
@@ -306,6 +331,18 @@
       "selectConversation": "Selecione uma conversa",
       "searchConversation": "Buscar conversa...",
       "noConversations": "Nenhuma conversa"
+    },
+    "errorBoundary": {
+      "moduleError": "Erro no Módulo",
+      "error": "Erro",
+      "unknownError": "Erro desconhecido",
+      "module": "Módulo",
+      "timestamp": "Horário",
+      "systemProtected": "Sistema protegido",
+      "isolatedError": "Este erro foi isolado e não afeta o restante do sistema.",
+      "tryAgain": "Tentar novamente",
+      "goHome": "Ir para o início",
+      "contactSupport": "Contatar suporte"
     }
   },
   "shell": {
@@ -611,7 +648,37 @@
       "revenueDropAlert": "Receita caiu {pct}% em relação ao mês anterior",
       "revenueUpAlert": "Receita cresceu {pct}% em relação ao mês anterior",
       "readyGraduationAlert": "{count} aluno(s) pronto(s) para graduação",
-      "defaultAboveGoal": "Inadimplência em {pct}% — acima da meta de 10%"
+      "defaultAboveGoal": "Inadimplência em {pct}% — acima da meta de 10%",
+      "unavailable": "Indisponível",
+      "cannotLoadStats": "Não foi possível carregar as estatísticas",
+      "operationalView": "Visão operacional",
+      "operationalAlerts": "Alertas operacionais",
+      "immediateActionNeeded": "Requer ação imediata",
+      "viewAlerts": "Ver alertas",
+      "vsYesterday": "vs. ontem",
+      "noRecentNewcomers": "Nenhum novato recente",
+      "noStudentsAtRisk": "Nenhum aluno em risco",
+      "noFrozenPlans": "Nenhum plano congelado",
+      "noBirthdays": "Nenhum aniversariante",
+      "months": "{count} meses",
+      "basedOnAverage": "Baseado na média",
+      "validateCheckin": "Validar Check-in",
+      "confirmPresence": "Confirmar presença",
+      "manageUsers": "Gerenciar Usuários",
+      "seeAllStudents": "Ver todos os alunos",
+      "dayAgenda": "Agenda do Dia",
+      "seeTodayClasses": "Ver aulas de hoje",
+      "indicators": "Indicadores",
+      "bestSellingPlan": "Plano mais vendido",
+      "aboveIdeal": "Acima do ideal",
+      "healthy": "Saudável",
+      "less": "Menos",
+      "more": "Mais",
+      "alertFreqDrop": "{count} alunos com queda de frequência",
+      "alertRevenueDrop": "Receita {pct}% abaixo do mês anterior",
+      "alertRevenueUp": "Receita {pct}% acima do mês anterior",
+      "alertGraduation": "{count} alunos prontos para graduação",
+      "alertDefaultRate": "Taxa de inadimplência em {pct}%"
     },
     "members": {
       "title": "Membros",
@@ -637,7 +704,17 @@
       "requiresAttention": "Requer atenção",
       "overdueStudents": "Alunos em Atraso",
       "blockedStudents": "Alunos Bloqueados",
-      "statusChangeHistory": "Histórico de Alterações de Status"
+      "statusChangeHistory": "Histórico de Alterações de Status",
+      "loading": "Carregando...",
+      "noStudentFound": "Nenhum aluno encontrado",
+      "noFinancialRecords": "Nenhum registro financeiro",
+      "visualModuleTitle": "Módulo visual financeiro",
+      "visualModuleDesc": "Este módulo apresenta dados visuais...",
+      "percentStudents": "% dos alunos",
+      "dueDate": "Vencimento",
+      "changedFrom": "de",
+      "changedTo": "para",
+      "changedBy": "por"
     },
     "classes": {
       "title": "Gestão de Turmas",
@@ -647,7 +724,17 @@
       "editClass": "Editar Turma",
       "pause": "Pausar",
       "activate": "Ativar",
-      "occupancy": "Ocupação"
+      "occupancy": "Ocupação",
+      "loading": "Carregando...",
+      "noClassRegistered": "Nenhuma turma cadastrada",
+      "registerClassesToStart": "Cadastre turmas para começar",
+      "subtitle": "Gerencie turmas e horários",
+      "professor": "Professor",
+      "schedule": "Horário",
+      "weekDays": "Dias da Semana",
+      "statusActive": "Ativo",
+      "statusOverdue": "Em Atraso",
+      "statusBlocked": "Bloqueado"
     },
     "checkin": {
       "title": "Check-in Administrativo",
@@ -659,7 +746,20 @@
       "searchStudent": "Buscar Aluno",
       "validateCheckin": "Validar Check-in",
       "checkinMade": "Check-in Feito",
-      "todayCheckinsList": "Check-ins de Hoje"
+      "todayCheckinsList": "Check-ins de Hoje",
+      "loading": "Carregando...",
+      "validatePresence": "Validar presença",
+      "searchPlaceholder": "Buscar aluno...",
+      "cannotCheckin": "Não pode fazer check-in",
+      "reason": "Motivo",
+      "regularizeSituation": "Regularize sua situação",
+      "resultsFound": "{count} resultado(s)",
+      "statusActive": "Ativo",
+      "statusOverdue": "Em Atraso",
+      "statusBlocked": "Bloqueado",
+      "noStudentFound": "Nenhum aluno encontrado",
+      "viaGuardian": "Via Responsável",
+      "noCheckinToday": "Nenhum check-in hoje"
     },
     "leads": {
       "title": "Funil de Vendas",
@@ -709,22 +809,101 @@
       "welcome": "BEM-VINDO(A)!",
       "accessBlocked": "ACESSO BLOQUEADO",
       "manualSearch": "Busca Manual",
-      "qrScanner": "Scanner QR"
+      "qrScanner": "Scanner QR",
+      "qrError": "Erro no QR",
+      "loading": "Carregando...",
+      "backToPanel": "Voltar ao painel",
+      "checkinDoneAt": "Check-in realizado às {time}",
+      "goToReception": "Ir para recepção",
+      "pointCameraQR": "Aponte a câmera para o QR Code do aluno",
+      "checkinError": "Erro no check-in",
+      "checkinRegistered": "Check-in registrado!",
+      "searchStudent": "Buscar aluno",
+      "searchPlaceholder": "Nome do aluno...",
+      "noClass": "Sem turma",
+      "statusActive": "Ativo",
+      "statusOverdue": "Em Atraso",
+      "statusBlocked": "Bloqueado",
+      "alreadyCheckedIn": "Já fez check-in",
+      "validateCheckin": "Validar check-in",
+      "noStudentFound": "Nenhum aluno encontrado",
+      "checkinsToday": "Check-ins hoje",
+      "totalStudents": "Total de alunos"
     },
     "users": {
       "title": "Gestão de Usuários",
-      "statusFilter": "Filtro de Status"
+      "statusFilter": "Filtro de Status",
+      "loading": "Carregando...",
+      "subtitle": "Gerencie alunos e membros",
+      "newStudent": "Novo Aluno",
+      "statusActive": "Ativo",
+      "statusOverdue": "Em Atraso",
+      "statusBlocked": "Bloqueado",
+      "statusFrozen": "Congelado",
+      "statusInactive": "Inativo",
+      "activeStudents": "Alunos ativos",
+      "allStatuses": "Todos os Status",
+      "allCategories": "Todas as Categorias",
+      "students": "Alunos",
+      "categoryAdult": "Adulto",
+      "noUserFound": "Nenhum usuário encontrado",
+      "editStudent": "Editar aluno",
+      "viewHistory": "Ver histórico",
+      "thStudent": "Aluno",
+      "thCategory": "Categoria",
+      "thGraduation": "Graduação",
+      "thStatus": "Status",
+      "thDueDate": "Vencimento",
+      "thActions": "Ações",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar por nome ou e-mail...",
+      "phone": "Telefone",
+      "registrationDate": "Data de cadastro",
+      "nextDueDate": "Próximo vencimento",
+      "viewDetails": "Ver detalhes",
+      "edit": "Editar",
+      "changeStatus": "Alterar status"
     },
     "agenda": {
       "title": "Agenda do Dia",
       "classSchedule": "Cronograma de Turmas",
       "classesToday": "Turmas Hoje",
-      "checkinsDone": "Check-ins Realizados"
+      "checkinsDone": "Check-ins Realizados",
+      "loading": "Carregando...",
+      "noSessionToday": "Nenhuma sessão hoje",
+      "noClassesScheduled": "Nenhuma aula agendada",
+      "totalStudents": "Total de alunos",
+      "enrolledStudents": "Alunos matriculados",
+      "currentAttendance": "Presença atual"
     },
     "config": {
       "title": "Configurações da Unidade",
       "saveConfig": "Salvar Configurações",
-      "labels": {}
+      "labels": {},
+      "loading": "Carregando...",
+      "unavailable": "Indisponível",
+      "cannotLoad": "Não foi possível carregar as configurações",
+      "subtitle": "Gerencie as configurações da academia",
+      "saved": "Salvo!",
+      "changesApplied": "Alterações aplicadas",
+      "defaultPolicies": "Políticas de Inadimplência",
+      "defaultPoliciesDesc": "Defina os prazos e consequências para atrasos",
+      "overdueLimit": "Limite de atraso (dias)",
+      "overdueLimitDesc": "Dias após vencimento para marcar como \"Em Atraso\"",
+      "daysToBlock": "Dias para bloqueio",
+      "daysToBlockDesc": "Dias após limite para bloquear o aluno",
+      "blockMessage": "Mensagem de Bloqueio",
+      "blockMessageDesc": "Mensagem exibida ao aluno bloqueado",
+      "message": "Mensagem",
+      "blockMessageHint": "Ex: Sua mensalidade está em atraso...",
+      "businessHours": "Horário de Funcionamento",
+      "businessHoursDesc": "Horários de abertura e fechamento",
+      "openingTime": "Abertura",
+      "closingTime": "Fechamento",
+      "earlyCheckin": "Check-in Antecipado",
+      "earlyCheckinDesc": "Permitir check-in antes da aula",
+      "minutesAhead": "Minutos de antecedência",
+      "minutesAheadDesc": "Quantos minutos antes da aula permitir check-in"
     },
     "automation": {
       "title": "Automações",
@@ -763,7 +942,20 @@
     "analytics": {
       "title": "Analytics de Retenção",
       "growthMetrics": "Métricas de crescimento",
-      "retentionAnalytics": "Analytics de Retenção"
+      "retentionAnalytics": "Analytics de Retenção",
+      "loading": "Carregando...",
+      "subtitle": "Indicadores avançados de desempenho",
+      "monthlyRetention": "Retenção Mensal",
+      "monthlyChurn": "Churn Mensal",
+      "cohortAnalysis": "Análise de Coorte",
+      "cancellationReasons": "Motivos de Cancelamento",
+      "retentionByLevel": "Retenção por Faixa",
+      "retentionByClass": "Retenção por Turma",
+      "excellent": "Excelente",
+      "good": "Bom",
+      "attention": "Atenção",
+      "healthy": "Saudável",
+      "aboveIdeal": "Acima do ideal"
     },
     "graduations": {
       "title": "Graduações",
@@ -773,7 +965,14 @@
         "requirements": "Requisitos"
       },
       "approve": "Aprovar",
-      "reject": "Reprovar"
+      "reject": "Reprovar",
+      "subtitle": "Gerencie exames e graduações",
+      "scheduled": "Agendado",
+      "approved": "Aprovado",
+      "rejected": "Reprovado",
+      "cancelled": "Cancelado",
+      "upcomingExams": "Próximos Exames",
+      "history": "Histórico"
     },
     "events": {
       "title": "Eventos & Campeonatos",
@@ -798,7 +997,13 @@
       "activeSessions": "Sessões Ativas",
       "blockedIPs": "IPs Bloqueados",
       "anomaliesDetected": "Anomalias Detectadas",
-      "failedLogins24h": "Logins Falhos 24h"
+      "failedLogins24h": "Logins Falhos 24h",
+      "subtitle": "Monitoramento e segurança do sistema",
+      "healthHealthy": "Saudável",
+      "healthDegraded": "Degradado",
+      "healthCritical": "Crítico",
+      "live": "Ao vivo",
+      "paused": "Pausado"
     },
     "visitors": {
       "title": "Visitantes"
@@ -935,7 +1140,11 @@
       "showPreview": "Ver preview",
       "previewWithSample": "Preview com dados de exemplo",
       "typePlaceholder": "Digite a mensagem template...",
-      "chars": "chars"
+      "chars": "chars",
+      "riskCritical": "Crítico",
+      "riskHigh": "Alto",
+      "riskModerate": "Moderado",
+      "messageTemplate": "Template de mensagem"
     }
   },
   "professor": {
@@ -982,7 +1191,23 @@
         "analysis": "Análise",
         "demo": "Demonstração"
       },
-      "excellence": "BlackBelt · Excelência no Ensino"
+      "excellence": "BlackBelt · Excelência no Ensino",
+      "level": "Nível",
+      "presence": "presença",
+      "categoryStudent": "Aluno",
+      "categoryVideo": "Vídeo",
+      "deadline": "Prazo",
+      "defaultInstructor": "Instrutor",
+      "maxLevel": "Nível Máximo",
+      "activeClassesCount": "{count} turmas ativas",
+      "studentsCount": "{count} alunos",
+      "chartActive": "Ativos",
+      "chartFreqPercent": "Freq. %",
+      "chartPresent": "Presentes",
+      "chartTotal": "Total",
+      "activeCount": "{count} ativas",
+      "now": "AGORA",
+      "today": "Hoje"
     },
     "class": {
       "activeNow": "Aula em andamento",
@@ -1007,14 +1232,32 @@
       "attention": "Atenção Pedagógica",
       "studentNotFound": "aluno não encontrado",
       "selectStudent": "Selecione um aluno para ver detalhes",
-      "clickAny": "Clique em qualquer aluno da lista"
+      "clickAny": "Clique em qualquer aluno da lista",
+      "filterAll": "Todos",
+      "filterAdult": "Adulto",
+      "filterTeen": "Teen",
+      "filterKids": "Kids",
+      "gradReady": "Apto",
+      "gradInEval": "Em Avaliação",
+      "statsTotal": "Total",
+      "statsFrequency": "Frequência",
+      "statsLowFreq": "Baixa Freq.",
+      "statsReadyGrad": "Aptos Grad.",
+      "studentCount": "{count} aluno(s)",
+      "pageOf": "Página {page} de {totalPages}",
+      "freqShort": "Freq.",
+      "progShort": "Progr.",
+      "medShort": "Med.",
+      "presence": "presença",
+      "categoryStudent": "Aluno"
     },
     "briefing": {
       "title": "Briefing do Dia",
       "subtitle": "Resumo inteligente preparado pela IA para sua jornada de hoje",
       "refresh": "Atualizar briefing",
       "error": "Erro ao carregar briefing",
-      "noBriefing": "Nenhum briefing disponível no momento."
+      "noBriefing": "Nenhum briefing disponível no momento.",
+      "greeting": "Bom dia, {name}!"
     },
     "classes": {
       "management": "Gerenciamento",
@@ -1031,14 +1274,23 @@
       "takeAttendance": "Fazer Chamada",
       "viewStudents": "Ver Alunos",
       "noClasses": "Nenhuma turma atribuída",
-      "noClassesDesc": "Você ainda não possui turmas atribuídas."
+      "noClassesDesc": "Você ainda não possui turmas atribuídas.",
+      "studentsLabel": "alunos",
+      "categoryClass": "Turma",
+      "today": "Hoje"
     },
     "privateSessions": {
       "title": "Minhas Particulares",
       "subtitle": "Agenda e extrato de sessões particulares",
       "upcoming": "Próximas",
       "done": "Realizadas",
-      "monthEarnings": "Ganhos Mês"
+      "monthEarnings": "Ganhos Mês",
+      "statusScheduled": "Agendada",
+      "statusConfirmed": "Confirmada",
+      "statusCompleted": "Realizada",
+      "statusCancelled": "Cancelada",
+      "upcomingSessions": "Próximas Sessões",
+      "completedSessions": "Realizadas"
     },
     "videos": {
       "library": "Biblioteca",
@@ -1129,7 +1381,12 @@
       "urgentCount": "urgentes",
       "evaluateNow": "Avaliar Agora",
       "postpone": "Adiar",
-      "noPending": "Nenhuma avaliação pendente nesta categoria"
+      "noPending": "Nenhuma avaliação pendente nesta categoria",
+      "priorityHigh": "Alta",
+      "priorityMedium": "Média",
+      "priorityLow": "Baixa",
+      "filterAll": "Todas",
+      "deadline": "Prazo"
     },
     "studentDetail": {
       "tabs": {
@@ -1180,7 +1437,14 @@
       "noProgressModules": "Nenhum módulo de progresso registrado",
       "freq30d": "Frequência 30d",
       "monthSessions": "Sessões mês",
-      "totalSessions": "Total sessões"
+      "totalSessions": "Total sessões",
+      "statusActive": "Ativo",
+      "statusAlert": "Alerta",
+      "statusAbsent": "Ausente",
+      "yearsOld": "{age} anos",
+      "updated": "Atualizado",
+      "evaluations": "Avaliações",
+      "instructor": "Instrutor"
     },
     "timer": {
       "title": "Cronômetro",
@@ -1258,7 +1522,8 @@
       "frequency": "Frequência",
       "sessionNote": "Observação da sessão (opcional)...",
       "savingAttendance": "Salvando...",
-      "finishAttendance": "Finalizar Chamada"
+      "finishAttendance": "Finalizar Chamada",
+      "level": "Nível"
     },
     "profile": {
       "settings": "Configurações",
@@ -1311,7 +1576,17 @@
       "achievementGranted": "Conquista Concedida!",
       "observationTitle": "Observação",
       "observationPlaceholder": "Escreva a observação...",
-      "observationSaved": "Observação Salva!"
+      "observationSaved": "Observação Salva!",
+      "timer": "Timer",
+      "errorLoadingAchievements": "Erro ao carregar conquistas",
+      "errorGrantingAchievement": "Erro ao conceder conquista",
+      "forStudent": "para {name}",
+      "closeModal": "Fechar modal",
+      "searchAchievement": "Buscar conquista...",
+      "allCategories": "Todas",
+      "instructorNote": "Observação do instrutor",
+      "achievementNote": "Ex: Excelente evolução na técnica...",
+      "confirmGrant": "Confirmar concessão"
     },
     "startClassModal": {
       "title": "Iniciar Sessão",
@@ -1341,6 +1616,16 @@
       "competition": "Competição",
       "behavior": "Comportamento",
       "special": "Especial"
+    },
+    "quickProgress": {
+      "title": "Atualização Rápida",
+      "rating": "Nota",
+      "quickNote": "Nota rápida...",
+      "saving": "Salvando...",
+      "saveProgress": "Salvar progresso",
+      "selectRatingFirst": "Selecione uma nota primeiro",
+      "progressUpdated": "Progresso de {name} atualizado!",
+      "errorSavingProgress": "Erro ao salvar progresso"
     }
   },
   "athlete": {
@@ -1419,7 +1704,29 @@
         "apply": "Aplicar em treino e competição"
       },
       "inList": "Na Lista",
-      "completed": "Concluída"
+      "completed": "Concluída",
+      "extendedDescription": "Esta sessão faz parte do programa técnico avançado do BlackBelt. Focada em posicionamento e controle, esta aula combina drills progressivos com sparring posicional para consolidar os conceitos.",
+      "instructorExperience": "Nível Máximo · 15 anos de experiência",
+      "objectivesMock": {
+        "closedGuardPosture": "Dominar a postura na guarda fechada",
+        "distanceHipControl": "Controlar distância e quadril",
+        "attackAngles": "Criar ângulos de ataque",
+        "toreantoOverUnder": "Técnicas de toreando e over-under",
+        "hipControlPassing": "Controle de quadril durante passagem",
+        "sideControlTransitions": "Transições para side control",
+        "omoplataSetup": "Reconhecer o setup da omoplata",
+        "escapeBeforeLock": "Escapar antes do lock",
+        "counterFromDefense": "Contra-atacar a partir da defesa",
+        "crossChokeClosedGuard": "Cross choke da guarda fechada",
+        "armbarPostureControl": "Armbar com controle de postura",
+        "attackCombinations": "Combinações de ataques em sequência",
+        "halfGuardUnderhook": "Underhook da meia guarda",
+        "sweepToMount": "Raspagem para montada",
+        "variationsAgainstBases": "Variações contra bases diferentes",
+        "highLowMountPressure": "Pressão de montada alta vs baixa",
+        "balanceUnderBridging": "Manter o equilíbrio sob bridging",
+        "submissionTransitions": "Transições para finalização"
+      }
     },
     "series": {
       "allTechniques": "Todas as Técnicas"
@@ -1465,7 +1772,30 @@
       "inspiration": "Aqui ninguém é avaliado. Aqui todo mundo evolui.",
       "allTrainings": "Todos os Treinos",
       "backToSummary": "Voltar ao resumo",
-      "trainingCount": "{count, plural, one {# treino registrado} other {# treinos registrados}}"
+      "trainingCount": "{count, plural, one {# treino registrado} other {# treinos registrados}}",
+      "months": {
+        "jan": "Jan",
+        "feb": "Fev",
+        "mar": "Mar",
+        "apr": "Abr",
+        "may": "Mai",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Ago",
+        "sep": "Set",
+        "oct": "Out",
+        "nov": "Nov",
+        "dec": "Dez"
+      },
+      "filters": {
+        "all": "Todos",
+        "fundamentals": "Fundamentos",
+        "beginner": "Iniciante",
+        "advanced": "Avançado",
+        "competition": "Competição",
+        "noGi": "No-Gi",
+        "openMat": "Open Mat"
+      }
     },
     "myList": {
       "title": "Minha Lista",
@@ -1720,7 +2050,40 @@
       "notGranted": "Não Concedida",
       "permissionSummary": "Resumo de Permissões",
       "summaryDesc": "Total de permissões concedidas ao seu perfil",
-      "ofPossible": "de {total} possíveis"
+      "ofPossible": "de {total} possíveis",
+      "loginRequired": "Login necessário",
+      "graduation": "Graduação",
+      "unit": "Unidade",
+      "accessLevels": {
+        "fullAccess": "Acesso completo",
+        "adminAccess": "Acesso de administrador",
+        "managerAccess": "Acesso de gestor",
+        "instructorAccess": "Acesso de instrutor",
+        "studentAccess": "Acesso de aluno",
+        "kidsAccess": "Acesso infantil",
+        "guardianAccess": "Acesso de responsável"
+      },
+      "infoAlert": "Suas permissões são definidas pelo administrador",
+      "items": {
+        "validateCheckin": "Validar check-in",
+        "validateCheckinDesc": "Permite validar presenças de alunos",
+        "blockStudent": "Bloquear alunos",
+        "blockStudentDesc": "Permite bloquear acesso de alunos",
+        "editClasses": "Editar turmas",
+        "editClassesDesc": "Permite editar turmas e horários",
+        "accessFinancial": "Acesso financeiro",
+        "accessFinancialDesc": "Permite ver informações financeiras",
+        "editPayments": "Editar pagamentos",
+        "editPaymentsDesc": "Permite editar dados de pagamento",
+        "viewReports": "Ver relatórios",
+        "viewReportsDesc": "Permite acessar relatórios",
+        "manageUsers": "Gerenciar usuários",
+        "manageUsersDesc": "Permite adicionar/editar usuários",
+        "accessSettings": "Acessar configurações",
+        "accessSettingsDesc": "Permite alterar configurações"
+      },
+      "summary": "Resumo",
+      "ofTotal": "de {total}"
     },
     "shop": {
       "title": "Loja",
@@ -1917,8 +2280,58 @@
       "title": "Check-in / Financeiro",
       "subtitle": "Seu status de acesso e check-in diário",
       "schedule": {
-        "time": "Horário"
-      }
+        "time": "Horário",
+        "mon": "Seg",
+        "tue": "Ter",
+        "wed": "Qua",
+        "thu": "Qui",
+        "fri": "Sex",
+        "sat": "Sáb"
+      },
+      "currentStatus": "Status atual",
+      "status": {
+        "active": {
+          "badge": "Em dia",
+          "message": "Tudo certo! Treine à vontade.",
+          "trainingText": "Treino Liberado",
+          "trainingDesc": "Acesso total a todas as aulas"
+        },
+        "late": {
+          "badge": "Em atraso",
+          "message": "Regularize seu pagamento.",
+          "trainingText": "Treino Com Restrição",
+          "trainingDesc": "Regularize para acesso completo"
+        },
+        "blocked": {
+          "badge": "Bloqueado",
+          "message": "Entre em contato com a secretaria.",
+          "trainingText": "Treino Bloqueado",
+          "trainingDesc": "Regularize para retomar"
+        }
+      },
+      "todayTraining": "Treino de hoje",
+      "lastValidation": "Última validação",
+      "atTime": "às {time}",
+      "alreadyDone": "Já realizado",
+      "registering": "Registrando...",
+      "doCheckin": "Fazer Check-in",
+      "unavailable": "Indisponível",
+      "unavailableInfo": "Check-in indisponível no momento",
+      "successMessage": "Check-in realizado com sucesso!",
+      "registeredAt": "Registrado em {date} às {time}",
+      "myQrCode": "Meu QR Code",
+      "qrCodeHint": "Apresente na recepção",
+      "trainingSchedule": "Grade de Treinos",
+      "weeklyGrid": "Grade semanal",
+      "statusHistory": "Histórico de Status",
+      "last6Months": "Últimos 6 meses",
+      "statusLabels": {
+        "active": "Ativo",
+        "late": "Em Atraso",
+        "blocked": "Bloqueado"
+      },
+      "validatedOn": "Validado em {date}",
+      "regularizedOn": "Regularizado em {date}"
     },
     "notificationPrefs": {
       "sessions": "Sessões",
@@ -1944,7 +2357,15 @@
       "detected": "QR Code detectado!",
       "readError": "Erro ao ler QR Code",
       "switchCamera": "Trocar câmera",
-      "scanAgain": "Escanear novamente"
+      "scanAgain": "Escanear novamente",
+      "cameraAccessError": "Erro de acesso à câmera",
+      "pointCamera": "Aponte a câmera para o QR Code",
+      "simulatingQR": "Simulando QR...",
+      "start": "Iniciar",
+      "pressToScan": "Pressione para escanear",
+      "searchingQR": "Buscando QR...",
+      "qrDetected": "QR detectado!",
+      "qrReadError": "Erro de leitura do QR"
     },
     "fabCheckin": {
       "open": "Abrir check-in rápido",
@@ -1957,7 +2378,30 @@
       "searchByName": "Buscar por Nome",
       "searchByNameDesc": "Check-in manual",
       "noStudentFound": "Nenhum aluno encontrado",
-      "searchPlaceholder": "Digite o nome do aluno..."
+      "searchPlaceholder": "Digite o nome do aluno...",
+      "back": "Voltar",
+      "scannerQRCode": "Scanner QR Code",
+      "cameraReading": "Leitura pela câmera",
+      "quickDayList": "Lista Rápida do Dia",
+      "currentClassStudents": "Alunos da turma atual",
+      "manualCheckin": "Check-in manual",
+      "scannerQR": "Scanner QR",
+      "currentClass": "Turma Atual",
+      "searchStudent": "Buscar Aluno",
+      "typeStudentName": "Digite o nome do aluno...",
+      "searchStudentLabel": "Buscar aluno",
+      "clearSearch": "Limpar busca",
+      "noStudentForQuery": "Nenhum aluno para \"{query}\"",
+      "checkinFor": "Check-in para {name}",
+      "openQuickCheckin": "Abrir check-in rápido",
+      "closeCheckin": "Fechar check-in",
+      "errorLoadingStudents": "Erro ao carregar alunos",
+      "checkinConfirmed": "Check-in confirmado!",
+      "savedOffline": "Salvo offline",
+      "checkinFailed": "Falha no check-in",
+      "connectionError": "Erro de conexão",
+      "invalidQR": "QR inválido",
+      "errorProcessingQR": "Erro ao processar QR"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -1986,6 +2430,59 @@
       "selectTemplate": "Selecione um template ou escreva",
       "openConversation": "Abrir conversa",
       "sent": "Enviado ✓"
+    },
+    "qrGenerator": {
+      "secureCode": "Código seguro",
+      "expiresIn": "Expira em {seconds}s",
+      "renew": "Renovar",
+      "exit": "Sair",
+      "fullscreen": "Tela cheia",
+      "presentCode": "Apresente este código"
+    },
+    "leaderboard": {
+      "noRankingData": "Sem dados de ranking",
+      "yourPosition": "Sua posição",
+      "you": "Você"
+    },
+    "notifications": {
+      "now": "Agora",
+      "hoursAgo": "há {hours}h",
+      "daysAgo": "há {days}d",
+      "dismiss": "Dispensar",
+      "from": "de"
+    },
+    "signature": {
+      "title": "Assinatura Digital",
+      "subtitle": "Documentos e consentimentos",
+      "status": {
+        "signed": "Assinado",
+        "pending": "Pendente",
+        "expired": "Expirado",
+        "cancelled": "Cancelado"
+      },
+      "pendingDocs": "{count} documento(s) pendente(s)",
+      "pendingHint": "Assine para manter seu acesso completo",
+      "tabs": {
+        "documents": "Documentos",
+        "privacy": "Privacidade"
+      },
+      "required": "Obrigatório",
+      "version": "Versão {version}",
+      "signedOn": "Assinado em {date}",
+      "signing": "Assinando...",
+      "signDigitally": "Assinar Digitalmente",
+      "lgpdInfo": "Informações sobre LGPD",
+      "acceptedOn": "Aceito em {date}",
+      "yourRights": "Seus Direitos",
+      "rights": {
+        "dataAccess": "Acesso aos dados",
+        "dataCorrection": "Correção de dados",
+        "dataDeletion": "Exclusão de dados",
+        "dataPortability": "Portabilidade de dados",
+        "consentRevocation": "Revogação de consentimento",
+        "sharingInfo": "Informação sobre compartilhamento"
+      },
+      "contactForRights": "Entre em contato para exercer seus direitos"
     }
   },
   "teen": {
@@ -2307,7 +2804,33 @@
       "confirmNewPin": "Confirme o novo PIN",
       "pinsDontMatch": "PINs não coincidem",
       "invalidPin": "PIN inválido",
-      "maxAttempts": "Máximo de tentativas atingido"
+      "maxAttempts": "Máximo de tentativas atingido",
+      "placeFinger": "Coloque seu dedo",
+      "identityVerified": "Identidade verificada!",
+      "registeringBiometric": "Registrando biometria...",
+      "biometricRegistered": "Biometria registrada!",
+      "biometricError": "Erro na biometria",
+      "invalidCode": "Código inválido",
+      "biometric": "Biometria",
+      "locked": "Bloqueado",
+      "checkingSupport": "Verificando suporte...",
+      "biometricNotAvailable": "Biometria não disponível",
+      "biometricCheckBrowser": "Verifique as configurações do navegador",
+      "tapFingerprint": "Toque na digital",
+      "biometricOptions": "Opções de biometria",
+      "waiting": "Aguardando...",
+      "verifiedSuccess": "Verificação bem-sucedida!",
+      "sendVerificationCode": "Enviar código de verificação",
+      "sending": "Enviando...",
+      "sendCode": "Enviar código",
+      "enterCodeSentTo": "Digite o código enviado para {email}",
+      "verifying": "Verificando...",
+      "verify": "Verificar",
+      "resendCode": "Reenviar código",
+      "createNewPin": "Criar novo PIN",
+      "hidePin": "Ocultar PIN",
+      "showPin": "Mostrar PIN",
+      "pinSavedSuccess": "PIN salvo com sucesso!"
     }
   },
   "parent": {
@@ -2405,7 +2928,12 @@
       "competitionAuth": "Autorização para Competições",
       "competitionAuthDesc": "Permitir participação em campeonatos e competições oficiais",
       "externalAuth": "Autorização para Eventos Externos",
-      "externalAuthDesc": "Permitir participação em seminários e treinos em outras unidades"
+      "externalAuthDesc": "Permitir participação em seminários e treinos em outras unidades",
+      "exitWith": "saiu com",
+      "validatedBy": "Validado por {name}",
+      "imageLegalText": "Autorizo o uso de imagem do(a) menor para fins educacionais e promocionais da academia, conforme LGPD e ECA.",
+      "competitionLegalText": "Autorizo a participação do(a) menor em competições oficiais e amistosos organizados ou indicados pela academia.",
+      "externalLegalText": "Autorizo a participação do(a) menor em eventos externos, seminários e workshops fora da academia."
     },
     "messages": {
       "title": "Mensagens",
@@ -2514,7 +3042,19 @@
         "active": "Ativa",
         "defaulter": "Inadimplente",
         "blocked": "Bloqueada"
-      }
+      },
+      "pageTitle": "Dashboard da Plataforma",
+      "pageSubtitle": "Visão global de todas as academias",
+      "financialSection": "Financeiro",
+      "growthMonth": "+{value}% mês",
+      "operationalSection": "Operacional",
+      "viewAll": "Ver todas",
+      "plan": "Plano",
+      "monthShort": "mês",
+      "unblock": "Desbloquear",
+      "block": "Bloquear",
+      "changePlan": "Alterar Plano",
+      "viewDetails": "Ver Detalhes"
     },
     "academies": {
       "title": "Academias",
@@ -2525,7 +3065,27 @@
       "professorsCount": "professores",
       "unblock": "Desbloquear",
       "block": "Bloquear",
-      "confirmDelete": "Tem certeza que deseja excluir esta academia?"
+      "confirmDelete": "Tem certeza que deseja excluir esta academia?",
+      "statusActive": "Ativa",
+      "statusDefaulter": "Inadimplente",
+      "statusBlocked": "Bloqueada",
+      "plan": "Plano",
+      "students": "Alunos",
+      "professors": "Professores",
+      "createdAt": "Criada em",
+      "city": "Cidade",
+      "lastPayment": "Últ. Pagamento",
+      "email": "Email",
+      "phone": "Telefone",
+      "edit": "Editar",
+      "registeredCount": "{count} academias cadastradas",
+      "newAcademy": "Nova Academia",
+      "filters": "Filtros",
+      "all": "Todas",
+      "allPlans": "Todos",
+      "monthShort": "mês",
+      "viewDetails": "Ver detalhes",
+      "delete": "Excluir"
     },
     "aiHealth": {
       "title": "Saúde da Plataforma — IA",
@@ -2543,7 +3103,13 @@
       "predictionsLabel": "predições",
       "academiesAtRisk": "Academias em Risco",
       "allHealthy": "Todas as academias estão saudáveis",
-      "loadError": "Erro ao carregar saúde da plataforma"
+      "loadError": "Erro ao carregar saúde da plataforma",
+      "pageTitle": "Saúde da Plataforma — IA",
+      "pageSubtitle": "Monitoramento em tempo real dos serviços de inteligência artificial",
+      "healthScoreDesc": "Baseado em taxa de erro, academias em risco e uptime",
+      "predictions": "predições",
+      "noDataAvailable": "Nenhum dado disponível.",
+      "atRiskAcademies": "Academias em Risco"
     },
     "financial": {
       "title": "Financeiro",
@@ -2578,7 +3144,11 @@
         "paid": "Pago",
         "pending": "Pendente",
         "overdue": "Atrasado"
-      }
+      },
+      "monthsValue": "{count} meses",
+      "paid": "Pago",
+      "pending": "Pendente",
+      "overdue": "Atrasado"
     }
   },
   "domain": {
@@ -2646,7 +3216,34 @@
     "findYourSize": "ENCONTRE SEU TAMANHO IDEAL",
     "findDesc": "Descubra o tamanho perfeito em segundos",
     "visualRef": "REFERÊNCIA VISUAL",
-    "visualRefDesc": "Veja como o produto veste"
+    "visualRefDesc": "Veja como o produto veste",
+    "close": "Fechar",
+    "tabs": {
+      "quick": "Rápido",
+      "visual": "Visual",
+      "technical": "Técnico"
+    },
+    "enterKidsMeasures": "Insira as medidas da criança",
+    "enterYourMeasures": "Insira suas medidas",
+    "ageYears": "Idade (anos)",
+    "heightCm": "Altura (cm)",
+    "weightKg": "Peso (kg)",
+    "suggestIdealSize": "Sugerir tamanho ideal",
+    "recommendSize": "Recomendamos tamanho {size}",
+    "forChild": "Para a criança",
+    "selectAndClose": "Selecionar {size} e fechar",
+    "findSizeSubtitle": "Descubra o tamanho ideal",
+    "size": "Tamanho",
+    "tip": "Dica",
+    "tipChooseLarger": "Na dúvida, escolha o tamanho maior",
+    "visualReference": "Referência Visual",
+    "seeHowItFits": "Veja como veste",
+    "detailedMeasurements": "Medidas Detalhadas",
+    "forMaxPrecision": "Para máxima precisão",
+    "jacketMeasurements": "Medidas do Kimono (Parte de Cima)",
+    "pantsMeasurements": "Medidas da Calça",
+    "shrinkageAfterWash": "Encolhimento após lavagem",
+    "measuresMayVary": "Medidas podem variar ±2cm"
   },
   "navigation": {
     "routes": {
@@ -2719,5 +3316,34 @@
       "kids-medalhas": "Conquistas",
       "kids-mestres": "Mestres"
     }
+  },
+  "deleteAccount": {
+    "pageTitle": "Excluir Conta",
+    "errorMessage": "Erro ao processar solicitação",
+    "beforeContinue": "Antes de continuar",
+    "deleteViaApp": "Você também pode excluir pelo app:",
+    "deleteViaAppPath": "Configurações → Minha Conta → Excluir Conta",
+    "registeredEmail": "E-mail cadastrado",
+    "reason": "Motivo",
+    "optional": "Opcional",
+    "reasonPlaceholder": "Por que deseja excluir sua conta?",
+    "disclaimerTitle": "Ao solicitar a exclusão:",
+    "disclaimerDeactivate": "Sua conta será desativada imediatamente",
+    "disclaimerCancel": "Você tem 30 dias para cancelar a exclusão",
+    "disclaimerAnonymize": "Após 30 dias, seus dados serão anonimizados",
+    "disclaimerConfirmEmail": "Confirmaremos por e-mail",
+    "submitButton": "Solicitar exclusão da conta",
+    "confirmTitle": "Excluir minha conta",
+    "confirmMessage": "Tem certeza que deseja excluir sua conta? Esta ação é irreversível após 30 dias.",
+    "confirmLabel": "Sim, excluir",
+    "cancelLabel": "Cancelar",
+    "processing": "Processando...",
+    "successTitle": "Solicitação enviada",
+    "successEmailSent": "Enviamos um e-mail para {email}",
+    "successDeactivation": "Sua conta será desativada em breve",
+    "successAnonymize": "Dados anonimizados após 30 dias",
+    "contactDpo": "Contato do DPO",
+    "privacyPolicy": "Política de Privacidade",
+    "termsOfUse": "Termos de Uso"
   }
 }

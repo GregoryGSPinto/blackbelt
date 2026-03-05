@@ -161,10 +161,10 @@ export default function SuperAdminDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Dashboard da Plataforma
+            {t('pageTitle')}
           </h1>
           <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
-            Visão global de todas as academias
+            {t('pageSubtitle')}
           </p>
         </div>
         <a
@@ -172,14 +172,14 @@ export default function SuperAdminDashboard() {
           className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-medium hover:from-indigo-500 hover:to-violet-500 transition-all"
         >
           <Plus className="w-4 h-4" />
-          Nova Academia
+          {t('newAcademy')}
         </a>
       </div>
 
       {/* ─── SEÇÃO FINANCEIRA ─── */}
       <section className="space-y-4">
         <h2 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-          Financeiro
+          {t('financialSection')}
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <MetricCard
@@ -187,7 +187,7 @@ export default function SuperAdminDashboard() {
             icon={DollarSign}
             label={t('mrr')}
             value={formatBRL(metrics.mrr)}
-            sub={`+${metrics.mrrCrescimento}% mês`}
+            sub={t('growthMonth', { value: metrics.mrrCrescimento })}
           />
           <MetricCard
             isDark={isDark}
@@ -222,7 +222,7 @@ export default function SuperAdminDashboard() {
           }
         `}>
           <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
-            Receita Mensal (12 meses)
+            {t('monthlyRevenue')}
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -260,7 +260,7 @@ export default function SuperAdminDashboard() {
           }
         `}>
           <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
-            Receita por Plano
+            {t('revenueByPlan')}
           </h3>
           <div className="space-y-3">
             {revenueByPlan.map((plan) => (
@@ -287,10 +287,10 @@ export default function SuperAdminDashboard() {
       {/* ─── SEÇÃO OPERACIONAL ─── */}
       <section className="space-y-4">
         <h2 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-violet-400' : 'text-violet-600'}`}>
-          Operacional
+          {t('operationalSection')}
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard isDark={isDark} icon={Users} label={t('totalStudents')} value={formatNum(metrics.totalAlunos)} sub={`+${metrics.crescimentoAlunos}% mês`} />
+          <MetricCard isDark={isDark} icon={Users} label={t('totalStudents')} value={formatNum(metrics.totalAlunos)} sub={t('growthMonth', { value: metrics.crescimentoAlunos })} />
           <MetricCard isDark={isDark} icon={GraduationCap} label={t('professors')} value={formatNum(metrics.totalProfessores)} />
           <MetricCard isDark={isDark} icon={Video} label={t('videos')} value={formatNum(metrics.totalVideos)} />
           <MetricCard isDark={isDark} icon={MousePointerClick} label={t('monthAccess')} value={formatNum(metrics.totalAcessosMes)} />
@@ -305,7 +305,7 @@ export default function SuperAdminDashboard() {
           }
         `}>
           <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
-            Crescimento de Alunos (12 meses)
+            {t('studentGrowth')}
           </h3>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
@@ -337,7 +337,7 @@ export default function SuperAdminDashboard() {
           }
         `}>
           <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
-            Top 5 Academias por Alunos
+            {t('topAcademies')}
           </h3>
           <div className="space-y-3">
             {topAcademies.map((a, i) => (
@@ -358,13 +358,13 @@ export default function SuperAdminDashboard() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>
-            Controle de Academias
+            {t('academyControl')}
           </h2>
           <a
             href="/super-admin/academias"
             className={`text-xs font-medium ${isDark ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}
           >
-            Ver todas →
+            {t('viewAll')}
           </a>
         </div>
 
@@ -394,35 +394,35 @@ export default function SuperAdminDashboard() {
                     </span>
                   </div>
                   <p className={`text-xs mt-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
-                    {academy.cidade}/{academy.estado} · Plano {academy.plano} · {academy.totalAlunos} alunos
+                    {academy.cidade}/{academy.estado} · {t('plan')} {academy.plano} · {academy.totalAlunos} {t('totalStudents')}
                   </p>
                 </div>
 
                 {/* MRR */}
                 <div className="flex items-center gap-2">
                   <span className={`text-sm font-bold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-                    {formatBRL(academy.mrr)}/mês
+                    {formatBRL(academy.mrr)}/{t('monthShort')}
                   </span>
                 </div>
 
                 {/* Actions */}
                 <div className="flex items-center gap-2">
                   {academy.status === 'BLOQUEADA' ? (
-                    <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`} title="Desbloquear">
+                    <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`} title={t('unblock')}>
                       <Unlock className="w-4 h-4" />
                     </button>
                   ) : (
-                    <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-700 hover:bg-red-100'}`} title="Bloquear">
+                    <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-700 hover:bg-red-100'}`} title={t('block')}>
                       <Lock className="w-4 h-4" />
                     </button>
                   )}
-                  <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-white/5 text-white/60 hover:bg-white/10' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`} title="Alterar Plano">
+                  <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-white/5 text-white/60 hover:bg-white/10' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`} title={t('changePlan')}>
                     <Settings className="w-4 h-4" />
                   </button>
                   <a
                     href={`/super-admin/academias?id=${academy.id}`}
                     className={`p-2 rounded-lg text-xs ${isDark ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`}
-                    title="Ver Detalhes"
+                    title={t('viewDetails')}
                   >
                     <Eye className="w-4 h-4" />
                   </a>

@@ -20,9 +20,9 @@ function formatBRL(value: number): string {
 }
 
 const STATUS_CONFIG = {
-  ATIVA:         { label: 'Ativa',        dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', bgDark: 'bg-emerald-500/10', bgLight: 'bg-emerald-100', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
-  INADIMPLENTE:  { label: 'Inadimplente', dotDark: 'bg-amber-400',   dotLight: 'bg-amber-500',   bgDark: 'bg-amber-500/10',   bgLight: 'bg-amber-100',   textDark: 'text-amber-400',   textLight: 'text-amber-700' },
-  BLOQUEADA:     { label: 'Bloqueada',    dotDark: 'bg-red-400',     dotLight: 'bg-red-500',     bgDark: 'bg-red-500/10',     bgLight: 'bg-red-100',     textDark: 'text-red-400',     textLight: 'text-red-700' },
+  ATIVA:         { labelKey: 'statusActive',      dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', bgDark: 'bg-emerald-500/10', bgLight: 'bg-emerald-100', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
+  INADIMPLENTE:  { labelKey: 'statusDefaulter',   dotDark: 'bg-amber-400',   dotLight: 'bg-amber-500',   bgDark: 'bg-amber-500/10',   bgLight: 'bg-amber-100',   textDark: 'text-amber-400',   textLight: 'text-amber-700' },
+  BLOQUEADA:     { labelKey: 'statusBlocked',     dotDark: 'bg-red-400',     dotLight: 'bg-red-500',     bgDark: 'bg-red-500/10',     bgLight: 'bg-red-100',     textDark: 'text-red-400',     textLight: 'text-red-700' },
 };
 
 const PLAN_OPTIONS: PlanoAcademia[] = ['BASICO', 'PRO', 'ENTERPRISE'];
@@ -33,11 +33,12 @@ const STATUS_OPTIONS: (StatusAcademia | 'TODAS')[] = ['TODAS', 'ATIVA', 'INADIMP
 // ============================================================
 
 function StatusBadge({ status, isDark }: { status: StatusAcademia; isDark: boolean }) {
+  const t = useTranslations('superAdmin.academies');
   const c = STATUS_CONFIG[status];
   return (
     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium ${isDark ? `${c.bgDark} ${c.textDark}` : `${c.bgLight} ${c.textLight}`}`}>
       <span className={`w-1.5 h-1.5 rounded-full ${isDark ? c.dotDark : c.dotLight}`} />
-      {c.label}
+      {t(c.labelKey)}
     </span>
   );
 }
@@ -72,19 +73,19 @@ function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy
         <div className="flex items-center gap-3">
           <StatusBadge status={academy.status} isDark={isDark} />
           <span className={`text-xs px-2 py-1 rounded-full ${isDark ? 'bg-indigo-500/10 text-indigo-400' : 'bg-indigo-100 text-indigo-700'}`}>
-            Plano {academy.plano}
+            {t('plan')} {academy.plano}
           </span>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <InfoRow isDark={isDark} icon={Users} label="Alunos" value={String(academy.totalAlunos)} />
-          <InfoRow isDark={isDark} icon={GraduationCap} label="Professores" value={String(academy.totalProfessores)} />
+          <InfoRow isDark={isDark} icon={Users} label={t('students')} value={String(academy.totalAlunos)} />
+          <InfoRow isDark={isDark} icon={GraduationCap} label={t('professors')} value={String(academy.totalProfessores)} />
           <InfoRow isDark={isDark} icon={CreditCard} label="MRR" value={formatBRL(academy.mrr)} />
-          <InfoRow isDark={isDark} icon={Calendar} label="Criada em" value={new Date(academy.criadoEm).toLocaleDateString('pt-BR')} />
-          <InfoRow isDark={isDark} icon={MapPin} label="Cidade" value={`${academy.cidade}/${academy.estado}`} />
-          <InfoRow isDark={isDark} icon={CreditCard} label="Últ. Pagamento" value={new Date(academy.ultimoPagamento).toLocaleDateString('pt-BR')} />
-          <InfoRow isDark={isDark} icon={Mail} label="Email" value={academy.email} />
-          <InfoRow isDark={isDark} icon={Phone} label="Telefone" value={academy.telefone} />
+          <InfoRow isDark={isDark} icon={Calendar} label={t('createdAt')} value={new Date(academy.criadoEm).toLocaleDateString('pt-BR')} />
+          <InfoRow isDark={isDark} icon={MapPin} label={t('city')} value={`${academy.cidade}/${academy.estado}`} />
+          <InfoRow isDark={isDark} icon={CreditCard} label={t('lastPayment')} value={new Date(academy.ultimoPagamento).toLocaleDateString('pt-BR')} />
+          <InfoRow isDark={isDark} icon={Mail} label={t('email')} value={academy.email} />
+          <InfoRow isDark={isDark} icon={Phone} label={t('phone')} value={academy.telefone} />
         </div>
 
         <div className="flex gap-2 pt-2">
@@ -98,7 +99,7 @@ function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy
             </button>
           )}
           <button className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
-            <Edit2 className="w-4 h-4" /> Editar
+            <Edit2 className="w-4 h-4" /> {t('edit')}
           </button>
         </div>
       </div>
@@ -189,12 +190,12 @@ export default function AcademiasPage() {
         <div>
           <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('title')}</h1>
           <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
-            {academies.length} academias cadastradas
+            {t('registeredCount', { count: academies.length })}
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-medium hover:from-indigo-500 hover:to-violet-500 transition-all">
           <Plus className="w-4 h-4" />
-          Nova Academia
+          {t('newAcademy')}
         </button>
       </div>
 
@@ -227,7 +228,7 @@ export default function AcademiasPage() {
           `}
         >
           <Filter className="w-4 h-4" />
-          Filtros
+          {t('filters')}
           <ChevronDown className={`w-3 h-3 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
         </button>
       </div>
@@ -245,18 +246,18 @@ export default function AcademiasPage() {
               className={`text-sm px-3 py-1.5 rounded-lg border ${isDark ? 'bg-white/10 border-white/10 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
             >
               {STATUS_OPTIONS.map(s => (
-                <option key={s} value={s}>{s === 'TODAS' ? 'Todas' : STATUS_CONFIG[s].label}</option>
+                <option key={s} value={s}>{s === 'TODAS' ? t('all') : t(STATUS_CONFIG[s].labelKey)}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className={`text-[10px] uppercase tracking-wider block mb-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>Plano</label>
+            <label className={`text-[10px] uppercase tracking-wider block mb-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>{t('plan')}</label>
             <select
               value={planFilter}
               onChange={e => setPlanFilter(e.target.value as PlanoAcademia | 'TODOS')}
               className={`text-sm px-3 py-1.5 rounded-lg border ${isDark ? 'bg-white/10 border-white/10 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
             >
-              <option value="TODOS">Todos</option>
+              <option value="TODOS">{t('allPlans')}</option>
               {PLAN_OPTIONS.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
           </div>
@@ -299,7 +300,7 @@ export default function AcademiasPage() {
                   <StatusBadge status={academy.status} isDark={isDark} />
                 </div>
                 <p className={`text-xs mt-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
-                  {academy.cidade}/{academy.estado} · {academy.totalAlunos} alunos · {academy.totalProfessores} professores
+                  {academy.cidade}/{academy.estado} · {academy.totalAlunos} {t('students')} · {academy.totalProfessores} {t('professors')}
                 </p>
               </div>
 
@@ -309,7 +310,7 @@ export default function AcademiasPage() {
                   {academy.plano}
                 </span>
                 <span className={`text-sm font-bold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-                  {formatBRL(academy.mrr)}/mês
+                  {formatBRL(academy.mrr)}/{t('monthShort')}
                 </span>
               </div>
 
@@ -318,7 +319,7 @@ export default function AcademiasPage() {
                 <button
                   onClick={() => setSelectedAcademy(academy)}
                   className={`p-2 rounded-lg ${isDark ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`}
-                  title="Ver detalhes"
+                  title={t('viewDetails')}
                 >
                   <Eye className="w-4 h-4" />
                 </button>
@@ -329,14 +330,14 @@ export default function AcademiasPage() {
                       ? isDark ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
                       : isDark ? 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
                   }`}
-                  title={academy.status === 'BLOQUEADA' ? 'Desbloquear' : 'Bloquear'}
+                  title={academy.status === 'BLOQUEADA' ? t('unblock') : t('block')}
                 >
                   {academy.status === 'BLOQUEADA' ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
                 </button>
                 <button
                   onClick={() => handleDelete(academy.id)}
                   className={`p-2 rounded-lg ${isDark ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-700 hover:bg-red-100'}`}
-                  title="Excluir"
+                  title={t('delete')}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

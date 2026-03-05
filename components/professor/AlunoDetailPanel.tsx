@@ -38,9 +38,9 @@ const NIVEL_COLORS: Record<string, string> = {
 };
 
 const STATUS_CONFIG = {
-  ativo: { label: 'Ativo', color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
-  alerta: { label: 'Alerta', color: '#FBBF24', bg: 'rgba(251,191,36,0.12)' },
-  ausente: { label: 'Ausente', color: '#F87171', bg: 'rgba(248,113,113,0.12)' },
+  ativo: { labelKey: 'statusActive' as const, color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
+  alerta: { labelKey: 'statusAlert' as const, color: '#FBBF24', bg: 'rgba(251,191,36,0.12)' },
+  ausente: { labelKey: 'statusAbsent' as const, color: '#F87171', bg: 'rgba(248,113,113,0.12)' },
 };
 
 interface Props {
@@ -133,13 +133,13 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
                 className="px-1.5 py-0.5 rounded text-[9px] font-medium"
                 style={{ background: STATUS_CONFIG[aluno.status].bg, color: STATUS_CONFIG[aluno.status].color }}
               >
-                {STATUS_CONFIG[aluno.status].label}
+                {t(STATUS_CONFIG[aluno.status].labelKey)}
               </span>
             </div>
             <div className="flex items-center gap-3 text-xs text-white/40">
               <span className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full" style={{ background: nivelColor }} />
-                {aluno.nivel} {aluno.subniveis > 0 && `• ${aluno.subniveis}º subnível`}
+                {aluno.nivel} {aluno.subniveis > 0 && `• ${t('sublevel', { n: aluno.subniveis })}`}
               </span>
               <span>{aluno.categoria}</span>
               <span>{aluno.turma}</span>
@@ -238,7 +238,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
                   }}
                 />
               </div>
-              <p className="text-[10px] text-white/15 mt-1">Atualizado: {mod.ultimaAtualizacao}</p>
+              <p className="text-[10px] text-white/15 mt-1">{t('updated')}: {mod.ultimaAtualizacao}</p>
             </div>
           )) || <p className="text-xs text-white/20 text-center py-4">{t('noProgressModules')}</p>}
         </div>
@@ -270,7 +270,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
         <QuickMessage
           recipientName={aluno.nome}
           recipientId={alunoId}
-          senderName="Instrutor"
+          senderName={t('instructor')}
           senderId="instrutor-1"
           senderTipo="instrutor"
           onClose={() => setShowMessage(false)}

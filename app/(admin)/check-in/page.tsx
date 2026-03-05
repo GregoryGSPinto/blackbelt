@@ -72,7 +72,7 @@ export default function CheckInPage() {
   useSearchRegistration('admin-checkin', searchItems);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('checkin.loading')} />;
   }
 
   if (error) {
@@ -124,7 +124,7 @@ export default function CheckInPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkin.title')}</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Validar presença dos alunos</p>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('checkin.validatePresence')}</p>
       </div>
 
       {/* Stats */}
@@ -171,7 +171,7 @@ export default function CheckInPage() {
             </div>
             <div>
               <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.checkinDone')}</h3>
-              <p className="text-green-400">{selectedAluno.nome} - {new Date().toLocaleTimeString('pt-BR')}</p>
+              <p className="text-green-400">{selectedAluno.nome} - {new Date().toLocaleTimeString()}</p>
             </div>
           </div>
         </div>
@@ -186,9 +186,9 @@ export default function CheckInPage() {
             </div>
             <div>
               <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.studentBlocked')}</h3>
-              <p className="text-red-400">{selectedAluno.nome} não pode fazer check-in</p>
+              <p className="text-red-400">{t('checkin.cannotCheckin', { name: selectedAluno.nome })}</p>
               <p className="text-sm text-white/50 mt-1">
-                Motivo: {selectedAluno.observacoes || 'Regularize a situação na recepção'}
+                {t('checkin.reason')}: {selectedAluno.observacoes || t('checkin.regularizeSituation')}
               </p>
             </div>
           </div>
@@ -206,7 +206,7 @@ export default function CheckInPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Digite o nome ou ID do aluno..."
+            placeholder={t('checkin.searchPlaceholder')}
             className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/15 rounded-lg text-white text-lg placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
             autoFocus
           />
@@ -218,7 +218,7 @@ export default function CheckInPage() {
         <div style={{ ...glass, overflow: 'hidden' }}>
           <div className="p-4 border-b border-white/10">
             <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
-              {filteredAlunos.length} Resultado(s) Encontrado(s)
+              {t('checkin.resultsFound', { count: filteredAlunos.length })}
             </h3>
           </div>
           <div className="divide-y max-h-96 overflow-y-auto">
@@ -245,17 +245,17 @@ export default function CheckInPage() {
                           <h4 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{aluno.nome}</h4>
                           {aluno.status === 'ATIVO' && (
                             <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-xs text-green-400 font-medium">
-                              Ativo
+                              {t('checkin.statusActive')}
                             </span>
                           )}
                           {aluno.status === 'EM_ATRASO' && (
                             <span className="px-2 py-0.5 bg-yellow-600/20 border border-yellow-600/30 rounded-full text-xs text-yellow-400 font-medium">
-                              Em Atraso
+                              {t('checkin.statusOverdue')}
                             </span>
                           )}
                           {aluno.status === 'BLOQUEADO' && (
                             <span className="px-2 py-0.5 bg-red-600/20 border border-red-600/30 rounded-full text-xs text-red-400 font-medium">
-                              Bloqueado
+                              {t('checkin.statusBlocked')}
                             </span>
                           )}
                         </div>
@@ -307,7 +307,7 @@ export default function CheckInPage() {
           {filteredAlunos.length === 0 && (
             <div className="text-center py-12">
               <Search className="w-12 h-12 text-white/30 mx-auto mb-3" />
-              <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhum aluno encontrado</p>
+              <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('checkin.noStudentFound')}</p>
             </div>
           )}
         </div>
@@ -340,7 +340,7 @@ export default function CheckInPage() {
                   <div className="text-right">
                     <p className="text-sm font-medium" style={{ color: tokens.text }}>{checkIn.hora}</p>
                     {checkIn.validadoPor && (
-                      <p className="text-xs" style={{ color: tokens.textMuted }}>Via Responsável</p>
+                      <p className="text-xs" style={{ color: tokens.textMuted }}>{t('checkin.viaGuardian')}</p>
                     )}
                   </div>
                 </div>
@@ -352,7 +352,7 @@ export default function CheckInPage() {
         {checkInsHoje.length === 0 && (
           <div className="text-center py-12">
             <Clock className="w-12 h-12 text-white/30 mx-auto mb-3" />
-            <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhum check-in realizado hoje</p>
+            <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('checkin.noCheckinToday')}</p>
           </div>
         )}
       </div>

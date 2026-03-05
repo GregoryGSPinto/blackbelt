@@ -62,7 +62,7 @@ export default function UsuariosPage() {
   useSearchRegistration('admin-usuarios', globalSearchItems);
 
   if (loading) {
-    return <PremiumLoader text="Carregando usuários..." />;
+    return <PremiumLoader text={t('users.loading')} />;
   }
 
   if (error) {
@@ -80,35 +80,35 @@ export default function UsuariosPage() {
         border: 'border-white/10',
         text: 'text-green-400',
         icon: CheckCircle,
-        label: 'Ativo'
+        label: t('users.statusActive')
       },
       EM_ATRASO: {
         bg: 'bg-yellow-600/20',
         border: 'border-yellow-600/30',
         text: 'text-yellow-400',
         icon: AlertCircle,
-        label: 'Em Atraso'
+        label: t('users.statusOverdue')
       },
       BLOQUEADO: {
         bg: 'bg-red-600/20',
         border: 'border-red-600/30',
         text: 'text-red-400',
         icon: XCircle,
-        label: 'Bloqueado'
+        label: t('users.statusBlocked')
       },
       CONGELADO: {
         bg: 'bg-cyan-500/10',
         border: 'border-cyan-500/20',
         text: 'text-cyan-400',
         icon: Snowflake,
-        label: 'Congelado'
+        label: t('users.statusFrozen')
       },
       INATIVO: {
         bg: 'bg-black/30',
         border: 'border-white/[0.06]',
         text: 'text-white/30',
         icon: UserX,
-        label: 'Inativo'
+        label: t('users.statusInactive')
       }
     };
 
@@ -134,11 +134,11 @@ export default function UsuariosPage() {
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('users.title')}</h1>
-          <p style={{ fontWeight: 300, color: tokens.textMuted }}>Gerenciar alunos, instrutores e usuários do sistema</p>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.subtitle')}</p>
         </div>
         <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '4px' }}>
           <UserPlus className="w-5 h-5" />
-          <span>Novo Aluno</span>
+          <span>{t('users.newStudent')}</span>
         </button>
       </div>
 
@@ -147,7 +147,7 @@ export default function UsuariosPage() {
         <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Alunos Ativos</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.activeStudents')}</p>
               <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.ativos}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
@@ -157,7 +157,7 @@ export default function UsuariosPage() {
         <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Em Atraso</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.statusOverdue')}</p>
               <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
@@ -167,7 +167,7 @@ export default function UsuariosPage() {
         <div style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Bloqueados</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.statusBlocked')}</p>
               <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.bloqueados}</p>
             </div>
             <Ban className="w-10 h-10 text-white/30" />
@@ -181,7 +181,7 @@ export default function UsuariosPage() {
           {/* Search */}
           <div className="md:col-span-1">
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Buscar
+              {t('users.search')}
             </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
@@ -189,7 +189,7 @@ export default function UsuariosPage() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Nome ou e-mail..."
+                placeholder={t('users.searchPlaceholder')}
                 className="w-full pl-10 pr-4 py-2.5 focus:outline-none" style={{ background: 'transparent', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: `1px solid ${tokens.inputBorder}`, color: tokens.text, borderRadius: 0 }}
               />
             </div>
@@ -205,27 +205,27 @@ export default function UsuariosPage() {
               onChange={(e) => setStatusFilter(e.target.value as StatusOperacional | 'TODOS')}
               className="w-full px-4 py-2.5 focus:outline-none" style={{ background: 'transparent', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: `1px solid ${tokens.inputBorder}`, color: tokens.text, borderRadius: 0 }}
             >
-              <option value="TODOS">Todos os Status</option>
-              <option value="ATIVO">Ativos</option>
-              <option value="EM_ATRASO">Em Atraso</option>
-              <option value="BLOQUEADO">Bloqueados</option>
-              <option value="CONGELADO">Congelados</option>
-              <option value="INATIVO">Inativos</option>
+              <option value="TODOS">{t('users.allStatuses')}</option>
+              <option value="ATIVO">{t('users.statusActive')}</option>
+              <option value="EM_ATRASO">{t('users.statusOverdue')}</option>
+              <option value="BLOQUEADO">{t('users.statusBlocked')}</option>
+              <option value="CONGELADO">{t('users.statusFrozen')}</option>
+              <option value="INATIVO">{t('users.statusInactive')}</option>
             </select>
           </div>
 
           {/* Tipo Filter */}
           <div>
             <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
-              Categoria
+              {t('users.thCategory')}
             </label>
             <select
               value={tipoFilter}
               onChange={(e) => setTipoFilter(e.target.value as TipoUsuario | 'TODOS')}
               className="w-full px-4 py-2.5 focus:outline-none" style={{ background: 'transparent', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: `1px solid ${tokens.inputBorder}`, color: tokens.text, borderRadius: 0 }}
             >
-              <option value="TODOS">Todas as Categorias</option>
-              <option value="ALUNO">Alunos</option>
+              <option value="TODOS">{t('users.allCategories')}</option>
+              <option value="ALUNO">{t('users.students')}</option>
             </select>
           </div>
         </div>
@@ -238,22 +238,22 @@ export default function UsuariosPage() {
             <thead className="bg-white/5">
               <tr>
                 <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
-                  Aluno
+                  {t('users.thStudent')}
                 </th>
                 <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
-                  Categoria
+                  {t('users.thCategory')}
                 </th>
                 <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
-                  Graduação
+                  {t('users.thGraduation')}
                 </th>
                 <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
-                  Status
+                  {t('users.thStatus')}
                 </th>
                 <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
-                  Vencimento
+                  {t('users.thDueDate')}
                 </th>
                 <th style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 }}>
-                  Ações
+                  {t('users.thActions')}
                 </th>
               </tr>
             </thead>
@@ -279,7 +279,7 @@ export default function UsuariosPage() {
                         ? 'bg-white/10 text-white'
                         : 'bg-pink-600/20 text-pink-400'
                     }`}>
-                      {user.categoria === 'ADULTO' ? 'Adulto' : 'Kids'}
+                      {user.categoria === 'ADULTO' ? t('users.categoryAdult') : 'Kids'}
                     </span>
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
@@ -305,19 +305,19 @@ export default function UsuariosPage() {
                       <button
                         onClick={() => setSelectedUser(user)}
                         className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                        title="Ver Detalhes"
+                        title={t('users.viewDetails')}
                       >
                         <Eye className="w-4 h-4" />
                       </button>
                       <button
                         className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                        title="Editar"
+                        title={t('users.edit')}
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button
                         className="p-2 text-white/50 hover:text-red-400 hover:bg-white/10 rounded-lg transition-colors"
-                        title="Alterar Status"
+                        title={t('users.changeStatus')}
                       >
                         <Ban className="w-4 h-4" />
                       </button>
@@ -332,7 +332,7 @@ export default function UsuariosPage() {
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
             <Filter className="w-12 h-12 text-white/30 mx-auto mb-3" />
-            <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhum usuário encontrado</p>
+            <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.noUserFound')}</p>
           </div>
         )}
       </div>
@@ -358,7 +358,7 @@ export default function UsuariosPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Telefone</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.phone')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.telefone}</p>
                   </div>
                   <div>
@@ -366,21 +366,21 @@ export default function UsuariosPage() {
                     {getStatusBadge(selectedUser.status)}
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Categoria</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.thCategory')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.categoria}</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Graduação</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.thGraduation')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.graduacao}</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Data de Cadastro</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.registrationDate')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>
                       {new Date(selectedUser.dataCadastro).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Próximo Vencimento</p>
+                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.nextDueDate')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>
                       {selectedUser.proximoVencimento 
                         ? new Date(selectedUser.proximoVencimento).toLocaleDateString('pt-BR')
@@ -398,10 +398,10 @@ export default function UsuariosPage() {
 
                 <div className="flex gap-3 pt-4">
                   <button className="flex-1 px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors font-medium">
-                    Editar Aluno
+                    {t('users.editStudent')}
                   </button>
                   <button className="px-4 py-2 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium">
-                    Ver Histórico
+                    {t('users.viewHistory')}
                   </button>
                 </div>
               </div>

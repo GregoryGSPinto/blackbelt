@@ -28,13 +28,14 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 /* ─── Objectives mock (enriches Video data) ─── */
-const OBJECTIVES: Record<string, string[]> = {
-  '1': ['Dominar a postura na guarda fechada', 'Controlar distância e quadril', 'Criar ângulos de ataque'],
-  '2': ['Técnicas de toreando e over-under', 'Controle de quadril durante passagem', 'Transições para side control'],
-  '3': ['Reconhecer o setup da omoplata', 'Escapar antes do lock', 'Contra-atacar a partir da defesa'],
-  '4': ['Cross choke da guarda fechada', 'Armbar com controle de postura', 'Combinações de ataques em sequência'],
-  '5': ['Underhook da meia guarda', 'Raspagem para montada', 'Variações contra bases diferentes'],
-  '6': ['Pressão de montada alta vs baixa', 'Manter o equilíbrio sob bridging', 'Transições para finalização'],
+/* OBJECTIVES mock — keys reference i18n paths under athlete.sessions.objectivesMock */
+const OBJECTIVE_KEYS: Record<string, [string, string, string]> = {
+  '1': ['closedGuardPosture', 'distanceHipControl', 'attackAngles'],
+  '2': ['toreantoOverUnder', 'hipControlPassing', 'sideControlTransitions'],
+  '3': ['omoplataSetup', 'escapeBeforeLock', 'counterFromDefense'],
+  '4': ['crossChokeClosedGuard', 'armbarPostureControl', 'attackCombinations'],
+  '5': ['halfGuardUnderhook', 'sweepToMount', 'variationsAgainstBases'],
+  '6': ['highLowMountPressure', 'balanceUnderBridging', 'submissionTransitions'],
 };
 
 function getLevelStyle(level: string) {
@@ -127,11 +128,14 @@ export default function AulaDetailPage() {
 
 
   const level = getLevelStyle(video.level);
-  const objectives = OBJECTIVES[video.id] || [
-    t('sessions.objectives.technique'),
-    t('sessions.objectives.bodyAwareness'),
-    t('sessions.objectives.apply'),
-  ];
+  const objectiveKeys = OBJECTIVE_KEYS[video.id];
+  const objectives = objectiveKeys
+    ? objectiveKeys.map(k => t(`sessions.objectivesMock.${k}`))
+    : [
+        t('sessions.objectives.technique'),
+        t('sessions.objectives.bodyAwareness'),
+        t('sessions.objectives.apply'),
+      ];
 
   return (
     <div
@@ -319,11 +323,7 @@ export default function AulaDetailPage() {
             <div>
               <h2 className="text-xl font-bold mb-4 text-white/90">{t('sessions.aboutSession')}</h2>
               <p className="text-[15px] text-white/45 leading-[1.8] max-w-2xl">
-                {video.description} Esta sessão faz parte do programa técnico avançado do
-                BlackBelt, desenvolvida para alunos que desejam aprimorar seus
-                fundamentos e ampliar seu repertório técnico. O conteúdo aborda desde os
-                conceitos básicos até as variações mais utilizadas em competição de alto
-                nível.
+                {video.description} {t('sessions.extendedDescription')}
               </p>
             </div>
 
@@ -363,7 +363,7 @@ export default function AulaDetailPage() {
                 {t('sessions.instructorLabel')}
               </div>
               <p className="text-white font-semibold">{video.instructor}</p>
-              <p className="text-xs text-white/30">Nível Máximo · 15 anos de experiência</p>
+              <p className="text-xs text-white/30">{t('sessions.instructorExperience')}</p>
             </div>
 
             {/* Category card */}

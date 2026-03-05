@@ -6,6 +6,7 @@ import {
   Flame, Crown,
 } from 'lucide-react';
 import type { RankingEntry } from '@/lib/api/contracts';
+import { useTranslations } from 'next-intl';
 
 // ── Helpers ───────────────────────────────────────────────
 
@@ -119,9 +120,11 @@ function PodiumCard({
 function ListEntry({
   entry,
   isMe,
+  youLabel,
 }: {
   entry: RankingEntry;
   isMe: boolean;
+  youLabel: string;
 }) {
   return (
     <div
@@ -150,7 +153,7 @@ function ListEntry({
       <div className="flex-1 min-w-0">
         <p className={`text-sm font-semibold truncate ${isMe ? 'text-amber-200' : 'text-white/90'}`}>
           {entry.nome}
-          {isMe && <span className="ml-1.5 text-[10px] text-amber-400/70 uppercase">(você)</span>}
+          {isMe && <span className="ml-1.5 text-[10px] text-amber-400/70 uppercase">({youLabel})</span>}
         </p>
         <div className="flex items-center gap-2">
           <span
@@ -193,6 +196,7 @@ export default function LeaderboardCard({
   minhaPosicao,
   loading = false,
 }: LeaderboardCardProps) {
+  const t = useTranslations('athlete.leaderboard');
   const top3 = useMemo(() => ranking.slice(0, 3), [ranking]);
   const restante = useMemo(() => ranking.slice(3), [ranking]);
   const meuId = minhaPosicao?.alunoId;
@@ -216,7 +220,7 @@ export default function LeaderboardCard({
     return (
       <div className="text-center py-12">
         <Trophy size={48} className="mx-auto text-white/15 mb-4" />
-        <p className="text-white/40 text-sm">Nenhum dado de ranking disponível</p>
+        <p className="text-white/40 text-sm">{t('noRankingData')}</p>
       </div>
     );
   }
@@ -244,9 +248,9 @@ export default function LeaderboardCard({
       {minhaPosicao && minhaPosicao.posicao > 3 && (
         <div className="px-1">
           <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2 px-3">
-            Sua posição
+            {t('yourPosition')}
           </p>
-          <ListEntry entry={minhaPosicao} isMe={true} />
+          <ListEntry entry={minhaPosicao} isMe={true} youLabel={t('you')} />
         </div>
       )}
 
@@ -258,6 +262,7 @@ export default function LeaderboardCard({
               key={entry.alunoId}
               entry={entry}
               isMe={entry.alunoId === meuId}
+              youLabel={t('you')}
             />
           ))}
         </div>

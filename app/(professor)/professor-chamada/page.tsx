@@ -59,8 +59,8 @@ export default function ProfessorChamadaPage() {
     alunos.map((a: AlunoComStatus) => ({
       id: `chamada-${a.id}`,
       label: a.nome,
-      sublabel: `Nível ${a.nivel}`,
-      categoria: 'Chamada',
+      sublabel: `${t('level')} ${a.nivel}`,
+      categoria: t('title'),
       icon: a.avatar,
       href: '/professor-chamada',
       keywords: [a.nivel],
@@ -318,7 +318,7 @@ export default function ProfessorChamadaPage() {
                       className="w-2 h-2 rounded-full flex-shrink-0"
                       style={{ backgroundColor: aluno.nivelCor }}
                     />
-                    <span className="text-white/40 text-[11px]">Nível {aluno.nivel}</span>
+                    <span className="text-white/40 text-[11px]">{t('level')} {aluno.nivel}</span>
                   </div>
                 </div>
 

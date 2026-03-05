@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { X, MessageSquare, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import * as broadcastService from '@/lib/api/turma-broadcast.service';
 import type { TurmaBroadcast } from '@/lib/api/turma-broadcast.service';
 
@@ -23,6 +24,7 @@ function addDismissed(id: string) {
 }
 
 export function TurmaNotifications({ alunoId = 'a1' }: { alunoId?: string }) {
+  const t = useTranslations('athlete.notifications');
   const [broadcasts, setBroadcasts] = useState<TurmaBroadcast[]>([]);
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
 
@@ -45,7 +47,7 @@ export function TurmaNotifications({ alunoId = 'a1' }: { alunoId?: string }) {
       {visible.slice(0, 3).map((bc: TurmaBroadcast) => {
         const time = new Date(bc.enviadoEm);
         const diff = Math.round((Date.now() - time.getTime()) / 3600000);
-        const timeLabel = diff < 1 ? 'Agora' : diff < 24 ? `${diff}h atrás` : `${Math.round(diff / 24)}d atrás`;
+        const timeLabel = diff < 1 ? t('now') : diff < 24 ? t('hoursAgo', { hours: diff }) : t('daysAgo', { days: Math.round(diff / 24) });
 
         return (
           <div
@@ -56,7 +58,7 @@ export function TurmaNotifications({ alunoId = 'a1' }: { alunoId?: string }) {
             <button
               onClick={() => handleDismiss(bc.id)}
               className="absolute top-2 right-2 p-1 rounded-lg hover:bg-white/5 transition-colors"
-              aria-label="Dispensar"
+              aria-label={t('dismiss')}
             >
               <X size={12} className="text-white/20" />
             </button>
@@ -70,7 +72,7 @@ export function TurmaNotifications({ alunoId = 'a1' }: { alunoId?: string }) {
                   </span>
                 </div>
                 <p className="text-xs text-white/50 mt-1 leading-relaxed">{bc.conteudo}</p>
-                <p className="text-[8px] text-white/15 mt-1">de {bc.remetenteNome}</p>
+                <p className="text-[8px] text-white/15 mt-1">{t('from')} {bc.remetenteNome}</p>
               </div>
             </div>
           </div>

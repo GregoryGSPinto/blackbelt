@@ -112,12 +112,12 @@ export default function RecepcaoPage() {
         }
       }
     } catch {
-      setQrResult({ success: false, error: 'Erro ao processar QR Code.' });
+      setQrResult({ success: false, error: t('reception.qrError') });
     }
   }, [alunos]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando recepção..." />;
+    return <PremiumLoader text={t('reception.loading')} />;
   }
 
   if (error) {
@@ -145,7 +145,7 @@ export default function RecepcaoPage() {
             className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/10 text-white rounded-lg transition-colors font-medium"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Voltar ao Painel</span>
+            <span>{t('reception.backToPanel')}</span>
           </Link>
         </div>
 
@@ -160,7 +160,7 @@ export default function RecepcaoPage() {
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.welcome')}</h3>
                 <p className="text-2xl text-green-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-1">
-                  Check-in realizado às {new Date().toLocaleTimeString('pt-BR')}
+                  {t('reception.checkinDoneAt', { time: new Date().toLocaleTimeString() })}
                 </p>
               </div>
             </div>
@@ -178,7 +178,7 @@ export default function RecepcaoPage() {
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.accessBlocked')}</h3>
                 <p className="text-2xl text-red-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-2">
-                  {selectedAluno.observacoes || 'Por favor, dirija-se à recepção para regularizar sua situação.'}
+                  {selectedAluno.observacoes || t('reception.goToReception')}
                 </p>
               </div>
             </div>
@@ -215,9 +215,9 @@ export default function RecepcaoPage() {
         {mode === 'qr' && (
           <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
             <div className="max-w-md mx-auto">
-              <h2 className="text-xl font-bold text-white text-center mb-2">Scanner QR Code</h2>
+              <h2 className="text-xl font-bold text-white text-center mb-2">{t('reception.qrScanner')}</h2>
               <p className="text-white/40 text-sm text-center mb-6">
-                Aponte a câmera para o QR Code do aluno
+                {t('reception.pointCameraQR')}
               </p>
 
               <QRScanner
@@ -231,7 +231,7 @@ export default function RecepcaoPage() {
                   <div className="flex items-center gap-3">
                     <AlertCircle size={20} className="text-red-400 flex-shrink-0" />
                     <div>
-                      <p className="text-red-400 font-bold text-sm">Erro no check-in</p>
+                      <p className="text-red-400 font-bold text-sm">{t('reception.checkinError')}</p>
                       <p className="text-white/50 text-sm">{qrResult.error}</p>
                     </div>
                   </div>
@@ -247,7 +247,7 @@ export default function RecepcaoPage() {
                     </div>
                     <div>
                       <p className="text-green-400 font-bold">{qrResult.aluno.nome}</p>
-                      <p className="text-white/50 text-sm">{qrResult.aluno.graduacao} • Check-in registrado</p>
+                      <p className="text-white/50 text-sm">{qrResult.aluno.graduacao} • {t('reception.checkinRegistered')}</p>
                     </div>
                   </div>
                 </div>
@@ -262,7 +262,7 @@ export default function RecepcaoPage() {
         {/* Search Area */}
         <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
           <label className="block text-xl font-medium text-white/50 mb-4">
-            Buscar Aluno
+            {t('reception.searchStudent')}
           </label>
           <div className="relative">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-8 h-8 text-white/40" />
@@ -270,7 +270,7 @@ export default function RecepcaoPage() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Digite o nome ou ID do aluno..."
+              placeholder={t('reception.searchPlaceholder')}
               className="w-full pl-20 pr-6 py-4 sm:py-6 bg-white/10 border-2 border-white/15 rounded-xl text-white text-2xl placeholder-white/30 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-transparent"
               autoFocus
             />
@@ -283,7 +283,7 @@ export default function RecepcaoPage() {
             <div className="divide-y-2 divide-white/10">
               {filteredAlunos.slice(0, 5).map((aluno) => {
                 const jaFezCheckIn = getAlunoCheckInStatus(aluno.id);
-                const turmaNome = turmasMap[aluno.turmaId || ''] || 'Sem turma';
+                const turmaNome = turmasMap[aluno.turmaId || ''] || t('reception.noClass');
 
                 return (
                   <div
@@ -304,17 +304,17 @@ export default function RecepcaoPage() {
                             <h4 className="text-xl sm:text-2xl font-bold text-white">{aluno.nome}</h4>
                             {aluno.status === 'ATIVO' && (
                               <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-green-400 font-medium">
-                                Ativo
+                                {t('reception.statusActive')}
                               </span>
                             )}
                             {aluno.status === 'EM_ATRASO' && (
                               <span className="px-3 py-1 bg-yellow-600/20 border border-yellow-600/30 rounded-full text-sm text-yellow-400 font-medium">
-                                Em Atraso
+                                {t('reception.statusOverdue')}
                               </span>
                             )}
                             {aluno.status === 'BLOQUEADO' && (
                               <span className="px-3 py-1 bg-red-600/20 border border-red-600/30 rounded-full text-sm text-red-400 font-medium">
-                                Bloqueado
+                                {t('reception.statusBlocked')}
                               </span>
                             )}
                           </div>
@@ -340,15 +340,15 @@ export default function RecepcaoPage() {
                         {jaFezCheckIn ? (
                           <span className="flex items-center gap-3">
                             <Check className="w-6 h-6" />
-                            Já Fez Check-in
+                            {t('reception.alreadyCheckedIn')}
                           </span>
                         ) : aluno.status === 'BLOQUEADO' ? (
                           <span className="flex items-center gap-3">
                             <AlertCircle className="w-6 h-6" />
-                            Bloqueado
+                            {t('reception.statusBlocked')}
                           </span>
                         ) : (
-                          'VALIDAR CHECK-IN'
+                          t('reception.validateCheckin')
                         )}
                       </button>
                     </div>
@@ -362,7 +362,7 @@ export default function RecepcaoPage() {
         {searchTerm && filteredAlunos.length === 0 && (
           <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-12 text-center">
             <Search className="w-20 h-20 text-white/30 mx-auto mb-4" />
-            <p className="text-2xl text-white/50">Nenhum aluno encontrado</p>
+            <p className="text-2xl text-white/50">{t('reception.noStudentFound')}</p>
           </div>
         )}
 
@@ -370,11 +370,11 @@ export default function RecepcaoPage() {
         {!searchTerm && (
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
-              <p className="text-xl text-white/50 mb-2">Check-ins Hoje</p>
+              <p className="text-xl text-white/50 mb-2">{t('reception.checkinsToday')}</p>
               <p className="text-6xl font-bold text-white/70">{checkInsHoje.length}</p>
             </div>
             <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
-              <p className="text-xl text-white/50 mb-2">Total de Alunos</p>
+              <p className="text-xl text-white/50 mb-2">{t('reception.totalStudents')}</p>
               <p className="text-6xl font-bold text-white">{alunos.length}</p>
             </div>
           </div>

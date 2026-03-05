@@ -22,29 +22,10 @@ import { useTranslations } from 'next-intl';
 
 type Filtro = 'Todos' | CategoriaAluno;
 
-const FILTROS: { label: string; value: Filtro; emoji: string }[] = [
-  { label: 'Todos', value: 'Todos', emoji: '📋' },
-  { label: 'Adulto', value: 'Adulto', emoji: '🥋' },
-  { label: 'Teen', value: 'Teen', emoji: '🤸' },
-  { label: 'Kids', value: 'Kids', emoji: '👦' },
-];
-
-const STATUS_CONFIG = {
-  ativo: { label: 'Ativo', color: '#4ADE80', bg: 'rgba(74,222,128,0.12)', border: 'rgba(74,222,128,0.25)' },
-  alerta: { label: 'Alerta', color: '#FBBF24', bg: 'rgba(251,191,36,0.12)', border: 'rgba(251,191,36,0.25)' },
-  ausente: { label: 'Ausente', color: '#F87171', bg: 'rgba(248,113,113,0.12)', border: 'rgba(248,113,113,0.25)' },
-};
-
 const NIVEL_COLORS: Record<string, string> = {
   'Branca': '#FFFFFF', 'Cinza': '#9CA3AF', 'Amarela': '#FBBF24',
   'Laranja': '#FB923C', 'Verde': '#4ADE80', 'Azul': '#60A5FA',
   'Roxa': '#A78BFA', 'Marrom': '#A0845C', 'Preta': '#FFFFFF',
-};
-
-const GRAD_CONFIG = {
-  APTO: { label: 'Apto', color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
-  EM_AVALIACAO: { label: 'Em Avaliação', color: '#FBBF24', bg: 'rgba(251,191,36,0.12)' },
-  NAO_APTO: { label: '', color: '', bg: '' },
 };
 
 const PAGE_SIZE = 20;
@@ -53,6 +34,25 @@ export default function ProfessorAlunosPage() {
   const t = useTranslations('professor.students');
   const tCommon = useTranslations('common');
   const tDetail = useTranslations('professor.studentDetail');
+
+  const FILTROS: { label: string; value: Filtro; emoji: string }[] = [
+    { label: t('filterAll'), value: 'Todos', emoji: '📋' },
+    { label: t('filterAdult'), value: 'Adulto', emoji: '🥋' },
+    { label: t('filterTeen'), value: 'Teen', emoji: '🤸' },
+    { label: t('filterKids'), value: 'Kids', emoji: '👦' },
+  ];
+
+  const STATUS_CONFIG = {
+    ativo: { label: tDetail('statusActive'), color: '#4ADE80', bg: 'rgba(74,222,128,0.12)', border: 'rgba(74,222,128,0.25)' },
+    alerta: { label: tDetail('statusAlert'), color: '#FBBF24', bg: 'rgba(251,191,36,0.12)', border: 'rgba(251,191,36,0.25)' },
+    ausente: { label: tDetail('statusAbsent'), color: '#F87171', bg: 'rgba(248,113,113,0.12)', border: 'rgba(248,113,113,0.25)' },
+  };
+
+  const GRAD_CONFIG = {
+    APTO: { label: t('gradReady'), color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
+    EM_AVALIACAO: { label: t('gradInEval'), color: '#FBBF24', bg: 'rgba(251,191,36,0.12)' },
+    NAO_APTO: { label: '', color: '', bg: '' },
+  };
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -138,8 +138,8 @@ export default function ProfessorAlunosPage() {
     return alunos.map(a => ({
       id: `aluno-ped-${a.id}`,
       label: a.nome,
-      sublabel: `${a.categoria} · Nível ${a.nivel} · ${a.frequencia.presenca30d}% presença`,
-      categoria: 'Aluno',
+      sublabel: `${a.categoria} · ${tDetail('level')} ${a.nivel} · ${a.frequencia.presenca30d}% ${t('presence')}`,
+      categoria: t('categoryStudent'),
       icon: a.avatar,
       href: `/professor-aluno-detalhe?id=${a.id}`,
       keywords: [a.categoria, a.nivel, a.turma, a.status],
@@ -172,10 +172,10 @@ export default function ProfessorAlunosPage() {
       {stats && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 prof-enter-2">
           {[
-            { label: 'Total', value: stats.totalAlunos, icon: Users, color: '#D9AF69' },
-            { label: 'Frequência', value: `${stats.frequenciaMedia}%`, icon: TrendingUp, color: '#4ADE80' },
-            { label: 'Baixa Freq.', value: stats.alunosBaixaFrequencia, icon: AlertTriangle, color: '#F87171' },
-            { label: 'Aptos Grad.', value: stats.alunosAptoGraduacao, icon: GraduationCap, color: '#A78BFA' },
+            { label: t('statsTotal'), value: stats.totalAlunos, icon: Users, color: '#D9AF69' },
+            { label: t('statsFrequency'), value: `${stats.frequenciaMedia}%`, icon: TrendingUp, color: '#4ADE80' },
+            { label: t('statsLowFreq'), value: stats.alunosBaixaFrequencia, icon: AlertTriangle, color: '#F87171' },
+            { label: t('statsReadyGrad'), value: stats.alunosAptoGraduacao, icon: GraduationCap, color: '#A78BFA' },
           ].map((stat, i) => (
             <div key={i} className="prof-glass-card p-4">
               <div className="flex items-center gap-2 mb-2">
@@ -254,7 +254,7 @@ export default function ProfessorAlunosPage() {
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle size={16} className="text-red-400" />
             <span className="text-red-300 text-sm font-medium">{t('attention')}</span>
-            <span className="ml-auto text-white/20 text-[10px]">{alertAlunos.length} aluno(s)</span>
+            <span className="ml-auto text-white/20 text-[10px]">{t('studentCount', { count: alertAlunos.length })}</span>
           </div>
           <div className="space-y-2">
             {alertAlunos.slice(0, 3).map(a => (
@@ -290,8 +290,8 @@ export default function ProfessorAlunosPage() {
       <div className="space-y-2 prof-enter-5">
         <div className="flex items-center justify-between mb-2">
           <span className="text-white/30 text-xs uppercase tracking-wider">
-            {totalAlunos} aluno{totalAlunos !== 1 ? 's' : ''}
-            {totalPages > 1 && ` · Página ${page} de ${totalPages}`}
+            {t('studentCount', { count: totalAlunos })}
+            {totalPages > 1 && ` · ${t('pageOf', { page, totalPages })}`}
           </span>
         </div>
 
@@ -365,15 +365,15 @@ export default function ProfessorAlunosPage() {
                     <span className="text-sm font-bold" style={{ color: aluno.frequencia.presenca30d >= 80 ? '#4ADE80' : aluno.frequencia.presenca30d >= 60 ? '#FBBF24' : '#F87171' }}>
                       {aluno.frequencia.presenca30d}%
                     </span>
-                    <p className="text-white/25 text-[10px]">Freq.</p>
+                    <p className="text-white/25 text-[10px]">{t('freqShort')}</p>
                   </div>
                   <div className="text-center w-16">
                     <span className="text-sm font-bold text-white/70">{aluno.progresso.geral}%</span>
-                    <p className="text-white/25 text-[10px]">Progr.</p>
+                    <p className="text-white/25 text-[10px]">{t('progShort')}</p>
                   </div>
                   <div className="text-center w-12">
                     <span className="text-sm font-bold text-amber-400">{aluno.conquistas.length}</span>
-                    <p className="text-white/25 text-[10px]">Med.</p>
+                    <p className="text-white/25 text-[10px]">{t('medShort')}</p>
                   </div>
                 </div>
 

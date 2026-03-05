@@ -42,9 +42,9 @@ export default function FinanceiroPage() {
     loadData();
   }, [retryCount]);
 
-  if (loading) return <PremiumLoader text="Carregando financeiro..." />;
+  if (loading) return <PremiumLoader text={t('financial.loading')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
-  if (alunos.length === 0) return <PageEmpty icon={Users} title="Nenhum aluno encontrado" message="Não há registros financeiros de alunos." />;
+  if (alunos.length === 0) return <PageEmpty icon={Users} title={t('financial.noStudentFound')} message={t('financial.noFinancialRecords')} />;
 
   const stats = {
     emDia: alunos.filter(a => a.status === 'ATIVO').length,
@@ -71,9 +71,7 @@ export default function FinanceiroPage() {
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: tokens.text }} />
           <p className="text-sm" style={{ fontWeight: 300, color: tokens.textMuted }}>
-            <strong>Módulo Financeiro Visual:</strong> Este módulo controla apenas o{' '}
-            <strong>status operacional</strong> do aluno (Ativo / Em Atraso / Bloqueado).
-            Não processa pagamentos automáticos nem integra com gateways.
+            <strong>{t('financial.visualModuleTitle')}:</strong> {t('financial.visualModuleDesc')}
           </p>
         </div>
       </div>
@@ -88,7 +86,7 @@ export default function FinanceiroPage() {
             <CheckCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
           <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
-            {Math.round((stats.emDia / alunos.length) * 100)}% dos alunos
+            {t('financial.percentStudents', { pct: Math.round((stats.emDia / alunos.length) * 100) })}
           </div>
         </div>
 
@@ -136,7 +134,7 @@ export default function FinanceiroPage() {
                     <div>
                       <p className="text-sm font-medium" style={{ color: tokens.text }}>{aluno.nome}</p>
                       <p className="text-xs" style={{ color: tokens.textMuted }}>
-                        Vencimento: {aluno.proximoVencimento ? new Date(aluno.proximoVencimento).toLocaleDateString('pt-BR') : '-'}
+                        {t('financial.dueDate')}: {aluno.proximoVencimento ? new Date(aluno.proximoVencimento).toLocaleDateString('pt-BR') : '-'}
                       </p>
                     </div>
                   </div>
@@ -189,13 +187,13 @@ export default function FinanceiroPage() {
                 <Calendar className="w-5 h-5 mt-0.5" style={{ color: tokens.textMuted }} />
                 <div className="flex-1">
                   <p className="text-sm" style={{ color: tokens.text }}>
-                    <strong>{aluno?.nome}</strong> mudou de{' '}
-                    <span style={{ color: tokens.warning }}>{hist.statusAnterior}</span> para{' '}
+                    <strong>{aluno?.nome}</strong> {t('financial.changedFrom')}{' '}
+                    <span style={{ color: tokens.warning }}>{hist.statusAnterior}</span> {t('financial.changedTo')}{' '}
                     <span style={{ color: tokens.error }}>{hist.statusNovo}</span>
                   </p>
                   <p className="text-xs mt-1" style={{ color: tokens.textMuted }}>{hist.motivo}</p>
                   <p className="text-xs mt-1" style={{ color: tokens.textMuted }}>
-                    {new Date(hist.data).toLocaleDateString('pt-BR')} - Alterado por {hist.alteradoPor}
+                    {new Date(hist.data).toLocaleDateString('pt-BR')} - {t('financial.changedBy')} {hist.alteradoPor}
                   </p>
                 </div>
               </div>

@@ -82,7 +82,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       id: 'evasao',
       label: t('dashboard.churnRate'),
       value: `${taxaEvasao}%`,
-      sublabel: `${stats.alunosInativos} inativos`,
+      sublabel: `${stats.alunosInativos} ${t('dashboard.inactive')}`,
       trend: { current: 100 - taxaEvasao, previous: 100 - taxaEvasao + 2 }, // simulated
       icon: UserMinus,
       color: '#EF4444',
@@ -93,7 +93,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       id: 'retencao',
       label: t('dashboard.retention'),
       value: `${retencao}%`,
-      sublabel: `${stats.alunosAtivos} de ${stats.totalAlunos}`,
+      sublabel: `${stats.alunosAtivos} ${t('dashboard.of')} ${stats.totalAlunos}`,
       icon: ShieldCheck,
       color: '#22C55E',
       bgGrad: 'linear-gradient(135deg, rgba(34,197,94,0.12), rgba(34,197,94,0.03))',
@@ -103,7 +103,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       id: 'receita',
       label: t('dashboard.monthlyRevenueLabel'),
       value: `R$ ${(fin.receitaMes / 1000).toFixed(1)}k`,
-      sublabel: `Ticket médio R$ ${fin.ticketMedio}`,
+      sublabel: `${t('dashboard.avgTicket')} R$ ${fin.ticketMedio}`,
       trend: { current: fin.receitaMes, previous: fin.receitaMesAnterior },
       icon: DollarSign,
       color: '#FBBF24',
@@ -114,7 +114,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       id: 'novos',
       label: t('dashboard.newStudents'),
       value: String(novosAlunos),
-      sublabel: 'Este mês',
+      sublabel: t('dashboard.thisMonth'),
       icon: UserPlus,
       color: '#8B5CF6',
       bgGrad: 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(139,92,246,0.03))',
@@ -124,7 +124,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       id: 'alertas',
       label: t('dashboard.activeAlerts'),
       value: String(stats.alertasNaoLidos),
-      sublabel: `${stats.riscoEvasao.quantidade} em risco`,
+      sublabel: `${stats.riscoEvasao.quantidade} ${t('dashboard.atRisk')}`,
       icon: AlertTriangle,
       color: '#F97316',
       bgGrad: 'linear-gradient(135deg, rgba(249,115,22,0.12), rgba(249,115,22,0.03))',
@@ -139,7 +139,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     if (stats.riscoEvasao.quantidade > 0) {
       alerts.push({
         id: 'evasion',
-        text: `${stats.riscoEvasao.quantidade} aluno${stats.riscoEvasao.quantidade > 1 ? 's' : ''} com queda de frequência — atenção`,
+        text: t('dashboard.alertFreqDrop', { count: stats.riscoEvasao.quantidade }),
         severity: 'warning', emoji: '⚠️',
       });
     }
@@ -148,14 +148,14 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
       const pctDrop = Math.round(((fin.receitaMesAnterior - fin.receitaMes) / fin.receitaMesAnterior) * 100);
       alerts.push({
         id: 'revenue',
-        text: `Receita caiu ${pctDrop}% em relação ao mês anterior`,
+        text: t('dashboard.alertRevenueDrop', { pct: pctDrop }),
         severity: 'warning', emoji: '📉',
       });
     } else if (fin.receitaMes > fin.receitaMesAnterior) {
       const pctUp = Math.round(((fin.receitaMes - fin.receitaMesAnterior) / fin.receitaMesAnterior) * 100);
       alerts.push({
         id: 'revenue-up',
-        text: `Receita cresceu ${pctUp}% em relação ao mês anterior`,
+        text: t('dashboard.alertRevenueUp', { pct: pctUp }),
         severity: 'success', emoji: '📈',
       });
     }
@@ -163,7 +163,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     if (stats.aptosExame.quantidade > 0) {
       alerts.push({
         id: 'graduation',
-        text: `${stats.aptosExame.quantidade} aluno${stats.aptosExame.quantidade > 1 ? 's' : ''} pronto${stats.aptosExame.quantidade > 1 ? 's' : ''} para graduação`,
+        text: t('dashboard.alertGraduation', { count: stats.aptosExame.quantidade }),
         severity: 'info', emoji: '🥋',
       });
     }
@@ -171,7 +171,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
     if (fin.inadimplenciaPct > 10) {
       alerts.push({
         id: 'inadimplencia',
-        text: `Inadimplência em ${fin.inadimplenciaPct}% — acima da meta de 10%`,
+        text: t('dashboard.alertDefaultRate', { pct: fin.inadimplenciaPct }),
         severity: 'warning', emoji: '💳',
       });
     }

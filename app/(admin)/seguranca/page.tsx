@@ -14,6 +14,7 @@ import type { Anomaly, AlertSeverity } from '@/lib/monitoring/anomaly-detector';
 import type { StructuredLog } from '@/lib/monitoring/structured-logger';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 // ============================================================
 // CONSTANTS
@@ -29,9 +30,9 @@ const SEVERITY_CONFIG: Record<AlertSeverity, { color: string; bg: string; border
 };
 
 const HEALTH_CONFIG = {
-  healthy:  { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', label: 'Saudável' },
-  degraded: { color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', label: 'Degradado' },
-  critical: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30', label: 'Crítico' },
+  healthy:  { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', labelKey: 'security.healthHealthy' as const },
+  degraded: { color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', labelKey: 'security.healthDegraded' as const },
+  critical: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30', labelKey: 'security.healthCritical' as const },
 };
 
 const LOG_LEVEL_COLORS: Record<string, string> = {
@@ -47,6 +48,7 @@ const LOG_LEVEL_COLORS: Record<string, string> = {
 // ============================================================
 
 export default function SecurityDashboardPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -80,10 +82,10 @@ export default function SecurityDashboardPage() {
         <div>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
             <Shield className="w-6 h-6 text-white/80" />
-            Central de Segurança
+            {t('security.title')}
           </h1>
           <p className="text-white/40 text-sm mt-1">
-            Monitoramento em tempo real e detecção de anomalias
+            {t('security.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -106,7 +108,7 @@ export default function SecurityDashboardPage() {
             }`}
           >
             {isLive ? <Wifi className="w-3 h-3" /> : <WifiOff className="w-3 h-3" />}
-            {isLive ? 'AO VIVO' : 'PAUSADO'}
+            {isLive ? t('security.live') : t('security.paused')}
           </button>
         </div>
       </div>
@@ -119,7 +121,7 @@ export default function SecurityDashboardPage() {
           </div>
           <div>
             <div className={`text-sm font-semibold ${healthCfg.color}`}>
-              {healthCfg.label}
+              {t(healthCfg.labelKey)}
             </div>
             <div className="text-xs" style={{ color: tokens.textMuted }}>
               Health Score — {data.anomalies.active} anomalia{data.anomalies.active !== 1 ? 's' : ''} ativa{data.anomalies.active !== 1 ? 's' : ''}
@@ -184,10 +186,10 @@ export default function SecurityDashboardPage() {
                 : 'text-white/40 border-transparent hover:text-white/60'
             }`}
           >
-            {tab === 'overview' && 'Visão Geral'}
-            {tab === 'anomalies' && `Anomalias (${data.anomalies.active})`}
-            {tab === 'logs' && 'Logs'}
-            {tab === 'rules' && 'Regras'}
+            {tab === 'overview' && t('security.tabs.overview')}
+            {tab === 'anomalies' && `${t('security.tabs.anomalies')} (${data.anomalies.active})`}
+            {tab === 'logs' && t('security.tabs.logs')}
+            {tab === 'rules' && t('security.tabs.rules')}
           </button>
         ))}
       </div>

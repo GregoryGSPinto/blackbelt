@@ -85,7 +85,7 @@ export default function DashboardPage() {
   }
 
   if (error) return <PageError error={error} onRetry={retry} />;
-  if (!stats) return <PageEmpty icon={BarChart3} title="Dashboard indisponível" message="Não foi possível carregar as estatísticas." />;
+  if (!stats) return <PageEmpty icon={BarChart3} title={t('dashboard.unavailable')} message={t('dashboard.cannotLoadStats')} />;
 
   return (
     <div className="space-y-8">
@@ -118,7 +118,7 @@ export default function DashboardPage() {
                   ? 'bg-white/10 text-white'
                   : 'text-white/30 hover:text-white/50'
               }`}
-              aria-label="Visão Operacional"
+              aria-label={t('dashboard.operationalView')}
             >
               <LayoutDashboard size={13} />
               <span className="hidden md:inline">{t('dashboard.operational')}</span>
@@ -158,11 +158,11 @@ export default function DashboardPage() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 style={{ fontWeight: 300, color: tokens.text }} className="text-base mb-1">
-                {alertasAtivos.length} {alertasAtivos.length === 1 ? 'Alerta Operacional' : 'Alertas Operacionais'}
+                {t('dashboard.operationalAlerts', { count: alertasAtivos.length })}
               </h3>
-              <p className="text-sm text-red-300/70 mb-3">Ação imediata necessária</p>
+              <p className="text-sm text-red-300/70 mb-3">{t('dashboard.immediateActionNeeded')}</p>
               <Link href="/alertas" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }} className="inline-flex items-center gap-2 transition-colors">
-                Visualizar Alertas <ArrowRight size={16} />
+                {t('dashboard.viewAlerts')} <ArrowRight size={16} />
               </Link>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function DashboardPage() {
       <Section title={t('dashboard.operationalMetrics')}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <MetricCard title={t('dashboard.todayCheckins')} value={stats.checkInsHoje} icon={ClipboardCheck}
-            link="/check-in" comparison={{ value: stats.checkInsOntem, label: 'vs ontem' }} />
+            link="/check-in" comparison={{ value: stats.checkInsOntem, label: t('dashboard.vsYesterday') }} />
           <MetricCard title={t('dashboard.activeClasses')} value={stats.turmasAtivas} icon={GraduationCap} link="/turmas" />
           <MetricCard title={t('dashboard.totalStudents')} value={stats.totalAlunos} icon={Users} link="/usuarios" />
         </div>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
       <Section title={t('dashboard.managementAlerts')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <GestaoCard title={t('dashboard.newStudents30d')} count={stats.novatos.quantidade}
-            icon={UserPlus} color="#3B82F6" emptyText="Nenhum novato recente">
+            icon={UserPlus} color="#3B82F6" emptyText={t('dashboard.noRecentNewcomers')}>
             {stats.novatos.lista.map(n => (
               <div key={n.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{n.nome}</span>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
           </GestaoCard>
 
           <GestaoCard title={t('dashboard.churnRisk')} count={stats.riscoEvasao.quantidade}
-            icon={AlertTriangle} color="#F97316" emptyText="Nenhum aluno em risco">
+            icon={AlertTriangle} color="#F97316" emptyText={t('dashboard.noStudentsAtRisk')}>
             {stats.riscoEvasao.lista.map(r => (
               <div key={r.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{r.nome}</span>
@@ -234,7 +234,7 @@ export default function DashboardPage() {
           </GestaoCard>
 
           <GestaoCard title={t('dashboard.frozenPlans')} count={stats.congelados.quantidade}
-            icon={Snowflake} color="#06B6D4" emptyText="Nenhum plano congelado">
+            icon={Snowflake} color="#06B6D4" emptyText={t('dashboard.noFrozenPlans')}>
             {stats.congelados.lista.map(c => (
               <div key={c.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{c.nome}</span>
@@ -244,7 +244,7 @@ export default function DashboardPage() {
           </GestaoCard>
 
           <GestaoCard title={t('dashboard.birthdaysMonth')} count={stats.aniversariantes.quantidade}
-            icon={Cake} color="#EC4899" emptyText="Nenhum aniversariante">
+            icon={Cake} color="#EC4899" emptyText={t('dashboard.noBirthdays')}>
             {stats.aniversariantes.lista.map(a => (
               <div key={a.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{a.nome}</span>
@@ -304,7 +304,7 @@ export default function DashboardPage() {
                   <div key={i}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-white/50">{item.nivel}</span>
-                      <span className="text-xs text-white/60 font-bold">{item.meses} meses</span>
+                      <span className="text-xs text-white/60 font-bold">{item.meses} {t('dashboard.months')}</span>
                     </div>
                     <div className="h-2 rounded-full bg-white/10 overflow-hidden">
                       <div className="h-full rounded-full bg-gradient-to-r from-purple-500/50 to-purple-400/70 transition-all duration-500"
@@ -314,7 +314,7 @@ export default function DashboardPage() {
                 );
               })}
             </div>
-            <p className="text-[9px] text-white/15 mt-3">Baseado na média geral dos alunos da unidade</p>
+            <p className="text-[9px] text-white/15 mt-3">{t('dashboard.basedOnAverage')}</p>
           </div>
         </div>
       </Section>
@@ -332,9 +332,9 @@ export default function DashboardPage() {
       {/* AÇÕES RÁPIDAS */}
       <Section title={t('dashboard.quickActions')}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <QuickAction href="/check-in" icon={ClipboardCheck} title="Validar Check-in" subtitle="Confirmar presença" />
-          <QuickAction href="/usuarios" icon={Users} title="Gerenciar Usuários" subtitle="Ver todos os alunos" />
-          <QuickAction href="/agenda" icon={GraduationCap} title="Agenda do Dia" subtitle="Ver turmas de hoje" />
+          <QuickAction href="/check-in" icon={ClipboardCheck} title={t('dashboard.validateCheckin')} subtitle={t('dashboard.confirmPresence')} />
+          <QuickAction href="/usuarios" icon={Users} title={t('dashboard.manageUsers')} subtitle={t('dashboard.seeAllStudents')} />
+          <QuickAction href="/agenda" icon={GraduationCap} title={t('dashboard.dayAgenda')} subtitle={t('dashboard.seeTodayClasses')} />
         </div>
       </Section>
 
@@ -494,6 +494,7 @@ function QuickAction({ href, icon: Icon, title, subtitle }: { href: string; icon
 // ── Heatmap ───────────────────────────────────────────────
 
 function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins: number }[] }) {
+  const t = useTranslations('admin');
   const dias = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const horarios = Array.from(new Set(data.map(d => d.horario))).sort();
   const maxCheckins = Math.max(...data.map(d => d.checkins), 1);
@@ -535,11 +536,11 @@ function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins
           </div>
         ))}
         <div className="flex items-center gap-2 mt-3 justify-end">
-          <span className="text-[9px] text-white/20">Menos</span>
+          <span className="text-[9px] text-white/20">{t('dashboard.less')}</span>
           {['bg-black/20', 'bg-emerald-500/10', 'bg-emerald-500/20', 'bg-emerald-500/40', 'bg-emerald-500/60'].map((c, i) => (
             <div key={i} className={`w-4 h-4 rounded ${c}`} />
           ))}
-          <span className="text-[9px] text-white/20">Mais</span>
+          <span className="text-[9px] text-white/20">{t('dashboard.more')}</span>
         </div>
       </div>
     </div>
@@ -549,6 +550,7 @@ function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins
 // ── Financeiro ────────────────────────────────────────────
 
 function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroResumo'] }) {
+  const t = useTranslations('admin');
   const receitaDiff = data.receitaMes - data.receitaMesAnterior;
   const receitaPct = data.receitaMesAnterior > 0 ? Math.round((receitaDiff / data.receitaMesAnterior) * 100) : 0;
   const isUp = receitaDiff >= 0;
@@ -559,24 +561,24 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
       <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <DollarSign size={16} className="text-emerald-400" />
-          <h3 className="text-sm font-bold text-white/70">Indicadores</h3>
+          <h3 className="text-sm font-bold text-white/70">{t('dashboard.indicators')}</h3>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <FinKpi label="Receita mês" value={`R$ ${(data.receitaMes / 1000).toFixed(1)}k`} sub={
+          <FinKpi label={t('dashboard.monthlyRevenueLabel')} value={`R$ ${(data.receitaMes / 1000).toFixed(1)}k`} sub={
             <span className={`flex items-center gap-0.5 text-[10px] ${isUp ? 'text-emerald-400' : 'text-red-400'}`}>
               {isUp ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
               {isUp ? '+' : ''}{receitaPct}% vs anterior
             </span>
           } />
-          <FinKpi label="Ticket médio" value={`R$ ${data.ticketMedio}`} />
-          <FinKpi label="Inadimplência" value={`${data.inadimplenciaPct}%`}
+          <FinKpi label={t('dashboard.avgTicket')} value={`R$ ${data.ticketMedio}`} />
+          <FinKpi label={t('dashboard.defaultRate')} value={`${data.inadimplenciaPct}%`}
             sub={<span className={`text-[10px] ${data.inadimplenciaPct > 10 ? 'text-red-400' : 'text-emerald-400'}`}>
-              {data.inadimplenciaPct > 10 ? 'Acima do ideal' : 'Saudável'}
+              {data.inadimplenciaPct > 10 ? t('dashboard.aboveIdeal') : t('dashboard.healthy')}
             </span>} />
-          <FinKpi label="Previsão caixa" value={`R$ ${(data.previsaoCaixa / 1000).toFixed(1)}k`} />
+          <FinKpi label={t('dashboard.forecast')} value={`R$ ${(data.previsaoCaixa / 1000).toFixed(1)}k`} />
         </div>
         <div className="pt-3 border-t border-white/[0.05]">
-          <p className="text-[10px] text-white/25 mb-1">Plano mais vendido</p>
+          <p className="text-[10px] text-white/25 mb-1">{t('dashboard.bestSellingPlan')}</p>
           <p className="text-sm text-white/60">
             <span className="font-bold text-white/80">{data.planoMaisVendido.nome}</span>
             <span className="ml-2 text-white/30">({data.planoMaisVendido.quantidade} alunos)</span>
@@ -587,7 +589,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
       <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
         <div className="flex items-center gap-2 mb-4">
           <CreditCard size={16} className="text-blue-400" />
-          <h3 className="text-sm font-bold text-white/70">Distribuição de Planos</h3>
+          <h3 className="text-sm font-bold text-white/70">{t('dashboard.planDistribution')}</h3>
         </div>
         <div className="space-y-3">
           {data.distribuicaoPlanos.map((p, i) => {

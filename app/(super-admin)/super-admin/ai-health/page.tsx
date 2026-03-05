@@ -75,7 +75,7 @@ export default function SuperAdminAIHealthPage() {
       <div className="min-h-screen p-4 md:p-6 max-w-7xl mx-auto">
         <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
           <p className="text-red-400 text-sm font-medium">
-            Erro ao carregar saude da plataforma
+            {t('loadError')}
           </p>
           <p className="text-red-400/60 text-xs mt-1">{error}</p>
         </div>
@@ -112,10 +112,10 @@ export default function SuperAdminAIHealthPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
-            Saude da Plataforma — IA
+            {t('pageTitle')}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">
-            Monitoramento em tempo real dos servicos de inteligencia artificial
+            {t('pageSubtitle')}
           </p>
         </div>
         <div className={`px-3 py-1.5 rounded-full text-xs border font-medium ${
@@ -123,20 +123,20 @@ export default function SuperAdminAIHealthPage() {
             ? 'bg-green-500/20 text-green-400 border-green-500/30'
             : 'bg-red-500/20 text-red-400 border-red-500/30'
         }`}>
-          {health?.status === 'ok' ? 'Operacional' : 'Degradado'}
+          {health?.status === 'ok' ? t('operational') : t('degraded')}
         </div>
       </div>
 
       {/* Health Score */}
       <div className={`rounded-xl border p-6 text-center ${scoreBg}`}>
         <p className="text-zinc-400 text-xs uppercase tracking-wider mb-2">
-          Health Score
+          {t('healthScore')}
         </p>
         <p className={`text-5xl font-bold ${scoreColor}`}>
           {healthScore}
         </p>
         <p className="text-zinc-500 text-xs mt-2">
-          Baseado em taxa de erro, academias em risco e uptime
+          {t('healthScoreDesc')}
         </p>
       </div>
 
@@ -150,7 +150,7 @@ export default function SuperAdminAIHealthPage() {
         />
         <MetricCard
           icon={<Database size={18} className="text-violet-400" />}
-          label={t('activeAcademies') || 'Active Academies'}
+          label={t('activeAcademies')}
           value={
             health
               ? `${health.activeAcademies}/${health.totalAcademies}`
@@ -204,7 +204,7 @@ export default function SuperAdminAIHealthPage() {
       {health?.modelsActive && health.modelsActive.length > 0 && (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
           <h2 className="text-sm font-semibold text-zinc-300 mb-3">
-            Modelos em Producao
+            {t('modelsInProduction')}
           </h2>
           <div className="flex flex-wrap gap-2">
             {health.modelsActive.map(model => (
@@ -224,7 +224,7 @@ export default function SuperAdminAIHealthPage() {
         {/* Top Academies */}
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
           <h2 className="text-sm font-semibold text-zinc-300 mb-4">
-            Academias com Maior Uso
+            {t('topUsageAcademies')}
           </h2>
           {health?.topAcademies && health.topAcademies.length > 0 ? (
             <div className="space-y-3">
@@ -242,14 +242,14 @@ export default function SuperAdminAIHealthPage() {
                     </span>
                   </div>
                   <span className="text-xs text-emerald-400 font-medium">
-                    {academy.usage.toLocaleString('pt-BR')} predicoes
+                    {academy.usage.toLocaleString('pt-BR')} {t('predictions')}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
             <p className="text-zinc-600 text-xs">
-              Nenhum dado disponivel.
+              {t('noDataAvailable')}
             </p>
           )}
         </div>
@@ -258,7 +258,7 @@ export default function SuperAdminAIHealthPage() {
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
           <h2 className="text-sm font-semibold text-zinc-300 mb-4 flex items-center gap-2">
             <AlertTriangle size={14} className="text-amber-400" />
-            Academias em Risco
+            {t('atRiskAcademies')}
           </h2>
           {health?.atRiskAcademies && health.atRiskAcademies.length > 0 ? (
             <div className="space-y-3">
@@ -280,7 +280,7 @@ export default function SuperAdminAIHealthPage() {
             <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/5 border border-green-500/10">
               <CheckCircle size={14} className="text-green-400" />
               <span className="text-xs text-green-400">
-                Todas as academias estao saudaveis
+                {t('allHealthy')}
               </span>
             </div>
           )}

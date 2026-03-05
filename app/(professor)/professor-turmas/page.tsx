@@ -27,8 +27,8 @@ export default function ProfessorTurmasPage() {
     setError(null);
     setLoading(true);
     professorService.getTurmas()
-      .then((t) => {
-        setTurmas(t);
+      .then((data) => {
+        setTurmas(data);
       })
       .catch((err) => {
         setError(handleServiceError(err, 'ProfTurmas'));
@@ -40,14 +40,14 @@ export default function ProfessorTurmasPage() {
 
   // ─── Search Registration ──────────────────────────────────
   const searchItems = useMemo<SearchItem[]>(() =>
-    turmas.map(t => ({
-      id: `turma-${t.id}`,
-      label: t.nome,
-      sublabel: `${t.dias} · ${t.horario} · ${t.totalAlunos} alunos`,
-      categoria: 'Turma',
+    turmas.map(tr => ({
+      id: `turma-${tr.id}`,
+      label: tr.nome,
+      sublabel: `${tr.dias} · ${tr.horario} · ${tr.totalAlunos} ${t('studentsLabel')}`,
+      categoria: t('categoryClass'),
       icon: '🥋',
       href: '/professor-turmas',
-      keywords: [t.categoria, t.horario, `${t.totalAlunos} alunos`],
+      keywords: [tr.categoria, tr.horario, `${tr.totalAlunos} ${t('studentsLabel')}`],
     })),
   [turmas]);
 
@@ -103,7 +103,7 @@ export default function ProfessorTurmasPage() {
                     ? 'bg-emerald-500/15 text-emerald-400'
                     : 'bg-white/5 text-white/65'
                 }`}>
-                  {turma.proximaSessao.includes('Hoje') ? '● Hoje' : turma.proximaSessao}
+                  {turma.proximaSessao.includes('Hoje') ? `● ${t('today')}` : turma.proximaSessao}
                 </span>
               </div>
 

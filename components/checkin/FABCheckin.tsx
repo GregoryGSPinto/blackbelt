@@ -18,6 +18,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslations } from 'next-intl';
 import * as checkinService from '@/lib/api/checkin.service';
 import type { CheckInQR } from '@/lib/api/contracts';
 import { useOfflineCheckin } from '@/hooks/useOfflineCheckin';
@@ -89,9 +90,11 @@ const FAB_STYLES = `
 function StudentRow({
   aluno,
   onCheckin,
+  checkinForLabel,
 }: {
   aluno: AlunoQuickList;
   onCheckin: (id: string, nome: string) => Promise<void>;
+  checkinForLabel: string;
 }) {
   const [checking, setChecking] = useState(false);
 
@@ -108,7 +111,7 @@ function StudentRow({
     <button
       onClick={handleClick}
       disabled={aluno.checked || checking}
-      aria-label={`Check-in para ${aluno.nome}`}
+      aria-label={`${checkinForLabel} ${aluno.nome}`}
       className={`
         w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200
         ${aluno.checked ? 'opacity-60' : 'hover:bg-white/5 active:scale-[0.98]'}
@@ -180,7 +183,7 @@ function MenuOption({
   );
 }
 
-function SheetHeader({ title, onBack }: { title: string; onBack: () => void }) {
+function SheetHeader({ title, onBack, backLabel }: { title: string; onBack: () => void; backLabel: string }) {
   return (
     <div className="flex items-center justify-between mb-4">
       <h3 className="text-white/90 text-lg font-semibold">{title}</h3>
@@ -188,7 +191,7 @@ function SheetHeader({ title, onBack }: { title: string; onBack: () => void }) {
         onClick={onBack}
         className="text-white/40 hover:text-white/70 text-sm transition-colors"
       >
-        ← Voltar
+        ← {backLabel}
       </button>
     </div>
   );
@@ -210,6 +213,7 @@ function EmptyMessage({ text }: { text: string }) {
 // FABCheckin — Main Component
 // ══════════════════════════════════════════════════════════════
 export function FABCheckin() {
+  const t = useTranslations('athlete.fabCheckin');
   const { user } = useAuth();
   const { isOnline, pendingCount, syncing, lastSync, saveCheckin, syncNow } = useOfflineCheckin();
   const [mode, setMode] = useState<FABMode>('closed');
@@ -248,7 +252,7 @@ export function FABCheckin() {
         }));
       setAlunos(students);
     } catch {
-      showToast('Erro ao carregar alunos', 'error');
+      showToast(t('errorLoadingStudents'), 'error');
     } finally {
       setLoading(false);
     }
@@ -268,18 +272,18 @@ export function FABCheckin() {
           a.id === alunoId ? { ...a, checked: true } : a
         ));
         if (result.offline) {
-          showToast(`📡 ${alunoNome} — Salvo offline`, 'info');
+          showToast(`📡 ${alunoNome} — ${t('savedOffline')}`, 'info');
         } else {
-          showToast(`✓ ${alunoNome} — Check-in confirmado!`, 'success');
+          showToast(`✓ ${alunoNome} — ${t('checkinConfirmed')}`, 'success');
         }
         setFabPulse(true);
         setTimeout(() => setFabPulse(false), 600);
         if (navigator.vibrate) navigator.vibrate(50);
       } else {
-        showToast('Falha no check-in', 'error');
+        showToast(t('checkinFailed'), 'error');
       }
     } catch {
-      showToast('Erro de conexão', 'error');
+      showToast(t('connectionError'), 'error');
     }
   }, [showToast, saveCheckin]);
 
@@ -294,10 +298,10 @@ export function FABCheckin() {
         if (navigator.vibrate) navigator.vibrate(50);
         setTimeout(() => setMode('menu'), 1500);
       } else {
-        showToast(result.error || 'QR inválido', 'error');
+        showToast(result.error || t('invalidQR'), 'error');
       }
     } catch {
-      showToast('Erro ao processar QR', 'error');
+      showToast(t('errorProcessingQR'), 'error');
     }
   }, [showToast]);
 
@@ -363,7 +367,7 @@ export function FABCheckin() {
           }
           ${fabPulse ? 'scale-125' : 'scale-100'}
         `}
-        aria-label={mode === 'closed' ? 'Abrir check-in rápido' : 'Fechar check-in'}
+        aria-label={mode === 'closed' ? t('openQuickCheckin') : t('closeCheckin')}
         style={{
           boxShadow: mode === 'closed'
             ? '0 4px 24px rgba(16, 185, 129, 0.4)'
@@ -421,7 +425,7 @@ export function FABCheckin() {
             {mode === 'menu' && (
               <div className="px-5 pb-6 space-y-3">
                 <h3 className="text-white/90 text-lg font-semibold mb-4">
-                  ⚡ Check-in Rápido
+                  ⚡ {t('quickCheckin')}
                 </h3>
                 {/* Offline status */}
                 <OfflineBanner
@@ -433,8 +437,8 @@ export function FABCheckin() {
                 />
                 <MenuOption
                   icon={<QrCode className="w-6 h-6 text-violet-400" />}
-                  title="Scanner QR Code"
-                  subtitle="Leitura pela câmera"
+                  title={t('scannerQRCode')}
+                  subtitle={t('cameraReading')}
                   gradient="rgba(139,92,246,0.15)"
                   border="rgba(139,92,246,0.2)"
                   iconBg="bg-violet-500/20"
@@ -442,8 +446,8 @@ export function FABCheckin() {
                 />
                 <MenuOption
                   icon={<Users className="w-6 h-6 text-emerald-400" />}
-                  title="Lista Rápida do Dia"
-                  subtitle="Alunos da turma atual"
+                  title={t('quickDayList')}
+                  subtitle={t('currentClassStudents')}
                   gradient="rgba(16,185,129,0.15)"
                   border="rgba(16,185,129,0.2)"
                   iconBg="bg-emerald-500/20"
@@ -451,8 +455,8 @@ export function FABCheckin() {
                 />
                 <MenuOption
                   icon={<Search className="w-6 h-6 text-blue-400" />}
-                  title="Buscar por Nome"
-                  subtitle="Check-in manual"
+                  title={t('searchByName')}
+                  subtitle={t('manualCheckin')}
                   gradient="rgba(59,130,246,0.15)"
                   border="rgba(59,130,246,0.2)"
                   iconBg="bg-blue-500/20"
@@ -464,7 +468,7 @@ export function FABCheckin() {
             {/* ── QR Scanner Mode ── */}
             {mode === 'qr' && (
               <div className="px-5 pb-6">
-                <SheetHeader title="📷 Scanner QR" onBack={() => setMode('menu')} />
+                <SheetHeader title={`📷 ${t('scannerQR')}`} onBack={() => setMode('menu')} backLabel={t('back')} />
                 <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
                   <LazyQRScanner onScan={handleQRScan} onClose={() => setMode('menu')} mockMode />
                 </div>
@@ -474,13 +478,13 @@ export function FABCheckin() {
             {/* ── Quick List Mode ── */}
             {mode === 'list' && (
               <div className="px-5 pb-6">
-                <SheetHeader title="📋 Turma Atual" onBack={() => setMode('menu')} />
+                <SheetHeader title={`📋 ${t('currentClass')}`} onBack={() => setMode('menu')} backLabel={t('back')} />
                 {loading ? <LoadingSpinner /> : (
                   <div className="space-y-2 max-h-[50vh] overflow-y-auto pr-1 fab-scrollbar">
                     {alunos.map(aluno => (
-                      <StudentRow key={aluno.id} aluno={aluno} onCheckin={handleCheckin} />
+                      <StudentRow key={aluno.id} aluno={aluno} onCheckin={handleCheckin} checkinForLabel={t('checkinFor')} />
                     ))}
-                    {alunos.length === 0 && <EmptyMessage text="Nenhum aluno encontrado" />}
+                    {alunos.length === 0 && <EmptyMessage text={t('noStudentFound')} />}
                   </div>
                 )}
               </div>
@@ -489,7 +493,7 @@ export function FABCheckin() {
             {/* ── Search Mode ── */}
             {mode === 'search' && (
               <div className="px-5 pb-6">
-                <SheetHeader title="🔍 Buscar Aluno" onBack={() => setMode('menu')} />
+                <SheetHeader title={`🔍 ${t('searchStudent')}`} onBack={() => setMode('menu')} backLabel={t('back')} />
                 <div
                   className="flex items-center gap-3 px-4 py-3 rounded-xl mb-4"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
@@ -500,13 +504,13 @@ export function FABCheckin() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Digite o nome do aluno..."
-                    aria-label="Buscar aluno"
+                    placeholder={t('typeStudentName')}
+                    aria-label={t('searchStudentLabel')}
                     className="flex-1 bg-transparent text-white placeholder-white/30 outline-none text-sm"
                     autoComplete="off"
                   />
                   {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} className="text-white/30 hover:text-white/60 transition-colors" aria-label="Limpar busca">
+                    <button onClick={() => setSearchQuery('')} className="text-white/30 hover:text-white/60 transition-colors" aria-label={t('clearSearch')}>
                       <X className="w-4 h-4" />
                     </button>
                   )}
@@ -514,10 +518,10 @@ export function FABCheckin() {
                 {loading ? <LoadingSpinner /> : (
                   <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-1 fab-scrollbar">
                     {filteredAlunos.map(aluno => (
-                      <StudentRow key={aluno.id} aluno={aluno} onCheckin={handleCheckin} />
+                      <StudentRow key={aluno.id} aluno={aluno} onCheckin={handleCheckin} checkinForLabel={t('checkinFor')} />
                     ))}
                     {filteredAlunos.length === 0 && searchQuery && (
-                      <EmptyMessage text={`Nenhum aluno para "${searchQuery}"`} />
+                      <EmptyMessage text={t('noStudentForQuery', { query: searchQuery })} />
                     )}
                   </div>
                 )}

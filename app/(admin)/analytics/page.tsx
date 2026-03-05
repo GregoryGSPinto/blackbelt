@@ -36,7 +36,7 @@ export default function AnalyticsPage() {
 
   if (loading) return <PremiumLoader />;
   if (error) return <PageError error={error} onRetry={() => window.location.reload()} />;
-  if (!data) return <PageLoading message="Carregando analytics..." />;
+  if (!data) return <PageLoading message={t('analytics.loading')} />;
 
   const m = data.metricas;
 
@@ -46,17 +46,17 @@ export default function AnalyticsPage() {
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <BarChart3 size={24} className="text-cyan-400" />
-          Analytics de Retenção
+          {t('analytics.retentionAnalytics')}
         </h1>
-        <p className="text-sm text-white/40 mt-1">Métricas de crescimento, retenção e churn</p>
+        <p className="text-sm text-white/40 mt-1">{t('analytics.subtitle')}</p>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <KpiCard label="Retenção" value={`${m.retencaoAtual}%`} icon={UserCheck} color="text-emerald-400"
-          sub={m.retencaoAtual >= 90 ? 'Excelente' : m.retencaoAtual >= 80 ? 'Bom' : 'Atenção'} />
+          sub={m.retencaoAtual >= 90 ? t('analytics.excellent') : m.retencaoAtual >= 80 ? t('analytics.good') : t('analytics.attention')} />
         <KpiCard label="Churn mensal" value={`${m.churnAtual}%`} icon={UserMinus} color="text-red-400"
-          sub={m.churnAtual <= 3 ? 'Saudável' : 'Acima do ideal'} />
+          sub={m.churnAtual <= 3 ? t('analytics.healthy') : t('analytics.aboveIdeal')} />
         <KpiCard label="Permanência média" value={`${m.tempoMedioPermanencia}m`} icon={Clock} color="text-blue-400" sub="meses" />
         <KpiCard label="LTV médio" value={`R$ ${m.ltv.toLocaleString('pt-BR')}`} icon={DollarSign} color="text-amber-400" sub="por aluno" />
       </div>
@@ -70,7 +70,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Retention chart */}
-      <Section title="Retenção Mensal (12 meses)">
+      <Section title={t('analytics.monthlyRetention')}>
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
           <div className="flex items-end gap-1.5 h-40">
             {data.retencaoMensal.map((item, i) => {
@@ -88,7 +88,7 @@ export default function AnalyticsPage() {
       </Section>
 
       {/* Churn chart */}
-      <Section title="Churn Mensal">
+      <Section title={t('analytics.monthlyChurn')}>
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
           <div className="flex items-end gap-1.5 h-32">
             {data.churnMensal.map((item, i) => {
@@ -107,7 +107,7 @@ export default function AnalyticsPage() {
       </Section>
 
       {/* Cohort table */}
-      <Section title="Análise de Cohort">
+      <Section title={t('analytics.cohortAnalysis')}>
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 overflow-x-auto">
           <table className="w-full text-[10px]">
             <thead>
@@ -149,7 +149,7 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Motivos cancelamento */}
-        <Section title="Motivos de Cancelamento">
+        <Section title={t('analytics.cancellationReasons')}>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-3">
             {data.motivosCancelamento.sort((a, b) => b.quantidade - a.quantidade).map((item, i) => {
               const maxQty = Math.max(...data.motivosCancelamento.map(x => x.quantidade));
@@ -171,7 +171,7 @@ export default function AnalyticsPage() {
         </Section>
 
         {/* Retenção por nivel */}
-        <Section title="Retenção por Nível">
+        <Section title={t('analytics.retentionByLevel')}>
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5 space-y-3">
             {data.retencaoPorNível.map((item, i) => (
               <div key={i} className="flex items-center gap-3">
@@ -192,7 +192,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Retenção por turma */}
-      <Section title="Retenção por Turma">
+      <Section title={t('analytics.retentionByClass')}>
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-5">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {data.retencaoPorTurma.sort((a, b) => b.retencao - a.retencao).map((item, i) => (

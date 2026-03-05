@@ -125,8 +125,8 @@ export default function AutorizacoesPage() {
             <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
               <CheckCircle size={14} className="text-emerald-400/50 shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-white/60"><span className="font-bold">{s.alunoNome}</span> saiu com <span className="font-bold">{s.pessoaAutorizadaNome}</span></p>
-                <p className="text-[9px] text-white/20">{s.parentesco} · Validado por {s.validadoPor}</p>
+                <p className="text-xs text-white/60"><span className="font-bold">{s.alunoNome}</span> {t('exitWith')} <span className="font-bold">{s.pessoaAutorizadaNome}</span></p>
+                <p className="text-[9px] text-white/20">{s.parentesco} · {t('validatedBy', { name: s.validadoPor })}</p>
               </div>
               <span className="text-[10px] text-white/20 shrink-0">
                 {new Date(s.dataHoraSaida).toLocaleDateString('pt-BR')} {new Date(s.dataHoraSaida).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
@@ -190,7 +190,7 @@ function AutorizacoesLegais() {
       <AuthorizationToggle
         label={t('imageAuth')}
         description={t('imageAuthDesc')}
-        legalText="Nos termos da Lei 13.709/2018 (LGPD) e do Estatuto da Crianca e do Adolescente (ECA), autorizo o uso de imagem do(a) menor sob minha responsabilidade para fins de divulgacao institucional da unidade, incluindo redes sociais, materiais impressos e digitais. Esta autorizacao pode ser revogada a qualquer momento."
+        legalText={t('imageLegalText')}
         enabled={auths.imagem?.enabled || false}
         date={auths.imagem?.date}
         onChange={(v: boolean) => toggle('imagem', v)}
@@ -198,7 +198,7 @@ function AutorizacoesLegais() {
       <AuthorizationToggle
         label={t('competitionAuth')}
         description={t('competitionAuthDesc')}
-        legalText="Autorizo a participacao do(a) menor em competicoes de treinamento especializado organizadas pela unidade ou por entidades parceiras. Declaro estar ciente dos riscos inerentes a pratica esportiva competitiva e que a unidade tomara todas as precaucoes de seguranca necessarias."
+        legalText={t('competitionLegalText')}
         enabled={auths.competicao?.enabled || false}
         date={auths.competicao?.date}
         onChange={(v: boolean) => toggle('competicao', v)}
@@ -206,7 +206,7 @@ function AutorizacoesLegais() {
       <AuthorizationToggle
         label={t('externalAuth')}
         description={t('externalAuthDesc')}
-        legalText="Autorizo que o(a) menor participe de eventos externos promovidos pela unidade, incluindo seminarios, confraternizacoes e treinos em unidades parceiras, sob supervisao dos instrutores responsaveis."
+        legalText={t('externalLegalText')}
         enabled={auths.eventos?.enabled || false}
         date={auths.eventos?.date}
         onChange={(v: boolean) => toggle('eventos', v)}

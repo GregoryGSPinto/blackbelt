@@ -48,14 +48,14 @@ export default function AgendaPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando agenda..." />;
+    return <PremiumLoader text={t('agenda.loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (turmasHoje.length === 0) {
-    return <PageEmpty icon={CalendarOff} title="Nenhuma sessão hoje" message="Não há turmas agendadas para hoje." />;
+    return <PageEmpty icon={CalendarOff} title={t('agenda.noSessionToday')} message={t('agenda.noClassesScheduled')} />;
   }
 
 
@@ -68,7 +68,7 @@ export default function AgendaPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('agenda.title')}</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>Segunda-feira, 02 de Fevereiro de 2026</p>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}</p>
       </div>
 
       {/* Stats */}
@@ -96,7 +96,7 @@ export default function AgendaPage() {
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Total de Alunos</p>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.totalStudents')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                 {turmasHoje.reduce((sum, t) => sum + t.alunosMatriculados, 0)}
               </p>
@@ -155,7 +155,7 @@ export default function AgendaPage() {
                         <span>•</span>
                         <span>{turma.sala}</span>
                         <span>•</span>
-                        <span>{alunosDaTurma.length} alunos matriculados</span>
+                        <span>{t('agenda.enrolledStudents', { count: alunosDaTurma.length })}</span>
                       </div>
                     </div>
 
@@ -170,7 +170,7 @@ export default function AgendaPage() {
                   {/* Progress Bar */}
                   <div className="mt-4">
                     <div className="flex items-center justify-between text-xs text-white/50 mb-2">
-                      <span>Presença Atual</span>
+                      <span>{t('agenda.currentAttendance')}</span>
                       <span className="font-medium text-white">{taxaPresenca}%</span>
                     </div>
                     <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">

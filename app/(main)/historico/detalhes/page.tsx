@@ -31,7 +31,7 @@ const TODOS_TREINOS = [
   { id: '20', data: '17/01/2026', hora: '10:00', tipo: 'Open Mat',     instrutor: '—',             duracao: '120 min', obs: 'Treino livre sábado.' },
 ];
 
-const TIPOS = ['Todos', 'Fundamentos', 'Iniciante', 'Avançado', 'Competição', 'No-Gi', 'Open Mat'];
+const TIPO_KEYS = ['Todos', 'Fundamentos', 'Iniciante', 'Avançado', 'Competição', 'No-Gi', 'Open Mat'] as const;
 
 function tipoColor(tipo: string) {
   switch (tipo) {
@@ -67,15 +67,34 @@ export default function HistoricoDetalhes() {
 
   const filtered = filtro === 'Todos'
     ? TODOS_TREINOS
-    : TODOS_TREINOS.filter(t => t.tipo === filtro);
+    : TODOS_TREINOS.filter(item => item.tipo === filtro);
+
+  const monthLabels = [
+    t('history.months.jan'), t('history.months.feb'), t('history.months.mar'),
+    t('history.months.apr'), t('history.months.may'), t('history.months.jun'),
+    t('history.months.jul'), t('history.months.aug'), t('history.months.sep'),
+    t('history.months.oct'), t('history.months.nov'), t('history.months.dec'),
+  ];
+
+  const tipoLabel = (key: string) => {
+    const map: Record<string, string> = {
+      'Todos': t('history.filters.all'),
+      'Fundamentos': t('history.filters.fundamentals'),
+      'Iniciante': t('history.filters.beginner'),
+      'Avançado': t('history.filters.advanced'),
+      'Competição': t('history.filters.competition'),
+      'No-Gi': t('history.filters.noGi'),
+      'Open Mat': t('history.filters.openMat'),
+    };
+    return map[key] ?? key;
+  };
 
   // Group by month
-  const grouped = filtered.reduce<Record<string, typeof TODOS_TREINOS>>((acc, t) => {
-    const [, m, y] = t.data.split('/');
-    const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-    const key = `${meses[parseInt(m) - 1]} ${y}`;
+  const grouped = filtered.reduce<Record<string, typeof TODOS_TREINOS>>((acc, item) => {
+    const [, m, y] = item.data.split('/');
+    const key = `${monthLabels[parseInt(m) - 1]} ${y}`;
     if (!acc[key]) acc[key] = [];
-    acc[key].push(t);
+    acc[key].push(item);
     return acc;
   }, {});
 
@@ -103,18 +122,18 @@ export default function HistoricoDetalhes() {
         {/* Filter */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-1 px-1">
           <Filter size={14} className="flex-shrink-0" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }} />
-          {TIPOS.map(t => (
+          {TIPO_KEYS.map(tipo => (
             <button
-              key={t}
-              onClick={() => setFiltro(t)}
+              key={tipo}
+              onClick={() => setFiltro(tipo)}
               className={`text-xs font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
-                filtro === t
-                  ? (t === 'Todos' ? 'bg-white/10 text-white' : tipoColor(t))
+                filtro === tipo
+                  ? (tipo === 'Todos' ? 'bg-white/10 text-white' : tipoColor(tipo))
                   : ''
               }`}
-              style={filtro !== t ? { color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' } : undefined}
+              style={filtro !== tipo ? { color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' } : undefined}
             >
-              {t}
+              {tipoLabel(tipo)}
             </button>
           ))}
         </div>
@@ -126,42 +145,42 @@ export default function HistoricoDetalhes() {
               {month}
             </h2>
             <div className="space-y-3">
-              {treinos.map(t => (
+              {treinos.map(treino => (
                 <div
-                  key={t.id}
-                  className={`bg-white/5 backdrop-blur-sm border rounded-2xl p-5 ${tipoBorderColor(t.tipo)}`}
+                  key={treino.id}
+                  className={`bg-white/5 backdrop-blur-sm border rounded-2xl p-5 ${tipoBorderColor(treino.tipo)}`}
                 >
                   <div className="flex items-start gap-4">
                     {/* Date block */}
                     <div className="w-14 text-center flex-shrink-0 pt-0.5">
                       <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
-                        {t.data.split('/')[0]}
+                        {treino.data.split('/')[0]}
                       </p>
                       <p className="text-[10px] uppercase" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-                        {['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(t.data.split('/')[1]) - 1]}
+                        {monthLabels[parseInt(treino.data.split('/')[1]) - 1]}
                       </p>
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-lg ${tipoColor(t.tipo)}`}>{t.tipo}</span>
-                        <span className="text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{t.duracao}</span>
+                        <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-lg ${tipoColor(treino.tipo)}`}>{tipoLabel(treino.tipo)}</span>
+                        <span className="text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{treino.duracao}</span>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                         <span className="flex items-center gap-1.5 text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-                          <Clock size={12} /> {t.hora}
+                          <Clock size={12} /> {treino.hora}
                         </span>
                         <span className="flex items-center gap-1.5 text-xs" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
-                          <User size={12} /> {t.instrutor}
+                          <User size={12} /> {treino.instrutor}
                         </span>
                       </div>
 
-                      {t.obs && (
+                      {treino.obs && (
                         <div className="mt-3 flex items-start gap-2 p-3 rounded-xl" style={{ background: 'rgb(var(--color-text-subtle) / 0.04)' }}>
                           <MessageSquare size={13} className="flex-shrink-0 mt-0.5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }} />
-                          <p className="text-xs leading-relaxed" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{t.obs}</p>
+                          <p className="text-xs leading-relaxed" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{treino.obs}</p>
                         </div>
                       )}
                     </div>

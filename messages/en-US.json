@@ -244,7 +244,32 @@
       "goodEvening": "Good evening",
       "welcome": "Welcome,",
       "welcomeBlackBelt": "Welcome to BlackBelt",
-      "welcomeSubtitle": "Your journey in specialized training starts here"
+      "welcomeSubtitle": "Your journey in specialized training starts here",
+      "dismissWelcome": "Dismiss welcome",
+      "steps": {
+        "aluno": {
+          "session": "Attend training sessions",
+          "frequency": "Track your attendance",
+          "techniques": "Evolve your techniques",
+          "ranking": "Follow the ranking"
+        },
+        "instrutor": {
+          "dashboard": "View the instructor panel",
+          "attendance": "Take class attendance",
+          "progress": "Track student progress",
+          "timer": "Use the class timer"
+        },
+        "responsavel": {
+          "frequency": "View your children's attendance",
+          "achievements": "Track achievements",
+          "message": "Send messages to instructors"
+        },
+        "admin": {
+          "dashboard": "View the admin panel",
+          "manage": "Manage students and classes",
+          "alerts": "Configure alerts"
+        }
+      }
     },
     "confirm": {
       "logoutTitle": "Sign out",
@@ -305,6 +330,18 @@
       "selectConversation": "Select a conversation",
       "searchConversation": "Search conversation...",
       "noConversations": "No conversations"
+    },
+    "errorBoundary": {
+      "moduleError": "Module Error",
+      "error": "Error",
+      "unknownError": "Unknown error",
+      "module": "Module",
+      "timestamp": "Timestamp",
+      "systemProtected": "System protected",
+      "isolatedError": "This error is isolated and does not affect the rest of the system.",
+      "tryAgain": "Try again",
+      "goHome": "Go to home",
+      "contactSupport": "Contact support"
     }
   },
   "shell": {
@@ -610,7 +647,37 @@
       "revenueDropAlert": "Revenue dropped {pct}% from previous month",
       "revenueUpAlert": "Revenue grew {pct}% from previous month",
       "readyGraduationAlert": "{count} student(s) ready for graduation",
-      "defaultAboveGoal": "Default at {pct}% — above the 10% target"
+      "defaultAboveGoal": "Default at {pct}% — above the 10% target",
+      "unavailable": "Unavailable",
+      "cannotLoadStats": "Could not load statistics",
+      "operationalView": "Operational view",
+      "operationalAlerts": "Operational alerts",
+      "immediateActionNeeded": "Requires immediate action",
+      "viewAlerts": "View alerts",
+      "vsYesterday": "vs. yesterday",
+      "noRecentNewcomers": "No recent newcomers",
+      "noStudentsAtRisk": "No students at risk",
+      "noFrozenPlans": "No frozen plans",
+      "noBirthdays": "No birthdays",
+      "months": "{count} months",
+      "basedOnAverage": "Based on average",
+      "validateCheckin": "Validate Check-in",
+      "confirmPresence": "Confirm attendance",
+      "manageUsers": "Manage Users",
+      "seeAllStudents": "View all students",
+      "dayAgenda": "Day Schedule",
+      "seeTodayClasses": "View today's classes",
+      "indicators": "Indicators",
+      "bestSellingPlan": "Best-selling plan",
+      "aboveIdeal": "Above ideal",
+      "healthy": "Healthy",
+      "less": "Less",
+      "more": "More",
+      "alertFreqDrop": "{count} students with frequency drop",
+      "alertRevenueDrop": "Revenue {pct}% below last month",
+      "alertRevenueUp": "Revenue {pct}% above last month",
+      "alertGraduation": "{count} students ready for graduation",
+      "alertDefaultRate": "Default rate at {pct}%"
     },
     "members": {
       "title": "Members",
@@ -636,7 +703,17 @@
       "requiresAttention": "Requires attention",
       "overdueStudents": "Overdue Students",
       "blockedStudents": "Blocked Students",
-      "statusChangeHistory": "Status Change History"
+      "statusChangeHistory": "Status Change History",
+      "loading": "Loading...",
+      "noStudentFound": "No student found",
+      "noFinancialRecords": "No financial records",
+      "visualModuleTitle": "Financial visual module",
+      "visualModuleDesc": "This module presents visual data...",
+      "percentStudents": "% of students",
+      "dueDate": "Due date",
+      "changedFrom": "from",
+      "changedTo": "to",
+      "changedBy": "by"
     },
     "classes": {
       "title": "Class Management",
@@ -646,7 +723,17 @@
       "editClass": "Edit Class",
       "pause": "Pause",
       "activate": "Activate",
-      "occupancy": "Occupancy"
+      "occupancy": "Occupancy",
+      "loading": "Loading...",
+      "noClassRegistered": "No classes registered",
+      "registerClassesToStart": "Register classes to get started",
+      "subtitle": "Manage classes and schedules",
+      "professor": "Instructor",
+      "schedule": "Schedule",
+      "weekDays": "Week Days",
+      "statusActive": "Active",
+      "statusOverdue": "Overdue",
+      "statusBlocked": "Blocked"
     },
     "checkin": {
       "title": "Administrative Check-in",
@@ -658,7 +745,20 @@
       "searchStudent": "Search Student",
       "validateCheckin": "Validate Check-in",
       "checkinMade": "Check-in Made",
-      "todayCheckinsList": "Today's Check-ins"
+      "todayCheckinsList": "Today's Check-ins",
+      "loading": "Loading...",
+      "validatePresence": "Validate attendance",
+      "searchPlaceholder": "Search student...",
+      "cannotCheckin": "Cannot check in",
+      "reason": "Reason",
+      "regularizeSituation": "Please regularize your situation",
+      "resultsFound": "{count} result(s)",
+      "statusActive": "Active",
+      "statusOverdue": "Overdue",
+      "statusBlocked": "Blocked",
+      "noStudentFound": "No student found",
+      "viaGuardian": "Via Guardian",
+      "noCheckinToday": "No check-in today"
     },
     "leads": {
       "title": "Sales Funnel",
@@ -708,22 +808,101 @@
       "welcome": "WELCOME!",
       "accessBlocked": "ACCESS BLOCKED",
       "manualSearch": "Manual Search",
-      "qrScanner": "QR Scanner"
+      "qrScanner": "QR Scanner",
+      "qrError": "QR Error",
+      "loading": "Loading...",
+      "backToPanel": "Back to panel",
+      "checkinDoneAt": "Check-in done at {time}",
+      "goToReception": "Go to reception",
+      "pointCameraQR": "Point camera at student QR Code",
+      "checkinError": "Check-in error",
+      "checkinRegistered": "Check-in registered!",
+      "searchStudent": "Search student",
+      "searchPlaceholder": "Student name...",
+      "noClass": "No class",
+      "statusActive": "Active",
+      "statusOverdue": "Overdue",
+      "statusBlocked": "Blocked",
+      "alreadyCheckedIn": "Already checked in",
+      "validateCheckin": "Validate check-in",
+      "noStudentFound": "No student found",
+      "checkinsToday": "Check-ins today",
+      "totalStudents": "Total students"
     },
     "users": {
       "title": "User Management",
-      "statusFilter": "Status Filter"
+      "statusFilter": "Status Filter",
+      "loading": "Loading...",
+      "subtitle": "Manage students and members",
+      "newStudent": "New Student",
+      "statusActive": "Active",
+      "statusOverdue": "Overdue",
+      "statusBlocked": "Blocked",
+      "statusFrozen": "Frozen",
+      "statusInactive": "Inactive",
+      "activeStudents": "Active students",
+      "allStatuses": "All Statuses",
+      "allCategories": "All Categories",
+      "students": "Students",
+      "categoryAdult": "Adult",
+      "noUserFound": "No user found",
+      "editStudent": "Edit student",
+      "viewHistory": "View history",
+      "thStudent": "Student",
+      "thCategory": "Category",
+      "thGraduation": "Belt",
+      "thStatus": "Status",
+      "thDueDate": "Due Date",
+      "thActions": "Actions",
+      "search": "Search",
+      "searchPlaceholder": "Search by name or email...",
+      "phone": "Phone",
+      "registrationDate": "Registration date",
+      "nextDueDate": "Next due date",
+      "viewDetails": "View details",
+      "edit": "Edit",
+      "changeStatus": "Change status"
     },
     "agenda": {
       "title": "Today's Agenda",
       "classSchedule": "Class Schedule",
       "classesToday": "Classes Today",
-      "checkinsDone": "Check-ins Done"
+      "checkinsDone": "Check-ins Done",
+      "loading": "Loading...",
+      "noSessionToday": "No sessions today",
+      "noClassesScheduled": "No classes scheduled",
+      "totalStudents": "Total students",
+      "enrolledStudents": "Enrolled students",
+      "currentAttendance": "Current attendance"
     },
     "config": {
       "title": "Unit Settings",
       "saveConfig": "Save Settings",
-      "labels": {}
+      "labels": {},
+      "loading": "Loading...",
+      "unavailable": "Unavailable",
+      "cannotLoad": "Could not load settings",
+      "subtitle": "Manage academy settings",
+      "saved": "Saved!",
+      "changesApplied": "Changes applied",
+      "defaultPolicies": "Default Policies",
+      "defaultPoliciesDesc": "Set deadlines and consequences for overdue payments",
+      "overdueLimit": "Overdue limit (days)",
+      "overdueLimitDesc": "Days after due date to mark as \"Overdue\"",
+      "daysToBlock": "Days to block",
+      "daysToBlockDesc": "Days after limit to block the student",
+      "blockMessage": "Block Message",
+      "blockMessageDesc": "Message shown to blocked students",
+      "message": "Message",
+      "blockMessageHint": "E.g.: Your monthly payment is overdue...",
+      "businessHours": "Business Hours",
+      "businessHoursDesc": "Opening and closing times",
+      "openingTime": "Opening",
+      "closingTime": "Closing",
+      "earlyCheckin": "Early Check-in",
+      "earlyCheckinDesc": "Allow check-in before class",
+      "minutesAhead": "Minutes ahead",
+      "minutesAheadDesc": "How many minutes before class to allow check-in"
     },
     "automation": {
       "title": "Automations",
@@ -762,7 +941,20 @@
     "analytics": {
       "title": "Retention Analytics",
       "growthMetrics": "Growth metrics",
-      "retentionAnalytics": "Retention Analytics"
+      "retentionAnalytics": "Retention Analytics",
+      "loading": "Loading...",
+      "subtitle": "Advanced performance indicators",
+      "monthlyRetention": "Monthly Retention",
+      "monthlyChurn": "Monthly Churn",
+      "cohortAnalysis": "Cohort Analysis",
+      "cancellationReasons": "Cancellation Reasons",
+      "retentionByLevel": "Retention by Belt",
+      "retentionByClass": "Retention by Class",
+      "excellent": "Excellent",
+      "good": "Good",
+      "attention": "Attention",
+      "healthy": "Healthy",
+      "aboveIdeal": "Above ideal"
     },
     "graduations": {
       "title": "Graduations",
@@ -772,7 +964,14 @@
         "requirements": "Requirements"
       },
       "approve": "Approve",
-      "reject": "Reject"
+      "reject": "Reject",
+      "subtitle": "Manage exams and graduations",
+      "scheduled": "Scheduled",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled",
+      "upcomingExams": "Upcoming Exams",
+      "history": "History"
     },
     "events": {
       "title": "Events & Tournaments",
@@ -797,7 +996,13 @@
       "activeSessions": "Active Sessions",
       "blockedIPs": "Blocked IPs",
       "anomaliesDetected": "Anomalies Detected",
-      "failedLogins24h": "Failed Logins 24h"
+      "failedLogins24h": "Failed Logins 24h",
+      "subtitle": "System monitoring and security",
+      "healthHealthy": "Healthy",
+      "healthDegraded": "Degraded",
+      "healthCritical": "Critical",
+      "live": "Live",
+      "paused": "Paused"
     },
     "visitors": {
       "title": "Visitors"
@@ -934,7 +1139,11 @@
       "showPreview": "Show preview",
       "previewWithSample": "Preview with sample data",
       "typePlaceholder": "Type the message template...",
-      "chars": "chars"
+      "chars": "chars",
+      "riskCritical": "Critical",
+      "riskHigh": "High",
+      "riskModerate": "Moderate",
+      "messageTemplate": "Message template"
     }
   },
   "professor": {
@@ -981,7 +1190,23 @@
         "analysis": "Analysis",
         "demo": "Demo"
       },
-      "excellence": "BlackBelt · Teaching Excellence"
+      "excellence": "BlackBelt · Teaching Excellence",
+      "level": "Level",
+      "presence": "attendance",
+      "categoryStudent": "Student",
+      "categoryVideo": "Video",
+      "deadline": "Deadline",
+      "defaultInstructor": "Instructor",
+      "maxLevel": "Max Level",
+      "activeClassesCount": "{count} active classes",
+      "studentsCount": "{count} students",
+      "chartActive": "Active",
+      "chartFreqPercent": "Freq. %",
+      "chartPresent": "Present",
+      "chartTotal": "Total",
+      "activeCount": "{count} active",
+      "now": "NOW",
+      "today": "Today"
     },
     "class": {
       "activeNow": "Class in progress",
@@ -1006,14 +1231,32 @@
       "attention": "Pedagogical Attention",
       "studentNotFound": "student not found",
       "selectStudent": "Select a student to view details",
-      "clickAny": "Click on any student from the list"
+      "clickAny": "Click on any student from the list",
+      "filterAll": "All",
+      "filterAdult": "Adult",
+      "filterTeen": "Teen",
+      "filterKids": "Kids",
+      "gradReady": "Ready",
+      "gradInEval": "In Evaluation",
+      "statsTotal": "Total",
+      "statsFrequency": "Frequency",
+      "statsLowFreq": "Low Freq.",
+      "statsReadyGrad": "Ready for Grad.",
+      "studentCount": "{count} student(s)",
+      "pageOf": "Page {page} of {totalPages}",
+      "freqShort": "Freq.",
+      "progShort": "Prog.",
+      "medShort": "Med.",
+      "presence": "attendance",
+      "categoryStudent": "Student"
     },
     "briefing": {
       "title": "Daily Briefing",
       "subtitle": "Intelligent summary prepared by AI for your day",
       "refresh": "Refresh briefing",
       "error": "Error loading briefing",
-      "noBriefing": "No briefing available at this time."
+      "noBriefing": "No briefing available at this time.",
+      "greeting": "Good morning, {name}!"
     },
     "classes": {
       "management": "Management",
@@ -1030,14 +1273,23 @@
       "takeAttendance": "Take Attendance",
       "viewStudents": "View Students",
       "noClasses": "No classes assigned",
-      "noClassesDesc": "You don't have any assigned classes yet."
+      "noClassesDesc": "You don't have any assigned classes yet.",
+      "studentsLabel": "students",
+      "categoryClass": "Class",
+      "today": "Today"
     },
     "privateSessions": {
       "title": "My Private Sessions",
       "subtitle": "Schedule and private session statement",
       "upcoming": "Upcoming",
       "done": "Completed",
-      "monthEarnings": "Month Earnings"
+      "monthEarnings": "Month Earnings",
+      "statusScheduled": "Scheduled",
+      "statusConfirmed": "Confirmed",
+      "statusCompleted": "Completed",
+      "statusCancelled": "Cancelled",
+      "upcomingSessions": "Upcoming Sessions",
+      "completedSessions": "Completed"
     },
     "videos": {
       "library": "Library",
@@ -1128,7 +1380,12 @@
       "urgentCount": "urgent",
       "evaluateNow": "Evaluate Now",
       "postpone": "Postpone",
-      "noPending": "No pending evaluations in this category"
+      "noPending": "No pending evaluations in this category",
+      "priorityHigh": "High",
+      "priorityMedium": "Medium",
+      "priorityLow": "Low",
+      "filterAll": "All",
+      "deadline": "Deadline"
     },
     "studentDetail": {
       "tabs": {
@@ -1179,7 +1436,14 @@
       "noProgressModules": "No progress modules recorded",
       "freq30d": "Frequency 30d",
       "monthSessions": "Monthly sessions",
-      "totalSessions": "Total sessions"
+      "totalSessions": "Total sessions",
+      "statusActive": "Active",
+      "statusAlert": "Alert",
+      "statusAbsent": "Absent",
+      "yearsOld": "{age} years old",
+      "updated": "Updated",
+      "evaluations": "Evaluations",
+      "instructor": "Instructor"
     },
     "timer": {
       "title": "Timer",
@@ -1257,7 +1521,8 @@
       "frequency": "Frequency",
       "sessionNote": "Session note (optional)...",
       "savingAttendance": "Saving...",
-      "finishAttendance": "Finish Attendance"
+      "finishAttendance": "Finish Attendance",
+      "level": "Level"
     },
     "profile": {
       "settings": "Settings",
@@ -1310,7 +1575,17 @@
       "achievementGranted": "Achievement Granted!",
       "observationTitle": "Observation",
       "observationPlaceholder": "Write the observation...",
-      "observationSaved": "Observation Saved!"
+      "observationSaved": "Observation Saved!",
+      "timer": "Timer",
+      "errorLoadingAchievements": "Error loading achievements",
+      "errorGrantingAchievement": "Error granting achievement",
+      "forStudent": "for {name}",
+      "closeModal": "Close modal",
+      "searchAchievement": "Search achievement...",
+      "allCategories": "All",
+      "instructorNote": "Instructor note",
+      "achievementNote": "E.g.: Excellent technique evolution...",
+      "confirmGrant": "Confirm grant"
     },
     "startClassModal": {
       "title": "Start Session",
@@ -1340,6 +1615,16 @@
       "competition": "Competition",
       "behavior": "Behavior",
       "special": "Special"
+    },
+    "quickProgress": {
+      "title": "Quick Update",
+      "rating": "Rating",
+      "quickNote": "Quick note...",
+      "saving": "Saving...",
+      "saveProgress": "Save progress",
+      "selectRatingFirst": "Select a rating first",
+      "progressUpdated": "Progress updated for {name}!",
+      "errorSavingProgress": "Error saving progress"
     }
   },
   "athlete": {
@@ -1418,7 +1703,29 @@
         "apply": "Apply in training and competition"
       },
       "inList": "In List",
-      "completed": "Completed"
+      "completed": "Completed",
+      "extendedDescription": "This session is part of the BlackBelt advanced technical program. Focused on positioning and control, this class combines progressive drills with positional sparring to consolidate concepts.",
+      "instructorExperience": "Max Level · 15 years of experience",
+      "objectivesMock": {
+        "closedGuardPosture": "Master posture in closed guard",
+        "distanceHipControl": "Control distance and hips",
+        "attackAngles": "Create attack angles",
+        "toreantoOverUnder": "Toreanto and over-under techniques",
+        "hipControlPassing": "Hip control during passing",
+        "sideControlTransitions": "Side control transitions",
+        "omoplataSetup": "Recognize omoplata setup",
+        "escapeBeforeLock": "Escape before lock",
+        "counterFromDefense": "Counter from defense",
+        "crossChokeClosedGuard": "Cross choke from closed guard",
+        "armbarPostureControl": "Armbar with posture control",
+        "attackCombinations": "Sequential attack combinations",
+        "halfGuardUnderhook": "Half guard underhook",
+        "sweepToMount": "Sweep to mount",
+        "variationsAgainstBases": "Variations against different bases",
+        "highLowMountPressure": "High vs low mount pressure",
+        "balanceUnderBridging": "Maintain balance under bridging",
+        "submissionTransitions": "Transitions to submission"
+      }
     },
     "series": {
       "allTechniques": "All Techniques"
@@ -1464,7 +1771,30 @@
       "inspiration": "Here nobody is judged. Here everyone evolves.",
       "allTrainings": "All Trainings",
       "backToSummary": "Back to summary",
-      "trainingCount": "{count, plural, one {# training recorded} other {# trainings recorded}}"
+      "trainingCount": "{count, plural, one {# training recorded} other {# trainings recorded}}",
+      "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      },
+      "filters": {
+        "all": "All",
+        "fundamentals": "Fundamentals",
+        "beginner": "Beginner",
+        "advanced": "Advanced",
+        "competition": "Competition",
+        "noGi": "No-Gi",
+        "openMat": "Open Mat"
+      }
     },
     "myList": {
       "title": "My List",
@@ -1719,7 +2049,40 @@
       "notGranted": "Not Granted",
       "permissionSummary": "Permission Summary",
       "summaryDesc": "Total permissions granted to your profile",
-      "ofPossible": "of {total} possible"
+      "ofPossible": "of {total} possible",
+      "loginRequired": "Login required",
+      "graduation": "Belt",
+      "unit": "Unit",
+      "accessLevels": {
+        "fullAccess": "Full access",
+        "adminAccess": "Admin access",
+        "managerAccess": "Manager access",
+        "instructorAccess": "Instructor access",
+        "studentAccess": "Student access",
+        "kidsAccess": "Kids access",
+        "guardianAccess": "Guardian access"
+      },
+      "infoAlert": "Your permissions are set by the administrator",
+      "items": {
+        "validateCheckin": "Validate check-in",
+        "validateCheckinDesc": "Allows validating student attendance",
+        "blockStudent": "Block students",
+        "blockStudentDesc": "Allows blocking student access",
+        "editClasses": "Edit classes",
+        "editClassesDesc": "Allows editing classes and schedules",
+        "accessFinancial": "Financial access",
+        "accessFinancialDesc": "Allows viewing financial information",
+        "editPayments": "Edit payments",
+        "editPaymentsDesc": "Allows editing payment data",
+        "viewReports": "View reports",
+        "viewReportsDesc": "Allows accessing reports",
+        "manageUsers": "Manage users",
+        "manageUsersDesc": "Allows adding/editing users",
+        "accessSettings": "Access settings",
+        "accessSettingsDesc": "Allows changing settings"
+      },
+      "summary": "Summary",
+      "ofTotal": "of {total}"
     },
     "shop": {
       "title": "Shop",
@@ -1916,8 +2279,58 @@
       "title": "Check-in / Financial",
       "subtitle": "Your access status and daily check-in",
       "schedule": {
-        "time": "Time"
-      }
+        "time": "Time",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      },
+      "currentStatus": "Current status",
+      "status": {
+        "active": {
+          "badge": "Up to date",
+          "message": "All good! Train as you wish.",
+          "trainingText": "Training Cleared",
+          "trainingDesc": "Full access to all classes"
+        },
+        "late": {
+          "badge": "Overdue",
+          "message": "Please regularize your payment.",
+          "trainingText": "Training With Restriction",
+          "trainingDesc": "Regularize for full access"
+        },
+        "blocked": {
+          "badge": "Blocked",
+          "message": "Please contact the office.",
+          "trainingText": "Training Blocked",
+          "trainingDesc": "Regularize to resume"
+        }
+      },
+      "todayTraining": "Today's training",
+      "lastValidation": "Last validation",
+      "atTime": "at {time}",
+      "alreadyDone": "Already done",
+      "registering": "Registering...",
+      "doCheckin": "Do Check-in",
+      "unavailable": "Unavailable",
+      "unavailableInfo": "Check-in unavailable at the moment",
+      "successMessage": "Check-in successful!",
+      "registeredAt": "Registered on {date} at {time}",
+      "myQrCode": "My QR Code",
+      "qrCodeHint": "Present at reception",
+      "trainingSchedule": "Training Schedule",
+      "weeklyGrid": "Weekly grid",
+      "statusHistory": "Status History",
+      "last6Months": "Last 6 months",
+      "statusLabels": {
+        "active": "Active",
+        "late": "Overdue",
+        "blocked": "Blocked"
+      },
+      "validatedOn": "Validated on {date}",
+      "regularizedOn": "Regularized on {date}"
     },
     "notificationPrefs": {
       "sessions": "Sessions",
@@ -1943,7 +2356,15 @@
       "detected": "QR Code detected!",
       "readError": "Error reading QR Code",
       "switchCamera": "Switch camera",
-      "scanAgain": "Scan again"
+      "scanAgain": "Scan again",
+      "cameraAccessError": "Camera access error",
+      "pointCamera": "Point camera at QR Code",
+      "simulatingQR": "Simulating QR...",
+      "start": "Start",
+      "pressToScan": "Press to scan",
+      "searchingQR": "Searching QR...",
+      "qrDetected": "QR detected!",
+      "qrReadError": "QR read error"
     },
     "fabCheckin": {
       "open": "Open quick check-in",
@@ -1956,7 +2377,30 @@
       "searchByName": "Search by Name",
       "searchByNameDesc": "Manual check-in",
       "noStudentFound": "No student found",
-      "searchPlaceholder": "Type the student's name..."
+      "searchPlaceholder": "Type the student's name...",
+      "back": "Back",
+      "scannerQRCode": "QR Code Scanner",
+      "cameraReading": "Camera reading",
+      "quickDayList": "Quick Day List",
+      "currentClassStudents": "Current class students",
+      "manualCheckin": "Manual check-in",
+      "scannerQR": "QR Scanner",
+      "currentClass": "Current Class",
+      "searchStudent": "Search Student",
+      "typeStudentName": "Type student name...",
+      "searchStudentLabel": "Search student",
+      "clearSearch": "Clear search",
+      "noStudentForQuery": "No student found for \"{query}\"",
+      "checkinFor": "Check-in for {name}",
+      "openQuickCheckin": "Open quick check-in",
+      "closeCheckin": "Close check-in",
+      "errorLoadingStudents": "Error loading students",
+      "checkinConfirmed": "Check-in confirmed!",
+      "savedOffline": "Saved offline",
+      "checkinFailed": "Check-in failed",
+      "connectionError": "Connection error",
+      "invalidQR": "Invalid QR",
+      "errorProcessingQR": "Error processing QR"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -1985,6 +2429,59 @@
       "selectTemplate": "Select a template or write",
       "openConversation": "Open conversation",
       "sent": "Sent ✓"
+    },
+    "qrGenerator": {
+      "secureCode": "Secure code",
+      "expiresIn": "Expires in {seconds}s",
+      "renew": "Renew",
+      "exit": "Exit",
+      "fullscreen": "Fullscreen",
+      "presentCode": "Present this code"
+    },
+    "leaderboard": {
+      "noRankingData": "No ranking data",
+      "yourPosition": "Your position",
+      "you": "You"
+    },
+    "notifications": {
+      "now": "Now",
+      "hoursAgo": "{hours}h ago",
+      "daysAgo": "{days}d ago",
+      "dismiss": "Dismiss",
+      "from": "from"
+    },
+    "signature": {
+      "title": "Digital Signature",
+      "subtitle": "Documents and consents",
+      "status": {
+        "signed": "Signed",
+        "pending": "Pending",
+        "expired": "Expired",
+        "cancelled": "Cancelled"
+      },
+      "pendingDocs": "{count} pending document(s)",
+      "pendingHint": "Sign to keep your full access",
+      "tabs": {
+        "documents": "Documents",
+        "privacy": "Privacy"
+      },
+      "required": "Required",
+      "version": "Version {version}",
+      "signedOn": "Signed on {date}",
+      "signing": "Signing...",
+      "signDigitally": "Sign Digitally",
+      "lgpdInfo": "LGPD Information",
+      "acceptedOn": "Accepted on {date}",
+      "yourRights": "Your Rights",
+      "rights": {
+        "dataAccess": "Data access",
+        "dataCorrection": "Data correction",
+        "dataDeletion": "Data deletion",
+        "dataPortability": "Data portability",
+        "consentRevocation": "Consent revocation",
+        "sharingInfo": "Sharing information"
+      },
+      "contactForRights": "Contact us to exercise your rights"
     }
   },
   "teen": {
@@ -2306,7 +2803,33 @@
       "confirmNewPin": "Confirm new PIN",
       "pinsDontMatch": "PINs don't match",
       "invalidPin": "Invalid PIN",
-      "maxAttempts": "Maximum attempts reached"
+      "maxAttempts": "Maximum attempts reached",
+      "placeFinger": "Place your finger",
+      "identityVerified": "Identity verified!",
+      "registeringBiometric": "Registering biometric...",
+      "biometricRegistered": "Biometric registered!",
+      "biometricError": "Biometric error",
+      "invalidCode": "Invalid code",
+      "biometric": "Biometric",
+      "locked": "Locked",
+      "checkingSupport": "Checking support...",
+      "biometricNotAvailable": "Biometric not available",
+      "biometricCheckBrowser": "Check browser settings",
+      "tapFingerprint": "Tap fingerprint",
+      "biometricOptions": "Biometric options",
+      "waiting": "Waiting...",
+      "verifiedSuccess": "Verification successful!",
+      "sendVerificationCode": "Send verification code",
+      "sending": "Sending...",
+      "sendCode": "Send code",
+      "enterCodeSentTo": "Enter the code sent to {email}",
+      "verifying": "Verifying...",
+      "verify": "Verify",
+      "resendCode": "Resend code",
+      "createNewPin": "Create new PIN",
+      "hidePin": "Hide PIN",
+      "showPin": "Show PIN",
+      "pinSavedSuccess": "PIN saved successfully!"
     }
   },
   "parent": {
@@ -2404,7 +2927,12 @@
       "competitionAuth": "Competition Authorization",
       "competitionAuthDesc": "Allow participation in official tournaments and competitions",
       "externalAuth": "External Event Authorization",
-      "externalAuthDesc": "Allow participation in seminars and training at other units"
+      "externalAuthDesc": "Allow participation in seminars and training at other units",
+      "exitWith": "left with",
+      "validatedBy": "Validated by {name}",
+      "imageLegalText": "I authorize the use of the minor's image for educational and promotional purposes of the academy, in accordance with LGPD and ECA.",
+      "competitionLegalText": "I authorize the minor's participation in official competitions and friendlies organized or recommended by the academy.",
+      "externalLegalText": "I authorize the minor's participation in external events, seminars, and workshops outside the academy."
     },
     "messages": {
       "title": "Messages",
@@ -2513,7 +3041,19 @@
         "active": "Active",
         "defaulter": "Defaulter",
         "blocked": "Blocked"
-      }
+      },
+      "pageTitle": "Platform Dashboard",
+      "pageSubtitle": "Global overview of all academies",
+      "financialSection": "Financial",
+      "growthMonth": "+{value}% month",
+      "operationalSection": "Operational",
+      "viewAll": "View all",
+      "plan": "Plan",
+      "monthShort": "month",
+      "unblock": "Unblock",
+      "block": "Block",
+      "changePlan": "Change Plan",
+      "viewDetails": "View Details"
     },
     "academies": {
       "title": "Academies",
@@ -2524,7 +3064,27 @@
       "professorsCount": "coaches",
       "unblock": "Unblock",
       "block": "Block",
-      "confirmDelete": "Are you sure you want to delete this academy?"
+      "confirmDelete": "Are you sure you want to delete this academy?",
+      "statusActive": "Active",
+      "statusDefaulter": "Defaulter",
+      "statusBlocked": "Blocked",
+      "plan": "Plan",
+      "students": "Students",
+      "professors": "Professors",
+      "createdAt": "Created at",
+      "city": "City",
+      "lastPayment": "Last Payment",
+      "email": "Email",
+      "phone": "Phone",
+      "edit": "Edit",
+      "registeredCount": "{count} registered academies",
+      "newAcademy": "New Academy",
+      "filters": "Filters",
+      "all": "All",
+      "allPlans": "All",
+      "monthShort": "month",
+      "viewDetails": "View details",
+      "delete": "Delete"
     },
     "aiHealth": {
       "title": "Platform Health — AI",
@@ -2542,7 +3102,13 @@
       "predictionsLabel": "predictions",
       "academiesAtRisk": "Academies at Risk",
       "allHealthy": "All academies are healthy",
-      "loadError": "Error loading platform health"
+      "loadError": "Error loading platform health",
+      "pageTitle": "Platform Health — AI",
+      "pageSubtitle": "Real-time monitoring of AI services",
+      "healthScoreDesc": "Based on error rate, at-risk academies, and uptime",
+      "predictions": "predictions",
+      "noDataAvailable": "No data available.",
+      "atRiskAcademies": "At-Risk Academies"
     },
     "financial": {
       "title": "Financial",
@@ -2577,7 +3143,11 @@
         "paid": "Paid",
         "pending": "Pending",
         "overdue": "Overdue"
-      }
+      },
+      "monthsValue": "{count} months",
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue"
     }
   },
   "domain": {
@@ -2645,7 +3215,34 @@
     "findYourSize": "FIND YOUR IDEAL SIZE",
     "findDesc": "Discover the perfect size in seconds",
     "visualRef": "VISUAL REFERENCE",
-    "visualRefDesc": "See how the product fits"
+    "visualRefDesc": "See how the product fits",
+    "close": "Close",
+    "tabs": {
+      "quick": "Quick",
+      "visual": "Visual",
+      "technical": "Technical"
+    },
+    "enterKidsMeasures": "Enter child measurements",
+    "enterYourMeasures": "Enter your measurements",
+    "ageYears": "Age (years)",
+    "heightCm": "Height (cm)",
+    "weightKg": "Weight (kg)",
+    "suggestIdealSize": "Suggest ideal size",
+    "recommendSize": "We recommend size {size}",
+    "forChild": "For the child",
+    "selectAndClose": "Select {size} and close",
+    "findSizeSubtitle": "Find the ideal size",
+    "size": "Size",
+    "tip": "Tip",
+    "tipChooseLarger": "When in doubt, choose the larger size",
+    "visualReference": "Visual Reference",
+    "seeHowItFits": "See how it fits",
+    "detailedMeasurements": "Detailed Measurements",
+    "forMaxPrecision": "For maximum precision",
+    "jacketMeasurements": "Jacket Measurements",
+    "pantsMeasurements": "Pants Measurements",
+    "shrinkageAfterWash": "Shrinkage after wash",
+    "measuresMayVary": "Measurements may vary ±2cm"
   },
   "navigation": {
     "routes": {
@@ -2718,5 +3315,34 @@
       "kids-medalhas": "Achievements",
       "kids-mestres": "Masters"
     }
+  },
+  "deleteAccount": {
+    "pageTitle": "Delete Account",
+    "errorMessage": "Error processing request",
+    "beforeContinue": "Before you continue",
+    "deleteViaApp": "You can also delete via the app:",
+    "deleteViaAppPath": "Settings → My Account → Delete Account",
+    "registeredEmail": "Registered email",
+    "reason": "Reason",
+    "optional": "Optional",
+    "reasonPlaceholder": "Why do you want to delete your account?",
+    "disclaimerTitle": "By requesting deletion:",
+    "disclaimerDeactivate": "Your account will be deactivated immediately",
+    "disclaimerCancel": "You have 30 days to cancel the deletion",
+    "disclaimerAnonymize": "After 30 days, your data will be anonymized",
+    "disclaimerConfirmEmail": "We will confirm by email",
+    "submitButton": "Request account deletion",
+    "confirmTitle": "Delete my account",
+    "confirmMessage": "Are you sure you want to delete your account? This action is irreversible after 30 days.",
+    "confirmLabel": "Yes, delete",
+    "cancelLabel": "Cancel",
+    "processing": "Processing...",
+    "successTitle": "Request sent",
+    "successEmailSent": "We sent an email to {email}",
+    "successDeactivation": "Your account will be deactivated soon",
+    "successAnonymize": "Data anonymized after 30 days",
+    "contactDpo": "DPO Contact",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
   }
 }

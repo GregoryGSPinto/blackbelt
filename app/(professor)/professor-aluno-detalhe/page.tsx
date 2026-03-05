@@ -28,14 +28,14 @@ const NIVEL_COLORS: Record<string, string> = {
   'Roxa': '#A78BFA', 'Marrom': '#A0845C', 'Preta': '#FFFFFF',
 };
 
-const STATUS_CONFIG = {
-  ativo: { label: 'Ativo', color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
-  alerta: { label: 'Alerta', color: '#FBBF24', bg: 'rgba(251,191,36,0.12)' },
-  ausente: { label: 'Ausente', color: '#F87171', bg: 'rgba(248,113,113,0.12)' },
-};
-
 function AlunoDetalheContent() {
   const t = useTranslations('professor.studentDetail');
+
+  const STATUS_CONFIG = {
+    ativo: { label: t('statusActive'), color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
+    alerta: { label: t('statusAlert'), color: '#FBBF24', bg: 'rgba(251,191,36,0.12)' },
+    ausente: { label: t('statusAbsent'), color: '#F87171', bg: 'rgba(248,113,113,0.12)' },
+  };
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const searchParams = useSearchParams();
@@ -122,7 +122,7 @@ function AlunoDetalheContent() {
                   {aluno.subniveis > 0 && <span className="text-white/20">· {aluno.subniveis}° {t('sublevel')}</span>}
                 </span>
                 <span>{aluno.categoria}</span>
-                <span>{aluno.idade} anos</span>
+                <span>{t('yearsOld', { age: aluno.idade })}</span>
                 <span>{aluno.turma}</span>
               </div>
               <p className="text-white/25 text-xs mt-1.5">{t('trainingSince')} {aluno.tempoTreino} · {t('since')} {new Date(aluno.dataInicio).toLocaleDateString('pt-BR')}</p>
@@ -300,7 +300,7 @@ function AlunoDetalheContent() {
                         background: m.progresso >= 70 ? 'linear-gradient(90deg, #4ADE80, #22D3EE)' : m.progresso >= 40 ? 'linear-gradient(90deg, #FBBF24, #FB923C)' : 'linear-gradient(90deg, #F87171, #EF4444)',
                       }} />
                     </div>
-                    <p className="text-white/15 text-[10px] mt-1">Atualizado: {m.ultimaAtualizacao}</p>
+                    <p className="text-white/15 text-[10px] mt-1">{t('updated')}: {m.ultimaAtualizacao}</p>
                   </div>
                 ))}
               </div>
@@ -310,7 +310,7 @@ function AlunoDetalheContent() {
             {aluno.avaliacoes.length > 0 && (
               <div className="prof-glass-card p-4">
                 <h3 className="text-sm font-semibold text-white/70 mb-3 flex items-center gap-2">
-                  <ClipboardCheck size={14} className="text-amber-400" /> Avaliações
+                  <ClipboardCheck size={14} className="text-amber-400" /> {t('evaluations')}
                 </h3>
                 {aluno.avaliacoes.map(av => (
                   <div key={av.id} className="p-3 rounded-xl mb-2" style={{ background: 'rgba(255,255,255,0.03)' }}>
@@ -385,7 +385,7 @@ function AlunoDetalheContent() {
                     emoji: conquista.emoji,
                     nome: conquista.nome,
                     descricao: conquista.descricao,
-                    concedidaPor: 'Instrutor',
+                    concedidaPor: t('instructor'),
                     dataConquista: new Date().toLocaleDateString('pt-BR'),
                   }],
                 } : prev);
@@ -408,10 +408,10 @@ function AlunoDetalheContent() {
               <div className="prof-glass-card p-4">
                 {aluno.desafios.map(des => {
                   const statusColors = {
-                    pendente: { color: '#FBBF24', bg: 'rgba(251,191,36,0.1)', label: 'Pendente' },
-                    em_andamento: { color: '#60A5FA', bg: 'rgba(96,165,250,0.1)', label: 'Em Andamento' },
-                    concluido: { color: '#4ADE80', bg: 'rgba(74,222,128,0.1)', label: 'Concluído' },
-                    reprovado: { color: '#F87171', bg: 'rgba(248,113,113,0.1)', label: 'Reprovado' },
+                    pendente: { color: '#FBBF24', bg: 'rgba(251,191,36,0.1)', label: t('challengeStatus.pending') },
+                    em_andamento: { color: '#60A5FA', bg: 'rgba(96,165,250,0.1)', label: t('challengeStatus.inProgress') },
+                    concluido: { color: '#4ADE80', bg: 'rgba(74,222,128,0.1)', label: t('challengeStatus.completed') },
+                    reprovado: { color: '#F87171', bg: 'rgba(248,113,113,0.1)', label: t('challengeStatus.failed') },
                   };
                   const sc = statusColors[des.status];
                   return (

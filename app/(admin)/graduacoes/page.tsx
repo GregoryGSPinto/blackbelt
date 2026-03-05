@@ -11,6 +11,7 @@ import { BeltStripes } from '@/components/shared/BeltStripes';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 type TabView = 'exames' | 'subniveis' | 'requisitos';
 
@@ -21,14 +22,15 @@ const NIVEL_COLORS: Record<string, string> = {
   'Nível Máximo': '#374151',
 };
 
-const STATUS_CFG: Record<string, { Icon: typeof Clock; color: string; bg: string; label: string }> = {
-  AGENDADO: { Icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10', label: 'Agendado' },
-  APROVADO: { Icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-500/10', label: 'Aprovado' },
-  REPROVADO: { Icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10', label: 'Reprovado' },
-  CANCELADO: { Icon: AlertCircle, color: 'text-white/30', bg: 'bg-white/5', label: 'Cancelado' },
+const STATUS_CFG: Record<string, { Icon: typeof Clock; color: string; bg: string; labelKey: string }> = {
+  AGENDADO: { Icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10', labelKey: 'graduations.scheduled' },
+  APROVADO: { Icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-500/10', labelKey: 'graduations.approved' },
+  REPROVADO: { Icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10', labelKey: 'graduations.rejected' },
+  CANCELADO: { Icon: AlertCircle, color: 'text-white/30', bg: 'bg-white/5', labelKey: 'graduations.cancelled' },
 };
 
 export default function GraduacoesAdminPage() {
+  const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -79,9 +81,9 @@ export default function GraduacoesAdminPage() {
       <div>
         <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
           <GraduationCap size={24} className="text-purple-400" />
-          Graduações
+          {t('graduations.title')}
         </h1>
-        <p className="text-sm text-white/40 mt-1">Exames de nivel, requisitos e histórico</p>
+        <p className="text-sm text-white/40 mt-1">{t('graduations.subtitle')}</p>
       </div>
 
       {/* Stats */}
@@ -95,13 +97,13 @@ export default function GraduacoesAdminPage() {
       {/* Tabs */}
       <div className="flex gap-1 bg-black/30 backdrop-blur-xl rounded-xl p-1 w-fit">
         <button onClick={() => setTab('exames')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'exames' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
-          <Award size={13} /> Exames
+          <Award size={13} /> {t('graduations.tabs.exams')}
         </button>
         <button onClick={() => setTab('subniveis')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'subniveis' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
-          <GraduationCap size={13} /> Subniveis
+          <GraduationCap size={13} /> {t('graduations.tabs.sublevels')}
         </button>
         <button onClick={() => setTab('requisitos')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'requisitos' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
-          <BarChart3 size={13} /> Requisitos
+          <BarChart3 size={13} /> {t('graduations.tabs.requirements')}
         </button>
       </div>
 
@@ -111,7 +113,7 @@ export default function GraduacoesAdminPage() {
         <div className="space-y-4">
           {agendados.length > 0 && (
             <div>
-              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Próximos Exames</h2>
+              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('graduations.upcomingExams')}</h2>
               <div className="space-y-2">
                 {agendados.map(exam => (
                   <ExamCard key={exam.id} exam={exam} expanded={expandedId === exam.id}
@@ -123,7 +125,7 @@ export default function GraduacoesAdminPage() {
           )}
           {historico.length > 0 && (
             <div>
-              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>Histórico</h2>
+              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('graduations.history')}</h2>
               <div className="space-y-2">
                 {historico.map(exam => (
                   <ExamCard key={exam.id} exam={exam} expanded={expandedId === exam.id}
@@ -194,6 +196,7 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
   exam: ExameGraduacao; expanded: boolean; onToggle: () => void;
   onAvaliar?: (id: string, status: 'APROVADO' | 'REPROVADO') => void;
 }) {
+  const t = useTranslations('admin');
   const cfg = STATUS_CFG[exam.status];
   const StatusIcon = cfg.Icon;
   return (
@@ -204,7 +207,7 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
           <p className="text-sm font-bold text-white/70">{exam.alunoNome}</p>
           <p className="text-[10px] text-white/25">{exam.nivelAtual} → {exam.nivelAlvo}</p>
         </div>
-        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.color} ${cfg.bg}`}>{cfg.label}</span>
+        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.color} ${cfg.bg}`}>{t(cfg.labelKey)}</span>
         <span className="text-[10px] text-white/20">{new Date(exam.dataExame + 'T12:00:00').toLocaleDateString('pt-BR')}</span>
         {expanded ? <ChevronUp size={14} className="text-white/20" /> : <ChevronDown size={14} className="text-white/20" />}
       </button>
@@ -220,10 +223,10 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
           {exam.status === 'AGENDADO' && onAvaliar && (
             <div className="flex gap-2">
               <button onClick={() => onAvaliar(exam.id, 'APROVADO')} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
-                <CheckCircle size={14} /> Aprovar
+                <CheckCircle size={14} /> {t('graduations.approve')}
               </button>
               <button onClick={() => onAvaliar(exam.id, 'REPROVADO')} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-bold hover:bg-red-500/20 transition-colors">
-                <XCircle size={14} /> Reprovar
+                <XCircle size={14} /> {t('graduations.reject')}
               </button>
             </div>
           )}

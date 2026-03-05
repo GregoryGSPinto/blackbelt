@@ -3,10 +3,11 @@
 import { Component, ReactNode } from 'react';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
-import { 
-  AlertTriangle, 
-  Home, 
-  RefreshCw, 
+import { useTranslations } from 'next-intl';
+import {
+  AlertTriangle,
+  Home,
+  RefreshCw,
   Shield,
   Sparkles,
   Baby,
@@ -137,6 +138,158 @@ const MODULE_CONFIG: Record<ModuleName, ModuleConfig> = {
 };
 
 // ═══════════════════════════════════════════════════════════
+// TRANSLATED FALLBACK UI (functional component for hook access)
+// ═══════════════════════════════════════════════════════════
+
+function ErrorFallbackUI({
+  config,
+  moduleName,
+  error,
+  timestamp,
+  onRetry,
+}: {
+  config: ModuleConfig;
+  moduleName: ModuleName;
+  error: Error | null;
+  timestamp: Date | null;
+  onRetry: () => void;
+}) {
+  const t = useTranslations('common.errorBoundary');
+  const Icon = config.icon;
+
+  return (
+    <div className={`min-h-screen bg-gradient-to-br ${config.gradient} flex items-center justify-center p-6`}>
+      <div className="w-full max-w-2xl">
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/5 rounded-3xl blur-xl"></div>
+          <div className="relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
+            <div className="flex items-start gap-6 mb-8">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Icon size={40} className={config.iconColor} />
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3 ${config.badgeColor}`}>
+                  <AlertTriangle size={14} />
+                  <span className="text-xs font-bold uppercase tracking-wide">
+                    {t('moduleError')}
+                  </span>
+                </div>
+                <h1 className="text-xl md:text-2xl lg:text-4xl font-black text-white mb-2 flex items-center gap-3">
+                  <span>{config.emoji}</span>
+                  <span>{config.displayName}</span>
+                </h1>
+                <p className="text-lg text-white/70 leading-relaxed">
+                  {config.message}
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white/5 rounded-2xl p-6 mb-8 border border-white/10">
+              <div className="grid gap-3">
+                <div>
+                  <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-1">
+                    {t('error')}
+                  </p>
+                  <p className="text-sm text-white/90 font-mono break-all">
+                    {error?.message || t('unknownError')}
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-1">
+                      {t('module')}
+                    </p>
+                    <p className="text-sm text-white/90 font-semibold">
+                      {moduleName}
+                    </p>
+                  </div>
+                  {timestamp && (
+                    <div>
+                      <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-1">
+                        {t('timestamp')}
+                      </p>
+                      <p className="text-sm text-white/90 font-mono">
+                        {timestamp.toLocaleTimeString('pt-BR')}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-8">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-green-400">
+                  <Shield size={20} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-green-300 mb-1">
+                    {t('systemProtected')}
+                  </p>
+                  <p className="text-xs text-green-200/80 leading-relaxed">
+                    {t('isolatedError')}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-3">
+              <button
+                onClick={onRetry}
+                className="group flex items-center justify-center gap-3 px-6 py-4 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <RefreshCw
+                  size={20}
+                  className="text-white/80 group-hover:text-white group-hover:rotate-180 transition-all duration-500"
+                />
+                <span className="text-sm font-bold text-white">
+                  {t('tryAgain')}
+                </span>
+              </button>
+
+              <Link
+                href={config.homeRoute}
+                className="group flex items-center justify-center gap-3 px-6 py-4 bg-white hover:bg-white/95 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Home
+                  size={20}
+                  className="text-gray-900 group-hover:scale-110 transition-transform"
+                />
+                <span className="text-sm font-bold text-gray-900">
+                  {t('goHome')}
+                </span>
+              </Link>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <p className="text-xs text-center text-white/40">
+                {t('contactSupport')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-6 bg-black/60 backdrop-blur-sm border border-red-500/20 rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle size={16} className="text-red-400" />
+              <h3 className="text-sm font-bold text-red-300 uppercase tracking-wide">
+                Dev Mode - Stack Trace
+              </h3>
+            </div>
+            <pre className="text-xs text-red-200/80 font-mono overflow-x-auto whitespace-pre-wrap break-words">
+              {error?.stack}
+            </pre>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
 // INTERFACES
 // ═══════════════════════════════════════════════════════════
 
@@ -241,180 +394,16 @@ export class ModuleErrorBoundary extends Component<Props, State> {
     }
 
     // ═══════════════════════════════════════════════════════════
-    // FALLBACK PREMIUM PADRÃO
+    // FALLBACK PREMIUM PADRÃO (functional component for i18n)
     // ═══════════════════════════════════════════════════════════
-    const Icon = this.config.icon;
-
     return (
-      <div className={`min-h-screen bg-gradient-to-br ${this.config.gradient} flex items-center justify-center p-6`}>
-        <div className="w-full max-w-2xl">
-          {/* ═══════════════════════════════════════════════════ */}
-          {/* CARD PRINCIPAL */}
-          {/* ═══════════════════════════════════════════════════ */}
-          <div className="relative">
-            {/* Glow Effect */}
-            <div className="absolute inset-0 bg-white/5 rounded-3xl blur-xl"></div>
-            
-            {/* Card */}
-            <div className="relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
-              {/* ═══════════════════════════════════════════════ */}
-              {/* HEADER */}
-              {/* ═══════════════════════════════════════════════ */}
-              <div className="flex items-start gap-6 mb-8">
-                {/* Ícone */}
-                <div className="flex-shrink-0">
-                  <div className="w-20 h-20 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Icon size={40} className={this.config.iconColor} />
-                  </div>
-                </div>
-
-                {/* Texto */}
-                <div className="flex-1">
-                  {/* Badge Status */}
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3 ${this.config.badgeColor}`}>
-                    <AlertTriangle size={14} />
-                    <span className="text-xs font-bold uppercase tracking-wide">
-                      Erro no Módulo
-                    </span>
-                  </div>
-
-                  {/* Título */}
-                  <h1 className="text-xl md:text-2xl lg:text-4xl font-black text-white mb-2 flex items-center gap-3">
-                    <span>{this.config.emoji}</span>
-                    <span>{this.config.displayName}</span>
-                  </h1>
-
-                  {/* Subtítulo */}
-                  <p className="text-lg text-white/70 leading-relaxed">
-                    {this.config.message}
-                  </p>
-                </div>
-              </div>
-
-              {/* ═══════════════════════════════════════════════ */}
-              {/* INFORMAÇÕES TÉCNICAS */}
-              {/* ═══════════════════════════════════════════════ */}
-              <div className="bg-white/5 rounded-2xl p-6 mb-8 border border-white/10">
-                <div className="grid gap-3">
-                  {/* Erro */}
-                  <div>
-                    <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-1">
-                      Erro
-                    </p>
-                    <p className="text-sm text-white/90 font-mono break-all">
-                      {error?.message || 'Erro desconhecido'}
-                    </p>
-                  </div>
-
-                  {/* Módulo */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-1">
-                        Módulo
-                      </p>
-                      <p className="text-sm text-white/90 font-semibold">
-                        {this.props.moduleName}
-                      </p>
-                    </div>
-
-                    {/* Timestamp */}
-                    {timestamp && (
-                      <div>
-                        <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-1">
-                          Horário
-                        </p>
-                        <p className="text-sm text-white/90 font-mono">
-                          {timestamp.toLocaleTimeString('pt-BR')}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* ═══════════════════════════════════════════════ */}
-              {/* TRANQUILIZAÇÃO */}
-              {/* ═══════════════════════════════════════════════ */}
-              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-8">
-                <div className="flex gap-3">
-                  <div className="flex-shrink-0 text-green-400">
-                    <Shield size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-green-300 mb-1">
-                      Sistema Protegido
-                    </p>
-                    <p className="text-xs text-green-200/80 leading-relaxed">
-                      Este erro está <strong>isolado</strong> a este módulo. 
-                      Outros módulos continuam funcionando normalmente. 
-                      Sua sessão e dados estão seguros.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ═══════════════════════════════════════════════ */}
-              {/* AÇÕES */}
-              {/* ═══════════════════════════════════════════════ */}
-              <div className="grid md:grid-cols-2 gap-3">
-                {/* Tentar Novamente */}
-                <button
-                  onClick={this.handleRetry}
-                  className="group flex items-center justify-center gap-3 px-6 py-4 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
-                  <RefreshCw 
-                    size={20} 
-                    className="text-white/80 group-hover:text-white group-hover:rotate-180 transition-all duration-500" 
-                  />
-                  <span className="text-sm font-bold text-white">
-                    Tentar Novamente
-                  </span>
-                </button>
-
-                {/* Ir para Home */}
-                <Link
-                  href={this.config.homeRoute}
-                  className="group flex items-center justify-center gap-3 px-6 py-4 bg-white hover:bg-white/95 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
-                  <Home 
-                    size={20} 
-                    className="text-gray-900 group-hover:scale-110 transition-transform" 
-                  />
-                  <span className="text-sm font-bold text-gray-900">
-                    Ir para Início
-                  </span>
-                </Link>
-              </div>
-
-              {/* ═══════════════════════════════════════════════ */}
-              {/* RODAPÉ */}
-              {/* ═══════════════════════════════════════════════ */}
-              <div className="mt-8 pt-6 border-t border-white/10">
-                <p className="text-xs text-center text-white/40">
-                  Se o problema persistir, entre em contato com o suporte técnico
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════ */}
-          {/* DETALHES TÉCNICOS (dev mode) */}
-          {/* ═══════════════════════════════════════════════════ */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mt-6 bg-black/60 backdrop-blur-sm border border-red-500/20 rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <AlertTriangle size={16} className="text-red-400" />
-                <h3 className="text-sm font-bold text-red-300 uppercase tracking-wide">
-                  Dev Mode - Stack Trace
-                </h3>
-              </div>
-              <pre className="text-xs text-red-200/80 font-mono overflow-x-auto whitespace-pre-wrap break-words">
-                {error?.stack}
-              </pre>
-            </div>
-          )}
-        </div>
-      </div>
+      <ErrorFallbackUI
+        config={this.config}
+        moduleName={this.props.moduleName}
+        error={error}
+        timestamp={timestamp}
+        onRetry={this.handleRetry}
+      />
     );
   }
 }

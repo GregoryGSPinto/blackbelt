@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { AlertTriangle, CheckCircle, Loader2, Shield } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -14,6 +15,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 type FormState = 'form' | 'loading' | 'success' | 'error';
 
 export default function ExcluirContaPage() {
+  const t = useTranslations('deleteAccount');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -33,7 +35,7 @@ export default function ExcluirContaPage() {
       await createRequest('delete', email, reason || '');
       setState('success');
     } catch {
-      setErrorMsg('Não foi possível processar. Tente novamente ou envie e-mail para dpo@blackbelt.com.br.');
+      setErrorMsg(t('errorMessage'));
       setState('error');
     }
   }
@@ -48,7 +50,7 @@ export default function ExcluirContaPage() {
             <Shield size={28} className="text-blue-400" />
           </div>
           <h1 className="text-lg sm:text-xl md:text-2xl font-black">BlackBelt</h1>
-          <p className="text-white/50 text-sm mt-1">Solicitação de Exclusão de Conta</p>
+          <p className="text-white/50 text-sm mt-1">{t('pageTitle')}</p>
         </div>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm overflow-hidden">
@@ -60,10 +62,10 @@ export default function ExcluirContaPage() {
                 <div className="flex items-start gap-3">
                   <AlertTriangle size={18} className="text-yellow-400 mt-0.5 flex-shrink-0" />
                   <div className="text-sm">
-                    <p className="text-yellow-300 font-bold mb-1">Antes de continuar</p>
+                    <p className="text-yellow-300 font-bold mb-1">{t('beforeContinue')}</p>
                     <p style={{ fontWeight: 300, color: tokens.textMuted }}>
-                      Você também pode excluir sua conta diretamente pelo app:
-                      <span className="text-white/70"> Configurações → Minha Conta → Excluir Conta</span>.
+                      {t('deleteViaApp')}
+                      <span className="text-white/70"> {t('deleteViaAppPath')}</span>.
                     </p>
                   </div>
                 </div>
@@ -71,7 +73,7 @@ export default function ExcluirContaPage() {
 
               <div>
                 <label className="text-sm text-white/60 block mb-2">
-                  E-mail cadastrado <span className="text-red-400">*</span>
+                  {t('registeredEmail')} <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="email"
@@ -85,12 +87,12 @@ export default function ExcluirContaPage() {
 
               <div>
                 <label className="text-sm text-white/60 block mb-2">
-                  Motivo <span className="text-white/30">(opcional)</span>
+                  {t('reason')} <span className="text-white/30">({t('optional')})</span>
                 </label>
                 <textarea
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  placeholder="Conte-nos por que deseja excluir sua conta..."
+                  placeholder={t('reasonPlaceholder')}
                   className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 resize-none focus:outline-none focus:border-blue-500/50"
                   rows={3}
                   maxLength={500}
@@ -98,11 +100,11 @@ export default function ExcluirContaPage() {
               </div>
 
               <div className="text-xs text-white/40 space-y-1">
-                <p>Ao solicitar a exclusão:</p>
-                <p>• Sua conta será desativada imediatamente</p>
-                <p>• Você terá 30 dias para cancelar a solicitação</p>
-                <p>• Após 30 dias, todos os dados serão anonimizados irreversivelmente</p>
-                <p>• Um e-mail de confirmação será enviado</p>
+                <p>{t('disclaimerTitle')}</p>
+                <p>• {t('disclaimerDeactivate')}</p>
+                <p>• {t('disclaimerCancel')}</p>
+                <p>• {t('disclaimerAnonymize')}</p>
+                <p>• {t('disclaimerConfirmEmail')}</p>
               </div>
 
               {state === 'error' && (
@@ -116,15 +118,15 @@ export default function ExcluirContaPage() {
                 disabled={!isValidEmail}
                 className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Solicitar Exclusão
+                {t('submitButton')}
               </button>
 
               <ConfirmModal
                 open={showConfirm}
-                title="Excluir minha conta"
-                message="Esta ação é irreversível. Todos os seus dados, histórico de treinos e conquistas serão permanentemente excluídos."
-                confirmLabel="Sim, excluir minha conta"
-                cancelLabel="Cancelar"
+                title={t('confirmTitle')}
+                message={t('confirmMessage')}
+                confirmLabel={t('confirmLabel')}
+                cancelLabel={t('cancelLabel')}
                 variant="danger"
                 requireTyping="EXCLUIR"
                 loading={false}
@@ -138,7 +140,7 @@ export default function ExcluirContaPage() {
           {state === 'loading' && (
             <div className="p-12 text-center">
               <Loader2 size={32} className="mx-auto text-red-400 animate-spin mb-4" />
-              <p className="text-white/60 text-sm">Processando solicitação...</p>
+              <p className="text-white/60 text-sm">{t('processing')}</p>
             </div>
           )}
 
@@ -148,14 +150,14 @@ export default function ExcluirContaPage() {
               <div className="w-16 h-16 mx-auto rounded-full bg-green-600/20 flex items-center justify-center">
                 <CheckCircle size={32} className="text-green-400" />
               </div>
-              <h2 className="text-xl font-bold">Solicitação recebida</h2>
+              <h2 className="text-xl font-bold">{t('successTitle')}</h2>
               <div className="text-sm text-white/60 space-y-2">
-                <p>Enviamos um e-mail de confirmação para <span className="text-white font-bold">{email}</span>.</p>
-                <p>Sua conta será desativada e você terá <span className="text-white font-bold">30 dias</span> para cancelar.</p>
-                <p>Após esse período, os dados serão anonimizados conforme a LGPD.</p>
+                <p>{t('successEmailSent', { email })}</p>
+                <p>{t('successDeactivation')}</p>
+                <p>{t('successAnonymize')}</p>
               </div>
               <p className="text-xs text-white/30 pt-4">
-                Dúvidas? Entre em contato: dpo@blackbelt.com.br
+                {t('contactDpo')}
               </p>
             </div>
           )}
@@ -167,14 +169,14 @@ export default function ExcluirContaPage() {
             href="/politica-privacidade.html"
             className="text-xs text-white/30 hover:text-white/50 transition-colors"
           >
-            Política de Privacidade
+            {t('privacyPolicy')}
           </a>
           <span className="text-white/20 mx-2">•</span>
           <a
             href="/termos-de-uso.html"
             className="text-xs text-white/30 hover:text-white/50 transition-colors"
           >
-            Termos de Uso
+            {t('termsOfUse')}
           </a>
         </div>
       </div>
