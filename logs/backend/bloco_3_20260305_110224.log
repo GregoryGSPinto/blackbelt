@@ -1,0 +1,17 @@
+**Bloco 3 concluído.** Resumo:
+
+**Queries criadas (4 novos arquivos):**
+- `lib/db/queries/notifications.ts` — 5 funções (getNotifications, markAsRead, markAllAsRead, createNotification, getUnreadCount)
+- `lib/db/queries/messages.ts` — 5 funções (getConversations, getMessages, sendMessage, createConversation, markConversationRead)
+- `lib/db/queries/content.ts` — 5 funções (getContent, getContentById, createContent, updateContent, deleteContent)
+- `lib/db/queries/evaluations.ts` — 4 funções (getEvaluations, createEvaluation, updateEvaluation, getPendingEvaluations)
+
+**Queries expandidas (1 arquivo existente):**
+- `lib/db/queries/gamification.ts` — +4 funções (getGamificationProfile, updateStreak, getMemberAchievements, getAcademyAchievements)
+
+**Total de arquivos de queries:** 11 (7 existentes + 4 novos)
+
+**Validação:**
+- `pnpm build` — zero erros
+- `npx vitest run` — 473/473 passing
+- Commit: `73bebe6`
