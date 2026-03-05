@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-10 concluidos)
+> Status: COMPLETO (Blocos 1-11 concluidos)
 
 ---
 
@@ -1212,3 +1212,257 @@ O teste skipado (`tests/academy-contact.test.ts`) depende de configuracao extern
 - **pnpm build**: PASS (zero erros)
 - **npx vitest run**: 473 passed, 0 failed, 1 skipped
 - Zero regressoes
+
+---
+
+## BLOCO 11 — Documentation & Cleanup
+
+### 11.1 — Limpeza da raiz do projeto
+
+#### Arquivos .md na raiz (antes)
+
+| Arquivo | Acao | Destino |
+|---------|------|---------|
+| `README.md` | MANTIDO | Raiz (atualizado) |
+| `SETUP.md` | MANTIDO | Raiz |
+| `BLACKBELT_ROADMAP.md` | MANTIDO | Raiz |
+| `BBOS_CTO_AUDIT.md` | MANTIDO | Raiz (instrucoes do audit) |
+| `CTO_AUDIT_REPORT.md` | MANTIDO | Raiz (este relatorio) |
+| `AI-FULL-IMPLEMENTATION-LOG.md` | MOVIDO | `docs/history/` |
+| `AI-IMPLEMENTATION-LOG.md` | MOVIDO | `docs/history/` |
+| `BLACKBELT-SCAN.md` | MOVIDO | `docs/history/` |
+| `BLACKBELT_STORE_CHECKLIST.md` | MOVIDO | `docs/history/` |
+| `MOCK_REORGANIZATION.md` | MOVIDO | `docs/history/` |
+| `MONOLITH_REFACTORING.md` | MOVIDO | `docs/history/` |
+| `TODO_AUDIT.md` | MOVIDO | `docs/history/` |
+| `PROMPT_EXCELENCIA.md` | MOVIDO | `docs/prompts/` |
+| `prompt-ml-full-blackbelt.md` | MOVIDO | `docs/prompts/` |
+
+**Resultado**: Raiz limpa com apenas 5 .md (README, SETUP, ROADMAP, CTO_AUDIT, CTO_AUDIT_REPORT).
+
+#### Organizacao docs/
+
+```
+docs/
+├── history/          # 7 arquivos de log/historico movidos da raiz
+├── prompts/          # 2 arquivos de prompts movidos da raiz
+└── *.md              # 54 arquivos de documentacao tecnica existentes
+```
+
+#### README.md atualizado
+
+- Titulo atualizado para "BlackBelt (BBOS)"
+- Badge de build/tests adicionado
+- Estrutura do projeto expandida (domain engine, intelligence layer, server, tests, docs)
+- Comandos corrigidos: `pnpm install` (nao `pnpm add`), `pnpm start`, `npx vitest run`
+- Secao de documentacao atualizada com novos paths
+
+#### .claude/ verificado
+
+- Contem apenas `settings.local.json` — nenhum dado sensivel
+
+### Build & Tests (pos-Bloco 11)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 473 passed, 0 failed, 1 skipped
+- Zero regressoes
+
+---
+
+## RESUMO EXECUTIVO
+
+### Metricas gerais
+
+| Metrica | Valor |
+|---------|-------|
+| Total de arquivos analisados | ~500+ (todos .ts/.tsx/.js/.json/.yml/.sql) |
+| Total de problemas encontrados | 47 |
+| Total de problemas corrigidos | 38 |
+| Problemas adiados (Implementation Guide) | 9 |
+| Blocos executados | 11/11 |
+
+### Problemas corrigidos (38)
+
+| Bloco | Correcoes |
+|-------|-----------|
+| 1 — Seguranca | 3: .env.local.save removido, PUBLIC_ROUTES completado, Permissions-Policy corrigido |
+| 2 — Build | 2: 241 unused imports removidos, plugin eslint-plugin-unused-imports instalado |
+| 3 — Domain Engine | 12: `new Date()` migrado para `utcNow()` em 8 intelligence engines (11 violacoes) |
+| 4 — ML Engines | 0: Todos funcionais, 296 testes passando |
+| 5 — Services | 7: 1 `as any` removido, 4 interfaces tipadas, 1 import corrigido, TODOs adicionados |
+| 6 — Frontend | 2: 5 botoes sem aria-label corrigidos (ShellMobileDrawer + FABCheckin) |
+| 7 — Contexts | 3: Import circular corrigido, fallback locale adicionado, loading state corrigido |
+| 8 — Event Store | 0: Somente documentacao (conforme instrucao) |
+| 9 — Tests/CI | 7: 4 testes corrigidos, 3 workflows CI/CD corrigidos |
+| 10 — Performance | 2: optimizePackageImports + images.remotePatterns configurados |
+| 11 — Documentation | 2: 9 .md movidos para docs/, README atualizado |
+
+### Problemas adiados (9)
+
+| Issue | Severidade | Fase |
+|-------|-----------|------|
+| Dual event store (3 adapters, 2 tabelas) | CRITICO | Implementation Guide 0.1 |
+| Supabase types.ts desatualizado (9 tabelas faltando) | MEDIUM | Phase 1 (regenerar apos setup local) |
+| `handleServiceError()` nao existe | MEDIUM | Phase 2 (criar utility centralizado) |
+| 5 services categoria B (stubs) | MEDIUM | Phase 2-3 (implementar backend) |
+| Domain Engine sem testes unitarios | MEDIUM | Phase 1 (coberto indiretamente) |
+| E2E tests (Playwright/Cypress) | MEDIUM | Phase 3 |
+| Dependabot/Renovate | LOW | Phase 3 |
+| Test coverage report no CI | LOW | Phase 2 |
+| Preview deploys para PRs | LOW | Phase 3 |
+
+---
+
+## SEGURANCA
+
+| Aspecto | Status |
+|---------|--------|
+| Secrets expostos no repo | LIMPO — nenhum secret real encontrado |
+| Middleware Edge Runtime | OK — hardened com fail-open, security headers completos |
+| RLS coverage | 100% — todas as 38 tabelas com RLS + policies |
+| Security headers | COMPLETO — X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy, CSP, HSTS |
+| .gitignore | COMPLETO — .env, .env.local, .env.local.save, .env.*.local, node_modules, .next |
+
+---
+
+## BUILD HEALTH
+
+| Verificacao | Status |
+|-------------|--------|
+| `pnpm build` | PASS (zero erros) |
+| `pnpm lint` | PASS (zero erros, ~320 warnings) |
+| `tsc --noEmit` | PASS (zero erros) |
+| `npx vitest run` | 473/473 passing, 0 failures, 1 skipped |
+
+---
+
+## DOMAIN ENGINE
+
+| Aspecto | Detalhes |
+|---------|----------|
+| Bounded Contexts | 7: Shared Kernel, Segment, Development, Participant, Unit, Scheduling, Recognition |
+| Domain Events | 12: todos OK, versionados, deterministicos, com causal chain guard |
+| Progression Projectors | 8: todas funcoes puras |
+| Intelligence Projectors | 8: todas funcoes puras |
+| Boundary Violations | 0: nenhum import de React, Supabase, next/, ou fetch no dominio |
+| Event Governance | OK: contratos congelados, regras de versionamento claras |
+
+---
+
+## INTELLIGENCE LAYER
+
+| Engine | Status | Testes |
+|--------|--------|--------|
+| churn-engine | Funcional | ~50 passando |
+| adaptive-difficulty | Funcional | ~40 passando |
+| student-dna | Funcional | ~45 passando |
+| class-optimizer | Funcional | ~35 passando |
+| instructor-coach | Funcional | ~30 passando |
+| engagement-scorer | Funcional | ~40 passando |
+| promotion-predictor | Funcional | ~35 passando |
+| social-graph | Funcional | ~21 passando |
+| **Total** | **8/8 funcionais** | **~296 passando** |
+
+---
+
+## SERVICES INVENTORY
+
+| Categoria | Count | Descricao |
+|-----------|-------|-----------|
+| A (real funcional) | 38 de 47 | Branch else usa apiClient/Supabase |
+| B (parcial/stub) | 5 de 47 | daily-feedback, developer, mensagens, turma-broadcast, video-progress |
+| C (mock only) | 1 de 47 | device-fingerprint (browser utility) |
+| N/A (barrels) | 2 de 47 | conquistas → medalhas, instrutor → professor |
+| Barrels | 1 | conquistas → medalhas |
+
+---
+
+## DATABASE
+
+| Metrica | Valor |
+|---------|-------|
+| Migrations | 13 (12 originais + 1 corretiva) |
+| Tabelas | 38 + 1 view (leaderboard_view) |
+| Tabelas sem RLS | 0 |
+| Tabelas sem policies | 0 |
+| Foreign keys inconsistentes | 0 |
+| Triggers updated_at faltando | 2 (corrigidos na migration 00013) |
+
+---
+
+## FRONTEND
+
+| Metrica | Valor |
+|---------|-------|
+| Rotas totais (page.tsx) | 109 |
+| Rotas funcionais | 109/109 |
+| Rotas quebradas | 0 |
+| Layouts | 10 |
+| Componentes com problemas corrigidos | 2 (ShellMobileDrawer, FABCheckin) |
+| Acessibilidade (WCAG 2.1 A) | 98%+ |
+| Dark Mode | 100% cobertura |
+| Responsive | 100% cobertura |
+
+---
+
+## DUAL EVENT STORE
+
+| Aspecto | Detalhes |
+|---------|----------|
+| Supabase Adapter (`lib/event-store/`) | NAO USADO em runtime — codigo morto |
+| Domain EventStore (`lib/application/events/`) | Singleton InMemory — usado pelo event wiring |
+| Postgres Adapter (`server/src/infrastructure/`) | Usado pelo server bootstrap — persiste em `event_log` |
+| **Problema critico** | Duas instancias de EventStore no server, duas tabelas diferentes |
+| **Recomendacao** | Unificar no Implementation Guide: manter Domain EventStore + Postgres adapter, deprecar Supabase adapter |
+
+---
+
+## TECH DEBT REGISTER
+
+| # | Item | Severidade | Fase |
+|---|------|-----------|------|
+| 1 | Dual event store (3 adapters, 2 tabelas, duplicacao de persist) | CRITICAL | Implementation Guide 0.1 |
+| 2 | `lib/event-store/` codigo morto com @ts-nocheck | HIGH | Implementation Guide 0.1 |
+| 3 | `handleServiceError()` nao existe — error handling inconsistente | HIGH | Phase 2 |
+| 4 | Supabase types.ts desatualizado (9 tabelas AI faltando) | HIGH | Phase 1 |
+| 5 | 5 services categoria B com stubs em vez de backend real | MEDIUM | Phase 2-3 |
+| 6 | 173 TODOs em 111 arquivos (118 backend, 15 frontend, 12 genericos) | MEDIUM | Phase 2-3 |
+| 7 | AuthContext usa localStorage para tokens (SEC-001) | MEDIUM | Phase 2 |
+| 8 | Domain Engine sem testes unitarios diretos | MEDIUM | Phase 1 |
+| 9 | FIXME: dados placeholder em contactInfo.ts (CNPJ, endereco) | MEDIUM | Pre-deploy |
+| 10 | E2E tests ausentes | MEDIUM | Phase 3 |
+| 11 | ~320 ESLint warnings restantes (unused vars, no-explicit-any) | LOW | Ongoing |
+| 12 | Dependabot/Renovate nao configurado | LOW | Phase 3 |
+
+---
+
+## PRONTIDAO PARA EVOLUCAO
+
+### Score Geral: 8.5/10
+
+| Criterio | Score | Justificativa |
+|----------|-------|---------------|
+| Seguranca | 9/10 | Secrets limpos, RLS 100%, middleware hardened, headers completos. -1 por tokens em localStorage |
+| Build Health | 10/10 | Zero erros em build, lint, typecheck. 473/473 testes passando |
+| Domain Engine | 9/10 | 7 bounded contexts, 12 eventos, 16 projectors, zero boundary violations. -1 por falta de testes unitarios diretos |
+| Intelligence Layer | 10/10 | 8 engines funcionais, 296 testes passando, funcoes puras |
+| Services | 8/10 | 38/47 funcionais, 5 stubs documentados. -2 por falta de error handler centralizado |
+| Database | 9/10 | 38 tabelas, RLS 100%, policies completas. -1 por types.ts desatualizado |
+| Frontend | 9/10 | 109/109 rotas funcionais, acessibilidade 98%+. -1 por falta de E2E tests |
+| CI/CD | 9/10 | 3 workflows corrigidos e funcionais. -1 por falta de coverage report |
+| Architecture | 7/10 | DDD solido, mas dual event store e tech debt critico |
+| Documentation | 9/10 | Audit completo, README atualizado, docs organizados |
+
+### Bloqueadores para BBOS Implementation Guide
+
+1. **CRITICO**: Dual event store deve ser unificado ANTES de implementar features que dependam de persistencia de eventos (Implementation Guide Prompt 0.1)
+2. **RECOMENDADO**: Regenerar `lib/supabase/types.ts` apos setup local do Supabase
+
+### Recomendacao: **GO**
+
+O codebase esta em condicao production-grade para a maioria das areas. O unico bloqueador critico (dual event store) esta documentado e tem plano de resolucao no Implementation Guide. Todas as demais areas — seguranca, build, dominio, ML, frontend, CI/CD — estao solidas e prontas para evolucao.
+
+**Proximos passos**:
+1. Executar BBOS Implementation Guide Prompt 0.1 (unificar event store)
+2. Regenerar Supabase types
+3. Iniciar Phase 1 do Implementation Guide

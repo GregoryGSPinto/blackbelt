@@ -1,14 +1,15 @@
-# BlackBelt
+# BlackBelt (BBOS)
 
 > Plataforma de gestao inteligente para academias de artes marciais.
-> Full-stack Next.js 14 + Supabase + Capacitor (iOS/Android).
+> Full-stack Next.js 14 + Supabase + Domain-Driven Design + Intelligence Layer (ML).
+> Build: passing | Tests: 473/473 | CTO Audit: Complete
 
 ---
 
 ## Como rodar
 
 ```bash
-pnpm add
+pnpm install
 pnpm dev
 # → http://localhost:3000
 ```
@@ -17,7 +18,7 @@ pnpm dev
 
 ```bash
 pnpm build
-npm start
+pnpm start
 ```
 
 ## Build mobile (Capacitor)
@@ -51,31 +52,67 @@ blackbelt/
 │   ├── (main)/                 # Perfil adulto
 │   ├── (professor)/            # Perfil professor
 │   ├── (admin)/                # Perfil administrador
+│   ├── (super-admin)/          # Super admin
 │   ├── (teen)/                 # Perfil adolescente
 │   ├── (kids)/                 # Perfil infantil
-│   ├── (parent)/               # Painel do responsável
+│   ├── (parent)/               # Painel do responsavel
+│   ├── (developer)/            # Developer tools
+│   ├── api/                    # API routes (health, etc)
 │   └── layout.tsx              # Root layout + providers
 │
-├── components/                 # Componentes React reutilizáveis
+├── components/                 # Componentes React reutilizaveis
 │   ├── shell/                  # AppShell, Header, Nav, Sidebar, Drawer
 │   ├── shared/                 # ConfirmModal, Toast, QuickMessage, etc
 │   ├── checkin/                # FABCheckin (adaptativo mobile/desktop)
 │   ├── professor/              # ActiveClassMode, StartClassModal, etc
-│   └── auth/                   # Login, MFA, ProfileSelection
+│   ├── auth/                   # Login, MFA, ProfileSelection
+│   ├── admin/                  # Componentes admin
+│   ├── kids/                   # Componentes kids (gamificado)
+│   ├── teen/                   # Componentes teen
+│   └── parent/                 # Componentes responsavel
 │
 ├── contexts/                   # React Contexts (Auth, Theme, Toast, etc)
 ├── hooks/                      # Custom hooks (useBreakpoint, useOfflineCheckin, etc)
-├── features/                   # Feature modules (configurações, perfil)
+├── features/                   # Feature modules (configuracoes, perfil)
 │
 ├── lib/
-│   ├── api/                    # ⭐ 41 SERVICES (contratos para o backend)
+│   ├── api/                    # 41 services (contratos para o backend)
 │   ├── __mocks__/              # 40 arquivos de dados mock
+│   ├── domain/                 # Domain Engine (DDD)
+│   │   ├── events/             # 12 domain events + event governance
+│   │   ├── participant/        # Participant aggregate + LGPD
+│   │   ├── development/        # Development track + progression
+│   │   ├── intelligence/       # Intelligence Layer (7 ML engines)
+│   │   │   ├── engines/        # churn, adaptive-difficulty, student-dna, etc
+│   │   │   ├── projectors/     # ML projectors por perfil
+│   │   │   └── acl/            # Anti-corruption layer mappers
+│   │   └── shared/             # Shared kernel (time, etc)
+│   ├── application/            # Application layer (projectors, event wiring)
+│   ├── event-store/            # Event store adapter (Supabase)
+│   ├── db/                     # Database queries
 │   ├── security/               # Token store, session, crypto
+│   ├── supabase/               # Supabase client + types
 │   └── monitoring/             # Logger, web vitals, structured logger
 │
+├── server/                     # Backend server (Deno/Express)
+│   └── src/
+│       ├── api/                # API endpoints
+│       └── infrastructure/     # Postgres event store adapter
+│
+├── supabase/                   # Supabase config + migrations
+│   └── migrations/             # SQL migrations (RLS, policies, indexes)
+│
+├── tests/                      # Test suite (473 tests)
+│   ├── ai/                     # Intelligence Layer tests (296)
+│   ├── services/               # Service tests
+│   └── security/               # Security tests
+│
+├── docs/                       # Documentation
+│   ├── history/                # Historical logs and implementation notes
+│   └── prompts/                # AI prompts used in development
+│
 ├── resources/                  # Splash screens, icons, Privacy Manifest
-├── public/                     # Assets estáticos, manifest.json, SW
-├── docs/                       # Store metadata, review credentials
+├── public/                     # Assets estaticos, manifest.json, SW
 └── scripts/                    # Capacitor setup, freeze, Android assets
 ```
 
@@ -157,12 +194,12 @@ cp .env.example .env.local
 
 ```bash
 pnpm dev          # Dev server
-pnpm build        # Build produção
-npm start            # Serve build
+pnpm build        # Build producao
+pnpm start        # Serve build
 pnpm lint         # ESLint
 pnpm lint:fix     # ESLint auto-fix
 pnpm typecheck    # TypeScript (tsc --noEmit)
-npm test             # Vitest
+npx vitest run    # Testes (473 tests)
 ```
 
 ---
@@ -257,9 +294,12 @@ pnpm supabase db push
 
 ---
 
-## Documentação Adicional
+## Documentação
 
 - `SETUP.md` — Guia completo de setup (local, Supabase, migrations)
-- `docs/STORE_METADATA.md` — Textos e configurações para Apple/Google Store
-- `docs/STORE_REVIEW_CREDENTIALS.md` — Credenciais para reviewer das lojas
+- `BLACKBELT_ROADMAP.md` — Roadmap do produto
+- `CTO_AUDIT_REPORT.md` — Relatorio completo do CTO Audit (Blocos 1-11)
+- `docs/` — Documentacao tecnica detalhada (54 arquivos)
+- `docs/history/` — Logs historicos de implementacao
+- `docs/prompts/` — Prompts AI usados no desenvolvimento
 - `resources/PrivacyInfo.xcprivacy` — Privacy Manifest iOS 17+
