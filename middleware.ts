@@ -12,6 +12,50 @@ import type { NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 
 // ============================================================
+// i18n — LOCALE DETECTION (cookie-based, no URL prefix)
+// ============================================================
+
+const SUPPORTED_LOCALES = ['pt-BR', 'en-US'] as const;
+const DEFAULT_LOCALE = 'pt-BR';
+
+function detectLocale(request: NextRequest): string {
+  // 1. Cookie 'locale' has highest priority
+  const cookieLocale = request.cookies.get('locale')?.value;
+  if (cookieLocale && (SUPPORTED_LOCALES as readonly string[]).includes(cookieLocale)) {
+    return cookieLocale;
+  }
+
+  // 2. Accept-Language header
+  const acceptLang = request.headers.get('accept-language');
+  if (acceptLang) {
+    // Parse Accept-Language: "en-US,en;q=0.9,pt-BR;q=0.8"
+    const preferred = acceptLang
+      .split(',')
+      .map(part => {
+        const [lang, q] = part.trim().split(';q=');
+        return { lang: lang.trim(), q: q ? parseFloat(q) : 1 };
+      })
+      .sort((a, b) => b.q - a.q);
+
+    for (const { lang } of preferred) {
+      // Exact match
+      if ((SUPPORTED_LOCALES as readonly string[]).includes(lang)) {
+        return lang;
+      }
+      // Prefix match (e.g., "en" matches "en-US", "pt" matches "pt-BR")
+      const prefix = lang.split('-')[0].toLowerCase();
+      const match = SUPPORTED_LOCALES.find(l => l.toLowerCase().startsWith(prefix));
+      if (match) {
+        return match;
+      }
+    }
+  }
+
+  // 3. Default
+  return DEFAULT_LOCALE;
+}
+
+// ============================================================
 // ROUTE CONFIGURATION
 // ============================================================
 
@@ -121,10 +165,23 @@ export async function middleware(request: NextRequest) {
   try {
     const { pathname } = request.nextUrl;
 
+    // ─── i18n: detect locale and propagate ───
+    const locale = detectLocale(request);
+    request.headers.set('x-locale', locale);
+
     // ─── Rotas públicas: permitir acesso livre ───
     if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
-      const response = NextResponse.next();
+      const response = NextResponse.next({
+        request: { headers: request.headers },
+      });
       applySecurityHeaders(response);
+      if (!request.cookies.get('locale')?.value) {
+        response.cookies.set('locale', locale, {
+          path: '/',
+          sameSite: 'lax',
+          maxAge: 60 * 60 * 24 * 365, // 1 year
+        });
+      }
       return response;
     }
 
@@ -142,8 +199,19 @@ export async function middleware(request: NextRequest) {
     }
 
     // ─── Supabase session refresh ───
-    let response = NextResponse.next({ request });
+    let response = NextResponse.next({
+      request: { headers: request.headers },
+    });
     response = await refreshSupabaseSession(request, response);
+
+    // ─── i18n: set locale cookie if not present ───
+    if (!request.cookies.get('locale')?.value) {
+      response.cookies.set('locale', locale, {
+        path: '/',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365, // 1 year
+      });
+    }
 
     // ─── Produção: Verificar autenticação via cookie ───
     const hasSupabaseSession = request.cookies.getAll().some(

@@ -1,0 +1,160 @@
+{
+  "common": {
+    "actions": {
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "delete": "Excluir",
+      "edit": "Editar",
+      "back": "Voltar",
+      "next": "Próximo",
+      "confirm": "Confirmar",
+      "search": "Buscar",
+      "filter": "Filtrar",
+      "loading": "Carregando...",
+      "seeMore": "Ver mais",
+      "seeAll": "Ver tudo",
+      "close": "Fechar",
+      "send": "Enviar",
+      "share": "Compartilhar",
+      "download": "Baixar",
+      "upload": "Enviar arquivo"
+    },
+    "menu": {
+      "dashboard": "Dashboard",
+      "classes": "Turmas",
+      "students": "Alunos",
+      "schedule": "Agenda",
+      "finances": "Financeiro",
+      "settings": "Configurações",
+      "profile": "Perfil",
+      "notifications": "Notificações",
+      "messages": "Mensagens",
+      "logout": "Sair"
+    },
+    "errors": {
+      "generic": "Algo deu errado. Tente novamente.",
+      "notFound": "Página não encontrada",
+      "unauthorized": "Você não tem permissão para acessar esta página",
+      "offline": "Sem conexão. Alguns recursos podem não funcionar."
+    },
+    "empty": {
+      "noData": "Nenhum dado encontrado",
+      "noResults": "Nenhum resultado para esta busca"
+    },
+    "time": {
+      "today": "Hoje",
+      "yesterday": "Ontem",
+      "thisWeek": "Esta semana",
+      "thisMonth": "Este mês",
+      "daysAgo": "{count, plural, one {há # dia} other {há # dias}}",
+      "minutesAgo": "{count, plural, one {há # minuto} other {há # minutos}}"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "subtitle": "Acesse sua conta BlackBelt",
+      "email": "E-mail",
+      "password": "Senha",
+      "forgotPassword": "Esqueci minha senha",
+      "noAccount": "Não tem conta?",
+      "createAccount": "Criar conta",
+      "loginButton": "Entrar",
+      "loginWithGoogle": "Entrar com Google",
+      "invalidCredentials": "E-mail ou senha incorretos"
+    },
+    "register": {
+      "title": "Criar conta",
+      "subtitle": "Comece sua jornada no BlackBelt",
+      "fullName": "Nome completo",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha",
+      "acceptTerms": "Li e aceito os termos de uso",
+      "createButton": "Criar conta",
+      "hasAccount": "Já tem conta?",
+      "login": "Entrar"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "totalStudents": "Total de alunos",
+      "activeStudents": "Alunos ativos",
+      "monthlyRevenue": "Receita mensal",
+      "attendanceRate": "Taxa de presença",
+      "newRegistrations": "Novos cadastros",
+      "churnRisk": "Risco de evasão"
+    },
+    "members": {
+      "title": "Membros",
+      "addMember": "Adicionar membro",
+      "searchPlaceholder": "Buscar por nome ou e-mail...",
+      "filters": "Filtros",
+      "role": "Função",
+      "status": "Status",
+      "belt": "Faixa",
+      "joinDate": "Data de ingresso"
+    }
+  },
+  "professor": {
+    "dashboard": {
+      "title": "Dashboard do Professor",
+      "todayClasses": "Aulas de hoje",
+      "totalStudents": "Meus alunos",
+      "pendingEvaluations": "Avaliações pendentes",
+      "startClass": "Iniciar aula"
+    },
+    "class": {
+      "activeNow": "Aula em andamento",
+      "attendance": "Chamada",
+      "present": "Presente",
+      "absent": "Ausente",
+      "endClass": "Encerrar aula"
+    }
+  },
+  "athlete": {
+    "dashboard": {
+      "title": "Meu Treino",
+      "nextClass": "Próxima aula",
+      "streak": "Sequência de treinos",
+      "belt": "Faixa atual",
+      "progress": "Progresso",
+      "achievements": "Conquistas"
+    },
+    "checkin": {
+      "title": "Check-in",
+      "scanQR": "Escanear QR Code",
+      "manualCheckin": "Check-in manual",
+      "success": "Check-in realizado com sucesso!",
+      "alreadyCheckedIn": "Você já fez check-in nesta aula"
+    }
+  },
+  "parent": {
+    "dashboard": {
+      "title": "Painel do Responsável",
+      "myChildren": "Meus filhos",
+      "attendance": "Presença",
+      "progress": "Evolução",
+      "messages": "Mensagens do professor",
+      "payments": "Pagamentos"
+    }
+  },
+  "domain": {
+    "belts": {
+      "white": "Branca",
+      "blue": "Azul",
+      "purple": "Roxa",
+      "brown": "Marrom",
+      "black": "Preta"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "professor": "Professor",
+      "adult": "Aluno Adulto",
+      "teen": "Aluno Adolescente",
+      "kids": "Aluno Infantil",
+      "parent": "Responsável"
+    }
+  }
+}

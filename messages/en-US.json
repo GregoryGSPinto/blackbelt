@@ -1,0 +1,160 @@
+{
+  "common": {
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "back": "Back",
+      "next": "Next",
+      "confirm": "Confirm",
+      "search": "Search",
+      "filter": "Filter",
+      "loading": "Loading...",
+      "seeMore": "See more",
+      "seeAll": "See all",
+      "close": "Close",
+      "send": "Send",
+      "share": "Share",
+      "download": "Download",
+      "upload": "Upload file"
+    },
+    "menu": {
+      "dashboard": "Dashboard",
+      "classes": "Classes",
+      "students": "Students",
+      "schedule": "Schedule",
+      "finances": "Finances",
+      "settings": "Settings",
+      "profile": "Profile",
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "logout": "Sign Out"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "notFound": "Page not found",
+      "unauthorized": "You do not have permission to access this page",
+      "offline": "No connection. Some features may not work."
+    },
+    "empty": {
+      "noData": "No data found",
+      "noResults": "No results for this search"
+    },
+    "time": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "thisWeek": "This week",
+      "thisMonth": "This month",
+      "daysAgo": "{count, plural, one {# day ago} other {# days ago}}",
+      "minutesAgo": "{count, plural, one {# minute ago} other {# minutes ago}}"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Access your BlackBelt account",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot my password",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create account",
+      "loginButton": "Sign In",
+      "loginWithGoogle": "Sign in with Google",
+      "invalidCredentials": "Incorrect email or password"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Start your BlackBelt journey",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "acceptTerms": "I have read and accept the terms of use",
+      "createButton": "Create Account",
+      "hasAccount": "Already have an account?",
+      "login": "Sign In"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "totalStudents": "Total Students",
+      "activeStudents": "Active Students",
+      "monthlyRevenue": "Monthly Revenue",
+      "attendanceRate": "Attendance Rate",
+      "newRegistrations": "New Registrations",
+      "churnRisk": "Churn Risk"
+    },
+    "members": {
+      "title": "Members",
+      "addMember": "Add Member",
+      "searchPlaceholder": "Search by name or email...",
+      "filters": "Filters",
+      "role": "Role",
+      "status": "Status",
+      "belt": "Belt",
+      "joinDate": "Join Date"
+    }
+  },
+  "professor": {
+    "dashboard": {
+      "title": "Coach Dashboard",
+      "todayClasses": "Today's Classes",
+      "totalStudents": "My Students",
+      "pendingEvaluations": "Pending Evaluations",
+      "startClass": "Start Class"
+    },
+    "class": {
+      "activeNow": "Class in progress",
+      "attendance": "Attendance",
+      "present": "Present",
+      "absent": "Absent",
+      "endClass": "End Class"
+    }
+  },
+  "athlete": {
+    "dashboard": {
+      "title": "My Training",
+      "nextClass": "Next class",
+      "streak": "Training streak",
+      "belt": "Current belt",
+      "progress": "Progress",
+      "achievements": "Achievements"
+    },
+    "checkin": {
+      "title": "Check-in",
+      "scanQR": "Scan QR Code",
+      "manualCheckin": "Manual check-in",
+      "success": "Check-in completed successfully!",
+      "alreadyCheckedIn": "You have already checked in for this class"
+    }
+  },
+  "parent": {
+    "dashboard": {
+      "title": "Parent Dashboard",
+      "myChildren": "My Children",
+      "attendance": "Attendance",
+      "progress": "Progress",
+      "messages": "Coach messages",
+      "payments": "Payments"
+    }
+  },
+  "domain": {
+    "belts": {
+      "white": "White",
+      "blue": "Blue",
+      "purple": "Purple",
+      "brown": "Brown",
+      "black": "Black"
+    },
+    "roles": {
+      "admin": "Administrator",
+      "professor": "Coach",
+      "adult": "Adult Student",
+      "teen": "Teen Student",
+      "kids": "Kids Student",
+      "parent": "Parent"
+    }
+  }
+}

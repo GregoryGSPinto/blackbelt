@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
@@ -38,13 +40,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,6 +62,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <a href="#main-content" className="skip-to-content">Pular para conteúdo</a>
+        <NextIntlClientProvider locale={locale} messages={messages}>
         <ThemeProvider>
           <ThemedBackground />
           <div className="relative z-10">
@@ -80,6 +86,7 @@ export default function RootLayout({
             </AuthProvider>
           </div>
         </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
