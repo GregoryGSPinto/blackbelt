@@ -17,6 +17,7 @@ import { createServerClient } from '@supabase/ssr';
 
 /** Rotas que NÃO requerem autenticação */
 const PUBLIC_ROUTES = [
+  '/landing',
   '/login',
   '/cadastro',
   '/esqueci-senha',
@@ -25,6 +26,8 @@ const PUBLIC_ROUTES = [
   '/selecionar-perfil',
   '/atleta',
   '/excluir-conta',
+  '/politica-privacidade',
+  '/termos-de-uso',
   '/_next',
   '/api',
   '/favicon.ico',
@@ -43,7 +46,7 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self), payment=()');
 
   const isDev = process.env.NODE_ENV === 'development';
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
