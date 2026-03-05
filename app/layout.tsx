@@ -7,6 +7,7 @@ import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { ResponsiveProvider } from "@/contexts/ResponsiveContext";
 import { KeyboardProvider } from "@/components/shared/KeyboardProvider";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 import { SlowConnectionBanner } from "@/components/shared/SlowConnectionBanner";
 import { DemoBanner } from "@/components/shared/DemoBanner";
 import { PrivacyConsentModal } from "@/components/shared/PrivacyConsentModal";
@@ -60,6 +61,7 @@ export default function RootLayout({
           <ThemedBackground />
           <div className="relative z-10">
             <AuthProvider>
+              <NotificationProvider>
               <OnboardingProvider>
                 <ToastProvider>
                   <ResponsiveProvider>
@@ -74,6 +76,7 @@ export default function RootLayout({
                   </ResponsiveProvider>
                 </ToastProvider>
               </OnboardingProvider>
+              </NotificationProvider>
             </AuthProvider>
           </div>
         </ThemeProvider>

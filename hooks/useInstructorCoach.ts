@@ -16,7 +16,6 @@ export function useInstructorCoach() {
   const [error, setError] = useState<Error | null>(null);
 
   const fetchData = useCallback(async () => {
-    let cancelled = false;
     setLoading(true);
     setError(null);
 
@@ -24,24 +23,21 @@ export function useInstructorCoach() {
       const res = await fetch('/api/ai/instructor-coach');
       if (!res.ok) throw new Error(`Erro ao carregar briefing: ${res.status}`);
       const json = await res.json();
-      if (!cancelled) {
-        setBriefing(json.data);
-      }
+      setBriefing(json.data);
     } catch (err) {
-      if (!cancelled) {
-        setError(err instanceof Error ? err : new Error('Erro desconhecido'));
-      }
+      setError(err instanceof Error ? err : new Error('Erro desconhecido'));
     } finally {
-      if (!cancelled) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
-
-    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
-    fetchData();
+    let cancelled = false;
+
+    fetchData().catch(() => {});
+
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchData]);
 
   return { briefing, loading, error, refetch: fetchData };

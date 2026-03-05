@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -11,6 +11,8 @@ interface ThemeContextType {
   isDark: boolean;
 }
 
+const STORAGE_KEY = 'blackbelt_theme';
+
 const ThemeContext = createContext<ThemeContextType>({
   theme: 'dark',
   toggleTheme: () => {},
@@ -20,22 +22,33 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const useTheme = () => useContext(ThemeContext);
 
+function getInitialTheme(): Theme {
+  if (typeof window === 'undefined') return 'dark';
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+  } catch { /* ignore */ }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'dark';
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [hasUserPreference, setHasUserPreference] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try { return localStorage.getItem(STORAGE_KEY) !== null; } catch { return false; }
   });
 
-  /* ── Always follow OS color scheme ── */
+  /* ── Follow OS color scheme only when no explicit user preference ── */
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    setThemeState(mq.matches ? 'dark' : 'light');
-    const handler = (e: MediaQueryListEvent) => setThemeState(e.matches ? 'dark' : 'light');
+    const handler = (e: MediaQueryListEvent) => {
+      if (!hasUserPreference) {
+        setThemeState(e.matches ? 'dark' : 'light');
+      }
+    };
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
-  }, []);
+  }, [hasUserPreference]);
 
   /* ── Sync class on <html> ── */
   useEffect(() => {
@@ -47,9 +60,20 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [theme]);
 
-  // No-ops: theme follows OS only, manual override disabled
-  const toggleTheme = () => {};
-  const setTheme = () => {};
+  const setTheme = useCallback((t: Theme) => {
+    setThemeState(t);
+    setHasUserPreference(true);
+    try { localStorage.setItem(STORAGE_KEY, t); } catch { /* ignore */ }
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setThemeState(prev => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      setHasUserPreference(true);
+      try { localStorage.setItem(STORAGE_KEY, next); } catch { /* ignore */ }
+      return next;
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme, isDark: theme === 'dark' }}>

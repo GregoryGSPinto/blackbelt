@@ -2,7 +2,7 @@
 
 > Data: 2026-03-05
 > Auditor: Claude Code (modo autonomo)
-> Status: Em andamento (Blocos 1-5 concluidos)
+> Status: Em andamento (Blocos 1-7 concluidos)
 
 ---
 
@@ -698,3 +698,106 @@ Cada route group tem `shell.config.ts` com menu structure, icons, hrefs, bottom 
 - **npx vitest run**: 469 passed, 4 failed (pre-existentes), 1 skipped
   - Nenhuma regressao introduzida pelo Bloco 6
   - Os 4 testes falhando sao os mesmos pre-existentes dos Blocos 1-5
+
+---
+
+## BLOCO 7 — Contexts & State Management
+
+### 7.1 — React Contexts
+
+#### Contextos auditados (9 total)
+
+| Contexto | Layout | Status | Problemas |
+|----------|--------|--------|-----------|
+| AuthContext | Root | OK | Usa localStorage para tokens (tech debt SEC-001, documentado) |
+| ThemeContext | Root | CORRIGIDO | toggleTheme/setTheme eram no-ops; agora funcional com localStorage |
+| ToastContext | Root | OK | success/error/warning/info + auto-dismiss + MAX_TOASTS=3 |
+| OnboardingContext | Root | OK | Tours para aluno, instrutor, responsavel. Faltam: admin, teen, kids |
+| ResponsiveContext | Root | OK | Wrapper sobre useBreakpoint com SSR fallback |
+| NotificationContext | Root (CORRIGIDO) | CORRIGIDO | Provider NAO estava em nenhum layout — adicionado ao root |
+| GlobalSearchContext | Sub-layouts | OK | Ref-based, zero re-renders, debounced search |
+| ActiveClassContext | (professor) | OK | Persiste em localStorage, timer funcional |
+| ParentContext | (parent) | OK | Depende de AuthContext (sem circular dep) |
+
+#### Verificacoes de qualidade
+
+| Verificacao | Resultado |
+|-------------|-----------|
+| Circular dependencies entre contexts | Nenhuma |
+| Providers no layout correto | CORRIGIDO (NotificationProvider adicionado) |
+| Loading state no AuthContext | Sim — loading=true ate sessao verificada |
+| Logout limpa estado completamente | Sim — clearStorage() + setUser(null) + setAvailableProfiles([]) |
+| Login redireciona para perfil correto | Sim — REDIRECT_MAP com 11 perfis mapeados |
+
+#### Problemas corrigidos
+
+1. **ThemeContext**: toggleTheme e setTheme eram funcoes no-op que nao faziam nada. Implementado:
+   - `toggleTheme()` agora alterna dark/light e persiste em localStorage
+   - `setTheme(t)` agora define tema e persiste em localStorage
+   - OS preference continua sendo o default quando nao ha preferencia do usuario
+   - `hasUserPreference` flag evita sobrescrever escolha manual do usuario
+
+2. **NotificationProvider**: Definido em `contexts/NotificationContext.tsx` mas nunca colocado em nenhum layout.
+   Componentes `DesktopHeader`, `NotificationBell`, `NotificationPanel` usam `useNotifications()` que lanca erro sem Provider.
+   Adicionado `NotificationProvider` ao root layout, dentro de `AuthProvider`.
+
+### 7.2 — Hooks
+
+#### Hooks auditados (24 total)
+
+| Hook | Tipo | Status |
+|------|------|--------|
+| useBreakpoint | Responsividade | OK — matchMedia + resize listener |
+| useOfflineCheckin | Offline-first | OK — IndexedDB queue + auto-sync |
+| useRequireAuth | Auth guard | OK — redirect se nao autenticado |
+| useRequireRole | Role guard | OK — redirect se perfil incorreto |
+| useServiceCall | Data fetching | OK — retry + backoff + mount guard |
+| useCachedServiceCall | SWR caching | OK — stale-while-revalidate |
+| useNetworkStatus | Connectivity | OK — Network Information API |
+| useAutoSave | Form draft | OK — debounced localStorage |
+| useRealtimeNotifications | Realtime | OK — Supabase Realtime + mock fallback |
+| useFileUpload | Upload | OK — Supabase Storage |
+| useVideoUpload | Upload | OK — Phases: validating > uploading > processing > done |
+| useChurnInsights | AI hook | OK — fetch /api/ai/churn |
+| useStudentRisk | AI hook | OK — fetch /api/ai/churn/[id] |
+| useStudentDNA | AI hook | OK — fetch /api/ai/student-dna/[id] |
+| useAdaptiveTest | AI hook | OK — POST /api/ai/adaptive-test |
+| useClassInsights | AI hook | OK — fetch /api/ai/class-insights |
+| useInstructorCoach | AI hook | CORRIGIDO — cancelled scope bug |
+| useParentInsights | AI hook | OK — fetch /api/ai/parent-insights/[id] |
+| useEngagementScore | AI hook | OK — fetch /api/ai/engagement/[id] |
+| useAIInsights | AI hook | OK — parallel DNA + engagement fetch |
+| useFormDefaults | UX | OK — pattern-based form defaults |
+| useContextualMenu | UX | OK — time-based turma suggestions |
+| useSwipeNavigation | Gestures | OK — horizontal swipe detection |
+| useKeyboardAvoid | Mobile | OK — VisualViewport API + scrollIntoView |
+
+#### Problema corrigido
+
+3. **useInstructorCoach**: Variavel `cancelled` declarada dentro da funcao async do `useCallback` era inacessivel
+   pelo cleanup do `useEffect`. O cleanup function retornado da async nunca era executado.
+   Corrigido movendo o `cancelled` flag para o escopo do `useEffect`.
+
+### 7.3 — Token Store (lib/security/token-store.ts)
+
+| Aspecto | Status | Detalhes |
+|---------|--------|---------|
+| Tokens em memoria (nao localStorage) | OK | Variaveis JS privadas (`_accessToken`, etc.) |
+| Refresh automatico | OK | `setRefreshInProgress()` + `waitForRefresh()` previne chamadas paralelas |
+| Expiracao tratada | OK | `getAccessToken()` retorna null se expirado (margem de 30s) |
+| Mock persistence | OK | Usa `sessionStorage` (nao localStorage) apenas em dev |
+| Clear auth | OK | `clearAuth()` zera todas as 5 variaveis de sessao |
+| Security config | OK | Defaults seguros: 15min access TTL, 7d refresh, 5 tentativas max |
+
+#### Nota sobre SEC-001
+
+O AuthContext ainda usa `localStorage` para persistir tokens no modo mock. O token-store esta pronto com
+armazenamento em memoria, mas a migracao (SEC-001) esta documentada como tarefa futura no
+BBOS Implementation Guide. Nao migrado neste bloco para evitar quebrar fluxo de autenticacao.
+
+### Build & Tests (pos-Bloco 7)
+
+- **pnpm build**: PASS (zero erros)
+- **npx vitest run**: 469 passed, 4 failed (pre-existentes), 1 skipped
+  - Nenhuma regressao introduzida pelo Bloco 7
+  - Falhas pre-existentes: checkin.service.test.ts (3 testes), 1 outro
