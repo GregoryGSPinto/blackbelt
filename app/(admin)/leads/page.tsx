@@ -20,6 +20,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Etapa config ──
 interface EtapaConfig {
@@ -59,6 +60,7 @@ export default function LeadsPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate, formatTime } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -264,7 +266,7 @@ export default function LeadsPage() {
 
                         {lead.trialAgendado && (
                           <p className="text-[10px] text-amber-400/60">
-                            Trial: {new Date(lead.trialAgendado).toLocaleDateString('pt-BR')} {new Date(lead.trialAgendado).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                            Trial: {formatDate(lead.trialAgendado, 'short')} {formatTime(lead.trialAgendado)}
                           </p>
                         )}
 
@@ -348,7 +350,7 @@ export default function LeadsPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-white/40">Criado em</span>
-                  <span style={{ color: tokens.text, fontWeight: 500 }}>{new Date(selectedLead.dataCriacao + 'T12:00:00').toLocaleDateString('pt-BR')}</span>
+                  <span style={{ color: tokens.text, fontWeight: 500 }}>{formatDate(selectedLead.dataCriacao, 'short')}</span>
                 </div>
                 {selectedLead.interesse.length > 0 && (
                   <div className="flex justify-between text-sm items-start">
@@ -370,8 +372,8 @@ export default function LeadsPage() {
                   <div className="flex justify-between text-sm">
                     <span className="text-white/40">Trial</span>
                     <span className="text-white/70">
-                      {new Date(selectedLead.trialAgendado).toLocaleDateString('pt-BR')}{' '}
-                      {new Date(selectedLead.trialAgendado).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                      {formatDate(selectedLead.trialAgendado, 'short')}{' '}
+                      {formatTime(selectedLead.trialAgendado)}
                       {selectedLead.trialRealizado && ' ✅'}
                     </span>
                   </div>

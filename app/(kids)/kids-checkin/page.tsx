@@ -17,11 +17,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function KidsCheckinPage() {
   const t = useTranslations('kids.checkin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDateFull } = useFormatting();
   const { user } = useAuth();
   const [currentKid, setCurrentKid] = useState<KidProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -82,7 +84,7 @@ export default function KidsCheckinPage() {
   };
 
   // Mock check-in status (read-only display)
-  const hoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const hoje = formatDateFull(new Date());
   const checkinHoje = false; // Would come from service in production
 
   return (

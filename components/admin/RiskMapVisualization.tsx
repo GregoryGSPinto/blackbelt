@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { RiskGroupVM } from '@/lib/application/intelligence';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ════════════════════════════════════════════════════════════════════
 // RISK MAP VISUALIZATION — Distribuicao de risco dos alunos
@@ -28,6 +29,7 @@ const RISK_STYLES = [
 
 export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
   const t = useTranslations('admin');
+  const { formatNumber } = useFormatting();
   const RISK_LABEL_MAP: Record<string, string> = {
     critical: t('churn.critical'),
     atRisk: t('churn.atRisk'),
@@ -97,7 +99,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
           <div className="flex items-center gap-2">
             <span className="text-xs text-red-400 font-medium">{t('riskMap.revenueAtRisk')}:</span>
             <span className="text-sm font-bold text-red-300">
-              R$ {revenueAtRisk.toLocaleString('pt-BR')}/mes
+              R$ {formatNumber(revenueAtRisk)}/mes
             </span>
           </div>
           <p className="text-[10px] text-red-400/60 mt-1">

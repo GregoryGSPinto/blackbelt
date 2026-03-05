@@ -13,6 +13,7 @@ import { getAuditLogs } from '@/lib/api/developer.service';
 import type { AuditLogEntry } from '@/lib/api/developer.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const SEVERITIES = ['ALL', 'INFO', 'WARN', 'ERROR', 'CRITICAL'] as const;
 
@@ -26,6 +27,7 @@ const severityStyle: Record<string, string> = {
 export default function DeveloperAuditPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatTime, formatDate } = useFormatting();
   const [logs, setLogs] = useState<AuditLogEntry[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -61,12 +63,9 @@ export default function DeveloperAuditPage() {
     URL.revokeObjectURL(url);
   };
 
-  const fmtTime = (iso: string) => {
-    const d = new Date(iso);
-    return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  };
+  const fmtTime = (iso: string) => formatTime(iso);
 
-  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+  const fmtDate = (iso: string) => formatDate(iso, 'short');
 
   return (
     <div className="space-y-4 dev-enter">

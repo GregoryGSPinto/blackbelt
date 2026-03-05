@@ -1,6 +1,7 @@
 'use client';
 
 import { Trophy, TrendingUp, Flame } from 'lucide-react';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface PointsBadgeProps {
   pontos: number;
@@ -20,12 +21,13 @@ export default function PointsBadge({
   streak,
   variant = 'compact',
 }: PointsBadgeProps) {
+  const { formatNumber } = useFormatting();
   if (variant === 'compact') {
     return (
       <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/20">
         <Trophy size={14} className="text-amber-400" />
         <span className="text-sm font-bold text-amber-300">
-          {pontos.toLocaleString('pt-BR')}
+          {formatNumber(pontos)}
         </span>
         <span className="text-[10px] text-amber-400/60 uppercase tracking-wider">pts</span>
       </div>
@@ -42,7 +44,7 @@ export default function PointsBadge({
           </div>
           <div>
             <p className="text-lg sm:text-xl md:text-2xl font-black text-white">
-              {pontos.toLocaleString('pt-BR')}
+              {formatNumber(pontos)}
             </p>
             <p className="text-xs text-white/40 uppercase tracking-wider">pontos totais</p>
           </div>

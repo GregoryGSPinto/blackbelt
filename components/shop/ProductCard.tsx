@@ -3,6 +3,7 @@
 import { memo } from 'react';
 import { Star } from 'lucide-react';
 import type { Product } from '@/lib/api/shop.service';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface ProductCardProps {
   product: Product;
@@ -17,12 +18,7 @@ interface ProductCardProps {
  * Essencial para performance em listas grandes de produtos.
  */
 export const ProductCard = memo(function ProductCard({ product, onClick, showRating = true }: ProductCardProps) {
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    });
-  };
+  const { formatMoney } = useFormatting();
 
   return (
     <div
@@ -72,11 +68,11 @@ export const ProductCard = memo(function ProductCard({ product, onClick, showRat
         {/* Price */}
         <div className="space-y-0.5">
           <p className="text-lg font-semibold text-primary">
-            {formatPrice(product.price)}
+            {formatMoney(product.price)}
           </p>
           {product.installments > 1 && (
             <p className="text-xs text-white/40">
-              {product.installments}x de {formatPrice(product.price / product.installments)}
+              {product.installments}x de {formatMoney(product.price / product.installments)}
             </p>
           )}
         </div>

@@ -14,12 +14,14 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { ParentPreferences } from '@/components/parent/ParentPreferences';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function AutorizacoesPage() {
   const t = useTranslations('parent.authorizations');
   const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate, formatTime } = useFormatting();
 
   const [pessoas, setPessoas] = useState<PessoaAutorizada[]>([]);
   const [saidas, setSaidas] = useState<AutorizacaoSaida[]>([]);
@@ -129,7 +131,7 @@ export default function AutorizacoesPage() {
                 <p className="text-[9px] text-white/20">{s.parentesco} · {t('validatedBy', { name: s.validadoPor })}</p>
               </div>
               <span className="text-[10px] text-white/20 shrink-0">
-                {new Date(s.dataHoraSaida).toLocaleDateString('pt-BR')} {new Date(s.dataHoraSaida).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                {formatDate(s.dataHoraSaida, 'short')} {formatTime(s.dataHoraSaida)}
               </span>
             </div>
           ))}

@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface Mensagem {
   id: string;
@@ -45,6 +46,7 @@ export default function MensagensParentPage() {
   const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatTime } = useFormatting();
 
   const toast = useToast();
   const [conversas] = useState<Conversa[]>(MOCK_CONVERSAS);
@@ -71,7 +73,7 @@ export default function MensagensParentPage() {
         remetenteId: 'parent-001',
         remetenteNome: 'Voce',
         conteudo: newMsg.trim(),
-        timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        timestamp: formatTime(new Date()),
         lida: true,
       };
       setMensagens(prev => [...prev, msg]);

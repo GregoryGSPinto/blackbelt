@@ -51,7 +51,7 @@ export default function EstoquePage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const { formatNumber, currencyCode } = useFormatting();
+  const { formatNumber, formatDate, currencyCode } = useFormatting();
   const fmt = (v: number) => formatNumber(v, { style: 'currency', currency: currencyCode });
 
   const [produtos, setProdutos] = useState<ProdutoEstoque[]>([]);
@@ -254,7 +254,7 @@ export default function EstoquePage() {
                         <DetailCell label="Margem" value={margem !== null ? `${margem}%` : '—'} />
                         <DetailCell label="Valor em estoque" value={fmt(prod.preco * prod.estoque)} />
                         <DetailCell label="Fornecedor" value={prod.fornecedor || '—'} />
-                        <DetailCell label="Última entrada" value={prod.ultimaEntrada ? formatDate(prod.ultimaEntrada) : '—'} />
+                        <DetailCell label="Última entrada" value={prod.ultimaEntrada ? formatDate(prod.ultimaEntrada, 'short') : '—'} />
                         <DetailCell label="Categoria" value={catCfg?.label || prod.categoria} />
                         <DetailCell label="Curva ABC" value={prod.curvaABC ? `${prod.curvaABC} — ${ABC_COLORS[prod.curvaABC].label}` : '—'} />
                       </div>
@@ -323,7 +323,7 @@ export default function EstoquePage() {
                   <p className={`text-sm font-bold ${cfg.color}`}>
                     {mov.tipo === 'entrada' ? '+' : mov.tipo === 'saida' ? '-' : ''}{Math.abs(mov.quantidade)}
                   </p>
-                  <p className="text-[9px] text-white/20">{formatDate(mov.data)}</p>
+                  <p className="text-[9px] text-white/20">{formatDate(mov.data, 'short')}</p>
                 </div>
                 <span className="text-[10px] text-white/15 shrink-0">{mov.responsavel}</span>
               </div>
@@ -560,10 +560,3 @@ function MovimentoModal({ mode, product, onClose, onConfirm }: {
   );
 }
 
-// ── Helpers ───────────────────────────────────────────────
-
-function formatDate(d: string) {
-  try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-  } catch { return d; }
-}

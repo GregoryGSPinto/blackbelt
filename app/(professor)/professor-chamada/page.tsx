@@ -21,6 +21,7 @@ import { PageSkeleton } from '@/components/shared/SkeletonLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type PresencaStatus = 'presente' | 'falta' | 'nao_marcado';
 type ViewState = 'select_turma' | 'chamada' | 'resumo';
@@ -28,6 +29,7 @@ type AlunoComStatus = AlunoPresenca & { status: PresencaStatus };
 
 export default function ProfessorChamadaPage() {
   const t = useTranslations('professor.attendance');
+  const { formatDateFull, formatDate } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -170,7 +172,7 @@ export default function ProfessorChamadaPage() {
             <Check size={32} className="text-green-400" />
           </div>
           <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.25rem' }}>{resumo.turmaNome}</h2>
-          <p className="text-white/50 text-sm">{new Date(resumo.data).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</p>
+          <p className="text-white/50 text-sm">{formatDateFull(resumo.data)}</p>
         </section>
 
         {/* Stats */}
@@ -227,7 +229,7 @@ export default function ProfessorChamadaPage() {
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('quickAttendance')}</p>
           <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{selectedTurma.nome}</h1>
           <p className="text-white/50 text-sm mt-1">
-            {selectedTurma.dias} · {selectedTurma.horario} · {new Date().toLocaleDateString('pt-BR')}
+            {selectedTurma.dias} · {selectedTurma.horario} · {formatDate(new Date(), 'short')}
           </p>
           <div className="prof-gold-line mt-5" />
         </section>
@@ -440,7 +442,7 @@ export default function ProfessorChamadaPage() {
       {/* Today's date */}
       <section className="prof-enter-3 text-center">
         <p className="text-white/25 text-xs">
-          {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
+          {formatDateFull(new Date())}
         </p>
       </section>
     </div>

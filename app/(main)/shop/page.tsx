@@ -11,11 +11,13 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function ShopPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney } = useFormatting();
 
   const router = useRouter();
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
@@ -125,10 +127,7 @@ export default function ShopPage() {
             {/* Metadata */}
             <div className="mt-6 flex items-center gap-3 text-sm text-white/40">
               <span className="text-primary font-bold text-lg">
-                {featuredProduct.price.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                })}
+                {formatMoney(featuredProduct.price)}
               </span>
               <span>•</span>
               <span>{featuredProduct.installments}x sem juros</span>

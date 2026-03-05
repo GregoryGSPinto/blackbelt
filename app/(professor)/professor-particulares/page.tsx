@@ -14,11 +14,11 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
-
-function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function ProfessorParticularesPage() {
   const t = useTranslations('professor.privateSessions');
+  const { formatMoney, formatDate } = useFormatting();
 
   const STATUS_STYLE: Record<string, { bg: string; text: string; label: string }> = {
     agendada: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: t('statusScheduled') },
@@ -69,7 +69,7 @@ export default function ProfessorParticularesPage() {
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-amber-400" /><span className="text-white/40 text-xs">{t('monthEarnings')}</span></div>
-          <p className="text-xl font-bold text-amber-400">{formatCurrency(ganhosMes)}</p>
+          <p className="text-xl font-bold text-amber-400">{formatMoney(ganhosMes)}</p>
         </div>
       </div>
 
@@ -93,9 +93,9 @@ export default function ProfessorParticularesPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-white text-sm font-medium flex items-center gap-1 justify-end"><Calendar size={12} className="text-white/30" />{new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR')}</p>
+                      <p className="text-white text-sm font-medium flex items-center gap-1 justify-end"><Calendar size={12} className="text-white/30" />{formatDate(a.data + 'T12:00:00', 'short')}</p>
                       <p className="text-white/30 text-xs flex items-center gap-1 justify-end"><Clock size={12} />{a.horario}</p>
-                      <p className="text-amber-400 text-xs mt-1">{formatCurrency(a.valor * a.splitInstrutor / 100)}</p>
+                      <p className="text-amber-400 text-xs mt-1">{formatMoney(a.valor * a.splitInstrutor / 100)}</p>
                     </div>
                   </div>
                 </div>
@@ -113,9 +113,9 @@ export default function ProfessorParticularesPage() {
               <div key={a.id} className="px-5 py-3 flex items-center justify-between">
                 <div>
                   <p className="text-white text-sm">{a.alunoNome}</p>
-                  <p className="text-white/25 text-xs">{new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR')} · {a.horario} · {a.duracao}min</p>
+                  <p className="text-white/25 text-xs">{formatDate(a.data + 'T12:00:00', 'short')} · {a.horario} · {a.duracao}min</p>
                 </div>
-                <p className="text-green-400 font-bold text-sm">{formatCurrency(a.valor * a.splitInstrutor / 100)}</p>
+                <p className="text-green-400 font-bold text-sm">{formatMoney(a.valor * a.splitInstrutor / 100)}</p>
               </div>
             ))}
           </div>

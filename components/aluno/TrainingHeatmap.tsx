@@ -9,6 +9,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const HEATMAP_STYLES = `
   @keyframes heatmap-fade-in {
@@ -61,6 +62,7 @@ export function TrainingHeatmap({
   weeks = 52,
   accentColor = '#22C55E',
 }: TrainingHeatmapProps) {
+  const { formatDate } = useFormatting();
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -170,11 +172,7 @@ export function TrainingHeatmap({
 
   const formatDateLabel = (dateStr: string) => {
     try {
-      return new Date(dateStr + 'T12:00:00').toLocaleDateString('pt-BR', {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-      });
+      return formatDate(dateStr, 'medium');
     } catch {
       return dateStr;
     }

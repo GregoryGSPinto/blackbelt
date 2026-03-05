@@ -18,6 +18,7 @@ import { getSystemHealth, getObservability } from '@/lib/api/developer.service';
 import type { SystemHealthMetric, ObservabilitySnapshot } from '@/lib/api/developer.service';
 import { getMockDeviceInsights, type DeviceInsight } from '@/lib/api/device-fingerprint.service';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
@@ -34,9 +35,9 @@ interface SystemAlert {
 function deriveAlerts(
   health: SystemHealthMetric[],
   obs: ObservabilitySnapshot | null,
+  now: string,
 ): SystemAlert[] {
   const alerts: SystemAlert[] = [];
-  const now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
   // Health-based alerts
   for (const m of health) {
@@ -100,6 +101,7 @@ function deriveAlerts(
 
 export default function DeveloperDashboard() {
   const t = useTranslations('developer.dashboard');
+  const { formatTime } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [health, setHealth] = useState<SystemHealthMetric[]>([]);
@@ -122,7 +124,7 @@ export default function DeveloperDashboard() {
 
   useEffect(() => { refresh(); }, [refresh]);
 
-  const alerts = deriveAlerts(health, obs);
+  const alerts = deriveAlerts(health, obs, formatTime(new Date()));
   const criticalCount = alerts.filter((a) => a.severity === 'critical').length;
   const warningCount = alerts.filter((a) => a.severity === 'warning').length;
 

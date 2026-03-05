@@ -19,6 +19,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type TabView = 'comunicados' | 'mensagens';
 type ComunicadoFilter = 'todos' | 'enviado' | 'rascunho' | 'agendado';
@@ -49,6 +50,7 @@ export default function ComunicacoesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate, formatDateTime } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [comunicados, setComunicados] = useState<Comunicado[]>([]);
@@ -138,7 +140,7 @@ export default function ComunicacoesPage() {
               <span className="text-white/40 text-xs">Último Envio</span>
             </div>
             <p className="text-sm font-bold text-purple-400">
-              {stats.ultimoEnvio ? new Date(stats.ultimoEnvio + 'T12:00:00').toLocaleDateString('pt-BR') : '—'}
+              {stats.ultimoEnvio ? formatDate(stats.ultimoEnvio, 'short') : '—'}
             </p>
           </div>
         </div>
@@ -221,7 +223,7 @@ export default function ComunicacoesPage() {
                     </div>
                     <div className="text-right flex-shrink-0">
                       <p className="text-white/25 text-xs">
-                        {new Date(com.dataCriacao + 'T12:00:00').toLocaleDateString('pt-BR')}
+                        {formatDate(com.dataCriacao, 'short')}
                       </p>
                       {com.status === 'enviado' && (
                         <div className="mt-1 flex items-center gap-1 justify-end">
@@ -233,7 +235,7 @@ export default function ComunicacoesPage() {
                         <div className="mt-1 flex items-center gap-1 justify-end">
                           <Calendar size={10} className="text-amber-400/50" />
                           <span className="text-amber-400/50 text-[10px]">
-                            {new Date(com.agendadoPara).toLocaleDateString('pt-BR')}
+                            {formatDate(com.agendadoPara, 'short')}
                           </span>
                         </div>
                       )}
@@ -279,7 +281,7 @@ export default function ComunicacoesPage() {
                       <p className="text-white/25 text-xs line-clamp-1">{msg.mensagem}</p>
                     </div>
                     <p className="text-white/20 text-xs flex-shrink-0">
-                      {new Date(msg.data).toLocaleDateString('pt-BR')}
+                      {formatDate(msg.data, 'short')}
                     </p>
                   </div>
                 </div>
@@ -329,15 +331,15 @@ export default function ComunicacoesPage() {
                 <div className="flex justify-between"><span className="text-white/40">Destinatário</span><span className="text-white/70">{DESTINATARIO_LABELS[selectedCom.destinatario]}{selectedCom.turmaNome ? ` — ${selectedCom.turmaNome}` : ''}</span></div>
                 <div className="flex justify-between"><span className="text-white/40">Canais</span><span className="text-white/70">{selectedCom.canal.join(', ')}</span></div>
                 <div className="flex justify-between"><span className="text-white/40">Remetente</span><span className="text-white/70">{selectedCom.remetente}</span></div>
-                <div className="flex justify-between"><span className="text-white/40">Criado em</span><span className="text-white/70">{new Date(selectedCom.dataCriacao + 'T12:00:00').toLocaleDateString('pt-BR')}</span></div>
+                <div className="flex justify-between"><span className="text-white/40">Criado em</span><span className="text-white/70">{formatDate(selectedCom.dataCriacao, 'short')}</span></div>
                 {selectedCom.status === 'enviado' && (
                   <>
-                    <div className="flex justify-between"><span className="text-white/40">Enviado em</span><span className="text-white/70">{selectedCom.dataEnvio ? new Date(selectedCom.dataEnvio + 'T12:00:00').toLocaleDateString('pt-BR') : '—'}</span></div>
+                    <div className="flex justify-between"><span className="text-white/40">Enviado em</span><span className="text-white/70">{selectedCom.dataEnvio ? formatDate(selectedCom.dataEnvio, 'short') : '—'}</span></div>
                     <div className="flex justify-between"><span className="text-white/40">Leitura</span><span className="text-green-400">{selectedCom.lidos}/{selectedCom.totalDestinatarios} ({Math.round((selectedCom.lidos / Math.max(selectedCom.totalDestinatarios, 1)) * 100)}%)</span></div>
                   </>
                 )}
                 {selectedCom.agendadoPara && (
-                  <div className="flex justify-between"><span className="text-white/40">Agendado para</span><span className="text-amber-400">{new Date(selectedCom.agendadoPara).toLocaleString('pt-BR')}</span></div>
+                  <div className="flex justify-between"><span className="text-white/40">Agendado para</span><span className="text-amber-400">{formatDateTime(selectedCom.agendadoPara)}</span></div>
                 )}
               </div>
             </div>
@@ -363,7 +365,7 @@ export default function ComunicacoesPage() {
                     De: <span className="text-white/60">{selectedMsg.remetenteNome}</span> → <span className="text-white/60">{selectedMsg.destinatarioNome}</span>
                   </p>
                   <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{selectedMsg.assunto}</h3>
-                  <p className="text-white/25 text-xs mt-1">{new Date(selectedMsg.data).toLocaleString('pt-BR')}</p>
+                  <p className="text-white/25 text-xs mt-1">{formatDateTime(selectedMsg.data)}</p>
                 </div>
                 <button onClick={() => setSelectedMsg(null)} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>
               </div>

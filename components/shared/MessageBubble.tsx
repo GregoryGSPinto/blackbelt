@@ -7,24 +7,23 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { Send, ArrowLeft, Check, CheckCheck } from 'lucide-react';
 import type { Mensagem } from '@/lib/api/mensagens.service';
-
-// ── Time formatter ──
-
-function formatTimestamp(iso: string): string {
-  const d = new Date(iso);
-  const now = new Date();
-  const diffH = (now.getTime() - d.getTime()) / 3600000;
-
-  if (diffH < 1) return `${Math.max(1, Math.round(diffH * 60))}min atrás`;
-  if (diffH < 24) return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  if (diffH < 48) return `Ontem ${d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' +
-    d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-}
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Single bubble ──
 
 function Bubble({ msg, isOwn }: { msg: Mensagem; isOwn: boolean }) {
+  const { formatTime, formatDate } = useFormatting();
+
+  const formatTimestamp = (iso: string): string => {
+    const d = new Date(iso);
+    const now = new Date();
+    const diffH = (now.getTime() - d.getTime()) / 3600000;
+
+    if (diffH < 1) return `${Math.max(1, Math.round(diffH * 60))}min atrás`;
+    if (diffH < 24) return formatTime(d);
+    if (diffH < 48) return `Ontem ${formatTime(d)}`;
+    return formatDate(iso, 'short') + ' ' + formatTime(d);
+  };
   const isSistema = msg.remetenteTipo === 'sistema';
 
   if (isSistema) {

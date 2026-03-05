@@ -12,6 +12,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const NIVEL_COLORS: Record<string, string> = {
   'Nível Iniciante': '#E5E7EB', 'Nível Básico': '#3B82F6', 'Nível Intermediário': '#8B5CF6',
@@ -22,6 +23,7 @@ export default function AnalyticsPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber } = useFormatting();
 
   const [data, setData] = useState<AnalyticsRetencao | null>(null);
   const [loading, setLoading] = useState(true);
@@ -58,7 +60,7 @@ export default function AnalyticsPage() {
         <KpiCard label="Churn mensal" value={`${m.churnAtual}%`} icon={UserMinus} color="text-red-400"
           sub={m.churnAtual <= 3 ? t('analytics.healthy') : t('analytics.aboveIdeal')} />
         <KpiCard label="Permanência média" value={`${m.tempoMedioPermanencia}m`} icon={Clock} color="text-blue-400" sub="meses" />
-        <KpiCard label="LTV médio" value={`R$ ${m.ltv.toLocaleString('pt-BR')}`} icon={DollarSign} color="text-amber-400" sub="por aluno" />
+        <KpiCard label="LTV médio" value={`R$ ${formatNumber(m.ltv)}`} icon={DollarSign} color="text-amber-400" sub="por aluno" />
       </div>
 
       {/* Growth mini */}

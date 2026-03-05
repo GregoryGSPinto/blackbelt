@@ -47,6 +47,48 @@ export async function getServerFormatting() {
       }
     },
 
+    formatTime: (dateInput: string | Date) => {
+      try {
+        const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+        if (isNaN(date.getTime())) return String(dateInput);
+        return format.dateTime(date, { hour: '2-digit', minute: '2-digit' });
+      } catch {
+        return String(dateInput);
+      }
+    },
+
+    formatDateFull: (dateInput: string | Date) => {
+      try {
+        const date = typeof dateInput === 'string' ? new Date(dateInput.includes('T') ? dateInput : dateInput + 'T12:00:00') : dateInput;
+        if (isNaN(date.getTime())) return String(dateInput);
+        return format.dateTime(date, { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+      } catch {
+        return String(dateInput);
+      }
+    },
+
+    formatMonthShort: (dateInput: string | Date) => {
+      try {
+        const date = typeof dateInput === 'string' ? new Date(dateInput.includes('T') ? dateInput : dateInput + 'T12:00:00') : dateInput;
+        if (isNaN(date.getTime())) return String(dateInput);
+        return format.dateTime(date, { month: 'short', year: 'numeric' });
+      } catch {
+        return String(dateInput);
+      }
+    },
+
+    formatMoney: (value: number, opts?: { minimumFractionDigits?: number }) => {
+      try {
+        return format.number(value, {
+          style: 'currency',
+          currency: currencyCode,
+          minimumFractionDigits: opts?.minimumFractionDigits ?? 2,
+        });
+      } catch {
+        return `${currencyCode === 'BRL' ? 'R$' : '$'} ${value.toFixed(2)}`;
+      }
+    },
+
     locale,
     currencyCode,
   };

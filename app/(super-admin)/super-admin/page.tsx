@@ -13,6 +13,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useFormatting } from '@/hooks/useFormatting';
 import type {
   MockDashboardMetrics, MockMonthlyData, MockRevenueByPlan,
   MockAcademy,
@@ -22,14 +23,6 @@ import { getDesignTokens } from '@/lib/design-tokens';
 // ============================================================
 // HELPERS
 // ============================================================
-
-function formatBRL(value: number): string {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 });
-}
-
-function formatNum(value: number): string {
-  return value.toLocaleString('pt-BR');
-}
 
 const STATUS_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
   ATIVA:         { bg: 'bg-emerald-500/10', text: 'text-emerald-400', dot: 'bg-emerald-400' },
@@ -109,6 +102,9 @@ export default function SuperAdminDashboard() {
   const t = useTranslations('superAdmin.dashboard');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney, formatNumber } = useFormatting();
+  const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
+  const formatNum = (value: number) => formatNumber(value);
   const [metrics, setMetrics] = useState<MockDashboardMetrics | null>(null);
   const [monthlyData, setMonthlyData] = useState<MockMonthlyData[]>([]);
   const [revenueByPlan, setRevenueByPlan] = useState<MockRevenueByPlan[]>([]);

@@ -12,6 +12,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type TabView = 'exames' | 'subniveis' | 'requisitos';
 
@@ -33,6 +34,7 @@ export default function GraduacoesAdminPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const [exames, setExames] = useState<ExameGraduacao[]>([]);
   const [requisitos, setRequisitos] = useState<RequisitoGraduacao[]>([]);
@@ -149,7 +151,7 @@ export default function GraduacoesAdminPage() {
                 <div className="flex gap-3 text-[9px] text-white/15 mt-1">
                   <span>Presença: {g.presencaPct}%</span>
                   <span>Tempo: {g.tempoNivelMeses}m</span>
-                  {g.dataUltimoSubnivel && <span>Último: {new Date(g.dataUltimoSubnivel + 'T12:00:00').toLocaleDateString('pt-BR')}</span>}
+                  {g.dataUltimoSubnivel && <span>Último: {formatDate(g.dataUltimoSubnivel, 'short')}</span>}
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
@@ -197,6 +199,7 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
   onAvaliar?: (id: string, status: 'APROVADO' | 'REPROVADO') => void;
 }) {
   const t = useTranslations('admin');
+  const { formatDate } = useFormatting();
   const cfg = STATUS_CFG[exam.status];
   const StatusIcon = cfg.Icon;
   return (
@@ -208,7 +211,7 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
           <p className="text-[10px] text-white/25">{exam.nivelAtual} → {exam.nivelAlvo}</p>
         </div>
         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.color} ${cfg.bg}`}>{t(cfg.labelKey)}</span>
-        <span className="text-[10px] text-white/20">{new Date(exam.dataExame + 'T12:00:00').toLocaleDateString('pt-BR')}</span>
+        <span className="text-[10px] text-white/20">{formatDate(exam.dataExame, 'short')}</span>
         {expanded ? <ChevronUp size={14} className="text-white/20" /> : <ChevronDown size={14} className="text-white/20" />}
       </button>
       {expanded && (
@@ -217,7 +220,7 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
             <MiniCell label="Presença" value={`${exam.presencaPct}%`} />
             <MiniCell label="Tempo no nível" value={`${exam.tempoNivelMeses} meses`} />
             <MiniCell label="Avaliador" value={exam.professorAvaliador} />
-            <MiniCell label="Data" value={new Date(exam.dataExame + 'T12:00:00').toLocaleDateString('pt-BR')} />
+            <MiniCell label="Data" value={formatDate(exam.dataExame, 'short')} />
           </div>
           {exam.observacao && <p className="text-xs text-white/30 italic">"{exam.observacao}"</p>}
           {exam.status === 'AGENDADO' && onAvaliar && (

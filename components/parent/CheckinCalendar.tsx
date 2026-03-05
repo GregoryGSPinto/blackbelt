@@ -7,6 +7,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Types ──
 
@@ -51,6 +52,7 @@ type CalendarCell =
   | { key: string; type: 'presente' | 'ausente' | 'sem_aula' | 'futuro'; day: number; isToday: boolean };
 
 export function CheckinCalendar({ days, classDays, month }: CheckinCalendarProps) {
+  const { formatMonthShort } = useFormatting();
   const now = month || new Date();
   const today = toISO(new Date());
 
@@ -106,7 +108,7 @@ export function CheckinCalendar({ days, classDays, month }: CheckinCalendarProps
     };
   }, [days, classDays, now, today]);
 
-  const monthLabel = now.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  const monthLabel = formatMonthShort(now);
 
   return (
     <div className="space-y-4">

@@ -69,7 +69,7 @@ export default function FinanceiroPage() {
   const t = useTranslations('superAdmin.financial');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const { formatNumber, currencyCode } = useFormatting();
+  const { formatNumber, formatDate, currencyCode } = useFormatting();
   const formatBRL = (value: number) => formatNumber(value, { style: 'currency', currency: currencyCode, minimumFractionDigits: 0 });
   const [financial, setFinancial] = useState<MockFinancialData | null>(null);
   const [monthlyData, setMonthlyData] = useState<MockMonthlyData[]>([]);
@@ -251,7 +251,7 @@ export default function FinanceiroPage() {
                   <tr key={p.id} className={`${isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
                     <td className={`py-3 font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>{p.academiaNome}</td>
                     <td className={`py-3 ${isDark ? 'text-indigo-400' : 'text-indigo-600'} font-semibold`}>{formatBRL(p.valor)}</td>
-                    <td className={`py-3 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>{new Date(p.data).toLocaleDateString('pt-BR')}</td>
+                    <td className={`py-3 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>{formatDate(p.data, 'short')}</td>
                     <td className={`py-3 ${isDark ? 'text-white/60' : 'text-slate-600'} uppercase text-xs`}>{p.metodo}</td>
                     <td className="py-3">
                       <span className={`inline-flex items-center gap-1 text-xs font-medium ${isDark ? st.textDark : st.textLight}`}>

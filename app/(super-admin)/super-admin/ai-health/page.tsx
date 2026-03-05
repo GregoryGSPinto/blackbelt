@@ -5,6 +5,7 @@ import { Activity, AlertTriangle, CheckCircle, Server, Database, Cpu } from 'luc
 import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface PlatformHealth {
   status: string;
@@ -23,6 +24,7 @@ export default function SuperAdminAIHealthPage() {
   const t = useTranslations('superAdmin.aiHealth');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber } = useFormatting();
 
   const [health, setHealth] = useState<PlatformHealth | null>(null);
   const [loading, setLoading] = useState(true);
@@ -163,7 +165,7 @@ export default function SuperAdminAIHealthPage() {
           label={t('totalPredictions')}
           value={
             health?.totalPredictions
-              ? health.totalPredictions.toLocaleString('pt-BR')
+              ? formatNumber(health.totalPredictions)
               : '--'
           }
           accent="emerald"
@@ -242,7 +244,7 @@ export default function SuperAdminAIHealthPage() {
                     </span>
                   </div>
                   <span className="text-xs text-emerald-400 font-medium">
-                    {academy.usage.toLocaleString('pt-BR')} {t('predictions')}
+                    {formatNumber(academy.usage)} {t('predictions')}
                   </span>
                 </div>
               ))}

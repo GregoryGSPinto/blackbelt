@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ════════════════════════════════════════════════════════════════════
 // AI SYSTEM ROI — Metricas de retorno do sistema de IA
@@ -18,6 +19,7 @@ interface AISystemROIProps {
 
 export function AISystemROI({ metrics }: AISystemROIProps) {
   const t = useTranslations('admin');
+  const { formatNumber } = useFormatting();
   const actionRate = metrics.alertsGenerated > 0
     ? Math.round((metrics.alertsActedUpon / metrics.alertsGenerated) * 100)
     : 0;
@@ -25,7 +27,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
   const cards = [
     {
       label: t('aiROI.predictionsGenerated'),
-      value: metrics.predictionsGenerated.toLocaleString('pt-BR'),
+      value: formatNumber(metrics.predictionsGenerated),
       sublabel: t('aiROI.iaAnalysesProcessed'),
       color: 'border-blue-500/30 bg-blue-500/10',
       valueColor: 'text-blue-400',
@@ -46,7 +48,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
     },
     {
       label: t('aiROI.revenueSaved'),
-      value: `R$ ${metrics.estimatedRevenueSaved.toLocaleString('pt-BR')}`,
+      value: `R$ ${formatNumber(metrics.estimatedRevenueSaved)}`,
       sublabel: t('aiROI.estimatedRevenueSaved'),
       color: 'border-emerald-500/30 bg-emerald-500/10',
       valueColor: 'text-emerald-400',

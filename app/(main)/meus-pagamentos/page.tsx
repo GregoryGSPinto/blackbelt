@@ -18,10 +18,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
-
-function formatCurrency(v: number): string {
-  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
+import { useFormatting } from '@/hooks/useFormatting';
 
 const STATUS_BADGE: Record<string, { bg: string; text: string; icon: typeof CheckCircle; label: string }> = {
   pago: { bg: 'bg-green-600/20', text: 'text-green-400', icon: CheckCircle, label: 'Pago' },
@@ -41,6 +38,7 @@ export default function MeusPagamentosPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney, formatDate } = useFormatting();
 
   const [resumo, setResumo] = useState<ResumoFinanceiroAluno | null>(null);
   const [loading, setLoading] = useState(true);
@@ -137,7 +135,7 @@ export default function MeusPagamentosPage() {
                 <p className="text-white/40 text-sm mt-1">{plano.descricao}</p>
               </div>
               <div className="text-right">
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{formatCurrency(assinatura.valor)}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{formatMoney(assinatura.valor)}</p>
                 <p className="text-white/30 text-xs">/{plano.frequencia}</p>
               </div>
             </div>
@@ -170,7 +168,7 @@ export default function MeusPagamentosPage() {
             <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-sm">
               <span className="text-white/30">{t('payments.nextRenewal')}</span>
               <span className="text-white/60 font-medium">
-                {new Date(assinatura.dataRenovacao + 'T12:00:00').toLocaleDateString('pt-BR')}
+                {formatDate(assinatura.dataRenovacao + 'T12:00:00', 'short')}
               </span>
             </div>
           </div>
@@ -184,8 +182,8 @@ export default function MeusPagamentosPage() {
               <div className="flex-1">
                 <p className="text-yellow-300 font-bold text-sm">{t('payments.pendingPayment')}</p>
                 <p className="text-white/40 text-xs mt-0.5">
-                  {formatCurrency(totalPendente)} em aberto
-                  {proximoVencimento && ` · Vence em ${new Date(proximoVencimento + 'T12:00:00').toLocaleDateString('pt-BR')}`}
+                  {formatMoney(totalPendente)} em aberto
+                  {proximoVencimento && ` · Vence em ${formatDate(proximoVencimento + 'T12:00:00', 'short')}`}
                 </p>
               </div>
             </div>
@@ -217,14 +215,14 @@ export default function MeusPagamentosPage() {
                         <div className="min-w-0">
                           <p className="text-white text-sm font-medium truncate">{fatura.descricao}</p>
                           <p className="text-white/30 text-xs">
-                            Venc. {new Date(fatura.dataVencimento + 'T12:00:00').toLocaleDateString('pt-BR')}
-                            {fatura.dataPagamento && ` · Pago ${new Date(fatura.dataPagamento + 'T12:00:00').toLocaleDateString('pt-BR')}`}
+                            Venc. {formatDate(fatura.dataVencimento + 'T12:00:00', 'short')}
+                            {fatura.dataPagamento && ` · Pago ${formatDate(fatura.dataPagamento + 'T12:00:00', 'short')}`}
                           </p>
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0 flex items-center gap-3">
                         <div>
-                          <p className={`font-bold text-sm ${st.text}`}>{formatCurrency(fatura.valor)}</p>
+                          <p className={`font-bold text-sm ${st.text}`}>{formatMoney(fatura.valor)}</p>
                           <p className={`text-[10px] font-bold ${st.text}`}>{st.label}</p>
                         </div>
                         {showPixBtn && (
@@ -257,7 +255,7 @@ export default function MeusPagamentosPage() {
                               <div className="text-center">
                                 <QrCode size={48} className="text-gray-600 mx-auto mb-2" />
                                 <p className="text-gray-500 text-xs font-medium">{t('payments.qrCodePix')}</p>
-                                <p className="text-gray-400 text-[10px]">{formatCurrency(fatura.valor)}</p>
+                                <p className="text-gray-400 text-[10px]">{formatMoney(fatura.valor)}</p>
                               </div>
                             </div>
 

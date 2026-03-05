@@ -10,6 +10,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const NIVEL_COLORS: Record<string, { bg: string; border: string; text: string }> = {
   'Nível Iniciante': { bg: 'bg-gray-200', border: 'border-gray-300', text: 'text-gray-700' },
@@ -29,6 +30,7 @@ export default function GraduacaoPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const [historico, setHistorico] = useState<GraduacaoHistorico[]>([]);
   const [requisitos, setRequisitos] = useState<RequisitoGraduacao[]>([]);
@@ -118,7 +120,7 @@ export default function GraduacaoPage() {
                     <div>
                       <p className="text-sm font-bold text-white/70">{grad.nivel}</p>
                       <p className="text-[10px] text-white/25 mt-0.5">
-                        {new Date(grad.data + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                        {formatDate(grad.data + 'T12:00:00', 'long')}
                       </p>
                     </div>
                     {grad.professorNome && (

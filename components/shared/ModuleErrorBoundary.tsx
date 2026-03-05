@@ -4,6 +4,7 @@ import { Component, ReactNode } from 'react';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 import {
   AlertTriangle,
   Home,
@@ -155,6 +156,7 @@ function ErrorFallbackUI({
   onRetry: () => void;
 }) {
   const t = useTranslations('common.errorBoundary');
+  const { formatTime } = useFormatting();
   const Icon = config.icon;
 
   return (
@@ -211,7 +213,7 @@ function ErrorFallbackUI({
                         {t('timestamp')}
                       </p>
                       <p className="text-sm text-white/90 font-mono">
-                        {timestamp.toLocaleTimeString('pt-BR')}
+                        {formatTime(timestamp)}
                       </p>
                     </div>
                   )}

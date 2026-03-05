@@ -10,6 +10,7 @@ import {
 import type { Automacao, CanalAutomacao } from '@/lib/api/contracts';
 import MensagemTemplateEditor from './MensagemTemplateEditor';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Icons map ─────────────────────────────────────────────
 
@@ -32,6 +33,7 @@ interface AutomacaoCardProps {
 
 export default function AutomacaoCard({ automacao, onToggle, onUpdate }: AutomacaoCardProps) {
   const t = useTranslations('admin');
+  const { formatNumber, formatDate } = useFormatting();
   const [expanded, setExpanded] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState(automacao.config.mensagemTemplate);
   const [editingValor, setEditingValor] = useState(automacao.config.valor ?? 0);
@@ -122,13 +124,13 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
         <div className="border-t border-white/[0.05] p-4 space-y-5 bg-white/[0.01]">
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <MiniStat label={t('automation.totalSent')} value={automacao.stats.totalEnviados.toLocaleString('pt-BR')} />
+            <MiniStat label={t('automation.totalSent')} value={formatNumber(automacao.stats.totalEnviados)} />
             <MiniStat label={t('automation.thisWeek')} value={String(automacao.stats.enviadosSemana)} />
             <MiniStat label={t('automation.responseRate')} value={`${Math.round(automacao.stats.taxaResposta * 100)}%`} />
             <MiniStat
               label={t('automation.lastSend')}
               value={automacao.stats.ultimoEnvio
-                ? new Date(automacao.stats.ultimoEnvio + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
+                ? formatDate(automacao.stats.ultimoEnvio + 'T12:00:00', 'short')
                 : '—'}
             />
           </div>

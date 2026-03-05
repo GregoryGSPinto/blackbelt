@@ -20,6 +20,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type FaturaFilter = 'todas' | 'pendente' | 'atrasado' | 'pago';
 type TabView = 'faturas' | 'assinaturas';
@@ -41,14 +42,11 @@ const METODO_LABELS: Record<string, { icon: string; label: string }> = {
   dinheiro: { icon: '💵', label: 'Dinheiro' },
 };
 
-function formatCurrency(v: number): string {
-  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
 export default function PagamentosPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney, formatDate } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [dashboard, setDashboard] = useState<AdminFinanceDashboard | null>(null);
@@ -115,7 +113,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Receita Mês</span>
           </div>
-          <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(dashboard.receitaMes)}</p>
+          <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaMes)}</p>
         </div>
 
         <div style={{ ...glass, padding: '1.25rem' }}>
@@ -125,7 +123,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Pendente</span>
           </div>
-          <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(dashboard.receitaPendente)}</p>
+          <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaPendente)}</p>
         </div>
 
         <div style={{ ...glass, padding: '1.25rem' }}>
@@ -167,7 +165,7 @@ export default function PagamentosPage() {
                   <span className="text-lg">{m.icon}</span>
                   <span className="text-white/60 text-sm">{m.label}</span>
                 </div>
-                <p className="text-white font-bold">{formatCurrency(valor)}</p>
+                <p className="text-white font-bold">{formatMoney(valor)}</p>
                 <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
                   <div className="h-full bg-white/20 rounded-full" style={{ width: `${pct}%` }} />
                 </div>
@@ -235,9 +233,9 @@ export default function PagamentosPage() {
                       <p className="text-white/30 text-xs truncate">{fatura.descricao}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-white font-bold text-sm">{formatCurrency(fatura.valor)}</p>
+                      <p className="text-white font-bold text-sm">{formatMoney(fatura.valor)}</p>
                       <p className="text-white/25 text-xs">
-                        Venc. {new Date(fatura.dataVencimento + 'T12:00:00').toLocaleDateString('pt-BR')}
+                        Venc. {formatDate(fatura.dataVencimento, 'short')}
                       </p>
                       {met && (
                         <p className="text-white/20 text-[10px] mt-0.5">{met.icon} {met.label}</p>
@@ -276,9 +274,9 @@ export default function PagamentosPage() {
                       </p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-white font-bold text-sm">{formatCurrency(sub.valor)}/mês</p>
+                      <p className="text-white font-bold text-sm">{formatMoney(sub.valor)}/mês</p>
                       <p className="text-white/25 text-xs">
-                        Renova {new Date(sub.dataRenovacao + 'T12:00:00').toLocaleDateString('pt-BR')}
+                        Renova {formatDate(sub.dataRenovacao, 'short')}
                       </p>
                     </div>
                   </div>

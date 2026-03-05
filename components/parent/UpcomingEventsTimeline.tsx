@@ -7,6 +7,7 @@
 'use client';
 
 import type { ParentInsightsVM } from '@/lib/application/intelligence';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface UpcomingEventsTimelineProps {
   events: ParentInsightsVM['upcomingEvents'];
@@ -43,22 +44,10 @@ const EVENT_CONFIG: Record<EventType, { dot: string; badge: string; badgeBg: str
   },
 };
 
-// ── Date formatter ──
-
-function formatDate(dateStr: string): { day: string; monthYear: string } {
-  try {
-    const date = new Date(dateStr + 'T12:00:00');
-    const day = date.toLocaleDateString('pt-BR', { day: '2-digit' });
-    const monthYear = date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
-    return { day, monthYear };
-  } catch {
-    return { day: '--', monthYear: '---' };
-  }
-}
-
 // ── Component ──
 
 export function UpcomingEventsTimeline({ events }: UpcomingEventsTimelineProps) {
+  const { formatDate } = useFormatting();
   if (!events || events.length === 0) {
     return (
       <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
@@ -77,7 +66,10 @@ export function UpcomingEventsTimeline({ events }: UpcomingEventsTimelineProps) 
       <div className="relative">
         {events.map((event, i) => {
           const config = EVENT_CONFIG[event.type] ?? EVENT_CONFIG.event;
-          const { day, monthYear } = formatDate(event.date);
+          const formatted = formatDate(event.date, 'short');
+          const parts = formatted.split('/');
+          const day = parts[0] ?? '--';
+          const monthYear = parts[1] ?? '---';
           const isLast = i === events.length - 1;
 
           return (

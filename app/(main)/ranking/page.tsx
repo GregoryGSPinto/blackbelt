@@ -14,6 +14,7 @@ import * as rankingService from '@/lib/api/ranking.service';
 import type { RankingEntry, PontoRegra, PontosResumo, CategoriaRanking } from '@/lib/api/contracts';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Tabs ──────────────────────────────────────────────────
 
@@ -49,6 +50,7 @@ export default function RankingPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber } = useFormatting();
 
   const { user } = useAuth();
 
@@ -138,13 +140,13 @@ export default function RankingPage() {
             <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
               <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Este mês</p>
               <p className="text-lg font-bold text-emerald-400">
-                +{pontosResumo.esteMes.toLocaleString('pt-BR')}
+                +{formatNumber(pontosResumo.esteMes)}
               </p>
             </div>
             <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
               <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Esta semana</p>
               <p className="text-lg font-bold text-blue-400">
-                +{pontosResumo.ultimaSemana.toLocaleString('pt-BR')}
+                +{formatNumber(pontosResumo.ultimaSemana)}
               </p>
             </div>
           </div>
@@ -250,6 +252,7 @@ export default function RankingPage() {
 function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber } = useFormatting();
   if (!resumo) {
     return (
       <div className="text-center py-12">
@@ -280,7 +283,7 @@ function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs text-white/60">{fonte.fonte}</span>
                   <span className="text-xs" style={{ color: tokens.textMuted }}>
-                    {fonte.pontos.toLocaleString('pt-BR')} pts ({fonte.quantidade}×)
+                    {formatNumber(fonte.pontos)} pts ({fonte.quantidade}×)
                   </span>
                 </div>
                 <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">

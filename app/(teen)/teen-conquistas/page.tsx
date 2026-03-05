@@ -10,11 +10,13 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function TeenConquistasPage() {
   const t = useTranslations('teen.achievements');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const [teenconquistas, setTeenconquistas] = useState<TeenConquista[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +101,7 @@ export default function TeenConquistasPage() {
                       {conquista.descricao}
                     </p>
                     <p className="text-xs teen-text-muted font-teen">
-                      Desbloqueada em {new Date(conquista.dataConquista!).toLocaleDateString('pt-BR')}
+                      Desbloqueada em {formatDate(conquista.dataConquista!, 'short')}
                     </p>
                   </div>
                 </div>

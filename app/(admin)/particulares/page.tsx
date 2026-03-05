@@ -16,6 +16,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const STATUS_STYLE: Record<string, { bg: string; text: string; label: string; icon: React.ReactNode }> = {
   agendada: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Agendada', icon: <Calendar size={10} /> },
@@ -24,12 +25,11 @@ const STATUS_STYLE: Record<string, { bg: string; text: string; label: string; ic
   cancelada: { bg: 'bg-red-500/10', text: 'text-red-400', label: 'Cancelada', icon: <XCircle size={10} /> },
 };
 
-function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
 export default function ParticularesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney, formatDate } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [sessões, setSessões] = useState<AulaParticular[]>([]);
@@ -85,7 +85,7 @@ export default function ParticularesPage() {
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Mês</span></div>
-          <p className="text-xl font-bold text-purple-400">{formatCurrency(receitaMes)}</p>
+          <p className="text-xl font-bold text-purple-400">{formatMoney(receitaMes)}</p>
         </div>
       </div>
 
@@ -126,8 +126,8 @@ export default function ParticularesPage() {
                   {a.observacao && <p className="text-white/25 text-xs mt-0.5">{a.observacao}</p>}
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-green-400 font-bold text-sm">{formatCurrency(a.valor)}</p>
-                  <p className="text-white/30 text-xs">{new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR')} · {a.horario}</p>
+                  <p className="text-green-400 font-bold text-sm">{formatMoney(a.valor)}</p>
+                  <p className="text-white/30 text-xs">{formatDate(a.data, 'short')} · {a.horario}</p>
                   <p className="text-white/15 text-[10px] mt-0.5">Split: {a.splitUnidade}% acad / {a.splitInstrutor}% prof</p>
                 </div>
               </div>

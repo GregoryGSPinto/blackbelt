@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Check, CheckCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 import { ErrorAlert } from './ErrorAlert';
 import { calcIdade } from './utils';
 import type { DadosUsuario, DadosKid, StepBaseProps } from './types';
@@ -16,6 +17,7 @@ interface StepRevisaoProps extends StepBaseProps {
 
 export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: StepRevisaoProps) {
   const t = useTranslations('auth');
+  const { formatDate } = useFormatting();
   const [aceite, setAceite] = useState(false);
 
   const perfilLabel = dados.perfilAutomatico === 'adulto'
@@ -46,7 +48,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
               <>
                 <p className="text-white/70">
                   <span className="text-white/50">{t('review.dateOfBirth')}</span>{' '}
-                  {new Date(dados.dataNascimento).toLocaleDateString('pt-BR')}
+                  {formatDate(dados.dataNascimento)}
                 </p>
                 <p className="text-white/70">
                   <span className="text-white/50">{t('review.ageLabel')}</span> {dados.idade} anos

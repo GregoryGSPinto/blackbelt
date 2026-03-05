@@ -24,6 +24,7 @@ import type { AlertaInteligente } from '@/lib/api/alertas-inteligentes.service';
 import { ProactiveAlertList } from '@/components/shared/ProactiveAlert';
 import ExecutiveDashboard from '@/components/admin/ExecutiveDashboard';
 import { WelcomeCard } from '@/components/shared/WelcomeCard';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Nivel colors ──────────────────────────────────────────
 
@@ -39,6 +40,7 @@ export default function DashboardPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const t = useTranslations('admin');
+  const { formatDate, formatTime } = useFormatting();
   const { data: result, loading, error, retry, cacheInfo, refreshing, refresh } = useCachedServiceCall<AdminDashData>(
     'admin:dashboard',
     () => Promise.all([
@@ -238,7 +240,7 @@ export default function DashboardPage() {
             {stats.congelados.lista.map(c => (
               <div key={c.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{c.nome}</span>
-                <span className="text-[10px] text-white/25">desde {formatDateShort(c.dataCongelamento)}</span>
+                <span className="text-[10px] text-white/25">desde {formatDate(c.dataCongelamento, 'short')}</span>
               </div>
             ))}
           </GestaoCard>
@@ -249,7 +251,7 @@ export default function DashboardPage() {
               <div key={a.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{a.nome}</span>
                 <span className="text-[10px] text-white/25">
-                  {new Date(a.dataNascimento + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
+                  {formatDate(a.dataNascimento, 'short')}
                 </span>
               </div>
             ))}
@@ -353,7 +355,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-white/30 mt-1">{alerta.mensagem}</p>
                 </div>
                 <span className="text-xs text-white/20 shrink-0">
-                  {new Date(alerta.data).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                  {formatTime(alerta.data)}
                 </span>
               </div>
             ))}
@@ -625,10 +627,3 @@ function FinKpi({ label, value, sub }: { label: string; value: string; sub?: Rea
   );
 }
 
-// ── Helpers ───────────────────────────────────────────────
-
-function formatDateShort(d: string) {
-  try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-  } catch { return d; }
-}

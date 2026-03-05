@@ -1,0 +1,12 @@
+**BLOCO A2 concluído com sucesso.**
+
+### Resumo:
+
+- **48 arquivos modificados** (2234 inserções, 937 remoções)
+- **~400+ novas chaves** adicionadas a `messages/pt-BR.json` e `messages/en-US.json`
+- **Cobertura completa** de todos os route groups: `(admin)`, `(professor)`, `(main)`, `(teen)`, `(kids)`, `(parent)`, `(super-admin)`, `(auth)`
+- **Componentes tratados**: FABCheckin, QRScanner, QRGenerator, AlunoDetailPanel, ConcederMedalhaModal, QuickProgressUpdate, ReengagementRules, ExecutiveDashboard, WelcomeCard, ModuleErrorBoundary, KidsGatekeeper, LeaderboardCard, SizeGuideModal, TurmaNotifications
+- **Padrão seguido**: STATUS_CONFIG com `labelKey` + `t()`, template strings com ICU format `{count}`, aria-labels traduzidos
+- **pnpm build**: zero erros
+- **vitest**: 473 testes passando, 0 falhas
+- **Commit**: `[bloco A2] Extrair TODAS as strings PT-BR + EN-US`

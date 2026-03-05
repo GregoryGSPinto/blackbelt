@@ -8,16 +8,13 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useFormatting } from '@/hooks/useFormatting';
 import type { MockAcademy, PlanoAcademia, StatusAcademia } from '@/lib/__mocks__/super-admin.mock';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 // ============================================================
 // HELPERS
 // ============================================================
-
-function formatBRL(value: number): string {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 });
-}
 
 const STATUS_CONFIG = {
   ATIVA:         { labelKey: 'statusActive',      dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', bgDark: 'bg-emerald-500/10', bgLight: 'bg-emerald-100', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
@@ -45,6 +42,8 @@ function StatusBadge({ status, isDark }: { status: StatusAcademia; isDark: boole
 
 function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy; isDark: boolean; onClose: () => void }) {
   const t = useTranslations('superAdmin.academies');
+  const { formatMoney, formatDate } = useFormatting();
+  const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
   return (
     <div className={`
       fixed inset-0 z-50 flex items-center justify-center p-4
@@ -81,9 +80,9 @@ function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy
           <InfoRow isDark={isDark} icon={Users} label={t('students')} value={String(academy.totalAlunos)} />
           <InfoRow isDark={isDark} icon={GraduationCap} label={t('professors')} value={String(academy.totalProfessores)} />
           <InfoRow isDark={isDark} icon={CreditCard} label="MRR" value={formatBRL(academy.mrr)} />
-          <InfoRow isDark={isDark} icon={Calendar} label={t('createdAt')} value={new Date(academy.criadoEm).toLocaleDateString('pt-BR')} />
+          <InfoRow isDark={isDark} icon={Calendar} label={t('createdAt')} value={formatDate(academy.criadoEm, 'short')} />
           <InfoRow isDark={isDark} icon={MapPin} label={t('city')} value={`${academy.cidade}/${academy.estado}`} />
-          <InfoRow isDark={isDark} icon={CreditCard} label={t('lastPayment')} value={new Date(academy.ultimoPagamento).toLocaleDateString('pt-BR')} />
+          <InfoRow isDark={isDark} icon={CreditCard} label={t('lastPayment')} value={formatDate(academy.ultimoPagamento, 'short')} />
           <InfoRow isDark={isDark} icon={Mail} label={t('email')} value={academy.email} />
           <InfoRow isDark={isDark} icon={Phone} label={t('phone')} value={academy.telefone} />
         </div>
@@ -128,6 +127,8 @@ export default function AcademiasPage() {
   const tActions = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney } = useFormatting();
+  const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
   const [academies, setAcademies] = useState<MockAcademy[]>([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusAcademia | 'TODAS'>('TODAS');

@@ -20,9 +20,11 @@ import { useToast } from '@/contexts/ToastContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function ProfessorMensagensPage() {
   const t = useTranslations('common');
+  const { formatTime, formatDate } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -98,9 +100,9 @@ export default function ProfessorMensagensPage() {
     const d = new Date(iso);
     const now = new Date();
     const diffMs = now.getTime() - d.getTime();
-    if (diffMs < 86400000) return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    if (diffMs < 86400000) return formatTime(d);
     if (diffMs < 172800000) return 'Ontem';
-    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    return formatDate(d, 'short');
   };
 
   if (loading) return <PageSkeleton />;

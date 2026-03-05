@@ -84,6 +84,60 @@ export function useFormatting() {
     [format],
   );
 
+  const formatTime = useCallback(
+    (dateInput: string | Date) => {
+      try {
+        const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+        if (isNaN(date.getTime())) return String(dateInput);
+        return format.dateTime(date, { hour: '2-digit', minute: '2-digit' });
+      } catch {
+        return String(dateInput);
+      }
+    },
+    [format],
+  );
+
+  const formatDateFull = useCallback(
+    (dateInput: string | Date) => {
+      try {
+        const date = typeof dateInput === 'string' ? new Date(dateInput.includes('T') ? dateInput : dateInput + 'T12:00:00') : dateInput;
+        if (isNaN(date.getTime())) return String(dateInput);
+        return format.dateTime(date, { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+      } catch {
+        return String(dateInput);
+      }
+    },
+    [format],
+  );
+
+  const formatMonthShort = useCallback(
+    (dateInput: string | Date) => {
+      try {
+        const date = typeof dateInput === 'string' ? new Date(dateInput.includes('T') ? dateInput : dateInput + 'T12:00:00') : dateInput;
+        if (isNaN(date.getTime())) return String(dateInput);
+        return format.dateTime(date, { month: 'short', year: 'numeric' });
+      } catch {
+        return String(dateInput);
+      }
+    },
+    [format],
+  );
+
+  const formatMoney = useCallback(
+    (value: number, opts?: { minimumFractionDigits?: number }) => {
+      try {
+        return format.number(value, {
+          style: 'currency',
+          currency: currencyCode,
+          minimumFractionDigits: opts?.minimumFractionDigits ?? 2,
+        });
+      } catch {
+        return `${currencyCode === 'BRL' ? 'R$' : '$'} ${value.toFixed(2)}`;
+      }
+    },
+    [format, currencyCode],
+  );
+
   const formatRelativeTime = useCallback(
     (dateInput: string | Date) => {
       try {
@@ -101,12 +155,16 @@ export function useFormatting() {
     () => ({
       formatDate,
       formatDateTime,
+      formatTime,
+      formatDateFull,
+      formatMonthShort,
       formatCurrency,
+      formatMoney,
       formatNumber,
       formatRelativeTime,
       locale,
       currencyCode,
     }),
-    [formatDate, formatDateTime, formatCurrency, formatNumber, formatRelativeTime, locale, currencyCode],
+    [formatDate, formatDateTime, formatTime, formatDateFull, formatMonthShort, formatCurrency, formatMoney, formatNumber, formatRelativeTime, locale, currencyCode],
   );
 }

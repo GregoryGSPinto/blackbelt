@@ -9,11 +9,13 @@ import MascotBubble from '@/components/kids/MascotBubble';
 import SimpleProgressStars from '@/components/kids/SimpleProgressStars';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function KidsAventuraPage() {
   const t = useTranslations('kids.adventure');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const [memberId, setMemberId] = useState<string>('');
   const [loadingUser, setLoadingUser] = useState(true);
@@ -106,7 +108,7 @@ export default function KidsAventuraPage() {
           technique: dna ? Math.round(dna.dimensions.progression / 20) : 0,
           effort: dna ? Math.round(dna.dimensions.intensity / 20) : 0,
           behavior: dna ? Math.round(dna.dimensions.consistency / 20) : 0,
-          lastUpdated: dna?.computedAt ? new Date(dna.computedAt).toLocaleDateString('pt-BR') : '--',
+          lastUpdated: dna?.computedAt ? formatDate(dna.computedAt, 'short') : '--',
         }}
       />
 

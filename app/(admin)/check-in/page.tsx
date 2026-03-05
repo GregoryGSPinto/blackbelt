@@ -11,11 +11,13 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function CheckInPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatTime } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [checkIns, setCheckins] = useState<CheckIn[]>([]);
@@ -171,7 +173,7 @@ export default function CheckInPage() {
             </div>
             <div>
               <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.checkinDone')}</h3>
-              <p className="text-green-400">{selectedAluno.nome} - {new Date().toLocaleTimeString()}</p>
+              <p className="text-green-400">{selectedAluno.nome} - {formatTime(new Date())}</p>
             </div>
           </div>
         </div>

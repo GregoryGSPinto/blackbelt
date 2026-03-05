@@ -11,6 +11,7 @@ import type { Evento, StatusEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Filtro tabs ───────────────────────────────────────────
 
@@ -31,14 +32,6 @@ const STATUS_CONFIG: Record<StatusEvento, { label: string; color: string; bg: st
   FINALIZADO:         { label: 'Finalizado', color: 'text-white/40', bg: 'bg-white/5 border-white/10' },
   CANCELADO:          { label: 'Cancelado', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
 };
-
-function formatDate(d: string) {
-  try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', {
-      day: '2-digit', month: 'short', year: 'numeric',
-    });
-  } catch { return d; }
-}
 
 // ── Componente principal ──────────────────────────────────
 
@@ -139,6 +132,7 @@ export default function EventosPage() {
 // ── Event Card ────────────────────────────────────────────
 
 function EventoCard({ evento, onClick }: { evento: Evento; onClick: () => void }) {
+  const { formatDate } = useFormatting();
   const statusCfg = STATUS_CONFIG[evento.status];
   const isOpen = evento.inscricoesAbertas;
 
@@ -163,9 +157,9 @@ function EventoCard({ evento, onClick }: { evento: Evento; onClick: () => void }
         {/* Date */}
         <span className="flex items-center gap-1 text-white/50">
           <Calendar size={12} />
-          {formatDate(evento.data)}
+          {formatDate(evento.data + 'T12:00:00', 'medium')}
           {evento.dataFim && evento.dataFim !== evento.data && (
-            <> — {formatDate(evento.dataFim)}</>
+            <> — {formatDate(evento.dataFim + 'T12:00:00', 'medium')}</>
           )}
         </span>
 

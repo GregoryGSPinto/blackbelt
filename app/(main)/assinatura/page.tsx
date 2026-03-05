@@ -12,6 +12,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type TabView = 'documentos' | 'privacidade';
 
@@ -26,6 +27,7 @@ export default function AssinaturaPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const [documentos, setDocumentos] = useState<DocumentoAssinatura[]>([]);
   const [consentimentos, setConsentimentos] = useState<ConsentimentoLGPD[]>([]);
@@ -139,7 +141,7 @@ export default function AssinaturaPage() {
                     {/* Meta */}
                     <div className="flex flex-wrap gap-3 text-[10px] text-white/20">
                       <span>{t('signature.version', { version: doc.versao })}</span>
-                      {doc.dataAssinatura && <span>{t('signature.signedOn', { date: new Date(doc.dataAssinatura).toLocaleDateString('pt-BR') })}</span>}
+                      {doc.dataAssinatura && <span>{t('signature.signedOn', { date: formatDate(doc.dataAssinatura, 'short') })}</span>}
                       {doc.hashAssinatura && <span className="flex items-center gap-1"><Lock size={9} /> {doc.hashAssinatura.slice(0, 20)}...</span>}
                     </div>
 

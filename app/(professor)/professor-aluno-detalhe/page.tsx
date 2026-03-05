@@ -19,6 +19,7 @@ import { QuickProgressUpdate } from '@/components/professor/QuickProgressUpdate'
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type Tab = 'visao' | 'progresso' | 'conquistas' | 'desafios' | 'observacoes' | 'historico';
 
@@ -30,6 +31,7 @@ const NIVEL_COLORS: Record<string, string> = {
 
 function AlunoDetalheContent() {
   const t = useTranslations('professor.studentDetail');
+  const { formatDate } = useFormatting();
 
   const STATUS_CONFIG = {
     ativo: { label: t('statusActive'), color: '#4ADE80', bg: 'rgba(74,222,128,0.12)' },
@@ -125,7 +127,7 @@ function AlunoDetalheContent() {
                 <span>{t('yearsOld', { age: aluno.idade })}</span>
                 <span>{aluno.turma}</span>
               </div>
-              <p className="text-white/25 text-xs mt-1.5">{t('trainingSince')} {aluno.tempoTreino} · {t('since')} {new Date(aluno.dataInicio).toLocaleDateString('pt-BR')}</p>
+              <p className="text-white/25 text-xs mt-1.5">{t('trainingSince')} {aluno.tempoTreino} · {t('since')} {formatDate(aluno.dataInicio, 'short')}</p>
             </div>
           </div>
 
@@ -386,7 +388,7 @@ function AlunoDetalheContent() {
                     nome: conquista.nome,
                     descricao: conquista.descricao,
                     concedidaPor: t('instructor'),
-                    dataConquista: new Date().toLocaleDateString('pt-BR'),
+                    dataConquista: formatDate(new Date(), 'short'),
                   }],
                 } : prev);
               }}

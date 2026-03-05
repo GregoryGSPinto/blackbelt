@@ -19,6 +19,7 @@ import {
   ChevronRight,
   VideoOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
 import { PremiumPlayer } from '@/components/video/PremiumPlayer';
@@ -55,6 +56,7 @@ export default function AulaDetailPage() {
   const t = useTranslations('athlete');
   const tCommon = useTranslations('common');
   const tVideo = useTranslations('video');
+  const { formatNumber } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -209,7 +211,7 @@ export default function AulaDetailPage() {
                 {t('sessions.instructorLabel')}:{' '}
                 <span className="text-white/60 font-medium">{video.instructor}</span>
                 <span className="mx-2 text-white/10">|</span>
-                {video.views.toLocaleString()} {tVideo('views')}
+                {formatNumber(video.views)} {tVideo('views')}
               </p>
 
               {/* CTA buttons */}

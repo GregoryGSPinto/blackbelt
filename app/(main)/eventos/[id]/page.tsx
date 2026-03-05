@@ -15,6 +15,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Helpers ───────────────────────────────────────────────
 
@@ -28,18 +29,13 @@ const STATUS_CONFIG: Record<StatusEvento, { label: string; color: string; bg: st
 
 const MEDAL_EMOJI: Record<string, string> = { OURO: '🥇', PRATA: '🥈', BRONZE: '🥉', SEM_CONQUISTA: '' };
 
-function formatDate(d: string) {
-  try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
-  } catch { return d; }
-}
-
 // ── Page ──────────────────────────────────────────────────
 
 export default function EventoDetalhePage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const params = useParams();
   const router = useRouter();
@@ -105,7 +101,7 @@ export default function EventoDetalhePage() {
 
         {/* Info cards */}
         <div className="grid grid-cols-2 gap-3">
-          <InfoCard icon={Calendar} label="Data" value={formatDate(evento.data)} />
+          <InfoCard icon={Calendar} label="Data" value={formatDate(evento.data + 'T12:00:00', 'long')} />
           <InfoCard icon={MapPin} label="Local" value={evento.local} />
           <InfoCard icon={Users} label="Inscritos" value={`${evento.inscritos.length}${evento.totalVagas ? ` / ${evento.totalVagas}` : ''}`} />
           <InfoCard icon={Ticket} label="Inscrição" value={evento.valorInscricao === 0 ? 'Gratuito' : `R$ ${evento.valorInscricao}`} />
@@ -116,7 +112,7 @@ export default function EventoDetalhePage() {
           <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
             <Clock size={14} className="text-amber-400 shrink-0" />
             <p className="text-xs text-amber-300/70">
-              Inscrições até <span className="font-bold text-amber-300">{formatDate(evento.prazoInscricao)}</span>
+              Inscrições até <span className="font-bold text-amber-300">{formatDate(evento.prazoInscricao + 'T12:00:00', 'long')}</span>
             </p>
           </div>
         )}

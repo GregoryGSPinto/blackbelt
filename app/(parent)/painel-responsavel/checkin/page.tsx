@@ -14,11 +14,13 @@ import { AnimatedPage } from '@/components/shared/AnimatedPage';
 import { staggerStyle } from '@/lib/animations';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function CheckinPage() {
   const t = useTranslations('parent.checkin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const searchParams = useSearchParams();
   const kidIdFromUrl = searchParams.get('kid');
@@ -142,8 +144,7 @@ export default function CheckinPage() {
         </div>
         <div className="space-y-1.5">
           {recentCheckins.map((item) => {
-            const d = new Date(item.data + 'T12:00:00');
-            const label = d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+            const label = formatDate(item.data + 'T12:00:00', 'short');
             return (
               <div
                 key={item.data}

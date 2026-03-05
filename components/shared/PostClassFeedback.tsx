@@ -12,6 +12,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 import { HelpCircle, CheckCircle, PlayCircle, Send, MessageSquare } from 'lucide-react';
 import { getPendingFeedback, submitFeedback } from '@/lib/api/daily-feedback.service';
 import type { PendingFeedback, FeedbackOption } from '@/lib/api/daily-feedback.service';
@@ -48,6 +49,7 @@ interface PostClassFeedbackProps {
 
 export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
   const t = useTranslations('athlete.postClassFeedback');
+  const { formatDate } = useFormatting();
   const [pending, setPending] = useState<PendingFeedback | null>(null);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<FeedbackOption | null>(null);
@@ -92,9 +94,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
   // No pending feedback or still loading
   if (loading || !pending) return null;
 
-  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('pt-BR', {
-    day: '2-digit', month: 'long',
-  });
+  const fmtDate = (iso: string) => formatDate(iso, 'medium');
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">

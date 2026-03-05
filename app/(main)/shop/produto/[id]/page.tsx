@@ -13,6 +13,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 /**
  * Lazy loading do SizeGuideModal
@@ -30,6 +31,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney } = useFormatting();
 
   const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
@@ -82,13 +84,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   }
 
   const isKids = product.category === 'kids';
-
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    });
-  };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -188,11 +183,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {/* Price */}
             <div className="border-b border-dark-elevated pb-6">
               <div className="text-xl md:text-2xl lg:text-4xl font-bold text-primary mb-2">
-                {formatPrice(product.price)}
+                {formatMoney(product.price)}
               </div>
               {product.installments > 1 && (
                 <p className="text-sm" style={{ color: tokens.textMuted }}>
-                  ou {product.installments}x de {formatPrice(product.price / product.installments)} sem juros
+                  ou {product.installments}x de {formatMoney(product.price / product.installments)} sem juros
                 </p>
               )}
             </div>

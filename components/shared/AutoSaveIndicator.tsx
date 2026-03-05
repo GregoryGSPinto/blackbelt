@@ -7,6 +7,7 @@
 import { useTranslations } from 'next-intl';
 import { Save, Check, Loader2 } from 'lucide-react';
 import type { AutoSaveStatus } from '@/hooks/useAutoSave';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── AutoSaveIndicator ──
 
@@ -16,13 +17,9 @@ interface IndicatorProps {
   className?: string;
 }
 
-function formatSavedTime(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-}
-
 export function AutoSaveIndicator({ status, lastSaved, className = '' }: IndicatorProps) {
   const t = useTranslations('common.actions');
+  const { formatTime } = useFormatting();
   if (status === 'idle' && !lastSaved) return null;
 
   return (
@@ -40,7 +37,7 @@ export function AutoSaveIndicator({ status, lastSaved, className = '' }: Indicat
       ) : lastSaved ? (
         <>
           <Save size={10} className="text-white/15" />
-          <span className="text-white/15">{t('saved')} {formatSavedTime(lastSaved)}</span>
+          <span className="text-white/15">{t('saved')} {formatTime(lastSaved)}</span>
         </>
       ) : null}
     </div>
@@ -58,13 +55,10 @@ interface RestoreDialogProps {
 
 export function RestoreDialog({ show, timestamp, onRestore, onDiscard }: RestoreDialogProps) {
   const t = useTranslations('common.actions');
+  const { formatDateTime } = useFormatting();
   if (!show) return null;
 
-  const timeStr = timestamp
-    ? new Date(timestamp).toLocaleString('pt-BR', {
-        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit',
-      })
-    : '';
+  const timeStr = timestamp ? formatDateTime(timestamp) : '';
 
   return (
     <div

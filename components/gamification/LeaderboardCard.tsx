@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import type { RankingEntry } from '@/lib/api/contracts';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Helpers ───────────────────────────────────────────────
 
@@ -59,6 +60,7 @@ function PodiumCard({
   posicao: 1 | 2 | 3;
   isHighlighted: boolean;
 }) {
+  const { formatNumber } = useFormatting();
   const medal = MEDAL_COLORS[posicao];
   // Heights: 1st is tallest, then 2nd, then 3rd
   const heights = { 1: 'h-28', 2: 'h-24', 3: 'h-20' };
@@ -107,7 +109,7 @@ function PodiumCard({
         }`}
       >
         <span className="text-lg font-black text-white">
-          {entry.pontos.toLocaleString('pt-BR')}
+          {formatNumber(entry.pontos)}
         </span>
         <span className="text-[9px] text-white/40 uppercase">pts</span>
       </div>
@@ -126,6 +128,7 @@ function ListEntry({
   isMe: boolean;
   youLabel: string;
 }) {
+  const { formatNumber } = useFormatting();
   return (
     <div
       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
@@ -172,7 +175,7 @@ function ListEntry({
       {/* Pontos */}
       <div className="text-right">
         <span className={`text-sm font-bold ${isMe ? 'text-amber-300' : 'text-white'}`}>
-          {entry.pontos.toLocaleString('pt-BR')}
+          {formatNumber(entry.pontos)}
         </span>
         <div className={`flex items-center justify-end gap-0.5 text-[11px] ${variacaoCor(entry.variacaoSemana)}`}>
           <VariacaoIcon variacao={entry.variacaoSemana} />

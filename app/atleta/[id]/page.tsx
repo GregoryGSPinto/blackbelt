@@ -25,6 +25,7 @@ import type { TrainingDay } from '@/components/aluno/TrainingHeatmap';
 import { generateMockTrainingData } from '@/lib/__mocks__/atleta-perfil.mock';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Nivel colors ──
 const NIVEL_COLORS: Record<string, string> = {
@@ -44,12 +45,6 @@ const NIVEL_COLORS: Record<string, string> = {
 
 function getNivelColor(nivel: string): string {
   return NIVEL_COLORS[nivel] || '#E5E7EB';
-}
-
-function formatDate(d: string) {
-  try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
-  } catch { return d; }
 }
 
 // ── Page styles ──
@@ -109,6 +104,7 @@ function StatCard({
 export default function AtletaPublicoPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMonthShort, formatNumber } = useFormatting();
 
   const params = useParams();
   const id = params?.id as string;
@@ -233,7 +229,7 @@ export default function AtletaPublicoPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-          <StatCard icon={CheckCircle} value={atleta.totalCheckins.toLocaleString('pt-BR')} label="Check-ins" color="text-emerald-400" delay={0} />
+          <StatCard icon={CheckCircle} value={formatNumber(atleta.totalCheckins)} label="Check-ins" color="text-emerald-400" delay={0} />
           <StatCard icon={Timer} value={`${atleta.mesesTreinando}`} label="Meses" color="text-blue-400" delay={60} />
           <StatCard icon={Medal} value={`${atleta.conquistasRecebidas}`} label="Conquistas" color="text-amber-400" delay={120} />
         </div>
@@ -287,7 +283,7 @@ export default function AtletaPublicoPage() {
                           )}
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[11px] text-white/30">{formatDate(grad.data)}</span>
+                          <span className="text-[11px] text-white/30">{formatMonthShort(grad.data + 'T12:00:00')}</span>
                           {grad.professorNome && (
                             <>
                               <span className="text-white/10">·</span>

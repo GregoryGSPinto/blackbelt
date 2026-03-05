@@ -13,6 +13,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 type CheckinMode = 'manual' | 'qr';
 
@@ -20,6 +21,7 @@ export default function RecepcaoPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatTime } = useFormatting();
 
   const [mode, setMode] = useState<CheckinMode>('manual');
   const [searchTerm, setSearchTerm] = useState('');
@@ -160,7 +162,7 @@ export default function RecepcaoPage() {
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.welcome')}</h3>
                 <p className="text-2xl text-green-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-1">
-                  {t('reception.checkinDoneAt', { time: new Date().toLocaleTimeString() })}
+                  {t('reception.checkinDoneAt', { time: formatTime(new Date()) })}
                 </p>
               </div>
             </div>

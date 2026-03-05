@@ -17,11 +17,13 @@ import type { DangerZoneInfo } from '@/lib/api/developer.service';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
 import { useToast } from '@/contexts/ToastContext';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function DeveloperDangerPage() {
   const t = useTranslations('developer.danger');
+  const { formatDateTime } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -75,9 +77,7 @@ export default function DeveloperDangerPage() {
     }
   };
 
-  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('pt-BR', {
-    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
-  });
+  const fmtDate = (iso: string) => formatDateTime(iso);
 
   return (
     <div className="space-y-6 dev-enter">

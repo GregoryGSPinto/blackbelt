@@ -38,7 +38,7 @@ export default function PDVPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const { formatNumber, currencyCode } = useFormatting();
+  const { formatNumber, formatDateTime, currencyCode } = useFormatting();
   const formatCurrency = (v: number) => formatNumber(v, { style: 'currency', currency: currencyCode });
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
@@ -354,7 +354,7 @@ export default function PDVPage() {
                     </div>
                     <div className="text-right flex-shrink-0">
                       <p className="text-green-400 font-bold text-sm">{formatCurrency(v.total)}</p>
-                      <p className="text-white/20 text-xs">{new Date(v.data).toLocaleString('pt-BR')}</p>
+                      <p className="text-white/20 text-xs">{formatDateTime(v.data)}</p>
                       {v.desconto > 0 && <p className="text-red-400/50 text-[10px]">desc: -{formatCurrency(v.desconto)}</p>}
                     </div>
                   </div>
@@ -405,7 +405,7 @@ export default function PDVPage() {
 
               {showReceipt.clienteNome && <p className="text-white/30 text-xs mb-2">Cliente: {showReceipt.clienteNome}</p>}
               <p className="text-white/20 text-xs mb-4">
-                {FORMA_PAGAMENTO.find((f) => f.key === showReceipt.formaPagamento)?.label} · {new Date(showReceipt.data).toLocaleString('pt-BR')}
+                {FORMA_PAGAMENTO.find((f) => f.key === showReceipt.formaPagamento)?.label} · {formatDateTime(showReceipt.data)}
               </p>
 
               <button

@@ -10,11 +10,13 @@ import { AlunoEmAtrasoActions, AlunoBloqueadoActions } from './_components/Aluno
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function FinanceiroPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
   const [alunos, setAlunos] = useState<Usuario[]>([]);
   const [allUsuarios, setAllUsuarios] = useState<Usuario[]>([]);
   const [historico, setHistorico] = useState<HistoricoStatus[]>([]);
@@ -134,7 +136,7 @@ export default function FinanceiroPage() {
                     <div>
                       <p className="text-sm font-medium" style={{ color: tokens.text }}>{aluno.nome}</p>
                       <p className="text-xs" style={{ color: tokens.textMuted }}>
-                        {t('financial.dueDate')}: {aluno.proximoVencimento ? new Date(aluno.proximoVencimento).toLocaleDateString('pt-BR') : '-'}
+                        {t('financial.dueDate')}: {aluno.proximoVencimento ? formatDate(aluno.proximoVencimento, 'short') : '-'}
                       </p>
                     </div>
                   </div>
@@ -193,7 +195,7 @@ export default function FinanceiroPage() {
                   </p>
                   <p className="text-xs mt-1" style={{ color: tokens.textMuted }}>{hist.motivo}</p>
                   <p className="text-xs mt-1" style={{ color: tokens.textMuted }}>
-                    {new Date(hist.data).toLocaleDateString('pt-BR')} - {t('financial.changedBy')} {hist.alteradoPor}
+                    {formatDate(hist.data, 'short')} - {t('financial.changedBy')} {hist.alteradoPor}
                   </p>
                 </div>
               </div>

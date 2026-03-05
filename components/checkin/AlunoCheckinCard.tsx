@@ -10,6 +10,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Check, Clock, User, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFormatting } from '@/hooks/useFormatting';
 import * as turmasService from '@/lib/api/minhas-turmas.service';
 import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';
 import * as checkinService from '@/lib/api/checkin.service';
@@ -157,6 +158,7 @@ function SingleCheckinCard({
   userId: string;
   today: string;
 }) {
+  const { formatTime } = useFormatting();
   const [confirmed, setConfirmed] = useState(() => getCheckedIn(turma.id, today));
   const [confirming, setConfirming] = useState(false);
   const [confirmTime, setConfirmTime] = useState<string | null>(null);
@@ -166,7 +168,7 @@ function SingleCheckinCard({
     setConfirming(true);
     try {
       await checkinService.registerCheckin(userId, turma.id, 'APP');
-      const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const timeStr = formatTime(new Date());
       setConfirmTime(timeStr);
       setConfirmed(true);
       setCheckedIn(turma.id, today);

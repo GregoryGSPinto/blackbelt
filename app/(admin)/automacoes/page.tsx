@@ -13,11 +13,13 @@ import ReengagementRules from '@/components/admin/ReengagementRules';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function AutomacoesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatNumber } = useFormatting();
 
   const [automacoes, setAutomacoes] = useState<Automacao[]>([]);
   const [loading, setLoading] = useState(true);
@@ -90,7 +92,7 @@ export default function AutomacoesPage() {
         />
         <StatCard
           label="Total enviados"
-          value={totalEnviados.toLocaleString('pt-BR')}
+          value={formatNumber(totalEnviados)}
           icon={Send}
           color="text-blue-400"
         />

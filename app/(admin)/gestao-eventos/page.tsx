@@ -11,6 +11,7 @@ import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Constants ─────────────────────────────────────────────
 
@@ -22,17 +23,12 @@ const STATUS_CONFIG: Record<StatusEvento, { label: string; color: string; dot: s
   CANCELADO:          { label: 'Cancelado', color: 'text-red-400', dot: 'bg-red-400' },
 };
 
-function formatDate(d: string) {
-  try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  } catch { return d; }
-}
-
 // ── Page ──────────────────────────────────────────────────
 
 export default function AdminEventosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
 
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
@@ -169,7 +165,7 @@ export default function AdminEventosPage() {
                     <p className="text-sm font-bold text-white/80 truncate">{evento.nome}</p>
                     <div className="flex items-center gap-3 mt-0.5 text-[11px] text-white/30">
                       <span className="flex items-center gap-1">
-                        <Calendar size={10} />{formatDate(evento.data)}
+                        <Calendar size={10} />{formatDate(evento.data, 'short')}
                       </span>
                       <span className="flex items-center gap-1">
                         <MapPin size={10} />{evento.local}

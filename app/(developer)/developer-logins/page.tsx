@@ -16,6 +16,7 @@ import { getLoginRecords } from '@/lib/api/developer.service';
 import type { LoginRecord } from '@/lib/api/developer.service';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const deviceIcon = (d: string) => {
   if (d.includes('iPad') || d.includes('Tablet')) return Tablet;
@@ -26,6 +27,7 @@ const deviceIcon = (d: string) => {
 export default function DeveloperLoginsPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDateTime } = useFormatting();
 
   const [records, setRecords] = useState<LoginRecord[]>([]);
   const [total, setTotal] = useState(0);
@@ -53,10 +55,7 @@ export default function DeveloperLoginsPage() {
   const totalPages = Math.ceil(total / 15);
   const failCount = records.filter((r) => !r.success).length;
 
-  const fmtTime = (iso: string) => {
-    const d = new Date(iso);
-    return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  };
+  const fmtTime = (iso: string) => formatDateTime(iso);
 
   return (
     <div className="space-y-4 dev-enter">

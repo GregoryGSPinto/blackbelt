@@ -16,6 +16,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const TIPO_STYLE: Record<TipoVisita, { label: string; bg: string; text: string }> = {
   drop_in: { label: 'Drop-in', bg: 'bg-blue-500/10', text: 'text-blue-400' },
@@ -31,12 +32,11 @@ const STATUS_STYLE: Record<StatusVisita, { label: string; icon: React.ReactNode;
   no_show: { label: 'No-show', icon: <XCircle size={10} />, color: 'text-red-400' },
 };
 
-function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
 export default function VisitantesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney, formatDate } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [visitantes, setVisitantes] = useState<Visitante[]>([]);
@@ -85,7 +85,7 @@ export default function VisitantesPage() {
           </div>
           <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Visitas</span></div>
-            <p className="text-xl font-bold text-purple-400">{formatCurrency(stats.receitaVisitas)}</p>
+            <p className="text-xl font-bold text-purple-400">{formatMoney(stats.receitaVisitas)}</p>
           </div>
           <div style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><AlertCircle size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendentes</span></div>
@@ -135,12 +135,12 @@ export default function VisitantesPage() {
                 </div>
                 <div className="text-right flex-shrink-0">
                   {v.valor > 0 ? (
-                    <p className="text-green-400 font-bold text-sm">{formatCurrency(v.valor)}</p>
+                    <p className="text-green-400 font-bold text-sm">{formatMoney(v.valor)}</p>
                   ) : (
                     <p className="text-white/20 text-xs">Gratuito</p>
                   )}
                   <p className="text-white/25 text-xs flex items-center gap-1 justify-end mt-0.5">
-                    <Calendar size={10} />{new Date(v.data + 'T12:00:00').toLocaleDateString('pt-BR')}
+                    <Calendar size={10} />{formatDate(v.data, 'short')}
                   </p>
                   <p className="text-white/15 text-xs">{v.horario}</p>
                 </div>

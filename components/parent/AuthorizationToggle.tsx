@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface AuthorizationToggleProps {
   label: string;
@@ -16,6 +17,7 @@ interface AuthorizationToggleProps {
 }
 
 export function AuthorizationToggle({ label, description, legalText, enabled, date, onChange }: AuthorizationToggleProps) {
+  const { formatDate } = useFormatting();
   const [expanded, setExpanded] = useState(false);
   const [revokeConfirm, setRevokeConfirm] = useState(false);
 
@@ -47,7 +49,7 @@ export function AuthorizationToggle({ label, description, legalText, enabled, da
       {/* Date */}
       {enabled && date && (
         <p className="text-[9px] text-green-400/50">
-          ✅ Autorizado em {new Date(date).toLocaleDateString('pt-BR')}
+          ✅ Autorizado em {formatDate(date)}
         </p>
       )}
 

@@ -10,11 +10,13 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function UsuariosPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -295,7 +297,7 @@ export default function UsuariosPage() {
                         : 'text-white/50'
                     }`}>
                       {user.proximoVencimento
-                        ? new Date(user.proximoVencimento).toLocaleDateString('pt-BR')
+                        ? formatDate(user.proximoVencimento, 'short')
                         : '-'
                       }
                     </span>
@@ -376,14 +378,14 @@ export default function UsuariosPage() {
                   <div>
                     <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.registrationDate')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>
-                      {new Date(selectedUser.dataCadastro).toLocaleDateString('pt-BR')}
+                      {formatDate(selectedUser.dataCadastro, 'short')}
                     </p>
                   </div>
                   <div>
                     <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.nextDueDate')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>
-                      {selectedUser.proximoVencimento 
-                        ? new Date(selectedUser.proximoVencimento).toLocaleDateString('pt-BR')
+                      {selectedUser.proximoVencimento
+                        ? formatDate(selectedUser.proximoVencimento, 'short')
                         : '-'
                       }
                     </p>

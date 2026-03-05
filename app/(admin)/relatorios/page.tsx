@@ -16,6 +16,7 @@ import type {
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Icon map ──────────────────────────────────────────────
 
@@ -35,6 +36,7 @@ export default function RelatoriosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const t = useTranslations('admin');
+  const { formatTime } = useFormatting();
 
   const [configs, setConfigs] = useState<RelatorioConfig[]>([]);
   const [loading, setLoading] = useState(true);
@@ -235,7 +237,7 @@ export default function RelatoriosPage() {
               );
             })}
             <span className="text-[10px] text-white/15 ml-auto">
-              {relatorio.totalLinhas} linhas · Gerado {new Date(relatorio.geradoEm).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+              {relatorio.totalLinhas} linhas · Gerado {formatTime(relatorio.geradoEm)}
             </span>
           </div>
 

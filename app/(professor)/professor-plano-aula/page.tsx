@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const FASE_CONFIG: Record<FaseSessão, { label: string; icon: typeof Dumbbell; color: string }> = {
   aquecimento: { label: 'Aquecimento', icon: Heart, color: 'text-orange-400 bg-orange-500/10' },
@@ -28,6 +29,7 @@ type TabView = 'builder' | 'planos' | 'tecnicas';
 
 export default function PlanoAulaPage() {
   const t = useTranslations('professor.lessonPlan');
+  const { formatDate } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -216,7 +218,7 @@ export default function PlanoAulaPage() {
                     <p className="text-[10px] text-white/25 mt-0.5">
                       {plano.itens.length} {t('steps')} · {plano.duracaoTotal}{t('min')}
                       {plano.turmaNome && ` · ${plano.turmaNome}`}
-                      {plano.data && ` · ${new Date(plano.data + 'T12:00:00').toLocaleDateString('pt-BR')}`}
+                      {plano.data && ` · ${formatDate(plano.data + 'T12:00:00', 'short')}`}
                     </p>
                   </div>
                   <button onClick={() => loadPlano(plano)}

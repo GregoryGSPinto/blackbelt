@@ -1,6 +1,7 @@
 'use client';
 
 import { memo } from 'react';
+import { useFormatting } from '@/hooks/useFormatting';
 
 interface LevelUp {
   currentXP: number;
@@ -17,6 +18,7 @@ interface XPProgressBarProps {
  * XPProgressBar — Barra de XP gamificada com gradiente e animacao de Level Up
  */
 const XPProgressBar = memo(function XPProgressBar({ levelUp }: XPProgressBarProps) {
+  const { formatNumber } = useFormatting();
   const { currentXP, nextLevelXP, progress, title } = levelUp;
   const clampedProgress = Math.min(100, Math.max(0, progress));
   const isNearLevelUp = clampedProgress > 90;
@@ -48,7 +50,7 @@ const XPProgressBar = memo(function XPProgressBar({ levelUp }: XPProgressBarProp
       {/* XP Text */}
       <div className="flex items-center justify-between">
         <span className="text-sm text-zinc-500">
-          {currentXP.toLocaleString()} / {nextLevelXP.toLocaleString()} XP
+          {formatNumber(currentXP)} / {formatNumber(nextLevelXP)} XP
         </span>
         <span className="text-sm font-semibold text-zinc-400">
           {clampedProgress}%

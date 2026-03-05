@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ════════════════════════════════════════════════════════════════════
 // PREDICTIONS CARDS — Previsoes de curto prazo da academia
@@ -25,6 +26,7 @@ const PREDICTION_ICONS: Record<string, string> = {
 
 export function PredictionsCards({ predictions }: PredictionsCardsProps) {
   const t = useTranslations('admin');
+  const { formatNumber } = useFormatting();
   const cards = [
     {
       icon: PREDICTION_ICONS.churn,
@@ -45,7 +47,7 @@ export function PredictionsCards({ predictions }: PredictionsCardsProps) {
     {
       icon: PREDICTION_ICONS.revenue,
       label: t('predictions.revenueImpact'),
-      value: `R$ ${predictions.expectedRevenueImpact.toLocaleString('pt-BR')}`,
+      value: `R$ ${formatNumber(predictions.expectedRevenueImpact)}`,
       sublabel: 'potencial perda mensal',
       color: predictions.expectedRevenueImpact > 1000
         ? 'border-red-500/30 bg-red-500/10'

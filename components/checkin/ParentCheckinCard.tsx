@@ -9,6 +9,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Check, Loader2 } from 'lucide-react';
 import { useParent, type FilhoUnificado } from '@/contexts/ParentContext';
+import { useFormatting } from '@/hooks/useFormatting';
 import * as checkinService from '@/lib/api/checkin.service';
 
 // ── Day helpers ──
@@ -142,6 +143,7 @@ function FilhoCheckinCard({
   horarioStr: string;
   today: string;
 }) {
+  const { formatTime } = useFormatting();
   const [confirmed, setConfirmed] = useState(() => isAlreadyConfirmed(filho.id, today));
   const [confirming, setConfirming] = useState(false);
   const [confirmTime, setConfirmTime] = useState<string | null>(null);
@@ -154,7 +156,7 @@ function FilhoCheckinCard({
     setConfirming(true);
     try {
       await checkinService.registerCheckin(filho.id, filho.id, 'RESPONSAVEL');
-      const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const timeStr = formatTime(new Date());
       setConfirmTime(timeStr);
       setConfirmed(true);
       markConfirmed(filho.id, today);

@@ -228,7 +228,7 @@ function MiniAchievements({
   posicao: number;
   pontos: number;
 }) {
-  const { formatDate } = useFormatting();
+  const { formatDate, formatNumber } = useFormatting();
 
   return (
     <div
@@ -259,7 +259,7 @@ function MiniAchievements({
         </div>
         <div className="w-px h-4 bg-white/10" />
         <div className="flex items-center gap-1.5">
-          <span className="text-white font-bold text-lg">{pontos.toLocaleString('pt-BR')}</span>
+          <span className="text-white font-bold text-lg">{formatNumber(pontos)}</span>
           <span className="text-white/30 text-[10px]">pontos</span>
         </div>
       </div>

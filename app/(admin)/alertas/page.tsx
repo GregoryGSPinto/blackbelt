@@ -10,11 +10,13 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function AlertasPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate, formatTime } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [alertas, setAlertas] = useState<Alerta[]>([]);
@@ -204,11 +206,8 @@ export default function AlertasPage() {
                       <span className={`w-2 h-2 rounded-full ${color.dot} ${!alerta.lido ? 'animate-pulse' : ''}`} />
                     </div>
                     <span className="text-xs text-white/40 flex-shrink-0">
-                      {new Date(alerta.data).toLocaleDateString('pt-BR')} às{' '}
-                      {new Date(alerta.data).toLocaleTimeString('pt-BR', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                      {formatDate(alerta.data, 'short')} às{' '}
+                      {formatTime(alerta.data)}
                     </span>
                   </div>
 

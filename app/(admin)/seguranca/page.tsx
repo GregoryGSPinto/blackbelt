@@ -15,6 +15,7 @@ import type { StructuredLog } from '@/lib/monitoring/structured-logger';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ============================================================
 // CONSTANTS
@@ -51,6 +52,7 @@ export default function SecurityDashboardPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatTime } = useFormatting();
 
   const [data, setData] = useState<DashboardData | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
@@ -90,7 +92,7 @@ export default function SecurityDashboardPage() {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs text-white/30">
-            Atualizado: {lastUpdate.toLocaleTimeString('pt-BR')}
+            Atualizado: {formatTime(lastUpdate)}
           </span>
           <button
             onClick={refresh}
@@ -443,6 +445,7 @@ function AnomalyCard({ anomaly, expanded, onToggle }: {
 }) {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDateTime } = useFormatting();
   const cfg = SEVERITY_CONFIG[anomaly.severity];
   const Icon = cfg.icon;
   const isResolved = anomaly.resolved;
@@ -469,7 +472,7 @@ function AnomalyCard({ anomaly, expanded, onToggle }: {
             {anomaly.message}
           </p>
           <span className="text-xs text-white/25 mt-1 block">
-            {new Date(anomaly.detectedAt).toLocaleString('pt-BR')}
+            {formatDateTime(anomaly.detectedAt)}
           </span>
         </div>
         {expanded ? <ChevronUp className="w-4 h-4 text-white/30" /> : <ChevronDown className="w-4 h-4 text-white/30" />}
@@ -487,7 +490,7 @@ function AnomalyCard({ anomaly, expanded, onToggle }: {
           </div>
           {anomaly.resolvedBy && (
             <p className="text-xs text-white/30 mt-2">
-              Resolvida por <span style={{ color: tokens.textMuted }}>{anomaly.resolvedBy}</span> em {new Date(anomaly.resolvedAt!).toLocaleString('pt-BR')}
+              Resolvida por <span style={{ color: tokens.textMuted }}>{anomaly.resolvedBy}</span> em {formatDateTime(anomaly.resolvedAt!)}
             </p>
           )}
         </div>
@@ -501,6 +504,7 @@ function AnomalyCard({ anomaly, expanded, onToggle }: {
 // ============================================================
 
 function LogsTab({ logs, logCounts }: { logs: StructuredLog[]; logCounts: Record<string, number> }) {
+  const { formatTime } = useFormatting();
   const [filterLevel, setFilterLevel] = useState<string | null>(null);
 
   const filtered = filterLevel
@@ -555,7 +559,7 @@ function LogsTab({ logs, logCounts }: { logs: StructuredLog[]; logCounts: Record
                 )}
               </div>
               <span className="text-xs text-white/20 shrink-0 font-mono">
-                {new Date(log.timestamp).toLocaleTimeString('pt-BR')}
+                {formatTime(log.timestamp)}
               </span>
             </div>
           ))}

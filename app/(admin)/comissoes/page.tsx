@@ -13,13 +13,13 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
-
-function formatCurrency(v: number) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+import { useFormatting } from '@/hooks/useFormatting';
 
 export default function ComissoesPage() {
   const t = useTranslations('admin');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatMoney } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [comissoes, setComissoes] = useState<Comissao[]>([]);
@@ -61,15 +61,15 @@ export default function ComissoesPage() {
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Total Bruto</span></div>
-          <p className="text-xl font-bold text-green-400">{formatCurrency(totalBruto)}</p>
+          <p className="text-xl font-bold text-green-400">{formatMoney(totalBruto)}</p>
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">A Pagar</span></div>
-          <p className="text-xl font-bold text-purple-400">{formatCurrency(totalLiquido)}</p>
+          <p className="text-xl font-bold text-purple-400">{formatMoney(totalLiquido)}</p>
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><Clock size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendente</span></div>
-          <p className="text-xl font-bold text-amber-400">{formatCurrency(totalPendente)}</p>
+          <p className="text-xl font-bold text-amber-400">{formatMoney(totalPendente)}</p>
         </div>
       </div>
 
@@ -92,9 +92,9 @@ export default function ComissoesPage() {
                   <td className="px-6 py-4 text-white font-medium">{c.professorNome}</td>
                   <td className="px-4 py-4 text-white/60 text-center">{c.sessõesRegulares}</td>
                   <td className="px-4 py-4 text-white/60 text-center">{c.sessõesParticulares}</td>
-                  <td className="px-4 py-4 text-white/60 text-right">{formatCurrency(c.valorBruto)}</td>
+                  <td className="px-4 py-4 text-white/60 text-right">{formatMoney(c.valorBruto)}</td>
                   <td className="px-4 py-4 text-white/40 text-center">{c.percentual}%</td>
-                  <td className="px-4 py-4 text-green-400 font-bold text-right">{formatCurrency(c.valorLiquido)}</td>
+                  <td className="px-4 py-4 text-green-400 font-bold text-right">{formatMoney(c.valorLiquido)}</td>
                   <td className="px-6 py-4 text-center">
                     {c.pago ? (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/10 text-green-400"><CheckCircle size={10} /> Pago</span>

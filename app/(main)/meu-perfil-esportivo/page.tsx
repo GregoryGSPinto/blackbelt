@@ -16,6 +16,7 @@ import { PageError, PageLoading, handleServiceError } from '@/components/shared/
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useFormatting } from '@/hooks/useFormatting';
 
 const MODALIDADES_INFO: Record<string, { label: string; emoji: string }> = {
   pratica_gi: { label: 'Prática Gi', emoji: '🥋' },
@@ -50,6 +51,7 @@ export default function PerfilEsportivoPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { formatDate } = useFormatting();
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '4px' } as const;
 
   const [perfil, setPerfil] = useState<PerfilEstendido | null>(null);
@@ -124,10 +126,10 @@ export default function PerfilEsportivoPage() {
           <span className={`font-bold text-sm ${atestado.color}`}>{atestado.label}</span>
         </div>
         {perfil.atestadoMedico.dataEnvio && (
-          <p className="text-white/30 text-xs">Enviado: {new Date(perfil.atestadoMedico.dataEnvio + 'T12:00:00').toLocaleDateString('pt-BR')}</p>
+          <p className="text-white/30 text-xs">Enviado: {formatDate(perfil.atestadoMedico.dataEnvio + 'T12:00:00', 'short')}</p>
         )}
         {perfil.atestadoMedico.dataValidade && (
-          <p className="text-white/30 text-xs">Validade: {new Date(perfil.atestadoMedico.dataValidade + 'T12:00:00').toLocaleDateString('pt-BR')}</p>
+          <p className="text-white/30 text-xs">Validade: {formatDate(perfil.atestadoMedico.dataValidade + 'T12:00:00', 'short')}</p>
         )}
       </div>
 

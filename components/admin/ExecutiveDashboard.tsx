@@ -16,6 +16,7 @@ import {
 import type { EstatisticasDashboard } from '@/lib/__mocks__/admin.mock';
 import { TrendIndicator } from '@/components/shared/TrendIndicator';
 import { useTranslations } from 'next-intl';
+import { useFormatting } from '@/hooks/useFormatting';
 
 // ── Types ──
 
@@ -46,6 +47,7 @@ interface ExecutiveDashboardProps {
 
 export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
   const t = useTranslations('admin');
+  const { formatNumber } = useFormatting();
   const fin = stats.financeiroResumo;
 
   // Calculate derived metrics
@@ -344,10 +346,10 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: t('dashboard.monthlyRevenueLabel'), value: `R$ ${fin.receitaMes.toLocaleString('pt-BR')}`, color: 'text-emerald-400' },
-            { label: t('dashboard.previousMonth'), value: `R$ ${fin.receitaMesAnterior.toLocaleString('pt-BR')}`, color: 'text-white/50' },
+            { label: t('dashboard.monthlyRevenueLabel'), value: `R$ ${formatNumber(fin.receitaMes)}`, color: 'text-emerald-400' },
+            { label: t('dashboard.previousMonth'), value: `R$ ${formatNumber(fin.receitaMesAnterior)}`, color: 'text-white/50' },
             { label: t('dashboard.defaultRate'), value: `${fin.inadimplenciaPct}%`, color: fin.inadimplenciaPct > 10 ? 'text-red-400' : 'text-amber-400' },
-            { label: t('dashboard.forecast'), value: `R$ ${fin.previsaoCaixa.toLocaleString('pt-BR')}`, color: 'text-blue-400' },
+            { label: t('dashboard.forecast'), value: `R$ ${formatNumber(fin.previsaoCaixa)}`, color: 'text-blue-400' },
           ].map(item => (
             <div key={item.label}>
               <p className="text-[10px] text-white/25 mb-1">{item.label}</p>
