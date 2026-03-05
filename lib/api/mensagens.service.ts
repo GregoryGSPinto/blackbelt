@@ -1,9 +1,7 @@
 // ============================================================
 // Mensagens Service — Internal messaging system
-//
-// TODO(BBOS-Phase-2): implement real backend — messaging endpoints
-// Required Supabase tables: messages, conversations
 // ============================================================
+import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
 import type { Mensagem, Conversa, MensagemTemplate } from '@/lib/__mocks__/mensagens.mock';
 export type { Mensagem, Conversa, MensagemTemplate };
@@ -19,8 +17,8 @@ export async function getConversas(): Promise<Conversa[]> {
     const m = await getMock();
     return m.getConversas();
   }
-  // Production: const { data } = await apiClient.get('/mensagens/conversas');
-  return [];
+  const { data } = await apiClient.get<Conversa[]>('/mensagens');
+  return data;
 }
 
 /** Get messages for a conversation */
@@ -30,7 +28,8 @@ export async function getConversaMensagens(conversaId: string): Promise<Mensagem
     const m = await getMock();
     return m.getConversaMensagens(conversaId);
   }
-  return [];
+  const { data } = await apiClient.get<Mensagem[]>(`/mensagens/${conversaId}`);
+  return data;
 }
 
 /** Get conversation with a specific user */
@@ -40,7 +39,8 @@ export async function getConversaByUser(userId: string): Promise<Conversa | null
     const m = await getMock();
     return m.getConversaByParticipante(userId) ?? null;
   }
-  return null;
+  const { data } = await apiClient.get<Conversa | null>(`/mensagens/user/${userId}`);
+  return data;
 }
 
 /** Get total unread count */
@@ -49,7 +49,8 @@ export async function getUnreadCount(): Promise<number> {
     const m = await getMock();
     return m.getUnreadCount();
   }
-  return 0;
+  const { data } = await apiClient.get<{ count: number }>('/mensagens/unread');
+  return data.count;
 }
 
 /** Send a message */
@@ -71,7 +72,10 @@ export async function sendMessage(
       tipo: 'texto',
     });
   }
-  throw new Error('Not implemented');
+  const { data } = await apiClient.post<Mensagem>(`/mensagens/${conversaId}`, {
+    conteudo, remetenteNome, remetenteTipo,
+  });
+  return data;
 }
 
 /** Send a template message */
@@ -93,16 +97,19 @@ export async function sendTemplateMessage(
       tipo: 'template',
     });
   }
-  throw new Error('Not implemented');
+  const { data } = await apiClient.post<Mensagem>(`/mensagens/${conversaId}`, {
+    conteudo: templateTexto, remetenteNome, remetenteTipo, tipo: 'template',
+  });
+  return data;
 }
 
 /** Mark conversation as read */
 export async function markAsRead(conversaId: string): Promise<void> {
   if (useMock()) {
     await mockDelay(100);
-    // In production: PATCH /mensagens/conversas/:id/read
     return;
   }
+  await apiClient.patch(`/mensagens/${conversaId}/read`);
 }
 
 /** Get message templates */
@@ -111,7 +118,8 @@ export async function getTemplates(): Promise<MensagemTemplate[]> {
     const m = await getMock();
     return m.MENSAGEM_TEMPLATES;
   }
-  return [];
+  const { data } = await apiClient.get<MensagemTemplate[]>('/mensagens/templates');
+  return data;
 }
 
 /** Alias: getMensagens → getConversaMensagens */

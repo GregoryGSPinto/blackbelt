@@ -1,11 +1,10 @@
 /**
  * Video Progress Service — Track watched/favorites
  *
- * TODO(BE-122): Implementar endpoints de progresso de vídeos
- * TODO(BBOS-Phase-2): implement real backend — video progress endpoints
- * Required Supabase tables: video_watch_history, video_favorites
+ * TODO(BBOS-Phase-2): implement when feature flag enabled
  */
 
+import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
 import type { VideoProgressSummary, WatchRecord } from '@/lib/__mocks__/video-progress.mock';
 
@@ -17,11 +16,15 @@ async function getMock() {
 
 export async function markAsWatched(videoId: string): Promise<void> {
   if (useMock()) { await mockDelay(150); const m = await getMock(); m.markAsWatched(videoId); return; }
+  // TODO(BBOS-Phase-2): implement when feature flag enabled
+  await apiClient.post(`/video-progress/watched/${videoId}`);
 }
 
 export async function toggleFavorite(videoId: string): Promise<boolean> {
   if (useMock()) { await mockDelay(150); const m = await getMock(); return m.toggleFavorite(videoId); }
-  return false;
+  // TODO(BBOS-Phase-2): implement when feature flag enabled
+  const { data } = await apiClient.post<{ isFavorite: boolean }>(`/video-progress/favorite/${videoId}`);
+  return data.isFavorite;
 }
 
 export function isWatched(videoId: string): boolean {
@@ -36,15 +39,21 @@ export function isFavorite(videoId: string): boolean {
 
 export async function getProgressSummary(): Promise<VideoProgressSummary> {
   if (useMock()) { await mockDelay(250); const m = await getMock(); return m.getProgressSummary(); }
-  return { totalAssistidos: 0, totalFavoritos: 0, horasEstimadas: 0, porCategoria: [], playlistProgress: [] };
+  // TODO(BBOS-Phase-2): implement when feature flag enabled
+  const { data } = await apiClient.get<VideoProgressSummary>('/video-progress/summary');
+  return data;
 }
 
 export async function getWatchHistory(limit = 10): Promise<WatchRecord[]> {
   if (useMock()) { await mockDelay(200); const m = await getMock(); return m.getWatchHistory(limit); }
-  return [];
+  // TODO(BBOS-Phase-2): implement when feature flag enabled
+  const { data } = await apiClient.get<WatchRecord[]>(`/video-progress/history?limit=${limit}`);
+  return data;
 }
 
 export async function getWatchedSet(): Promise<Set<string>> {
   if (useMock()) { const m = await getMock(); return m.getWatchedSet(); }
-  return new Set();
+  // TODO(BBOS-Phase-2): implement when feature flag enabled
+  const { data } = await apiClient.get<string[]>('/video-progress/watched');
+  return new Set(data);
 }

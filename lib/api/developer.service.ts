@@ -3,15 +3,9 @@
  *
  * Endpoints exclusivos para SYS_AUDITOR.
  * Sem acesso a dados pedagógicos, financeiros ou de conteúdo.
- *
- * TODO(BE-040): POST /dev/audit/query
- * TODO(BE-041): GET  /dev/logins?page=N
- * TODO(BE-042): GET  /dev/ai/models
- * TODO(BE-043): POST /dev/danger/force-logout
- * TODO(BE-044): POST /dev/danger/maintenance
- * TODO(BE-045): GET  /dev/observability/metrics
  */
 
+import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
 
 // ============================================================
@@ -92,8 +86,10 @@ export async function getAuditLogs(page: number = 1, severity?: string): Promise
     const { mockGetAuditLogs } = await import('./developer.mock');
     return mockGetAuditLogs(page, severity);
   }
-  // TODO(BBOS-Phase-3): implement real backend — POST /dev/audit/query
-  throw new Error('Backend not connected');
+  const params = new URLSearchParams({ view: 'audit', page: String(page) });
+  if (severity) params.set('severity', severity);
+  const { data } = await apiClient.get<{ logs: AuditLogEntry[]; total: number }>(`/developer?${params}`);
+  return data;
 }
 
 export async function getLoginRecords(page: number = 1): Promise<{ records: LoginRecord[]; total: number }> {
@@ -101,8 +97,8 @@ export async function getLoginRecords(page: number = 1): Promise<{ records: Logi
     const { mockGetLoginRecords } = await import('./developer.mock');
     return mockGetLoginRecords(page);
   }
-  // TODO(BBOS-Phase-3): implement real backend — GET /dev/logins?page=N
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.get<{ records: LoginRecord[]; total: number }>(`/developer?view=logins&page=${page}`);
+  return data;
 }
 
 export async function getAIModels(): Promise<AIModelCard[]> {
@@ -110,8 +106,8 @@ export async function getAIModels(): Promise<AIModelCard[]> {
     const { mockGetAIModels } = await import('./developer.mock');
     return mockGetAIModels();
   }
-  // TODO(BBOS-Phase-3): implement real backend — GET /dev/ai/models
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.get<AIModelCard[]>('/developer?view=ai-models');
+  return data;
 }
 
 export async function getSystemHealth(): Promise<SystemHealthMetric[]> {
@@ -119,8 +115,8 @@ export async function getSystemHealth(): Promise<SystemHealthMetric[]> {
     const { mockGetSystemHealth } = await import('./developer.mock');
     return mockGetSystemHealth();
   }
-  // TODO(BBOS-Phase-3): implement real backend — GET /dev/health
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.get<SystemHealthMetric[]>('/developer?view=health');
+  return data;
 }
 
 export async function getDangerZoneInfo(): Promise<DangerZoneInfo> {
@@ -128,8 +124,8 @@ export async function getDangerZoneInfo(): Promise<DangerZoneInfo> {
     const { mockGetDangerZoneInfo } = await import('./developer.mock');
     return mockGetDangerZoneInfo();
   }
-  // TODO(BBOS-Phase-3): implement real backend — GET /dev/danger-zone
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.get<DangerZoneInfo>('/developer?view=danger-zone');
+  return data;
 }
 
 export async function getObservability(): Promise<ObservabilitySnapshot> {
@@ -137,8 +133,8 @@ export async function getObservability(): Promise<ObservabilitySnapshot> {
     const { mockGetObservability } = await import('./developer.mock');
     return mockGetObservability();
   }
-  // TODO(BBOS-Phase-3): implement real backend — GET /dev/observability/metrics
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.get<ObservabilitySnapshot>('/developer?view=observability');
+  return data;
 }
 
 export async function forceLogoutAll(): Promise<{ affected: number }> {
@@ -146,8 +142,8 @@ export async function forceLogoutAll(): Promise<{ affected: number }> {
     await mockDelay(800);
     return { affected: Math.floor(Math.random() * 50) + 10 };
   }
-  // TODO(BBOS-Phase-3): implement real backend — POST /dev/danger/force-logout
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.post<{ affected: number }>('/developer', { action: 'force-logout' });
+  return data;
 }
 
 export async function toggleMaintenanceMode(enabled: boolean): Promise<{ success: boolean }> {
@@ -155,6 +151,6 @@ export async function toggleMaintenanceMode(enabled: boolean): Promise<{ success
     await mockDelay(500);
     return { success: true };
   }
-  // TODO(BBOS-Phase-3): implement real backend — POST /dev/danger/maintenance
-  throw new Error('Backend not connected');
+  const { data } = await apiClient.post<{ success: boolean }>('/developer', { action: 'maintenance', enabled });
+  return data;
 }
