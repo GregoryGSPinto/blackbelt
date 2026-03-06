@@ -533,7 +533,7 @@ function LoginContent() {
                             border: `1px solid ${colors.cardBorder}`,
                             borderRadius: 8,
                             overflow: 'hidden',
-                            maxHeight: '250px',
+                            maxHeight: '300px',
                             overflowY: 'auto',
                             zIndex: 50,
                             boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
