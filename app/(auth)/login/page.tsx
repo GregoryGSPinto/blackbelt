@@ -588,32 +588,34 @@ function LoginContent() {
                     {/* Remember me + Criar conta + Forgot email */}
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" style={{ marginTop: '1.5rem' }}>
                       <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
-                        <input type="checkbox" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                        <input type="checkbox" className="w-4 h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
                         Remember me
                       </label>
-                      <Link
-                        href="/cadastro"
-                        style={{
-                          fontSize: '0.875rem',
-                          color: colors.text,
-                          opacity: 0.5,
-                          textDecoration: 'none',
-                          transition: transitions.theme,
-                        }}
-                      >
-                        {t('login.createAccount')}
-                      </Link>
-                      <Link
-                        href="/esqueci-email"
-                        style={{
-                          fontSize: '0.875rem',
-                          color: colors.linkColor,
-                          textDecoration: 'none',
-                          transition: transitions.theme,
-                        }}
-                      >
-                        {t('login.forgotEmail')}
-                      </Link>
+                      <div className="flex flex-row items-center gap-4">
+                        <Link
+                          href="/cadastro"
+                          style={{
+                            fontSize: '0.875rem',
+                            color: colors.text,
+                            opacity: 0.5,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          {t('login.createAccount')}
+                        </Link>
+                        <Link
+                          href="/esqueci-email"
+                          style={{
+                            fontSize: '0.875rem',
+                            color: colors.linkColor,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          {t('login.forgotEmail')}
+                        </Link>
+                      </div>
                     </div>
                   </div>
 
