@@ -247,10 +247,10 @@ export function AppShell({
 
   const navTo = useCallback(
     (href: string) => {
+      router.push(href);
       setMenuOpen(false);
       setDrawerOpen(false);
       setSidebarOpen(false);
-      setTimeout(() => router.push(href), 120);
     },
     [router],
   );
