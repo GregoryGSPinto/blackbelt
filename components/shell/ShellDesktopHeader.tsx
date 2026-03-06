@@ -390,11 +390,11 @@ export function ShellDesktopHeader({ config, state }: Props) {
                   />
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors hover:bg-red-500/10"
-                    style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black' }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors"
+                    style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: theme.textMuted(isDark) }}
                   >
-                    <LogOut size={16} className="text-red-400" />
-                    <span className="text-sm font-medium text-red-400">{t('menu.logout')}</span>
+                    <LogOut size={16} />
+                    <span className="text-sm font-medium">{t('menu.logout')}</span>
                   </button>
                 </div>
               </div>

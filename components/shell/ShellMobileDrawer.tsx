@@ -178,12 +178,12 @@ export function ShellMobileDrawer({ config, state }: Props) {
             {/* Logout */}
             <button
               onClick={() => { setDrawerOpen(false); handleLogout(); }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors hover:bg-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-400/40"
-              style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black' }}
+              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/20"
+              style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: theme.textMuted(isDark) }}
               aria-label={t('confirm.logoutTitle')}
             >
-              <LogOut className="w-5 h-5 text-red-400" />
-              <span className={`text-sm font-semibold text-red-400 ${font}`}>{t('menu.logout')}</span>
+              <LogOut className="w-5 h-5" />
+              <span className={`text-sm font-semibold ${font}`}>{t('menu.logout')}</span>
             </button>
           </div>
         </div>
