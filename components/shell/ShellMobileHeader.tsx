@@ -9,8 +9,6 @@
 // ============================================================
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import {
   Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings,
 } from 'lucide-react';
@@ -53,32 +51,17 @@ export function ShellMobileHeader({ config, state }: Props) {
           borderBottom: `1px solid ${theme.mobileHeaderBorder(isDark)}`,
         }}
       >
-        {/* Left: Logo + Name (collapses on search) */}
+        {/* Left: User Name (collapses on search) */}
         <div className="flex items-center gap-3 flex-shrink-0">
-          <Link href={theme.logoHref}>
-            <Image
-              src="/images/logo-blackbelt.png"
-              alt="BlackBelt"
-              width={36}
-              height={36}
-              className="rounded-lg object-cover flex-shrink-0"
-              style={{ boxShadow: `0 0 0 1.5px ${theme.avatarRing(isDark)}` }}
-            />
-          </Link>
           <span
-            className={`text-xl font-bold tracking-tight whitespace-nowrap overflow-hidden ${MORPH} ${font}`}
+            className={`text-xl font-normal tracking-tight whitespace-nowrap overflow-hidden ${MORPH} ${font}`}
             style={{
               maxWidth: searchOpen ? 0 : 200,
               opacity: searchOpen ? 0 : 1,
               color: theme.logoLabelColor(isDark),
             }}
           >
-            {theme.logoLabel}
-            {theme.logoSublabel && (
-              <span style={{ color: theme.logoSublabelColor?.(isDark) || theme.accentColor(isDark), marginLeft: 6 }}>
-                {theme.logoSublabel}
-              </span>
-            )}
+            {user?.nome || ''}
           </span>
         </div>
 

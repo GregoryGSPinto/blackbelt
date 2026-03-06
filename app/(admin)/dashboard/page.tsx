@@ -267,7 +267,7 @@ export default function DashboardPage() {
       {/* 3. GRADUAÇÕES */}
       <Section title={t('dashboard.graduations')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
             <div className="flex items-center gap-2 mb-4">
               <Award size={16} className="text-amber-400" />
               <h3 className="text-sm font-bold text-white/70">{t('dashboard.readyForExam')}</h3>
@@ -293,7 +293,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+          <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
             <div className="flex items-center gap-2 mb-4">
               <GraduationCap size={16} className="text-purple-400" />
               <h3 className="text-sm font-bold text-white/70">{t('dashboard.avgTimePerLevel')}</h3>
@@ -345,7 +345,7 @@ export default function DashboardPage() {
         <Section title={t('dashboard.recentAlerts')} action={{ label: t('dashboard.seeAll'), href: '/alertas' }}>
           <div className="space-y-2">
             {alertasAtivos.slice(0, 3).map((alerta) => (
-              <div key={alerta.id} className="flex items-start gap-3 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl">
+              <div key={alerta.id} className="flex items-start gap-3 p-4 rounded-xl" style={{ background: tokens.cardBg, border: '1px solid black' }}>
                 <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
                   alerta.prioridade === 'ALTA' ? 'bg-red-400' :
                   alerta.prioridade === 'MEDIA' ? 'bg-yellow-400' : 'bg-white/30'
@@ -459,9 +459,11 @@ function MetricCard({ title, value, icon: Icon, link, comparison }: {
 function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
   title: string; count: number; icon: typeof Users; color: string; emptyText: string; children: React.ReactNode;
 }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [expanded, setExpanded] = useState(count <= 3);
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+    <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
       <button onClick={() => setExpanded(e => !e)} className="flex items-center gap-2 w-full text-left mb-3">
         <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
           <Icon size={16} style={{ color }} />
@@ -480,8 +482,10 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
 }
 
 function QuickAction({ href, icon: Icon, title, subtitle }: { href: string; icon: typeof Users; title: string; subtitle: string }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
-    <Link href={href} className="hover-card flex items-center gap-4 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl hover:bg-white/5 transition-all group">
+    <Link href={href} className="hover-card flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-all group" style={{ background: tokens.cardBg, border: '1px solid black' }}>
       <div className="w-10 h-10 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/15 transition-colors">
         <Icon size={18} className="text-white/70" />
       </div>
@@ -498,6 +502,8 @@ function QuickAction({ href, icon: Icon, title, subtitle }: { href: string; icon
 
 function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins: number }[] }) {
   const t = useTranslations('admin');
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const dias = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const horarios = Array.from(new Set(data.map(d => d.horario))).sort();
   const maxCheckins = Math.max(...data.map(d => d.checkins), 1);
@@ -515,7 +521,7 @@ function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins
     data.find(d => d.dia === dia && d.horario === horario);
 
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 overflow-x-auto">
+    <div className="rounded-xl p-5 overflow-x-auto" style={{ background: tokens.cardBg, border: '1px solid black' }}>
       <div className="min-w-[600px]">
         <div className="flex gap-1 mb-1">
           <div className="w-10 shrink-0" />
@@ -554,6 +560,8 @@ function HeatmapChart({ data }: { data: { dia: string; horario: string; checkins
 
 function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroResumo'] }) {
   const t = useTranslations('admin');
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const receitaDiff = data.receitaMes - data.receitaMesAnterior;
   const receitaPct = data.receitaMesAnterior > 0 ? Math.round((receitaDiff / data.receitaMesAnterior) * 100) : 0;
   const isUp = receitaDiff >= 0;
@@ -561,7 +569,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5 space-y-4">
+      <div className="rounded-xl p-5 space-y-4" style={{ background: tokens.cardBg, border: '1px solid black' }}>
         <div className="flex items-center gap-2 mb-2">
           <DollarSign size={16} className="text-emerald-400" />
           <h3 className="text-sm font-bold text-white/70">{t('dashboard.indicators')}</h3>
@@ -589,7 +597,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
         </div>
       </div>
 
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
+      <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
         <div className="flex items-center gap-2 mb-4">
           <CreditCard size={16} className="text-blue-400" />
           <h3 className="text-sm font-bold text-white/70">{t('dashboard.planDistribution')}</h3>
@@ -619,8 +627,10 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
 }
 
 function FinKpi({ label, value, sub }: { label: string; value: string; sub?: React.ReactNode }) {
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   return (
-    <div className="rounded-xl bg-black/30 backdrop-blur-xl border border-white/10 px-3 py-2.5">
+    <div className="rounded-xl px-3 py-2.5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
       <p className="text-[9px] text-white/25 uppercase tracking-wider">{label}</p>
       <p className="text-lg font-black text-white mt-0.5">{value}</p>
       {sub}

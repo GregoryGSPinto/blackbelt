@@ -105,8 +105,8 @@ export function UserAccountMenu({
   const styles = {
     dark: {
       button: 'bg-white/10 hover:bg-white/20 text-white',
-      dropdown: 'bg-dark-card border-[rgba(140,98,57,0.1)]',
-      header: 'bg-white/5 border-white/10',
+      dropdown: 'bg-dark-card border-black',
+      header: 'bg-white/5 border-black',
       nameColor: 'text-white',
       emailColor: 'text-white/60',
       itemHover: 'hover:bg-white/10 text-white/80 hover:text-white',

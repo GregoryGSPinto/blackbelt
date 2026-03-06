@@ -6,7 +6,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
@@ -70,32 +69,14 @@ export function ShellDesktopHeader({ config, state }: Props) {
         transition: 'background 500ms ease, border-color 500ms ease',
       }}
     >
-      {/* ─── Logo ─── */}
+      {/* ─── User Name ─── */}
       <Link href={theme.logoHref} className="flex items-center gap-4 flex-shrink-0">
-        <Image
-          src="/images/logo-blackbelt.png"
-          alt="BlackBelt"
-          width={36}
-          height={36}
-          className="rounded-lg object-cover shadow-lg"
-          style={{ boxShadow: `0 0 0 1.5px ${theme.avatarRing(isDark)}` }}
-        />
-        <div className="hidden lg:flex items-baseline gap-2">
-          <span
-            className={`text-[20px] font-bold tracking-wide ${font}`}
-            style={{ color: theme.logoLabelColor(isDark) }}
-          >
-            {theme.logoLabel}
-          </span>
-          {theme.logoSublabel && (
-            <span
-              className={`text-[20px] font-bold tracking-wide ${font}`}
-              style={{ color: theme.logoSublabelColor?.(isDark) || theme.accentColor(isDark) }}
-            >
-              {theme.logoSublabel}
-            </span>
-          )}
-        </div>
+        <span
+          className={`text-[20px] font-normal tracking-wide ${font}`}
+          style={{ color: theme.logoLabelColor(isDark) }}
+        >
+          {displayName || user?.nome || ''}
+        </span>
       </Link>
 
       {/* ─── Center Nav ─── */}
@@ -347,7 +328,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
                 style={{
                   background: theme.panelBg(isDark),
                   backdropFilter: theme.panelBackdrop,
-                  border: `1px solid ${theme.panelBorder(isDark)}`,
+                  border: '1px solid black',
                 }}
               >
                 {/* User info */}
