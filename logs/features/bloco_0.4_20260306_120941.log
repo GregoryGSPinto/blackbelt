@@ -1,0 +1,22 @@
+**BLOCO 0.4 - Status: Already Complete**
+
+The implementation was already done in commit `939e8c3`. Here's the verification summary:
+
+**PARTE 1 - Observability:**
+- `lib/monitoring/telemetry.ts` - trackEvent, trackPerformance, trackError all implemented
+- `lib/monitoring/health.ts` + `app/api/health/route.ts` - health endpoint with database/auth/storage/eventStore checks
+- `lib/monitoring/request-logger.ts` - middleware logging method/path/status/duration (no body/headers)
+- `supabase/migrations/00024_observability_push.sql` - request_logs partitioned by month (2026-03, 2026-04)
+
+**PARTE 2 - Push Notifications:**
+- `lib/notifications/push-service.ts` - registerToken, sendToUser, sendToAcademy
+- `lib/notifications/notification-router.ts` - channel routing (push/email/in-app) with quiet hours
+- All 5 templates: class-reminder, checkin-confirmed, belt-promotion, payment-due, message-received
+- `lib/notifications/preferences.ts` - user notification preferences
+- `lib/notifications/event-notification-wiring.ts` - Event Bus integration (AttendanceRecorded, PromotionGranted, churn risk)
+- Migration includes push_tokens + notification_preferences tables
+
+**Build:** Passed successfully
+**Tests:** 473 passed, 0 failed (1 skipped)
+
+No changes needed — the commit `[bloco 0.4]` already exists and everything is verified correct.
