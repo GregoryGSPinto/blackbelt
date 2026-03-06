@@ -1,0 +1,22 @@
+BLOCO C1 complete. Here's what was done:
+
+**Files created (6):**
+- `hooks/useOnboardingTour.ts` — Convenience hook for per-profile onboarding auto-trigger
+- `hooks/useHaptics.ts` — Haptic feedback via Capacitor + Web Vibration API fallback
+- `hooks/useSounds.ts` — Sound system with opt-in toggle, localStorage persistence
+- `components/shared/DynamicFavicon.tsx` — Swaps favicon based on color scheme
+- `public/sounds/{checkin,notification,error}.mp3` — Minimal sound files (<15KB each)
+- `public/favicon-light.png` — Light variant favicon for dark mode
+
+**Files enhanced (7):**
+- `contexts/OnboardingContext.tsx` — Admin tour added, all tour steps now i18n-resolved via `useTranslations`
+- `components/SplashScreen.tsx` — Logo animation + gold branding + "BLACKBELT" text with gradient
+- `app/not-found.tsx` — Redesigned with gold theme, Shield icon, bilingual i18n strings
+- `app/error.tsx` — Redesigned with gold CTA, bilingual i18n strings, support contact link
+- `app/layout.tsx` — Added DynamicFavicon component
+- `messages/pt-BR.json` — Added onboarding tour steps, sounds, haptics, error page keys
+- `messages/en-US.json` — Same new keys in English
+
+**Build:** `pnpm build` passed (0 errors)
+**Tests:** 473 tests passed (26 files)
+**Commit:** `83d9e91 [bloco C1] Onboarding Tour + Haptics + Error Pages`
