@@ -43,30 +43,7 @@ const nextConfig = {
     ],
   },
 
-  // ============================================================
-  // SEGURANÇA: Garantir que mocks não vão para produção
-  // ============================================================
-  webpack: (config, { dev, isServer }) => {
-    // Em produção, ignorar completamente o diretório __mocks__
-    if (!dev) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@/lib/__mocks__/admin.mock$': false,
-        '@/lib/__mocks__/auth.mock$': false,
-        '@/lib/__mocks__/content.mock$': false,
-        '@/lib/__mocks__/kids.mock$': false,
-        '@/lib/__mocks__/professor.mock$': false,
-        '@/lib/__mocks__/shop.mock$': false,
-        '@/lib/__mocks__/teen.mock$': false,
-      };
-
-      config.plugins.push(
-        new (require('webpack').DefinePlugin)({
-          'process.env.NODE_ENV': JSON.stringify('production'),
-        })
-      );
-    }
-
+  webpack: (config) => {
     return config;
   },
 

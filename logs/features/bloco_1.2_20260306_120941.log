@@ -1,0 +1,16 @@
+BLOCO 1.2 complete. Here's a summary of what was implemented:
+
+**PARTE 1 — QR Check-in com HMAC:**
+- `lib/checkin/qr-generator.ts` — `generateSessionQR()` with HMAC-SHA256 using `SUPABASE_SERVICE_ROLE_KEY`, 15-min expiry, Web Crypto API + Node.js fallback
+- `lib/checkin/qr-validator.ts` — `validateQR()` with HMAC integrity check, expiration, rate-limit (1 check-in per student per session)
+- `lib/checkin/geofence.ts` — Haversine formula (no external lib), `isWithinGeofence()` with mock support
+- `components/checkin/QRDisplay.tsx` — Professor shows session QR on screen, auto-refresh every 60s, fullscreen mode, HMAC badge
+
+**PARTE 2 — White-label Academy Theming:**
+- `supabase/migrations/00026_qr_checkin_academy_theme.sql` — Adds `latitude`, `longitude`, `geofence_radius_m`, and `theme` JSONB columns to `academies`
+- `contexts/AcademyThemeContext.tsx` — Loads theme per academy, injects `--academy-primary`, `--academy-secondary`, `--academy-logo` CSS variables
+- `tailwind.config.ts` — Added `academy.primary` / `academy.secondary` mapped to CSS variables
+- `app/(admin)/configuracoes/theme/page.tsx` — Color pickers, logo URL, real-time preview card
+- i18n keys added to both `pt-BR.json` and `en-US.json` for `qrDisplay`
+
+**Build:** Passed | **Tests:** 473 passed, 0 failed | **Commit:** `cff1ecb`

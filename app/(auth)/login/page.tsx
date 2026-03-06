@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, Suspense, useCallback } from 'react';
+import { useState, useEffect, Suspense, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -13,6 +14,16 @@ import { useTranslations } from 'next-intl';
 
 // ─── Types ──────────────────────────────────────────────────
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
+
+// ─── Demo users ─────────────────────────────────────────────
+const DEMO_USERS = [
+  { label: 'Admin',       email: 'admin@blackbelt.com',      senha: 'blackbelt123', icon: '🛠️', gradient: 'from-orange-600 to-orange-800' },
+  { label: 'Professor',   email: 'professor@blackbelt.com',  senha: 'blackbelt123', icon: '👨‍🏫', gradient: 'from-indigo-600 to-indigo-800' },
+  { label: 'Adulto',      email: 'adulto@blackbelt.com',     senha: 'blackbelt123', icon: '👤', gradient: 'from-blue-600 to-blue-800' },
+  { label: 'Teen',        email: 'miguel@blackbelt.com',     senha: 'blackbelt123', icon: '🧑', gradient: 'from-purple-600 to-purple-800' },
+  { label: 'Kids',        email: 'kid@blackbelt.com',        senha: 'blackbelt123', icon: '👶', gradient: 'from-pink-600 to-pink-800' },
+  { label: 'Responsavel', email: 'paiteen@blackbelt.com',    senha: 'blackbelt123', icon: '👨‍👩‍👧', gradient: 'from-green-600 to-green-800' },
+] as const;
 
 // ─── SVG Icons (inline, no library) ─────────────────────────
 function GoogleIcon() {
@@ -61,6 +72,14 @@ function SpinnerIcon({ color }: { color: string }) {
   );
 }
 
+function ChevronDownIcon({ color }: { color: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  );
+}
+
 function BackArrowIcon({ color }: { color: string }) {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -89,15 +108,15 @@ function LoginContent() {
   const tCommon = useTranslations('common');
 
   // ─── State machine ────────────────────────────────────────
-  const [step, setStep] = useState<LoginStep>('INITIAL');
+  const [step, setStep] = useState<LoginStep>('EMAIL');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [splash, setSplash] = useState(false);
-  const [splashProgress, setSplashProgress] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Slide direction for transitions
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none');
@@ -126,15 +145,31 @@ function LoginContent() {
     }
   }, [searchParams]);
 
+  // ─── Close dropdown on click outside ──────────────────────
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClick);
+      return () => document.removeEventListener('mousedown', handleClick);
+    }
+  }, [showDropdown]);
+
   // ─── Email validation ─────────────────────────────────────
   const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  // ─── Step transitions ─────────────────────────────────────
-  const goToEmail = useCallback(() => {
-    setStep('EMAIL');
+  // ─── Select demo user ─────────────────────────────────────
+  const selectDemoUser = useCallback((demoUser: typeof DEMO_USERS[number]) => {
+    setEmail(demoUser.email);
+    setPassword(demoUser.senha);
     setError('');
+    setShowDropdown(false);
   }, []);
 
+  // ─── Step transitions ─────────────────────────────────────
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
       setEmailInvalid(true);
@@ -171,7 +206,7 @@ function LoginContent() {
       setSlideDir('right');
       setTimeout(() => setCardVisible(true), 20);
     }, 350);
-  }, [email]);
+  }, [email, t]);
 
   const goBackToEmail = useCallback(() => {
     setError('');
@@ -194,7 +229,7 @@ function LoginContent() {
     try {
       const tipo = await login(email, password);
       if (tipo) {
-        logger.info('[Login]', 'Login OK →', getRedirectForProfile(tipo));
+        logger.info('[Login]', 'Login OK ->', getRedirectForProfile(tipo));
         router.replace(getRedirectForProfile(tipo));
       } else {
         setError(t('login.invalidCredentials'));
@@ -205,7 +240,7 @@ function LoginContent() {
       setError(tCommon('errors.generic'));
       setStep('ERROR');
     }
-  }, [email, password, login, router]);
+  }, [email, password, login, router, t, tCommon]);
 
   // ─── Form submit handlers ────────────────────────────────
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -235,63 +270,14 @@ function LoginContent() {
     };
   };
 
-  // ─── Splash progress bar ─────────────────────────────────
-  useEffect(() => {
-    setSplash(true);
-    const interval = setInterval(() => {
-      setSplashProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => setSplash(false), 300);
-          return 100;
-        }
-        return prev + 2;
-      });
-    }, 30);
-    return () => clearInterval(interval);
-  }, []);
-
   // ─── Defer render until mounted (avoids SSR/client theme mismatch) ──
   if (!mounted) return null;
-
-  if (splash) return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      background: isDark ? '#0a0a0a' : '#f5f5f5',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 100,
-      opacity: splashProgress >= 100 ? 0 : 1,
-      transition: 'opacity 0.3s ease',
-    }}>
-      <div style={{
-        width: 200,
-        height: 1,
-        background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          height: '100%',
-          width: `${splashProgress}%`,
-          background: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)',
-          transition: 'width 0.03s linear',
-        }} />
-      </div>
-    </div>
-  );
 
   // ─── Render ───────────────────────────────────────────────
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       {/* ─── Background Layer ─────────────────────────────── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }} aria-hidden="true">
-        {/* Solid background */}
         <div
           style={{
             position: 'absolute',
@@ -300,7 +286,6 @@ function LoginContent() {
             transition: 'background-color 0.5s ease',
           }}
         />
-        {/* Color overlay */}
         <div
           style={{
             position: 'absolute',
@@ -309,7 +294,6 @@ function LoginContent() {
             transition: transitions.theme,
           }}
         />
-        {/* Radial vignette */}
         <div
           style={{
             position: 'absolute',
@@ -341,49 +325,78 @@ function LoginContent() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          paddingTop: '10vh',
+          paddingTop: '6vh',
           paddingBottom: '3rem',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
         }}
       >
-        {/* ─── STEP: INITIAL ─────────────────────────────── */}
-        {step === 'INITIAL' && (
-          <div
+        {/* ─── Logo ───────────────────────────────────────── */}
+        <div
+          style={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+            transition: transitions.slideUp,
+            textAlign: 'center',
+            marginBottom: '2rem',
+          }}
+        >
+          <Image
+            src="/images/logo-blackbelt.png"
+            alt="BlackBelt"
+            width={56}
+            height={56}
+            className="rounded-xl mx-auto mb-3 shadow-2xl"
+            style={{ border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)'}` }}
+          />
+          <h1
             style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-              transition: transitions.slideUp,
-              textAlign: 'center',
+              color: colors.text,
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              transition: transitions.theme,
             }}
           >
-            <button
-              onClick={goToEmail}
-              style={{
-                width: 200,
-                height: 52,
-                background: 'transparent',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
-                color: colors.text,
-                fontSize: '0.875rem',
-                fontWeight: 700,
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                borderRadius: 12,
-                cursor: 'pointer',
-                transition: transitions.theme,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
-              }}
-            >
-              Login
-            </button>
+            BLACKBELT
+          </h1>
+        </div>
+
+        {/* ─── Demo User Cards ────────────────────────────── */}
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 520,
+            marginBottom: '1.5rem',
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s',
+          }}
+        >
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
+            {DEMO_USERS.map((u) => {
+              const isSelected = email === u.email;
+              return (
+                <button
+                  key={u.email}
+                  type="button"
+                  onClick={() => selectDemoUser(u)}
+                  className={`rounded-xl p-3 flex flex-col items-center gap-1.5 transition-all duration-200 bg-gradient-to-br ${u.gradient} hover:scale-105 active:scale-95`}
+                  style={{
+                    border: isSelected ? '2px solid #000' : '1px solid #000',
+                    boxShadow: isSelected ? '0 0 0 2px rgba(201,162,39,0.5)' : 'none',
+                  }}
+                >
+                  <span className="text-2xl">{u.icon}</span>
+                  <span className="text-[11px] font-semibold text-white truncate w-full text-center">
+                    {u.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
         {step === 'EMAIL' && (
@@ -397,28 +410,6 @@ function LoginContent() {
           >
             <form onSubmit={handleEmailSubmit}>
               <div style={{ position: 'relative' }}>
-
-                {/* Back arrow to INITIAL */}
-                <button
-                  type="button"
-                  onClick={() => { setStep('INITIAL'); setError(''); }}
-                  aria-label={tCommon('actions.goBack')}
-                  style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    left: '1rem',
-                    zIndex: 2,
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0.25rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                </button>
-
                 {/* Unified bordered container: card + divider + SSO */}
                 <div
                   style={{
@@ -436,22 +427,22 @@ function LoginContent() {
                   }}
                 >
                   {/* Card content */}
-                  <div style={{ padding: '2.5rem 2rem 1.5rem' }}>
+                  <div style={{ padding: '2rem 2rem 1.5rem' }}>
                     {/* Title */}
-                    <h1
+                    <h2
                       style={{
                         color: colors.text,
                         fontSize: '0.875rem',
                         fontWeight: 700,
                         letterSpacing: '0.25em',
                         textTransform: 'uppercase',
-                        marginBottom: '2rem',
+                        marginBottom: '1.5rem',
                         textAlign: 'center',
                         transition: transitions.theme,
                       }}
                     >
                       {t('login.title').toUpperCase()}
-                    </h1>
+                    </h2>
 
                     {/* Error */}
                     {error && (
@@ -469,35 +460,111 @@ function LoginContent() {
                       </p>
                     )}
 
-                    {/* Email input — underline only */}
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => { setEmail(e.target.value); setError(''); setEmailInvalid(false); }}
-                      placeholder="Email address"
-                      autoFocus
-                      autoComplete="email"
-                      required
-                      aria-label="Email"
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: 'none',
-                        borderBottom: `1px solid ${emailInvalid ? colors.error : colors.inputBorder}`,
-                        padding: '0.75rem 0',
-                        fontSize: '1rem',
-                        color: emailInvalid ? colors.error : colors.text,
-                        outline: 'none',
-                        transition: 'all 0.3s ease',
-                      }}
-                      onFocus={(e) => {
-                        if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputFocus;
-                      }}
-                      onBlur={(e) => {
-                        if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputBorder;
-                      }}
-                    />
+                    {/* Email input with dropdown arrow */}
+                    <div style={{ position: 'relative' }} ref={dropdownRef}>
+                      <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); setError(''); setEmailInvalid(false); }}
+                        placeholder="Email address"
+                        autoFocus
+                        autoComplete="email"
+                        required
+                        aria-label="Email"
+                        style={{
+                          width: '100%',
+                          background: 'transparent',
+                          border: 'none',
+                          borderBottom: `1px solid ${emailInvalid ? colors.error : colors.inputBorder}`,
+                          padding: '0.75rem 2.5rem 0.75rem 0',
+                          fontSize: '1rem',
+                          color: emailInvalid ? colors.error : colors.text,
+                          outline: 'none',
+                          transition: 'all 0.3s ease',
+                        }}
+                        onFocus={(e) => {
+                          if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputFocus;
+                        }}
+                        onBlur={(e) => {
+                          if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputBorder;
+                        }}
+                      />
+                      {/* Dropdown arrow */}
+                      <button
+                        type="button"
+                        onClick={() => setShowDropdown(!showDropdown)}
+                        aria-label="Select demo user"
+                        style={{
+                          position: 'absolute',
+                          right: 0,
+                          top: '50%',
+                          transform: `translateY(-50%) rotate(${showDropdown ? '180deg' : '0deg'})`,
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '0.5rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          transition: 'transform 0.2s ease',
+                        }}
+                      >
+                        <ChevronDownIcon color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'} />
+                      </button>
+
+                      {/* Dropdown menu */}
+                      {showDropdown && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: 0,
+                            right: 0,
+                            marginTop: 4,
+                            background: isDark ? '#1a1a2e' : '#ffffff',
+                            border: `1px solid ${colors.cardBorder}`,
+                            borderRadius: 8,
+                            overflow: 'hidden',
+                            zIndex: 50,
+                            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                          }}
+                        >
+                          {DEMO_USERS.map((u) => (
+                            <button
+                              key={u.email}
+                              type="button"
+                              onClick={() => selectDemoUser(u)}
+                              style={{
+                                width: '100%',
+                                padding: '0.625rem 1rem',
+                                border: 'none',
+                                borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+                                background: 'transparent',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.75rem',
+                                textAlign: 'left',
+                                transition: 'background 0.15s ease',
+                              }}
+                              onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
+                              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                              <span className="text-lg">{u.icon}</span>
+                              <div>
+                                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
+                                  {u.label}
+                                </span>
+                                <span style={{ fontSize: '0.72rem', color: colors.textMuted }}>
+                                  {u.email}
+                                </span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
                     {emailInvalid && (
                       <p
                         style={{
@@ -630,7 +697,7 @@ function LoginContent() {
                   transition: transitions.theme,
                 }}
               >
-                {/* Conteúdo superior */}
+                {/* Conteudo superior */}
                 <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
                   {/* Back button */}
                   <button
@@ -750,7 +817,7 @@ function LoginContent() {
                     </div>
                   </div>
 
-                  {/* Forgot password link — right aligned */}
+                  {/* Forgot password link */}
                   <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
                     <Link
                       href="/esqueci-senha"
@@ -766,10 +833,10 @@ function LoginContent() {
                   </div>
                 </div>
 
-                {/* Linha divisória */}
+                {/* Linha divisoria */}
                 <div style={{ height: 1, background: colors.cardBorder }} />
 
-                {/* Botão ENTRAR na base do card */}
+                {/* Botao ENTRAR na base do card */}
                 <button
                   type="submit"
                   style={{
@@ -857,9 +924,7 @@ function LoginContent() {
                   transition: transitions.theme,
                 }}
               >
-                {/* Conteúdo superior */}
                 <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
-                  {/* Back button */}
                   <button
                     type="button"
                     onClick={goBackToEmail}
@@ -879,7 +944,6 @@ function LoginContent() {
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                   </button>
 
-                  {/* Email display */}
                   <p
                     style={{
                       fontSize: '0.85rem',
@@ -893,7 +957,6 @@ function LoginContent() {
                     {email}
                   </p>
 
-                  {/* Error */}
                   {error && (
                     <p
                       role="alert"
@@ -908,7 +971,6 @@ function LoginContent() {
                     </p>
                   )}
 
-                  {/* Password input */}
                   <div style={{ marginBottom: '1rem', position: 'relative' }}>
                     <label
                       htmlFor="password-retry"
@@ -975,7 +1037,6 @@ function LoginContent() {
                     </div>
                   </div>
 
-                  {/* Forgot password link — right aligned */}
                   <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
                     <Link
                       href="/esqueci-senha"
@@ -991,10 +1052,8 @@ function LoginContent() {
                   </div>
                 </div>
 
-                {/* Linha divisória */}
                 <div style={{ height: 1, background: colors.cardBorder }} />
 
-                {/* Botão ENTRAR na base do card */}
                 <button
                   type="submit"
                   style={{
@@ -1020,112 +1079,19 @@ function LoginContent() {
           </div>
         )}
 
-        {/* ─── Dev Quick Access ──────────────────────────── */}
-        {(
-          <div
-            style={{
-              marginTop: '2rem',
-              border: `1px solid ${colors.cardBorder}`,
-              background: colors.cardBg,
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              width: '100%',
-              transition: transitions.theme,
-            }}
-            className="login-card-responsive"
-          >
-            <div
-              style={{
-                padding: '1rem 1.5rem',
-                borderBottom: `1px solid ${colors.cardBorder}`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-              }}
-            >
-              <span style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.textMuted }}>
-                {t('login.quickAccess')}
-              </span>
-            </div>
-            {[
-              { label: 'Super Admin',  email: 'superadmin@blackbelt.com', senha: 'blackbelt123', perfil: 'SUPER_ADMIN' },
-              { label: 'Admin',        email: 'admin@blackbelt.com',      senha: 'blackbelt123', perfil: 'ADMINISTRADOR' },
-              { label: 'Professor',    email: 'professor@blackbelt.com',  senha: 'blackbelt123', perfil: 'INSTRUTOR' },
-              { label: 'Adulto',       email: 'adulto@blackbelt.com',     senha: 'blackbelt123', perfil: 'ALUNO_ADULTO' },
-              { label: 'Teen',         email: 'miguel@blackbelt.com',     senha: 'blackbelt123', perfil: 'ALUNO_TEEN' },
-              { label: 'Kids',         email: 'kid@blackbelt.com',        senha: 'blackbelt123', perfil: 'ALUNO_KIDS' },
-              { label: 'Responsável',  email: 'paiteen@blackbelt.com',    senha: 'blackbelt123', perfil: 'RESPONSAVEL' },
-              { label: 'Support',      email: 'support@blackbelt.com',    senha: 'blackbelt123', perfil: 'SUPPORT' },
-              { label: 'Unit Owner',   email: 'owner@blackbelt.com',      senha: 'blackbelt123', perfil: 'UNIT_OWNER' },
-            ].map((u, i, arr) => (
-              <button
-                key={u.email}
-                type="button"
-                onClick={async () => {
-                  setEmail(u.email);
-                  setPassword(u.senha);
-                  setError('');
-                  setStep('LOADING');
-                  try {
-                    const tipo = await login(u.email, u.senha);
-                    if (tipo) {
-                      router.replace(getRedirectForProfile(tipo));
-                    } else {
-                      setError(t('login.invalidCredentials'));
-                      setStep('ERROR');
-                    }
-                  } catch {
-                    setError(tCommon('errors.generic'));
-                    setStep('ERROR');
-                  }
-                }}
-                style={{
-                  width: '100%',
-                  padding: '0.875rem 1.5rem',
-                  border: 'none',
-                  borderBottom: i < arr.length - 1 ? `1px solid ${colors.cardBorder}` : 'none',
-                  background: 'transparent',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  transition: 'background 0.15s ease',
-                  textAlign: 'left',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-              >
-                <div>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
-                    {u.label}
-                  </span>
-                  <span style={{ fontSize: '0.72rem', color: colors.textMuted, marginTop: '0.1rem', display: 'block' }}>
-                    {u.email}
-                  </span>
-                </div>
-                <span style={{ fontSize: '0.7rem', color: colors.textMuted, letterSpacing: '0.08em' }}>
-                  {u.perfil}
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
-
         {/* ─── Footer ─────────────────────────────────────── */}
-        {step !== 'INITIAL' && (
-          <p
-            style={{
-              textAlign: 'center',
-              fontSize: '0.75rem',
-              color: colors.textMuted,
-              marginTop: '2rem',
-              opacity: 0.6,
-              transition: transitions.theme,
-            }}
-          >
-            {t('login.termsAgreement')}
-          </p>
-        )}
+        <p
+          style={{
+            textAlign: 'center',
+            fontSize: '0.75rem',
+            color: colors.textMuted,
+            marginTop: '2rem',
+            opacity: 0.6,
+            transition: transitions.theme,
+          }}
+        >
+          {t('login.termsAgreement')}
+        </p>
       </div>
 
       {/* ─── Responsive styles ────────────────────────────── */}

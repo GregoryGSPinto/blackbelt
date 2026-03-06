@@ -324,6 +324,34 @@ export interface TrackChanged extends DomainEventBase {
 }
 
 // ════════════════════════════════════════════════════════════════════
+// FEDERATION EVENTS
+// ════════════════════════════════════════════════════════════════════
+
+/** Academia ingressou em uma federação */
+export interface AcademyJoinedFederation extends DomainEventBase {
+  readonly type: 'AcademyJoinedFederation';
+  readonly version: 1;
+  readonly payload: {
+    academyId: string;
+    federationId: string;
+    federationName: string;
+    role: 'admin' | 'member';
+  };
+}
+
+/** Academia saiu de uma federação */
+export interface AcademyLeftFederation extends DomainEventBase {
+  readonly type: 'AcademyLeftFederation';
+  readonly version: 1;
+  readonly payload: {
+    academyId: string;
+    federationId: string;
+    federationName: string;
+    reason: 'voluntary' | 'removed' | 'federation_dissolved';
+  };
+}
+
+// ════════════════════════════════════════════════════════════════════
 // UNION TYPE — Para pattern matching / dispatch
 // ════════════════════════════════════════════════════════════════════
 
@@ -348,7 +376,10 @@ export type DomainEvent =
   // Financial
   | PaymentCompleted
   | SubscriptionActivated
-  | SubscriptionCancelled;
+  | SubscriptionCancelled
+  // Federation
+  | AcademyJoinedFederation
+  | AcademyLeftFederation;
 
 /** Todos os tipos de evento como string literal union */
 export type DomainEventType = DomainEvent['type'];
@@ -547,4 +578,6 @@ export const CURRENT_EVENT_VERSIONS: Record<DomainEventType, number> = {
   PaymentCompleted:            1,
   SubscriptionActivated:       1,
   SubscriptionCancelled:       1,
+  AcademyJoinedFederation:     1,
+  AcademyLeftFederation:       1,
 };
