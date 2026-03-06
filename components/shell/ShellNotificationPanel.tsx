@@ -36,39 +36,35 @@ export function ShellNotificationPanel({ config, state }: Props) {
       role="region"
       aria-label={tShell('notification.panelTitle')}
       aria-live="polite"
-      className="fixed z-[80]"
+      className="fixed z-[9999] top-[76px] md:top-[72px] right-4"
       style={{
-        top: 'env(safe-area-inset-top, 0px)',
-        marginTop: 76,
-        right: 16,
         width: 'min(380px, calc(100vw - 32px))',
         animation: 'shell-dropdown-in 0.2s cubic-bezier(0.16,1,0.3,1)',
         transformOrigin: 'top right',
       }}
     >
       <div
-        className="rounded-2xl overflow-hidden shadow-2xl"
+        className="rounded-xl overflow-hidden shadow-lg"
         style={{
-          background: theme.panelBg(isDark),
-          backdropFilter: theme.panelBackdrop,
-          border: `1px solid ${theme.panelBorder(isDark)}`,
+          background: 'var(--card-bg)',
+          border: '1px solid black',
         }}
       >
         {/* Header */}
         <div
           className="flex items-center justify-between px-5 py-4"
-          style={{ borderBottom: `1px solid ${theme.panelBorder(isDark)}` }}
+          style={{ borderBottom: '1px solid black' }}
         >
           <h3
             className={`text-base font-bold ${font}`}
-            style={{ color: theme.textHeading(isDark) }}
+            style={{ color: 'var(--text-primary)' }}
           >
             {t('notifications.title')}
           </h3>
           <button
             onClick={() => setNotifOpen(false)}
             className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
-            style={{ color: theme.textMuted(isDark) }}
+            style={{ color: 'var(--text-secondary)' }}
           >
             <X size={14} />
           </button>
@@ -80,7 +76,7 @@ export function ShellNotificationPanel({ config, state }: Props) {
             <div
               key={n.id}
               className="flex items-start gap-3 px-5 py-3.5 transition-colors cursor-pointer"
-              style={{ borderBottom: `1px solid ${theme.panelBorder(isDark)}` }}
+              style={{ borderBottom: '1px solid black' }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.background =
                   isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.015)';
@@ -94,14 +90,14 @@ export function ShellNotificationPanel({ config, state }: Props) {
                 style={{ background: theme.notifDotColor }}
               />
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-semibold ${font}`} style={{ color: theme.textHeading(isDark) }}>
+                <p className={`text-sm font-semibold ${font}`} style={{ color: 'var(--text-primary)' }}>
                   {n.title}
                 </p>
-                <p className={`text-xs mt-0.5 ${font}`} style={{ color: theme.textMuted(isDark) }}>
+                <p className={`text-xs mt-0.5 ${font}`} style={{ color: 'var(--text-secondary)' }}>
                   {n.desc}
                 </p>
               </div>
-              <div className="flex items-center gap-1 flex-shrink-0 mt-0.5" style={{ color: theme.textMuted(isDark) }}>
+              <div className="flex items-center gap-1 flex-shrink-0 mt-0.5" style={{ color: 'var(--text-secondary)' }}>
                 <Clock size={10} />
                 <span className={`text-[10px] ${font}`}>{n.time}</span>
               </div>
@@ -112,11 +108,11 @@ export function ShellNotificationPanel({ config, state }: Props) {
         {/* Footer */}
         <div
           className="px-5 py-3 text-center"
-          style={{ borderTop: `1px solid ${theme.panelBorder(isDark)}` }}
+          style={{ borderTop: '1px solid black' }}
         >
           <button
             className={`text-xs font-semibold transition-colors ${font}`}
-            style={{ color: theme.accentColor(isDark) }}
+            style={{ color: 'var(--text-primary)' }}
           >
             {t('notifications.viewAll')}
           </button>
