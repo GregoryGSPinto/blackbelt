@@ -2494,6 +2494,15 @@
       "fullscreen": "Tela cheia",
       "presentCode": "Apresente este código"
     },
+    "qrDisplay": {
+      "activeSession": "Sessão ativa",
+      "signed": "assinado",
+      "expiresIn": "Expira em {seconds}s",
+      "refresh": "Atualizar",
+      "exit": "Sair",
+      "fullscreen": "Tela cheia",
+      "instructions": "Alunos: escaneiem este QR code com o app para registrar presença"
+    },
     "leaderboard": {
       "noRankingData": "Sem dados de ranking",
       "yourPosition": "Sua posição",

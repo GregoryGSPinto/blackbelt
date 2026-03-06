@@ -2493,6 +2493,15 @@
       "fullscreen": "Fullscreen",
       "presentCode": "Present this code"
     },
+    "qrDisplay": {
+      "activeSession": "Active session",
+      "signed": "signed",
+      "expiresIn": "Expires in {seconds}s",
+      "refresh": "Refresh",
+      "exit": "Exit",
+      "fullscreen": "Fullscreen",
+      "instructions": "Students: scan this QR code with the app to check in"
+    },
     "leaderboard": {
       "noRankingData": "No ranking data",
       "yourPosition": "Your position",

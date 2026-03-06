@@ -1,0 +1,20 @@
+Bloco 1.1 completo. Resumo do que foi feito:
+
+**11 arquivos alterados, 851 linhas adicionadas:**
+
+| Item | Arquivo |
+|---|---|
+| Migration | `supabase/migrations/00025_stripe_billing.sql` — colunas Stripe + tabela `billing_usage` |
+| Stripe client | `lib/payments/stripe-client.ts` — singleton server-side |
+| Checkout | `lib/payments/stripe-checkout.ts` — `createCheckoutSession`, `createPortalSession` |
+| Webhook handler | `lib/payments/stripe-webhook.ts` — `invoice.paid`, `subscription.updated/deleted` |
+| Billing meter | `lib/payments/billing-meter.ts` — `incrementUsage`, `getUsageSummary`, wiring ao Event Bus |
+| Pricing | `lib/payments/pricing.ts` — planos Starter/Professional/Enterprise |
+| Webhook route | `app/api/webhooks/stripe/route.ts` — valida signature + processa |
+| Domain events | 3 novos: `PaymentCompleted`, `SubscriptionActivated`, `SubscriptionCancelled` |
+| Event wiring | Billing metering conectado ao bootstrap do Event Bus |
+| Dashboard | `components/billing/BillingDashboard.tsx` — plano atual, uso, faturas |
+
+- **Build**: passou sem erros
+- **Testes**: 473 passed, 0 failed
+- **Commit**: `2a0b4f3` — `[bloco 1.1] Payment Gateway (Stripe) + Billing Metering`

@@ -97,6 +97,11 @@ const config: Config = {
           hover: 'var(--accent-hover)',
         },
         'card-bg': 'var(--card-bg)',
+        // ─── Academy white-label (CSS variables from AcademyThemeContext) ───
+        academy: {
+          primary: 'var(--academy-primary, #C9A227)',
+          secondary: 'var(--academy-secondary, #1A1A2E)',
+        },
         // ─── Kids Mode Colors ───
         kids: {
           blue: {
