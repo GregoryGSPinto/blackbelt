@@ -56,7 +56,8 @@
       "Bash(cat:*)",
       "Bash(git restore:*)",
       "Bash(cd ~/Projetos/BlackBelt && npx vercel --prod --force 2>&1)",
-      "Bash(cd ~/Projetos/blackbelt && grep -rn \"from-\\\\|bg-\\\\|#[0-9a-fA-F]\\\\{3,8\\\\}\" app/\\\\\\(super-admin\\\\\\)/ --include=\"*.tsx\" | grep -iv \"gold\\\\|white\\\\|black\\\\|emerald\\\\|red-500\\\\|red-400\\\\|blue\\\\|indigo\\\\|violet\\\\|green\\\\|gray\\\\|slate\\\\|zinc\\\\|neutral\\\\|#fff\\\\|#000\\\\|#D4A\\\\|rgba\\\\|rgb\\(\\\\|transparent\\\\|currentColor\\\\|var\\(--\" | head -30)"
+      "Bash(cd ~/Projetos/blackbelt && grep -rn \"from-\\\\|bg-\\\\|#[0-9a-fA-F]\\\\{3,8\\\\}\" app/\\\\\\(super-admin\\\\\\)/ --include=\"*.tsx\" | grep -iv \"gold\\\\|white\\\\|black\\\\|emerald\\\\|red-500\\\\|red-400\\\\|blue\\\\|indigo\\\\|violet\\\\|green\\\\|gray\\\\|slate\\\\|zinc\\\\|neutral\\\\|#fff\\\\|#000\\\\|#D4A\\\\|rgba\\\\|rgb\\(\\\\|transparent\\\\|currentColor\\\\|var\\(--\" | head -30)",
+      "Bash(ls ~/Projetos/blackbelt/app/\\\\\\(super-admin\\\\\\)/super-admin/ && ls ~/Projetos/blackbelt/app/\\\\\\(developer\\\\\\)/ && ls ~/Projetos/blackbelt/app/\\\\\\(kids\\\\\\)/)"
     ]
   }
 }

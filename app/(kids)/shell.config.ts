@@ -49,8 +49,8 @@ const kidsNav = {
   searchPlaceholder: 'Buscar sessões, desafios, mestres...',
   notifications: NOTIFICATIONS,
   hideSearch: false,
-  profileHref: '/kids-inicio',
-  settingsHref: '/kids-inicio',
+  profileHref: '/kids-configuracoes',
+  settingsHref: '/kids-configuracoes',
 };
 
 // ─── Theme ────────────────────────────────────────────────

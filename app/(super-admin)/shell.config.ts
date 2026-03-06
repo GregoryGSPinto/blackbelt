@@ -56,8 +56,8 @@ const superAdminNav = {
   allItems: ALL_NAV,
   searchPlaceholder: 'Buscar academias, métricas, usuários...',
   notifications: [],
-  profileHref: '/super-admin',
-  settingsHref: '/super-admin',
+  profileHref: '/super-admin/configuracoes',
+  settingsHref: '/super-admin/configuracoes',
 };
 
 // ─── Theme — Standard palette (matching admin) ──────────────────────

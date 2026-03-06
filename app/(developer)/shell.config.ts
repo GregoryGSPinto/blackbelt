@@ -53,8 +53,8 @@ const devNav = {
   allItems: ALL_NAV,
   searchPlaceholder: 'Buscar logs, métricas, modelos...',
   notifications: [],
-  profileHref: '/developer',
-  settingsHref: '/developer',
+  profileHref: '/developer-configuracoes',
+  settingsHref: '/developer-configuracoes',
 };
 
 // ─── Theme — Emerald Dual Mode ──────────────────────────
