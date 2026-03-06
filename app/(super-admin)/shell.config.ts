@@ -60,72 +60,72 @@ const superAdminNav = {
   settingsHref: '/super-admin',
 };
 
-// ─── Theme — Indigo/Violet Dual Mode ──────────────────────
+// ─── Theme — Standard palette (matching admin) ──────────────────────
 
 const superAdminTheme: ShellTheme = {
   variant: 'top-nav',
 
   // Background
   backgroundGradient: dl(
-    'linear-gradient(135deg, rgba(15,5,30,0.04) 0%, rgba(0,0,0,0) 40%, rgba(10,0,25,0.05) 100%)',
-    'linear-gradient(135deg, rgba(99,102,241,0.02) 0%, rgba(255,255,255,0) 40%, rgba(139,92,246,0.03) 100%)',
+    'linear-gradient(135deg, rgba(30,20,10,0.04) 0%, rgba(0,0,0,0) 40%, rgba(20,12,5,0.05) 100%)',
+    'linear-gradient(135deg, rgba(30,20,10,0.03) 0%, rgba(255,255,255,0) 40%, rgba(20,12,5,0.04) 100%)',
   ),
 
   // Header
-  mobileHeaderBg: dl('rgba(15,5,30,0.75)', 'rgba(255,255,255,0.85)'),
-  mobileHeaderBorder: dl('rgba(99,102,241,0.12)', 'rgba(99,102,241,0.15)'),
-  desktopHeaderBg: dl('rgba(15,5,30,0.60)', 'rgba(255,255,255,0.8)'),
-  desktopHeaderBorder: dl('rgba(99,102,241,0.12)', 'rgba(99,102,241,0.15)'),
+  mobileHeaderBg: dl('rgba(0,0,0,0.6)', 'rgba(255,255,255,0.85)'),
+  mobileHeaderBorder: dl('rgba(255,255,255,0.08)', 'rgba(107,68,35,0.06)'),
+  desktopHeaderBg: dl('rgba(0,0,0,0.5)', 'rgba(255,255,255,0.8)'),
+  desktopHeaderBorder: dl('rgba(255,255,255,0.08)', 'rgba(107,68,35,0.06)'),
 
   // Text
-  textHeading: dl('#FFFFFF', '#0F172A'),
-  textMuted: dl('rgba(139,92,246,0.5)', '#64748B'),
+  textHeading: dl('#FFFFFF', '#15120C'),
+  textMuted: dl('rgba(255,255,255,0.4)', '#5A4B38'),
 
   // Accent
-  accentColor: always('#8B5CF6'),
-  navActiveColor: dl('#8B5CF6', '#7C3AED'),
-  navInactiveColor: dl('rgba(139,92,246,0.4)', '#94A3B8'),
-  navHoverColor: dl('rgba(139,92,246,0.7)', '#7C3AED'),
-  navIndicatorColor: dl('#8B5CF6', '#7C3AED'),
+  accentColor: dl('#FFFFFF', '#8C6239'),
+  navActiveColor: dl('#FFFFFF', '#15120C'),
+  navInactiveColor: dl('rgba(255,255,255,0.45)', '#5A4B38'),
+  navHoverColor: dl('rgba(255,255,255,0.7)', '#2A2318'),
+  navIndicatorColor: dl('#FFFFFF', '#8C6239'),
 
   // Avatar
-  avatarGradient: 'from-indigo-500/20 to-violet-600/10',
+  avatarGradient: 'from-white/20 to-white/10',
   avatarUsePerfilColor: true,
-  avatarRing: dl('rgba(139,92,246,0.15)', 'rgba(139,92,246,0.25)'),
+  avatarRing: dl('rgba(255,255,255,0.08)', 'rgba(107,68,35,0.15)'),
 
   // Notifications
   notifDotColor: '#EF4444',
-  notifAccentColor: always('#EF4444'),
+  notifAccentColor: dl('#EF4444', '#DC2626'),
 
   // Panels
   panelBg: dl(
-    'linear-gradient(180deg, rgba(15,5,30,0.97), rgba(8,2,18,0.98))',
-    'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.99))',
+    'linear-gradient(180deg, rgba(20,15,8,0.97), rgba(13,10,6,0.98))',
+    'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,248,245,0.99))',
   ),
-  panelBorder: dl('rgba(99,102,241,0.08)', 'rgba(99,102,241,0.12)'),
+  panelBorder: dl('rgba(255,255,255,0.08)', 'rgba(107,68,35,0.08)'),
   panelBackdrop: 'blur(40px) saturate(1.4)',
 
   // Bottom nav
-  bottomNavBg: dl('rgba(10,2,22,0.8)', 'rgba(255,255,255,0.9)'),
-  bottomNavBorder: dl('rgba(99,102,241,0.1)', 'rgba(99,102,241,0.12)'),
-  bottomNavActive: dl('#8B5CF6', '#7C3AED'),
-  bottomNavInactive: dl('rgba(139,92,246,0.3)', '#94A3B8'),
+  bottomNavBg: dl('rgba(0,0,0,0.7)', 'rgba(255,255,255,0.9)'),
+  bottomNavBorder: dl('rgba(255,255,255,0.08)', 'rgba(107,68,35,0.06)'),
+  bottomNavActive: dl('#FFFFFF', '#15120C'),
+  bottomNavInactive: dl('rgba(255,255,255,0.35)', '#5A4B38'),
 
   // Drawer
-  drawerBg: dl('rgba(10,2,22,0.98)', 'rgba(255,255,255,0.98)'),
-  drawerBorder: dl('rgba(99,102,241,0.06)', 'rgba(99,102,241,0.1)'),
+  drawerBg: dl('rgba(10,8,6,0.98)', 'rgba(255,255,255,0.98)'),
+  drawerBorder: dl('rgba(255,255,255,0.06)', 'rgba(107,68,35,0.06)'),
   drawerItemBg: always('transparent'),
-  drawerItemColor: dl('rgba(139,92,246,0.5)', '#64748B'),
+  drawerItemColor: dl('rgba(255,255,255,0.5)', '#5A4B38'),
 
   // Search
-  searchBg: dl('rgba(99,102,241,0.08)', 'rgba(99,102,241,0.06)'),
-  searchBorder: dl('rgba(99,102,241,0.12)', 'rgba(99,102,241,0.15)'),
-  searchText: dl('#FFFFFF', '#0F172A'),
+  searchBg: dl('rgba(255,255,255,0.08)', 'rgba(107,68,35,0.08)'),
+  searchBorder: dl('rgba(255,255,255,0.1)', 'rgba(107,68,35,0.14)'),
+  searchText: dl('#FFFFFF', '#15120C'),
 
   // Logo
   logoHref: '/super-admin',
   logoLabel: 'PLATFORM',
-  logoLabelColor: dl('#8B5CF6', '#7C3AED'),
+  logoLabelColor: dl('#FFFFFF', '#15120C'),
 
   // Content
   contentMaxWidth: 'max-w-7xl',
@@ -137,7 +137,7 @@ const superAdminTheme: ShellTheme = {
   globalStyles: `
     .light-sweep {
       position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.02) 35%, rgba(139,92,246,0.04) 50%, rgba(99,102,241,0.02) 65%, transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02) 35%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.02) 65%, transparent);
       animation: sa-sweep 25s ease infinite;
     }
     @keyframes sa-sweep { 0%{transform:translateX(0)} 50%{transform:translateX(400%)} 100%{transform:translateX(0)} }
