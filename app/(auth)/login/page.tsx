@@ -415,7 +415,6 @@ function LoginContent() {
                     background: colors.cardBg,
                     backdropFilter: 'blur(12px) saturate(1.2)',
                     WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    overflow: 'hidden',
                     transition: `${transitions.theme}, border-color 0.25s ease`,
                   }}
                   onMouseEnter={(e) => {
@@ -524,14 +523,8 @@ function LoginContent() {
                             background: isDark ? '#1a1a2e' : '#ffffff',
                             border: `1px solid ${colors.cardBorder}`,
                             borderRadius: 8,
-                            overflowX: 'hidden',
-                            overflowY: 'auto',
-                            maxHeight: '400px',
-                            zIndex: 50,
+                            zIndex: 9999,
                             boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                            overscrollBehavior: 'contain',
-                            WebkitOverflowScrolling: 'touch',
-                            touchAction: 'pan-y',
                           }}
                         >
                           {DEMO_USERS.map((u) => (
