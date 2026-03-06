@@ -163,7 +163,7 @@ export default function DashboardPage() {
                 {t('dashboard.operationalAlerts', { count: alertasAtivos.length })}
               </h3>
               <p className="text-sm text-red-300/70 mb-3">{t('dashboard.immediateActionNeeded')}</p>
-              <Link href="/alertas" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }} className="inline-flex items-center gap-2 transition-colors">
+              <Link href="/alertas" style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, borderRadius: '12px', color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }} className="inline-flex items-center gap-2 transition-colors">
                 {t('dashboard.viewAlerts')} <ArrowRight size={16} />
               </Link>
             </div>
@@ -277,7 +277,7 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-2.5">
               {stats.aptosExame.lista.map(a => (
-                <div key={a.id} className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-black/25">
+                <div key={a.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-black/25">
                   <span className="w-3 h-3 rounded-full border border-white/20 shrink-0"
                     style={{ backgroundColor: NIVEL_COLORS[a.nivelAtual] || '#E5E7EB' }} />
                   <div className="flex-1 min-w-0">
@@ -420,7 +420,7 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
         )}
       </div>
       {alert && (
-        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '8px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }} className={`inline-flex items-center gap-1.5 px-2.5 py-1 ${isC ? 'text-red-400' : 'text-yellow-400'}`}>
+        <div style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, borderRadius: '12px', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }} className={`inline-flex items-center gap-1.5 px-2.5 py-1 ${isC ? 'text-red-400' : 'text-yellow-400'}`}>
           <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" /> {t('dashboard.requiresAttention')}
         </div>
       )}
@@ -463,7 +463,7 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
   return (
     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-5">
       <button onClick={() => setExpanded(e => !e)} className="flex items-center gap-2 w-full text-left mb-3">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
           <Icon size={16} style={{ color }} />
         </div>
         <span className="text-sm font-bold text-white/70 flex-1">{title}</span>
@@ -482,7 +482,7 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
 function QuickAction({ href, icon: Icon, title, subtitle }: { href: string; icon: typeof Users; title: string; subtitle: string }) {
   return (
     <Link href={href} className="hover-card flex items-center gap-4 p-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl hover:bg-white/5 transition-all group">
-      <div className="w-10 h-10 bg-white/10 border border-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/15 transition-colors">
+      <div className="w-10 h-10 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/15 transition-colors">
         <Icon size={18} className="text-white/70" />
       </div>
       <div className="flex-1 min-w-0">

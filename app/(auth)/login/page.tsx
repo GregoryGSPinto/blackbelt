@@ -369,7 +369,7 @@ function LoginContent() {
                 fontWeight: 700,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
-                borderRadius: 0,
+                borderRadius: 12,
                 cursor: 'pointer',
                 transition: transitions.theme,
               }}

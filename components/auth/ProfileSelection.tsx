@@ -167,7 +167,7 @@ export default function ProfileSelectionPage() {
             alt="BlackBelt"
             width={64}
             height={64}
-            className="rounded-lg mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
+            className="rounded-xl mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
           />
           <h1 className="text-xl md:text-2xl lg:text-4xl font-bold tracking-tight">{t('profileSelection.title')}</h1>
           <p className="text-white/40 mt-2 text-sm">{user.email}</p>
@@ -223,7 +223,7 @@ export default function ProfileSelectionPage() {
 
                   {/* Kids shield */}
                   {profile.tipo === 'ALUNO_KIDS' && (
-                    <div className="absolute top-1 left-1 w-6 h-6 bg-amber-500/90 rounded-lg flex items-center justify-center">
+                    <div className="absolute top-1 left-1 w-6 h-6 bg-amber-500/90 rounded-xl flex items-center justify-center">
                       <Shield size={12} className="text-white" />
                     </div>
                   )}
@@ -310,7 +310,7 @@ export default function ProfileSelectionPage() {
                 setShowPasswordModal(false);
                 setPendingProfile(null);
               }}
-              className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+              className="absolute top-4 right-4 p-1.5 rounded-xl hover:bg-white/10 transition-colors text-white/40 hover:text-white"
             >
               <X size={18} />
             </button>
