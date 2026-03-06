@@ -2,7 +2,13 @@
 /**
  * Event Store — Append events, retrieve event streams, manage snapshots.
  * Uses Supabase admin client (bypasses RLS for server-side event store).
+ *
+ * NOTE: For new code, prefer importing from unified-event-store.ts.
+ * This file is kept for backward compatibility.
  */
+
+// Re-export from unified adapter for new consumers
+export { unifiedEventStore, UnifiedEventStore } from './unified-event-store';
 
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { DomainEvent } from '@/lib/domain/events/domain-events';

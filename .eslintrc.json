@@ -28,7 +28,7 @@
       }
     },
     {
-      "files": ["app/actions/**/*.ts", "lib/db/queries/**/*.ts", "lib/event-store/**/*.ts", "lib/security/rls-middleware.ts"],
+      "files": ["app/actions/**/*.ts", "lib/db/queries/**/*.ts", "lib/event-store/**/*.ts", "lib/read-models/**/*.ts", "lib/security/rls-middleware.ts"],
       "rules": {
         "@typescript-eslint/ban-ts-comment": "off"
       }

@@ -3,6 +3,9 @@
  * ║  POSTGRES EVENT STORE ADAPTER                                  ║
  * ╠══════════════════════════════════════════════════════════════════╣
  * ║                                                                 ║
+ * ║  @deprecated Use UnifiedEventStore from                        ║
+ * ║  lib/event-store/unified-event-store.ts instead.               ║
+ * ║                                                                 ║
  * ║  Implementa EventStoreAdapter contra PostgreSQL real.          ║
  * ║                                                                 ║
  * ║  Tabela: event_log (append-only)                               ║
@@ -26,6 +29,7 @@ import type {
 // ADAPTER
 // ════════════════════════════════════════════════════════════════════
 
+/** @deprecated Use UnifiedEventStore from lib/event-store/unified-event-store.ts */
 export class PostgresEventStoreAdapter implements EventStoreAdapter {
   private pool: Pool;
 
