@@ -245,7 +245,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
       </div>
 
       {/* ─── Right Actions ─── */}
-      <div className="flex items-center gap-1.5 flex-shrink-0 relative z-10">
+      <div className="flex items-center gap-1.5 flex-shrink-0 relative z-10 h-full">
         {/* Lupa toggle */}
         <button
           onClick={handleSearchToggle}
@@ -391,6 +391,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors hover:bg-red-500/10"
+                    style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black' }}
                   >
                     <LogOut size={16} className="text-red-400" />
                     <span className="text-sm font-medium text-red-400">{t('menu.logout')}</span>

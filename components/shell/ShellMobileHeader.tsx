@@ -99,7 +99,7 @@ export function ShellMobileHeader({ config, state }: Props) {
         )}
 
         {/* Right: Lupa + Bell + Theme + Avatar */}
-        <div className="flex items-center gap-0.5 flex-shrink-0">
+        <div className="flex items-center gap-0.5 flex-shrink-0 h-full">
           {/* Search toggle */}
           {showSearch && (
             <button
@@ -207,6 +207,7 @@ export function ShellMobileHeader({ config, state }: Props) {
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-colors hover:bg-red-500/10"
+                      style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black' }}
                     >
                       <LogOut size={15} className="text-red-400" />
                       <span className="text-sm font-medium text-red-400">{t('menu.logout')}</span>
