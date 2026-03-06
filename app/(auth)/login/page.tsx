@@ -16,12 +16,15 @@ type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
 
 // ─── Demo users ─────────────────────────────────────────────
 const DEMO_USERS = [
+  { label: 'Super Admin', email: 'superadmin@blackbelt.com', senha: 'blackbelt123', icon: '👑', gradient: 'from-yellow-600 to-yellow-800' },
   { label: 'Admin',       email: 'admin@blackbelt.com',      senha: 'blackbelt123', icon: '🛠️', gradient: 'from-orange-600 to-orange-800' },
   { label: 'Professor',   email: 'professor@blackbelt.com',  senha: 'blackbelt123', icon: '👨‍🏫', gradient: 'from-indigo-600 to-indigo-800' },
   { label: 'Adulto',      email: 'adulto@blackbelt.com',     senha: 'blackbelt123', icon: '👤', gradient: 'from-blue-600 to-blue-800' },
   { label: 'Teen',        email: 'miguel@blackbelt.com',     senha: 'blackbelt123', icon: '🧑', gradient: 'from-purple-600 to-purple-800' },
   { label: 'Kids',        email: 'kid@blackbelt.com',        senha: 'blackbelt123', icon: '👶', gradient: 'from-pink-600 to-pink-800' },
-  { label: 'Responsavel', email: 'paiteen@blackbelt.com',    senha: 'blackbelt123', icon: '👨‍👩‍👧', gradient: 'from-green-600 to-green-800' },
+  { label: 'Responsável', email: 'paiteen@blackbelt.com',    senha: 'blackbelt123', icon: '👨‍👩‍👧', gradient: 'from-green-600 to-green-800' },
+  { label: 'Support',     email: 'support@blackbelt.com',    senha: 'blackbelt123', icon: '🎧', gradient: 'from-teal-600 to-teal-800' },
+  { label: 'Unit Owner',  email: 'owner@blackbelt.com',      senha: 'blackbelt123', icon: '🏢', gradient: 'from-slate-600 to-slate-800' },
 ] as const;
 
 // ─── SVG Icons (inline, no library) ─────────────────────────
@@ -521,7 +524,7 @@ function LoginContent() {
                             border: `1px solid ${colors.cardBorder}`,
                             borderRadius: 8,
                             overflow: 'hidden',
-                            maxHeight: '300px',
+                            maxHeight: '400px',
                             overflowY: 'auto',
                             zIndex: 50,
                             boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
