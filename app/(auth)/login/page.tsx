@@ -107,7 +107,7 @@ function LoginContent() {
   const tCommon = useTranslations('common');
 
   // ─── State machine ────────────────────────────────────────
-  const [step, setStep] = useState<LoginStep>('EMAIL');
+  const [step, setStep] = useState<LoginStep>('INITIAL');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -156,6 +156,12 @@ function LoginContent() {
       return () => document.removeEventListener('mousedown', handleClick);
     }
   }, [showDropdown]);
+
+  // ─── Go to email step ────────────────────────────────────
+  const goToEmail = useCallback(() => {
+    setStep('EMAIL');
+    setError('');
+  }, []);
 
   // ─── Email validation ─────────────────────────────────────
   const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -338,6 +344,44 @@ function LoginContent() {
           paddingRight: '1.5rem',
         }}
       >
+        {/* ─── STEP: INITIAL ─────────────────────────────── */}
+        {step === 'INITIAL' && (
+          <div
+            style={{
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+              transition: transitions.slideUp,
+              textAlign: 'center',
+            }}
+          >
+            <button
+              onClick={goToEmail}
+              style={{
+                width: 200,
+                height: 52,
+                background: 'transparent',
+                border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
+                color: colors.text,
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                borderRadius: 12,
+                cursor: 'pointer',
+                transition: transitions.theme,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              Login
+            </button>
+          </div>
+        )}
+
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
         {step === 'EMAIL' && (
           <div
@@ -350,6 +394,28 @@ function LoginContent() {
           >
             <form onSubmit={handleEmailSubmit}>
               <div style={{ position: 'relative' }}>
+
+                {/* Back arrow to INITIAL */}
+                <button
+                  type="button"
+                  onClick={() => { setStep('INITIAL'); setError(''); }}
+                  aria-label={tCommon('actions.goBack')}
+                  style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    left: '1rem',
+                    zIndex: 2,
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0.25rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                </button>
+
                 {/* Unified bordered container: card + divider + SSO */}
                 <div
                   style={{
@@ -467,6 +533,8 @@ function LoginContent() {
                             border: `1px solid ${colors.cardBorder}`,
                             borderRadius: 8,
                             overflow: 'hidden',
+                            maxHeight: '250px',
+                            overflowY: 'auto',
                             zIndex: 50,
                             boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
                           }}
@@ -1028,7 +1096,7 @@ function LoginContent() {
         )}
 
         {/* ─── Footer ─────────────────────────────────────── */}
-        <p
+        {step !== 'INITIAL' && <p
           style={{
             textAlign: 'center',
             fontSize: '0.75rem',
@@ -1039,7 +1107,7 @@ function LoginContent() {
           }}
         >
           {t('login.termsAgreement')}
-        </p>
+        </p>}
       </div>
 
       {/* ─── Responsive styles ────────────────────────────── */}
