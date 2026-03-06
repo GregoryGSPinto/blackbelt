@@ -18,28 +18,10 @@ import { getPendingFeedback, submitFeedback } from '@/lib/api/daily-feedback.ser
 import type { PendingFeedback, FeedbackOption } from '@/lib/api/daily-feedback.service';
 import { useToast } from '@/contexts/ToastContext';
 
-const OPTIONS: { value: FeedbackOption; icon: typeof HelpCircle; label: string; desc: string; color: string }[] = [
-  {
-    value: 'DUVIDA',
-    icon: HelpCircle,
-    label: 'hadDoubt',
-    desc: 'hadDoubtDesc',
-    color: 'border-yellow-500/30 bg-yellow-500/5 hover:bg-yellow-500/10 text-yellow-400',
-  },
-  {
-    value: 'ENTENDI_TUDO',
-    icon: CheckCircle,
-    label: 'understoodAll',
-    desc: 'understoodAllDesc',
-    color: 'border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-400',
-  },
-  {
-    value: 'QUERO_REVISAR',
-    icon: PlayCircle,
-    label: 'wantReview',
-    desc: 'wantReviewDesc',
-    color: 'border-blue-500/30 bg-blue-500/5 hover:bg-blue-500/10 text-blue-400',
-  },
+const OPTIONS: { value: FeedbackOption; icon: typeof HelpCircle; label: string; desc: string }[] = [
+  { value: 'DUVIDA', icon: HelpCircle, label: 'hadDoubt', desc: 'hadDoubtDesc' },
+  { value: 'ENTENDI_TUDO', icon: CheckCircle, label: 'understoodAll', desc: 'understoodAllDesc' },
+  { value: 'QUERO_REVISAR', icon: PlayCircle, label: 'wantReview', desc: 'wantReviewDesc' },
 ];
 
 interface PostClassFeedbackProps {
@@ -98,21 +80,21 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-[#121220] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="w-full max-w-md rounded-xl shadow-2xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
         {/* Header */}
-        <div className="p-5 pb-3 border-b border-white/[0.06]">
+        <div className="p-5 pb-3" style={{ borderBottom: '1px solid black' }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-              <MessageSquare className="w-5 h-5 text-amber-400" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
+              <MessageSquare className="w-5 h-5" style={{ color: 'var(--text-primary)' }} />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">{t('title')}</h2>
-              <p className="text-[11px] text-white/40">
+              <h2 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>{t('title')}</h2>
+              <p className="text-[11px]" style={{ color: 'var(--text-secondary)' }}>
                 {pending.className} • {fmtDate(pending.classDate)}
               </p>
             </div>
           </div>
-          <p className="text-xs text-white/50 mt-3">
+          <p className="text-xs mt-3" style={{ color: 'var(--text-secondary)' }}>
             {pending.professorName} quer saber como foi. Seu feedback ajuda a melhorar as sessões.
           </p>
         </div>
@@ -123,18 +105,17 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
             <button
               key={opt.value}
               onClick={() => setSelected(opt.value)}
-              className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${
-                selected === opt.value
-                  ? `${opt.color} ring-1 ring-current`
-                  : 'border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] text-white/60'
-              }`}
+              className="w-full flex items-center gap-3 p-3 rounded-xl transition-all"
+              style={{
+                background: selected === opt.value ? 'var(--bg-secondary, rgba(0,0,0,0.03))' : 'var(--card-bg)',
+                border: '1px solid black',
+                color: 'var(--text-primary)',
+              }}
             >
-              <opt.icon className={`w-5 h-5 shrink-0 ${
-                selected === opt.value ? '' : 'text-white/30'
-              }`} />
+              <opt.icon className="w-5 h-5 shrink-0" style={{ color: 'var(--text-secondary)' }} />
               <div className="text-left">
-                <p className="text-sm font-semibold">{t(opt.label)}</p>
-                <p className={`text-[10px] ${selected === opt.value ? 'opacity-70' : 'text-white/30'}`}>
+                <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t(opt.label)}</p>
+                <p className="text-[10px]" style={{ color: 'var(--text-secondary)' }}>
                   {t(opt.desc)}
                 </p>
               </div>
@@ -150,9 +131,10 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
               onChange={(e) => setDoubtText(e.target.value)}
               placeholder={t('doubtPlaceholder')}
               maxLength={300}
-              className="w-full h-20 p-3 text-sm bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-white/20 resize-none focus:outline-none focus:border-yellow-500/30"
+              className="w-full h-20 p-3 text-sm rounded-xl resize-none focus:outline-none"
+              style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
             />
-            <p className="text-[9px] text-white/20 text-right mt-1">{doubtText.length}/300</p>
+            <p className="text-[9px] text-right mt-1" style={{ color: 'var(--text-secondary)' }}>{doubtText.length}/300</p>
           </div>
         )}
 
@@ -161,7 +143,8 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
           <button
             onClick={handleSubmit}
             disabled={!selected || submitting}
-            className="w-full flex items-center justify-center gap-2 py-3 bg-amber-500/20 border border-amber-500/30 rounded-xl text-amber-400 font-semibold text-sm hover:bg-amber-500/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
           >
             <Send className="w-4 h-4" />
             {submitting ? 'Enviando...' : t('sendFeedback')}
