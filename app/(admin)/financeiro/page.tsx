@@ -126,8 +126,8 @@ export default function FinanceiroPage() {
           <div className="space-y-3">
             {alunosPorStatus.emAtraso.map((aluno) => (
               <div key={aluno.id} style={{ background: tokens.cardBg, border: `1px solid ${tokens.divider}`, borderRadius: '12px', padding: '1rem' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}` }}>
                       <span className="font-medium text-sm" style={{ color: tokens.text }}>
                         {aluno.nome.split(' ').map(n => n[0]).join('').substring(0, 2)}
@@ -159,8 +159,8 @@ export default function FinanceiroPage() {
           <div className="space-y-3">
             {alunosPorStatus.bloqueados.map((aluno) => (
               <div key={aluno.id} style={{ background: tokens.cardBg, border: `1px solid ${tokens.divider}`, borderRadius: '12px', padding: '1rem' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}` }}>
                       <span className="font-medium text-sm" style={{ color: tokens.text }}>
                         {aluno.nome.split(' ').map(n => n[0]).join('').substring(0, 2)}

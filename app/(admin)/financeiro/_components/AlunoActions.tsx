@@ -30,16 +30,16 @@ export function AlunoEmAtrasoActions({ alunoId }: AlunoEmAtrasoActionsProps) {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
       <button
         onClick={handleValidar}
-        className="px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors text-sm font-medium"
+        className="px-2 py-1 sm:px-4 sm:py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium whitespace-nowrap"
       >
         {t('financial.validatePayment')}
       </button>
       <button
         onClick={handleBloquear}
-        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium"
+        className="px-2 py-1 sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium whitespace-nowrap"
       >
         {t('financial.blockAccess')}
       </button>
@@ -61,7 +61,7 @@ export function AlunoBloqueadoActions({ alunoId }: AlunoBloqueadoActionsProps) {
   return (
     <button
       onClick={handleDesbloquear}
-      className="px-4 py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors text-sm font-medium"
+      className="px-2 py-1 sm:px-4 sm:py-2 bg-white/10 border border-white/10 hover:bg-white/15 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium whitespace-nowrap"
     >
       {t('financial.unblockActivate')}
     </button>
