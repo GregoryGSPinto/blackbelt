@@ -261,6 +261,41 @@ export interface StreakMilestoneReached extends DomainEventBase {
 }
 
 // ════════════════════════════════════════════════════════════════════
+// FINANCIAL EVENTS
+// ════════════════════════════════════════════════════════════════════
+
+/** Pagamento concluido com sucesso */
+export interface PaymentCompleted extends DomainEventBase {
+  readonly type: 'PaymentCompleted';
+  readonly version: 1;
+  readonly payload: {
+    invoiceId: string;
+    amount: number;
+    method: string;
+  };
+}
+
+/** Assinatura ativada para academia */
+export interface SubscriptionActivated extends DomainEventBase {
+  readonly type: 'SubscriptionActivated';
+  readonly version: 1;
+  readonly payload: {
+    academyId: string;
+    planId: string;
+  };
+}
+
+/** Assinatura cancelada */
+export interface SubscriptionCancelled extends DomainEventBase {
+  readonly type: 'SubscriptionCancelled';
+  readonly version: 1;
+  readonly payload: {
+    academyId: string;
+    reason: string;
+  };
+}
+
+// ════════════════════════════════════════════════════════════════════
 // PARTICIPANT EVENTS
 // ════════════════════════════════════════════════════════════════════
 
@@ -309,7 +344,11 @@ export type DomainEvent =
   | StreakMilestoneReached
   // Participant
   | ParticipantEnrolled
-  | TrackChanged;
+  | TrackChanged
+  // Financial
+  | PaymentCompleted
+  | SubscriptionActivated
+  | SubscriptionCancelled;
 
 /** Todos os tipos de evento como string literal union */
 export type DomainEventType = DomainEvent['type'];
@@ -505,4 +544,7 @@ export const CURRENT_EVENT_VERSIONS: Record<DomainEventType, number> = {
   StreakMilestoneReached:      1,
   ParticipantEnrolled:         1,
   TrackChanged:                1,
+  PaymentCompleted:            1,
+  SubscriptionActivated:       1,
+  SubscriptionCancelled:       1,
 };
