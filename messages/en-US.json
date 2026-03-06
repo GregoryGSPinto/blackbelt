@@ -122,7 +122,12 @@
       "moduleError": "Module Error",
       "systemProtected": "System Protected",
       "loadError": "Error loading data",
-      "httpError": "HTTP Error {code}"
+      "httpError": "HTTP Error {code}",
+      "notFoundTitle": "Lost on the mat?",
+      "notFoundSubtitle": "It seems this page doesn't exist or has been moved to another dojo.",
+      "backToDashboard": "Back to Dashboard",
+      "goBackPage": "Go back to previous page",
+      "supportContact": "If the problem persists, please contact your unit's support."
     },
     "empty": {
       "noData": "No data found",
@@ -231,7 +236,57 @@
     "onboarding": {
       "skipTour": "Skip tour",
       "nextStep": "Next",
-      "finish": "Finish"
+      "finish": "Finish",
+      "tourSteps": {
+        "aluno": {
+          "step1Title": "Your next sessions",
+          "step1Desc": "See your next session, time, and instructor. Check in with one tap!",
+          "step2Title": "Attendance & progress",
+          "step2Desc": "Track your monthly attendance and see your trend. Try to beat your goal!",
+          "step3Title": "Technique catalog",
+          "step3Desc": "Watch sessions and techniques in the catalog. New videos added every week.",
+          "step4Title": "Set your goal!",
+          "step4Desc": "Check the ranking, achievements, and challenges. Every training counts. Oss!"
+        },
+        "instrutor": {
+          "step1Title": "Your control panel",
+          "step1Desc": "Here you get the full picture: classes, students, stats, and alerts.",
+          "step2Title": "One-tap attendance",
+          "step2Desc": "Start attendance quickly. The system detects the class by schedule automatically.",
+          "step3Title": "Students needing attention",
+          "step3Desc": "Smart alerts show absences, attendance drops, and students ready for promotion.",
+          "step4Title": "Session timer",
+          "step4Desc": "Use the timer during the session to control rounds and intervals."
+        },
+        "responsavel": {
+          "step1Title": "Your child's attendance",
+          "step1Desc": "Track weekly attendance and see if they're on the right path.",
+          "step2Title": "Progress & achievements",
+          "step2Desc": "View promotions, achievements, and technical growth.",
+          "step3Title": "Message the instructor",
+          "step3Desc": "Send quick messages about absences, questions, or compliments."
+        },
+        "admin": {
+          "step1Title": "Admin dashboard",
+          "step1Desc": "Unit overview: active students, revenue, alerts, and key metrics.",
+          "step2Title": "Member management",
+          "step2Desc": "Manage students, instructors, and guardians. Advanced filters and batch actions.",
+          "step3Title": "Unit settings",
+          "step3Desc": "Customize classes, schedules, plans, and notifications for your unit.",
+          "step4Title": "Smart alerts",
+          "step4Desc": "Get alerts about churn risk, overdue payments, and growth opportunities."
+        }
+      }
+    },
+    "sounds": {
+      "title": "App sounds",
+      "description": "Subtle sounds for action feedback",
+      "enabled": "Sounds enabled",
+      "disabled": "Sounds disabled"
+    },
+    "haptics": {
+      "title": "Vibration",
+      "description": "Haptic feedback when performing actions"
     },
     "cache": {
       "updatedNow": "Updated just now",

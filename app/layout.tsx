@@ -16,6 +16,7 @@ import { PrivacyConsentModal } from "@/components/shared/PrivacyConsentModal";
 import { ErrorTrackerInit } from "@/components/shared/ErrorTrackerInit";
 import { ThemedBackground } from "@/components/shared/ThemedBackground";
 import SplashScreen from "@/components/SplashScreen";
+import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -77,6 +78,7 @@ export default async function RootLayout({
                   <ResponsiveProvider>
                     <KeyboardProvider>
                     <ErrorTrackerInit />
+                    <DynamicFavicon />
                     <DemoBanner />
                     <SlowConnectionBanner />
                     <SplashScreen />

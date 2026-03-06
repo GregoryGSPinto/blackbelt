@@ -7,7 +7,8 @@
 // ============================================================
 'use client';
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface OnboardingStep {
   /** CSS selector for the target element */
@@ -56,89 +57,70 @@ const STORAGE_KEY = 'blackbelt_onboarding';
 
 // ── Tour definitions per profile ──
 
-const TOURS: Record<string, OnboardingTour> = {
+// Tour step templates — titles/descriptions are resolved from i18n at runtime
+interface TourTemplate {
+  id: string;
+  steps: Array<{
+    target: string;
+    titleKey: string;
+    descKey: string;
+    position?: 'top' | 'bottom' | 'left' | 'right';
+  }>;
+}
+
+const TOUR_TEMPLATES: Record<string, TourTemplate> = {
   aluno: {
     id: 'aluno',
     steps: [
-      {
-        target: '[data-tour="proxima-sessao"]',
-        title: 'Suas próximas sessões',
-        description: 'Veja qual é sua próxima sessão, o horário e o instrutor. Faça check-in com um toque!',
-        position: 'bottom',
-      },
-      {
-        target: '[data-tour="frequencia"]',
-        title: 'Frequência e evolução',
-        description: 'Acompanhe sua presença mensal e veja sua tendência. Tente bater sua meta!',
-        position: 'bottom',
-      },
-      {
-        target: '[data-tour="videos"]',
-        title: 'Catálogo de técnicas',
-        description: 'Assista sessões e técnicas no catálogo. Novos vídeos são adicionados toda semana.',
-        position: 'top',
-      },
-      {
-        target: '[data-nav="ranking"]',
-        title: 'Defina sua meta!',
-        description: 'Confira o ranking, conquistas e desafios. Cada treino conta pontos. Oss! 🥋',
-        position: 'top',
-      },
+      { target: '[data-tour="proxima-sessao"]', titleKey: 'step1Title', descKey: 'step1Desc', position: 'bottom' },
+      { target: '[data-tour="frequencia"]', titleKey: 'step2Title', descKey: 'step2Desc', position: 'bottom' },
+      { target: '[data-tour="videos"]', titleKey: 'step3Title', descKey: 'step3Desc', position: 'top' },
+      { target: '[data-nav="ranking"]', titleKey: 'step4Title', descKey: 'step4Desc', position: 'top' },
     ],
   },
   instrutor: {
     id: 'instrutor',
     steps: [
-      {
-        target: '[data-tour="prof-dashboard"]',
-        title: 'Seu painel de controle',
-        description: 'Aqui você tem a visão completa: turmas, alunos, estatísticas e alertas.',
-        position: 'bottom',
-      },
-      {
-        target: '[data-tour="prof-chamada"]',
-        title: 'Chamada com 1 toque',
-        description: 'Inicie a chamada rapidamente. O sistema detecta a turma pelo horário automaticamente.',
-        position: 'bottom',
-      },
-      {
-        target: '[data-tour="prof-alertas"]',
-        title: 'Alunos que precisam de atenção',
-        description: 'Alertas inteligentes mostram ausências, quedas de frequência e alunos aptos para graduação.',
-        position: 'top',
-      },
-      {
-        target: '[data-nav="professor-cronometro"]',
-        title: 'Cronômetro de sessão',
-        description: 'Use o cronômetro durante a sessão para controlar rounds e intervalos.',
-        position: 'top',
-      },
+      { target: '[data-tour="prof-dashboard"]', titleKey: 'step1Title', descKey: 'step1Desc', position: 'bottom' },
+      { target: '[data-tour="prof-chamada"]', titleKey: 'step2Title', descKey: 'step2Desc', position: 'bottom' },
+      { target: '[data-tour="prof-alertas"]', titleKey: 'step3Title', descKey: 'step3Desc', position: 'top' },
+      { target: '[data-nav="professor-cronometro"]', titleKey: 'step4Title', descKey: 'step4Desc', position: 'top' },
     ],
   },
   responsavel: {
     id: 'responsavel',
     steps: [
-      {
-        target: '[data-tour="parent-frequencia"]',
-        title: 'Frequência do seu filho',
-        description: 'Acompanhe a presença semanal e veja se está no caminho certo.',
-        position: 'bottom',
-      },
-      {
-        target: '[data-tour="parent-progresso"]',
-        title: 'Progresso e conquistas',
-        description: 'Veja as graduações, conquistas e evolução técnica.',
-        position: 'bottom',
-      },
-      {
-        target: '[data-tour="parent-mensagem"]',
-        title: 'Mensagem para o instrutor',
-        description: 'Envie mensagens rápidas sobre ausência, dúvidas ou elogios.',
-        position: 'top',
-      },
+      { target: '[data-tour="parent-frequencia"]', titleKey: 'step1Title', descKey: 'step1Desc', position: 'bottom' },
+      { target: '[data-tour="parent-progresso"]', titleKey: 'step2Title', descKey: 'step2Desc', position: 'bottom' },
+      { target: '[data-tour="parent-mensagem"]', titleKey: 'step3Title', descKey: 'step3Desc', position: 'top' },
+    ],
+  },
+  admin: {
+    id: 'admin',
+    steps: [
+      { target: '[data-tour="admin-dashboard"]', titleKey: 'step1Title', descKey: 'step1Desc', position: 'bottom' },
+      { target: '[data-tour="admin-members"]', titleKey: 'step2Title', descKey: 'step2Desc', position: 'bottom' },
+      { target: '[data-tour="admin-settings"]', titleKey: 'step3Title', descKey: 'step3Desc', position: 'top' },
+      { target: '[data-tour="admin-alerts"]', titleKey: 'step4Title', descKey: 'step4Desc', position: 'top' },
     ],
   },
 };
+
+/** Resolves tour template with i18n translations */
+function resolveTour(profileKey: string, translator: (key: string) => string): OnboardingTour | null {
+  const template = TOUR_TEMPLATES[profileKey];
+  if (!template) return null;
+
+  return {
+    id: template.id,
+    steps: template.steps.map(step => ({
+      target: step.target,
+      title: translator(`${step.titleKey}`),
+      description: translator(`${step.descKey}`),
+      position: step.position,
+    })),
+  };
+}
 
 // ── Context ──
 
@@ -149,6 +131,11 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [tour, setTour] = useState<OnboardingTour | null>(null);
   const [completed, setCompleted] = useState<Record<string, boolean>>({});
+  const completedRef = useRef(completed);
+  completedRef.current = completed;
+
+  // i18n — load tour step translations
+  const tSteps = useTranslations('common.onboarding.tourSteps');
 
   // Load completed state from localStorage
   useEffect(() => {
@@ -163,17 +150,24 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
   }, []);
 
-  const isCompleted = useCallback((key: string) => !!completed[key], [completed]);
+  const isCompleted = useCallback((key: string) => !!completedRef.current[key], []);
 
-  const isFirstVisit = useCallback((key: string) => !completed[key], [completed]);
+  const isFirstVisit = useCallback((key: string) => !completedRef.current[key], []);
 
   const startTour = useCallback((profileKey: string) => {
-    const t = TOURS[profileKey];
-    if (!t) return;
-    setTour(t);
+    const translator = (stepKey: string) => {
+      try {
+        return tSteps(`${profileKey}.${stepKey}`);
+      } catch {
+        return stepKey;
+      }
+    };
+    const resolved = resolveTour(profileKey, translator);
+    if (!resolved) return;
+    setTour(resolved);
     setCurrentStep(0);
     setIsActive(true);
-  }, []);
+  }, [tSteps]);
 
   const next = useCallback(() => {
     if (!tour) return;

@@ -123,7 +123,12 @@
       "moduleError": "Erro no Módulo",
       "systemProtected": "Sistema Protegido",
       "loadError": "Erro ao carregar dados",
-      "httpError": "Erro HTTP {code}"
+      "httpError": "Erro HTTP {code}",
+      "notFoundTitle": "Perdido no tatame?",
+      "notFoundSubtitle": "Parece que essa página não existe ou foi movida para outro dojo.",
+      "backToDashboard": "Voltar ao Dashboard",
+      "goBackPage": "Voltar à página anterior",
+      "supportContact": "Se o problema persistir, entre em contato com o suporte da unidade."
     },
     "empty": {
       "noData": "Nenhum dado encontrado",
@@ -232,7 +237,57 @@
     "onboarding": {
       "skipTour": "Pular tour",
       "nextStep": "Próximo",
-      "finish": "Finalizar"
+      "finish": "Finalizar",
+      "tourSteps": {
+        "aluno": {
+          "step1Title": "Suas próximas sessões",
+          "step1Desc": "Veja qual é sua próxima sessão, o horário e o instrutor. Faça check-in com um toque!",
+          "step2Title": "Frequência e evolução",
+          "step2Desc": "Acompanhe sua presença mensal e veja sua tendência. Tente bater sua meta!",
+          "step3Title": "Catálogo de técnicas",
+          "step3Desc": "Assista sessões e técnicas no catálogo. Novos vídeos são adicionados toda semana.",
+          "step4Title": "Defina sua meta!",
+          "step4Desc": "Confira o ranking, conquistas e desafios. Cada treino conta pontos. Oss!"
+        },
+        "instrutor": {
+          "step1Title": "Seu painel de controle",
+          "step1Desc": "Aqui você tem a visão completa: turmas, alunos, estatísticas e alertas.",
+          "step2Title": "Chamada com 1 toque",
+          "step2Desc": "Inicie a chamada rapidamente. O sistema detecta a turma pelo horário automaticamente.",
+          "step3Title": "Alunos que precisam de atenção",
+          "step3Desc": "Alertas inteligentes mostram ausências, quedas de frequência e alunos aptos para graduação.",
+          "step4Title": "Cronômetro de sessão",
+          "step4Desc": "Use o cronômetro durante a sessão para controlar rounds e intervalos."
+        },
+        "responsavel": {
+          "step1Title": "Frequência do seu filho",
+          "step1Desc": "Acompanhe a presença semanal e veja se está no caminho certo.",
+          "step2Title": "Progresso e conquistas",
+          "step2Desc": "Veja as graduações, conquistas e evolução técnica.",
+          "step3Title": "Mensagem para o instrutor",
+          "step3Desc": "Envie mensagens rápidas sobre ausência, dúvidas ou elogios."
+        },
+        "admin": {
+          "step1Title": "Painel administrativo",
+          "step1Desc": "Visão geral da unidade: alunos ativos, receita, alertas e métricas importantes.",
+          "step2Title": "Gestão de membros",
+          "step2Desc": "Gerencie alunos, instrutores e responsáveis. Filtros avançados e ações em lote.",
+          "step3Title": "Configurações da unidade",
+          "step3Desc": "Personalize turmas, horários, planos e notificações da sua unidade.",
+          "step4Title": "Alertas inteligentes",
+          "step4Desc": "Receba alertas sobre evasão, inadimplência e oportunidades de crescimento."
+        }
+      }
+    },
+    "sounds": {
+      "title": "Sons do app",
+      "description": "Sons sutis para feedback de ações",
+      "enabled": "Sons ativados",
+      "disabled": "Sons desativados"
+    },
+    "haptics": {
+      "title": "Vibração",
+      "description": "Feedback tátil ao realizar ações"
     },
     "cache": {
       "updatedNow": "Atualizado agora",

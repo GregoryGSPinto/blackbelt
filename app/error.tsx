@@ -8,7 +8,7 @@
 
 import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Home, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { errorTracker } from '@/lib/monitoring/error-tracker';
 
@@ -29,12 +29,12 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-[var(--bg-primary)]">
       <div
         className="max-w-md w-full rounded-2xl p-8 text-center"
         style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--card-bg)',
+          border: '1px solid var(--border)',
           backdropFilter: 'blur(24px)',
         }}
       >
@@ -47,16 +47,16 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         </div>
 
         {/* Title */}
-        <h1 className="text-xl font-bold text-white mb-2">{t('generic')}</h1>
-        <p className="text-sm text-white/40 mb-6">
-          Ocorreu um erro inesperado. Não se preocupe, sua sessão está segura.
+        <h1 className="text-xl font-bold text-[var(--text-primary)] mb-2">{t('generic')}</h1>
+        <p className="text-sm text-[var(--text-secondary)] mb-6">
+          {t('unexpectedError')}
         </p>
 
         {/* Error digest (for support) */}
         {error.digest && (
-          <div className="mb-6 px-3 py-2 rounded-lg bg-white/3 border border-white/6">
-            <p className="text-[10px] text-white/20 font-mono">
-              Código: {error.digest}
+          <div className="mb-6 px-3 py-2 rounded-lg" style={{ background: 'rgba(201,162,39,0.05)', border: '1px solid rgba(201,162,39,0.15)' }}>
+            <p className="text-[10px] text-[var(--text-tertiary)] font-mono">
+              {t('errorCode')} {error.digest}
             </p>
           </div>
         )}
@@ -66,8 +66,11 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
           <button
             onClick={reset}
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm
-                       bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400
                        transition-all shadow-lg"
+            style={{
+              background: 'linear-gradient(135deg, #C9A227, #A68521)',
+              color: '#1A1A2E',
+            }}
           >
             <RefreshCw size={16} /> {tActions('tryAgain')}
           </button>
@@ -75,15 +78,21 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
           <Link
             href="/dashboard"
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium text-sm
-                       bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 transition-colors"
+                       border transition-colors"
+            style={{
+              background: 'rgba(201,162,39,0.05)',
+              borderColor: 'rgba(201,162,39,0.2)',
+              color: 'var(--text-secondary)',
+            }}
           >
             <Home size={16} /> {tActions('goHome')}
           </Link>
         </div>
 
         {/* Help text */}
-        <p className="text-[10px] text-white/15 mt-6">
-          Se o problema persistir, entre em contato com o suporte da unidade.
+        <p className="text-[10px] text-[var(--text-tertiary)] mt-6 flex items-center justify-center gap-1">
+          <MessageCircle size={10} />
+          {t('supportContact')}
         </p>
       </div>
     </div>
