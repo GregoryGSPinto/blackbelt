@@ -3,7 +3,6 @@
 import { useState, useEffect, Suspense, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -167,6 +166,14 @@ function LoginContent() {
     setPassword(demoUser.senha);
     setError('');
     setShowDropdown(false);
+    // Auto-redirect to password step
+    setCardVisible(false);
+    setSlideDir('left');
+    setTimeout(() => {
+      setStep('PASSWORD');
+      setSlideDir('right');
+      setTimeout(() => setCardVisible(true), 20);
+    }, 350);
   }, []);
 
   // ─── Step transitions ─────────────────────────────────────
@@ -325,79 +332,12 @@ function LoginContent() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          paddingTop: '6vh',
+          paddingTop: '12vh',
           paddingBottom: '3rem',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
         }}
       >
-        {/* ─── Logo ───────────────────────────────────────── */}
-        <div
-          style={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: transitions.slideUp,
-            textAlign: 'center',
-            marginBottom: '2rem',
-          }}
-        >
-          <Image
-            src="/images/logo-blackbelt.png"
-            alt="BlackBelt"
-            width={56}
-            height={56}
-            className="rounded-xl mx-auto mb-3 shadow-2xl"
-            style={{ border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)'}` }}
-          />
-          <h1
-            style={{
-              color: colors.text,
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
-              transition: transitions.theme,
-            }}
-          >
-            BLACKBELT
-          </h1>
-        </div>
-
-        {/* ─── Demo User Cards ────────────────────────────── */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 520,
-            marginBottom: '1.5rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s',
-          }}
-        >
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
-            {DEMO_USERS.map((u) => {
-              const isSelected = email === u.email;
-              return (
-                <button
-                  key={u.email}
-                  type="button"
-                  onClick={() => selectDemoUser(u)}
-                  className={`rounded-xl p-3 flex flex-col items-center gap-1.5 transition-all duration-200 bg-gradient-to-br ${u.gradient} hover:scale-105 active:scale-95`}
-                  style={{
-                    border: isSelected ? '2px solid #000' : '1px solid #000',
-                    boxShadow: isSelected ? '0 0 0 2px rgba(201,162,39,0.5)' : 'none',
-                  }}
-                >
-                  <span className="text-2xl">{u.icon}</span>
-                  <span className="text-[11px] font-semibold text-white truncate w-full text-center">
-                    {u.label}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
         {step === 'EMAIL' && (
           <div
@@ -414,9 +354,11 @@ function LoginContent() {
                 <div
                   style={{
                     border: `1px solid ${colors.cardBorder}`,
+                    borderRadius: 12,
                     background: colors.cardBg,
                     backdropFilter: 'blur(12px) saturate(1.2)',
                     WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    overflow: 'hidden',
                     transition: `${transitions.theme}, border-color 0.25s ease`,
                   }}
                   onMouseEnter={(e) => {
@@ -691,6 +633,8 @@ function LoginContent() {
               <div
                 style={{
                   border: `1px solid ${colors.cardBorder}`,
+                  borderRadius: 12,
+                  overflow: 'hidden',
                   background: colors.cardBg,
                   backdropFilter: 'blur(12px) saturate(1.2)',
                   WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
@@ -878,6 +822,8 @@ function LoginContent() {
               <div
                 style={{
                   border: `1px solid ${colors.cardBorder}`,
+                  borderRadius: 12,
+                  overflow: 'hidden',
                   background: colors.cardBg,
                   backdropFilter: 'blur(12px) saturate(1.2)',
                   WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
@@ -918,6 +864,8 @@ function LoginContent() {
               <div
                 style={{
                   border: `1px solid ${colors.cardBorder}`,
+                  borderRadius: 12,
+                  overflow: 'hidden',
                   background: colors.cardBg,
                   backdropFilter: 'blur(12px) saturate(1.2)',
                   WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
