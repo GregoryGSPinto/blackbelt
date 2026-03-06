@@ -514,6 +514,7 @@ function LoginContent() {
                       {/* Dropdown menu */}
                       {showDropdown && (
                         <div
+                          onTouchMove={(e) => e.stopPropagation()}
                           style={{
                             position: 'absolute',
                             top: '100%',
@@ -523,11 +524,14 @@ function LoginContent() {
                             background: isDark ? '#1a1a2e' : '#ffffff',
                             border: `1px solid ${colors.cardBorder}`,
                             borderRadius: 8,
-                            overflow: 'hidden',
-                            maxHeight: '400px',
+                            overflowX: 'hidden',
                             overflowY: 'auto',
+                            maxHeight: '400px',
                             zIndex: 50,
                             boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                            overscrollBehavior: 'contain',
+                            WebkitOverflowScrolling: 'touch',
+                            touchAction: 'pan-y',
                           }}
                         >
                           {DEMO_USERS.map((u) => (
