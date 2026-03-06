@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { X, Sun, Moon, User, LogOut, ArrowRightLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
-import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
+
 import { useSwipeGesture } from '@/hooks/useSwipeGesture';
 
 interface Props {
@@ -174,10 +174,6 @@ export function ShellMobileDrawer({ config, state }: Props) {
               </button>
             )}
 
-            {/* Language switcher */}
-            <div style={{ color: theme.textMuted(isDark) }}>
-              <LanguageSwitcher variant="mobile" />
-            </div>
 
             {/* Logout */}
             <button

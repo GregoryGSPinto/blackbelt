@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
-import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
+
 
 interface Props {
   config: AppShellConfig;
@@ -293,10 +293,6 @@ export function ShellDesktopHeader({ config, state }: Props) {
           </button>
         )}
 
-        {/* Language switcher */}
-        <div style={{ color: theme.textMuted(isDark) }}>
-          <LanguageSwitcher variant="desktop" />
-        </div>
 
         {/* Avatar + dropdown */}
         <div className="relative">
