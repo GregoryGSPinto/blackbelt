@@ -57,7 +57,14 @@
       "Bash(git restore:*)",
       "Bash(cd ~/Projetos/BlackBelt && npx vercel --prod --force 2>&1)",
       "Bash(cd ~/Projetos/blackbelt && grep -rn \"from-\\\\|bg-\\\\|#[0-9a-fA-F]\\\\{3,8\\\\}\" app/\\\\\\(super-admin\\\\\\)/ --include=\"*.tsx\" | grep -iv \"gold\\\\|white\\\\|black\\\\|emerald\\\\|red-500\\\\|red-400\\\\|blue\\\\|indigo\\\\|violet\\\\|green\\\\|gray\\\\|slate\\\\|zinc\\\\|neutral\\\\|#fff\\\\|#000\\\\|#D4A\\\\|rgba\\\\|rgb\\(\\\\|transparent\\\\|currentColor\\\\|var\\(--\" | head -30)",
-      "Bash(ls ~/Projetos/blackbelt/app/\\\\\\(super-admin\\\\\\)/super-admin/ && ls ~/Projetos/blackbelt/app/\\\\\\(developer\\\\\\)/ && ls ~/Projetos/blackbelt/app/\\\\\\(kids\\\\\\)/)"
+      "Bash(ls ~/Projetos/blackbelt/app/\\\\\\(super-admin\\\\\\)/super-admin/ && ls ~/Projetos/blackbelt/app/\\\\\\(developer\\\\\\)/ && ls ~/Projetos/blackbelt/app/\\\\\\(kids\\\\\\)/)",
+      "Bash(pkill -f \"next dev\" 2>/dev/null; echo \"stopped\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/user_pc/Projetos/BlackBelt/messages/pt-BR.json'\\)\\); print\\(json.dumps\\(d.get\\('common',{}\\).get\\('errors',{}\\), indent=2, ensure_ascii=False\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/user_pc/Projetos/BlackBelt/messages/pt-BR.json'\\)\\); t=d.get\\('common',{}\\).get\\('time',{}\\).get\\('weekdays',{}\\); print\\(json.dumps\\(t, indent=2, ensure_ascii=False\\)\\)\")",
+      "Bash(python3 -c \"\nimport json\nd=json.load\\(open\\('/Users/user_pc/Projetos/BlackBelt/messages/en-US.json'\\)\\)\np=d.get\\('parent',{}\\).get\\('dashboard',{}\\)\nprint\\('parent.dashboard:', json.dumps\\(p, indent=2, ensure_ascii=False\\) if p else 'MISSING'\\)\n\")",
+      "Bash(python3 -c \"\nimport json\nfor lang in ['pt-BR', 'en-US']:\n    d=json.load\\(open\\(f'/Users/user_pc/Projetos/BlackBelt/messages/{lang}.json'\\)\\)\n    s=d.get\\('common',{}\\).get\\('status',{}\\)\n    print\\(f'{lang} common.status:', list\\(s.keys\\(\\)\\) if s else 'MISSING'\\)\n\")",
+      "Bash(python3 -c \"\nimport json\nfor lang in ['pt-BR', 'en-US']:\n    d=json.load\\(open\\(f'/Users/user_pc/Projetos/BlackBelt/messages/{lang}.json'\\)\\)\n    a=d.get\\('common',{}\\).get\\('actions',{}\\)\n    print\\(f'{lang}: entering={a.get\\(\\\\\"entering\\\\\",\\\\\"MISSING\\\\\"\\)}, loading={a.get\\(\\\\\"loading\\\\\",\\\\\"MISSING\\\\\"\\)}, redirecting={a.get\\(\\\\\"redirecting\\\\\",\\\\\"MISSING\\\\\"\\)}'\\)\n\")",
+      "Bash(pkill -f \"next dev\" 2>/dev/null; echo \"done\")"
     ]
   }
 }

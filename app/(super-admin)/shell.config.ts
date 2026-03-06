@@ -55,7 +55,11 @@ const superAdminNav = {
   drawerNav: DRAWER_NAV,
   allItems: ALL_NAV,
   searchPlaceholder: 'Buscar academias, métricas, usuários...',
-  notifications: [],
+  notifications: [
+    { id: 1, title: 'Nova academia cadastrada', desc: 'BlackBelt Savassi ativou o plano Premium', time: '10min' },
+    { id: 2, title: 'Alerta de inadimplência', desc: '5 academias com pagamento atrasado', time: '2h' },
+    { id: 3, title: 'Atualização do sistema', desc: 'Versão 2.4 disponível para deploy', time: '1d' },
+  ],
   profileHref: '/super-admin/configuracoes',
   settingsHref: '/super-admin/configuracoes',
 };
