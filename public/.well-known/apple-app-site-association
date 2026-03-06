@@ -5,6 +5,10 @@
       {
         "appID": "TEAM_ID.com.blackbelt.app",
         "paths": [
+          "/academy/*",
+          "/athlete/*",
+          "/post/*",
+          "/competition/*",
           "/selecionar-perfil",
           "/dashboard",
           "/professor-dashboard",

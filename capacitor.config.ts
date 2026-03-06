@@ -34,6 +34,11 @@ const config: CapacitorConfig = {
     },
   },
 
+  // ── Deep Linking ──
+  server: {
+    hostname: 'blackbelt.app',
+  },
+
   // ── iOS ──
   ios: {
     scheme: 'BlackBelt',
