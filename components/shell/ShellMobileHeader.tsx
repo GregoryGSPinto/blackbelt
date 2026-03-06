@@ -45,31 +45,31 @@ export function ShellMobileHeader({ config, state }: Props) {
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
     >
       <div
-        className="flex items-center justify-between px-4 h-[72px] backdrop-blur-md"
+        className="relative flex items-center justify-between px-4 h-[72px] backdrop-blur-md"
         style={{
           background: theme.mobileHeaderBg(isDark),
           borderBottom: `1px solid ${theme.mobileHeaderBorder(isDark)}`,
         }}
       >
-        {/* Left: User Name (collapses on search) */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        {/* Left: User Name */}
+        <div className="flex items-center gap-3 flex-shrink-0 flex-1 min-w-0">
           <span
-            className={`text-xl font-normal tracking-tight whitespace-nowrap overflow-hidden ${MORPH} ${font}`}
+            className={`text-xl font-normal tracking-tight whitespace-nowrap overflow-hidden truncate ${font}`}
             style={{
-              maxWidth: searchOpen ? 0 : 200,
-              opacity: searchOpen ? 0 : 1,
               color: theme.logoLabelColor(isDark),
+              opacity: searchOpen ? 0 : 1,
+              transition: 'opacity 200ms ease',
             }}
           >
             {user?.nome || ''}
           </span>
         </div>
 
-        {/* Center: Expandable search input (only when search is enabled) */}
+        {/* Search overlay (absolute, does not affect flex layout) */}
         {showSearch && (
           <div
-            className={`flex-1 mx-2 ${MORPH}`}
-            style={{ maxWidth: searchOpen ? 999 : 0, opacity: searchOpen ? 1 : 0, overflow: 'hidden' }}
+            className={`absolute left-4 right-[140px] top-1/2 -translate-y-1/2 ${MORPH}`}
+            style={{ opacity: searchOpen ? 1 : 0, pointerEvents: searchOpen ? 'auto' : 'none' }}
           >
             <div className="relative">
               <Search
@@ -90,6 +90,7 @@ export function ShellMobileHeader({ config, state }: Props) {
                   border: `1px solid ${theme.searchBorder(isDark)}`,
                   color: theme.searchText(isDark),
                 }}
+                tabIndex={searchOpen ? 0 : -1}
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
