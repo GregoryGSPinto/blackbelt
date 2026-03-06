@@ -16,44 +16,37 @@ import { useFormatting } from '@/hooks/useFormatting';
 import type {
   MockFinancialData, MockMonthlyData, MockPaymentHistory,
 } from '@/lib/__mocks__/super-admin.mock';
-import { getDesignTokens } from '@/lib/design-tokens';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 
-const PAYMENT_STATUS = {
-  pago:     { labelKey: 'paid',     dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
-  pendente: { labelKey: 'pending', dotDark: 'bg-amber-400',   dotLight: 'bg-amber-500',   textDark: 'text-amber-400',   textLight: 'text-amber-700' },
-  atrasado: { labelKey: 'overdue', dotDark: 'bg-red-400',     dotLight: 'bg-red-500',     textDark: 'text-red-400',     textLight: 'text-red-700' },
+const PAYMENT_STATUS: Record<string, { labelKey: string; variant: 'success' | 'warning' | 'error' }> = {
+  pago:     { labelKey: 'paid',    variant: 'success' },
+  pendente: { labelKey: 'pending', variant: 'warning' },
+  atrasado: { labelKey: 'overdue', variant: 'error' },
 };
 
 // ============================================================
 // COMPONENTS
 // ============================================================
 
-function FinCard({ icon: Icon, label, value, sub, alert, isDark }: {
+function FinCard({ icon: Icon, label, value, sub, alert }: {
   icon: React.ElementType;
   label: string;
   value: string;
   sub?: string;
   alert?: boolean;
-  isDark: boolean;
 }) {
   return (
-    <div className={`
-      relative overflow-hidden rounded-2xl border p-5
-      ${isDark
-        ? 'bg-gradient-to-br from-indigo-500/10 to-violet-500/10 border-indigo-500/20'
-        : 'bg-gradient-to-br from-indigo-50 to-violet-50 border-indigo-200/50'
-      }
-      backdrop-blur-sm
-    `}>
+    <div className="stat-card hover-card rounded-xl p-5">
       <div className="flex items-start justify-between">
         <div className="space-y-2">
-          <p className={`text-xs font-medium uppercase tracking-wider ${isDark ? 'text-white/50' : 'text-slate-500'}`}>{label}</p>
-          <p className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{value}</p>
+          <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">{label}</p>
+          <p className="text-2xl font-bold text-[var(--text-primary)]">{value}</p>
           {sub && (
-            <p className={`text-xs ${isDark ? 'text-white/40' : 'text-slate-500'}`}>{sub}</p>
+            <p className="text-xs text-[var(--text-secondary)]">{sub}</p>
           )}
         </div>
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${alert ? 'bg-red-500/20 text-red-400' : isDark ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-100 text-indigo-600'}`}>
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${alert ? 'bg-red-500/20 text-red-400' : 'bg-gold-500/10 text-gold-500'}`}>
           <Icon className="w-5 h-5" />
         </div>
       </div>
@@ -68,7 +61,6 @@ function FinCard({ icon: Icon, label, value, sub, alert, isDark }: {
 export default function FinanceiroPage() {
   const t = useTranslations('superAdmin.financial');
   const { isDark } = useTheme();
-  const tokens = getDesignTokens(isDark);
   const { formatNumber, formatDate, currencyCode } = useFormatting();
   const formatBRL = (value: number) => formatNumber(value, { style: 'currency', currency: currencyCode, minimumFractionDigits: 0 });
   const [financial, setFinancial] = useState<MockFinancialData | null>(null);
@@ -113,48 +105,41 @@ export default function FinanceiroPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('title')}</h1>
-          <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">{t('title')}</h1>
+          <p className="text-sm mt-1 text-[var(--text-secondary)]">
             {t('subtitle')}
           </p>
         </div>
-        <button className={`
-          flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
-          ${isDark
-            ? 'bg-white/10 text-white hover:bg-white/20'
-            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-          }
-        `}>
-          <Download className="w-4 h-4" />
+        <Button variant="ghost" size="sm" icon={<Download className="w-4 h-4" />}>
           {t('export')}
-        </button>
+        </Button>
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <FinCard isDark={isDark} icon={DollarSign} label={t('totalRevenue')} value={formatBRL(financial.receitaTotal)} sub={`+${financial.crescimentoReceita}% ${t('vsLastMonth')}`} />
-        <FinCard isDark={isDark} icon={TrendingDown} label={t('churnRate')} value={`${financial.churnRate}%`} sub={t('cancellationRate')} alert={financial.churnRate > 5} />
-        <FinCard isDark={isDark} icon={Target} label={t('ltv')} value={formatBRL(financial.ltv)} sub={`${t('cac')} ${formatBRL(financial.cac)}`} />
-        <FinCard isDark={isDark} icon={AlertTriangle} label={t('defaultRate')} value={`${financial.inadimplencia}%`} alert={financial.inadimplencia > 5} sub={t('ofTotalAcademies')} />
+      <div className="resp-grid-stats">
+        <FinCard icon={DollarSign} label={t('totalRevenue')} value={formatBRL(financial.receitaTotal)} sub={`+${financial.crescimentoReceita}% ${t('vsLastMonth')}`} />
+        <FinCard icon={TrendingDown} label={t('churnRate')} value={`${financial.churnRate}%`} sub={t('cancellationRate')} alert={financial.churnRate > 5} />
+        <FinCard icon={Target} label={t('ltv')} value={formatBRL(financial.ltv)} sub={`${t('cac')} ${formatBRL(financial.cac)}`} />
+        <FinCard icon={AlertTriangle} label={t('defaultRate')} value={`${financial.inadimplencia}%`} alert={financial.inadimplencia > 5} sub={t('ofTotalAcademies')} />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <FinCard isDark={isDark} icon={TrendingUp} label={t('avgTicket')} value={formatBRL(financial.ticketMedio)} sub={t('perAcademyMonth')} />
-        <FinCard isDark={isDark} icon={Clock} label={t('payback')} value={t('monthsValue', { count: financial.paybackMonths })} sub={t('returnTime')} />
-        <FinCard isDark={isDark} icon={CreditCard} label={t('lastMonth')} value={formatBRL(financial.receitaMesAnterior)} />
-        <FinCard isDark={isDark} icon={Users} label={t('ltvCac')} value={`${(financial.ltv / financial.cac).toFixed(1)}x`} sub={t('healthy')} />
+      <div className="resp-grid-stats">
+        <FinCard icon={TrendingUp} label={t('avgTicket')} value={formatBRL(financial.ticketMedio)} sub={t('perAcademyMonth')} />
+        <FinCard icon={Clock} label={t('payback')} value={t('monthsValue', { count: financial.paybackMonths })} sub={t('returnTime')} />
+        <FinCard icon={CreditCard} label={t('lastMonth')} value={formatBRL(financial.receitaMesAnterior)} />
+        <FinCard icon={Users} label={t('ltvCac')} value={`${(financial.ltv / financial.cac).toFixed(1)}x`} sub={t('healthy')} />
       </div>
 
       {/* Receita Chart */}
-      <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-indigo-500/5 to-violet-500/5 border-indigo-500/20' : 'bg-white border-indigo-100'}`}>
-        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('revenueEvolution')}</h3>
+      <div className="premium-card rounded-xl p-6">
+        <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">{t('revenueEvolution')}</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={monthlyData}>
               <defs>
                 <linearGradient id="gradFin" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#6366F1" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#6366F1" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#D4A843" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#D4A843" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
@@ -162,22 +147,22 @@ export default function FinanceiroPage() {
               <YAxis tick={{ fontSize: 11, fill: isDark ? 'rgba(255,255,255,0.4)' : '#94A3B8' }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
               <Tooltip
                 contentStyle={{
-                  background: isDark ? '#1E1B4B' : '#fff',
-                  border: `1px solid ${isDark ? 'rgba(99,102,241,0.3)' : '#E0E7FF'}`,
+                  background: isDark ? 'rgba(15,10,30,0.95)' : '#fff',
+                  border: `1px solid ${isDark ? 'rgba(212,168,67,0.2)' : 'rgba(212,168,67,0.3)'}`,
                   borderRadius: 12,
                   color: isDark ? '#fff' : '#1E293B',
                 }}
                 formatter={(value: number) => [formatBRL(value), t('totalRevenue')]}
               />
-              <Area type="monotone" dataKey="receita" stroke="#6366F1" strokeWidth={2} fill="url(#gradFin)" />
+              <Area type="monotone" dataKey="receita" stroke="#D4A843" strokeWidth={2} fill="url(#gradFin)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Churn Chart */}
-      <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-violet-500/5 to-purple-500/5 border-violet-500/20' : 'bg-white border-violet-100'}`}>
-        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('churnRateChart')}</h3>
+      <div className="premium-card rounded-xl p-6">
+        <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">{t('churnRateChart')}</h3>
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={churnData}>
@@ -186,22 +171,22 @@ export default function FinanceiroPage() {
               <YAxis tick={{ fontSize: 11, fill: isDark ? 'rgba(255,255,255,0.4)' : '#94A3B8' }} domain={[0, 5]} tickFormatter={(v) => `${v.toFixed(1)}%`} />
               <Tooltip
                 contentStyle={{
-                  background: isDark ? '#1E1B4B' : '#fff',
-                  border: `1px solid ${isDark ? 'rgba(139,92,246,0.3)' : '#DDD6FE'}`,
+                  background: isDark ? 'rgba(15,10,30,0.95)' : '#fff',
+                  border: `1px solid ${isDark ? 'rgba(212,168,67,0.2)' : 'rgba(212,168,67,0.3)'}`,
                   borderRadius: 12,
                   color: isDark ? '#fff' : '#1E293B',
                 }}
                 formatter={(value: number) => [`${value.toFixed(2)}%`, 'Churn']}
               />
-              <Line type="monotone" dataKey="churn" stroke="#A78BFA" strokeWidth={2} dot={{ fill: '#A78BFA', r: 3 }} />
+              <Line type="monotone" dataKey="churn" stroke="#D4A843" strokeWidth={2} dot={{ fill: '#D4A843', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* LTV por mês (using revenue as proxy) */}
-      <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-purple-500/5 to-pink-500/5 border-purple-500/20' : 'bg-white border-purple-100'}`}>
-        <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('estimatedLtv')}</h3>
+      {/* LTV por mês */}
+      <div className="premium-card rounded-xl p-6">
+        <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">{t('estimatedLtv')}</h3>
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData.map(m => ({ mes: m.mes, ltv: Math.round(m.receita * 12 / 5) }))}>
@@ -210,54 +195,50 @@ export default function FinanceiroPage() {
               <YAxis tick={{ fontSize: 11, fill: isDark ? 'rgba(255,255,255,0.4)' : '#94A3B8' }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
               <Tooltip
                 contentStyle={{
-                  background: isDark ? '#1E1B4B' : '#fff',
-                  border: `1px solid ${isDark ? 'rgba(168,85,247,0.3)' : '#E9D5FF'}`,
+                  background: isDark ? 'rgba(15,10,30,0.95)' : '#fff',
+                  border: `1px solid ${isDark ? 'rgba(212,168,67,0.2)' : 'rgba(212,168,67,0.3)'}`,
                   borderRadius: 12,
                   color: isDark ? '#fff' : '#1E293B',
                 }}
                 formatter={(value: number) => [formatBRL(value), 'LTV']}
               />
-              <Bar dataKey="ltv" fill="#A855F7" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="ltv" fill="#D4A843" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Histórico de Pagamentos */}
-      <div className={`rounded-2xl border p-5 ${isDark ? 'bg-gradient-to-br from-indigo-500/5 to-violet-500/5 border-indigo-500/20' : 'bg-white border-indigo-100'}`}>
+      <div className="premium-card rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className={`text-sm font-semibold ${isDark ? 'text-white/70' : 'text-slate-700'}`}>{t('paymentHistory')}</h3>
-          <button className={`text-xs ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-            <Download className="w-3.5 h-3.5 inline mr-1" />
+          <h3 className="text-sm font-semibold text-[var(--text-secondary)]">{t('paymentHistory')}</h3>
+          <Button variant="ghost" size="sm" icon={<Download className="w-3.5 h-3.5" />}>
             {t('exportCsv')}
-          </button>
+          </Button>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className={`text-left ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('academyCol')}</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('valueCol')}</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('dateCol')}</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('methodCol')}</th>
-                <th className="pb-3 font-medium text-xs uppercase tracking-wider">{t('statusCol')}</th>
+              <tr>
+                <th className="th-premium text-left pb-3">{t('academyCol')}</th>
+                <th className="th-premium text-left pb-3">{t('valueCol')}</th>
+                <th className="th-premium text-left pb-3">{t('dateCol')}</th>
+                <th className="th-premium text-left pb-3">{t('methodCol')}</th>
+                <th className="th-premium text-left pb-3">{t('statusCol')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-[var(--border)]">
               {financial.pagamentos.map((p: MockPaymentHistory) => {
                 const st = PAYMENT_STATUS[p.status];
                 return (
-                  <tr key={p.id} className={`${isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
-                    <td className={`py-3 font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>{p.academiaNome}</td>
-                    <td className={`py-3 ${isDark ? 'text-indigo-400' : 'text-indigo-600'} font-semibold`}>{formatBRL(p.valor)}</td>
-                    <td className={`py-3 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>{formatDate(p.data, 'short')}</td>
-                    <td className={`py-3 ${isDark ? 'text-white/60' : 'text-slate-600'} uppercase text-xs`}>{p.metodo}</td>
+                  <tr key={p.id} className="hover:bg-[var(--bg-secondary)] transition-colors">
+                    <td className="py-3 font-medium text-[var(--text-primary)]">{p.academiaNome}</td>
+                    <td className="py-3 text-gold-500 font-semibold">{formatBRL(p.valor)}</td>
+                    <td className="py-3 text-[var(--text-secondary)]">{formatDate(p.data, 'short')}</td>
+                    <td className="py-3 text-[var(--text-secondary)] uppercase text-xs">{p.metodo}</td>
                     <td className="py-3">
-                      <span className={`inline-flex items-center gap-1 text-xs font-medium ${isDark ? st.textDark : st.textLight}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${isDark ? st.dotDark : st.dotLight}`} />
-                        {t(st.labelKey)}
-                      </span>
+                      <Badge variant={st.variant}>{t(st.labelKey)}</Badge>
                     </td>
                   </tr>
                 );

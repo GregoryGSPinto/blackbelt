@@ -3,23 +3,32 @@
 import { useState, useEffect } from 'react';
 import {
   Building2, Plus, Search, Filter, Lock, Unlock, Trash2,
-  Eye, Edit2, X, Users, GraduationCap, Mail, Phone,
+  Eye, Edit2, Users, GraduationCap, Mail, Phone,
   MapPin, Calendar, CreditCard, ChevronDown,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useTheme } from '@/contexts/ThemeContext';
 import { useFormatting } from '@/hooks/useFormatting';
 import type { MockAcademy, PlanoAcademia, StatusAcademia } from '@/lib/__mocks__/super-admin.mock';
-import { getDesignTokens } from '@/lib/design-tokens';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { Modal } from '@/components/ui/Modal';
+import { StaggerList, StaggerItem } from '@/components/transitions/StaggerList';
 
 // ============================================================
 // HELPERS
 // ============================================================
 
-const STATUS_CONFIG = {
-  ATIVA:         { labelKey: 'statusActive',      dotDark: 'bg-emerald-400', dotLight: 'bg-emerald-500', bgDark: 'bg-emerald-500/10', bgLight: 'bg-emerald-100', textDark: 'text-emerald-400', textLight: 'text-emerald-700' },
-  INADIMPLENTE:  { labelKey: 'statusDefaulter',   dotDark: 'bg-amber-400',   dotLight: 'bg-amber-500',   bgDark: 'bg-amber-500/10',   bgLight: 'bg-amber-100',   textDark: 'text-amber-400',   textLight: 'text-amber-700' },
-  BLOQUEADA:     { labelKey: 'statusBlocked',     dotDark: 'bg-red-400',     dotLight: 'bg-red-500',     bgDark: 'bg-red-500/10',     bgLight: 'bg-red-100',     textDark: 'text-red-400',     textLight: 'text-red-700' },
+const STATUS_BADGE_VARIANT: Record<StatusAcademia, 'success' | 'warning' | 'error'> = {
+  ATIVA: 'success',
+  INADIMPLENTE: 'warning',
+  BLOQUEADA: 'error',
+};
+
+const STATUS_LABEL_KEY: Record<StatusAcademia, string> = {
+  ATIVA: 'statusActive',
+  INADIMPLENTE: 'statusDefaulter',
+  BLOQUEADA: 'statusBlocked',
 };
 
 const PLAN_OPTIONS: PlanoAcademia[] = ['BASICO', 'PRO', 'ENTERPRISE'];
@@ -29,90 +38,64 @@ const STATUS_OPTIONS: (StatusAcademia | 'TODAS')[] = ['TODAS', 'ATIVA', 'INADIMP
 // COMPONENTS
 // ============================================================
 
-function StatusBadge({ status, isDark }: { status: StatusAcademia; isDark: boolean }) {
-  const t = useTranslations('superAdmin.academies');
-  const c = STATUS_CONFIG[status];
-  return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium ${isDark ? `${c.bgDark} ${c.textDark}` : `${c.bgLight} ${c.textLight}`}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${isDark ? c.dotDark : c.dotLight}`} />
-      {t(c.labelKey)}
-    </span>
-  );
-}
-
-function AcademyDetailPanel({ academy, isDark, onClose }: { academy: MockAcademy; isDark: boolean; onClose: () => void }) {
+function AcademyDetailModal({ academy, onClose }: { academy: MockAcademy; onClose: () => void }) {
   const t = useTranslations('superAdmin.academies');
   const { formatMoney, formatDate } = useFormatting();
   const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
+
   return (
-    <div className={`
-      fixed inset-0 z-50 flex items-center justify-center p-4
-      ${isDark ? 'bg-black/70' : 'bg-black/30'}
-      backdrop-blur-sm
-    `} onClick={onClose}>
-      <div
-        className={`
-          w-full max-w-lg rounded-2xl border p-6 space-y-5
-          ${isDark
-            ? 'bg-[#0F0A1F] border-indigo-500/20'
-            : 'bg-white border-slate-200'
-          }
-        `}
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between">
-          <h2 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            {academy.nome}
-          </h2>
-          <button onClick={onClose} className={`p-1 rounded-lg ${isDark ? 'hover:bg-white/10 text-white/60' : 'hover:bg-slate-100 text-slate-500'}`}>
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <StatusBadge status={academy.status} isDark={isDark} />
-          <span className={`text-xs px-2 py-1 rounded-full ${isDark ? 'bg-indigo-500/10 text-indigo-400' : 'bg-indigo-100 text-indigo-700'}`}>
-            {t('plan')} {academy.plano}
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <InfoRow isDark={isDark} icon={Users} label={t('students')} value={String(academy.totalAlunos)} />
-          <InfoRow isDark={isDark} icon={GraduationCap} label={t('professors')} value={String(academy.totalProfessores)} />
-          <InfoRow isDark={isDark} icon={CreditCard} label="MRR" value={formatBRL(academy.mrr)} />
-          <InfoRow isDark={isDark} icon={Calendar} label={t('createdAt')} value={formatDate(academy.criadoEm, 'short')} />
-          <InfoRow isDark={isDark} icon={MapPin} label={t('city')} value={`${academy.cidade}/${academy.estado}`} />
-          <InfoRow isDark={isDark} icon={CreditCard} label={t('lastPayment')} value={formatDate(academy.ultimoPagamento, 'short')} />
-          <InfoRow isDark={isDark} icon={Mail} label={t('email')} value={academy.email} />
-          <InfoRow isDark={isDark} icon={Phone} label={t('phone')} value={academy.telefone} />
-        </div>
-
-        <div className="flex gap-2 pt-2">
+    <Modal
+      open={true}
+      onClose={onClose}
+      title={academy.nome}
+      size="lg"
+      footer={
+        <div className="flex gap-2 w-full">
           {academy.status === 'BLOQUEADA' ? (
-            <button className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500">
-              <Unlock className="w-4 h-4" /> {t('unblock')}
-            </button>
+            <Button variant="primary" icon={<Unlock className="w-4 h-4" />} fullWidth>
+              {t('unblock')}
+            </Button>
           ) : (
-            <button className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-500">
-              <Lock className="w-4 h-4" /> {t('block')}
-            </button>
+            <Button variant="danger" icon={<Lock className="w-4 h-4" />} fullWidth>
+              {t('block')}
+            </Button>
           )}
-          <button className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
-            <Edit2 className="w-4 h-4" /> {t('edit')}
-          </button>
+          <Button variant="secondary" icon={<Edit2 className="w-4 h-4" />} fullWidth>
+            {t('edit')}
+          </Button>
+        </div>
+      }
+    >
+      <div className="space-y-5">
+        <div className="flex items-center gap-3">
+          <Badge variant={STATUS_BADGE_VARIANT[academy.status]}>
+            {t(STATUS_LABEL_KEY[academy.status])}
+          </Badge>
+          <Badge variant="gold">{t('plan')} {academy.plano}</Badge>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <InfoRow icon={Users} label={t('students')} value={String(academy.totalAlunos)} />
+          <InfoRow icon={GraduationCap} label={t('professors')} value={String(academy.totalProfessores)} />
+          <InfoRow icon={CreditCard} label="MRR" value={formatBRL(academy.mrr)} />
+          <InfoRow icon={Calendar} label={t('createdAt')} value={formatDate(academy.criadoEm, 'short')} />
+          <InfoRow icon={MapPin} label={t('city')} value={`${academy.cidade}/${academy.estado}`} />
+          <InfoRow icon={CreditCard} label={t('lastPayment')} value={formatDate(academy.ultimoPagamento, 'short')} />
+          <InfoRow icon={Mail} label={t('email')} value={academy.email} />
+          <InfoRow icon={Phone} label={t('phone')} value={academy.telefone} />
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
 
-function InfoRow({ icon: Icon, label, value, isDark }: { icon: React.ElementType; label: string; value: string; isDark: boolean }) {
+function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
-    <div className={`flex items-center gap-2 p-2 rounded-lg ${isDark ? 'bg-white/5' : 'bg-slate-50'}`}>
-      <Icon className={`w-4 h-4 ${isDark ? 'text-indigo-400/60' : 'text-indigo-500'}`} />
+    <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[var(--bg-secondary)]">
+      <Icon className="w-4 h-4 text-gold-500/60" />
       <div className="min-w-0">
-        <p className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-white/40' : 'text-slate-500'}`}>{label}</p>
-        <p className={`text-xs font-medium truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>{value}</p>
+        <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">{label}</p>
+        <p className="text-xs font-medium truncate text-[var(--text-primary)]">{value}</p>
       </div>
     </div>
   );
@@ -124,9 +107,6 @@ function InfoRow({ icon: Icon, label, value, isDark }: { icon: React.ElementType
 
 export default function AcademiasPage() {
   const t = useTranslations('superAdmin.academies');
-  const tActions = useTranslations('common.actions');
-  const { isDark } = useTheme();
-  const tokens = getDesignTokens(isDark);
   const { formatMoney } = useFormatting();
   const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
   const [academies, setAcademies] = useState<MockAcademy[]>([]);
@@ -189,74 +169,59 @@ export default function AcademiasPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('title')}</h1>
-          <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">{t('title')}</h1>
+          <p className="text-sm mt-1 text-[var(--text-secondary)]">
             {t('registeredCount', { count: academies.length })}
           </p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-medium hover:from-indigo-500 hover:to-violet-500 transition-all">
-          <Plus className="w-4 h-4" />
+        <Button variant="primary" size="sm" icon={<Plus className="w-4 h-4" />}>
           {t('newAcademy')}
-        </button>
+        </Button>
       </div>
 
       {/* Search & Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <div className={`
-          flex-1 flex items-center gap-2 px-3 py-2 rounded-xl border
-          ${isDark
-            ? 'bg-white/5 border-indigo-500/20 text-white'
-            : 'bg-white border-slate-200 text-slate-900'
-          }
-        `}>
-          <Search className={`w-4 h-4 ${isDark ? 'text-white/40' : 'text-slate-400'}`} />
+        <div className="flex-1 flex items-center gap-2 px-3 py-2 rounded-xl border bg-[var(--card-bg)] border-[var(--border)] text-[var(--text-primary)]">
+          <Search className="w-4 h-4 text-[var(--text-secondary)]" />
           <input
             type="text"
             placeholder={t('searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-inherit/40"
+            className="flex-1 bg-transparent text-sm outline-none placeholder:text-[var(--text-secondary)]"
           />
         </div>
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
+          icon={<Filter className="w-4 h-4" />}
+          iconRight={<ChevronDown className={`w-3 h-3 transition-transform ${showFilters ? 'rotate-180' : ''}`} />}
           onClick={() => setShowFilters(!showFilters)}
-          className={`
-            flex items-center gap-2 px-4 py-2 rounded-xl border text-sm
-            ${isDark
-              ? 'bg-white/5 border-indigo-500/20 text-white/70 hover:bg-white/10'
-              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-            }
-          `}
         >
-          <Filter className="w-4 h-4" />
           {t('filters')}
-          <ChevronDown className={`w-3 h-3 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-        </button>
+        </Button>
       </div>
 
       {showFilters && (
-        <div className={`
-          flex flex-wrap gap-3 p-4 rounded-xl border
-          ${isDark ? 'bg-white/5 border-indigo-500/10' : 'bg-slate-50 border-slate-200'}
-        `}>
+        <div className="flex flex-wrap gap-3 p-4 rounded-xl border bg-[var(--bg-secondary)] border-[var(--border)]">
           <div>
-            <label className={`text-[10px] uppercase tracking-wider block mb-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>Status</label>
+            <label className="text-[10px] uppercase tracking-wider block mb-1 text-[var(--text-secondary)]">Status</label>
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value as StatusAcademia | 'TODAS')}
-              className={`text-sm px-3 py-1.5 rounded-lg border ${isDark ? 'bg-white/10 border-white/10 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+              className="text-sm px-3 py-1.5 rounded-xl border bg-[var(--card-bg)] border-[var(--border)] text-[var(--text-primary)]"
             >
               {STATUS_OPTIONS.map(s => (
-                <option key={s} value={s}>{s === 'TODAS' ? t('all') : t(STATUS_CONFIG[s].labelKey)}</option>
+                <option key={s} value={s}>{s === 'TODAS' ? t('all') : t(STATUS_LABEL_KEY[s as StatusAcademia])}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className={`text-[10px] uppercase tracking-wider block mb-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>{t('plan')}</label>
+            <label className="text-[10px] uppercase tracking-wider block mb-1 text-[var(--text-secondary)]">{t('plan')}</label>
             <select
               value={planFilter}
               onChange={e => setPlanFilter(e.target.value as PlanoAcademia | 'TODOS')}
-              className={`text-sm px-3 py-1.5 rounded-lg border ${isDark ? 'bg-white/10 border-white/10 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+              className="text-sm px-3 py-1.5 rounded-xl border bg-[var(--card-bg)] border-[var(--border)] text-[var(--text-primary)]"
             >
               <option value="TODOS">{t('allPlans')}</option>
               {PLAN_OPTIONS.map(p => <option key={p} value={p}>{p}</option>)}
@@ -266,93 +231,83 @@ export default function AcademiasPage() {
       )}
 
       {/* Academy List */}
-      <div className="space-y-3">
-        {filtered.length === 0 ? (
-          <div className={`text-center py-12 rounded-2xl border ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white border-slate-200'}`}>
-            <Building2 className={`w-10 h-10 mx-auto mb-3 ${isDark ? 'text-white/20' : 'text-slate-300'}`} />
-            <p className={`text-sm ${isDark ? 'text-white/40' : 'text-slate-500'}`}>{t('noAcademies')}</p>
-          </div>
-        ) : (
-          filtered.map((academy) => (
-            <div
-              key={academy.id}
-              className={`
-                flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 rounded-2xl border transition-all
-                ${isDark
-                  ? 'bg-white/[0.03] border-white/10 hover:border-indigo-500/30'
-                  : 'bg-white border-slate-200 hover:border-indigo-300'
-                }
-              `}
-            >
-              {/* Icon */}
-              <div className={`
-                w-10 h-10 rounded-xl flex items-center justify-center shrink-0
-                ${isDark ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-100 text-indigo-600'}
-              `}>
-                <Building2 className="w-5 h-5" />
-              </div>
-
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <h3 className={`text-sm font-semibold truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                    {academy.nome}
-                  </h3>
-                  <StatusBadge status={academy.status} isDark={isDark} />
+      {filtered.length === 0 ? (
+        <EmptyState
+          icon={Building2}
+          title={t('noAcademies')}
+          className="premium-card rounded-xl"
+        />
+      ) : (
+        <StaggerList className="space-y-3">
+          {filtered.map((academy) => (
+            <StaggerItem key={academy.id}>
+              <div className="premium-card hover-card rounded-xl flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4">
+                {/* Icon */}
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-gold-500/10 text-gold-500">
+                  <Building2 className="w-5 h-5" />
                 </div>
-                <p className={`text-xs mt-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
-                  {academy.cidade}/{academy.estado} · {academy.totalAlunos} {t('students')} · {academy.totalProfessores} {t('professors')}
-                </p>
-              </div>
 
-              {/* Plan & MRR */}
-              <div className="flex items-center gap-4">
-                <span className={`text-xs px-2 py-1 rounded-full ${isDark ? 'bg-indigo-500/10 text-indigo-400' : 'bg-indigo-100 text-indigo-700'}`}>
-                  {academy.plano}
-                </span>
-                <span className={`text-sm font-bold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-                  {formatBRL(academy.mrr)}/{t('monthShort')}
-                </span>
-              </div>
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold truncate text-[var(--text-primary)]">
+                      {academy.nome}
+                    </h3>
+                    <Badge variant={STATUS_BADGE_VARIANT[academy.status]}>
+                      {t(STATUS_LABEL_KEY[academy.status])}
+                    </Badge>
+                  </div>
+                  <p className="text-xs mt-1 text-[var(--text-secondary)]">
+                    {academy.cidade}/{academy.estado} · {academy.totalAlunos} {t('students')} · {academy.totalProfessores} {t('professors')}
+                  </p>
+                </div>
 
-              {/* Actions */}
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => setSelectedAcademy(academy)}
-                  className={`p-2 rounded-lg ${isDark ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`}
-                  title={t('viewDetails')}
-                >
-                  <Eye className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => handleToggleBlock(academy)}
-                  className={`p-2 rounded-lg ${
-                    academy.status === 'BLOQUEADA'
-                      ? isDark ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                      : isDark ? 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
-                  }`}
-                  title={academy.status === 'BLOQUEADA' ? t('unblock') : t('block')}
-                >
-                  {academy.status === 'BLOQUEADA' ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-                </button>
-                <button
-                  onClick={() => handleDelete(academy.id)}
-                  className={`p-2 rounded-lg ${isDark ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-700 hover:bg-red-100'}`}
-                  title={t('delete')}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {/* Plan & MRR */}
+                <div className="flex items-center gap-4">
+                  <Badge variant="gold">{academy.plano}</Badge>
+                  <span className="text-sm font-bold text-gold-500">
+                    {formatBRL(academy.mrr)}/{t('monthShort')}
+                  </span>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setSelectedAcademy(academy)}
+                    className="p-2 rounded-xl bg-gold-500/10 text-gold-500 hover:bg-gold-500/20 transition-colors"
+                    title={t('viewDetails')}
+                  >
+                    <Eye className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleToggleBlock(academy)}
+                    className={`p-2 rounded-xl transition-colors ${
+                      academy.status === 'BLOQUEADA'
+                        ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'
+                        : 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'
+                    }`}
+                    title={academy.status === 'BLOQUEADA' ? t('unblock') : t('block')}
+                  >
+                    {academy.status === 'BLOQUEADA' ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(academy.id)}
+                    className="p-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+                    title={t('delete')}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
-        )}
-      </div>
+            </StaggerItem>
+          ))}
+        </StaggerList>
+      )}
 
       {/* Detail Modal */}
       {selectedAcademy && (
-        <AcademyDetailPanel
+        <AcademyDetailModal
           academy={selectedAcademy}
-          isDark={isDark}
           onClose={() => setSelectedAcademy(null)}
         />
       )}

@@ -18,52 +18,46 @@ import type {
   MockDashboardMetrics, MockMonthlyData, MockRevenueByPlan,
   MockAcademy,
 } from '@/lib/__mocks__/super-admin.mock';
-import { getDesignTokens } from '@/lib/design-tokens';
+import { AnimatedCounter } from '@/components/transitions/AnimatedCounter';
+import { StaggerList, StaggerItem } from '@/components/transitions/StaggerList';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 
 // ============================================================
 // HELPERS
 // ============================================================
 
-const STATUS_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
-  ATIVA:         { bg: 'bg-emerald-500/10', text: 'text-emerald-400', dot: 'bg-emerald-400' },
-  INADIMPLENTE:  { bg: 'bg-amber-500/10',   text: 'text-amber-400',   dot: 'bg-amber-400' },
-  BLOQUEADA:     { bg: 'bg-red-500/10',      text: 'text-red-400',     dot: 'bg-red-400' },
-};
-
-const STATUS_COLORS_LIGHT: Record<string, { bg: string; text: string; dot: string }> = {
-  ATIVA:         { bg: 'bg-emerald-100', text: 'text-emerald-700', dot: 'bg-emerald-500' },
-  INADIMPLENTE:  { bg: 'bg-amber-100',   text: 'text-amber-700',   dot: 'bg-amber-500' },
-  BLOQUEADA:     { bg: 'bg-red-100',      text: 'text-red-700',     dot: 'bg-red-500' },
+const STATUS_VARIANT: Record<string, 'success' | 'warning' | 'error'> = {
+  ATIVA: 'success',
+  INADIMPLENTE: 'warning',
+  BLOQUEADA: 'error',
 };
 
 // ============================================================
 // COMPONENTS
 // ============================================================
 
-function MetricCard({ icon: Icon, label, value, sub, alert, isDark }: {
+function MetricCard({ icon: Icon, label, value, numericValue, sub, alert }: {
   icon: React.ElementType;
   label: string;
   value: string;
+  numericValue?: number;
   sub?: string;
   alert?: boolean;
-  isDark: boolean;
 }) {
   return (
-    <div className={`
-      relative overflow-hidden rounded-2xl border p-5
-      ${isDark
-        ? 'bg-gradient-to-br from-indigo-500/10 to-violet-500/10 border-indigo-500/20'
-        : 'bg-gradient-to-br from-indigo-50 to-violet-50 border-indigo-200/50'
-      }
-      backdrop-blur-sm
-    `}>
+    <div className="stat-card hover-card rounded-xl p-5">
       <div className="flex items-start justify-between">
         <div className="space-y-2">
-          <p className={`text-xs font-medium uppercase tracking-wider ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+          <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">
             {label}
           </p>
-          <p className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            {value}
+          <p className="text-2xl font-bold text-[var(--text-primary)]">
+            {numericValue != null ? (
+              <AnimatedCounter value={numericValue} prefix={value.match(/^[^\d]*/)?.[0] || ''} suffix={value.match(/[^\d]*$/)?.[0] || ''} />
+            ) : (
+              value
+            )}
           </p>
           {sub && (
             <div className="flex items-center gap-1">
@@ -72,7 +66,7 @@ function MetricCard({ icon: Icon, label, value, sub, alert, isDark }: {
               ) : sub.startsWith('-') ? (
                 <ArrowDownRight className="w-3 h-3 text-red-400" />
               ) : null}
-              <span className={`text-xs ${sub.startsWith('+') ? 'text-emerald-400' : sub.startsWith('-') ? 'text-red-400' : isDark ? 'text-white/40' : 'text-slate-500'}`}>
+              <span className={`text-xs ${sub.startsWith('+') ? 'text-emerald-400' : sub.startsWith('-') ? 'text-red-400' : 'text-[var(--text-secondary)]'}`}>
                 {sub}
               </span>
             </div>
@@ -82,9 +76,7 @@ function MetricCard({ icon: Icon, label, value, sub, alert, isDark }: {
           w-10 h-10 rounded-xl flex items-center justify-center
           ${alert
             ? 'bg-red-500/20 text-red-400'
-            : isDark
-              ? 'bg-indigo-500/20 text-indigo-400'
-              : 'bg-indigo-100 text-indigo-600'
+            : 'bg-gold-500/10 text-gold-500'
           }
         `}>
           <Icon className="w-5 h-5" />
@@ -101,7 +93,6 @@ function MetricCard({ icon: Icon, label, value, sub, alert, isDark }: {
 export default function SuperAdminDashboard() {
   const t = useTranslations('superAdmin.dashboard');
   const { isDark } = useTheme();
-  const tokens = getDesignTokens(isDark);
   const { formatMoney, formatNumber } = useFormatting();
   const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
   const formatNum = (value: number) => formatNumber(value);
@@ -149,59 +140,58 @@ export default function SuperAdminDashboard() {
     return <PremiumLoader />;
   }
 
-  const statusColors = isDark ? STATUS_COLORS : STATUS_COLORS_LIGHT;
-
   return (
     <div className="px-4 md:px-6 py-6 space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">
             {t('pageTitle')}
           </h1>
-          <p className={`text-sm mt-1 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+          <p className="text-sm mt-1 text-[var(--text-secondary)]">
             {t('pageSubtitle')}
           </p>
         </div>
-        <a
-          href="/super-admin/academias"
-          className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-medium hover:from-indigo-500 hover:to-violet-500 transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          {t('newAcademy')}
+        <a href="/super-admin/academias">
+          <Button
+            variant="primary"
+            size="sm"
+            icon={<Plus className="w-4 h-4" />}
+            className="hidden md:inline-flex"
+          >
+            {t('newAcademy')}
+          </Button>
         </a>
       </div>
 
       {/* ─── SEÇÃO FINANCEIRA ─── */}
       <section className="space-y-4">
-        <h2 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-gold-500">
           {t('financialSection')}
         </h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="resp-grid-stats">
           <MetricCard
-            isDark={isDark}
             icon={DollarSign}
             label={t('mrr')}
             value={formatBRL(metrics.mrr)}
             sub={t('growthMonth', { value: metrics.mrrCrescimento })}
           />
           <MetricCard
-            isDark={isDark}
             icon={Building2}
             label={t('activeAcademies')}
             value={String(metrics.academiasAtivas)}
+            numericValue={metrics.academiasAtivas}
             sub={t('ofTotal', { total: metrics.totalAcademias })}
           />
           <MetricCard
-            isDark={isDark}
             icon={AlertTriangle}
             label={t('defaulters')}
             value={String(metrics.academiasInadimplentes)}
+            numericValue={metrics.academiasInadimplentes}
             alert={metrics.academiasInadimplentes > 0}
             sub={metrics.academiasInadimplentes > 0 ? t('attention') : t('none')}
           />
           <MetricCard
-            isDark={isDark}
             icon={TrendingUp}
             label={t('avgTicket')}
             value={formatBRL(metrics.ticketMedio)}
@@ -210,14 +200,8 @@ export default function SuperAdminDashboard() {
         </div>
 
         {/* Gráfico Receita Mensal */}
-        <div className={`
-          rounded-2xl border p-5
-          ${isDark
-            ? 'bg-gradient-to-br from-indigo-500/5 to-violet-500/5 border-indigo-500/20'
-            : 'bg-white border-indigo-100'
-          }
-        `}>
-          <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
+        <div className="premium-card rounded-xl p-6">
+          <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">
             {t('monthlyRevenue')}
           </h3>
           <div className="h-64">
@@ -225,8 +209,8 @@ export default function SuperAdminDashboard() {
               <AreaChart data={monthlyData}>
                 <defs>
                   <linearGradient id="gradientReceita" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                    <stop offset="0%" stopColor="var(--color-gold, #D4A843)" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="var(--color-gold, #D4A843)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
@@ -234,44 +218,38 @@ export default function SuperAdminDashboard() {
                 <YAxis tick={{ fontSize: 11, fill: isDark ? 'rgba(255,255,255,0.4)' : '#94A3B8' }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
                 <Tooltip
                   contentStyle={{
-                    background: isDark ? '#1E1B4B' : '#fff',
-                    border: `1px solid ${isDark ? 'rgba(99,102,241,0.3)' : '#E0E7FF'}`,
+                    background: isDark ? 'rgba(15,10,30,0.95)' : '#fff',
+                    border: `1px solid ${isDark ? 'rgba(212,168,67,0.2)' : 'rgba(212,168,67,0.3)'}`,
                     borderRadius: 12,
                     color: isDark ? '#fff' : '#1E293B',
                   }}
                   formatter={(value: number) => [formatBRL(value), t('revenue')]}
                 />
-                <Area type="monotone" dataKey="receita" stroke="#8B5CF6" strokeWidth={2} fill="url(#gradientReceita)" />
+                <Area type="monotone" dataKey="receita" stroke="#D4A843" strokeWidth={2} fill="url(#gradientReceita)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Receita por Plano */}
-        <div className={`
-          rounded-2xl border p-5
-          ${isDark
-            ? 'bg-gradient-to-br from-indigo-500/5 to-violet-500/5 border-indigo-500/20'
-            : 'bg-white border-indigo-100'
-          }
-        `}>
-          <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
+        <div className="premium-card rounded-xl p-6">
+          <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">
             {t('revenueByPlan')}
           </h3>
           <div className="space-y-3">
             {revenueByPlan.map((plan) => (
               <div key={plan.plano} className="flex items-center gap-4">
-                <span className={`text-sm w-24 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>{plan.plano}</span>
-                <div className="flex-1 h-3 rounded-full bg-white/5 overflow-hidden">
+                <span className="text-sm w-24 text-[var(--text-secondary)]">{plan.plano}</span>
+                <div className="flex-1 h-3 rounded-full bg-[var(--bg-secondary)] overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+                    className="h-full rounded-full bg-gradient-to-r from-gold-500 to-gold-400"
                     style={{ width: `${plan.percentual}%` }}
                   />
                 </div>
-                <span className={`text-sm font-semibold w-28 text-right ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="text-sm font-semibold w-28 text-right text-[var(--text-primary)]">
                   {formatBRL(plan.receita)}
                 </span>
-                <span className={`text-xs w-12 text-right ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
+                <span className="text-xs w-12 text-right text-[var(--text-secondary)]">
                   {plan.percentual.toFixed(1)}%
                 </span>
               </div>
@@ -282,25 +260,19 @@ export default function SuperAdminDashboard() {
 
       {/* ─── SEÇÃO OPERACIONAL ─── */}
       <section className="space-y-4">
-        <h2 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-violet-400' : 'text-violet-600'}`}>
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-gold-500">
           {t('operationalSection')}
         </h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard isDark={isDark} icon={Users} label={t('totalStudents')} value={formatNum(metrics.totalAlunos)} sub={t('growthMonth', { value: metrics.crescimentoAlunos })} />
-          <MetricCard isDark={isDark} icon={GraduationCap} label={t('professors')} value={formatNum(metrics.totalProfessores)} />
-          <MetricCard isDark={isDark} icon={Video} label={t('videos')} value={formatNum(metrics.totalVideos)} />
-          <MetricCard isDark={isDark} icon={MousePointerClick} label={t('monthAccess')} value={formatNum(metrics.totalAcessosMes)} />
+        <div className="resp-grid-stats">
+          <MetricCard icon={Users} label={t('totalStudents')} value={formatNum(metrics.totalAlunos)} numericValue={metrics.totalAlunos} sub={t('growthMonth', { value: metrics.crescimentoAlunos })} />
+          <MetricCard icon={GraduationCap} label={t('professors')} value={formatNum(metrics.totalProfessores)} numericValue={metrics.totalProfessores} />
+          <MetricCard icon={Video} label={t('videos')} value={formatNum(metrics.totalVideos)} numericValue={metrics.totalVideos} />
+          <MetricCard icon={MousePointerClick} label={t('monthAccess')} value={formatNum(metrics.totalAcessosMes)} numericValue={metrics.totalAcessosMes} />
         </div>
 
         {/* Gráfico Crescimento Alunos */}
-        <div className={`
-          rounded-2xl border p-5
-          ${isDark
-            ? 'bg-gradient-to-br from-violet-500/5 to-purple-500/5 border-violet-500/20'
-            : 'bg-white border-violet-100'
-          }
-        `}>
-          <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
+        <div className="premium-card rounded-xl p-6">
+          <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">
             {t('studentGrowth')}
           </h3>
           <div className="h-56">
@@ -311,92 +283,77 @@ export default function SuperAdminDashboard() {
                 <YAxis tick={{ fontSize: 11, fill: isDark ? 'rgba(255,255,255,0.4)' : '#94A3B8' }} />
                 <Tooltip
                   contentStyle={{
-                    background: isDark ? '#1E1B4B' : '#fff',
-                    border: `1px solid ${isDark ? 'rgba(139,92,246,0.3)' : '#DDD6FE'}`,
+                    background: isDark ? 'rgba(15,10,30,0.95)' : '#fff',
+                    border: `1px solid ${isDark ? 'rgba(212,168,67,0.2)' : 'rgba(212,168,67,0.3)'}`,
                     borderRadius: 12,
                     color: isDark ? '#fff' : '#1E293B',
                   }}
                   formatter={(value: number) => [value, t('totalStudents')]}
                 />
-                <Bar dataKey="alunos" fill="#7C3AED" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="alunos" fill="#D4A843" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Top 5 academias */}
-        <div className={`
-          rounded-2xl border p-5
-          ${isDark
-            ? 'bg-gradient-to-br from-violet-500/5 to-purple-500/5 border-violet-500/20'
-            : 'bg-white border-violet-100'
-          }
-        `}>
-          <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
+        <div className="premium-card rounded-xl p-6">
+          <h3 className="text-sm font-semibold mb-4 text-[var(--text-secondary)]">
             {t('topAcademies')}
           </h3>
-          <div className="space-y-3">
+          <StaggerList className="space-y-3">
             {topAcademies.map((a, i) => (
-              <div key={a.nome} className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-slate-50'}`}>
-                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold ${isDark ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-100 text-indigo-700'}`}>
-                  {i + 1}
-                </span>
-                <span className={`flex-1 text-sm font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>{a.nome}</span>
-                <span className={`text-xs px-2 py-1 rounded-full ${isDark ? 'bg-white/10 text-white/60' : 'bg-slate-100 text-slate-600'}`}>{a.plano}</span>
-                <span className={`text-sm font-semibold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>{a.alunos} {t('totalStudents')}</span>
-              </div>
+              <StaggerItem key={a.nome}>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-[var(--bg-secondary)] hover-card">
+                  <span className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold bg-gold-500/15 text-gold-500">
+                    {i + 1}
+                  </span>
+                  <span className="flex-1 text-sm font-medium text-[var(--text-primary)]">{a.nome}</span>
+                  <Badge variant="gold">{a.plano}</Badge>
+                  <span className="text-sm font-semibold text-gold-500">{a.alunos} {t('totalStudents')}</span>
+                </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerList>
         </div>
       </section>
 
       {/* ─── SEÇÃO CONTROLE ─── */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gold-500">
             {t('academyControl')}
           </h2>
           <a
             href="/super-admin/academias"
-            className={`text-xs font-medium ${isDark ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}
+            className="text-xs font-medium text-gold-500 hover:text-gold-400 transition-colors"
           >
             {t('viewAll')}
           </a>
         </div>
 
-        <div className="space-y-3">
-          {academies.map((academy) => {
-            const sc = statusColors[academy.status] || statusColors.ATIVA;
-            return (
-              <div
-                key={academy.id}
-                className={`
-                  flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 rounded-2xl border transition-all
-                  ${isDark
-                    ? 'bg-white/[0.03] border-white/10 hover:border-indigo-500/30'
-                    : 'bg-white border-slate-200 hover:border-indigo-300'
-                  }
-                `}
-              >
+        <StaggerList className="space-y-3">
+          {academies.map((academy) => (
+            <StaggerItem key={academy.id}>
+              <div className="premium-card hover-card rounded-xl flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4">
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className={`text-sm font-semibold truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    <h3 className="text-sm font-semibold truncate text-[var(--text-primary)]">
                       {academy.nome}
                     </h3>
-                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${sc.bg} ${sc.text}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+                    <Badge variant={STATUS_VARIANT[academy.status] || 'default'}>
                       {academy.status}
-                    </span>
+                    </Badge>
                   </div>
-                  <p className={`text-xs mt-1 ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
+                  <p className="text-xs mt-1 text-[var(--text-secondary)]">
                     {academy.cidade}/{academy.estado} · {t('plan')} {academy.plano} · {academy.totalAlunos} {t('totalStudents')}
                   </p>
                 </div>
 
                 {/* MRR */}
                 <div className="flex items-center gap-2">
-                  <span className={`text-sm font-bold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
+                  <span className="text-sm font-bold text-gold-500">
                     {formatBRL(academy.mrr)}/{t('monthShort')}
                   </span>
                 </div>
@@ -404,29 +361,29 @@ export default function SuperAdminDashboard() {
                 {/* Actions */}
                 <div className="flex items-center gap-2">
                   {academy.status === 'BLOQUEADA' ? (
-                    <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`} title={t('unblock')}>
+                    <button className="p-2 rounded-xl text-xs bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors" title={t('unblock')}>
                       <Unlock className="w-4 h-4" />
                     </button>
                   ) : (
-                    <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-700 hover:bg-red-100'}`} title={t('block')}>
+                    <button className="p-2 rounded-xl text-xs bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors" title={t('block')}>
                       <Lock className="w-4 h-4" />
                     </button>
                   )}
-                  <button className={`p-2 rounded-lg text-xs ${isDark ? 'bg-white/5 text-white/60 hover:bg-white/10' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`} title={t('changePlan')}>
+                  <button className="p-2 rounded-xl text-xs bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" title={t('changePlan')}>
                     <Settings className="w-4 h-4" />
                   </button>
                   <a
                     href={`/super-admin/academias?id=${academy.id}`}
-                    className={`p-2 rounded-lg text-xs ${isDark ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`}
+                    className="p-2 rounded-xl text-xs bg-gold-500/10 text-gold-500 hover:bg-gold-500/20 transition-colors"
                     title={t('viewDetails')}
                   >
                     <Eye className="w-4 h-4" />
                   </a>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </StaggerItem>
+          ))}
+        </StaggerList>
       </section>
     </div>
   );
