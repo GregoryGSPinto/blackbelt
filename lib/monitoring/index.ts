@@ -17,6 +17,9 @@
  * - structured-logger.ts → Logs JSON para agregação centralizada
  * - http-interceptor.ts  → Wiring no ciclo de requisições
  * - dashboard-service.ts → Aggregação de dados para painel admin
+ * - telemetry.ts         → Product analytics + performance + error tracking
+ * - health.ts            → Health check endpoints
+ * - request-logger.ts    → HTTP request logging com persistência
  */
 
 // ─── Metrics ───
@@ -109,3 +112,37 @@ export type {
   DashboardData,
   SecurityCounters,
 } from './dashboard-service';
+
+// ─── Telemetry ───
+export {
+  trackEvent,
+  trackPerformance,
+  trackError,
+} from './telemetry';
+
+export type {
+  EventProperties,
+  ErrorContext as TelemetryErrorContext,
+} from './telemetry';
+
+// ─── Health Check ───
+export { runHealthCheck } from './health';
+
+export type {
+  HealthStatus,
+  ComponentHealth,
+  EventStoreHealth,
+  HealthCheckResult,
+} from './health';
+
+// ─── Request Logger ───
+export {
+  logRequest,
+  withRequestLogging,
+  startRequestLogFlush,
+  stopRequestLogFlush,
+} from './request-logger';
+
+export type {
+  RequestLogEntry,
+} from './request-logger';
