@@ -54,7 +54,8 @@
       "Bash(vercel:*)",
       "WebFetch(domain:localhost)",
       "Bash(cat:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(cd ~/Projetos/BlackBelt && npx vercel --prod --force 2>&1)"
     ]
   }
 }

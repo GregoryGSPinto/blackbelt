@@ -332,7 +332,7 @@ function LoginContent() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          paddingTop: '12vh',
+          justifyContent: 'center',
           paddingBottom: '3rem',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
