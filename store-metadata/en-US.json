@@ -1,0 +1,18 @@
+{
+  "locale": "en-US",
+  "app_name": "BlackBelt",
+  "subtitle": "Martial Arts Management",
+  "title": "BlackBelt - Martial Arts Academy Management",
+  "short_description": "Manage your martial arts academy: students, belt progressions, check-ins, classes and more.",
+  "description": "BlackBelt is the complete operating system for martial arts academies. Manage students, track belt progressions, register attendance with QR Code, organize classes and much more.\n\nKey features:\n\n- QR Code or biometric check-in\n- Belt progression and grading tracking\n- Class and schedule management\n- Dashboards for instructors and administrators\n- Real-time push notifications\n- Works offline - syncs automatically\n- Gamification with achievements and rankings\n- AI-powered pedagogical insights\n- Support for multiple martial arts (BJJ, Judo, Karate, Muay Thai and more)\n\nFor academies:\n- Full control of enrollments and payments\n- Attendance and progression reports\n- Direct communication with students and parents\n- Customization with academy colors and logo\n\nFor students:\n- Track your progress and training history\n- Receive notifications about classes and events\n- View your achievements and belt grades\n- Offline mode for check-in without internet\n\nBlackBelt - Technology in service of martial arts.",
+  "keywords": "martial arts, academy, management, bjj, jiu jitsu, judo, karate, muay thai, check-in, belt, grading, training, student, instructor",
+  "privacy_policy_url": "https://blackbelt.app/privacy",
+  "support_url": "https://blackbelt.app/support",
+  "marketing_url": "https://blackbelt.app",
+  "categories": {
+    "primary": "Sports",
+    "secondary": "Health & Fitness"
+  },
+  "age_rating": "4+",
+  "copyright": "2026 BlackBelt Technologies"
+}

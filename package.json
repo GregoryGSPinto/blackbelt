@@ -37,6 +37,7 @@
     "@capacitor/status-bar": "8.0.1",
     "@supabase/ssr": "0.8.0",
     "@supabase/supabase-js": "2.97.0",
+    "capacitor-native-biometric": "4.2.2",
     "dotenv": "^16.4.0",
     "framer-motion": "12.35.0",
     "jsqr": "1.4.0",

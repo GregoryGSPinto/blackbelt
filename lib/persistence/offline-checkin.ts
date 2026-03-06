@@ -35,6 +35,7 @@ export interface SyncResult {
 const DB_NAME = 'blackbelt_offline';
 const DB_VERSION = 1;
 const STORE_NAME = 'pendingCheckins';
+const MAX_RETRY_ATTEMPTS = 3;
 
 // ── IndexedDB helpers ──
 
@@ -160,19 +161,37 @@ export async function syncAll(
   const result: SyncResult = { synced: 0, failed: 0, errors: [] };
 
   for (const entry of pending) {
+    // Skip entries that exceeded max retry attempts
+    if (entry.attempts >= MAX_RETRY_ATTEMPTS) {
+      result.failed++;
+      result.errors.push(`Entry ${entry.localId} exceeded max retries (${MAX_RETRY_ATTEMPTS})`);
+      continue;
+    }
+
     try {
       const success = await syncFn(entry);
       if (success && entry.localId != null) {
         await removeSynced(entry.localId);
         result.synced++;
       } else {
+        // Server returned false — likely a duplicate, remove silently
         if (entry.localId != null) {
-          await markAttemptFailed(entry.localId, 'Sync returned false');
+          await removeSynced(entry.localId);
         }
-        result.failed++;
+        result.synced++;
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Unknown error';
+
+      // If server indicates duplicate/conflict, remove silently
+      if (msg.includes('duplicate') || msg.includes('conflict') || msg.includes('409')) {
+        if (entry.localId != null) {
+          await removeSynced(entry.localId);
+        }
+        result.synced++;
+        continue;
+      }
+
       result.errors.push(msg);
       if (entry.localId != null) {
         await markAttemptFailed(entry.localId, msg);

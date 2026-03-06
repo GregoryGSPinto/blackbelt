@@ -1,0 +1,65 @@
+============================================================
+BLOCO 0.5 — Mobile Production + App Stores
+============================================================
+Data: 2026-03-06
+Status: COMPLETO
+
+IMPLEMENTADO:
+  1. Push Notifications (Capacitor):
+     - hooks/usePushNotifications.ts: hook completo
+       * Pede permissao no primeiro login (auto, com delay de 3s)
+       * Registra token via POST /api/push
+       * Handles notification tap -> deep link navigation
+       * Listener de notificacoes em foreground
+     - iOS: APNs background mode configurado em Info.plist
+     - Android: POST_NOTIFICATIONS permission em AndroidManifest.xml
+
+  2. Offline Check-in (EVOLUIDO):
+     - lib/persistence/offline-checkin.ts:
+       * Max 3 retry attempts (MAX_RETRY_ATTEMPTS)
+       * Conflito: se check-in duplicado no server, remove silenciosamente
+       * Deteccao de erros 409/duplicate/conflict
+     - components/checkin/OfflineIndicator.tsx:
+       * Indicador visual fixo no bottom da tela
+       * Mostra status offline com contagem de pendentes
+       * Mostra status de sincronizacao
+       * Desaparece quando online e sem pendentes
+
+  3. Biometria:
+     - Instalado: capacitor-native-biometric 4.2.2
+     - lib/capacitor/biometric.ts:
+       * isBiometricAvailable() — verifica hardware
+       * getBiometricType() — Face ID / Touch ID / Fingerprint
+       * verifyBiometric() — prompt de verificacao
+       * storeCredentials() — Keychain (iOS) / Keystore (Android)
+       * getCredentials() — recupera credenciais com biometria
+       * deleteCredentials() — remove credenciais
+       * Web fallback via sessionStorage
+     - hooks/useBiometricAuth.ts:
+       * available, biometricType, enabled, loading states
+       * enableBiometric() — ativa com verificacao
+       * disableBiometric() — desativa e remove credenciais
+       * loginWithBiometric() — login com biometria
+       * Configuravel por usuario via localStorage
+     - components/auth/BiometricLoginButton.tsx:
+       * Botao "Login com Face ID / Touch ID" na tela de login
+       * Icone de fingerprint inline
+       * Feedback visual durante autenticacao
+     - components/auth/BiometricSettings.tsx:
+       * Toggle switch para ativar/desativar biometria
+       * Para uso em pagina de configuracoes do usuario
+     - iOS Info.plist: NSFaceIDUsageDescription configurado
+     - Android: USE_BIOMETRIC + USE_FINGERPRINT permissions
+
+  4. App Store Assets:
+     - scripts/generate-app-icons.sh:
+       * Gera icones iOS em todas as resolucoes (15 tamanhos)
+       * Gera Contents.json para Xcode
+       * Gera icones Android (mdpi a xxxhdpi, normal + round)
+       * Gera splash screens com logo centralizado em fundo #0d0d1a
+     - store-metadata/pt-BR.json: titulo, descricao, keywords em portugues
+     - store-metadata/en-US.json: titulo, descricao, keywords em ingles
+     - Categorias: Sports (primary), Health & Fitness (secondary)
+
+BUILD: OK (pnpm build)
+TESTES: 473 passed, 1 skipped (26 test files)

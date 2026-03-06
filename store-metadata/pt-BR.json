@@ -1,0 +1,18 @@
+{
+  "locale": "pt-BR",
+  "app_name": "BlackBelt",
+  "subtitle": "Gestao de Artes Marciais",
+  "title": "BlackBelt - Gestao de Academias e Artes Marciais",
+  "short_description": "Gerencie sua academia de artes marciais: alunos, graduacoes, check-ins, turmas e muito mais.",
+  "description": "O BlackBelt e o sistema operacional completo para academias de artes marciais. Gerencie alunos, acompanhe progressao de faixas, registre presenca com QR Code, organize turmas e muito mais.\n\nFuncionalidades principais:\n\n- Check-in por QR Code ou biometria\n- Progressao de faixas e graduacoes\n- Gestao de turmas e horarios\n- Dashboard para professores e administradores\n- Notificacoes push em tempo real\n- Funciona offline - sincroniza automaticamente\n- Gamificacao com conquistas e rankings\n- Inteligencia artificial para insights pedagogicos\n- Suporte a multiplas artes marciais (BJJ, Judo, Karate, Muay Thai e mais)\n\nPara academias:\n- Controle completo de matriculas e pagamentos\n- Relatorios de frequencia e evolucao\n- Comunicacao direta com alunos e responsaveis\n- Personalizacao com cores e logo da academia\n\nPara alunos:\n- Acompanhe sua evolucao e historico de treinos\n- Receba notificacoes sobre aulas e eventos\n- Veja suas conquistas e graduacoes\n- Modo offline para check-in sem internet\n\nBlackBelt - A tecnologia a servico das artes marciais.",
+  "keywords": "artes marciais, academia, gestao, bjj, jiu jitsu, judo, karate, muay thai, check-in, graduacao, faixa, treino, aluno, professor",
+  "privacy_policy_url": "https://blackbelt.app/privacy",
+  "support_url": "https://blackbelt.app/support",
+  "marketing_url": "https://blackbelt.app",
+  "categories": {
+    "primary": "Sports",
+    "secondary": "Health & Fitness"
+  },
+  "age_rating": "4+",
+  "copyright": "2026 BlackBelt Technologies"
+}
