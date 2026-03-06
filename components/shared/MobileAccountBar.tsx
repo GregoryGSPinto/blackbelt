@@ -191,8 +191,9 @@ export function MobileAccountBar({
               e.stopPropagation();
               handleAction(logout);
             }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-500/10 transition-colors text-sm"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-sm"
             role="menuitem"
+            style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
           >
             <LogOut size={16} className="shrink-0" />
             <span className="font-medium">{t('logout')}</span>

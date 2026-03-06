@@ -391,7 +391,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors"
-                    style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: theme.textMuted(isDark) }}
+                    style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
                   >
                     <LogOut size={16} />
                     <span className="text-sm font-medium">{t('menu.logout')}</span>

@@ -207,8 +207,8 @@ export function ShellMobileHeader({ config, state }: Props) {
                     <div className="my-1 mx-3 h-px" style={{ background: theme.panelBorder(isDark) }} />
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-colors"
-                      style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: theme.textMuted(isDark) }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors"
+                      style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
                     >
                       <LogOut size={15} />
                       <span className="text-sm font-medium">{t('menu.logout')}</span>

@@ -265,9 +265,10 @@ export default function ProfileSelectionPage() {
         <div className="flex items-center gap-6">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-sm text-white/40 hover:text-red-400 transition-all duration-300 group"
+            className="flex items-center gap-2 text-sm transition-all duration-300"
+            style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, padding: '12px 16px', color: 'var(--text-primary)' }}
           >
-            <LogOut size={16} className="group-hover:scale-110 transition-transform" />
+            <LogOut size={16} />
             <span>{tCommon('menu.logout')}</span>
           </button>
 

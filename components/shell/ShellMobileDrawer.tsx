@@ -178,8 +178,8 @@ export function ShellMobileDrawer({ config, state }: Props) {
             {/* Logout */}
             <button
               onClick={() => { setDrawerOpen(false); handleLogout(); }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-white/20"
-              style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: theme.textMuted(isDark) }}
+              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none"
+              style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
               aria-label={t('confirm.logoutTitle')}
             >
               <LogOut className="w-5 h-5" />

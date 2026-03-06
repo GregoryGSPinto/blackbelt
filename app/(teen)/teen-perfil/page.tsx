@@ -227,7 +227,8 @@ export default function TeenPerfilPage() {
       <TeenCard>
         <button
           onClick={logout}
-          className="w-full flex items-center justify-center gap-3 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors font-teen font-semibold"
+          className="w-full flex items-center justify-center gap-3 py-3 rounded-xl transition-colors font-teen font-semibold"
+          style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
         >
           <LogOut className="w-5 h-5" />
           {t('logout')}

@@ -190,9 +190,9 @@ export function DesktopUserDrawer() {
             <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: c.iconBg, color: c.icon }}><Shield size={18} /></div>
             <p className="text-sm font-medium transition-colors" style={{ color: c.switchLabel }}>{tCommon('menu.switchProfile')}</p>
           </button>
-          <button onClick={doLogout} className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left transition-all duration-200 hover:bg-red-500/[0.06] group">
-            <div className="w-10 h-10 rounded-xl bg-red-500/[0.06] flex items-center justify-center flex-shrink-0"><LogOut size={18} className="text-red-400/50 group-hover:text-red-400/80 transition-colors" /></div>
-            <p className="text-sm font-medium text-red-400/60 group-hover:text-red-400 transition-colors">{tCommon('menu.logout')}</p>
+          <button onClick={doLogout} className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left transition-all duration-200" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--card-bg)', border: '1px solid black' }}><LogOut size={18} /></div>
+            <p className="text-sm font-medium">{tCommon('menu.logout')}</p>
           </button>
           <div className="px-4 pt-2 pb-1"><p className="text-[10px]" style={{ color: c.version }}>BlackBelt © 2026 · v1.0.0</p></div>
         </div>
