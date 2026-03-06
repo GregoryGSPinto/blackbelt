@@ -861,31 +861,31 @@
 
 /* ─── Card base ─── */
 .teen-card {
-  background: rgb(var(--teen-card-bg) / var(--teen-card-alpha));
-  border: 1px solid rgb(var(--teen-card-border) / var(--teen-card-border-alpha));
+  background: var(--card-bg);
+  border: 1px solid black;
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: none;
 }
 .teen-card:hover {
-  border-color: rgb(var(--teen-card-border) / calc(var(--teen-card-border-alpha) + 0.04));
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  border-color: black;
+  box-shadow: none;
 }
 .teen-card-elevated {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: none;
 }
 .teen-card-subtle {
-  background: rgb(var(--teen-subtle-bg) / var(--teen-subtle-alpha));
-  border: none;
+  background: var(--card-bg);
+  border: 1px solid black;
   backdrop-filter: none;
   box-shadow: none;
 }
 .teen-card-glass {
-  background: rgb(var(--teen-card-bg) / calc(var(--teen-card-alpha) * 0.6));
-  border: 1px solid rgb(var(--teen-card-border) / calc(var(--teen-card-border-alpha) * 0.8));
+  background: var(--card-bg);
+  border: 1px solid black;
   backdrop-filter: blur(24px) saturate(1.3);
   -webkit-backdrop-filter: blur(24px) saturate(1.3);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.1), inset 0 1px 0 rgb(255 255 255 / 0.03);
+  box-shadow: none;
 }
 
 /* ─── Text classes ─── */
@@ -1420,7 +1420,7 @@ img {
 :root .stat-card,
 :root .teen-card {
   box-shadow: none;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid black;
 }
 :root .premium-card:hover,
 :root .stat-card:hover {

@@ -80,19 +80,19 @@ const teenTheme: ShellTheme = {
   textMuted: (isDark) => isDark ? 'rgba(255,255,255,0.45)' : 'rgba(109,93,75,0.6)',
 
   // Accent
-  accentColor: (isDark) => isDark ? '#4DB8D4' : '#005A78',
-  navActiveColor: (isDark) => isDark ? '#FFFFFF' : '#005A78',
-  navInactiveColor: (isDark) => isDark ? 'rgba(255,255,255,0.4)' : 'rgba(109,93,75,0.65)',
-  navHoverColor: (isDark) => isDark ? 'rgba(255,255,255,0.7)' : 'rgba(33,18,12,0.85)',
-  navIndicatorColor: (isDark) => isDark ? '#FFFFFF' : '#006B8F',
+  accentColor: (isDark) => isDark ? '#FFFFFF' : '#8C6239',
+  navActiveColor: (isDark) => isDark ? '#FFFFFF' : '#15120C',
+  navInactiveColor: (isDark) => isDark ? 'rgba(255,255,255,0.45)' : '#5A4B38',
+  navHoverColor: (isDark) => isDark ? 'rgba(255,255,255,0.7)' : '#2A2318',
+  navIndicatorColor: (isDark) => isDark ? '#FFFFFF' : '#8C6239',
 
   // Avatar
-  avatarGradient: 'from-teen-ocean to-teen-ocean-dark',
-  avatarRing: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,107,143,0.15)',
+  avatarGradient: 'from-white/20 to-white/10',
+  avatarRing: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,68,35,0.15)',
 
   // Notifications
-  notifDotColor: '#4DB8D4', // teen-ocean
-  notifAccentColor: (isDark) => isDark ? '#4DB8D4' : '#005A78',
+  notifDotColor: '#EF4444',
+  notifAccentColor: (isDark) => isDark ? '#EF4444' : '#DC2626',
 
   // Panels
   panelBg: (isDark) =>
