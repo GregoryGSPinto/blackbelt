@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useMemo, useCallback, type RefObject } from 'react';
+import { useEffect, useRef, useMemo, useCallback, useState, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { Check } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -25,6 +25,31 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
   const { isDark } = useTheme();
 
   const panelRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ top: 0, right: 0 });
+
+  // Calcular posição do dropdown baseado no botão trigger
+  useEffect(() => {
+    if (!panelOpen || !triggerRef.current) return;
+    
+    const updatePosition = () => {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      if (rect) {
+        setPosition({
+          top: rect.bottom + 8, // 8px abaixo do botão
+          right: window.innerWidth - rect.right, // Alinhado à direita do botão
+        });
+      }
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, { passive: true });
+    
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition);
+    };
+  }, [panelOpen, triggerRef]);
 
   const notifications = useMemo(() => {
     if (!panelOpen) return [];
@@ -57,6 +82,25 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
     }
     return () => { document.body.style.overflow = ''; };
   }, [panelOpen]);
+
+  // Fechar ao clicar fora do dropdown
+  useEffect(() => {
+    if (!panelOpen) return;
+    
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        panelRef.current && 
+        !panelRef.current.contains(target) && 
+        !triggerRef.current?.contains(target)
+      ) {
+        closePanel();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [panelOpen, closePanel, triggerRef]);
 
   const handleMarkAsRead = useCallback((id: string) => markAsRead(id), [markAsRead]);
 
@@ -98,7 +142,12 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
         className={`fixed z-[75] transition-all duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
           panelOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-3 pointer-events-none'
         }`}
-        style={{ top: 60, left: 8, right: 8, maxWidth: 400, marginLeft: 'auto' }}
+        style={{ 
+          top: position.top, 
+          right: position.right, 
+          width: 360, 
+          maxWidth: 'calc(100vw - 16px)',
+        }}
       >
         <div
           className="rounded-2xl overflow-hidden shadow-2xl"
