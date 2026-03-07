@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   GraduationCap, Brain, BookOpen, Shield, Users, Heart,
@@ -10,72 +10,14 @@ import Link from 'next/link';
 import { TeenCard, ProgressCircle, TeenProgressBar } from '@/components/teen';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import * as teenService from '@/lib/api/teen.service';
+import type { KnowledgeArea } from '@/lib/api/teen.service';
+import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
-// ============================================================
-// TODO(FE-027): Substituir dados inline por GET /teen/unidade/areas
-// ============================================================
-const knowledgeAreas = [
-  {
-    id: 'fundamentos',
-    icon: GraduationCap,
-    title: 'Fundamentos do treinamento especializado',
-    description: 'As bases essenciais para evoluir com segurança no ambiente.',
-    progress: 80,
-    questions: 5,
-    answered: 5,
-    accent: 'ocean' as const,
-  },
-  {
-    id: 'conceitos',
-    icon: Brain,
-    title: 'Conceitos Essenciais',
-    description: 'Os conceitos por trás de cada movimento no ambiente.',
-    progress: 40,
-    questions: 5,
-    answered: 2,
-    accent: 'purple' as const,
-  },
-  {
-    id: 'regras',
-    icon: Users,
-    title: 'Regras e Ética',
-    description: 'As regras que fazem do ambiente um lugar de respeito.',
-    progress: 60,
-    questions: 5,
-    answered: 3,
-    accent: 'emerald' as const,
-  },
-  {
-    id: 'historia',
-    icon: BookOpen,
-    title: 'História e Filosofia',
-    description: 'A história do treinamento especializado e seus valores fundamentais.',
-    progress: 55,
-    questions: 5,
-    answered: 2,
-    accent: 'energy' as const,
-  },
-  {
-    id: 'mental',
-    icon: Heart,
-    title: 'Preparação Mental',
-    description: 'Como sua mente pode acelerar sua evolução.',
-    progress: 75,
-    questions: 5,
-    answered: 4,
-    accent: 'purple' as const,
-  },
-  {
-    id: 'seguranca',
-    icon: Shield,
-    title: 'Segurança e Prevenção',
-    description: 'Treinar forte e seguro, sem se machucar.',
-    progress: 65,
-    questions: 5,
-    answered: 3,
-    accent: 'ocean' as const,
-  },
-] as const;
+const ICON_MAP: Record<string, typeof GraduationCap> = {
+  GraduationCap, Brain, BookOpen, Shield, Users, Heart,
+};
 
 // Cores para texto em dark mode (mais claras para legibilidade)
 const ACCENT_TEXT: Record<string, { dark: string; light: string }> = {
@@ -94,9 +36,31 @@ export default function TeenUnidadePage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [activeTab, setActiveTab] = useState<'areas' | 'testes'>('areas');
+  const [knowledgeAreas, setKnowledgeAreas] = useState<KnowledgeArea[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setError(null);
+        const data = await teenService.getKnowledgeAreas();
+        setKnowledgeAreas(data);
+      } catch (err) {
+        setError(handleServiceError(err, 'TeenAcademia'));
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [retryCount]);
+
+  if (loading) return <PremiumLoader text="Carregando academia..." />;
+  if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   const average = Math.round(
-    knowledgeAreas.reduce((s, a) => s + a.progress, 0) / knowledgeAreas.length
+    knowledgeAreas.length > 0 ? knowledgeAreas.reduce((s, a) => s + a.progress, 0) / knowledgeAreas.length : 0
   );
 
   return (
@@ -175,7 +139,7 @@ export default function TeenUnidadePage() {
           <div className="teen-enter-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {knowledgeAreas.map((area) => {
-                const Icon = area.icon;
+                const Icon = ICON_MAP[area.icon] || GraduationCap;
                 const textColor = ACCENT_TEXT[area.accent];
 
                 return (
@@ -238,7 +202,7 @@ export default function TeenUnidadePage() {
                           : 'none',
                       }}>
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 teen-accent-icon-${area.accent}`}>
-                        <area.icon size={16} />
+                        {(() => { const I = ICON_MAP[area.icon] || GraduationCap; return <I size={16} />; })()}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1.5">
@@ -304,7 +268,7 @@ export default function TeenUnidadePage() {
                 <TeenCard key={area.id}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 teen-accent-icon-${area.accent}`}>
-                      <area.icon size={20} />
+                      {(() => { const I = ICON_MAP[area.icon] || GraduationCap; return <I size={20} />; })()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-semibold font-teen teen-text-heading truncate">

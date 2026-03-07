@@ -97,3 +97,41 @@ export async function getAdminFinanceDashboard(): Promise<AdminFinanceDashboard>
   const { data } = await apiClient.get<AdminFinanceDashboard>('/pagamentos/admin/dashboard');
   return data;
 }
+
+// ── Financial Check-in Status (Teen) ──
+export type FinancialStatus = 'ativo' | 'atraso' | 'bloqueado';
+
+export interface FinancialHistoryItem {
+  month: string;
+  status: string;
+  date: string;
+  color: string;
+  emoji: string;
+}
+
+export async function getFinancialStatus(alunoId?: string): Promise<FinancialStatus> {
+  if (useMock()) {
+    await mockDelay();
+    return 'ativo';
+  }
+  const url = alunoId ? `/pagamentos/status?alunoId=${alunoId}` : '/pagamentos/status';
+  const { data } = await apiClient.get<{ status: FinancialStatus }>(url);
+  return data.status;
+}
+
+export async function getFinancialHistory(alunoId?: string): Promise<FinancialHistoryItem[]> {
+  if (useMock()) {
+    await mockDelay();
+    return [
+      { month: 'Fev 2026', status: 'ativo', date: '07/02', color: 'green', emoji: '\u2705' },
+      { month: 'Jan 2026', status: 'ativo', date: '05/01', color: 'green', emoji: '\u2705' },
+      { month: 'Dez 2025', status: 'atraso', date: '28/12', color: 'yellow', emoji: '\u26A0\uFE0F' },
+      { month: 'Nov 2025', status: 'ativo', date: '03/11', color: 'green', emoji: '\u2705' },
+      { month: 'Out 2025', status: 'ativo', date: '02/10', color: 'green', emoji: '\u2705' },
+      { month: 'Set 2025', status: 'ativo', date: '01/09', color: 'green', emoji: '\u2705' },
+    ];
+  }
+  const url = alunoId ? `/pagamentos/history?alunoId=${alunoId}` : '/pagamentos/history';
+  const { data } = await apiClient.get<FinancialHistoryItem[]>(url);
+  return data;
+}

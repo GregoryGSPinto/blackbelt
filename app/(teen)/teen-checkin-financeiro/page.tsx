@@ -1,22 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertCircle, XCircle, Clock, Calendar, Zap } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
-
-// Mock status - em produção viria do backend
-const MOCK_STATUS = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
-
-const historico = [
-  { month: 'Fev 2026', status: 'ativo', date: '07/02', color: 'green', emoji: '✅' },
-  { month: 'Jan 2026', status: 'ativo', date: '05/01', color: 'green', emoji: '✅' },
-  { month: 'Dez 2025', status: 'atraso', date: '28/12', color: 'yellow', emoji: '⚠️' },
-  { month: 'Nov 2025', status: 'ativo', date: '03/11', color: 'green', emoji: '✅' },
-  { month: 'Out 2025', status: 'ativo', date: '02/10', color: 'green', emoji: '✅' },
-  { month: 'Set 2025', status: 'ativo', date: '01/09', color: 'green', emoji: '✅' },
-];
+import * as pagamentosService from '@/lib/api/pagamentos.service';
+import type { FinancialStatus, FinancialHistoryItem } from '@/lib/api/pagamentos.service';
+import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenCheckinFinanceiroPage() {
   const t = useTranslations('teen.checkinFinancial');
@@ -25,6 +17,30 @@ export default function TeenCheckinFinanceiroPage() {
 
   const [checkinDone, setCheckinDone] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [financialStatus, setFinancialStatus] = useState<FinancialStatus>('ativo');
+  const [historico, setHistorico] = useState<FinancialHistoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setError(null);
+        const [status, history] = await Promise.all([
+          pagamentosService.getFinancialStatus(),
+          pagamentosService.getFinancialHistory(),
+        ]);
+        setFinancialStatus(status);
+        setHistorico(history);
+      } catch (err) {
+        setError(handleServiceError(err, 'CheckinFinanceiro'));
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [retryCount]);
 
   const statusConfig = {
     ativo: {
@@ -83,7 +99,10 @@ export default function TeenCheckinFinanceiroPage() {
     },
   };
 
-  const currentStatus = statusConfig[MOCK_STATUS as keyof typeof statusConfig];
+  if (loading) return <PremiumLoader text="Carregando status financeiro..." />;
+  if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
+
+  const currentStatus = statusConfig[financialStatus];
   const StatusIcon = currentStatus.badge.icon;
 
   const handleCheckin = async () => {

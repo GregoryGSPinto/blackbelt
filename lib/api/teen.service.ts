@@ -71,3 +71,31 @@ export {
 
 /** Alias with accent for consumers using the accented name */
 export const getTeenSessões = getTeenSessoes;
+
+// ── Knowledge Areas (Academia) ──
+export interface KnowledgeArea {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+  progress: number;
+  questions: number;
+  answered: number;
+  accent: 'ocean' | 'purple' | 'emerald' | 'energy';
+}
+
+export async function getKnowledgeAreas(): Promise<KnowledgeArea[]> {
+  if (useMock()) {
+    await mockDelay();
+    return [
+      { id: 'fundamentos', icon: 'GraduationCap', title: 'Fundamentos do treinamento especializado', description: 'As bases essenciais para evoluir com seguranca no ambiente.', progress: 80, questions: 5, answered: 5, accent: 'ocean' },
+      { id: 'conceitos', icon: 'Brain', title: 'Conceitos Essenciais', description: 'Os conceitos por tras de cada movimento no ambiente.', progress: 40, questions: 5, answered: 2, accent: 'purple' },
+      { id: 'regras', icon: 'Users', title: 'Regras e Etica', description: 'As regras que fazem do ambiente um lugar de respeito.', progress: 60, questions: 5, answered: 3, accent: 'emerald' },
+      { id: 'historia', icon: 'BookOpen', title: 'Historia e Filosofia', description: 'A historia do treinamento especializado e seus valores fundamentais.', progress: 55, questions: 5, answered: 2, accent: 'energy' },
+      { id: 'mental', icon: 'Heart', title: 'Preparacao Mental', description: 'Como sua mente pode acelerar sua evolucao.', progress: 75, questions: 5, answered: 4, accent: 'purple' },
+      { id: 'seguranca', icon: 'Shield', title: 'Seguranca e Prevencao', description: 'Treinar forte e seguro, sem se machucar.', progress: 65, questions: 5, answered: 3, accent: 'ocean' },
+    ];
+  }
+  const { data } = await apiClient.get<KnowledgeArea[]>('/teen/unidade/areas');
+  return data;
+}
