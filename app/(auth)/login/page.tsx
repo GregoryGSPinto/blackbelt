@@ -19,9 +19,10 @@ import { signInWithGoogle, signInWithApple } from '@/lib/auth/oauth';
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR' | 'OAUTH_REDIRECT';
 
 // ─── Premium Animation Constants ────────────────────────────
+// Transições curtas e suaves (0.35s)
 const EASE_PREMIUM = [0.4, 0, 0.2, 1] as const;
-const DURATION_PREMIUM = 0.8;
-const STAGGER_DELAY = 0.15;
+const DURATION_PREMIUM = 0.35;
+const STAGGER_DELAY = 0.08;
 
 const SPRING_PREMIUM = {
   type: 'spring' as const,
@@ -36,8 +37,9 @@ const SPRING_GENTLE = {
 };
 
 // ─── Premium Framer Motion Variants ─────────────────────────
+// Transições curtas e suaves
 const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
     y: 0,
@@ -48,29 +50,29 @@ const fadeInUp = {
   },
   exit: { 
     opacity: 0, 
-    y: -20,
+    y: -10,
     transition: {
-      duration: 0.3,
+      duration: 0.25,
       ease: EASE_PREMIUM,
     }
   },
 };
 
 const slideInLeft = {
-  initial: { opacity: 0, x: -30 },
+  initial: { opacity: 0, x: -20 },
   animate: { 
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.5,
+      duration: DURATION_PREMIUM,
       ease: EASE_PREMIUM,
     }
   },
   exit: { 
     opacity: 0, 
-    x: 30,
+    x: 20,
     transition: {
-      duration: 0.35,
+      duration: 0.25,
       ease: EASE_PREMIUM,
     }
   },
@@ -79,21 +81,21 @@ const slideInLeft = {
 const stepTransition = {
   initial: (dir: 'left' | 'right') => ({ 
     opacity: 0, 
-    x: dir === 'right' ? 40 : -40 
+    x: dir === 'right' ? 24 : -24 
   }),
   animate: { 
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.4,
+      duration: DURATION_PREMIUM,
       ease: EASE_PREMIUM,
     }
   },
   exit: (dir: 'left' | 'right') => ({ 
     opacity: 0, 
-    x: dir === 'left' ? -40 : 40,
+    x: dir === 'left' ? -24 : 24,
     transition: {
-      duration: 0.35,
+      duration: 0.25,
       ease: EASE_PREMIUM,
     }
   }),
@@ -104,18 +106,18 @@ const staggerContainer = {
   animate: {
     transition: {
       staggerChildren: STAGGER_DELAY,
-      delayChildren: 0.1,
+      delayChildren: 0.05,
     },
   },
 };
 
 const staggerItem = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 12 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: DURATION_PREMIUM,
       ease: EASE_PREMIUM,
     }
   },
@@ -699,15 +701,18 @@ function LoginContent() {
       setStep('PASSWORD');
       setSlideDir('right');
       setTimeout(() => setCardVisible(true), 20);
-    }, shouldReduceMotion ? 0 : 350);
+    }, shouldReduceMotion ? 0 : 200);
   }, [shouldReduceMotion]);
 
   // ─── Step transitions ─────────────────────────────────────
+  // Timing curto e suave para transições entre telas
+  const TRANSITION_DELAY = shouldReduceMotion ? 0 : 200;
+  
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
       setEmailInvalid(true);
       setError(t('login.emailNotFound'));
-      setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 600);
+      setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 400);
       return;
     }
 
@@ -725,7 +730,7 @@ function LoginContent() {
       if (!data.exists) {
         setEmailInvalid(true);
         setError(t('login.emailNotFound'));
-        setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 600);
+        setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 400);
         return;
       }
     } catch {
@@ -738,8 +743,8 @@ function LoginContent() {
       setStep('PASSWORD');
       setSlideDir('right');
       setTimeout(() => setCardVisible(true), 20);
-    }, shouldReduceMotion ? 0 : 350);
-  }, [email, t, shouldReduceMotion]);
+    }, TRANSITION_DELAY);
+  }, [email, t, shouldReduceMotion, TRANSITION_DELAY]);
 
   const goBackToEmail = useCallback(() => {
     setError('');
@@ -750,8 +755,8 @@ function LoginContent() {
       setStep('EMAIL');
       setSlideDir('left');
       setTimeout(() => setCardVisible(true), 20);
-    }, shouldReduceMotion ? 0 : 350);
-  }, [shouldReduceMotion]);
+    }, TRANSITION_DELAY);
+  }, [TRANSITION_DELAY]);
 
   // ─── Submit login ─────────────────────────────────────────
   const handleLogin = useCallback(async () => {
