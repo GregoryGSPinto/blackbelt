@@ -210,14 +210,14 @@ Acesso ilimitado à plataforma de gestão BLACKBELT, incluindo todo conteúdo di
 **2. PLANOS DISPONÍVEIS**
 
 **2.1. Plano Mensal**
-- Valor: R$ 49,90/mês
 - Renovação automática mensal
-- 1 perfil adulto + até 3 perfis kids/teen
+- Consulte valores atualizados na página de precos ou com nosso time comercial
+- 1 perfil adulto + ate 3 perfis kids/teen
 
 **2.2. Plano Anual**
-- Valor: R$ 499,90/ano (equivalente a R$ 41,66/mês)
-- Economia de 16%
-- Pagamento único anual
+- Economia em relacao ao plano mensal
+- Pagamento unico anual
+- Consulte valores atualizados na pagina de precos
 - Renovação automática anual
 
 **3. PERÍODO DE TESTE**

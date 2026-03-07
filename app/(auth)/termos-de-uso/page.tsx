@@ -53,10 +53,9 @@ export default function TermosDeUsoPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">4. Planos e Pagamentos</h2>
             <ul className="list-disc pl-6 space-y-1">
-              <li><strong>Starter:</strong> R$197/mes — ate 50 alunos, funcionalidades basicas</li>
-              <li><strong>Professional:</strong> R$497/mes — ate 200 alunos, funcionalidades avancadas</li>
-              <li><strong>Enterprise:</strong> R$997/mes — alunos ilimitados, funcionalidades completas</li>
-              <li>Periodo de teste gratuito de 14 dias em todos os planos</li>
+              <li>Oferecemos diferentes planos adaptados as necessidades da sua academia</li>
+              <li>Consulte nossos valores diretamente com nosso time comercial ou atraves da pagina de precos</li>
+              <li>Periodo de teste gratuito disponivel para conhecer a plataforma</li>
               <li>Pagamentos processados via Stripe com seguranca PCI DSS</li>
               <li>Renovacao automatica ate cancelamento pelo titular</li>
               <li>Cancelamento pode ser feito a qualquer momento nas configuracoes da conta</li>
