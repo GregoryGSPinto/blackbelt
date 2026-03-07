@@ -225,7 +225,9 @@ function ScrollIndicator({ colors, onClick }: { colors: ReturnType<typeof getDes
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: '0.5rem',
+        margin: '0 auto',
       }}
       animate={shouldReduceMotion ? undefined : {
         y: [0, -12, 0],
@@ -859,7 +861,7 @@ function LoginContent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              style={{ textAlign: 'center' }}
+              style={{ textAlign: 'center', position: 'relative' }}
             >
               {/* Logo with pulse */}
               <div style={{ display: 'flex', justifyContent: 'center' }}>
