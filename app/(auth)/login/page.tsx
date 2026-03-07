@@ -10,63 +10,267 @@ import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
 import { Users, DollarSign, TrendingUp, Mail, Phone, Clock, HelpCircle, ChevronDown as ChevronDownLucide } from 'lucide-react';
 import { AnimatedCounter } from '@/components/transitions/AnimatedCounter';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
 
 import { useTranslations } from 'next-intl';
 
 // ─── Types ──────────────────────────────────────────────────
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
 
-// ─── Framer Motion Variants ─────────────────────────────────
+// ─── Premium Animation Constants ────────────────────────────
+const EASE_PREMIUM = [0.4, 0, 0.2, 1] as const;
+const DURATION_PREMIUM = 0.8;
+const STAGGER_DELAY = 0.15;
+
+const SPRING_PREMIUM = {
+  type: 'spring' as const,
+  stiffness: 400,
+  damping: 25,
+};
+
+const SPRING_GENTLE = {
+  type: 'spring' as const,
+  stiffness: 300,
+  damping: 30,
+};
+
+// ─── Premium Framer Motion Variants ─────────────────────────
 const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
+  initial: { opacity: 0, y: 30 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: DURATION_PREMIUM,
+      ease: EASE_PREMIUM,
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    transition: {
+      duration: 0.3,
+      ease: EASE_PREMIUM,
+    }
+  },
 };
 
-const fadeInLeft = {
-  initial: { opacity: 0, x: 40 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -40 },
+const slideInLeft = {
+  initial: { opacity: 0, x: -30 },
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: EASE_PREMIUM,
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    x: 30,
+    transition: {
+      duration: 0.35,
+      ease: EASE_PREMIUM,
+    }
+  },
 };
 
-const fadeInRight = {
-  initial: { opacity: 0, x: -40 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: 40 },
-};
-
-const scaleIn = {
-  initial: { opacity: 0, scale: 0.95 },
-  animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.95 },
+const stepTransition = {
+  initial: (dir: 'left' | 'right') => ({ 
+    opacity: 0, 
+    x: dir === 'right' ? 40 : -40 
+  }),
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    transition: {
+      duration: 0.4,
+      ease: EASE_PREMIUM,
+    }
+  },
+  exit: (dir: 'left' | 'right') => ({ 
+    opacity: 0, 
+    x: dir === 'left' ? -40 : 40,
+    transition: {
+      duration: 0.35,
+      ease: EASE_PREMIUM,
+    }
+  }),
 };
 
 const staggerContainer = {
+  initial: {},
   animate: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: STAGGER_DELAY,
+      delayChildren: 0.1,
     },
   },
 };
 
 const staggerItem = {
   initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: EASE_PREMIUM,
+    }
+  },
 };
+
+
+
+// ─── Premium Components ─────────────────────────────────────
+function AnimatedLogo({ isDark }: { isDark: boolean }) {
+  const shouldReduceMotion = useReducedMotion();
+  
+  return (
+    <motion.div
+      style={{
+        width: 64,
+        height: 64,
+        borderRadius: '50%',
+        background: isDark 
+          ? 'linear-gradient(135deg, #333 0%, #111 100%)' 
+          : 'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '1.5rem',
+        boxShadow: isDark 
+          ? '0 8px 32px rgba(255,255,255,0.1)' 
+          : '0 8px 32px rgba(0,0,0,0.1)',
+      }}
+      animate={shouldReduceMotion ? undefined : {
+        scale: [1, 1.05, 1],
+        transition: {
+          duration: 2,
+          repeat: Infinity,
+          ease: 'easeInOut' as const,
+        }
+      }}
+      whileHover={shouldReduceMotion ? undefined : { scale: 1.08 }}
+      transition={SPRING_GENTLE}
+    >
+      <span style={{ fontSize: '1.75rem' }}>🥋</span>
+    </motion.div>
+  );
+}
+
+function AnimatedSpinner({ color }: { color: string }) {
+  const shouldReduceMotion = useReducedMotion();
+  
+  return (
+    <motion.div
+      style={{
+        width: 40,
+        height: 40,
+        borderRadius: '50%',
+        border: `3px solid transparent`,
+        borderTopColor: color,
+        borderRightColor: color,
+        willChange: 'transform',
+      }}
+      animate={shouldReduceMotion ? undefined : { rotate: 360 }}
+      transition={{
+        duration: 1,
+        repeat: Infinity,
+        ease: 'linear',
+      }}
+    />
+  );
+}
+
+function AnimatedError({ children, colors }: { children: React.ReactNode; colors: ReturnType<typeof getDesignTokens> }) {
+  const shouldReduceMotion = useReducedMotion();
+  
+  return (
+    <motion.p
+      role="alert"
+      style={{
+        color: colors.error,
+        fontSize: '0.8rem',
+        marginBottom: '1rem',
+        textAlign: 'center',
+      }}
+      animate={shouldReduceMotion ? undefined : {
+        x: [-10, 10, -10, 10, 0],
+        transition: {
+          duration: 0.4,
+          ease: 'easeInOut' as const,
+        }
+      }}
+    >
+      {children}
+    </motion.p>
+  );
+}
+
+function ScrollIndicator({ colors, onClick }: { colors: ReturnType<typeof getDesignTokens>; onClick: () => void }) {
+  const shouldReduceMotion = useReducedMotion();
+  
+  return (
+    <motion.button
+      onClick={onClick}
+      style={{
+        position: 'absolute',
+        bottom: '2rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '0.5rem',
+      }}
+      animate={shouldReduceMotion ? undefined : {
+        y: [0, -12, 0],
+        transition: {
+          duration: 2,
+          repeat: Infinity,
+          ease: 'easeInOut' as const,
+        }
+      }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      transition={SPRING_GENTLE}
+    >
+      <span style={{
+        fontSize: '0.75rem',
+        color: colors.textMuted,
+        letterSpacing: '0.1em',
+      }}>
+        Saiba mais
+      </span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </motion.button>
+  );
+}
 
 // ─── Animated Section Component ─────────────────────────────
 function AnimatedSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const shouldReduceMotion = useReducedMotion();
   
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ 
+        duration: shouldReduceMotion ? 0 : 0.6, 
+        delay, 
+        ease: EASE_PREMIUM 
+      }}
       className={className}
+      style={{ willChange: shouldReduceMotion ? undefined : 'transform, opacity' }}
     >
       {children}
     </motion.div>
@@ -74,21 +278,54 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 }
 
 // ─── Animated Button Component ──────────────────────────────
-function AnimatedButton({ children, onClick, style, className = '', type = 'button' as const, disabled, form, formAction, name, value }: { children: React.ReactNode; onClick?: () => void; style?: React.CSSProperties; className?: string; type?: 'button' | 'submit' | 'reset'; disabled?: boolean; form?: string; formAction?: string | ((formData: FormData) => void | Promise<void>); name?: string; value?: string | number | readonly string[] }) {
+function AnimatedButton({ 
+  children, 
+  onClick, 
+  style, 
+  className = '', 
+  type = 'button' as const, 
+  disabled,
+  variant = 'default' as const,
+}: { 
+  children: React.ReactNode; 
+  onClick?: () => void; 
+  style?: React.CSSProperties; 
+  className?: string; 
+  type?: 'button' | 'submit' | 'reset'; 
+  disabled?: boolean;
+  variant?: 'default' | 'ghost' | 'outline';
+}) {
+  const { isDark } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
+  
+  const getHoverStyle = () => {
+    if (variant === 'ghost') {
+      return { 
+        backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+        scale: shouldReduceMotion ? 1 : 1.03,
+      };
+    }
+    return { 
+      scale: shouldReduceMotion ? 1 : 1.03,
+      boxShadow: isDark 
+        ? '0 8px 24px rgba(255,255,255,0.1)' 
+        : '0 8px 24px rgba(0,0,0,0.15)',
+    };
+  };
+  
   return (
     <motion.button
       type={type}
       onClick={onClick}
       className={className}
-      style={style}
+      style={{
+        ...style,
+        willChange: shouldReduceMotion ? undefined : 'transform',
+      }}
       disabled={disabled}
-      form={form}
-      formAction={formAction}
-      name={name}
-      value={value}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2 }}
+      whileHover={disabled ? undefined : getHoverStyle()}
+      whileTap={disabled ? undefined : { scale: shouldReduceMotion ? 1 : 0.97 }}
+      transition={SPRING_PREMIUM}
     >
       {children}
     </motion.button>
@@ -97,17 +334,95 @@ function AnimatedButton({ children, onClick, style, className = '', type = 'butt
 
 // ─── Animated Card Component ────────────────────────────────
 function AnimatedCard({ children, style, className = '' }: { children: React.ReactNode; style?: React.CSSProperties; className?: string }) {
+  const shouldReduceMotion = useReducedMotion();
+  
   return (
     <motion.div
-      style={style}
+      style={{
+        ...style,
+        willChange: shouldReduceMotion ? undefined : 'transform, opacity',
+      }}
       className={className}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -30 }}
-      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: EASE_PREMIUM }}
     >
       {children}
     </motion.div>
+  );
+}
+
+// ─── Animated Input Component ───────────────────────────────
+interface AnimatedInputProps {
+  id?: string;
+  type?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  autoFocus?: boolean;
+  autoComplete?: string;
+  required?: boolean;
+  'aria-label'?: string;
+  style?: React.CSSProperties;
+  isDark: boolean;
+  colors: ReturnType<typeof getDesignTokens>;
+  isInvalid?: boolean;
+}
+
+function AnimatedInput({ 
+  id,
+  type,
+  value,
+  onChange,
+  onFocus,
+  onBlur,
+  placeholder,
+  autoFocus,
+  autoComplete,
+  required,
+  'aria-label': ariaLabel,
+  style, 
+  isDark, 
+  colors, 
+  isInvalid = false,
+}: AnimatedInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  
+  return (
+    <motion.input
+      id={id}
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      autoFocus={autoFocus}
+      autoComplete={autoComplete}
+      required={required}
+      aria-label={ariaLabel}
+      style={{
+        ...style,
+        borderBottom: `1px solid ${isInvalid ? colors.error : isFocused ? colors.inputFocus : colors.inputBorder}`,
+        boxShadow: isFocused && !shouldReduceMotion
+          ? `0 2px 8px ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+          : 'none',
+      }}
+      onFocus={(e) => {
+        setIsFocused(true);
+        onFocus?.(e);
+      }}
+      onBlur={(e) => {
+        setIsFocused(false);
+        onBlur?.(e);
+      }}
+      animate={{
+        borderBottomColor: isInvalid ? colors.error : isFocused ? colors.inputFocus : colors.inputBorder,
+      }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
+    />
   );
 }
 
@@ -157,24 +472,6 @@ function EyeIcon({ open, color }: { open: boolean; color: string }) {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
       <line x1="1" y1="1" x2="23" y2="23"/>
-    </svg>
-  );
-}
-
-function SpinnerIcon({ color }: { color: string }) {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2">
-      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83">
-        <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
-      </path>
-    </svg>
-  );
-}
-
-function ChevronDownIcon({ color }: { color: string }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="6 9 12 15 18 9"/>
     </svg>
   );
 }
@@ -236,6 +533,8 @@ function FaqItem({ question, answer, isDark, colors }: {
   colors: ReturnType<typeof getDesignTokens>;
 }) {
   const [open, setOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  
   return (
     <motion.div
       style={{
@@ -246,7 +545,7 @@ function FaqItem({ question, answer, isDark, colors }: {
       initial={false}
       animate={{ borderColor: isDark ? '#222' : '#e0e0e0' }}
       whileHover={{ borderColor: isDark ? '#444' : '#ccc' }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
     >
       <motion.button
         onClick={() => setOpen(!open)}
@@ -265,12 +564,12 @@ function FaqItem({ question, answer, isDark, colors }: {
           textAlign: 'left',
           gap: '1rem',
         }}
-        whileTap={{ scale: 0.99 }}
+        whileTap={{ scale: shouldReduceMotion ? 1 : 0.99 }}
       >
         {question}
         <motion.div
           animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.25, ease: 'easeInOut' }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: 'easeInOut' }}
         >
           <ChevronDownLucide
             size={18}
@@ -287,7 +586,7 @@ function FaqItem({ question, answer, isDark, colors }: {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_PREMIUM }}
           >
             <p style={{
               padding: '0 1.25rem 1rem',
@@ -313,6 +612,7 @@ function LoginContent() {
   const { isDark } = useTheme();
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
+  const shouldReduceMotion = useReducedMotion();
 
   // ─── State machine ────────────────────────────────────────
   const [step, setStep] = useState<LoginStep>('INITIAL');
@@ -398,15 +698,15 @@ function LoginContent() {
       setStep('PASSWORD');
       setSlideDir('right');
       setTimeout(() => setCardVisible(true), 20);
-    }, 350);
-  }, []);
+    }, shouldReduceMotion ? 0 : 350);
+  }, [shouldReduceMotion]);
 
   // ─── Step transitions ─────────────────────────────────────
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
       setEmailInvalid(true);
       setError(t('login.emailNotFound'));
-      setTimeout(() => setEmailInvalid(false), 600);
+      setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 600);
       return;
     }
 
@@ -424,7 +724,7 @@ function LoginContent() {
       if (!data.exists) {
         setEmailInvalid(true);
         setError(t('login.emailNotFound'));
-        setTimeout(() => setEmailInvalid(false), 600);
+        setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 600);
         return;
       }
     } catch {
@@ -437,8 +737,8 @@ function LoginContent() {
       setStep('PASSWORD');
       setSlideDir('right');
       setTimeout(() => setCardVisible(true), 20);
-    }, 350);
-  }, [email, t]);
+    }, shouldReduceMotion ? 0 : 350);
+  }, [email, t, shouldReduceMotion]);
 
   const goBackToEmail = useCallback(() => {
     setError('');
@@ -449,8 +749,8 @@ function LoginContent() {
       setStep('EMAIL');
       setSlideDir('left');
       setTimeout(() => setCardVisible(true), 20);
-    }, 350);
-  }, []);
+    }, shouldReduceMotion ? 0 : 350);
+  }, [shouldReduceMotion]);
 
   // ─── Submit login ─────────────────────────────────────────
   const handleLogin = useCallback(async () => {
@@ -485,25 +785,8 @@ function LoginContent() {
     handleLogin();
   };
 
-  // ─── Card slide style ─────────────────────────────────────
-  const cardStyle = (): React.CSSProperties => {
-    if (slideDir === 'none') {
-      return {
-        opacity: cardVisible ? 1 : 0,
-        transform: cardVisible ? 'translateY(0)' : 'translateY(30px)',
-        transition: transitions.slideUp,
-      };
-    }
-    const offX = slideDir === 'left' ? '-40px' : '40px';
-    return {
-      opacity: cardVisible ? 1 : 0,
-      transform: cardVisible ? 'translateX(0)' : `translateX(${offX})`,
-      transition: transitions.slideLeft,
-    };
-  };
-
   const scrollToSobre = () => {
-    sobreRef.current?.scrollIntoView({ behavior: 'smooth' });
+    sobreRef.current?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
   };
 
   // ─── Defer render until mounted ───────────────────────────
@@ -516,13 +799,20 @@ function LoginContent() {
     <div style={{ position: 'relative', fontFamily: 'Inter, system-ui, sans-serif' }}>
       {/* ─── Background Layer ─────────────────────────────── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }} aria-hidden="true">
-        <div
+        <motion.div
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundColor: isDark ? '#0a0a0a' : '#f5f5f5',
-            transition: 'background-color 0.5s ease',
+            background: isDark 
+              ? 'linear-gradient(135deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%)' 
+              : 'linear-gradient(135deg, #f5f5f5 0%, #fafafa 50%, #f5f5f5 100%)',
           }}
+          animate={shouldReduceMotion ? undefined : {
+            background: isDark 
+              ? ['linear-gradient(135deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%)', 'linear-gradient(135deg, #0f0f0f 0%, #0a0a0a 50%, #0f0f0f 100%)', 'linear-gradient(135deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%)']
+              : ['linear-gradient(135deg, #f5f5f5 0%, #fafafa 50%, #f5f5f5 100%)', 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 50%, #fafafa 100%)', 'linear-gradient(135deg, #f5f5f5 0%, #fafafa 50%, #f5f5f5 100%)'],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
         />
         <div
           style={{
@@ -544,7 +834,7 @@ function LoginContent() {
       {/* ═══════════════════════════════════════════════════════
           HERO — First viewport: Login button + bouncing arrow
           ═══════════════════════════════════════════════════════ */}
-      <div
+      <motion.div
         style={{
           position: 'relative',
           zIndex: 10,
@@ -556,97 +846,90 @@ function LoginContent() {
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
         }}
+        initial="initial"
+        animate="animate"
+        variants={fadeInUp}
       >
         {/* ─── STEP: INITIAL ─────────────────────────────── */}
         <AnimatePresence mode="wait">
           {step === 'INITIAL' && (
             <motion.div
               key="initial"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              variants={fadeInUp}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{ textAlign: 'center' }}
             >
-              <motion.button
-                onClick={goToEmail}
-                style={{
-                  width: 200,
-                  height: 52,
-                  background: 'transparent',
-                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
-                  color: colors.text,
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.3em',
-                  textTransform: 'uppercase',
-                  borderRadius: 12,
-                  cursor: 'pointer',
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+              {/* Logo with pulse */}
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <AnimatedLogo isDark={isDark} />
+              </div>
+              
+              <motion.div
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
               >
-                Login
-              </motion.button>
+                <motion.button
+                  variants={staggerItem}
+                  onClick={goToEmail}
+                  style={{
+                    width: 200,
+                    height: 52,
+                    background: 'transparent',
+                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
+                    color: colors.text,
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.3em',
+                    textTransform: 'uppercase',
+                    borderRadius: 12,
+                    cursor: 'pointer',
+                    willChange: shouldReduceMotion ? undefined : 'transform',
+                  }}
+                  whileHover={shouldReduceMotion ? undefined : { 
+                    scale: 1.03, 
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                    boxShadow: isDark ? '0 8px 24px rgba(255,255,255,0.1)' : '0 8px 24px rgba(0,0,0,0.1)',
+                  }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                  transition={SPRING_PREMIUM}
+                >
+                  Login
+                </motion.button>
+              </motion.div>
 
-              {/* Bouncing arrow at bottom */}
-              <motion.button
-                onClick={scrollToSobre}
-                style={{
-                  position: 'absolute',
-                  bottom: '2rem',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                }}
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <span style={{
-                  fontSize: '0.75rem',
-                  color: colors.textMuted,
-                  letterSpacing: '0.1em',
-                }}>
-                  Saiba mais
-                </span>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </motion.button>
+              {/* Scroll indicator with bounce */}
+              <ScrollIndicator colors={colors} onClick={scrollToSobre} />
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={slideDir === 'right' ? 'right' : 'left'}>
           {step === 'EMAIL' && (
             <motion.div
               key="email"
-              initial={{ opacity: 0, x: slideDir === 'right' ? 40 : -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: slideDir === 'left' ? -40 : 40 }}
-              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              custom={slideDir === 'right' ? 'right' : 'left'}
+              variants={stepTransition}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{
                 width: '100%',
                 maxWidth: 480,
+                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
             >
               <form onSubmit={handleEmailSubmit}>
-                <div style={{ position: 'relative' }}>
-
+                <motion.div 
+                  style={{ position: 'relative' }}
+                  variants={slideInLeft}
+                  initial="initial"
+                  animate="animate"
+                >
                   {/* Back arrow to INITIAL */}
                   <motion.button
                     type="button"
@@ -663,16 +946,17 @@ function LoginContent() {
                       padding: '0.25rem',
                       display: 'flex',
                       alignItems: 'center',
+                      willChange: shouldReduceMotion ? undefined : 'transform',
                     }}
-                    whileHover={{ scale: 1.1, x: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
+                    transition={SPRING_GENTLE}
                   >
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                   </motion.button>
 
                 {/* Unified bordered container: card + divider + SSO */}
-                <div
+                <motion.div
                   style={{
                     border: `1px solid ${colors.cardBorder}`,
                     borderRadius: 12,
@@ -681,17 +965,12 @@ function LoginContent() {
                     WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
                     transition: `${transitions.theme}, border-color 0.25s ease`,
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)';
-                  }}
+                  whileHover={{ borderColor: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)' }}
                 >
                   {/* Card content */}
                   <div style={{ padding: '2rem 2rem 1.5rem' }}>
                     {/* Title */}
-                    <h2
+                    <motion.h2
                       style={{
                         color: colors.text,
                         fontSize: '0.875rem',
@@ -702,29 +981,25 @@ function LoginContent() {
                         textAlign: 'center',
                         transition: transitions.theme,
                       }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1, duration: 0.4 }}
                     >
                       {t('login.title').toUpperCase()}
-                    </h2>
+                    </motion.h2>
 
-                    {/* Error */}
-                    {error && (
-                      <p
-                        role="alert"
-                        style={{
-                          color: colors.error,
-                          fontSize: '0.8rem',
-                          marginBottom: '1rem',
-                          textAlign: 'center',
-                          transition: transitions.fadeIn,
-                        }}
-                      >
-                        {error}
-                      </p>
-                    )}
+                    {/* Error with shake */}
+                    <AnimatePresence>
+                      {error && (
+                        <AnimatedError colors={colors}>
+                          {error}
+                        </AnimatedError>
+                      )}
+                    </AnimatePresence>
 
                     {/* Email input with dropdown arrow */}
                     <div style={{ position: 'relative' }} ref={dropdownRef}>
-                      <input
+                      <AnimatedInput
                         id="email"
                         type="email"
                         value={email}
@@ -734,26 +1009,22 @@ function LoginContent() {
                         autoComplete="email"
                         required
                         aria-label="Email"
+                        isDark={isDark}
+                        colors={colors}
+                        isInvalid={emailInvalid}
                         style={{
                           width: '100%',
                           background: 'transparent',
                           border: 'none',
-                          borderBottom: `1px solid ${emailInvalid ? colors.error : colors.inputBorder}`,
                           padding: '0.75rem 2.5rem 0.75rem 0',
                           fontSize: '1rem',
                           color: emailInvalid ? colors.error : colors.text,
                           outline: 'none',
                           transition: 'all 0.3s ease',
                         }}
-                        onFocus={(e) => {
-                          if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputFocus;
-                        }}
-                        onBlur={(e) => {
-                          if (!emailInvalid) e.currentTarget.style.borderBottomColor = colors.inputBorder;
-                        }}
                       />
                       {/* Dropdown arrow */}
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setShowDropdown(!showDropdown)}
                         aria-label="Select demo user"
@@ -761,85 +1032,104 @@ function LoginContent() {
                           position: 'absolute',
                           right: 0,
                           top: '50%',
-                          transform: `translateY(-50%) rotate(${showDropdown ? '180deg' : '0deg'})`,
+                          transform: 'translateY(-50%)',
                           background: 'none',
                           border: 'none',
                           cursor: 'pointer',
                           padding: '0.5rem',
                           display: 'flex',
                           alignItems: 'center',
-                          transition: 'transform 0.2s ease',
                         }}
+                        animate={{ rotate: showDropdown ? 180 : 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                       >
-                        <ChevronDownIcon color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'} />
-                      </button>
+                        <ChevronDownLucide 
+                          size={18} 
+                          color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'} 
+                        />
+                      </motion.button>
 
                       {/* Dropdown menu */}
-                      {showDropdown && (
-                        <div
-                          onTouchMove={(e) => e.stopPropagation()}
-                          style={{
-                            position: 'absolute',
-                            top: '100%',
-                            left: 0,
-                            right: 0,
-                            marginTop: 4,
-                            background: isDark ? '#1a1a2e' : '#ffffff',
-                            border: `1px solid ${colors.cardBorder}`,
-                            borderRadius: 8,
-                            zIndex: 9999,
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                          }}
-                        >
-                          {DEMO_USERS.map((u) => (
-                            <button
-                              key={u.email}
-                              type="button"
-                              onClick={() => selectDemoUser(u)}
-                              style={{
-                                width: '100%',
-                                padding: '0.625rem 1rem',
-                                border: 'none',
-                                borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
-                                background: 'transparent',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.75rem',
-                                textAlign: 'left',
-                                transition: 'background 0.15s ease',
-                              }}
-                              onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
-                              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                            >
-                              <span className="text-lg">{u.icon}</span>
-                              <div>
-                                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
-                                  {u.label}
-                                </span>
-                                <span style={{ fontSize: '0.72rem', color: colors.textMuted }}>
-                                  {u.email}
-                                </span>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                      <AnimatePresence>
+                        {showDropdown && (
+                          <motion.div
+                            onTouchMove={(e) => e.stopPropagation()}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+                            style={{
+                              position: 'absolute',
+                              top: '100%',
+                              left: 0,
+                              right: 0,
+                              marginTop: 4,
+                              background: isDark ? '#1a1a2e' : '#ffffff',
+                              border: `1px solid ${colors.cardBorder}`,
+                              borderRadius: 8,
+                              zIndex: 9999,
+                              boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                            }}
+                          >
+                            {DEMO_USERS.map((u, index) => (
+                              <motion.button
+                                key={u.email}
+                                type="button"
+                                onClick={() => selectDemoUser(u)}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                style={{
+                                  width: '100%',
+                                  padding: '0.625rem 1rem',
+                                  border: 'none',
+                                  borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+                                  background: 'transparent',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '0.75rem',
+                                  textAlign: 'left',
+                                }}
+                                whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                              >
+                                <span className="text-lg">{u.icon}</span>
+                                <div>
+                                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
+                                    {u.label}
+                                  </span>
+                                  <span style={{ fontSize: '0.72rem', color: colors.textMuted }}>
+                                    {u.email}
+                                  </span>
+                                </div>
+                              </motion.button>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
                     {emailInvalid && (
-                      <p
+                      <motion.p
                         style={{
                           color: colors.error,
                           fontSize: '0.75rem',
                           marginTop: '0.4rem',
                           marginBottom: 0,
                           opacity: 0.85,
-                          animation: 'shake 0.4s cubic-bezier(.36,.07,.19,.97)',
+                        }}
+                        animate={{
+                          x: [-10, 10, -10, 10, 0],
+                          transition: {
+                            duration: 0.4,
+                            ease: 'easeInOut' as const,
+                          }
                         }}
                       >
                         {t('login.emailNotFound')}
-                      </p>
+                      </motion.p>
                     )}
 
                     {/* Remember me + Criar conta + Forgot email */}
@@ -912,9 +1202,15 @@ function LoginContent() {
                   {/* Divider */}
                   <div style={{ height: 1, background: colors.cardBorder, transition: transitions.theme }} />
 
-                  {/* SSO buttons at bottom */}
-                  <div style={{ display: 'flex' }}>
+                  {/* SSO buttons at bottom with stagger */}
+                  <motion.div 
+                    style={{ display: 'flex' }}
+                    variants={staggerContainer}
+                    initial="initial"
+                    animate="animate"
+                  >
                     <motion.button
+                      variants={staggerItem}
                       type="button"
                       aria-label={t('login.loginWithGoogle')}
                       style={{
@@ -928,14 +1224,19 @@ function LoginContent() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        willChange: shouldReduceMotion ? undefined : 'transform',
                       }}
-                      whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
+                      whileHover={shouldReduceMotion ? undefined : { 
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                        scale: 1.03,
+                      }}
+                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                      transition={SPRING_PREMIUM}
                     >
                       <GoogleIcon />
                     </motion.button>
                     <motion.button
+                      variants={staggerItem}
                       type="button"
                       aria-label={t('login.loginWithApple')}
                       style={{
@@ -948,42 +1249,48 @@ function LoginContent() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        willChange: shouldReduceMotion ? undefined : 'transform',
                       }}
-                      whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
+                      whileHover={shouldReduceMotion ? undefined : { 
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                        scale: 1.03,
+                      }}
+                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                      transition={SPRING_PREMIUM}
                     >
                       <AppleIcon color={colors.text} />
                     </motion.button>
-                  </div>
-                </div>{/* end unified border */}
+                  </motion.div>
+                </motion.div>{/* end unified border */}
 
                   {/* Hidden submit for Enter key */}
                   <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
 
-                </div>
+                </motion.div>
               </form>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* ─── STEP: PASSWORD ────────────────────────────── */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={slideDir === 'right' ? 'right' : 'left'}>
           {step === 'PASSWORD' && (
             <motion.div
               key="password"
-              initial={{ opacity: 0, x: slideDir === 'right' ? 40 : -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: slideDir === 'left' ? -40 : 40 }}
-              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              custom={slideDir === 'right' ? 'right' : 'left'}
+              variants={stepTransition}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{
                 width: '100%',
                 maxWidth: 480,
+                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
             >
             <form onSubmit={handlePasswordSubmit}>
-              <div
+              <motion.div
                 style={{
                   border: `1px solid ${colors.cardBorder}`,
                   borderRadius: 12,
@@ -993,6 +1300,9 @@ function LoginContent() {
                   WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
                   transition: transitions.theme,
                 }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
               >
                 {/* Conteudo superior */}
                 <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
@@ -1010,17 +1320,18 @@ function LoginContent() {
                       padding: '0.25rem',
                       display: 'flex',
                       alignItems: 'center',
+                      willChange: shouldReduceMotion ? undefined : 'transform',
                     }}
                     aria-label={tCommon('actions.goBack')}
-                    whileHover={{ scale: 1.1, x: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
+                    transition={SPRING_GENTLE}
                   >
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                   </motion.button>
 
                   {/* Email display */}
-                  <p
+                  <motion.p
                     style={{
                       fontSize: '0.85rem',
                       color: colors.textMuted,
@@ -1029,28 +1340,29 @@ function LoginContent() {
                       opacity: 0.6,
                       transition: transitions.theme,
                     }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.6 }}
+                    transition={{ delay: 0.1 }}
                   >
                     {email}
-                  </p>
+                  </motion.p>
 
-                  {/* Error */}
-                  {error && (
-                    <p
-                      role="alert"
-                      style={{
-                        color: colors.error,
-                        fontSize: '0.8rem',
-                        marginBottom: '1rem',
-                        textAlign: 'center',
-                        transition: transitions.fadeIn,
-                      }}
-                    >
-                      {error}
-                    </p>
-                  )}
+                  {/* Error with shake */}
+                  <AnimatePresence>
+                    {error && (
+                      <AnimatedError colors={colors}>
+                        {error}
+                      </AnimatedError>
+                    )}
+                  </AnimatePresence>
 
                   {/* Password input */}
-                  <div style={{ marginBottom: '1rem', position: 'relative' }}>
+                  <motion.div 
+                    style={{ marginBottom: '1rem', position: 'relative' }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                  >
                     <label
                       htmlFor="password"
                       style={{
@@ -1067,7 +1379,7 @@ function LoginContent() {
                       {t('login.password')}
                     </label>
                     <div style={{ position: 'relative' }}>
-                      <input
+                      <AnimatedInput
                         id="password"
                         type={showPassword ? 'text' : 'password'}
                         value={password}
@@ -1076,26 +1388,21 @@ function LoginContent() {
                         autoFocus
                         autoComplete="current-password"
                         required
+                        isDark={isDark}
+                        colors={colors}
                         style={{
                           width: '100%',
                           background: 'transparent',
                           border: 'none',
-                          borderBottom: `1px solid ${colors.inputBorder}`,
                           padding: '0.75rem 2.5rem 0.75rem 0',
                           fontSize: '1rem',
                           color: colors.text,
                           outline: 'none',
                           transition: transitions.theme,
                         }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderBottomColor = colors.inputFocus;
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderBottomColor = colors.inputBorder;
-                        }}
                       />
                       {/* Eye toggle */}
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
@@ -1111,14 +1418,21 @@ function LoginContent() {
                           display: 'flex',
                           alignItems: 'center',
                         }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                       >
                         <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
-                      </button>
+                      </motion.button>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Forgot password link */}
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                  <motion.div 
+                    style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
                     <Link
                       href="/esqueci-senha"
                       style={{
@@ -1130,7 +1444,7 @@ function LoginContent() {
                     >
                       {t('login.forgotPassword')}
                     </Link>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Linha divisoria */}
@@ -1150,14 +1464,18 @@ function LoginContent() {
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
+                    willChange: shouldReduceMotion ? undefined : 'transform',
                   }}
-                  whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
+                  whileHover={shouldReduceMotion ? undefined : { 
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                    scale: 1.02,
+                  }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+                  transition={SPRING_PREMIUM}
                 >
                   {t('login.loginButton').toUpperCase()}
                 </motion.button>
-              </div>
+              </motion.div>
             </form>
           </motion.div>
           )}
@@ -1171,15 +1489,16 @@ function LoginContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_PREMIUM }}
               style={{
                 width: '100%',
                 maxWidth: 480,
+                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
             >
               <div style={{ position: 'relative' }}>
-                <div
+                <motion.div
                   style={{
                     border: `1px solid ${colors.cardBorder}`,
                     borderRadius: 12,
@@ -1190,23 +1509,27 @@ function LoginContent() {
                     padding: '3rem 2rem',
                     textAlign: 'center',
                   }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
                 >
                   <motion.div 
                     style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                   >
-                    <SpinnerIcon color={colors.text} />
+                    <AnimatedSpinner color={colors.text} />
                   </motion.div>
-                  <p
+                  <motion.p
                     style={{
                       color: colors.textMuted,
                       fontSize: '0.875rem',
                     }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
                   >
                     {tCommon('actions.entering')}
-                  </p>
-                </div>
+                  </motion.p>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -1220,15 +1543,16 @@ function LoginContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_PREMIUM }}
               style={{
                 width: '100%',
                 maxWidth: 480,
+                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
             >
               <form onSubmit={handlePasswordSubmit}>
-                <div
+                <motion.div
                   style={{
                     border: `1px solid ${colors.cardBorder}`,
                     borderRadius: 12,
@@ -1237,6 +1561,9 @@ function LoginContent() {
                     backdropFilter: 'blur(12px) saturate(1.2)',
                     WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
                   }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
                 >
                   <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
                     <motion.button
@@ -1252,16 +1579,17 @@ function LoginContent() {
                         padding: '0.25rem',
                         display: 'flex',
                         alignItems: 'center',
+                        willChange: shouldReduceMotion ? undefined : 'transform',
                       }}
                       aria-label={tCommon('actions.goBack')}
-                      whileHover={{ scale: 1.1, x: -2 }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
+                      whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
+                      whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
+                      transition={SPRING_GENTLE}
                     >
                       <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                     </motion.button>
 
-                  <p
+                  <motion.p
                     style={{
                       fontSize: '0.85rem',
                       color: colors.textMuted,
@@ -1270,25 +1598,27 @@ function LoginContent() {
                       opacity: 0.6,
                       transition: transitions.theme,
                     }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.6 }}
+                    transition={{ delay: 0.1 }}
                   >
                     {email}
-                  </p>
+                  </motion.p>
 
-                  {error && (
-                    <p
-                      role="alert"
-                      style={{
-                        color: colors.error,
-                        fontSize: '0.8rem',
-                        marginBottom: '1rem',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {error}
-                    </p>
-                  )}
+                  <AnimatePresence>
+                    {error && (
+                      <AnimatedError colors={colors}>
+                        {error}
+                      </AnimatedError>
+                    )}
+                  </AnimatePresence>
 
-                  <div style={{ marginBottom: '1rem', position: 'relative' }}>
+                  <motion.div 
+                    style={{ marginBottom: '1rem', position: 'relative' }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                  >
                     <label
                       htmlFor="password-retry"
                       style={{
@@ -1305,7 +1635,7 @@ function LoginContent() {
                       {t('login.password')}
                     </label>
                     <div style={{ position: 'relative' }}>
-                      <input
+                      <AnimatedInput
                         id="password-retry"
                         type={showPassword ? 'text' : 'password'}
                         value={password}
@@ -1314,25 +1644,20 @@ function LoginContent() {
                         autoFocus
                         autoComplete="current-password"
                         required
+                        isDark={isDark}
+                        colors={colors}
                         style={{
                           width: '100%',
                           background: 'transparent',
                           border: 'none',
-                          borderBottom: `1px solid ${colors.inputBorder}`,
                           padding: '0.75rem 2.5rem 0.75rem 0',
                           fontSize: '1rem',
                           color: colors.text,
                           outline: 'none',
                           transition: transitions.theme,
                         }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderBottomColor = colors.inputFocus;
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderBottomColor = colors.inputBorder;
-                        }}
                       />
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
@@ -1348,13 +1673,20 @@ function LoginContent() {
                           display: 'flex',
                           alignItems: 'center',
                         }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                       >
                         <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
-                      </button>
+                      </motion.button>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                  <motion.div 
+                    style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
                     <Link
                       href="/esqueci-senha"
                       style={{
@@ -1366,7 +1698,7 @@ function LoginContent() {
                     >
                       {t('login.forgotPassword')}
                     </Link>
-                  </div>
+                  </motion.div>
                 </div>
 
                   <div style={{ height: 1, background: colors.cardBorder }} />
@@ -1384,33 +1716,42 @@ function LoginContent() {
                       letterSpacing: '0.2em',
                       textTransform: 'uppercase',
                       cursor: 'pointer',
+                      willChange: shouldReduceMotion ? undefined : 'transform',
                     }}
-                    whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={shouldReduceMotion ? undefined : { 
+                      backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                      scale: 1.02,
+                    }}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+                    transition={SPRING_PREMIUM}
                   >
                     {t('login.loginButton').toUpperCase()}
                   </motion.button>
-                </div>
+                </motion.div>
               </form>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* ─── Footer (login flow only) ─────────────────── */}
-        {isLoginFlow && <p
-          style={{
-            textAlign: 'center',
-            fontSize: '0.75rem',
-            color: colors.textMuted,
-            marginTop: '2rem',
-            opacity: 0.6,
-            transition: transitions.theme,
-          }}
-        >
-          {t('login.termsAgreement')}
-        </p>}
-      </div>
+        {isLoginFlow && (
+          <motion.p
+            style={{
+              textAlign: 'center',
+              fontSize: '0.75rem',
+              color: colors.textMuted,
+              marginTop: '2rem',
+              opacity: 0.6,
+              transition: transitions.theme,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ delay: 0.3 }}
+          >
+            {t('login.termsAgreement')}
+          </motion.p>
+        )}
+      </motion.div>
 
       {/* ═══════════════════════════════════════════════════════
           LANDING SECTIONS — Only visible on INITIAL step
@@ -1462,7 +1803,7 @@ function LoginContent() {
                   style={sectionCard}
                   variants={staggerItem}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  whileHover={shouldReduceMotion ? undefined : { y: -5, transition: { duration: 0.2 } }}
                 >
                   <item.Icon size={32} style={{ color: colors.text, marginBottom: '1rem' }} />
                   <h3 style={{ color: colors.text, fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>
@@ -1541,7 +1882,7 @@ function LoginContent() {
                   }}
                   variants={staggerItem}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                  whileHover={shouldReduceMotion ? undefined : { y: -8, transition: { duration: 0.2 } }}
                 >
                   {plan.popular && (
                     <motion.span 
@@ -1593,10 +1934,11 @@ function LoginContent() {
                       fontWeight: 600,
                       cursor: 'pointer',
                       letterSpacing: '0.05em',
+                      willChange: shouldReduceMotion ? undefined : 'transform',
                     }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+                    transition={SPRING_PREMIUM}
                   >
                     Comece Grátis
                   </motion.button>
@@ -1648,7 +1990,7 @@ function LoginContent() {
                   }}
                   variants={staggerItem}
                   transition={{ delay: index * 0.05 }}
-                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.05, y: -3 }}
                 >
                   <motion.span 
                     style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}
@@ -1707,7 +2049,7 @@ function LoginContent() {
                   style={{ ...sectionCard, textAlign: 'center' }}
                   variants={staggerItem}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  whileHover={shouldReduceMotion ? undefined : { y: -5 }}
                 >
                   <div style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontWeight: 600, color: colors.text, marginBottom: '0.5rem' }}>
                     <AnimatedCounter
@@ -1775,7 +2117,7 @@ function LoginContent() {
                   style={sectionCard}
                   variants={staggerItem}
                   transition={{ delay: index * 0.15 }}
-                  whileHover={{ y: -5 }}
+                  whileHover={shouldReduceMotion ? undefined : { y: -5 }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
                     <motion.div 
@@ -1852,7 +2194,7 @@ function LoginContent() {
                   style={{ ...sectionCard, textAlign: 'center' }}
                   variants={staggerItem}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  whileHover={shouldReduceMotion ? undefined : { y: -5 }}
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -1874,7 +2216,7 @@ function LoginContent() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
             >
               <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
                 Perguntas Frequentes
@@ -1885,7 +2227,7 @@ function LoginContent() {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                  transition={{ delay: index * 0.1, duration: shouldReduceMotion ? 0 : 0.3 }}
                 >
                   <FaqItem question={item.question} answer={item.answer} isDark={isDark} colors={colors} />
                 </motion.div>
@@ -1903,7 +2245,7 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
           >
             <motion.div 
               style={{
@@ -1966,24 +2308,15 @@ function LoginContent() {
           color: inherit;
           opacity: 0.4;
         }
-        /* Shake animation */
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          20% { transform: translateX(-6px); }
-          40% { transform: translateX(6px); }
-          60% { transform: translateX(-4px); }
-          80% { transform: translateX(4px); }
-        }
-        /* Bounce arrow animation */
-        @keyframes bounceArrow {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(-12px); }
-        }
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
-          * {
-            transition-duration: 0.01ms !important;
+          *,
+          *::before,
+          *::after {
             animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
           }
         }
       `}</style>
