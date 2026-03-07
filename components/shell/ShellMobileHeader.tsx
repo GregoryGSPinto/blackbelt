@@ -85,7 +85,7 @@ export function ShellMobileHeader({ config, state }: Props) {
             >
               <Bell size={17} />
               <span
-                className="absolute top-0.5 right-0.5 min-w-[16px] h-[16px] px-0.5 flex items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-bold leading-none"
+                className="absolute top-0.5 right-0.5 min-w-[16px] h-[16px] px-0.5 flex items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-medium leading-none"
                 style={{ boxShadow: `0 0 0 2px ${theme.mobileHeaderBg(isDark)}` }}
               >
                 {nav.notifications.length > 9 ? '9+' : nav.notifications.length}
@@ -115,7 +115,7 @@ export function ShellMobileHeader({ config, state }: Props) {
               aria-expanded={menuOpen}
             >
               <div
-                className={`w-8 h-8 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-full flex items-center justify-center text-white text-sm font-bold`}
+                className={`w-8 h-8 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-full flex items-center justify-center text-white text-sm font-medium`}
                 style={{ boxShadow: `0 0 0 2px ${theme.avatarRing(isDark)}` }}
               >
                 {user?.avatar || initial}
@@ -142,7 +142,7 @@ export function ShellMobileHeader({ config, state }: Props) {
                 >
                   {/* User info */}
                   <div className="p-4" style={{ borderBottom: `1px solid ${theme.panelBorder(isDark)}` }}>
-                    <p className={`text-sm font-bold truncate ${font}`} style={{ color: theme.textHeading(isDark) }}>
+                    <p className={`text-sm font-medium truncate ${font}`} style={{ color: theme.textHeading(isDark) }}>
                       {user?.nome}
                     </p>
                     <p className={`text-xs truncate mt-0.5 ${font}`} style={{ color: theme.textMuted(isDark) }}>

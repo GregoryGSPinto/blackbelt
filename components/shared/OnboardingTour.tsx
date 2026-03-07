@@ -199,7 +199,7 @@ export function OnboardingTour() {
           </button>
 
           {/* Content */}
-          <h3 className="text-sm font-bold text-white/90 mb-1.5 pr-6">{step.title}</h3>
+          <h3 className="text-sm font-semibold text-white/90 mb-1.5 pr-6">{step.title}</h3>
           <p className="text-xs text-white/45 leading-relaxed mb-4">{step.description}</p>
 
           {/* Navigation */}
@@ -234,7 +234,7 @@ export function OnboardingTour() {
               {isLast ? (
                 <button
                   onClick={next}
-                  className="px-4 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                  className="px-4 py-1.5 rounded-lg text-xs font-medium transition-colors"
                   style={{ background: 'rgba(251,191,36,0.2)', color: '#FBBF24', border: '1px solid rgba(251,191,36,0.3)' }}
                 >
                   {t('finish')}

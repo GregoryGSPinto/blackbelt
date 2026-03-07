@@ -50,7 +50,7 @@ export function ParentPreferences() {
     <div className="rounded-2xl p-5 space-y-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
       <div className="flex items-center gap-2">
         <Bell size={14} className="text-green-400/60" />
-        <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider">Preferências de Comunicação</h3>
+        <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Preferências de Comunicação</h3>
       </div>
 
       {/* Notification toggles */}

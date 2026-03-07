@@ -33,7 +33,7 @@ const DailyQuestCard = memo(function DailyQuestCard({ quest }: DailyQuestCardPro
       </p>
 
       {/* Title */}
-      <h3 className="text-zinc-200 font-bold text-lg mb-2 leading-tight">
+      <h3 className="text-zinc-200 font-semibold text-lg mb-2 leading-tight">
         {title}
       </h3>
 
@@ -43,7 +43,7 @@ const DailyQuestCard = memo(function DailyQuestCard({ quest }: DailyQuestCardPro
       </p>
 
       {/* XP Reward Badge */}
-      <div className="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-bold rounded-full px-3 py-1">
+      <div className="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-medium rounded-full px-3 py-1">
         <span>+</span>
         <span>{xpReward} XP</span>
       </div>

@@ -40,7 +40,7 @@ export function SessionExpiredModal({ isOpen }: SessionExpiredModalProps) {
           <Lock size={28} className="text-amber-400" />
         </div>
 
-        <h2 className="text-xl font-bold text-white mb-2">{t('session.expired')}</h2>
+        <h2 className="text-xl font-semibold text-white mb-2">{t('session.expired')}</h2>
         <p id="session-expired-desc" className="text-sm text-white/45 mb-8">
           {t('session.expiredMessage')}
         </p>

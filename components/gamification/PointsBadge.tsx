@@ -26,7 +26,7 @@ export default function PointsBadge({
     return (
       <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/20">
         <Trophy size={14} className="text-amber-400" />
-        <span className="text-sm font-bold text-amber-300">
+        <span className="text-sm font-medium text-amber-300">
           {formatNumber(pontos)}
         </span>
         <span className="text-[10px] text-amber-400/60 uppercase tracking-wider">pts</span>
@@ -43,7 +43,7 @@ export default function PointsBadge({
             <Trophy size={20} className="text-amber-400" />
           </div>
           <div>
-            <p className="text-lg sm:text-xl md:text-2xl font-black text-white">
+            <p className="text-lg sm:text-xl md:text-2xl font-medium text-white">
               {formatNumber(pontos)}
             </p>
             <p className="text-xs text-white/40 uppercase tracking-wider">pontos totais</p>
@@ -56,7 +56,7 @@ export default function PointsBadge({
             <div className="text-center">
               <div className="flex items-center gap-1">
                 <TrendingUp size={14} className="text-emerald-400" />
-                <span className="text-lg font-bold text-white">#{posicao}</span>
+                <span className="text-lg font-medium text-white">#{posicao}</span>
               </div>
               <p className="text-[10px] text-white/40 uppercase">posição</p>
             </div>
@@ -65,7 +65,7 @@ export default function PointsBadge({
             <div className="text-center">
               <div className="flex items-center gap-1">
                 <Flame size={14} className="text-orange-400" />
-                <span className="text-lg font-bold text-white">{streak}</span>
+                <span className="text-lg font-medium text-white">{streak}</span>
               </div>
               <p className="text-[10px] text-white/40 uppercase">streak</p>
             </div>

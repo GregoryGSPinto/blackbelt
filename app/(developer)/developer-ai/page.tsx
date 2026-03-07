@@ -126,7 +126,7 @@ export default function DeveloperAIPage() {
                 <div className="flex items-center gap-4 shrink-0 ml-4">
                   <div className="text-center">
                     <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Latency</p>
-                    <p className={`text-sm font-mono font-bold ${
+                    <p className={`text-sm font-mono font-medium ${
                       model.latencyMs > 3000 ? 'text-red-400' : model.latencyMs > 1500 ? 'text-yellow-400' : ''
                     }`} style={{ color: model.latencyMs <= 1500 ? tokens.text : undefined }}>
                       {model.status === 'MAINTENANCE' ? '—' : `${model.latencyMs}ms`}
@@ -134,7 +134,7 @@ export default function DeveloperAIPage() {
                   </div>
                   <div className="text-center">
                     <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Success</p>
-                    <p className={`text-sm font-mono font-bold ${
+                    <p className={`text-sm font-mono font-medium ${
                       model.successRate > 97 ? 'text-emerald-400' : model.successRate > 90 ? 'text-yellow-400' : 'text-red-400'
                     }`}>
                       {model.status === 'MAINTENANCE' ? '—' : `${model.successRate}%`}
@@ -142,7 +142,7 @@ export default function DeveloperAIPage() {
                   </div>
                   <div className="text-center">
                     <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>Failure</p>
-                    <p className={`text-sm font-mono font-bold ${
+                    <p className={`text-sm font-mono font-medium ${
                       model.failureRate > 5 ? 'text-red-400' : model.failureRate > 2 ? 'text-yellow-400' : ''
                     }`} style={{ color: model.failureRate <= 2 ? tokens.textMuted : undefined }}>
                       {model.status === 'MAINTENANCE' ? '—' : `${model.failureRate}%`}

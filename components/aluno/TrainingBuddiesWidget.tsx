@@ -45,7 +45,7 @@ export function TrainingBuddiesWidget({ buddies, communityRole, networkStrength 
               <div key={index} className="flex items-center gap-3">
                 {/* Avatar placeholder with initials */}
                 <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center flex-shrink-0">
-                  <span className="text-[10px] font-bold text-zinc-300">
+                  <span className="text-[10px] font-medium text-zinc-300">
                     {getInitials(buddy.name)}
                   </span>
                 </div>

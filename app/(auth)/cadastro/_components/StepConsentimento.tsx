@@ -36,7 +36,7 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
         >
           <Shield size={24} className="text-blue-400" />
         </div>
-        <h2 className="text-lg font-bold text-white">{t('consent.title')}</h2>
+        <h2 className="text-lg font-semibold text-white">{t('consent.title')}</h2>
         <p className="text-xs text-white/40 mt-1.5">
           {t('consent.description', { age: dados.idade ?? 0 })}
         </p>
@@ -135,7 +135,7 @@ export function StepConsentimento({ dados, setDados, onSubmit, error, setError }
       <button
         type="submit"
         disabled={!isValid}
-        className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all
+        className={`w-full py-3.5 rounded-xl font-medium text-sm transition-all
           ${isValid
             ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg hover:from-blue-500 hover:to-blue-400'
             : 'bg-white/5 text-white/20 cursor-not-allowed'

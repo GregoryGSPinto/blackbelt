@@ -168,7 +168,7 @@ export function WelcomeCard({ profileKey, userName }: WelcomeCardProps) {
             <Sparkles size={14} style={{ color: config.accentColor }} />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white/90">
+            <h3 className="text-base font-semibold text-white/90">
               {t(config.greeting)}{displayName}! 🦁
             </h3>
             <p className="text-[11px] text-white/35 mt-0.5">{t(config.subtitle)}</p>

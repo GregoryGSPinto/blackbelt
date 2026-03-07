@@ -595,7 +595,7 @@ export default function FinanceiroOwnerPage() {
                   return (
                     <div key={r.dia} className="flex items-start gap-4 relative">
                       <div
-                        className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 z-10 text-sm font-bold"
+                        className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 z-10 text-sm font-medium"
                         style={{
                           background: r.ativo ? `${cor}30` : 'rgba(255,255,255,0.05)',
                           border: `2px solid ${r.ativo ? cor : 'rgba(255,255,255,0.2)'}`,
@@ -654,7 +654,7 @@ export default function FinanceiroOwnerPage() {
               ))}
               <div className="flex items-center justify-between py-3 border-b-2" style={{ borderColor: 'rgba(255,255,255,0.3)' }}>
                 <span className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>(=) Lucro Operacional</span>
-                <span className="text-base font-bold" style={{ color: lucroOperacional >= 0 ? '#10B981' : '#EF4444' }}>
+                <span className="text-base font-medium" style={{ color: lucroOperacional >= 0 ? '#10B981' : '#EF4444' }}>
                   {formatCurrency(lucroOperacional)}
                 </span>
               </div>
@@ -676,7 +676,7 @@ export default function FinanceiroOwnerPage() {
                 <Users className="w-6 h-6" style={{ color: '#3B82F6' }} />
               </div>
               <div>
-                <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{pontoEquilibrio} alunos</p>
+                <p className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{pontoEquilibrio} alunos</p>
                 <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                   Minimo de alunos para cobrir custos fixos (atual: {OWNER_KPIS.alunosAtivos} alunos)
                 </p>

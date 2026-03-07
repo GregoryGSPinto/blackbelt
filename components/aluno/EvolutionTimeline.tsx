@@ -172,7 +172,7 @@ export function EvolutionTimeline({
     >
       <style dangerouslySetInnerHTML={{ __html: TIMELINE_STYLES }} />
 
-      <h3 className="text-white font-bold text-sm flex items-center gap-2 mb-5">
+      <h3 className="text-white font-semibold text-sm flex items-center gap-2 mb-5">
         <Calendar size={15} className="text-blue-400/70" />
         {title}
       </h3>

@@ -88,7 +88,7 @@ function ChurnOverviewCards({
           key={card.label}
           className={`rounded-xl border p-4 ${card.color}`}
         >
-          <p className="text-2xl font-bold">{card.value}</p>
+          <p className="text-2xl font-medium">{card.value}</p>
           <p className="text-sm opacity-80">{card.label}</p>
         </div>
       ))}
@@ -158,7 +158,7 @@ function ChurnStudentRow({ student }: { student: AdminChurnStudentVM }) {
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center gap-3 text-left"
       >
-        <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
+        <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-xs font-medium flex-shrink-0">
           {student.avatar ? (
             <img src={student.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
           ) : (
@@ -223,7 +223,7 @@ function ChurnRecommendations({
       <div className="space-y-3">
         {recommendations.slice(0, 5).map((rec, i) => (
           <div key={i} className="flex items-start gap-2">
-            <span className={`text-xs font-bold mt-0.5 ${priorityColors[rec.priority]}`}>
+            <span className={`text-xs font-medium mt-0.5 ${priorityColors[rec.priority]}`}>
               {priorityIcons[rec.priority]}
             </span>
             <div className="flex-1">
@@ -257,7 +257,7 @@ export function RiskScoreBadge({ score }: { score: number }) {
   else if (score >= 25) color = 'bg-yellow-500/20 text-yellow-400';
 
   return (
-    <span className={`px-2 py-0.5 rounded text-xs font-bold ${color}`}>
+    <span className={`px-2 py-0.5 rounded text-xs font-medium ${color}`}>
       {score}
     </span>
   );

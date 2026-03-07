@@ -88,7 +88,7 @@ export default function EventoDetalhePage() {
         {/* Header */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold ${statusCfg.bg}`}>
+            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-medium ${statusCfg.bg}`}>
               <span className={statusCfg.color}>{statusCfg.label}</span>
             </span>
             <span className="text-[10px] text-white/30 bg-white/[0.04] px-2 py-1 rounded-full border border-white/[0.06]">
@@ -112,7 +112,7 @@ export default function EventoDetalhePage() {
           <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
             <Clock size={14} className="text-amber-400 shrink-0" />
             <p className="text-xs text-amber-300/70">
-              Inscrições até <span className="font-bold text-amber-300">{formatDate(evento.prazoInscricao + 'T12:00:00', 'long')}</span>
+              Inscrições até <span className="font-medium text-amber-300">{formatDate(evento.prazoInscricao + 'T12:00:00', 'long')}</span>
             </p>
           </div>
         )}
@@ -121,7 +121,7 @@ export default function EventoDetalhePage() {
         {evento.inscricoesAbertas && !inscricaoSucesso && (
           <button
             onClick={() => setShowModal(true)}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold text-sm hover:from-amber-400 hover:to-amber-500 transition-all active:scale-[0.98] shadow-lg shadow-amber-500/20"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium text-sm hover:from-amber-400 hover:to-amber-500 transition-all active:scale-[0.98] shadow-lg shadow-amber-500/20"
           >
             Me inscrever
           </button>
@@ -207,7 +207,7 @@ export default function EventoDetalhePage() {
                       <p className="text-sm font-semibold text-white/80">{res.alunoNome}</p>
                       <p className="text-[10px] text-white/30">{res.categoriaDescricao}</p>
                     </div>
-                    <span className="text-xs font-bold text-white/40">
+                    <span className="text-xs font-medium text-white/40">
                       {res.resultado?.posicao}º
                     </span>
                   </div>
@@ -238,7 +238,7 @@ export default function EventoDetalhePage() {
 function Section({ title, icon: Icon, children }: { title: string; icon: typeof Trophy; children: React.ReactNode }) {
   return (
     <div className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-4">
-      <h2 className="text-sm font-bold text-white/70 mb-3 flex items-center gap-2">
+      <h2 className="text-sm font-semibold text-white/70 mb-3 flex items-center gap-2">
         <Icon size={15} className="text-amber-400/70" />
         {title}
       </h2>
@@ -337,7 +337,7 @@ function InscricaoModal({
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
             <Ticket size={14} className="text-white/25" />
             <span className="text-xs" style={{ color: tokens.textMuted }}>
-              Valor: <span className="text-white/70 font-bold">R$ {evento.valorInscricao}</span>
+              Valor: <span className="text-white/70 font-medium">R$ {evento.valorInscricao}</span>
             </span>
           </div>
         )}
@@ -346,7 +346,7 @@ function InscricaoModal({
         <button
           onClick={handleSubmit}
           disabled={!categoriaId || submitting}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:from-amber-400 hover:to-amber-500 transition-all active:scale-[0.98]"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:from-amber-400 hover:to-amber-500 transition-all active:scale-[0.98]"
         >
           {submitting ? 'Inscrevendo...' : 'Confirmar inscrição'}
         </button>

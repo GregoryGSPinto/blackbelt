@@ -41,7 +41,7 @@ export function PedagogicalTipsBanner({ tips }: PedagogicalTipsBannerProps) {
               className={`flex-shrink-0 w-64 rounded-lg border border-zinc-700/50 bg-zinc-900/50 border-l-4 ${borderColor} p-3`}
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-bold text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
+                <span className="text-[10px] font-medium text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
                   {icon}
                 </span>
                 <span className="text-[10px] text-zinc-500">{tip.category}</span>

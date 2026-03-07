@@ -23,7 +23,7 @@ export default function StatCard({ icon, value, label, color = 'ocean' }: StatCa
         {icon}
       </div>
       <div>
-        <p className="text-xl font-bold font-teen teen-text-heading">
+        <p className="text-xl font-medium font-teen teen-text-heading">
           {value}
         </p>
         <p className="text-xs font-teen teen-text-muted mt-0.5">

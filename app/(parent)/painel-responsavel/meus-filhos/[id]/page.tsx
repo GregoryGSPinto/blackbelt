@@ -66,14 +66,14 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
           <div className="flex-1 text-center md:text-left">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
               <div>
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{filho.nome}</h1>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2">{filho.nome}</h1>
                 <p className="text-white/60 text-lg">
                   {filho.idade} anos • {filho.categoria === 'teen' ? t('teenLabel') : t('kidsLabel')} • {t('level')} {filho.nivel}
                 </p>
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className={`px-4 py-2 rounded-xl font-bold text-sm border text-center ${getStatusColor(filho.status)}`}>
+                <span className={`px-4 py-2 rounded-xl font-medium text-sm border text-center ${getStatusColor(filho.status)}`}>
                   {getStatusText(filho.status)}
                 </span>
                 <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-semibold transition-all duration-200 border border-white/20">
@@ -161,7 +161,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
       {/* Progresso Detalhado */}
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-        <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
+        <h3 className="text-xl sm:text-2xl font-semibold mb-6 flex items-center gap-2">
           <Target size={28} />
           {t('activitySummary')}
         </h3>
@@ -210,7 +210,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
 
       {/* Ultimas Sessoes */}
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-        <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
+        <h3 className="text-xl sm:text-2xl font-semibold mb-6 flex items-center gap-2">
           <BookOpen size={28} />
           {t('lastSessions')}
         </h3>
@@ -235,7 +235,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Link
           href={`/painel-responsavel/checkin?kid=${filho.id}`}
-          className="flex items-center justify-center gap-2 px-6 py-4 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all duration-200 hover:scale-105"
+          className="flex items-center justify-center gap-2 px-6 py-4 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-all duration-200 hover:scale-105"
         >
           <Clock size={20} />
           {t('doCheckin')}

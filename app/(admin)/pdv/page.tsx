@@ -162,7 +162,7 @@ export default function PDVPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><Receipt size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Vendas Hoje</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-white">{stats.vendasHoje}</p>
+            <p className="text-xl sm:text-2xl font-medium text-white">{stats.vendasHoje}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Receita Hoje</span></div>
@@ -222,10 +222,10 @@ export default function PDVPage() {
                   >
                     <div className="flex items-start justify-between mb-1">
                       <Package size={14} className={inCart ? 'text-blue-400' : 'text-white/20'} />
-                      {inCart && <span className="text-[10px] font-bold bg-blue-500 text-white px-1.5 rounded-full">{inCart.quantidade}</span>}
+                      {inCart && <span className="text-[10px] font-medium bg-blue-500 text-white px-1.5 rounded-full">{inCart.quantidade}</span>}
                     </div>
                     <p className="text-white text-xs font-medium line-clamp-2 mb-1">{p.nome}</p>
-                    <p className="text-green-400 text-sm font-bold">{formatCurrency(p.preco)}</p>
+                    <p className="text-green-400 text-sm font-medium">{formatCurrency(p.preco)}</p>
                     <p className={`text-[10px] mt-0.5 ${isLow ? 'text-red-400' : 'text-white/25'}`}>
                       {p.estoque} un.{isLow ? ' ⚠️' : ''}
                     </p>
@@ -241,7 +241,7 @@ export default function PDVPage() {
           {/* Cart — 2 cols */}
           <div className="lg:col-span-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden flex flex-col">
             <div className="p-4 border-b border-white/5">
-              <h3 className="text-white font-bold flex items-center gap-2">
+              <h3 className="text-white font-semibold flex items-center gap-2">
                 <ShoppingCart size={16} /> Carrinho
                 {cart.length > 0 && <span className="text-xs bg-white/10 px-1.5 py-0.5 rounded-full">{cart.length}</span>}
               </h3>
@@ -260,10 +260,10 @@ export default function PDVPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <button onClick={() => updateQty(item.produtoId, -1)} className="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-white/40 hover:text-white"><Minus size={10} /></button>
-                        <span className="text-white text-xs font-bold w-6 text-center">{item.quantidade}</span>
+                        <span className="text-white text-xs font-medium w-6 text-center">{item.quantidade}</span>
                         <button onClick={() => updateQty(item.produtoId, 1)} className="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-white/40 hover:text-white"><Plus size={10} /></button>
                       </div>
-                      <p className="text-green-400 text-sm font-bold">{formatCurrency(item.subtotal)}</p>
+                      <p className="text-green-400 text-sm font-medium">{formatCurrency(item.subtotal)}</p>
                     </div>
                   </div>
                 ))
@@ -314,14 +314,14 @@ export default function PDVPage() {
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between text-white/40"><span>Subtotal</span><span>{formatCurrency(subtotal)}</span></div>
                 {desconto > 0 && <div className="flex justify-between text-red-400/60"><span>Desconto</span><span>-{formatCurrency(desconto)}</span></div>}
-                <div className="flex justify-between text-white font-bold text-lg pt-1 border-t border-white/5"><span>Total</span><span className="text-green-400">{formatCurrency(total)}</span></div>
+                <div className="flex justify-between text-white font-medium text-lg pt-1 border-t border-white/5"><span>Total</span><span className="text-green-400">{formatCurrency(total)}</span></div>
               </div>
 
               {/* Finalizar */}
               <button
                 onClick={handleFinalizarVenda}
                 disabled={saving || cart.length === 0}
-                className="w-full py-3 rounded-xl text-sm font-bold text-white bg-green-600 hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
               >
                 {saving ? 'Processando...' : <><CheckCircle size={16} /> Finalizar Venda</>}
               </button>
@@ -353,7 +353,7 @@ export default function PDVPage() {
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-green-400 font-bold text-sm">{formatCurrency(v.total)}</p>
+                      <p className="text-green-400 font-medium text-sm">{formatCurrency(v.total)}</p>
                       <p className="text-white/20 text-xs">{formatDateTime(v.data)}</p>
                       {v.desconto > 0 && <p className="text-red-400/50 text-[10px]">desc: -{formatCurrency(v.desconto)}</p>}
                     </div>
@@ -381,7 +381,7 @@ export default function PDVPage() {
           >
             <div className="p-6 text-center">
               <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-1">Venda Registrada!</h3>
+              <h3 className="text-xl font-semibold text-white mb-1">Venda Registrada!</h3>
               <p className="text-white/40 text-sm mb-4">#{showReceipt.id}</p>
 
               <div className="bg-white/5 rounded-xl p-4 text-left space-y-2 mb-4">
@@ -397,7 +397,7 @@ export default function PDVPage() {
                     <span className="text-red-400/60">-{formatCurrency(showReceipt.desconto)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-lg font-bold pt-2 border-t border-white/5">
+                <div className="flex justify-between text-lg font-medium pt-2 border-t border-white/5">
                   <span className="text-white">Total</span>
                   <span className="text-green-400">{formatCurrency(showReceipt.total)}</span>
                 </div>
@@ -410,7 +410,7 @@ export default function PDVPage() {
 
               <button
                 onClick={() => setShowReceipt(null)}
-                className="w-full py-3 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all"
+                className="w-full py-3 rounded-xl text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-all"
               >
                 Nova Venda
               </button>

@@ -49,7 +49,7 @@ export default function ExcluirContaPage() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
             <Shield size={28} className="text-blue-400" />
           </div>
-          <h1 className="text-lg sm:text-xl md:text-2xl font-black">BlackBelt</h1>
+          <h1 className="text-lg sm:text-xl md:text-2xl font-semibold">BlackBelt</h1>
           <p className="text-white/50 text-sm mt-1">{t('pageTitle')}</p>
         </div>
 
@@ -62,7 +62,7 @@ export default function ExcluirContaPage() {
                 <div className="flex items-start gap-3">
                   <AlertTriangle size={18} className="text-yellow-400 mt-0.5 flex-shrink-0" />
                   <div className="text-sm">
-                    <p className="text-yellow-300 font-bold mb-1">{t('beforeContinue')}</p>
+                    <p className="text-yellow-300 font-medium mb-1">{t('beforeContinue')}</p>
                     <p style={{ fontWeight: 300, color: tokens.textMuted }}>
                       {t('deleteViaApp')}
                       <span className="text-white/70"> {t('deleteViaAppPath')}</span>.
@@ -116,7 +116,7 @@ export default function ExcluirContaPage() {
               <button
                 onClick={() => setShowConfirm(true)}
                 disabled={!isValidEmail}
-                className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {t('submitButton')}
               </button>
@@ -150,7 +150,7 @@ export default function ExcluirContaPage() {
               <div className="w-16 h-16 mx-auto rounded-full bg-green-600/20 flex items-center justify-center">
                 <CheckCircle size={32} className="text-green-400" />
               </div>
-              <h2 className="text-xl font-bold">{t('successTitle')}</h2>
+              <h2 className="text-xl font-semibold">{t('successTitle')}</h2>
               <div className="text-sm text-white/60 space-y-2">
                 <p>{t('successEmailSent', { email })}</p>
                 <p>{t('successDeactivation')}</p>

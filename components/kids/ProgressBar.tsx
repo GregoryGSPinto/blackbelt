@@ -40,7 +40,7 @@ export default function ProgressBar({
           </span>
           {showPercentage && (
             <span
-              className="text-sm font-kids font-bold"
+              className="text-sm font-kids font-medium"
               style={{ color: isDark ? 'rgba(148,163,184,0.5)' : 'rgba(0,0,0,0.3)' }}
             >
               {clampedProgress}%

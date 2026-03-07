@@ -114,7 +114,7 @@ export function InstructorPerformanceTable({ instructors }: InstructorPerformanc
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-300 flex-shrink-0">
+                      <div className="w-7 h-7 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-medium text-zinc-300 flex-shrink-0">
                         {instructor.name.charAt(0).toUpperCase()}
                       </div>
                       <div>

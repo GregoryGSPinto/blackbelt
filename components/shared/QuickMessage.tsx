@@ -116,7 +116,7 @@ export function QuickMessage({
           <>
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04] flex-shrink-0">
               <div>
-                <h3 className="text-white font-bold text-sm">{t('title', { name: firstName })}</h3>
+                <h3 className="text-white font-semibold text-sm">{t('title', { name: firstName })}</h3>
                 <p className="text-white/25 text-[10px]">{t('selectTemplate')}</p>
               </div>
               <div className="flex items-center gap-1">
@@ -150,7 +150,7 @@ export function QuickMessage({
                     </p>
                   </div>
                   {sentTemplate === tpl.id ? (
-                    <span className="text-emerald-400 text-xs font-bold flex-shrink-0">{t('sent')}</span>
+                    <span className="text-emerald-400 text-xs font-medium flex-shrink-0">{t('sent')}</span>
                   ) : (
                     <Send size={12} className="text-white/15 group-hover:text-white/30 flex-shrink-0 transition-colors" />
                   )}

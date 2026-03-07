@@ -69,7 +69,7 @@ export default function ContratosPage() {
           { label: 'Cancelados', count: contratos.filter(c => c.status === 'cancelado').length, color: 'text-red-400' },
         ].map(s => (
           <div key={s.label} style={{ ...card, padding: '1rem' }} className="text-center">
-            <p className={`text-2xl font-bold ${s.color}`}>{s.count}</p>
+            <p className={`text-2xl font-medium ${s.color}`}>{s.count}</p>
             <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{s.label}</p>
           </div>
         ))}

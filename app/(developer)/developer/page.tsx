@@ -310,7 +310,7 @@ export default function DeveloperDashboard() {
                   {metric.status}
                 </span>
               </div>
-              <p className={`text-xl font-mono font-bold ${metricColor(metric)}`}>
+              <p className={`text-xl font-mono font-medium ${metricColor(metric)}`}>
                 {metric.value}<span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{metric.unit}</span>
               </p>
               <div className="flex items-center gap-1 mt-1" style={{ color: tokens.textMuted }}>

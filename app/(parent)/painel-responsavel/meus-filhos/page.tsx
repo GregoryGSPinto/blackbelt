@@ -36,7 +36,7 @@ export default function MeusFilhosPage() {
   return (
     <div className="space-y-8 animate-fade-in px-4 md:px-0">
       <div>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('title')}</h2>
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2">{t('title')}</h2>
         <p className="text-white/60 text-lg">{t('subtitle')}</p>
       </div>
 
@@ -50,14 +50,14 @@ export default function MeusFilhosPage() {
               <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-5xl border-4 border-white/30 mb-4 group-hover:scale-110 transition-transform duration-300">
                 {filho.avatar}
               </div>
-              <h3 className="font-bold text-white text-xl text-center">{filho.nome}</h3>
+              <h3 className="font-semibold text-white text-xl text-center">{filho.nome}</h3>
               <p className="text-white/60 text-sm mt-1">
                 {filho.idade} anos • {filho.categoria === 'teen' ? t('teenLabel') : t('kidsLabel')}
               </p>
             </div>
 
             <div className="flex justify-center mb-6">
-              <span className={`px-4 py-2 rounded-xl font-bold text-sm border ${getStatusColor(filho.status)}`}>
+              <span className={`px-4 py-2 rounded-xl font-medium text-sm border ${getStatusColor(filho.status)}`}>
                 {getStatusText(filho.status)}
               </span>
             </div>
@@ -99,7 +99,7 @@ export default function MeusFilhosPage() {
             <div className="space-y-3">
               <Link
                 href={`/painel-responsavel/meus-filhos/${filho.id}`}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all duration-200 hover:scale-105"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-all duration-200 hover:scale-105"
               >
                 <Eye size={18} />
                 {t('viewFullProfile')}

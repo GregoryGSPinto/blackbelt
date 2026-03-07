@@ -89,7 +89,7 @@ export default function TeenCheckinPage() {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold teen-text-heading font-teen">
             {t('resultTitle')}
           </h2>
         </div>
@@ -99,7 +99,7 @@ export default function TeenCheckinPage() {
             <div className="flex items-start gap-4">
               <CheckCircle className="w-12 h-12 text-teen-emerald-dark flex-shrink-0" />
               <div className="flex-1">
-                <h3 className="text-xl font-bold font-teen text-teen-emerald-dark mb-2">
+                <h3 className="text-xl font-semibold font-teen text-teen-emerald-dark mb-2">
                   {t('confirmed')}
                 </h3>
                 <p className="teen-text-body font-teen">
@@ -115,7 +115,7 @@ export default function TeenCheckinPage() {
             <div className="flex items-start gap-4">
               <AlertTriangle className="w-12 h-12 text-teen-energy-dark flex-shrink-0" />
               <div className="flex-1">
-                <h3 className="text-xl font-bold font-teen text-teen-energy-dark mb-2">
+                <h3 className="text-xl font-semibold font-teen text-teen-energy-dark mb-2">
                   {t('validationNeeded')}
                 </h3>
                 <p className="teen-text-body font-teen mb-3">
@@ -135,7 +135,7 @@ export default function TeenCheckinPage() {
               <div className="flex items-start gap-4">
                 <XCircle className="w-12 h-12 text-red-600 flex-shrink-0" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold font-teen text-red-900 mb-2">
+                  <h3 className="text-xl font-semibold font-teen text-red-900 mb-2">
                     {t('checkinUnavailable')}
                   </h3>
                   <p className="text-red-800 font-teen">
@@ -146,7 +146,7 @@ export default function TeenCheckinPage() {
             </div>
 
             <TeenCard>
-              <h3 className="font-bold font-teen teen-text-heading mb-3">
+              <h3 className="font-semibold font-teen teen-text-heading mb-3">
                 {t('howToResolve')}
               </h3>
               <ol className="list-decimal list-inside space-y-2 text-sm teen-text-body font-teen">
@@ -172,7 +172,7 @@ export default function TeenCheckinPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold teen-text-heading font-teen">
           {t('checkinTitle')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -200,7 +200,7 @@ export default function TeenCheckinPage() {
             <Clock className="w-6 h-6 text-teen-ocean-dark" />
           </div>
           <div className="flex-1">
-            <h3 className="font-bold font-teen teen-text-heading mb-1">
+            <h3 className="font-semibold font-teen teen-text-heading mb-1">
               {t('nextTraining')}
             </h3>
             <p className="teen-text-muted font-teen">
@@ -217,7 +217,7 @@ export default function TeenCheckinPage() {
             <MapPin className="w-6 h-6 text-teen-purple-dark" />
           </div>
           <div className="flex-1">
-            <h3 className="font-bold font-teen teen-text-heading mb-1">
+            <h3 className="font-semibold font-teen teen-text-heading mb-1">
               {t('locationLabel')}
             </h3>
             <p className="teen-text-muted font-teen">
@@ -232,7 +232,7 @@ export default function TeenCheckinPage() {
 
       {/* Status */}
       <TeenCard>
-        <h3 className="font-bold font-teen teen-text-heading mb-3">
+        <h3 className="font-semibold font-teen teen-text-heading mb-3">
           {t('yourStatus')}
         </h3>
         <div className="flex items-center justify-between">

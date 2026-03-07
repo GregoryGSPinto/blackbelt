@@ -371,18 +371,18 @@ function PreviewPanel({
 
           {/* Badges */}
           <div className="absolute top-3 left-3 flex items-center gap-1.5 pointer-events-none">
-            <span className="px-1.5 py-0.5 text-[9px] font-black rounded"
+            <span className="px-1.5 py-0.5 text-[9px] font-medium rounded"
               style={{ background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)', color: '#1a1a1a', letterSpacing: '0.5px' }}>4K</span>
-            <span className="px-1.5 py-0.5 text-[9px] font-black rounded"
+            <span className="px-1.5 py-0.5 text-[9px] font-medium rounded"
               style={{ background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)', color: '#1a1a1a', letterSpacing: '0.5px' }}>HDR</span>
           </div>
-          <div className="absolute top-3 right-3 px-2 py-0.5 text-[9px] font-bold tracking-widest rounded pointer-events-none"
+          <div className="absolute top-3 right-3 px-2 py-0.5 text-[9px] font-medium tracking-widest rounded pointer-events-none"
             style={{ background: 'linear-gradient(135deg, rgba(197,164,78,0.9), rgba(245,230,163,0.9))', color: '#1a1a1a' }}>PREMIUM</div>
         </div>
 
         {/* ─── Content ─── */}
         <div className="p-5">
-          <h3 className="text-[17px] font-bold leading-snug mb-2 line-clamp-2 tracking-tight" style={{ color: c.title }}>
+          <h3 className="text-[17px] font-semibold leading-snug mb-2 line-clamp-2 tracking-tight" style={{ color: c.title }}>
             {video.title.toUpperCase()}
           </h3>
 
@@ -434,7 +434,7 @@ function PreviewPanel({
             <div className="flex items-center gap-1.5 text-[12px]" style={{ color: c.metaLabel }}>
               <Signal size={13} style={{ color: c.metaIcon }} />
               {t('level')}{' '}
-              <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${levelColor}`}>
+              <span className={`px-2 py-0.5 rounded text-[11px] font-medium ${levelColor}`}>
                 {video.level}
               </span>
             </div>

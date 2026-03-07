@@ -198,7 +198,7 @@ export default function ProfessorDashboardPage() {
               <button
                 data-tour="prof-chamada"
                 onClick={() => setShowStartModal(true)}
-                className="px-4 py-2.5 rounded-xl bg-amber-500/90 text-black font-bold text-xs flex items-center gap-2 hover:bg-amber-400 transition-colors active:scale-[0.97]"
+                className="px-4 py-2.5 rounded-xl bg-amber-500/90 text-black font-medium text-xs flex items-center gap-2 hover:bg-amber-400 transition-colors active:scale-[0.97]"
               >
                 <Play size={14} fill="black" />
                 {turmaAtual ? `${t('attendance')} · ${turmaAtual.nome}` : t('startSession')}
@@ -393,7 +393,7 @@ export default function ProfessorDashboardPage() {
                 };
                 return (
                   <div key={f.nivel} className="flex-1 flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold text-white/40">{f.total}</span>
+                    <span className="text-[10px] font-medium text-white/40">{f.total}</span>
                     <div
                       className="w-full rounded-t-md transition-all duration-700"
                       style={{
@@ -432,7 +432,7 @@ export default function ProfessorDashboardPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="text-sm font-bold" style={{ color: a.frequencia.presenca30d < 50 ? '#F87171' : '#FBBF24' }}>
+                      <span className="text-sm font-medium" style={{ color: a.frequencia.presenca30d < 50 ? '#F87171' : '#FBBF24' }}>
                         {a.frequencia.presenca30d}%
                       </span>
                       <p className="text-white/20 text-[9px]">
@@ -453,7 +453,7 @@ export default function ProfessorDashboardPage() {
       <section className="prof-enter-4">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('yourClasses')}</h2>
+            <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('yourClasses')}</h2>
             <span className="text-[10px] text-amber-400/60 tracking-[0.2em] uppercase font-medium">{t('activeCount', { count: turmas.length })}</span>
           </div>
           <div className="flex items-center gap-3">
@@ -478,7 +478,7 @@ export default function ProfessorDashboardPage() {
               style={turma.emAndamento ? { background: 'rgba(217,175,105,0.06)' } : undefined}
             >
               {/* Accent orb */}
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${turma.cor} flex items-center justify-center text-white font-bold text-sm shadow-lg flex-shrink-0 group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
+              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${turma.cor} flex items-center justify-center text-white font-medium text-sm shadow-lg flex-shrink-0 group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
                 {turma.totalAlunos}
               </div>
 
@@ -486,7 +486,7 @@ export default function ProfessorDashboardPage() {
                 <div className="flex items-center gap-2">
                   <h3 className="font-semibold text-white/85 text-sm truncate">{turma.nome}</h3>
                   {turma.emAndamento ? (
-                    <span className="px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase flex-shrink-0 bg-amber-500/20 text-amber-400 border border-amber-500/30 animate-pulse">
+                    <span className="px-2 py-0.5 rounded-full text-[9px] font-medium tracking-wider uppercase flex-shrink-0 bg-amber-500/20 text-amber-400 border border-amber-500/30 animate-pulse">
                       {t('now')}
                     </span>
                   ) : turma.minutosParaInicio > 0 && turma.minutosParaInicio <= 120 ? (
@@ -503,7 +503,7 @@ export default function ProfessorDashboardPage() {
               </div>
 
               <div className="text-right flex-shrink-0">
-                <p className="text-emerald-400/70 text-sm font-bold">{turma.presencaMedia}%</p>
+                <p className="text-emerald-400/70 text-sm font-medium">{turma.presencaMedia}%</p>
                 <p className="text-white/35 text-[10px] mt-0.5 tracking-wider">{t('attendanceLabel')}</p>
               </div>
             </Link>
@@ -520,9 +520,9 @@ export default function ProfessorDashboardPage() {
         <section className="lg:col-span-3 prof-enter-5">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('pendingEvals')}</h2>
+              <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('pendingEvals')}</h2>
               {avaliacoesPendentes.length > 0 && (
-                <span className="w-5 h-5 bg-rose-500/70 rounded-full flex items-center justify-center text-[10px] font-bold text-white prof-badge-urgent">
+                <span className="w-5 h-5 bg-rose-500/70 rounded-full flex items-center justify-center text-[10px] font-medium text-white prof-badge-urgent">
                   {avaliacoesPendentes.length}
                 </span>
               )}
@@ -568,7 +568,7 @@ export default function ProfessorDashboardPage() {
 
         {/* ATIVIDADE RECENTE */}
         <section className="lg:col-span-2 prof-enter-6">
-          <h2 className="text-lg font-bold text-white/85 tracking-tight mb-5">{t('recentActivity')}</h2>
+          <h2 className="text-lg font-semibold text-white/85 tracking-tight mb-5">{t('recentActivity')}</h2>
 
           <div className="prof-glass-card p-4">
             {atividadesRecentes.map((ativ, i) => (
@@ -590,7 +590,7 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="prof-enter-7">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('highlightStudents')}</h2>
+          <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('highlightStudents')}</h2>
           <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
             {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
@@ -630,7 +630,7 @@ export default function ProfessorDashboardPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="prof-enter-8">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-white/85 tracking-tight">{t('latestVideos')}</h2>
+          <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('latestVideos')}</h2>
           <Link href="/professor-videos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
             {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>

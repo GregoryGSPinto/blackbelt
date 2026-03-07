@@ -136,7 +136,7 @@ export default function FederationPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: tokens.text }}>
+          <h1 className="text-2xl font-semibold flex items-center gap-2" style={{ color: tokens.text }}>
             <Globe className="w-6 h-6" />
             Federations
           </h1>
@@ -262,7 +262,7 @@ export default function FederationPage() {
             ) : selectedFed ? (
               <>
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold" style={{ color: tokens.text }}>
+                  <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
                     {selectedFed.federation.name}
                   </h2>
                   <button onClick={() => setSelectedFed(null)}>

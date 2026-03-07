@@ -61,7 +61,7 @@ export default function ProfessorParticularesPage() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">{t('upcoming')}</span></div>
-          <p className="text-xl sm:text-2xl font-bold text-white">{proximas.length}</p>
+          <p className="text-xl sm:text-2xl font-medium text-white">{proximas.length}</p>
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">{t('done')}</span></div>
@@ -69,7 +69,7 @@ export default function ProfessorParticularesPage() {
         </div>
         <div style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-amber-400" /><span className="text-white/40 text-xs">{t('monthEarnings')}</span></div>
-          <p className="text-xl font-bold text-amber-400">{formatMoney(ganhosMes)}</p>
+          <p className="text-xl font-medium text-amber-400">{formatMoney(ganhosMes)}</p>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export default function ProfessorParticularesPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${st.bg} ${st.text}`}>{st.label}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${st.bg} ${st.text}`}>{st.label}</span>
                         <span className="text-white/20 text-xs">{a.duracao}min · {a.recorrencia}</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export default function ProfessorParticularesPage() {
                   <p className="text-white text-sm">{a.alunoNome}</p>
                   <p className="text-white/25 text-xs">{formatDate(a.data + 'T12:00:00', 'short')} · {a.horario} · {a.duracao}min</p>
                 </div>
-                <p className="text-green-400 font-bold text-sm">{formatMoney(a.valor * a.splitInstrutor / 100)}</p>
+                <p className="text-green-400 font-medium text-sm">{formatMoney(a.valor * a.splitInstrutor / 100)}</p>
               </div>
             ))}
           </div>

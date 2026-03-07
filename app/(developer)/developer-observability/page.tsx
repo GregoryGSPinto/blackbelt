@@ -105,7 +105,7 @@ export default function DeveloperObservabilityPage() {
                 <m.icon className="w-3.5 h-3.5 text-white/30" />
                 <p className="text-[10px] text-white/30 uppercase tracking-wider">{m.label}</p>
               </div>
-              <p className={`text-2xl font-mono font-bold ${m.color}`}>
+              <p className={`text-2xl font-mono font-medium ${m.color}`}>
                 {m.value}{m.unit && <span className="text-xs text-white/30 ml-1">{m.unit}</span>}
               </p>
             </div>
@@ -157,7 +157,7 @@ export default function DeveloperObservabilityPage() {
                 <m.icon className="w-3 h-3 text-white/30" />
                 <p className="text-[9px] text-white/30 uppercase">{m.label}</p>
               </div>
-              <p className="text-lg font-mono font-bold text-white">{m.value}</p>
+              <p className="text-lg font-mono font-medium text-white">{m.value}</p>
             </div>
           ))}
         </div>

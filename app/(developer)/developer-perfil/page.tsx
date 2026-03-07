@@ -34,7 +34,7 @@ export default function DeveloperPerfilPage() {
             {user?.avatar || '👤'}
           </div>
           <div className="text-center md:text-left">
-            <h2 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{user?.nome}</h2>
+            <h2 className="text-xl md:text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{user?.nome}</h2>
             <p className="text-sm md:text-base mt-1" style={{ color: 'var(--text-secondary)' }}>{user?.email}</p>
             <p className="text-xs md:text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Desenvolvedor</p>
           </div>

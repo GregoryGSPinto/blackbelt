@@ -52,7 +52,7 @@ export default function PermissoesUsuarioPage() {
             {info.icone}
           </div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-white mb-1">{perfil.nome}</h3>
+            <h3 className="text-xl font-semibold text-white mb-1">{perfil.nome}</h3>
             <p className="text-white/40 mb-3">{perfil.email}</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -154,7 +154,7 @@ export default function PermissoesUsuarioPage() {
       <div className="bg-dark-card border border-dark-elevated rounded-xl p-6 hover-card">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-white mb-1">{t('permissions.summary')}</h3>
+            <h3 className="text-lg font-semibold text-white mb-1">{t('permissions.summary')}</h3>
             <p className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.summaryDesc')}</p>
           </div>
           <div className="text-right">

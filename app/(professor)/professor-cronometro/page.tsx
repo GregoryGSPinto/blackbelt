@@ -306,7 +306,7 @@ export default function ProfessorCronometroPage() {
       {/* State label */}
       <div className="flex items-center gap-3">
         <span
-          className="text-xs font-bold tracking-[0.3em] uppercase px-4 py-1.5 rounded-full"
+          className="text-xs font-medium tracking-[0.3em] uppercase px-4 py-1.5 rounded-full"
           style={{ background: stateStyle.bg, color: stateStyle.text, border: `1px solid ${stateStyle.ring}30` }}
         >
           {stateStyle.label}
@@ -343,7 +343,7 @@ export default function ProfessorCronometroPage() {
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span
-            className="font-mono font-bold tracking-wider"
+            className="font-mono font-medium tracking-wider"
             style={{
               fontSize: isFullscreen ? '72px' : '56px',
               color: stateStyle.text,
@@ -503,7 +503,7 @@ export default function ProfessorCronometroPage() {
               key={p.id}
               onClick={() => handlePreset(p)}
               disabled={state === 'round' || state === 'rest'}
-              className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap disabled:opacity-40 ${
+              className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-medium transition-all whitespace-nowrap disabled:opacity-40 ${
                 preset.id === p.id
                   ? 'text-amber-300'
                   : 'text-white/40 hover:text-white/60'
@@ -527,13 +527,13 @@ export default function ProfessorCronometroPage() {
       {/* Config panel */}
       {showConfig && state === 'idle' && (
         <section className="prof-enter-4 prof-glass-card p-6 space-y-5">
-          <h3 className="text-sm font-bold text-white/60 uppercase tracking-wider">{t('config')}</h3>
+          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider">{t('config')}</h3>
 
           {/* Round duration */}
           <div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-white/50 text-sm">{t('roundDuration')}</span>
-              <span className="text-white font-mono font-bold">{formatTime(roundSec)}</span>
+              <span className="text-white font-mono font-medium">{formatTime(roundSec)}</span>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -560,7 +560,7 @@ export default function ProfessorCronometroPage() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-white/50 text-sm">{t('restDuration')}</span>
-              <span className="text-white font-mono font-bold">{formatTime(restSec)}</span>
+              <span className="text-white font-mono font-medium">{formatTime(restSec)}</span>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -587,7 +587,7 @@ export default function ProfessorCronometroPage() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-white/50 text-sm">{t('rounds')}</span>
-              <span className="text-white font-mono font-bold">{totalRounds}</span>
+              <span className="text-white font-mono font-medium">{totalRounds}</span>
             </div>
             <div className="flex items-center gap-3">
               <button

@@ -148,7 +148,7 @@ export function BehavioralRadarChart({ development }: BehavioralRadarChartProps)
         <span className="text-[10px] text-zinc-600 uppercase tracking-wide">Tendencia:</span>
         {Object.entries(TREND_CONFIG).map(([key, cfg]) => (
           <span key={key} className={`inline-flex items-center gap-1 text-[10px] ${cfg.color}`}>
-            <span className="font-bold">{cfg.icon}</span> {cfg.label}
+            <span className="font-medium">{cfg.icon}</span> {cfg.label}
           </span>
         ))}
       </div>

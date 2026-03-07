@@ -165,7 +165,7 @@ export default function PagamentosPage() {
                   <span className="text-lg">{m.icon}</span>
                   <span className="text-white/60 text-sm">{m.label}</span>
                 </div>
-                <p className="text-white font-bold">{formatMoney(valor)}</p>
+                <p className="text-white font-medium">{formatMoney(valor)}</p>
                 <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
                   <div className="h-full bg-white/20 rounded-full" style={{ width: `${pct}%` }} />
                 </div>
@@ -226,14 +226,14 @@ export default function PagamentosPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <p className="text-white font-medium text-sm truncate">{fatura.alunoNome}</p>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${st.bg} ${st.text}`}>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${st.bg} ${st.text}`}>
                           {st.label}
                         </span>
                       </div>
                       <p className="text-white/30 text-xs truncate">{fatura.descricao}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-white font-bold text-sm">{formatMoney(fatura.valor)}</p>
+                      <p className="text-white font-medium text-sm">{formatMoney(fatura.valor)}</p>
                       <p className="text-white/25 text-xs">
                         Venc. {formatDate(fatura.dataVencimento, 'short')}
                       </p>
@@ -265,7 +265,7 @@ export default function PagamentosPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <p className="text-white font-medium text-sm">{sub.alunoNome}</p>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${st.bg} ${st.text}`}>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${st.bg} ${st.text}`}>
                           {st.label}
                         </span>
                       </div>
@@ -274,7 +274,7 @@ export default function PagamentosPage() {
                       </p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-white font-bold text-sm">{formatMoney(sub.valor)}/mês</p>
+                      <p className="text-white font-medium text-sm">{formatMoney(sub.valor)}/mês</p>
                       <p className="text-white/25 text-xs">
                         Renova {formatDate(sub.dataRenovacao, 'short')}
                       </p>

@@ -53,7 +53,7 @@ return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold teen-text-heading font-teen">
           {t('title')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -63,7 +63,7 @@ return (
 
       {/* Evolução do Nível */}
       <TeenCard>
-        <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
+        <h3 className="text-lg font-semibold font-teen teen-text-heading mb-4">
           {t('levelEvolution', { level: currentTeen.nivel })}
         </h3>
         <div className="flex flex-col md:flex-row items-center gap-6">
@@ -117,7 +117,7 @@ return (
               <Calendar className="w-6 h-6 text-teen-emerald-dark" />
             </div>
             <div className="flex-1">
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-medium font-teen teen-text-heading">
                 {currentTeen.progresso.presenca30dias}%
               </p>
               <p className="text-sm font-teen teen-text-muted mt-1">
@@ -141,7 +141,7 @@ return (
               <Clock className="w-6 h-6 text-teen-purple-dark" />
             </div>
             <div className="flex-1">
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-medium font-teen teen-text-heading">
                 {currentTeen.progresso.tempoTreinoTotal}h
               </p>
               <p className="text-sm font-teen teen-text-muted mt-1">
@@ -162,7 +162,7 @@ return (
             <TrendingUp className="w-6 h-6 text-teen-energy-dark" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-bold font-teen teen-text-heading mb-2">
+            <h3 className="text-lg font-semibold font-teen teen-text-heading mb-2">
               {t('streakTitle')}
             </h3>
             <p className="teen-text-muted font-teen mb-4">
@@ -172,7 +172,7 @@ return (
               {Array.from({ length: 10 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center font-teen font-bold text-sm ${
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center font-teen font-medium text-sm ${
                     i < currentTeen.progresso.sequenciaAtual
                       ? 'bg-teen-energy text-white'
                       : 'teen-progress-track teen-text-muted'
@@ -191,7 +191,7 @@ return (
 
       {/* Histórico Recente */}
       <TeenCard>
-        <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
+        <h3 className="text-lg font-semibold font-teen teen-text-heading mb-4">
           {t('last7Days')}
         </h3>
         <div className="space-y-3">
@@ -225,7 +225,7 @@ return (
             <Target className="w-6 h-6 text-teen-ocean-dark" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-bold font-teen teen-text-heading mb-2">
+            <h3 className="text-lg font-semibold font-teen teen-text-heading mb-2">
               {t('nextGoals')}
             </h3>
             <ul className="space-y-2 text-sm font-teen teen-text-body">

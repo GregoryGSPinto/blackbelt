@@ -111,7 +111,7 @@ export default function EquipePage() {
                 <div className="flex items-center gap-3 min-w-0">
                   {/* Initials avatar */}
                   <div
-                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium"
                     style={{
                       background: 'var(--text-secondary)',
                       color: 'var(--card-bg)',
@@ -218,7 +218,7 @@ export default function EquipePage() {
           <div key={s.id} className="rounded-xl p-4 flex flex-wrap items-center gap-4" style={card}>
             {/* Avatar */}
             <div
-              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium"
               style={{ background: '#6B7280', color: '#fff' }}
             >
               {initials(s.nome)}

@@ -41,7 +41,7 @@ export function WeeklyChallengeCard({ challenge, onAccept }: WeeklyChallengeCard
 
         <div className="flex items-center gap-2">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Recompensa</span>
-          <span className="text-xs font-bold text-yellow-400">{challenge.reward} pts</span>
+          <span className="text-xs font-medium text-yellow-400">{challenge.reward} pts</span>
         </div>
 
         <p className="text-[10px] text-zinc-600 italic">{challenge.basedOn}</p>

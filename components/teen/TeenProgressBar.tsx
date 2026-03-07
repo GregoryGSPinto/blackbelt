@@ -38,7 +38,7 @@ export default function TeenProgressBar({
             </span>
           )}
           {showPercentage && (
-            <span className="text-sm font-teen font-bold teen-text-heading">
+            <span className="text-sm font-teen font-medium teen-text-heading">
               {clampedProgress}%
             </span>
           )}

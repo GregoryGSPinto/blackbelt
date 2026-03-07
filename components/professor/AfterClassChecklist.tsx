@@ -90,7 +90,7 @@ export function AfterClassChecklist({ actions }: AfterClassChecklistProps) {
                     : 'border-zinc-600 hover:border-zinc-400'
                 }`}>
                   {isChecked && (
-                    <span className="text-xs font-bold">ok</span>
+                    <span className="text-xs font-medium">ok</span>
                   )}
                 </div>
 

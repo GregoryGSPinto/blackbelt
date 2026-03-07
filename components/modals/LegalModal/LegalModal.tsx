@@ -28,7 +28,7 @@ export function LegalModal({ isOpen, onClose, title, content }: LegalModalProps)
       >
         {/* Header fixo */}
         <div className="sticky top-0 z-10 bg-neutral-900/95 backdrop-blur-xl border-b border-neutral-800 px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
-          <h2 className="text-xl sm:text-2xl font-bold text-white">
+          <h2 className="text-xl sm:text-2xl font-semibold text-white">
             {title}
           </h2>
           

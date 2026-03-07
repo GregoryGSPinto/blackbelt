@@ -133,7 +133,7 @@ export default function LeadsPage() {
         </div>
         <button
           onClick={() => setShowNewLead(true)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-all"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-all"
         >
           <Plus size={16} /> Novo Lead
         </button>
@@ -147,7 +147,7 @@ export default function LeadsPage() {
               <Users size={16} className="text-blue-400" />
               <span className="text-white/40 text-xs">{t('leads.totalLeads')}</span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-white">{stats.totalLeads}</p>
+            <p className="text-xl sm:text-2xl font-medium text-white">{stats.totalLeads}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
@@ -176,7 +176,7 @@ export default function LeadsPage() {
       {/* Origin breakdown */}
       {stats && (
         <div style={{ ...glass, padding: '1.25rem' }}>
-          <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">{t('leads.leadSources')}</p>
+          <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-3">{t('leads.leadSources')}</p>
           <div className="flex gap-3 flex-wrap">
             {(Object.entries(stats.porOrigem) as [string, number][])
               .filter(([, v]) => v > 0)
@@ -188,7 +188,7 @@ export default function LeadsPage() {
                   <div key={origem} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/8">
                     <Icon size={14} className="text-white/40" />
                     <span className="text-white/60 text-sm">{o.label}</span>
-                    <span className="text-white font-bold text-sm">{count}</span>
+                    <span className="text-white font-medium text-sm">{count}</span>
                   </div>
                 );
               })}
@@ -224,9 +224,9 @@ export default function LeadsPage() {
                 {/* Column header */}
                 <div className="flex items-center gap-2 mb-3 px-1">
                   <Icon size={16} style={{ color: etapa.color }} />
-                  <span className="text-white/70 text-sm font-bold">{etapa.label}</span>
+                  <span className="text-white/70 text-sm font-medium">{etapa.label}</span>
                   <span
-                    className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
+                    className="ml-auto text-xs font-medium px-2 py-0.5 rounded-full"
                     style={{ background: `${etapa.color}15`, color: etapa.color }}
                   >
                     {etapaLeads.length}
@@ -329,7 +329,7 @@ export default function LeadsPage() {
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-white">{selectedLead.nome}</h3>
+                  <h3 className="text-xl font-semibold text-white">{selectedLead.nome}</h3>
                   <p className="text-white/40 text-sm mt-1">{formatPhone(selectedLead.telefone)}</p>
                   {selectedLead.email && <p className="text-white/30 text-xs">{selectedLead.email}</p>}
                 </div>
@@ -500,7 +500,7 @@ function NewLeadModal({ onClose, onSave }: { onClose: () => void; onSave: (lead:
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-white">{t('leads.newLead')}</h3>
+            <h3 className="text-xl font-semibold text-white">{t('leads.newLead')}</h3>
             <button onClick={onClose} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>
           </div>
 
@@ -598,14 +598,14 @@ function NewLeadModal({ onClose, onSave }: { onClose: () => void; onSave: (lead:
           <div className="flex gap-3 mt-6">
             <button
               onClick={onClose}
-              className="flex-1 py-3 rounded-xl text-sm font-bold text-white/50 bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+              className="flex-1 py-3 rounded-xl text-sm font-medium text-white/50 bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
             >
               Cancelar
             </button>
             <button
               onClick={handleSubmit}
               disabled={saving || !nome.trim() || !telefone.trim()}
-              className="flex-1 py-3 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+              className="flex-1 py-3 rounded-xl text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               {saving ? 'Salvando...' : 'Salvar Lead'}
             </button>

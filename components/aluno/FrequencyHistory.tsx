@@ -29,7 +29,7 @@ export function FrequencyHistory({ data, height = 140 }: FrequencyHistoryProps) 
     >
       <style dangerouslySetInnerHTML={{ __html: HISTORY_STYLES }} />
 
-      <h3 className="text-white font-bold text-sm mb-4">Histórico de Frequência</h3>
+      <h3 className="text-white font-semibold text-sm mb-4">Histórico de Frequência</h3>
 
       <div className="flex items-end gap-2" style={{ height }}>
         {data.map((item, i) => {
@@ -47,7 +47,7 @@ export function FrequencyHistory({ data, height = 140 }: FrequencyHistoryProps) 
               {/* Tooltip */}
               <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
                 <div className="bg-black/90 border border-white/10 rounded-lg px-2.5 py-1.5 text-center whitespace-nowrap">
-                  <p className="text-white text-xs font-bold">{item.sessõesAssistidas}/{item.metaMensal}</p>
+                  <p className="text-white text-xs font-medium">{item.sessõesAssistidas}/{item.metaMensal}</p>
                   <p className="text-white/40 text-[10px]">{item.percentual}%</p>
                 </div>
               </div>

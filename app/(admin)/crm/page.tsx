@@ -132,7 +132,7 @@ export default function CrmPage() {
                     </span>
                   </div>
                   <span
-                    className="text-xs font-bold px-2 py-0.5 rounded-full"
+                    className="text-xs font-medium px-2 py-0.5 rounded-full"
                     style={{ background: coluna.cor, color: '#fff' }}
                   >
                     {coluna.leads.length}
@@ -226,21 +226,21 @@ export default function CrmPage() {
                 <Users size={16} style={{ color: '#3B82F6' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Total de Leads</span>
               </div>
-              <span className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{totalLeads}</span>
+              <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{totalLeads}</span>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <Target size={16} style={{ color: '#22C55E' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Matriculados</span>
               </div>
-              <span className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{totalMatriculados}</span>
+              <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{totalMatriculados}</span>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp size={16} style={{ color: '#F59E0B' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Taxa de Conversao Geral</span>
               </div>
-              <span className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{overallConversion}%</span>
+              <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{overallConversion}%</span>
             </div>
           </div>
 
@@ -270,7 +270,7 @@ export default function CrmPage() {
                           border: `1px solid ${color}50`,
                         }}
                       >
-                        <span className="text-xs font-bold" style={{ color }}>
+                        <span className="text-xs font-medium" style={{ color }}>
                           {m.taxa}%
                         </span>
                       </div>
@@ -317,7 +317,7 @@ export default function CrmPage() {
                     </div>
                     <div className="flex justify-between pt-1" style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}>
                       <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>ROI</span>
-                      <span className="text-sm font-bold" style={{ color: card.roi > 0 ? '#22C55E' : 'var(--text-primary)' }}>
+                      <span className="text-sm font-medium" style={{ color: card.roi > 0 ? '#22C55E' : 'var(--text-primary)' }}>
                         {card.roi > 0 ? `${card.roi}%` : 'Organico'}
                       </span>
                     </div>
@@ -341,21 +341,21 @@ export default function CrmPage() {
                 <Star size={16} style={{ color: '#F59E0B' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Total de Indicacoes</span>
               </div>
-              <span className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{totalIndicacoes}</span>
+              <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{totalIndicacoes}</span>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <Award size={16} style={{ color: '#22C55E' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Convertidas</span>
               </div>
-              <span className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{convertidas}</span>
+              <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{convertidas}</span>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp size={16} style={{ color: '#3B82F6' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Taxa de Conversao</span>
               </div>
-              <span className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{taxaIndicacao}%</span>
+              <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{taxaIndicacao}%</span>
             </div>
           </div>
 

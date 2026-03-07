@@ -219,7 +219,7 @@ export default function CadastroPage() {
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl">
             <div className="mb-8">
               <div className="flex items-center justify-between">
-                <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-2">{title}</h1>
+                <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold mb-2">{title}</h1>
                 <AutoSaveIndicator status={autoSave.status} lastSaved={autoSave.lastSaved} />
               </div>
               <p className="text-white/60">{subtitle}</p>

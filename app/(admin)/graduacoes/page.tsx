@@ -98,13 +98,13 @@ export default function GraduacoesAdminPage() {
 
       {/* Tabs */}
       <div className="flex gap-1 bg-black/30 backdrop-blur-xl rounded-xl p-1 w-fit">
-        <button onClick={() => setTab('exames')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'exames' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
+        <button onClick={() => setTab('exames')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${tab === 'exames' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
           <Award size={13} /> {t('graduations.tabs.exams')}
         </button>
-        <button onClick={() => setTab('subniveis')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'subniveis' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
+        <button onClick={() => setTab('subniveis')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${tab === 'subniveis' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
           <GraduationCap size={13} /> {t('graduations.tabs.sublevels')}
         </button>
-        <button onClick={() => setTab('requisitos')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'requisitos' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
+        <button onClick={() => setTab('requisitos')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${tab === 'requisitos' ? 'bg-white/10 text-white' : 'text-white/30'}`}>
           <BarChart3 size={13} /> {t('graduations.tabs.requirements')}
         </button>
       </div>
@@ -143,7 +143,7 @@ export default function GraduacoesAdminPage() {
           {subniveis.map(g => (
             <div key={g.alunoId} className="flex items-center gap-4 p-4 rounded-xl bg-black/40 backdrop-blur-xl border border-white/10">
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white/70">{g.alunoNome}</p>
+                <p className="text-sm font-medium text-white/70">{g.alunoNome}</p>
                 <div className="flex items-center gap-3 mt-1.5">
                   <BeltStripes nivel={g.nivelAtual} subniveis={g.subniveisAtuais} size="md" />
                   <span className="text-[10px] text-white/25">{g.nivelAtual} · {g.subniveisAtuais}/4 subniveis</span>
@@ -159,7 +159,7 @@ export default function GraduacoesAdminPage() {
                   className="p-2 rounded-lg bg-black/30 border border-white/10 text-white/30 hover:bg-red-500/10 hover:text-red-400 disabled:opacity-20 transition-colors">
                   <Minus size={14} />
                 </button>
-                <span className="text-lg font-black text-white w-6 text-center">{g.subniveisAtuais}</span>
+                <span className="text-lg font-medium text-white w-6 text-center">{g.subniveisAtuais}</span>
                 <button onClick={() => handleAddSubnivel(g.alunoId)} disabled={g.subniveisAtuais >= 4}
                   className="p-2 rounded-lg bg-black/30 border border-white/10 text-white/30 hover:bg-emerald-500/10 hover:text-emerald-400 disabled:opacity-20 transition-colors">
                   <Plus size={14} />
@@ -179,7 +179,7 @@ export default function GraduacoesAdminPage() {
                 <span className="w-4 h-4 rounded-full border border-white/20" style={{ backgroundColor: NIVEL_COLORS[req.nivelPara] }} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white/60">{req.nivelDe} → {req.nivelPara}</p>
+                <p className="text-sm font-medium text-white/60">{req.nivelDe} → {req.nivelPara}</p>
               </div>
               <div className="flex gap-4 text-[10px] text-white/30 shrink-0">
                 <span>{req.tempoMinimoMeses}m mín.</span>
@@ -207,10 +207,10 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
       <button onClick={onToggle} className="flex items-center gap-3 p-4 w-full text-left">
         <span className="w-4 h-4 rounded-full border border-white/20 shrink-0" style={{ backgroundColor: NIVEL_COLORS[exam.nivelAlvo] }} />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-white/70">{exam.alunoNome}</p>
+          <p className="text-sm font-medium text-white/70">{exam.alunoNome}</p>
           <p className="text-[10px] text-white/25">{exam.nivelAtual} → {exam.nivelAlvo}</p>
         </div>
-        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.color} ${cfg.bg}`}>{t(cfg.labelKey)}</span>
+        <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${cfg.color} ${cfg.bg}`}>{t(cfg.labelKey)}</span>
         <span className="text-[10px] text-white/20">{formatDate(exam.dataExame, 'short')}</span>
         {expanded ? <ChevronUp size={14} className="text-white/20" /> : <ChevronDown size={14} className="text-white/20" />}
       </button>
@@ -225,10 +225,10 @@ function ExamCard({ exam, expanded, onToggle, onAvaliar }: {
           {exam.observacao && <p className="text-xs text-white/30 italic">"{exam.observacao}"</p>}
           {exam.status === 'AGENDADO' && onAvaliar && (
             <div className="flex gap-2">
-              <button onClick={() => onAvaliar(exam.id, 'APROVADO')} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+              <button onClick={() => onAvaliar(exam.id, 'APROVADO')} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium hover:bg-emerald-500/20 transition-colors">
                 <CheckCircle size={14} /> {t('graduations.approve')}
               </button>
-              <button onClick={() => onAvaliar(exam.id, 'REPROVADO')} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-bold hover:bg-red-500/20 transition-colors">
+              <button onClick={() => onAvaliar(exam.id, 'REPROVADO')} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-medium hover:bg-red-500/20 transition-colors">
                 <XCircle size={14} /> {t('graduations.reject')}
               </button>
             </div>

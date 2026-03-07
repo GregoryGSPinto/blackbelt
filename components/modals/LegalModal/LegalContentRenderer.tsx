@@ -16,7 +16,7 @@ export function LegalContentRenderer({ content }: LegalContentRendererProps) {
 
         if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
           return (
-            <h3 key={index} className="text-lg font-bold text-white mt-6 mb-3">
+            <h3 key={index} className="text-lg font-semibold text-white mt-6 mb-3">
               {trimmed.replace(/\*\*/g, '')}
             </h3>
           );

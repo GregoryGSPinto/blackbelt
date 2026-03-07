@@ -83,7 +83,7 @@ export default function PerfilEsportivoPage() {
 
       {/* Modalidades */}
       <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Award size={16} className="text-blue-400" />{t('sportProfile.modalities')}</h2>
+        <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-4"><Award size={16} className="text-blue-400" />{t('sportProfile.modalities')}</h2>
         <div className="flex flex-wrap gap-2">
           {perfil.modalidades.map((m: Modalidade) => {
             const info = MODALIDADES_INFO[m];
@@ -98,17 +98,17 @@ export default function PerfilEsportivoPage() {
 
       {/* Peso + Categoria */}
       <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><Scale size={16} className="text-purple-400" />{t('sportProfile.weightCategory')}</h2>
+        <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-4"><Scale size={16} className="text-purple-400" />{t('sportProfile.weightCategory')}</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-white/30 text-xs mb-1">{t('sportProfile.currentWeight')}</p>
-            <p className="text-white text-2xl font-bold">{perfil.peso ? `${perfil.peso} kg` : '—'}</p>
+            <p className="text-white text-2xl font-medium">{perfil.peso ? `${perfil.peso} kg` : '—'}</p>
           </div>
           <div>
             <p className="text-white/30 text-xs mb-1">{t('sportProfile.categoryLabel')}</p>
             {cat ? (
               <div>
-                <p className="text-white text-lg font-bold">{cat.label}</p>
+                <p className="text-white text-lg font-medium">{cat.label}</p>
                 <p className="text-white/30 text-xs">até {cat.pesoMax}</p>
               </div>
             ) : (
@@ -120,10 +120,10 @@ export default function PerfilEsportivoPage() {
 
       {/* Atestado Médico */}
       <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileCheck size={16} className="text-green-400" />{t('sportProfile.medicalCert')}</h2>
+        <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-4"><FileCheck size={16} className="text-green-400" />{t('sportProfile.medicalCert')}</h2>
         <div className="flex items-center gap-3 mb-3">
           {atestado.icon}
-          <span className={`font-bold text-sm ${atestado.color}`}>{atestado.label}</span>
+          <span className={`font-medium text-sm ${atestado.color}`}>{atestado.label}</span>
         </div>
         {perfil.atestadoMedico.dataEnvio && (
           <p className="text-white/30 text-xs">Enviado: {formatDate(perfil.atestadoMedico.dataEnvio + 'T12:00:00', 'short')}</p>
@@ -135,7 +135,7 @@ export default function PerfilEsportivoPage() {
 
       {/* Termos */}
       <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
-        <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-4"><FileText size={16} className="text-amber-400" />{t('sportProfile.termsConsents')}</h2>
+        <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-4"><FileText size={16} className="text-amber-400" />{t('sportProfile.termsConsents')}</h2>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-white/60 text-sm">{t('sportProfile.responsibilityTerm')}</span>
@@ -160,19 +160,19 @@ export default function PerfilEsportivoPage() {
       <div className="grid grid-cols-1 gap-4">
         {perfil.objetivos && (
           <div style={{ ...glass, padding: '1.25rem' }}>
-            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Target size={16} className="text-blue-400" />{t('sportProfile.objectives')}</h2>
+            <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-3"><Target size={16} className="text-blue-400" />{t('sportProfile.objectives')}</h2>
             <p className="text-white/60 text-sm">{perfil.objetivos}</p>
           </div>
         )}
         {perfil.lesoes && (
           <div style={{ ...glass, padding: '1.25rem' }}>
-            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Heart size={16} className="text-red-400" />{t('sportProfile.injuries')}</h2>
+            <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-3"><Heart size={16} className="text-red-400" />{t('sportProfile.injuries')}</h2>
             <p className="text-white/60 text-sm">{perfil.lesoes}</p>
           </div>
         )}
         {perfil.experienciaPrevia && (
           <div style={{ ...glass, padding: '1.25rem' }}>
-            <h2 className="text-white font-bold text-sm flex items-center gap-2 mb-3"><Dumbbell size={16} className="text-purple-400" />{t('sportProfile.previousExperience')}</h2>
+            <h2 className="text-white font-semibold text-sm flex items-center gap-2 mb-3"><Dumbbell size={16} className="text-purple-400" />{t('sportProfile.previousExperience')}</h2>
             <p className="text-white/60 text-sm">{perfil.experienciaPrevia}</p>
           </div>
         )}

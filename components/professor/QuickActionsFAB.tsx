@@ -187,7 +187,7 @@ function ConquistaModal({ onClose }: { onClose: () => void }) {
       <button
         onClick={handleSave}
         disabled={!selectedAluno || !selectedConquista || saving || done}
-        className="w-full py-2.5 rounded-xl text-xs font-bold text-white transition-all disabled:opacity-30"
+        className="w-full py-2.5 rounded-xl text-xs font-medium text-white transition-all disabled:opacity-30"
         style={{ background: done ? 'rgba(74,222,128,0.2)' : 'linear-gradient(135deg, #D97706, #B45309)' }}
       >
         {done ? `✅ ${tq('achievementGranted')}` : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : tq('grant')}
@@ -245,7 +245,7 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
       <button
         onClick={handleSave}
         disabled={!selectedAluno || !text.trim() || saving || done}
-        className="w-full py-2.5 rounded-xl text-xs font-bold text-white transition-all disabled:opacity-30"
+        className="w-full py-2.5 rounded-xl text-xs font-medium text-white transition-all disabled:opacity-30"
         style={{ background: done ? 'rgba(74,222,128,0.2)' : 'linear-gradient(135deg, #8B5CF6, #7C3AED)' }}
       >
         {done ? `✅ ${tq('observationSaved')}` : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : tq('grant')}
@@ -264,7 +264,7 @@ function BottomSheet({ onClose, title, children }: { onClose: () => void; title:
         style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
         <div className="flex items-center justify-between mb-1">
-          <h3 className="text-sm font-bold text-white/80">{title}</h3>
+          <h3 className="text-sm font-semibold text-white/80">{title}</h3>
           <button onClick={onClose} className="p-1 hover:bg-white/5 rounded-lg"><X size={14} className="text-white/30" /></button>
         </div>
         {children}

@@ -26,7 +26,7 @@ export function SobreSection() {
           <span className="text-4xl">🥋</span>
         </div>
         <div className="text-center">
-          <h3 className="text-lg font-bold text-white">BlackBelt</h3>
+          <h3 className="text-lg font-semibold text-white">BlackBelt</h3>
           <p className="text-xs text-white/30">Plataforma de Gestão</p>
         </div>
       </div>

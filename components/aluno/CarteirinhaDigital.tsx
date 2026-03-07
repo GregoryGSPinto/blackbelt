@@ -220,13 +220,13 @@ export default function CarteirinhaDigital({ carteirinha, onShare }: Carteirinha
                     <span className="text-base">🦁</span>
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white/90 tracking-wider">{carteirinha.unidade}</p>
+                    <p className="text-xs font-medium text-white/90 tracking-wider">{carteirinha.unidade}</p>
                     {carteirinha.unidadeNome && (
                       <p className="text-[9px] text-white/40">{carteirinha.unidadeNome}</p>
                     )}
                   </div>
                 </div>
-                <div className={`flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-bold ${status.bg}`}>
+                <div className={`flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-medium ${status.bg}`}>
                   <StatusIcon size={10} className={status.color} />
                   <span className={status.color}>{status.label}</span>
                 </div>
@@ -236,7 +236,7 @@ export default function CarteirinhaDigital({ carteirinha, onShare }: Carteirinha
               <div className="flex items-end gap-4 mt-auto">
                 {/* Avatar */}
                 <div
-                  className="w-16 h-16 rounded-xl flex items-center justify-center text-2xl font-bold shrink-0 border border-white/10"
+                  className="w-16 h-16 rounded-xl flex items-center justify-center text-2xl font-medium shrink-0 border border-white/10"
                   style={{
                     background: `linear-gradient(135deg, ${nivelColors.from}40, ${nivelColors.to}20)`,
                     color: nivelColors.text,
@@ -247,7 +247,7 @@ export default function CarteirinhaDigital({ carteirinha, onShare }: Carteirinha
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-lg font-black text-white truncate">{carteirinha.nome}</p>
+                  <p className="text-lg font-medium text-white truncate">{carteirinha.nome}</p>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span
                       className="inline-block w-3 h-3 rounded-full border border-white/30"

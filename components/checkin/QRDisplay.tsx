@@ -177,7 +177,7 @@ export function QRDisplay({ sessionId, academyId, className, turmaName }: QRDisp
           />
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-10 h-10 rounded-lg bg-[#1a1a2e] flex items-center justify-center border-2 border-white">
-              <span className="text-white text-xs font-black">BB</span>
+              <span className="text-white text-xs font-medium">BB</span>
             </div>
           </div>
         </div>

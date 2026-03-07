@@ -36,7 +36,7 @@ function ErrorFallback({ error, resetError }: { error: Error; resetError: () => 
     <div className="p-6 bg-red-500/10 border border-red-500/30 rounded-xl">
       <div className="flex items-center gap-3 mb-3">
         <AlertCircle size={24} className="text-red-400" />
-        <h3 className="font-bold text-red-400">Erro ao carregar configurações</h3>
+        <h3 className="font-semibold text-red-400">Erro ao carregar configurações</h3>
       </div>
       <p className="text-sm text-white/70 mb-4">{error.message}</p>
       <button
@@ -159,7 +159,7 @@ export function ConfiguracoesContent() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2">Configurações</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2">Configurações</h1>
           <p className="text-white/40">Personalize sua experiência no BlackBelt</p>
         </div>
 

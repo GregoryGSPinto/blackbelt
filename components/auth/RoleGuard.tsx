@@ -111,7 +111,7 @@ export function RoleGuard({
           <div className="w-16 h-16 mx-auto rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
             <Lock className="w-8 h-8 text-red-400" />
           </div>
-          <h2 className="text-lg font-bold text-white">{t('profileSelection.accessRestricted')}</h2>
+          <h2 className="text-lg font-semibold text-white">{t('profileSelection.accessRestricted')}</h2>
           <p className="text-sm text-white/60 max-w-sm">
             {deniedMessage || t('profileSelection.noPermission')}
           </p>

@@ -37,7 +37,7 @@ export default function Header() {
             className="flex-shrink-0 object-contain rounded-lg ring-1 ring-white/[0.06] group-hover:ring-white/15 transition-all duration-300"
             priority
           />
-          <span className="text-[15px] font-bold tracking-wide text-white/90">
+          <span className="text-[15px] font-medium tracking-wide text-white/90">
             BLACKBELT
           </span>
         </Link>
@@ -58,7 +58,7 @@ export default function Header() {
         )}
 
         <p className="text-base">
-          {t('greeting.welcome')} <span className="font-bold text-white">{user?.nome}</span> 🥋
+          {t('greeting.welcome')} <span className="font-medium text-white">{user?.nome}</span> 🥋
         </p>
       </div>
 

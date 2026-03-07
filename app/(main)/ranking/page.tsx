@@ -139,13 +139,13 @@ export default function RankingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
               <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Este mês</p>
-              <p className="text-lg font-bold text-emerald-400">
+              <p className="text-lg font-medium text-emerald-400">
                 +{formatNumber(pontosResumo.esteMes)}
               </p>
             </div>
             <div className="rounded-xl p-3 bg-white/[0.03] border border-white/[0.06]">
               <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Esta semana</p>
-              <p className="text-lg font-bold text-blue-400">
+              <p className="text-lg font-medium text-blue-400">
                 +{formatNumber(pontosResumo.ultimaSemana)}
               </p>
             </div>
@@ -233,7 +233,7 @@ export default function RankingPage() {
                     <p className="text-sm font-medium text-white/80">{regra.nome}</p>
                     <p className="text-[11px] text-white/30 line-clamp-1">{regra.descricao}</p>
                   </div>
-                  <span className="text-sm font-bold text-amber-300 shrink-0">
+                  <span className="text-sm font-medium text-amber-300 shrink-0">
                     +{regra.pontos}
                   </span>
                 </div>

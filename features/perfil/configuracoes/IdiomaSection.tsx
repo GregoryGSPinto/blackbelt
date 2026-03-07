@@ -33,7 +33,7 @@ export function IdiomaSection({ idioma, setIdioma }: IdiomaSectionProps) {
           >
             <div className="flex items-center gap-4">
               <span className="text-3xl">{lang.flag}</span>
-              <span className="font-bold text-lg">{lang.name}</span>
+              <span className="font-medium text-lg">{lang.name}</span>
             </div>
             {idioma === lang.code && <CheckCircle size={24} className="text-green-400" />}
           </button>

@@ -75,7 +75,7 @@ export default async function HistoricoDashboard() {
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
             {t('history.title')}
           </h1>
           <p style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
@@ -97,10 +97,10 @@ export default async function HistoricoDashboard() {
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
             <div className="flex items-center gap-2 mb-4">
               <Flame size={18} className="text-amber-400" />
-              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.streakTitle')}</h2>
+              <h2 className="text-base font-semibold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.streakTitle')}</h2>
             </div>
             <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-amber-400">{MOCK_STATS.streak}</span>
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-medium text-amber-400">{MOCK_STATS.streak}</span>
               <span className="text-sm" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{t('history.consecutiveDays')}</span>
             </div>
             <p className="text-xs mb-5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
@@ -133,7 +133,7 @@ export default async function HistoricoDashboard() {
           <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-6 hover-card">
             <div className="flex items-center gap-2 mb-4">
               <BarChart3 size={18} className="text-blue-400" />
-              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.mostFrequentDays')}</h2>
+              <h2 className="text-base font-semibold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.mostFrequentDays')}</h2>
             </div>
             <p className="text-xs mb-5" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
               {t('history.weeklyAvg')} {MOCK_STATS.mediaSemanal}
@@ -153,7 +153,7 @@ export default async function HistoricoDashboard() {
                       }}
                     />
                   </div>
-                  <span className="text-xs font-bold w-6 text-right" style={{ color: 'rgb(var(--color-text))' }}>{d.treinos}</span>
+                  <span className="text-xs font-medium w-6 text-right" style={{ color: 'rgb(var(--color-text))' }}>{d.treinos}</span>
                 </div>
               ))}
             </div>
@@ -165,7 +165,7 @@ export default async function HistoricoDashboard() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <TrendingUp size={18} className="text-emerald-400" />
-              <h2 className="text-base font-bold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.lastTrainings')}</h2>
+              <h2 className="text-base font-semibold" style={{ color: 'rgb(var(--color-text))' }}>{t('history.lastTrainings')}</h2>
             </div>
             <VerTudoButton />
           </div>
@@ -174,7 +174,7 @@ export default async function HistoricoDashboard() {
             {ULTIMOS_TREINOS.map(t => (
               <div key={t.id} className="flex items-center gap-4 py-3 border-b last:border-0" style={{ borderColor: 'rgb(var(--color-text-subtle) / 0.06)' }}>
                 <div className="w-12 text-center flex-shrink-0">
-                  <p className="text-lg font-black" style={{ color: 'rgb(var(--color-text))' }}>{t.data.split('/')[0]}</p>
+                  <p className="text-lg font-medium" style={{ color: 'rgb(var(--color-text))' }}>{t.data.split('/')[0]}</p>
                   <p className="text-[10px] uppercase" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
                     {['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(t.data.split('/')[1]) - 1]}
                   </p>
@@ -218,7 +218,7 @@ function StatCard({ icon: Icon, label, value, accent }: {
       <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center mb-3`}>
         <Icon size={18} className={c.icon} />
       </div>
-      <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>{value}</p>
+      <p className="text-lg sm:text-xl md:text-2xl font-medium" style={{ color: 'rgb(var(--color-text))' }}>{value}</p>
       <p className="text-xs mt-1" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>{label}</p>
     </div>
   );

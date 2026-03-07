@@ -91,7 +91,7 @@ function StatCard({
       }}
     >
       <Icon size={16} className={`mx-auto mb-1.5 ${color}`} />
-      <p className="text-lg font-black text-white tabular-nums">{value}</p>
+      <p className="text-lg font-semibold text-white tabular-nums">{value}</p>
       <p className="text-[9px] text-white/30 uppercase tracking-wider">{label}</p>
     </div>
   );
@@ -187,7 +187,7 @@ export default function AtletaPublicoPage() {
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
               <span className="text-lg">🦁</span>
-              <span className="text-xs font-bold text-white/50 tracking-wider">BLACKBELT</span>
+              <span className="text-xs font-medium text-white/50 tracking-wider">BLACKBELT</span>
             </div>
             <button
               onClick={handleShare}
@@ -200,7 +200,7 @@ export default function AtletaPublicoPage() {
 
           <div className="flex flex-col items-center text-center space-y-4">
             <div
-              className="w-24 h-24 rounded-2xl flex items-center justify-center text-4xl font-black text-white border-2 shadow-lg"
+              className="w-24 h-24 rounded-2xl flex items-center justify-center text-4xl font-semibold text-white border-2 shadow-lg"
               style={{
                 background: `linear-gradient(135deg, ${nivelColor}30, ${nivelColor}10)`,
                 borderColor: `${nivelColor}40`,
@@ -253,7 +253,7 @@ export default function AtletaPublicoPage() {
               animation: 'atleta-section-in 500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both',
             }}
           >
-            <h2 className="text-sm font-bold text-white/80 mb-4 flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-white/80 mb-4 flex items-center gap-2">
               <Award size={16} className="text-amber-400" />
               Jornada de Graduações
             </h2>
@@ -279,7 +279,7 @@ export default function AtletaPublicoPage() {
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-white/80">{grad.nivel}</span>
                           {isLast && (
-                            <span className="text-[9px] bg-amber-500/15 text-amber-400 px-1.5 py-0.5 rounded-full font-bold uppercase">Atual</span>
+                            <span className="text-[9px] bg-amber-500/15 text-amber-400 px-1.5 py-0.5 rounded-full font-medium uppercase">Atual</span>
                           )}
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
@@ -311,7 +311,7 @@ export default function AtletaPublicoPage() {
         >
           <Flame size={20} className="mx-auto mb-2" style={{ color: nivelColor }} />
           <p className="text-white/40 text-[10px] uppercase tracking-wider mb-1">Dedicação</p>
-          <p className="text-white font-bold text-2xl tabular-nums">
+          <p className="text-white font-medium text-2xl tabular-nums">
             {atleta.totalCheckins}
             <span className="text-white/30 text-sm font-normal"> treinos em </span>
             {atleta.mesesTreinando}

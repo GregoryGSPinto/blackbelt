@@ -49,7 +49,7 @@ export function RouteError({
           <AlertTriangle size={24} className="text-red-400" />
         </div>
 
-        <h2 className="text-lg font-bold text-white mb-1.5">{t('routeError')}</h2>
+        <h2 className="text-lg font-semibold text-white mb-1.5">{t('routeError')}</h2>
         <p className="text-xs text-white/40 mb-5">
           {t('moduleLabel')} {moduleName}. {t('feedbackHelps')}
         </p>

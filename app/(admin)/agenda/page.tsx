@@ -79,7 +79,7 @@ export default function AgendaPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('agenda.classesToday')}</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{turmasHoje.length}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white/70">{turmasHoje.length}</p>
             </div>
             <Calendar className="w-10 h-10 text-white/40" />
           </div>
@@ -99,7 +99,7 @@ export default function AgendaPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('agenda.totalStudents')}</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white">
                 {turmasHoje.reduce((sum, t) => sum + t.alunosMatriculados, 0)}
               </p>
             </div>
@@ -136,10 +136,10 @@ export default function AgendaPage() {
                       <div className="flex items-center gap-3 mb-3">
                         <div className="flex items-center gap-2 text-white/70">
                           <Clock className="w-5 h-5" />
-                          <span className="text-xl font-bold">{turma.horario}</span>
+                          <span className="text-xl font-medium">{turma.horario}</span>
                         </div>
                         <span className="text-white/30">|</span>
-                        <h4 className="text-xl font-bold text-white">{turma.nome}</h4>
+                        <h4 className="text-xl font-semibold text-white">{turma.nome}</h4>
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                           turma.categoria === 'ADULTO'
                             ? 'bg-white/10 text-white'

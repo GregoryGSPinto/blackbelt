@@ -44,7 +44,7 @@ function StatCard({
       <div className={`inline-flex p-2 rounded-lg mb-2 ${accent}`}>
         <Icon size={16} />
       </div>
-      <p className="text-white font-bold text-xl tabular-nums">{value}</p>
+      <p className="text-white font-medium text-xl tabular-nums">{value}</p>
       <p className="text-white/30 text-[10px] uppercase tracking-wider mt-0.5">{label}</p>
     </div>
   );
@@ -187,7 +187,7 @@ export default function MinhaEvolucaoPage() {
         >
           <Flame size={24} className="text-amber-400 mx-auto mb-2" />
           <p className="text-white/40 text-xs uppercase tracking-wider mb-1">Melhor Streak</p>
-          <p className="text-white font-bold text-3xl tabular-nums">{resumo.melhorStreak} dias</p>
+          <p className="text-white font-medium text-3xl tabular-nums">{resumo.melhorStreak} dias</p>
           <p className="text-white/25 text-xs mt-1">Sua maior sequência de presença consecutiva</p>
         </div>
       )}

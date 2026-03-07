@@ -146,7 +146,7 @@ function EventoCard({ evento, onClick }: { evento: Evento; onClick: () => void }
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="text-base font-bold text-white group-hover:text-amber-200 transition-colors truncate">
+          <h3 className="text-base font-semibold text-white group-hover:text-amber-200 transition-colors truncate">
             {evento.nome}
           </h3>
           <p className="text-xs text-white/30 line-clamp-2 mt-1">
@@ -189,7 +189,7 @@ function EventoCard({ evento, onClick }: { evento: Evento; onClick: () => void }
 
       {/* Status + Type badges */}
       <div className="flex items-center gap-2 mt-3">
-        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-bold ${statusCfg.bg}`}>
+        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-medium ${statusCfg.bg}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.color === 'text-emerald-400' ? 'bg-emerald-400' : statusCfg.color === 'text-blue-400' ? 'bg-blue-400' : statusCfg.color === 'text-amber-400' ? 'bg-amber-400' : 'bg-white/40'}`} />
           <span className={statusCfg.color}>{statusCfg.label}</span>
         </span>
@@ -200,7 +200,7 @@ function EventoCard({ evento, onClick }: { evento: Evento; onClick: () => void }
         </span>
 
         {isOpen && (
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-bold animate-pulse">
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-medium animate-pulse">
             Inscreva-se
           </span>
         )}

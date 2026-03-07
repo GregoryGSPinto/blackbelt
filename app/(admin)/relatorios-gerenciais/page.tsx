@@ -201,7 +201,7 @@ function OperacionalTab() {
                 <div className="flex-1 h-4 bg-white/5 rounded overflow-hidden">
                   <div className="h-full rounded" style={{ width: `${(f.valor / 60) * 100}%`, background: f.cor, opacity: 0.6 }} />
                 </div>
-                <span className="text-xs text-white/70 font-bold w-8 text-right">{f.valor}</span>
+                <span className="text-xs text-white/70 font-medium w-8 text-right">{f.valor}</span>
               </div>
             ))}
           </div>
@@ -273,7 +273,7 @@ function FinanceiroTab() {
                 <div className="flex-1 h-5 bg-white/5 rounded overflow-hidden">
                   <div className="h-full rounded bg-emerald-500/40" style={{ width: `${r.percentual}%` }} />
                 </div>
-                <span className="text-xs text-white/70 font-bold w-16 text-right">R$ {(r.valor/1000).toFixed(1)}k</span>
+                <span className="text-xs text-white/70 font-medium w-16 text-right">R$ {(r.valor/1000).toFixed(1)}k</span>
                 <span className="text-[10px] text-white/30 w-10 text-right">{r.percentual}%</span>
               </div>
             ))}
@@ -289,7 +289,7 @@ function FinanceiroTab() {
                 <div className="flex-1 h-5 bg-white/5 rounded overflow-hidden">
                   <div className="h-full rounded bg-blue-500/40" style={{ width: `${r.percentual}%` }} />
                 </div>
-                <span className="text-xs text-white/70 font-bold w-16 text-right">R$ {(r.valor/1000).toFixed(1)}k</span>
+                <span className="text-xs text-white/70 font-medium w-16 text-right">R$ {(r.valor/1000).toFixed(1)}k</span>
               </div>
             ))}
           </div>
@@ -337,7 +337,7 @@ function PessoasTab() {
           {PROFESSORES.map(p => (
             <div key={p.id} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold text-white/60">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium text-white/60">
                   {p.nome.split(' ').map(n => n[0]).join('').slice(0, 2)}
                 </div>
                 <div className="flex-1">
@@ -345,7 +345,7 @@ function PessoasTab() {
                   <p className="text-[10px] text-white/30">{p.modalidades.join(', ')} | {p.cargaHoraria}h/sem</p>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="text-amber-400 text-sm font-bold">{p.avaliacaoMedia}</span>
+                  <span className="text-amber-400 text-sm font-medium">{p.avaliacaoMedia}</span>
                   <span className="text-amber-400/50 text-xs">/5</span>
                 </div>
               </div>
@@ -387,7 +387,7 @@ function MarketingTab() {
                 <span className="text-xs text-white/50 w-20 text-right">{f.etapa}</span>
                 <div className="flex-1 h-7 bg-white/5 rounded-lg overflow-hidden">
                   <div className="h-full rounded-lg flex items-center justify-end pr-2" style={{ width: `${w}%`, background: `${colors[i]}25`, borderRight: `2px solid ${colors[i]}` }}>
-                    <span className="text-xs font-bold" style={{ color: colors[i] }}>{f.quantidade}</span>
+                    <span className="text-xs font-medium" style={{ color: colors[i] }}>{f.quantidade}</span>
                   </div>
                 </div>
                 <span className="text-xs text-white/30 w-12">{f.taxa}%</span>
@@ -405,7 +405,7 @@ function MarketingTab() {
             <div key={m.etapa} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
               <p className="text-[10px] text-white/30 mb-1">{m.etapa}</p>
               <div className="flex items-end gap-2">
-                <span className="text-lg font-bold text-white/80">{m.taxa}%</span>
+                <span className="text-lg font-medium text-white/80">{m.taxa}%</span>
                 <span className="text-[10px] text-white/30 mb-0.5">{m.tempoMedio}d medio</span>
               </div>
             </div>
@@ -428,8 +428,8 @@ function MarketingTab() {
                 <p className="text-xs text-white/50 font-medium mb-2">{c.canal}</p>
                 <div className="space-y-1 text-xs">
                   <div className="flex justify-between"><span className="text-white/30">Investido</span><span className="text-white/60">R$ {c.investido}</span></div>
-                  <div className="flex justify-between"><span className="text-white/30">Retorno</span><span className="text-emerald-400 font-bold">R$ {c.retorno}</span></div>
-                  <div className="flex justify-between"><span className="text-white/30">ROI</span><span className={`font-bold ${roi === 'N/A' ? 'text-white/40' : 'text-emerald-400'}`}>{roi === 'N/A' ? 'Organico' : `${roi}%`}</span></div>
+                  <div className="flex justify-between"><span className="text-white/30">Retorno</span><span className="text-emerald-400 font-medium">R$ {c.retorno}</span></div>
+                  <div className="flex justify-between"><span className="text-white/30">ROI</span><span className={`font-medium ${roi === 'N/A' ? 'text-white/40' : 'text-emerald-400'}`}>{roi === 'N/A' ? 'Organico' : `${roi}%`}</span></div>
                   <div className="flex justify-between"><span className="text-white/30">Leads</span><span className="text-white/60">{c.leads}</span></div>
                   <div className="flex justify-between"><span className="text-white/30">Conversoes</span><span className="text-white/60">{c.conversoes}</span></div>
                 </div>
@@ -448,7 +448,7 @@ function StatBox({ label, value, color }: { label: string; value: string; color:
   return (
     <div className="rounded-xl p-3.5" style={card}>
       <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">{label}</p>
-      <p className="text-xl font-bold tabular-nums" style={{ color }}>{value}</p>
+      <p className="text-xl font-medium tabular-nums" style={{ color }}>{value}</p>
     </div>
   );
 }
@@ -458,7 +458,7 @@ function MetricBar({ label, value, color }: { label: string; value: number; colo
     <div>
       <div className="flex items-center justify-between mb-1">
         <span className="text-[10px] text-white/30">{label}</span>
-        <span className="text-[10px] font-bold" style={{ color }}>{value}%</span>
+        <span className="text-[10px] font-medium" style={{ color }}>{value}%</span>
       </div>
       <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
         <div className="h-full rounded-full" style={{ width: `${value}%`, background: color }} />

@@ -69,7 +69,7 @@ export function ParentAlertsList({ alerts }: ParentAlertsListProps) {
               <div
                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${config.iconBg} mt-0.5`}
               >
-                <span className={`text-xs font-bold ${config.iconColor}`}>
+                <span className={`text-xs font-medium ${config.iconColor}`}>
                   {config.icon}
                 </span>
               </div>

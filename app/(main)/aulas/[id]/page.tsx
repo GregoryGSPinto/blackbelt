@@ -197,7 +197,7 @@ export default function AulaDetailPage() {
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5">
+              <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-6xl font-semibold tracking-tight leading-[1.1] mb-5">
                 {video.title}
               </h1>
 
@@ -280,7 +280,7 @@ export default function AulaDetailPage() {
                   {/* 4K HDR badges */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
                     <span
-                      className="px-1.5 py-0.5 text-[9px] font-black rounded"
+                      className="px-1.5 py-0.5 text-[9px] font-medium rounded"
                       style={{
                         background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)',
                         color: '#1a1a1a',
@@ -289,7 +289,7 @@ export default function AulaDetailPage() {
                       4K
                     </span>
                     <span
-                      className="px-1.5 py-0.5 text-[9px] font-black rounded"
+                      className="px-1.5 py-0.5 text-[9px] font-medium rounded"
                       style={{
                         background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)',
                         color: '#1a1a1a',
@@ -299,7 +299,7 @@ export default function AulaDetailPage() {
                     </span>
                   </div>
                   <div
-                    className="absolute top-3 right-3 px-2 py-0.5 text-[8px] font-bold tracking-widest rounded"
+                    className="absolute top-3 right-3 px-2 py-0.5 text-[8px] font-medium tracking-widest rounded"
                     style={{
                       background: 'linear-gradient(135deg, rgba(197,164,78,0.9), rgba(245,230,163,0.9))',
                       color: '#1a1a1a',
@@ -323,7 +323,7 @@ export default function AulaDetailPage() {
           <div className="lg:col-span-2 space-y-10">
             {/* Full description */}
             <div>
-              <h2 className="text-xl font-bold mb-4 text-white/90">{t('sessions.aboutSession')}</h2>
+              <h2 className="text-xl font-semibold mb-4 text-white/90">{t('sessions.aboutSession')}</h2>
               <p className="text-[15px] text-white/45 leading-[1.8] max-w-2xl">
                 {video.description} {t('sessions.extendedDescription')}
               </p>
@@ -331,7 +331,7 @@ export default function AulaDetailPage() {
 
             {/* Objectives */}
             <div>
-              <h2 className="text-xl font-bold mb-5 text-white/90">
+              <h2 className="text-xl font-semibold mb-5 text-white/90">
                 {t('sessions.sessionObjectives')}
               </h2>
               <div className="space-y-3">
@@ -425,7 +425,7 @@ export default function AulaDetailPage() {
           PLAYER SECTION
           ═══════════════════════════════════════════════════════ */}
       <section id="player" className="max-w-6xl mx-auto px-6 md:px-10 pb-16 md:pb-20">
-        <h2 className="text-xl font-bold mb-6 text-white/90">{t('sessions.player')}</h2>
+        <h2 className="text-xl font-semibold mb-6 text-white/90">{t('sessions.player')}</h2>
         <PremiumPlayer
           youtubeId={video.youtubeId}
           title={video.title}
@@ -439,7 +439,7 @@ export default function AulaDetailPage() {
       {related.length > 0 && (
         <section className="max-w-7xl mx-auto px-6 md:px-10 pb-16 md:pb-24">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-white/90">{t('sessions.relatedSessions')}</h2>
+            <h2 className="text-xl font-semibold text-white/90">{t('sessions.relatedSessions')}</h2>
             <div className="hidden md:flex items-center gap-2">
               <button
                 onClick={() => scrollRelated('left')}
@@ -487,7 +487,7 @@ export default function AulaDetailPage() {
                       {r.duration}
                     </div>
                     <span
-                      className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold ${rl.bg} ${rl.text}`}
+                      className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-medium ${rl.bg} ${rl.text}`}
                     >
                       {r.level}
                     </span>

@@ -114,7 +114,7 @@ export function ConversationView({
             <ArrowLeft size={18} className="text-white/50" />
           </button>
         )}
-        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold text-white/60">
+        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium text-white/60">
           {contactAvatar || contactName.charAt(0)}
         </div>
         <div>

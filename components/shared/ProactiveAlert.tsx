@@ -125,7 +125,7 @@ export function ProactiveAlertList({
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold text-white/70">{tAlerts('title')}</h3>
           <span
-            className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+            className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-medium"
             style={{ background: 'rgba(251,191,36,0.2)', color: '#FBBF24' }}
           >
             {visible.length}

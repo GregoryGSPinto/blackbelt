@@ -130,7 +130,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
           </div>
           <div className="flex items-center gap-2">
             <span
-              className="px-2 py-0.5 text-[9px] font-black rounded"
+              className="px-2 py-0.5 text-[9px] font-medium rounded"
               style={{
                 background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)',
                 color: '#1a1a1a',
@@ -139,7 +139,7 @@ export function PremiumPlayer({ youtubeId, title, thumbnail }: PremiumPlayerProp
               4K
             </span>
             <span
-              className="px-2 py-0.5 text-[9px] font-black rounded"
+              className="px-2 py-0.5 text-[9px] font-medium rounded"
               style={{
                 background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)',
                 color: '#1a1a1a',

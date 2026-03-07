@@ -60,7 +60,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
         >
           {/* Header */}
           <div className="sticky top-0 bg-dark-card border-b border-dark-elevated p-4 md:p-6 flex items-center justify-between z-10">
-            <h2 className="text-xl md:text-2xl font-bold text-white">
+            <h2 className="text-xl md:text-2xl font-semibold text-white">
               {t('title')} {isKids && '- Kids'}
             </h2>
             <button
@@ -105,7 +105,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                   <div className="flex items-center gap-2 mb-4">
                     <Target className="text-primary" size={24} />
                     <div>
-                      <h3 className="font-bold text-white">{t('personalSuggestion')}</h3>
+                      <h3 className="font-semibold text-white">{t('personalSuggestion')}</h3>
                       <p className="text-sm text-white/40">
                         {isKids
                           ? t('enterKidsMeasures')
@@ -159,7 +159,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                       <div className="flex items-start gap-3">
                         <Target className="text-green-400 flex-shrink-0" size={24} />
                         <div className="flex-1">
-                          <p className="font-bold text-lg text-white mb-1">
+                          <p className="font-medium text-lg text-white mb-1">
                             {t('recommendSize', { size: suggestedSize })}{isKids && ` (${t('forChild')})`}
                           </p>
                           <p className="text-sm text-white/40">
@@ -181,7 +181,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
 
                 {/* Tabela */}
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     {t('findYourSize')}
                   </h3>
                   <p className="text-sm text-white/40 mb-4">
@@ -209,7 +209,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                             key={item.size}
                             className="border-b border-white/5 hover:bg-primary/10 transition-colors"
                           >
-                            <td className="p-4 font-bold text-primary text-center">
+                            <td className="p-4 font-medium text-primary text-center">
                               {item.size}
                             </td>
                             <td className="p-4 text-center text-white/55">{item.height}</td>
@@ -234,7 +234,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
             {activeTab === 'visual' && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">{t('visualReference')}</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">{t('visualReference')}</h3>
                   <p className="text-sm text-white/40 mb-6">{t('seeHowItFits')}</p>
                 </div>
 
@@ -252,7 +252,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
 
                   {/* Info */}
                   <div className="flex-1 space-y-4">
-                    <p className="text-xl font-bold text-white">Modelo veste tamanho A2</p>
+                    <p className="text-xl font-medium text-white">Modelo veste tamanho A2</p>
 
                     <div className="space-y-2">
                       <div className="flex items-center gap-3">
@@ -293,7 +293,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
             {activeTab === 'technical' && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">{t('detailedMeasurements')}</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">{t('detailedMeasurements')}</h3>
                   <p className="text-sm text-white/40 mb-6">
                     {t('forMaxPrecision')}
                   </p>
@@ -334,7 +334,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                           <tbody>
                             {technicalMeasurements.map((m) => (
                               <tr key={m.size} className="border-b border-dark-elevated">
-                                <td className="p-2 font-bold text-primary">{m.size}</td>
+                                <td className="p-2 font-medium text-primary">{m.size}</td>
                                 <td className="p-2 text-center text-white/55">{m.length}</td>
                                 <td className="p-2 text-center text-white/55">{m.sleeve}</td>
                                 <td className="p-2 text-center text-white/55">{m.shoulder}</td>

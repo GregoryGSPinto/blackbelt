@@ -35,7 +35,7 @@ function Section({ title, icon: Icon, children }: {
     <div className="rounded-2xl p-5 space-y-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
       <div className="flex items-center gap-2">
         <Icon size={14} className="text-red-400/60" />
-        <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider">{title}</h3>
+        <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">{title}</h3>
       </div>
       {children}
     </div>
@@ -214,7 +214,7 @@ export function StudentExtraSections() {
             <div className="relative w-full max-w-sm rounded-2xl p-6 space-y-4" style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="flex items-center gap-2">
                 <AlertTriangle size={16} className="text-red-400" />
-                <h4 className="text-sm font-bold text-white/80">Solicitar Exclusão de Conta</h4>
+                <h4 className="text-sm font-semibold text-white/80">Solicitar Exclusão de Conta</h4>
               </div>
               <p className="text-xs text-white/40">Esta ação é irreversível. Todos os seus dados serão excluídos em até 30 dias.</p>
               <textarea
@@ -234,7 +234,7 @@ export function StudentExtraSections() {
                 </button>
                 <button
                   onClick={() => { setDeleteRequested(true); setDeleteModal(false); }}
-                  className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white bg-red-600/80 hover:bg-red-500"
+                  className="flex-1 py-2.5 rounded-xl text-xs font-medium text-white bg-red-600/80 hover:bg-red-500"
                 >
                   Confirmar Exclusão
                 </button>

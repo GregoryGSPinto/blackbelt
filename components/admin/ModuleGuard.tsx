@@ -87,7 +87,7 @@ export function ModuleGuard({ children, module }: ModuleGuardProps) {
 
           {/* Title */}
           <div>
-            <h2 className="text-xl font-bold text-white">{t('moduleGuard.accessDenied')}</h2>
+            <h2 className="text-xl font-semibold text-white">{t('moduleGuard.accessDenied')}</h2>
             <p className="text-sm text-white/40 mt-1">
               Módulo <span className={`font-semibold ${meta.color}`}>{meta.label}</span> não está autorizado para seu perfil.
             </p>

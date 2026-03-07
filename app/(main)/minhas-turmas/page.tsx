@@ -21,7 +21,7 @@ function StatPill({ label, value, icon: Icon }: { label: string; value: string |
   return (
     <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
       <Icon size={14} className="text-white/30" />
-      <span className="text-white font-bold text-sm">{value}</span>
+      <span className="text-white font-medium text-sm">{value}</span>
       <span className="text-white/30 text-xs">{label}</span>
     </div>
   );

@@ -65,7 +65,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
               title={`${cat.label}: ${group.count} (${group.percentage}%)`}
             >
               {group.percentage >= 10 && (
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">
+                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-medium text-white">
                   {group.count}
                 </span>
               )}
@@ -98,7 +98,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
         <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="text-xs text-red-400 font-medium">{t('riskMap.revenueAtRisk')}:</span>
-            <span className="text-sm font-bold text-red-300">
+            <span className="text-sm font-medium text-red-300">
               R$ {formatNumber(revenueAtRisk)}/mes
             </span>
           </div>
@@ -131,12 +131,12 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
                         className={`flex items-center justify-between p-2 rounded-lg ${cat.bgColor} border ${cat.borderColor}`}
                       >
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-300">
+                          <div className="w-6 h-6 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-medium text-zinc-300">
                             {student.name.charAt(0).toUpperCase()}
                           </div>
                           <span className="text-xs text-zinc-300">{student.name}</span>
                         </div>
-                        <span className={`text-xs font-bold ${cat.textColor}`}>
+                        <span className={`text-xs font-medium ${cat.textColor}`}>
                           {student.score}
                         </span>
                       </div>

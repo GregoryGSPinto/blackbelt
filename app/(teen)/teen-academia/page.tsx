@@ -120,7 +120,7 @@ export default function TeenUnidadePage() {
             </div>
 
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-teen teen-text-heading">
+              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold font-teen teen-text-heading">
                 {t('title')}
               </h1>
               <p className="text-sm md:text-base font-teen teen-text-muted mt-1.5 max-w-lg">
@@ -188,7 +188,7 @@ export default function TeenUnidadePage() {
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-bold font-teen teen-text-heading truncate">
+                          <h3 className="text-sm font-semibold font-teen teen-text-heading truncate">
                             {area.title}
                           </h3>
                           <p className="text-xs font-teen teen-text-muted mt-1 leading-relaxed line-clamp-2">
@@ -223,7 +223,7 @@ export default function TeenUnidadePage() {
           {/* ═══ PROGRESSO GERAL ═══ */}
           <div className="teen-enter-3">
             <TeenCard>
-              <h2 className="text-base font-bold font-teen teen-text-heading mb-5">
+              <h2 className="text-base font-semibold font-teen teen-text-heading mb-5">
                 {t('progressByArea')}
               </h2>
 
@@ -245,7 +245,7 @@ export default function TeenUnidadePage() {
                           <span className="text-sm font-medium font-teen teen-text-body truncate pr-2">
                             {area.title}
                           </span>
-                          <span className="text-sm font-bold font-teen flex-shrink-0"
+                          <span className="text-sm font-medium font-teen flex-shrink-0"
                             style={{ color: isDark ? textColor.dark : textColor.light }}>
                             {area.progress}%
                           </span>
@@ -266,7 +266,7 @@ export default function TeenUnidadePage() {
               <div className="mt-4 pt-4 text-center"
                 style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(107,68,35,0.06)'}` }}>
                 <p className="text-xs font-teen teen-text-muted mb-1">{t('overallAvg')}</p>
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold font-teen"
+                <p className="text-xl sm:text-2xl lg:text-3xl font-medium font-teen"
                   style={{ color: isDark ? '#4DB8D4' : '#006B8F' }}>
                   {average}%
                 </p>
@@ -307,7 +307,7 @@ export default function TeenUnidadePage() {
                       <area.icon size={20} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-bold font-teen teen-text-heading truncate">
+                      <h3 className="text-sm font-semibold font-teen teen-text-heading truncate">
                         {area.title}
                       </h3>
                       {completed ? (
@@ -336,7 +336,7 @@ export default function TeenUnidadePage() {
                   </div>
 
                   {/* Action button */}
-                  <button className="w-full py-2.5 rounded-xl text-sm font-teen font-bold transition-all duration-200 active:scale-[0.97]"
+                  <button className="w-full py-2.5 rounded-xl text-sm font-teen font-medium transition-all duration-200 active:scale-[0.97]"
                     style={{
                       background: completed
                         ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)')

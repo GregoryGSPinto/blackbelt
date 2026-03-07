@@ -172,7 +172,7 @@ export function CheckinCalendar({ days, classDays, month }: CheckinCalendarProps
             <span className="text-[10px] text-white/40">{stats.ausentes} ausentes</span>
           </div>
         </div>
-        <span className="text-xs font-bold" style={{ color: stats.pct >= 75 ? '#4ADE80' : stats.pct >= 50 ? '#FBBF24' : '#F87171' }}>
+        <span className="text-xs font-medium" style={{ color: stats.pct >= 75 ? '#4ADE80' : stats.pct >= 50 ? '#FBBF24' : '#F87171' }}>
           {stats.pct}%
         </span>
       </div>

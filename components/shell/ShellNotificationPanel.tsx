@@ -56,7 +56,7 @@ export function ShellNotificationPanel({ config, state }: Props) {
           style={{ borderBottom: '1px solid black' }}
         >
           <h3
-            className={`text-base font-bold ${font}`}
+            className={`text-base font-medium ${font}`}
             style={{ color: 'var(--text-primary)' }}
           >
             {t('notifications.title')}

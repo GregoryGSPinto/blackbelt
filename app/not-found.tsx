@@ -25,7 +25,7 @@ export default async function NotFound() {
 
         {/* 404 number */}
         <div
-          className="text-7xl font-black mb-2"
+          className="text-7xl font-semibold mb-2"
           style={{
             background: 'linear-gradient(135deg, #C9A227, #FFD11A)',
             WebkitBackgroundClip: 'text',
@@ -35,7 +35,7 @@ export default async function NotFound() {
           404
         </div>
 
-        <h1 className="text-xl font-bold text-[var(--text-primary)] mb-2">
+        <h1 className="text-xl font-semibold text-[var(--text-primary)] mb-2">
           {t('notFoundTitle')}
         </h1>
         <p className="text-sm text-[var(--text-secondary)] mb-8">

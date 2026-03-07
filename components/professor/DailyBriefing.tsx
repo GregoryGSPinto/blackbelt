@@ -114,7 +114,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         <div className="bg-zinc-900/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Saude Media</span>
           <div className="mt-1 flex items-baseline gap-1.5">
-            <span className={`text-lg font-bold ${healthColor}`}>{metrics.avgClassHealth}</span>
+            <span className={`text-lg font-medium ${healthColor}`}>{metrics.avgClassHealth}</span>
             <span className="text-xs text-zinc-500">{metrics.avgClassHealthLabel}</span>
           </div>
         </div>
@@ -123,7 +123,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         <div className="bg-zinc-900/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Alunos em Risco</span>
           <div className="mt-1">
-            <span className={`text-lg font-bold ${metrics.studentsAtRisk > 0 ? 'text-red-400' : 'text-zinc-300'}`}>
+            <span className={`text-lg font-medium ${metrics.studentsAtRisk > 0 ? 'text-red-400' : 'text-zinc-300'}`}>
               {metrics.studentsAtRisk}
             </span>
           </div>
@@ -133,7 +133,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         <div className="bg-zinc-900/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Alunos Melhorando</span>
           <div className="mt-1">
-            <span className="text-lg font-bold text-green-400">{metrics.studentsImproving}</span>
+            <span className="text-lg font-medium text-green-400">{metrics.studentsImproving}</span>
           </div>
         </div>
 
@@ -141,7 +141,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         <div className="bg-zinc-900/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Retencao</span>
           <div className="mt-1 flex items-center gap-2">
-            <span className="text-lg font-bold text-zinc-200">{metrics.retentionScore}%</span>
+            <span className="text-lg font-medium text-zinc-200">{metrics.retentionScore}%</span>
             <div className="flex-1 h-1.5 rounded-full bg-zinc-800">
               <div
                 className="h-1.5 rounded-full bg-blue-500 transition-all duration-500"
@@ -155,7 +155,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         <div className="bg-zinc-900/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Progressao</span>
           <div className="mt-1 flex items-center gap-2">
-            <span className="text-lg font-bold text-zinc-200">{metrics.progressionScore}%</span>
+            <span className="text-lg font-medium text-zinc-200">{metrics.progressionScore}%</span>
             <div className="flex-1 h-1.5 rounded-full bg-zinc-800">
               <div
                 className="h-1.5 rounded-full bg-purple-500 transition-all duration-500"
@@ -205,19 +205,19 @@ export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefi
         {/* Total Classes */}
         <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Turmas Hoje</span>
-          <p className="text-2xl font-bold text-zinc-200 mt-1">{briefing.daySummary.totalClasses}</p>
+          <p className="text-2xl font-medium text-zinc-200 mt-1">{briefing.daySummary.totalClasses}</p>
         </div>
 
         {/* Total Students */}
         <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Total Alunos</span>
-          <p className="text-2xl font-bold text-zinc-200 mt-1">{briefing.daySummary.totalStudents}</p>
+          <p className="text-2xl font-medium text-zinc-200 mt-1">{briefing.daySummary.totalStudents}</p>
         </div>
 
         {/* Classes Needing Attention */}
         <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Precisam Atencao</span>
-          <p className={`text-2xl font-bold mt-1 ${briefing.daySummary.classesNeedingAttention > 0 ? 'text-orange-400' : 'text-zinc-200'}`}>
+          <p className={`text-2xl font-medium mt-1 ${briefing.daySummary.classesNeedingAttention > 0 ? 'text-orange-400' : 'text-zinc-200'}`}>
             {briefing.daySummary.classesNeedingAttention}
           </p>
         </div>

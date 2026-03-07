@@ -93,7 +93,7 @@ export function MFAVerifyModal({
           <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-600/15 flex items-center justify-center mb-4">
             <Shield size={24} className="text-blue-400" />
           </div>
-          <h2 className="text-lg font-bold text-white">{resolvedTitle}</h2>
+          <h2 className="text-lg font-semibold text-white">{resolvedTitle}</h2>
           <p className="text-xs text-white/40 mt-1">{resolvedSubtitle}</p>
         </div>
 
@@ -111,7 +111,7 @@ export function MFAVerifyModal({
                   onChange={e => handleDigit(i, e.target.value)}
                   onKeyDown={e => handleKeyDown(i, e)}
                   disabled={verifying}
-                  className="w-11 h-14 text-center text-xl font-bold rounded-xl bg-white/5 border border-white/15 text-white
+                  className="w-11 h-14 text-center text-xl font-medium rounded-xl bg-white/5 border border-white/15 text-white
                              focus:outline-none focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/20 transition-all
                              disabled:opacity-40"
                   aria-label={t('mfa.digit', { n: i + 1 })}

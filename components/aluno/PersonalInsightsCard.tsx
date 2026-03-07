@@ -29,7 +29,7 @@ export function PersonalInsightsCard({ insights }: PersonalInsightsCardProps) {
         {INSIGHT_CONFIG.map(({ key, label, icon }) => (
           <div key={key} className="bg-zinc-900/80 p-4">
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-bold text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
+              <span className="text-[10px] font-medium text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
                 {icon}
               </span>
               <span className="text-[10px] text-zinc-600 uppercase tracking-wider">{label}</span>

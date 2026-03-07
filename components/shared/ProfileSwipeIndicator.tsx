@@ -74,7 +74,7 @@ function ProfileDots({
             />
             {isActive && (
               <span
-                className="text-[9px] font-bold tracking-wider uppercase"
+                className="text-[9px] font-medium tracking-wider uppercase"
                 style={{ color: p.color, animation: 'swipe-label-in 200ms ease both' }}
               >
                 {p.label}

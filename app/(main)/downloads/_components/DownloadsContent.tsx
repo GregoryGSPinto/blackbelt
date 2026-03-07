@@ -90,7 +90,7 @@ export default function DownloadsContent() {
 
       {downloaded.length > 0 && (
         <section>
-          <h2 className="text-lg font-bold mb-4" style={{ color: 'rgb(var(--color-text))' }}>{t('downloads.downloaded')}</h2>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'rgb(var(--color-text))' }}>{t('downloads.downloaded')}</h2>
           <div className="space-y-3">
             {downloaded.map(item => (
               <DownloadRow key={item.id} item={item} />
@@ -101,7 +101,7 @@ export default function DownloadsContent() {
 
       {available.length > 0 && (
         <section>
-          <h2 className="text-lg font-bold mb-4" style={{ color: 'rgb(var(--color-text))' }}>{t('downloads.availableForDownload')}</h2>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'rgb(var(--color-text))' }}>{t('downloads.availableForDownload')}</h2>
           <div className="space-y-3">
             {available.map(item => (
               <DownloadRow key={item.id} item={item} />

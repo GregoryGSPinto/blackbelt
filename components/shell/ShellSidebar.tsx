@@ -54,7 +54,7 @@ export function ShellSidebar({ config, state }: Props) {
           <div className="flex items-center gap-3">
             <Image src="/images/logo-blackbelt.png" alt="BlackBelt" width={32} height={32} className="rounded-lg" />
             <div>
-              <h1 className="text-white font-bold text-base tracking-tight">{theme.logoLabel}</h1>
+              <h1 className="text-white font-semibold text-base tracking-tight">{theme.logoLabel}</h1>
               {sb.logoSubtitle && (
                 <p className="text-xs text-white/40 font-medium">{sb.logoSubtitle}</p>
               )}
@@ -154,7 +154,7 @@ export function ShellSidebar({ config, state }: Props) {
         {/* User Card */}
         <div className={`border-t ${sb.userSectionBorder} p-4 flex-shrink-0`}>
           <div className="flex items-center gap-3 px-3 py-2.5">
-            <div className={`w-10 h-10 bg-gradient-to-br ${perfilInfo?.cor ?? 'from-white/20 to-white/10'} rounded-lg flex items-center justify-center flex-shrink-0 text-white text-lg font-bold`}>
+            <div className={`w-10 h-10 bg-gradient-to-br ${perfilInfo?.cor ?? 'from-white/20 to-white/10'} rounded-lg flex items-center justify-center flex-shrink-0 text-white text-lg font-medium`}>
               {user?.avatar ?? perfilInfo?.icone ?? displayName.charAt(0)}
             </div>
             <div className="flex-1 text-left min-w-0">

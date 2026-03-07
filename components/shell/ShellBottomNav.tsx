@@ -61,7 +61,7 @@ export function ShellBottomNav({ config, state }: Props) {
                   {emoji || '●'}
                 </span>
                 <span
-                  className={`text-xs font-bold transition-colors ${font}`}
+                  className={`text-xs font-medium transition-colors ${font}`}
                   style={{
                     color: isActive
                       ? theme.bottomNavActive(isDark)

@@ -116,7 +116,7 @@ export default function CheckinFinanceiroPage() {
               <div className={`w-12 h-12 ${currentStatus.badge.iconBg} rounded-full flex items-center justify-center flex-shrink-0`}>
                 <StatusIcon size={24} className="text-white" />
               </div>
-              <span className={`text-3xl font-black ${currentStatus.badge.textColor}`}>
+              <span className={`text-3xl font-medium ${currentStatus.badge.textColor}`}>
                 {t(currentStatus.badge.textKey)}
               </span>
             </div>
@@ -141,7 +141,7 @@ export default function CheckinFinanceiroPage() {
               ) : (
                 <XCircle size={24} style={{ color: tokens.textMuted }} />
               )}
-              <span className={`text-2xl font-bold ${currentStatus.training.available ? 'text-green-400' : 'text-white/50'}`}>
+              <span className={`text-2xl font-medium ${currentStatus.training.available ? 'text-green-400' : 'text-white/50'}`}>
                 {currentStatus.training.available ? '✓' : '✗'} {t(currentStatus.training.textKey)}
               </span>
             </div>
@@ -157,7 +157,7 @@ export default function CheckinFinanceiroPage() {
             </p>
             <div className="flex items-center gap-3 mb-2">
               <Calendar size={20} className="text-blue-400" />
-              <span className="text-xl sm:text-2xl font-bold text-white">07/02/2026</span>
+              <span className="text-xl sm:text-2xl font-medium text-white">07/02/2026</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-white/70">
               <Clock size={16} />
@@ -172,7 +172,7 @@ export default function CheckinFinanceiroPage() {
             checkinDone ? (
               <button
                 disabled
-                className="w-full py-6 bg-green-600/20 border-2 border-green-600 rounded-2xl text-green-400 text-lg font-bold cursor-not-allowed"
+                className="w-full py-6 bg-green-600/20 border-2 border-green-600 rounded-2xl text-green-400 text-lg font-medium cursor-not-allowed"
               >
                 <div className="flex items-center justify-center gap-3">
                   <CheckCircle size={24} />
@@ -183,7 +183,7 @@ export default function CheckinFinanceiroPage() {
               <button
                 onClick={handleCheckin}
                 disabled={isProcessing}
-                className="w-full py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-2xl text-white text-lg font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-2xl text-white text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="flex items-center justify-center gap-3">
                   {isProcessing ? (
@@ -204,7 +204,7 @@ export default function CheckinFinanceiroPage() {
             <>
               <button
                 disabled
-                className="w-full py-6 bg-dark-elevated/50 border-2 border-dark-surface rounded-2xl text-white/50 text-lg font-bold cursor-not-allowed"
+                className="w-full py-6 bg-dark-elevated/50 border-2 border-dark-surface rounded-2xl text-white/50 text-lg font-medium cursor-not-allowed"
               >
                 <div className="flex items-center justify-center gap-3">
                   <XCircle size={24} />
@@ -240,7 +240,7 @@ export default function CheckinFinanceiroPage() {
           >
             <div className="flex items-center justify-center gap-3">
               <QrCode size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
-              <span className="text-white font-bold text-lg">{t('checkin.myQrCode')}</span>
+              <span className="text-white font-medium text-lg">{t('checkin.myQrCode')}</span>
             </div>
             <p className="text-white/40 text-sm mt-1">{t('checkin.qrCodeHint')}</p>
           </button>
@@ -269,7 +269,7 @@ export default function CheckinFinanceiroPage() {
         {/* Grade de Horários de Treino */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8 hover-card">
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-white mb-1">{t('checkin.trainingSchedule')}</h2>
+            <h2 className="text-xl font-semibold text-white mb-1">{t('checkin.trainingSchedule')}</h2>
             <p className="text-sm text-white/60">{t('checkin.weeklyGrid')}</p>
           </div>
 
@@ -328,7 +328,7 @@ export default function CheckinFinanceiroPage() {
         {/* Histórico */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl p-8 hover-card">
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-white mb-1">{t('checkin.statusHistory')}</h2>
+            <h2 className="text-xl font-semibold text-white mb-1">{t('checkin.statusHistory')}</h2>
             <p className="text-sm text-white/60">{t('checkin.last6Months')}</p>
           </div>
 
@@ -354,8 +354,8 @@ export default function CheckinFinanceiroPage() {
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-white font-bold">{item.month}</span>
-                    <span className={`text-sm font-bold ${
+                    <span className="text-white font-medium">{item.month}</span>
+                    <span className={`text-sm font-medium ${
                       item.color === 'green' ? 'text-green-400' :
                       item.color === 'yellow' ? 'text-yellow-400' :
                       'text-red-400'

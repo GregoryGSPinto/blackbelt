@@ -88,7 +88,7 @@ export default function DeveloperDangerPage() {
             <AlertTriangle className="w-4.5 h-4.5 text-red-400" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-red-400">Danger Zone</h1>
+            <h1 className="text-lg font-semibold text-red-400">Danger Zone</h1>
             <p className="text-[10px] text-white/30 font-mono">Destructive system actions — use with caution</p>
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function DeveloperDangerPage() {
             <div>
               <div className="flex items-center gap-2">
                 <LogOut className="w-4 h-4 text-red-400" />
-                <h3 className="text-sm font-bold text-white">Force Logout All</h3>
+                <h3 className="text-sm font-semibold text-white">Force Logout All</h3>
               </div>
               <p className="text-[10px] text-white/40 mt-1">
                 {t('forceLogoutDesc')}
@@ -171,7 +171,7 @@ export default function DeveloperDangerPage() {
             <div>
               <div className="flex items-center gap-2">
                 <Wrench className="w-4 h-4 text-red-400" />
-                <h3 className="text-sm font-bold text-white">Toggle Maintenance Mode</h3>
+                <h3 className="text-sm font-semibold text-white">Toggle Maintenance Mode</h3>
               </div>
               <p className="text-[10px] text-white/40 mt-1">
                 {info?.maintenanceMode

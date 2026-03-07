@@ -66,7 +66,7 @@ export default function TestPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.testNotFound')}</p>
+          <p className="text-lg font-medium mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.testNotFound')}</p>
           <button onClick={() => router.push('/academia')} className="text-primary-light text-sm font-medium">
             {t('unit.backToUnit')}
           </button>
@@ -107,7 +107,7 @@ export default function TestPage() {
                 boxShadow: isPerfect ? `0 8px 32px ${area.accentDark}40` : 'none',
               }}>
               <div className="text-center">
-                <p className={`text-4xl font-black ${isPerfect ? 'text-white' : ''}`}
+                <p className={`text-4xl font-medium ${isPerfect ? 'text-white' : ''}`}
                   style={!isPerfect ? { color: area.accent } : undefined}>
                   {result.score}/{result.total}
                 </p>
@@ -118,7 +118,7 @@ export default function TestPage() {
               <div className="mb-6">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Trophy size={22} style={{ color: area.accent }} />
-                  <h2 className="text-2xl font-extrabold" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.perfect')}</h2>
+                  <h2 className="text-2xl font-semibold" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.perfect')}</h2>
                 </div>
                 <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
                   {t('unit.mastered', { area: area.title })}
@@ -126,7 +126,7 @@ export default function TestPage() {
               </div>
             ) : (
               <div className="mb-6">
-                <h2 className="text-2xl font-extrabold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
+                <h2 className="text-2xl font-semibold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
                   {t('unit.goodWork')}
                 </h2>
                 <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
@@ -190,7 +190,7 @@ export default function TestPage() {
             <Icon size={22} className="text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-extrabold" style={{ color: 'rgb(var(--color-text))' }}>
+            <h1 className="text-xl font-semibold" style={{ color: 'rgb(var(--color-text))' }}>
               Teste: {area.title}
             </h1>
             <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
@@ -221,7 +221,7 @@ export default function TestPage() {
             border: '1px solid rgb(var(--color-border) / 0.06)',
           }}>
 
-          <p className="text-lg md:text-xl font-bold leading-snug mb-8"
+          <p className="text-lg md:text-xl font-medium leading-snug mb-8"
             style={{ color: 'rgb(var(--color-text))' }}>
             {question.question}
           </p>
@@ -263,7 +263,7 @@ export default function TestPage() {
                   className="w-full flex items-center gap-4 p-4 md:p-5 rounded-xl text-left transition-all duration-200 active:scale-[0.98]"
                   style={{ background: bg, border: `1px solid ${border}` }}
                 >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-bold"
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-medium"
                     style={{ background: labelBg, color: labelColor }}>
                     {showCorrect ? <CheckCircle size={18} /> : showWrong ? <XCircle size={18} /> : opt.label}
                   </div>

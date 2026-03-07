@@ -25,7 +25,7 @@ export function VisualTemaSection({ tema, setTema }: VisualTemaSectionProps) {
       />
 
       <div>
-        <h3 className="font-bold text-lg mb-3">Tema</h3>
+        <h3 className="font-semibold text-lg mb-3">Tema</h3>
         <div className="grid grid-cols-2 gap-4">
           {THEMES.map((t) => {
             const Icon = t.icon;
@@ -40,7 +40,7 @@ export function VisualTemaSection({ tema, setTema }: VisualTemaSectionProps) {
                 }`}
               >
                 <Icon size={32} className="mx-auto mb-3" />
-                <p className="font-bold">{t.label}</p>
+                <p className="font-medium">{t.label}</p>
               </button>
             );
           })}

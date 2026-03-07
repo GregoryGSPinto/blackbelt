@@ -57,19 +57,19 @@ export default function ComissoesPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><Users size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Instrutores</span></div>
-          <p className="text-xl sm:text-2xl font-bold text-white">{comissoes.length}</p>
+          <p className="text-xl sm:text-2xl font-medium text-white">{comissoes.length}</p>
         </div>
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Total Bruto</span></div>
-          <p className="text-xl font-bold text-green-400">{formatMoney(totalBruto)}</p>
+          <p className="text-xl font-medium text-green-400">{formatMoney(totalBruto)}</p>
         </div>
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">A Pagar</span></div>
-          <p className="text-xl font-bold text-purple-400">{formatMoney(totalLiquido)}</p>
+          <p className="text-xl font-medium text-purple-400">{formatMoney(totalLiquido)}</p>
         </div>
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><Clock size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendente</span></div>
-          <p className="text-xl font-bold text-amber-400">{formatMoney(totalPendente)}</p>
+          <p className="text-xl font-medium text-amber-400">{formatMoney(totalPendente)}</p>
         </div>
       </div>
 
@@ -94,12 +94,12 @@ export default function ComissoesPage() {
                   <td className="px-4 py-4 text-white/60 text-center">{c.sessõesParticulares}</td>
                   <td className="px-4 py-4 text-white/60 text-right">{formatMoney(c.valorBruto)}</td>
                   <td className="px-4 py-4 text-white/40 text-center">{c.percentual}%</td>
-                  <td className="px-4 py-4 text-green-400 font-bold text-right">{formatMoney(c.valorLiquido)}</td>
+                  <td className="px-4 py-4 text-green-400 font-medium text-right">{formatMoney(c.valorLiquido)}</td>
                   <td className="px-6 py-4 text-center">
                     {c.pago ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/10 text-green-400"><CheckCircle size={10} /> Pago</span>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-green-500/10 text-green-400"><CheckCircle size={10} /> Pago</span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400"><Clock size={10} /> Pendente</span>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400"><Clock size={10} /> Pendente</span>
                     )}
                   </td>
                 </tr>

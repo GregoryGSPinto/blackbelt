@@ -27,11 +27,11 @@ const XPProgressBar = memo(function XPProgressBar({ levelUp }: XPProgressBarProp
     <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
       {/* Title */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-zinc-200 font-bold text-lg tracking-tight">
+        <h3 className="text-zinc-200 font-semibold text-lg tracking-tight">
           {title}
         </h3>
         {isNearLevelUp && (
-          <span className="text-xs font-bold text-purple-400 animate-pulse bg-purple-500/10 border border-purple-500/30 rounded-full px-3 py-1">
+          <span className="text-xs font-medium text-purple-400 animate-pulse bg-purple-500/10 border border-purple-500/30 rounded-full px-3 py-1">
             Level Up!
           </span>
         )}

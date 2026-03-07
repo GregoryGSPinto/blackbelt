@@ -89,7 +89,7 @@ export function ShellMobileDrawer({ config, state }: Props) {
           style={{ borderBottom: `1px solid ${theme.drawerBorder(isDark)}` }}
         >
           <h3
-            className={`text-base font-bold ${font}`}
+            className={`text-base font-medium ${font}`}
             style={{ color: theme.textHeading(isDark) }}
           >
             {t('menu.menu')}

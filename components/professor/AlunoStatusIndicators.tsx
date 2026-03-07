@@ -64,7 +64,7 @@ export function AlunoStatusIndicators({
             style={{ width: `${Math.min(presenca30d, 100)}%`, background: freqColor }}
           />
         </div>
-        <span className="text-[9px] font-bold" style={{ color: freqColor }}>{presenca30d}%</span>
+        <span className="text-[9px] font-medium" style={{ color: freqColor }}>{presenca30d}%</span>
       </div>
 
       {/* Payment dot */}
@@ -79,7 +79,7 @@ export function AlunoStatusIndicators({
       {/* APTO badge */}
       {aptoGraduacao && (
         <span
-          className="text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded flex-shrink-0"
+          className="text-[7px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded flex-shrink-0"
           style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80', border: '1px solid rgba(74,222,128,0.18)' }}
           title="Apto para graduação"
         >
@@ -119,7 +119,7 @@ export function AlunoStatusExpanded({
             style={{ width: `${Math.min(presenca30d, 100)}%`, background: freqColor }}
           />
         </div>
-        <span className="text-[10px] font-bold" style={{ color: freqColor }}>{presenca30d}%</span>
+        <span className="text-[10px] font-medium" style={{ color: freqColor }}>{presenca30d}%</span>
       </div>
 
       {/* Payment status */}
@@ -135,7 +135,7 @@ export function AlunoStatusExpanded({
       {/* APTO badge */}
       {aptoGraduacao && (
         <span
-          className="text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded"
+          className="text-[8px] font-medium uppercase tracking-wider px-2 py-0.5 rounded"
           style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80', border: '1px solid rgba(74,222,128,0.18)' }}
         >
           APTO p/ Graduação

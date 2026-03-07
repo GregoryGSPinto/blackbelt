@@ -68,7 +68,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
         {cards.map(card => (
           <div key={card.label} className={`rounded-lg border p-3 ${card.color}`}>
             <p className="text-[10px] text-zinc-500 mb-1">{card.label}</p>
-            <p className={`text-lg font-bold ${card.valueColor}`}>{card.value}</p>
+            <p className={`text-lg font-medium ${card.valueColor}`}>{card.value}</p>
             <p className="text-[10px] text-zinc-600 mt-1">{card.sublabel}</p>
           </div>
         ))}

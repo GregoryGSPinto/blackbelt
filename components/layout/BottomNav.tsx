@@ -38,7 +38,7 @@ export default function BottomNav() {
                 }`}
               >
                 <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-                <span className={`text-[10px] font-medium ${isActive ? 'font-bold' : ''}`}>
+                <span className={`text-[10px] font-medium ${isActive ? 'font-medium' : ''}`}>
                   {item.label}
                 </span>
               </Link>

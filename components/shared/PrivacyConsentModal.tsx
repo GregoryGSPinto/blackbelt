@@ -128,7 +128,7 @@ export function PrivacyConsentModal() {
           >
             <Shield size={24} className="text-blue-400" />
           </div>
-          <h2 className="text-lg font-bold text-white">{t('title')}</h2>
+          <h2 className="text-lg font-semibold text-white">{t('title')}</h2>
           <p className="text-xs text-white/40 mt-1.5 leading-relaxed">
             O BlackBelt respeita seus dados. Veja como usamos suas informações.
           </p>
@@ -204,7 +204,7 @@ export function PrivacyConsentModal() {
         <div className="p-6 space-y-2.5">
           <button
             onClick={handleAcceptAll}
-            className="w-full py-3.5 rounded-xl font-bold text-sm
+            className="w-full py-3.5 rounded-xl font-medium text-sm
                        bg-gradient-to-r from-blue-600 to-blue-500 text-white
                        hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg"
           >

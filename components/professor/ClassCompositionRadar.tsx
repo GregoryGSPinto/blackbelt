@@ -41,15 +41,15 @@ export function ClassCompositionRadar({ composition }: ClassCompositionRadarProp
       {/* Key metrics */}
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="rounded-lg bg-zinc-800/50 p-2.5 text-center">
-          <p className="text-lg font-bold text-zinc-200">{composition.totalEnrolled}</p>
+          <p className="text-lg font-medium text-zinc-200">{composition.totalEnrolled}</p>
           <p className="text-[10px] text-zinc-600">Matriculados</p>
         </div>
         <div className="rounded-lg bg-zinc-800/50 p-2.5 text-center">
-          <p className="text-lg font-bold text-zinc-200">{composition.avgLevel.toFixed(1)}</p>
+          <p className="text-lg font-medium text-zinc-200">{composition.avgLevel.toFixed(1)}</p>
           <p className="text-[10px] text-zinc-600">Nivel Medio</p>
         </div>
         <div className="rounded-lg bg-zinc-800/50 p-2.5 text-center">
-          <p className={`text-lg font-bold ${composition.levelSpread > 3 ? 'text-orange-400' : 'text-zinc-200'}`}>
+          <p className={`text-lg font-medium ${composition.levelSpread > 3 ? 'text-orange-400' : 'text-zinc-200'}`}>
             {composition.levelSpread.toFixed(1)}
           </p>
           <p className="text-[10px] text-zinc-600">Dispersao</p>

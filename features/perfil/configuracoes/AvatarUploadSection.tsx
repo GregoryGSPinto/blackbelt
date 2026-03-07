@@ -84,7 +84,7 @@ export function AvatarUploadSection() {
           </div>
           {preview && (
             <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-              <span className="text-[8px] text-white font-bold">NEW</span>
+              <span className="text-[8px] text-white font-medium">NEW</span>
             </div>
           )}
         </div>

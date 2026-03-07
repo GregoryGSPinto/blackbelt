@@ -109,7 +109,7 @@ export default function PlanoAulaPage() {
           <p className="text-sm text-white/40 mt-1">{t('subtitle')}</p>
         </div>
         <Link href="/professor-cronometro"
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-xs font-bold hover:bg-white/[0.08] transition-colors">
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-xs font-medium hover:bg-white/[0.08] transition-colors">
           <Timer size={14} /> Cronômetro
         </Link>
       </div>
@@ -118,7 +118,7 @@ export default function PlanoAulaPage() {
       <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 w-fit">
         {([['builder', t('tabs.build'), ClipboardList], ['planos', t('tabs.saved'), Copy], ['tecnicas', t('tabs.techniques'), BookOpen]] as const).map(([key, label, Icon]) => (
           <button key={key} onClick={() => setTab(key as TabView)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-colors ${tab === key ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium transition-colors ${tab === key ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
             <Icon size={13} /> {label}
           </button>
         ))}
@@ -138,7 +138,7 @@ export default function PlanoAulaPage() {
               const FIcon = cfg.icon;
               return (
                 <button key={fase} onClick={() => addItem(fase)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${cfg.color} text-xs font-bold hover:opacity-80 transition-opacity`}>
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${cfg.color} text-xs font-medium hover:opacity-80 transition-opacity`}>
                   <Plus size={12} /> {cfg.label}
                 </button>
               );
@@ -161,13 +161,13 @@ export default function PlanoAulaPage() {
                 return (
                   <div key={item.id} className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className={`text-[9px] font-bold px-2 py-0.5 rounded ${cfg.color}`}>{cfg.label}</span>
+                      <span className={`text-[9px] font-medium px-2 py-0.5 rounded ${cfg.color}`}>{cfg.label}</span>
                       <input value={item.titulo} onChange={e => updateItem(item.id, 'titulo', e.target.value)}
-                        placeholder={t('stepDuration')} className="flex-1 bg-transparent text-sm text-white/60 font-bold placeholder:text-white/15 focus:outline-none" />
+                        placeholder={t('stepDuration')} className="flex-1 bg-transparent text-sm text-white/60 font-medium placeholder:text-white/15 focus:outline-none" />
                       <div className="flex items-center gap-1 shrink-0">
                         <button onClick={() => updateItem(item.id, 'duracaoMinutos', Math.max(1, item.duracaoMinutos - 5))}
                           className="w-6 h-6 rounded bg-white/[0.04] text-white/30 text-xs flex items-center justify-center">−</button>
-                        <span className="text-xs text-white/50 w-10 text-center font-bold">{item.duracaoMinutos}′</span>
+                        <span className="text-xs text-white/50 w-10 text-center font-medium">{item.duracaoMinutos}′</span>
                         <button onClick={() => updateItem(item.id, 'duracaoMinutos', item.duracaoMinutos + 5)}
                           className="w-6 h-6 rounded bg-white/[0.04] text-white/30 text-xs flex items-center justify-center">+</button>
                       </div>
@@ -188,16 +188,16 @@ export default function PlanoAulaPage() {
             <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
               <div className="flex items-center gap-2 text-sm text-white/40">
                 <Clock size={14} />
-                <span className="font-bold">{duracaoTotal} {t('minutes')}</span>
+                <span className="font-medium">{duracaoTotal} {t('minutes')}</span>
                 <span className="text-white/15">· {itens.length} {t('steps')}</span>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => handleSave(true)}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-xs font-bold hover:bg-white/[0.08] transition-colors">
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-xs font-medium hover:bg-white/[0.08] transition-colors">
                   <Copy size={12} /> {t('saveTemplate')}
                 </button>
                 <button onClick={() => handleSave(false)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-colors ${saved ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300' : 'bg-blue-500/15 border border-blue-500/25 text-blue-300 hover:bg-blue-500/25'}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium transition-colors ${saved ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300' : 'bg-blue-500/15 border border-blue-500/25 text-blue-300 hover:bg-blue-500/25'}`}>
                   <Save size={12} /> {saved ? '✓' : t('savePlan')}
                 </button>
               </div>
@@ -222,8 +222,8 @@ export default function PlanoAulaPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-bold text-white/70">{plano.titulo}</p>
-                      {plano.template && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400">TEMPLATE</span>}
+                      <p className="text-sm font-medium text-white/70">{plano.titulo}</p>
+                      {plano.template && <span className="text-[8px] font-medium px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400">TEMPLATE</span>}
                     </div>
                     <p className="text-[10px] text-white/25 mt-0.5">
                       {plano.itens.length} {t('steps')} · {plano.duracaoTotal}{t('min')}
@@ -232,14 +232,14 @@ export default function PlanoAulaPage() {
                     </p>
                   </div>
                   <button onClick={() => loadPlano(plano)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/30 text-xs font-bold hover:bg-white/[0.08] transition-colors">
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/30 text-xs font-medium hover:bg-white/[0.08] transition-colors">
                     <Copy size={12} /> Usar
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   {plano.itens.map(item => {
                     const cfg = FASE_CONFIG[item.fase];
-                    return <span key={item.id} className={`text-[8px] font-bold px-1.5 py-0.5 rounded ${cfg.color}`}>{item.titulo || cfg.label}</span>;
+                    return <span key={item.id} className={`text-[8px] font-medium px-1.5 py-0.5 rounded ${cfg.color}`}>{item.titulo || cfg.label}</span>;
                   })}
                 </div>
               </div>
@@ -260,7 +260,7 @@ export default function PlanoAulaPage() {
             {filteredTecnicas.map(tec => (
               <div key={tec.id} className="flex items-center gap-3 p-3 rounded-xl hover-card bg-white/[0.02] border border-white/[0.06]">
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-white/60">{tec.nome}</p>
+                  <p className="text-xs font-medium text-white/60">{tec.nome}</p>
                   <div className="flex items-center gap-2 text-[9px] text-white/20 mt-0.5">
                     <span>{tec.posicao}</span>
                     <span>·</span>

@@ -123,7 +123,7 @@ export function PlaylistFormModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-white/6">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             <ListMusic size={18} className="text-blue-400" />
             {isEdit ? 'Editar Playlist' : 'Nova Playlist'}
           </h2>

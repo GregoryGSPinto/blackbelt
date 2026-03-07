@@ -72,7 +72,7 @@ function PodiumCard({
       {/* Avatar + Medal */}
       <div className="relative">
         <div
-          className={`${sizes[posicao]} rounded-full ring-2 ${medal.ring} flex items-center justify-center font-bold text-white overflow-hidden ${isHighlighted ? 'ring-amber-400 ring-2' : ''}`}
+          className={`${sizes[posicao]} rounded-full ring-2 ${medal.ring} flex items-center justify-center font-medium text-white overflow-hidden ${isHighlighted ? 'ring-amber-400 ring-2' : ''}`}
           style={{ background: nivelGradient(entry.nivel) }}
         >
           {entry.avatar ? (
@@ -88,7 +88,7 @@ function PodiumCard({
           {posicao === 1 ? (
             <Crown size={12} className={medal.text} />
           ) : (
-            <span className={`text-[10px] font-black ${medal.text}`}>{posicao}</span>
+            <span className={`text-[10px] font-medium ${medal.text}`}>{posicao}</span>
           )}
         </div>
       </div>
@@ -108,7 +108,7 @@ function PodiumCard({
             : 'from-amber-700/15 to-amber-800/5 border-t-2 border-amber-700/20'
         }`}
       >
-        <span className="text-lg font-black text-white">
+        <span className="text-lg font-medium text-white">
           {formatNumber(entry.pontos)}
         </span>
         <span className="text-[9px] text-white/40 uppercase">pts</span>
@@ -139,14 +139,14 @@ function ListEntry({
     >
       {/* Posição */}
       <div className="w-8 text-center">
-        <span className={`text-sm font-bold ${isMe ? 'text-amber-300' : 'text-white/50'}`}>
+        <span className={`text-sm font-medium ${isMe ? 'text-amber-300' : 'text-white/50'}`}>
           {entry.posicao}
         </span>
       </div>
 
       {/* Avatar */}
       <div
-        className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+        className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-medium text-white shrink-0"
         style={{ background: nivelGradient(entry.nivel) }}
       >
         {entry.nome.charAt(0)}
@@ -174,7 +174,7 @@ function ListEntry({
 
       {/* Pontos */}
       <div className="text-right">
-        <span className={`text-sm font-bold ${isMe ? 'text-amber-300' : 'text-white'}`}>
+        <span className={`text-sm font-medium ${isMe ? 'text-amber-300' : 'text-white'}`}>
           {formatNumber(entry.pontos)}
         </span>
         <div className={`flex items-center justify-end gap-0.5 text-[11px] ${variacaoCor(entry.variacaoSemana)}`}>

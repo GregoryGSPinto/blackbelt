@@ -35,7 +35,7 @@ export function NotificationBell() {
         {/* Badge */}
         {unreadCount > 0 && (
           <span
-            className={`absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold leading-none ${
+            className={`absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-medium leading-none ${
               justReceived ? 'notif-badge-pulse' : ''
             }`}
             style={{ boxShadow: `0 0 0 2px ${ringBg}` }}

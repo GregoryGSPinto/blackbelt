@@ -66,7 +66,7 @@ export function TurmaNotifications({ alunoId = 'a1' }: { alunoId?: string }) {
               <MessageSquare size={14} className="text-amber-400/50 mt-0.5 flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold text-amber-300/70">{bc.turmaNome}</span>
+                  <span className="text-[10px] font-medium text-amber-300/70">{bc.turmaNome}</span>
                   <span className="flex items-center gap-0.5 text-[8px] text-white/15">
                     <Clock size={7} /> {timeLabel}
                   </span>

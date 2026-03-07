@@ -86,7 +86,7 @@ export default function DeveloperLoginsPage() {
         ].map((s) => (
           <div key={s.label} className="p-3 bg-white/[0.03] border border-white/[0.06] rounded-lg text-center">
             <p className="text-[10px] text-white/30 uppercase">{s.label}</p>
-            <p className={`text-2xl font-mono font-bold ${s.color}`}>{s.value}</p>
+            <p className={`text-2xl font-mono font-medium ${s.color}`}>{s.value}</p>
           </div>
         ))}
       </div>

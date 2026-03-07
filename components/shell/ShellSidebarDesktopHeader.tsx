@@ -44,7 +44,7 @@ export function ShellSidebarDesktopHeader({ config, state }: Props) {
 
         {/* Page Title */}
         <div className="flex-1 min-w-0">
-          <h2 className="text-lg font-bold text-white truncate">{pageTitle}</h2>
+          <h2 className="text-lg font-semibold text-white truncate">{pageTitle}</h2>
           <p className="text-xs text-white/40 truncate">{t('meta.institutionalSubtitle')}</p>
         </div>
 

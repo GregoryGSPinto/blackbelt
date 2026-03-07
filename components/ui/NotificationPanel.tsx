@@ -111,9 +111,9 @@ export function NotificationPanel({ triggerRef }: NotificationPanelProps) {
           {/* ─── Header ─── */}
           <div className="flex items-center justify-between px-4 py-3.5" style={{ borderBottom: `1px solid ${c.border}` }}>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold tracking-tight" style={{ color: c.heading }}>{t('title')}</h3>
+              <h3 className="text-sm font-semibold tracking-tight" style={{ color: c.heading }}>{t('title')}</h3>
               {unreadCount > 0 && (
-                <span className="text-[10px] font-bold text-blue-400 bg-blue-500/15 px-1.5 py-0.5 rounded-full">
+                <span className="text-[10px] font-medium text-blue-400 bg-blue-500/15 px-1.5 py-0.5 rounded-full">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}

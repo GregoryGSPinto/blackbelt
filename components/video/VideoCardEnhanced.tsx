@@ -85,7 +85,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
 
         {/* Level Badge */}
         <div
-          className={`absolute top-2 left-2 px-2.5 py-1 rounded-md text-xs font-bold shadow-lg ${
+          className={`absolute top-2 left-2 px-2.5 py-1 rounded-md text-xs font-medium shadow-lg ${
             video.level === 'Iniciante'
               ? 'bg-green-500/90'
               : video.level === 'Intermediário'
@@ -102,7 +102,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
         >
           <div className="flex gap-1">
             <span
-              className="px-1 py-0.5 text-[8px] font-black rounded"
+              className="px-1 py-0.5 text-[8px] font-medium rounded"
               style={{
                 background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)',
                 color: '#1a1a1a',
@@ -112,7 +112,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
               4K
             </span>
             <span
-              className="px-1 py-0.5 text-[8px] font-black rounded"
+              className="px-1 py-0.5 text-[8px] font-medium rounded"
               style={{
                 background: 'linear-gradient(135deg, #c5a44e 0%, #f5e6a3 50%, #c5a44e 100%)',
                 color: '#1a1a1a',
@@ -123,7 +123,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
             </span>
           </div>
           <span
-            className="px-1.5 py-0.5 text-[7px] font-bold tracking-widest rounded"
+            className="px-1.5 py-0.5 text-[7px] font-medium tracking-widest rounded"
             style={{
               background: 'linear-gradient(135deg, rgba(197,164,78,0.85), rgba(245,230,163,0.85))',
               color: '#1a1a1a',

@@ -354,7 +354,7 @@ function LoginContent() {
                 border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
                 color: colors.text,
                 fontSize: '0.875rem',
-                fontWeight: 700,
+                fontWeight: 600,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
                 borderRadius: 12,
@@ -431,7 +431,7 @@ function LoginContent() {
                       style={{
                         color: colors.text,
                         fontSize: '0.875rem',
-                        fontWeight: 700,
+                        fontWeight: 600,
                         letterSpacing: '0.25em',
                         textTransform: 'uppercase',
                         marginBottom: '1.5rem',
@@ -579,35 +579,37 @@ function LoginContent() {
                     )}
 
                     {/* Remember me + Criar conta + Forgot email */}
-                    {/* Mobile: Criar conta LEFT | Lembrar-me CENTER | Esqueci email RIGHT */}
-                    <div className="flex items-center justify-between md:hidden" style={{ marginTop: '1.5rem' }}>
-                      <Link
-                        href="/cadastro"
-                        style={{
-                          fontSize: '0.875rem',
-                          color: colors.text,
-                          opacity: 0.5,
-                          textDecoration: 'none',
-                          transition: transitions.theme,
-                        }}
-                      >
-                        {t('login.createAccount')}
-                      </Link>
+                    {/* Mobile: LINE 1 Lembrar-me centered | LINE 2 Criar conta LEFT + Esqueci email RIGHT */}
+                    <div className="flex flex-col items-center gap-2 md:hidden" style={{ marginTop: '1.5rem' }}>
                       <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
-                        <input type="checkbox" className="w-3 h-3" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                        <input type="checkbox" className="w-3.5 h-3.5" style={{ accentColor: isDark ? '#fff' : '#111' }} />
                         Lembrar-me
                       </label>
-                      <Link
-                        href="/esqueci-email"
-                        style={{
-                          fontSize: '0.875rem',
-                          color: colors.linkColor,
-                          textDecoration: 'none',
-                          transition: transitions.theme,
-                        }}
-                      >
-                        {t('login.forgotEmail')}
-                      </Link>
+                      <div className="flex items-center justify-between w-full">
+                        <Link
+                          href="/cadastro"
+                          style={{
+                            fontSize: '0.875rem',
+                            color: colors.text,
+                            opacity: 0.5,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          {t('login.createAccount')}
+                        </Link>
+                        <Link
+                          href="/esqueci-email"
+                          style={{
+                            fontSize: '0.875rem',
+                            color: colors.linkColor,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          {t('login.forgotEmail')}
+                        </Link>
+                      </div>
                     </div>
                     {/* Desktop: original layout with Criar conta centered */}
                     <div className="hidden md:flex md:flex-col md:items-center md:gap-3" style={{ marginTop: '1.5rem' }}>
@@ -879,7 +881,7 @@ function LoginContent() {
                     background: 'transparent',
                     color: colors.text,
                     fontSize: '0.8rem',
-                    fontWeight: 700,
+                    fontWeight: 600,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
@@ -1100,7 +1102,7 @@ function LoginContent() {
                     background: 'transparent',
                     color: colors.text,
                     fontSize: '0.8rem',
-                    fontWeight: 700,
+                    fontWeight: 600,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
                     cursor: 'pointer',

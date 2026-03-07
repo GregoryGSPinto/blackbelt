@@ -33,7 +33,7 @@ export function ReproducaoSection({
 
       {/* Qualidade de Streaming */}
       <div>
-        <h3 className="font-bold text-lg mb-3">Qualidade de Streaming</h3>
+        <h3 className="font-semibold text-lg mb-3">Qualidade de Streaming</h3>
         <div className="space-y-3">
           {QUALIDADE_OPTIONS.map((option) => (
             <button
@@ -65,7 +65,7 @@ export function ReproducaoSection({
             : <WifiOff size={24} className="text-white/40 mt-1" />
           }
           <div>
-            <h3 className="font-bold text-lg mb-1">Download apenas via Wi-Fi</h3>
+            <h3 className="font-semibold text-lg mb-1">Download apenas via Wi-Fi</h3>
             <p className="text-sm text-white/40">Economize seus dados móveis</p>
           </div>
         </div>
@@ -81,7 +81,7 @@ export function ReproducaoSection({
           <div className="flex items-center gap-3">
             <HardDrive size={24} />
             <div>
-              <h3 className="font-bold text-lg">Armazenamento Local</h3>
+              <h3 className="font-semibold text-lg">Armazenamento Local</h3>
               <p className="text-sm text-white/40">Cache de vídeos e dados temporários</p>
             </div>
           </div>
@@ -89,7 +89,7 @@ export function ReproducaoSection({
         <div className="mb-3">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-white/40">Espaço utilizado</span>
-            <span className="font-bold">2.4 GB de 5 GB</span>
+            <span className="font-medium">2.4 GB de 5 GB</span>
           </div>
           <div className="h-3 bg-white/10 rounded-full overflow-hidden">
             <div

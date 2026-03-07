@@ -31,7 +31,7 @@ function Section({ title, icon: Icon, delay, children }: {
     >
       <div className="flex items-center gap-2">
         <Icon size={14} className="text-amber-400/60" />
-        <h3 className="text-xs font-bold text-amber-400/60 uppercase tracking-wider">{title}</h3>
+        <h3 className="text-xs font-semibold text-amber-400/60 uppercase tracking-wider">{title}</h3>
       </div>
       {children}
     </section>
@@ -246,7 +246,7 @@ export function ProfessorProfileSections() {
               className="p-3 rounded-xl text-center"
               style={{ background: `${stat.color}08`, border: `1px solid ${stat.color}12` }}
             >
-              <p className="text-xl font-black" style={{ color: stat.color }}>{stat.value}</p>
+              <p className="text-xl font-medium" style={{ color: stat.color }}>{stat.value}</p>
               <p className="text-[9px] text-white/30 mt-0.5">{stat.label}</p>
             </div>
           ))}

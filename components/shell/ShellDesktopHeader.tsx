@@ -223,7 +223,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
           <Bell size={20} />
           {nav.notifications.length > 0 && (
             <span
-              className="absolute top-1 right-1 min-w-[20px] h-[20px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[11px] font-bold leading-none"
+              className="absolute top-1 right-1 min-w-[20px] h-[20px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[11px] font-medium leading-none"
               style={{ boxShadow: `0 0 0 2.5px ${theme.mobileHeaderBg(isDark)}` }}
             >
               {nav.notifications.length > 9 ? '9+' : nav.notifications.length}
@@ -253,7 +253,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
             aria-label={tShell('header.myAccount')}
           >
             <div
-              className={`w-12 h-12 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-full flex items-center justify-center text-white text-[19px] font-bold`}
+              className={`w-12 h-12 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-full flex items-center justify-center text-white text-[19px] font-medium`}
               style={{ boxShadow: `0 0 0 3px ${theme.avatarRing(isDark)}` }}
             >
               {user?.avatar || initial}
@@ -282,14 +282,14 @@ export function ShellDesktopHeader({ config, state }: Props) {
                 <div className="p-5" style={{ borderBottom: `1px solid ${theme.panelBorder(isDark)}` }}>
                   <div className="flex items-center gap-3.5">
                     <div
-                      className={`w-14 h-14 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg`}
+                      className={`w-14 h-14 bg-gradient-to-br ${theme.avatarUsePerfilColor ? (state.perfilInfo?.cor || theme.avatarGradient) : theme.avatarGradient} rounded-2xl flex items-center justify-center text-white text-xl font-medium shadow-lg`}
                       style={{ boxShadow: `0 0 0 2px ${theme.avatarRing(isDark)}` }}
                     >
                       {user?.avatar || initial}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3
-                        className={`text-base font-bold truncate ${font}`}
+                        className={`text-base font-medium truncate ${font}`}
                         style={{ color: theme.textHeading(isDark) }}
                       >
                         {user?.nome}

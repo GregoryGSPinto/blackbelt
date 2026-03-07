@@ -61,7 +61,7 @@ function PreviewCard({ draft }: { draft: AcademyTheme }) {
           <img src={draft.logoUrl} alt="Logo" className="w-10 h-10 rounded-lg object-cover" />
         ) : (
           <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+            className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-medium text-sm"
             style={{ backgroundColor: draft.primaryColor }}
           >
             BB
@@ -149,7 +149,7 @@ export default function ThemeSettingsPage() {
           <Palette className="w-5 h-5 text-violet-400" />
         </div>
         <div>
-          <h1 className="text-white text-xl font-bold">Tema da Academia</h1>
+          <h1 className="text-white text-xl font-semibold">Tema da Academia</h1>
           <p className="text-white/40 text-sm">Personalize as cores e o logo da sua academia</p>
         </div>
       </div>

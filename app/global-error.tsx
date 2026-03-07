@@ -65,7 +65,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             ⚠️
           </div>
 
-          <h1 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>
+          <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>
             Erro Crítico
           </h1>
           <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', marginBottom: '24px' }}>

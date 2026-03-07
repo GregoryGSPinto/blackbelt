@@ -50,9 +50,9 @@ export function FeedbackAlerts() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <MessageSquare className="w-4 h-4 text-amber-400" />
-          <h3 className="text-sm font-bold text-white">Feedback Pós-Sessão</h3>
+          <h3 className="text-sm font-semibold text-white">Feedback Pós-Sessão</h3>
           {unread.length > 0 && (
-            <span className="px-1.5 py-0.5 text-[9px] font-bold bg-amber-500/20 text-amber-400 rounded-full">
+            <span className="px-1.5 py-0.5 text-[9px] font-medium bg-amber-500/20 text-amber-400 rounded-full">
               {unread.length} novo{unread.length > 1 ? 's' : ''}
             </span>
           )}

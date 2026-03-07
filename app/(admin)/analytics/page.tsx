@@ -114,26 +114,26 @@ export default function AnalyticsPage() {
           <table className="w-full text-[10px]">
             <thead>
               <tr>
-                <th className="text-left px-2 py-1.5 text-white/25 font-bold">Entrada</th>
-                <th className="text-center px-2 py-1.5 text-white/25 font-bold">Mês 0</th>
-                <th className="text-center px-2 py-1.5 text-white/25 font-bold">Mês 1</th>
-                <th className="text-center px-2 py-1.5 text-white/25 font-bold">Mês 2</th>
-                <th className="text-center px-2 py-1.5 text-white/25 font-bold">Mês 3</th>
-                <th className="text-center px-2 py-1.5 text-white/25 font-bold">Mês 4</th>
-                <th className="text-center px-2 py-1.5 text-white/25 font-bold">Mês 5</th>
+                <th className="text-left px-2 py-1.5 text-white/25 font-medium">Entrada</th>
+                <th className="text-center px-2 py-1.5 text-white/25 font-medium">Mês 0</th>
+                <th className="text-center px-2 py-1.5 text-white/25 font-medium">Mês 1</th>
+                <th className="text-center px-2 py-1.5 text-white/25 font-medium">Mês 2</th>
+                <th className="text-center px-2 py-1.5 text-white/25 font-medium">Mês 3</th>
+                <th className="text-center px-2 py-1.5 text-white/25 font-medium">Mês 4</th>
+                <th className="text-center px-2 py-1.5 text-white/25 font-medium">Mês 5</th>
               </tr>
             </thead>
             <tbody>
               {data.cohort.map((row, i) => (
                 <tr key={i}>
-                  <td className="px-2 py-1.5 text-white/40 font-bold whitespace-nowrap">{row.mesEntrada}</td>
+                  <td className="px-2 py-1.5 text-white/40 font-medium whitespace-nowrap">{row.mesEntrada}</td>
                   {[0, 1, 2, 3, 4, 5].map(month => {
                     const val = row.retencao[month];
                     if (val === undefined) return <td key={month} className="px-2 py-1.5" />;
                     const intensity = val / 100;
                     return (
                       <td key={month} className="px-1 py-1">
-                        <div className="rounded px-2 py-1.5 text-center font-bold" style={{
+                        <div className="rounded px-2 py-1.5 text-center font-medium" style={{
                           backgroundColor: `rgba(16, 185, 129, ${intensity * 0.5})`,
                           color: intensity > 0.7 ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)',
                         }}>
@@ -160,7 +160,7 @@ export default function AnalyticsPage() {
                 <div key={i}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs" style={{ color: tokens.textMuted }}>{item.motivo}</span>
-                    <span className="text-xs text-white/40 font-bold">{item.quantidade} ({item.pct}%)</span>
+                    <span className="text-xs text-white/40 font-medium">{item.quantidade} ({item.pct}%)</span>
                   </div>
                   <div className="h-2 rounded-full bg-black/30 overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-red-500/40 to-red-400/60 transition-all"
@@ -181,7 +181,7 @@ export default function AnalyticsPage() {
                   style={{ backgroundColor: NIVEL_COLORS[item.nivel] || '#ccc' }} />
                 <span className="text-xs text-white/50 flex-1">{item.nivel}</span>
                 <span className="text-[10px] text-white/20">{item.total} alunos</span>
-                <span className={`text-xs font-bold ${item.retencao >= 90 ? 'text-emerald-400' : item.retencao >= 80 ? 'text-amber-400' : 'text-red-400'}`}>
+                <span className={`text-xs font-medium ${item.retencao >= 90 ? 'text-emerald-400' : item.retencao >= 80 ? 'text-amber-400' : 'text-red-400'}`}>
                   {item.retencao}%
                 </span>
               </div>
@@ -199,9 +199,9 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {data.retencaoPorTurma.sort((a, b) => b.retencao - a.retencao).map((item, i) => (
               <div key={i} className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-3">
-                <p className="text-xs font-bold text-white/60">{item.turma}</p>
+                <p className="text-xs font-medium text-white/60">{item.turma}</p>
                 <div className="flex items-end justify-between mt-2">
-                  <p className={`text-xl font-black ${item.retencao >= 90 ? 'text-emerald-400' : item.retencao >= 80 ? 'text-white/70' : 'text-amber-400'}`}>
+                  <p className={`text-xl font-medium ${item.retencao >= 90 ? 'text-emerald-400' : item.retencao >= 80 ? 'text-white/70' : 'text-amber-400'}`}>
                     {item.retencao}%
                   </p>
                   <span className="text-[9px] text-white/20">{item.total} alunos</span>
@@ -232,7 +232,7 @@ function KpiCard({ label, value, icon: Icon, color, sub }: { label: string; valu
   return (
     <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-4">
       <div className="flex items-center gap-2 mb-2"><Icon size={14} className={color} /><span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span></div>
-      <p className="text-lg sm:text-xl md:text-2xl font-black text-white">{value}</p>
+      <p className="text-lg sm:text-xl md:text-2xl font-medium text-white">{value}</p>
       <p className="text-[10px] text-white/20 mt-0.5">{sub}</p>
     </div>
   );
@@ -244,7 +244,7 @@ function MiniStat({ label, value, icon: Icon, positive }: { label: string; value
       <Icon size={14} className={positive ? 'text-emerald-400' : 'text-red-400'} />
       <div>
         <p className="text-[9px] text-white/20">{label}</p>
-        <p className={`text-sm font-bold ${positive ? 'text-emerald-400' : 'text-red-400'}`}>{value}</p>
+        <p className={`text-sm font-medium ${positive ? 'text-emerald-400' : 'text-red-400'}`}>{value}</p>
       </div>
     </div>
   );

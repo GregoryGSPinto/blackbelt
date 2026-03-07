@@ -47,7 +47,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         </div>
 
         {/* Title */}
-        <h1 className="text-xl font-bold text-[var(--text-primary)] mb-2">{t('generic')}</h1>
+        <h1 className="text-xl font-semibold text-[var(--text-primary)] mb-2">{t('generic')}</h1>
         <p className="text-sm text-[var(--text-secondary)] mb-6">
           {t('unexpectedError')}
         </p>

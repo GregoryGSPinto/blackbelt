@@ -84,7 +84,7 @@ export default function AlterarSenhaPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">{t('changePassword.passwordChanged')}</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">{t('changePassword.passwordChanged')}</h2>
               <p className="text-white/70 text-base leading-relaxed mb-6">
                 {t('changePassword.passwordChangedDesc')}
               </p>
@@ -129,7 +129,7 @@ export default function AlterarSenhaPage() {
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
+              <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold mb-3 tracking-tight">
                 {t('changePassword.title')}
               </h1>
               <p className="text-white/70 text-base leading-relaxed">

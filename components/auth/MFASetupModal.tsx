@@ -67,7 +67,7 @@ export function MFASetupModal({
 
         <div className="text-center mb-5">
           <Shield size={24} className="mx-auto mb-2 text-green-400" />
-          <h2 className="text-lg font-bold text-white">{t('mfa.setupTitle')}</h2>
+          <h2 className="text-lg font-semibold text-white">{t('mfa.setupTitle')}</h2>
         </div>
 
         {step === 'qr' && (

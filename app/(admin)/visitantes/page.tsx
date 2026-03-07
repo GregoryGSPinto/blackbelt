@@ -77,7 +77,7 @@ export default function VisitantesPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><UserPlus size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Visitantes Hoje</span></div>
-            <p className="text-xl sm:text-2xl font-bold text-white">{stats.visitantesHoje}</p>
+            <p className="text-xl sm:text-2xl font-medium text-white">{stats.visitantesHoje}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><Target size={16} className="text-green-400" /><span className="text-white/40 text-xs">Experimentais</span></div>
@@ -85,7 +85,7 @@ export default function VisitantesPage() {
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Visitas</span></div>
-            <p className="text-xl font-bold text-purple-400">{formatMoney(stats.receitaVisitas)}</p>
+            <p className="text-xl font-medium text-purple-400">{formatMoney(stats.receitaVisitas)}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-2 mb-2"><AlertCircle size={16} className="text-amber-400" /><span className="text-white/40 text-xs">Pendentes</span></div>
@@ -120,7 +120,7 @@ export default function VisitantesPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${tipo.bg} ${tipo.text}`}>{tipo.label}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${tipo.bg} ${tipo.text}`}>{tipo.label}</span>
                     <span className={`flex items-center gap-1 text-[10px] ${status.color}`}>{status.icon}{status.label}</span>
                     {v.origemLead && <span className="text-[10px] text-green-400/60 bg-green-500/5 px-1.5 rounded">Lead</span>}
                   </div>
@@ -135,7 +135,7 @@ export default function VisitantesPage() {
                 </div>
                 <div className="text-right flex-shrink-0">
                   {v.valor > 0 ? (
-                    <p className="text-green-400 font-bold text-sm">{formatMoney(v.valor)}</p>
+                    <p className="text-green-400 font-medium text-sm">{formatMoney(v.valor)}</p>
                   ) : (
                     <p className="text-white/20 text-xs">Gratuito</p>
                   )}

@@ -83,7 +83,7 @@ export default function AssinaturaPage() {
         <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
           <Clock size={16} className="text-amber-400 mt-0.5 shrink-0" />
           <div>
-            <p className="text-sm text-amber-300/70 font-bold">{t('signature.pendingDocs', { count: pendentes.length })}</p>
+            <p className="text-sm text-amber-300/70 font-medium">{t('signature.pendingDocs', { count: pendentes.length })}</p>
             <p className="text-[10px] text-amber-300/40 mt-0.5">{t('signature.pendingHint')}</p>
           </div>
         </div>
@@ -92,11 +92,11 @@ export default function AssinaturaPage() {
       {/* Tabs */}
       <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 w-fit">
         <button onClick={() => setTab('documentos')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'documentos' ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${tab === 'documentos' ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
           <PenTool size={13} /> {t('signature.tabs.documents')} {pendentes.length > 0 && <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 text-[9px] flex items-center justify-center">{pendentes.length}</span>}
         </button>
         <button onClick={() => setTab('privacidade')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${tab === 'privacidade' ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${tab === 'privacidade' ? 'bg-white/[0.08] text-white' : 'text-white/30'}`}>
           <Shield size={13} /> {t('signature.tabs.privacy')}
         </button>
       </div>
@@ -120,12 +120,12 @@ export default function AssinaturaPage() {
                   <StatusIcon size={18} className={statusCfg.color} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-bold text-white/70">{doc.titulo}</p>
-                      {doc.obrigatorio && <span className="text-[8px] text-red-400/60 bg-red-500/10 px-1.5 py-0.5 rounded font-bold">{t('signature.required')}</span>}
+                      <p className="text-sm font-medium text-white/70">{doc.titulo}</p>
+                      {doc.obrigatorio && <span className="text-[8px] text-red-400/60 bg-red-500/10 px-1.5 py-0.5 rounded font-medium">{t('signature.required')}</span>}
                     </div>
                     <p className="text-[10px] text-white/25 mt-0.5">{doc.descricao}</p>
                   </div>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${statusCfg.color} bg-current/10`}>
+                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${statusCfg.color} bg-current/10`}>
                     {t(statusCfg.labelKey)}
                   </span>
                   {isExpanded ? <ChevronUp size={14} className="text-white/20" /> : <ChevronDown size={14} className="text-white/20" />}
@@ -150,7 +150,7 @@ export default function AssinaturaPage() {
                       <button
                         onClick={() => handleSign(doc.id)}
                         disabled={signing === doc.id}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500/15 border border-blue-500/25 text-blue-300 text-sm font-bold hover:bg-blue-500/25 transition-colors disabled:opacity-40"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500/15 border border-blue-500/25 text-blue-300 text-sm font-medium hover:bg-blue-500/25 transition-colors disabled:opacity-40"
                       >
                         <PenTool size={14} />
                         {signing === doc.id ? t('signature.signing') : t('signature.signDigitally')}
@@ -179,8 +179,8 @@ export default function AssinaturaPage() {
               <div key={cons.id} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover-card">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-bold text-white/70">{cons.titulo}</p>
-                    {cons.obrigatorio && <span className="text-[8px] text-white/25 bg-white/5 px-1.5 py-0.5 rounded font-bold">{t('signature.required')}</span>}
+                    <p className="text-sm font-medium text-white/70">{cons.titulo}</p>
+                    {cons.obrigatorio && <span className="text-[8px] text-white/25 bg-white/5 px-1.5 py-0.5 rounded font-medium">{t('signature.required')}</span>}
                   </div>
                   <p className="text-[10px] text-white/25 mt-0.5">{cons.descricao}</p>
                   {cons.dataAceite && <p className="text-[9px] text-white/15 mt-1">{t('signature.acceptedOn', { date: cons.dataAceite })}</p>}
@@ -202,7 +202,7 @@ export default function AssinaturaPage() {
 
           {/* Data rights */}
           <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 space-y-3">
-            <h3 className="text-sm font-bold text-white/50 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-white/50 flex items-center gap-2">
               <Lock size={14} className="text-white/30" /> {t('signature.yourRights')}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">

@@ -136,27 +136,27 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
           <div className="w-16 h-16 rounded-full bg-emerald-500/15 mx-auto mb-4 flex items-center justify-center">
             <Check size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{t('endClass')}!</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-white mb-2">{t('endClass')}!</h2>
           <p className="text-white/40 text-sm mb-6">{classData.turmaNome} · {formatTime(elapsedSeconds)}</p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
             <div className="rounded-xl p-3 bg-emerald-500/10 border border-emerald-500/20">
-              <p className="text-emerald-400 text-2xl font-bold">{summary.presentes}</p>
+              <p className="text-emerald-400 text-2xl font-medium">{summary.presentes}</p>
               <p className="text-emerald-400/50 text-[10px]">{t('present')}</p>
             </div>
             <div className="rounded-xl p-3 bg-red-500/10 border border-red-500/20">
-              <p className="text-red-400 text-2xl font-bold">{summary.ausentes}</p>
+              <p className="text-red-400 text-2xl font-medium">{summary.ausentes}</p>
               <p className="text-red-400/50 text-[10px]">{t('absent')}</p>
             </div>
             <div className="rounded-xl p-3 bg-white/[0.04] border border-white/[0.08]">
-              <p className="text-white/50 text-2xl font-bold">{summary.naoMarcados}</p>
+              <p className="text-white/50 text-2xl font-medium">{summary.naoMarcados}</p>
               <p className="text-white/25 text-[10px]">{tCommon('status.pending')}</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-xl bg-amber-500/90 text-black font-bold text-sm hover:bg-amber-400 transition-colors active:scale-[0.98]"
+            className="w-full py-3 rounded-xl bg-amber-500/90 text-black font-medium text-sm hover:bg-amber-400 transition-colors active:scale-[0.98]"
           >
             {tCommon('actions.goBack')}
           </button>
@@ -175,11 +175,11 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <div>
             <p className="text-amber-400/60 text-[10px] tracking-[0.2em] uppercase font-semibold">{t('activeNow')}</p>
-            <h1 className="text-white font-bold text-lg">{classData.turmaNome}</h1>
+            <h1 className="text-white font-semibold text-lg">{classData.turmaNome}</h1>
           </div>
           <div className="text-right">
             <div
-              className="text-2xl font-mono font-bold text-white tabular-nums"
+              className="text-2xl font-mono font-medium text-white tabular-nums"
               style={{ animation: 'acm-timer 2s ease-in-out infinite' }}
             >
               {formatTime(elapsedSeconds)}
@@ -222,7 +222,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
                 {/* Avatar / Belt */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <BeltDot color={student.nivelCor} />
-                  <div className="w-9 h-9 rounded-lg bg-white/[0.06] flex items-center justify-center text-sm font-bold text-white/60">
+                  <div className="w-9 h-9 rounded-lg bg-white/[0.06] flex items-center justify-center text-sm font-medium text-white/60">
                     {student.avatar || student.nome.charAt(0)}
                   </div>
                 </div>
@@ -280,7 +280,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
             <button
               onClick={handleEndClass}
               disabled={saving}
-              className="w-full py-3.5 rounded-xl bg-red-500/90 text-white font-bold text-sm hover:bg-red-500 transition-colors active:scale-[0.98] disabled:opacity-50"
+              className="w-full py-3.5 rounded-xl bg-red-500/90 text-white font-medium text-sm hover:bg-red-500 transition-colors active:scale-[0.98] disabled:opacity-50"
             >
               {saving ? tCommon('actions.saving') : t('endClass')}
             </button>

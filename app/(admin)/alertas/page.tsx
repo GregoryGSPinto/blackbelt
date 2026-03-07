@@ -157,7 +157,7 @@ export default function AlertasPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>t('alerts.priorities.low')</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alertasPorPrioridade.BAIXA}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white">{alertasPorPrioridade.BAIXA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/40" />
           </div>
@@ -202,7 +202,7 @@ export default function AlertasPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4 mb-2">
                     <div className="flex items-center gap-3">
-                      <h3 className={`text-lg font-bold ${color.text}`}>{alerta.titulo}</h3>
+                      <h3 className={`text-lg font-semibold ${color.text}`}>{alerta.titulo}</h3>
                       <span className={`w-2 h-2 rounded-full ${color.dot} ${!alerta.lido ? 'animate-pulse' : ''}`} />
                     </div>
                     <span className="text-xs text-white/40 flex-shrink-0">
@@ -245,7 +245,7 @@ export default function AlertasPage() {
       {filteredAlertas.length === 0 && (
         <div className="empty-state-premium bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-12 text-center">
           <CheckCircle className="w-16 h-16 text-white/50 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">{t('alerts.allClear')}</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">{t('alerts.allClear')}</h3>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Não há alertas nesta categoria</p>
         </div>
       )}

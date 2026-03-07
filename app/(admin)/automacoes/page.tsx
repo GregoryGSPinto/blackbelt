@@ -137,7 +137,7 @@ export default function AutomacoesPage() {
               />
               {/* Saved flash */}
               {saved === auto.id && (
-                <div className="absolute top-3 right-28 flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[10px] font-bold animate-in fade-in slide-in-from-right-2 duration-200">
+                <div className="absolute top-3 right-28 flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[10px] font-medium animate-in fade-in slide-in-from-right-2 duration-200">
                   <CheckCircle size={10} />
                   Salvo
                 </div>
@@ -151,7 +151,7 @@ export default function AutomacoesPage() {
       {/* REENGAJAMENTO — Regras escalonadas + Dashboard          */}
       {/* ═══════════════════════════════════════════════════════ */}
       <div className="mt-8 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <h2 className="text-lg font-black text-white flex items-center gap-2 mb-1">
+        <h2 className="text-lg font-semibold text-white flex items-center gap-2 mb-1">
           🔄 Reengajamento
         </h2>
         <p className="text-xs text-white/30 mb-6">

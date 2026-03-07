@@ -197,7 +197,7 @@ function FilhoCheckinCard({
             <span className="text-[10px] text-white/30">{turmaNome}</span>
             {!confirmed && (
               <span
-                className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full"
+                className="text-[9px] font-medium uppercase px-1.5 py-0.5 rounded-full"
                 style={{ background: `${color}15`, color }}
               >
                 {isActive ? 'Agora' : `${minutosRestantes}min`}
@@ -209,7 +209,7 @@ function FilhoCheckinCard({
         {/* Action */}
         {confirmed ? (
           <div className="text-right flex-shrink-0">
-            <p className="text-xs font-bold" style={{ color }}>✅</p>
+            <p className="text-xs font-medium" style={{ color }}>✅</p>
             {confirmTime && (
               <p className="text-[9px] mt-0.5" style={{ color: `${color}80` }}>às {confirmTime}</p>
             )}
@@ -218,7 +218,7 @@ function FilhoCheckinCard({
           <button
             onClick={handleConfirm}
             disabled={confirming}
-            className="flex-shrink-0 px-3 py-2 rounded-xl text-[11px] font-bold text-white transition-all hover:scale-[1.03] active:scale-95 disabled:opacity-50"
+            className="flex-shrink-0 px-3 py-2 rounded-xl text-[11px] font-medium text-white transition-all hover:scale-[1.03] active:scale-95 disabled:opacity-50"
             style={{
               background: `linear-gradient(135deg, ${color}, ${color}CC)`,
               boxShadow: `0 4px 12px ${color}30`,

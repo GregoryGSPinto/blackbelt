@@ -157,7 +157,7 @@ export default function ReengagementRules({
             <div className={`w-8 h-8 rounded-lg ${s.bg} flex items-center justify-center mb-3`}>
               <s.icon size={14} className={s.color} />
             </div>
-            <p className="text-xl font-bold text-white/90">{s.value}</p>
+            <p className="text-xl font-medium text-white/90">{s.value}</p>
             <p className="text-[10px] text-white/35 mt-1">{s.label}</p>
           </div>
         ))}
@@ -204,7 +204,7 @@ export default function ReengagementRules({
                         <span className="text-base">{rule.emoji}</span>
                         <span className="text-sm font-semibold text-white/80">{rule.label}</span>
                         <span
-                          className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                          className="px-2 py-0.5 rounded-full text-[9px] font-medium uppercase tracking-wider"
                           style={{ background: `${rule.cor}20`, color: rule.cor }}
                         >
                           {rule.acao.replace('_', ' ')}
@@ -252,7 +252,7 @@ export default function ReengagementRules({
                         <div className="flex gap-2">
                           <button
                             onClick={() => saveEdit(rule.id)}
-                            className="px-3 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 transition-colors"
+                            className="px-3 py-1 rounded-lg text-[10px] font-medium bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 transition-colors"
                           >
                             {tCommon('actions.save')}
                           </button>
@@ -313,7 +313,7 @@ export default function ReengagementRules({
                   <p className="text-[10px] text-white/25">{aluno.turma} · {t('reengagement.lastSession')}: {aluno.ultimaSessao}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${risk.bg} ${risk.text}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-medium ${risk.bg} ${risk.text}`}>
                     {aluno.diasAusente}d · {risk.label}
                   </span>
                   <ChevronRight size={14} className="text-white/15" />

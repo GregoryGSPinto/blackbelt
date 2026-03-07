@@ -79,7 +79,7 @@ export default function AutorizacoesPage() {
           <p className="text-sm text-white/40 mt-1">{t('subtitle')}</p>
         </div>
         <button onClick={() => setShowAdd(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-xs font-bold hover:bg-emerald-500/25 transition-colors">
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-xs font-medium hover:bg-emerald-500/25 transition-colors">
           <UserPlus size={14} /> {tc('add')}
         </button>
       </div>
@@ -119,7 +119,7 @@ export default function AutorizacoesPage() {
 
       {/* Exit history */}
       <div>
-        <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-3 flex items-center gap-2">
+        <h2 className="text-sm font-semibold text-white/40 uppercase tracking-wider mb-3 flex items-center gap-2">
           <History size={14} /> {t('exitHistory')}
         </h2>
         <div className="space-y-2">
@@ -127,7 +127,7 @@ export default function AutorizacoesPage() {
             <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
               <CheckCircle size={14} className="text-emerald-400/50 shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-white/60"><span className="font-bold">{s.alunoNome}</span> {t('exitWith')} <span className="font-bold">{s.pessoaAutorizadaNome}</span></p>
+                <p className="text-xs text-white/60"><span className="font-medium">{s.alunoNome}</span> {t('exitWith')} <span className="font-medium">{s.pessoaAutorizadaNome}</span></p>
                 <p className="text-[9px] text-white/20">{s.parentesco} · {t('validatedBy', { name: s.validadoPor })}</p>
               </div>
               <span className="text-[10px] text-white/20 shrink-0">
@@ -143,7 +143,7 @@ export default function AutorizacoesPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl bg-[#0D1117] border border-white/10">
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
-              <h3 className="text-base font-bold text-white">{t('newPerson')}</h3>
+              <h3 className="text-base font-semibold text-white">{t('newPerson')}</h3>
               <button onClick={() => setShowAdd(false)} className="p-1 rounded-lg hover:bg-white/[0.06] text-white/30"><X size={18} /></button>
             </div>
             <div className="p-5 space-y-3">
@@ -153,9 +153,9 @@ export default function AutorizacoesPage() {
               <Input label={t('relationLabel')} value={form.parentesco} onChange={v => setForm(p => ({ ...p, parentesco: v }))} placeholder={t('relationPlaceholder')} />
             </div>
             <div className="flex gap-3 px-5 py-4 border-t border-white/[0.06]">
-              <button onClick={() => setShowAdd(false)} className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-bold">{tc('cancel')}</button>
+              <button onClick={() => setShowAdd(false)} className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-medium">{tc('cancel')}</button>
               <button onClick={handleAdd} disabled={!form.nome || !form.cpf}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-sm font-bold disabled:opacity-30">
+                className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-sm font-medium disabled:opacity-30">
                 {tc('add')}
               </button>
             </div>
@@ -222,7 +222,7 @@ function AutorizacoesLegais() {
         <User size={18} className="text-emerald-400/60" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold text-white/70">{pessoa.nome}</p>
+        <p className="text-sm font-medium text-white/70">{pessoa.nome}</p>
         <div className="flex items-center gap-3 text-[10px] text-white/25 mt-0.5">
           <span>{pessoa.parentesco}</span>
           <span>CPF: •••.•••.{pessoa.cpf.slice(-6)}</span>

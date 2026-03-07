@@ -35,7 +35,7 @@ const StickerCollection = memo(function StickerCollection({ stickers }: StickerC
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xl">🏆</span>
-        <h3 className="text-zinc-200 font-bold text-lg">Meus Stickers</h3>
+        <h3 className="text-zinc-200 font-semibold text-lg">Meus Stickers</h3>
         <span className="ml-auto text-xs text-zinc-500 bg-zinc-800 rounded-full px-2 py-0.5">
           {earned.length} coletados
         </span>
@@ -57,7 +57,7 @@ const StickerCollection = memo(function StickerCollection({ stickers }: StickerC
                 />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center mb-1">
-                  <span className="text-yellow-400 text-lg font-bold">
+                  <span className="text-yellow-400 text-lg font-medium">
                     {sticker.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
@@ -79,7 +79,7 @@ const StickerCollection = memo(function StickerCollection({ stickers }: StickerC
       <div className="bg-zinc-800/50 border border-amber-500/20 rounded-lg p-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-base">✨</span>
-          <h4 className="text-sm font-bold text-amber-400">Proximo Sticker</h4>
+          <h4 className="text-sm font-semibold text-amber-400">Proximo Sticker</h4>
         </div>
         <p className="text-sm text-zinc-200 font-semibold mb-1">{nextToEarn.name}</p>
         <p className="text-xs text-zinc-500 mb-3">{nextToEarn.hint}</p>

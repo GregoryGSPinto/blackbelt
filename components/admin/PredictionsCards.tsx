@@ -94,12 +94,12 @@ export function PredictionsCards({ predictions }: PredictionsCardsProps) {
           className={`rounded-xl border p-4 ${card.color}`}
         >
           <div className="flex items-center gap-2 mb-2">
-            <span className={`text-xs font-bold ${card.valueColor} bg-zinc-800/50 px-1.5 py-0.5 rounded`}>
+            <span className={`text-xs font-medium ${card.valueColor} bg-zinc-800/50 px-1.5 py-0.5 rounded`}>
               {card.icon}
             </span>
             <span className="text-[11px] text-zinc-500">{card.label}</span>
           </div>
-          <p className={`text-xl font-bold ${card.valueColor} truncate`}>{card.value}</p>
+          <p className={`text-xl font-medium ${card.valueColor} truncate`}>{card.value}</p>
           <p className="text-[10px] text-zinc-600 mt-1">{card.sublabel}</p>
         </div>
       ))}

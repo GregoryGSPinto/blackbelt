@@ -61,19 +61,19 @@ for (const filePath of allPages) {
 
   // ─── Step 3: Replace common patterns ───────────────────
 
-  // Page titles: h1 with font-bold text-white → premium title style
+  // Page titles: h1 with font-medium text-white → premium title style
   content = content.replace(
-    /<h1 className="[^"]*font-bold text-white[^"]*">/g,
+    /<h1 className="[^"]*font-medium text-white[^"]*">/g,
     '<h1 style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.textMuted }}>'
   );
-  // Alternate order: text-white ... font-bold
+  // Alternate order: text-white ... font-medium
   content = content.replace(
-    /<h1 className="[^"]*text-white[^"]*font-bold[^"]*">/g,
+    /<h1 className="[^"]*text-white[^"]*font-medium[^"]*">/g,
     '<h1 style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.textMuted }}>'
   );
-  // h1 with text-lg/xl/2xl font-black text-white
+  // h1 with text-lg/xl/2xl font-medium text-white
   content = content.replace(
-    /<h1 className="[^"]*font-black text-white[^"]*">/g,
+    /<h1 className="[^"]*font-medium text-white[^"]*">/g,
     '<h1 style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.textMuted }}>'
   );
 
@@ -139,51 +139,51 @@ for (const filePath of allPages) {
     'style={{ background: tokens.cardBg, borderRadius: \'4px\', padding: \'0.75rem\' }}'
   );
 
-  // Stat big numbers: text-2xl sm:text-3xl lg:text-4xl font-bold text-COLOR
+  // Stat big numbers: text-2xl sm:text-3xl lg:text-4xl font-medium text-COLOR
   content = content.replace(
-    /className="text-2xl sm:text-3xl lg:text-4xl font-bold (text-[a-z]+-\d+)"/g,
+    /className="text-2xl sm:text-3xl lg:text-4xl font-medium (text-[a-z]+-\d+)"/g,
     (_, colorClass) => `className="${colorClass}" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}`
   );
 
-  // Bold stat numbers: text-xl sm:text-2xl lg:text-3xl font-bold
+  // Bold stat numbers: text-xl sm:text-2xl lg:text-3xl font-medium
   content = content.replace(
-    /className="text-xl sm:text-2xl lg:text-3xl font-bold (text-[a-z]+-\d+)"/g,
+    /className="text-xl sm:text-2xl lg:text-3xl font-medium (text-[a-z]+-\d+)"/g,
     (_, colorClass) => `className="${colorClass}" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}`
   );
 
-  // text-xl sm:text-2xl font-bold text-COLOR
+  // text-xl sm:text-2xl font-medium text-COLOR
   content = content.replace(
-    /className="text-xl sm:text-2xl font-bold (text-[a-z]+-\d+)"/g,
+    /className="text-xl sm:text-2xl font-medium (text-[a-z]+-\d+)"/g,
     (_, colorClass) => `className="${colorClass}" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}`
   );
 
-  // Big font-bold numbers standalone
+  // Big font-medium numbers standalone
   content = content.replace(
-    /className="text-xl font-black text-white"/g,
+    /className="text-xl font-medium text-white"/g,
     'style={{ fontSize: \'2rem\', fontWeight: 200, letterSpacing: \'-0.02em\', color: tokens.text }}'
   );
 
-  // Section headers: text-lg font-bold text-white
+  // Section headers: text-lg font-medium text-white
   content = content.replace(
-    /className="text-lg font-bold text-white mb-6"/g,
+    /className="text-lg font-medium text-white mb-6"/g,
     'style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.text, marginBottom: \'1.5rem\' }}'
   );
   content = content.replace(
-    /className="text-lg font-bold text-white mb-4"/g,
+    /className="text-lg font-medium text-white mb-4"/g,
     'style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.text, marginBottom: \'1rem\' }}'
   );
   content = content.replace(
-    /className="text-lg font-bold text-white"/g,
+    /className="text-lg font-medium text-white"/g,
     'style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.text }}'
   );
 
-  // Modal headers: text-xl sm:text-2xl font-bold text-white
+  // Modal headers: text-xl sm:text-2xl font-medium text-white
   content = content.replace(
-    /className="text-xl sm:text-2xl font-bold text-white mb-1"/g,
+    /className="text-xl sm:text-2xl font-medium text-white mb-1"/g,
     'style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.text, marginBottom: \'0.25rem\' }}'
   );
   content = content.replace(
-    /className="text-xl sm:text-2xl font-bold text-white mb-2"/g,
+    /className="text-xl sm:text-2xl font-medium text-white mb-2"/g,
     'style={{ fontSize: \'0.7rem\', letterSpacing: \'0.15em\', textTransform: \'uppercase\' as const, fontWeight: 400, color: tokens.text, marginBottom: \'0.5rem\' }}'
   );
 
@@ -241,11 +241,11 @@ for (const filePath of allPages) {
 
   // Section headers with uppercase already
   content = content.replace(
-    /className="text-sm font-bold text-white\/40 uppercase tracking-wider mb-3"/g,
+    /className="text-sm font-medium text-white\/40 uppercase tracking-wider mb-3"/g,
     'style={{ fontSize: \'0.65rem\', letterSpacing: \'0.12em\', textTransform: \'uppercase\' as const, color: tokens.textMuted, marginBottom: \'0.75rem\', fontWeight: 400 }}'
   );
   content = content.replace(
-    /className="text-sm font-bold text-white\/60 uppercase tracking-wider mb-4"/g,
+    /className="text-sm font-medium text-white\/60 uppercase tracking-wider mb-4"/g,
     'style={{ fontSize: \'0.65rem\', letterSpacing: \'0.12em\', textTransform: \'uppercase\' as const, color: tokens.textMuted, marginBottom: \'1rem\', fontWeight: 400 }}'
   );
 

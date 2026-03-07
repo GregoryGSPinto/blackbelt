@@ -102,7 +102,7 @@ export function QuickProgressUpdate({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-white">{t('title')}</h3>
+            <h3 className="text-base font-semibold text-white">{t('title')}</h3>
             <p className="text-xs text-white/40">{alunoNome}</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label="Fechar">

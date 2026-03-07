@@ -57,7 +57,7 @@ export default function TeenSessõesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold teen-text-heading font-teen">
           {t('subtitle')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -115,7 +115,7 @@ export default function TeenSessõesPage() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-bold font-teen teen-text-heading mb-1">
+                <h3 className="text-lg font-semibold font-teen teen-text-heading mb-1">
                   {aula.titulo}
                 </h3>
                 <p className="text-sm teen-text-muted font-teen mb-2">
@@ -160,7 +160,7 @@ export default function TeenSessõesPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-teen-ocean-light rounded-2xl mb-4">
             <Play className="w-8 h-8 text-teen-ocean-dark" />
           </div>
-          <p className="text-lg font-bold font-teen teen-text-heading mb-2">
+          <p className="text-lg font-medium font-teen teen-text-heading mb-2">
             {t('noSessions')}
           </p>
           <p className="text-sm teen-text-muted font-teen max-w-sm mx-auto">

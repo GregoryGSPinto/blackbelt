@@ -68,7 +68,7 @@ export default function StepBilling({ academyId, onComplete, onBack, tokens }: S
         >
           <CreditCard className="w-6 h-6" />
         </div>
-        <h2 className="text-xl font-bold" style={{ color: tokens.text }}>
+        <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
           Choose your Plan
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>
@@ -103,7 +103,7 @@ export default function StepBilling({ academyId, onComplete, onBack, tokens }: S
                 )}
               </div>
               <div className="text-right">
-                <span className="font-bold" style={{ color: tokens.text }}>{plan.price}</span>
+                <span className="font-medium" style={{ color: tokens.text }}>{plan.price}</span>
                 <span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{plan.period}</span>
               </div>
             </div>

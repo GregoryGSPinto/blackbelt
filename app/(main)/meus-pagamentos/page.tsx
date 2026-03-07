@@ -131,17 +131,17 @@ export default function MeusPagamentosPage() {
             <p className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">{t('payments.yourPlan')}</p>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white">{plano.nome}</h2>
+                <h2 className="text-xl sm:text-2xl font-semibold text-white">{plano.nome}</h2>
                 <p className="text-white/40 text-sm mt-1">{plano.descricao}</p>
               </div>
               <div className="text-right">
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{formatMoney(assinatura.valor)}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-medium text-white">{formatMoney(assinatura.valor)}</p>
                 <p className="text-white/30 text-xs">/{plano.frequencia}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 flex-wrap mb-4">
-              <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
+              <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
                 assinatura.status === 'ativa' ? 'bg-green-600/20 border-green-600/30 text-green-400' :
                 'bg-yellow-600/20 border-yellow-600/30 text-yellow-400'
               }`}>
@@ -180,7 +180,7 @@ export default function MeusPagamentosPage() {
             <div className="flex items-center gap-3">
               <AlertCircle size={20} className="text-yellow-400 flex-shrink-0" />
               <div className="flex-1">
-                <p className="text-yellow-300 font-bold text-sm">{t('payments.pendingPayment')}</p>
+                <p className="text-yellow-300 font-medium text-sm">{t('payments.pendingPayment')}</p>
                 <p className="text-white/40 text-xs mt-0.5">
                   {formatMoney(totalPendente)} em aberto
                   {proximoVencimento && ` · Vence em ${formatDate(proximoVencimento + 'T12:00:00', 'short')}`}
@@ -193,7 +193,7 @@ export default function MeusPagamentosPage() {
         {/* Faturas */}
         <div className="bg-white/5 backdrop-blur-sm border border-dark-elevated/50 rounded-2xl overflow-hidden">
           <div className="px-6 pt-6 pb-4">
-            <h2 className="text-xl font-bold text-white">{t('payments.invoices')}</h2>
+            <h2 className="text-xl font-semibold text-white">{t('payments.invoices')}</h2>
             <p className="text-sm text-white/40 mt-1">{t('payments.invoiceCount', { count: faturas.length })}</p>
           </div>
 
@@ -222,13 +222,13 @@ export default function MeusPagamentosPage() {
                       </div>
                       <div className="text-right flex-shrink-0 flex items-center gap-3">
                         <div>
-                          <p className={`font-bold text-sm ${st.text}`}>{formatMoney(fatura.valor)}</p>
-                          <p className={`text-[10px] font-bold ${st.text}`}>{st.label}</p>
+                          <p className={`font-medium text-sm ${st.text}`}>{formatMoney(fatura.valor)}</p>
+                          <p className={`text-[10px] font-medium ${st.text}`}>{st.label}</p>
                         </div>
                         {showPixBtn && (
                           <button
                             onClick={() => isPixOpen ? setPixFaturaId(null) : handleGerarPix(fatura)}
-                            className="px-3 py-2 rounded-xl bg-blue-600/10 border border-blue-600/20 text-blue-400 text-xs font-bold hover:bg-blue-600/20 transition-all flex items-center gap-1"
+                            className="px-3 py-2 rounded-xl bg-blue-600/10 border border-blue-600/20 text-blue-400 text-xs font-medium hover:bg-blue-600/20 transition-all flex items-center gap-1"
                           >
                             <QrCode size={14} />
                             Pix
@@ -248,7 +248,7 @@ export default function MeusPagamentosPage() {
                           </div>
                         ) : pixData ? (
                           <div className="text-center">
-                            <p className="text-blue-300 font-bold text-sm mb-3">{t('payments.payViaPix')}</p>
+                            <p className="text-blue-300 font-medium text-sm mb-3">{t('payments.payViaPix')}</p>
 
                             {/* QR placeholder (em produção: imagem real do QR) */}
                             <div className="w-48 h-48 mx-auto bg-white rounded-xl flex items-center justify-center mb-4">
@@ -269,7 +269,7 @@ export default function MeusPagamentosPage() {
 
                             <button
                               onClick={handleCopyPix}
-                              className={`w-full py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+                              className={`w-full py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 ${
                                 copied
                                   ? 'bg-green-600/20 text-green-400 border border-green-600/30'
                                   : 'bg-blue-600 hover:bg-blue-700 text-white'

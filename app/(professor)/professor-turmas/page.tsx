@@ -94,7 +94,7 @@ export default function ProfessorTurmasPage() {
                     <Users size={20} className="text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white/90">{turma.nome}</h3>
+                    <h3 className="font-semibold text-white/90">{turma.nome}</h3>
                     <p className="text-xs text-white/55 mt-0.5">{turma.categoria}</p>
                   </div>
                 </div>
@@ -122,15 +122,15 @@ export default function ProfessorTurmasPage() {
               {/* Stats row */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="bg-white/5 rounded-xl p-3 text-center">
-                  <p className="prof-stat-value text-xl font-bold">{turma.totalAlunos}</p>
+                  <p className="prof-stat-value text-xl font-medium">{turma.totalAlunos}</p>
                   <p className="text-[10px] text-white/50 mt-0.5">{t('enrolled')}</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
-                  <p className="text-xl font-bold text-emerald-400">{turma.presentes}</p>
+                  <p className="text-xl font-medium text-emerald-400">{turma.presentes}</p>
                   <p className="text-[10px] text-white/50 mt-0.5">{t('presentToday')}</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
-                  <p className="text-xl font-bold text-amber-400">{turma.presencaMedia}%</p>
+                  <p className="text-xl font-medium text-amber-400">{turma.presencaMedia}%</p>
                   <p className="text-[10px] text-white/50 mt-0.5">{t('average')}</p>
                 </div>
               </div>

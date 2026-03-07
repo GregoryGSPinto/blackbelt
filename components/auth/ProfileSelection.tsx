@@ -169,7 +169,7 @@ export default function ProfileSelectionPage() {
             height={64}
             className="rounded-xl mx-auto mb-4 shadow-2xl ring-2 ring-white/20"
           />
-          <h1 className="text-xl md:text-2xl lg:text-4xl font-bold tracking-tight">{t('profileSelection.title')}</h1>
+          <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold tracking-tight">{t('profileSelection.title')}</h1>
           <p className="text-white/40 mt-2 text-sm">{user.email}</p>
         </div>
 
@@ -321,7 +321,7 @@ export default function ProfileSelectionPage() {
               <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-4xl mb-4 bg-gradient-to-br ${PERFIL_INFO[pendingProfile.tipo].cor} ring-2 ring-white/20`}>
                 {pendingProfile.avatar || PERFIL_INFO[pendingProfile.tipo].icone}
               </div>
-              <h3 className="text-lg font-bold text-white">
+              <h3 className="text-lg font-semibold text-white">
                 {t('profileSelection.switchTo', { name: pendingProfile.nome?.split(' ')[0] })}
               </h3>
               <p className="text-sm text-white/50 mt-1">
@@ -373,7 +373,7 @@ export default function ProfileSelectionPage() {
               <button
                 onClick={handlePasswordSubmit}
                 disabled={verifying || !password.trim()}
-                className={`w-full py-3.5 font-bold rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+                className={`w-full py-3.5 font-medium rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
                   isDark ? 'bg-white text-black hover:bg-white/90' : 'bg-[#3D2E1F] text-white hover:bg-[#2A2016]'
                 }`}
               >

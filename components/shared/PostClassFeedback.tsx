@@ -88,7 +88,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
               <MessageSquare className="w-5 h-5" style={{ color: 'var(--text-primary)' }} />
             </div>
             <div>
-              <h2 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>{t('title')}</h2>
+              <h2 className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{t('title')}</h2>
               <p className="text-[11px]" style={{ color: 'var(--text-secondary)' }}>
                 {pending.className} • {fmtDate(pending.classDate)}
               </p>

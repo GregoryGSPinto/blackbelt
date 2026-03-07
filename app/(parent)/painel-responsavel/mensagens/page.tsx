@@ -126,7 +126,7 @@ export default function MensagensParentPage() {
                     <p className="text-xs text-white/40 truncate">{c.ultimaMensagem}</p>
                   </div>
                   {c.naoLidas > 0 && (
-                    <span className="w-5 h-5 rounded-full bg-teal-500 text-[10px] font-bold text-white flex items-center justify-center flex-shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-teal-500 text-[10px] font-medium text-white flex items-center justify-center flex-shrink-0">
                       {c.naoLidas}
                     </span>
                   )}

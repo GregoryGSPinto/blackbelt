@@ -162,7 +162,7 @@ export function UserAccountMenu({
           >
             {/* User Info Header */}
             <div className={`p-4 border-b ${s.header}`}>
-              <p className={`font-bold truncate ${s.nameColor}`}>{user.nome}</p>
+              <p className={`font-medium truncate ${s.nameColor}`}>{user.nome}</p>
               <p className={`text-sm mt-1 truncate ${s.emailColor}`}>{user.email}</p>
               {showBadge && (
                 <div className="mt-3 flex gap-2 text-xs flex-wrap">
@@ -232,7 +232,7 @@ export function UserAccountMenu({
               {perfilInfo?.label || user.tipo}
             </p>
           </div>
-          <div className={`w-10 h-10 bg-gradient-to-br ${perfilInfo?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-base font-bold border-2 border-white/30 shrink-0`}>
+          <div className={`w-10 h-10 bg-gradient-to-br ${perfilInfo?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-base font-medium border-2 border-white/30 shrink-0`}>
             {user.avatar ? (
               <span className="text-lg">{user.avatar}</span>
             ) : (

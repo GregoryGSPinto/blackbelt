@@ -34,12 +34,12 @@ export function VideoProgressCard() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Play size={14} className="text-blue-400" />
-          <p className="text-xs font-bold text-white/60">Meu Aprendizado</p>
+          <p className="text-xs font-medium text-white/60">Meu Aprendizado</p>
         </div>
         {data.totalAssistidos >= 10 && (
           <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20">
             <Trophy size={10} className="text-amber-400" />
-            <span className="text-[9px] font-bold text-amber-300">Maratonista</span>
+            <span className="text-[9px] font-medium text-amber-300">Maratonista</span>
           </div>
         )}
       </div>
@@ -71,7 +71,7 @@ export function VideoProgressCard() {
                   style={{ width: `${pct}%`, background: color }}
                 />
               </div>
-              <span className="text-[10px] font-bold w-8 text-right" style={{ color }}>{pct}%</span>
+              <span className="text-[10px] font-medium w-8 text-right" style={{ color }}>{pct}%</span>
             </div>
           );
         })}

@@ -61,7 +61,7 @@ export default function ProgressCircle({
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="teen-text-heading font-bold font-teen" style={{ fontSize: size * 0.22 }}>
+        <span className="teen-text-heading font-medium font-teen" style={{ fontSize: size * 0.22 }}>
           {percentage}%
         </span>
         {label && (

@@ -92,7 +92,7 @@ function NextClassCard({ aula }: { aula: AlunoHomeData['proximaSessao'] }) {
           <p className="text-blue-400/60 text-[10px] tracking-[0.2em] uppercase font-semibold mb-1.5">
             Próxima Aula
           </p>
-          <h3 className="text-white font-bold text-lg leading-tight truncate">{aula.turmaNome}</h3>
+          <h3 className="text-white font-semibold text-lg leading-tight truncate">{aula.turmaNome}</h3>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2.5 text-white/40 text-xs">
             <span className="flex items-center gap-1.5">
@@ -113,7 +113,7 @@ function NextClassCard({ aula }: { aula: AlunoHomeData['proximaSessao'] }) {
         {/* Countdown */}
         <div className="flex-shrink-0 text-right">
           <div
-            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-400 tabular-nums leading-none"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-blue-400 tabular-nums leading-none"
             style={{ animation: countdown === 'Agora!' ? 'countdown-pulse 1s ease-in-out infinite' : undefined }}
           >
             {countdown}
@@ -196,7 +196,7 @@ function FrequencyBar({ freq }: { freq: AlunoHomeData['frequencia'] }) {
 
       {/* Labels */}
       <div className="flex items-center justify-between mt-2.5">
-        <span className="text-white font-bold text-sm">
+        <span className="text-white font-medium text-sm">
           {freq.sessõesAssistidas}<span className="text-white/30 font-normal">/{freq.metaMensal} sessões</span>
         </span>
         {faltam > 0 ? (
@@ -254,12 +254,12 @@ function MiniAchievements({
       {/* Quick stats */}
       <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-1.5">
-          <span className="text-white font-bold text-lg">#{posicao}</span>
+          <span className="text-white font-medium text-lg">#{posicao}</span>
           <span className="text-white/30 text-[10px]">ranking</span>
         </div>
         <div className="w-px h-4 bg-white/10" />
         <div className="flex items-center gap-1.5">
-          <span className="text-white font-bold text-lg">{formatNumber(pontos)}</span>
+          <span className="text-white font-medium text-lg">{formatNumber(pontos)}</span>
           <span className="text-white/30 text-[10px]">pontos</span>
         </div>
       </div>

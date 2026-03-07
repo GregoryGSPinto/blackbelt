@@ -29,7 +29,7 @@ export function VideoModal({ video, onClose }: VideoModalProps) {
         >
           {/* Header */}
           <div className="sticky top-0 bg-dark-card border-b border-dark-elevated p-4 flex items-center justify-between z-10">
-            <h2 className="text-xl font-bold text-white line-clamp-1">
+            <h2 className="text-xl font-semibold text-white line-clamp-1">
               {video.title}
             </h2>
             <button

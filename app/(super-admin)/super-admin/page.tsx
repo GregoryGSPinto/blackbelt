@@ -52,7 +52,7 @@ function MetricCard({ icon: Icon, label, value, numericValue, sub, alert }: {
           <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">
             {label}
           </p>
-          <p className="text-2xl font-bold text-[var(--text-primary)]">
+          <p className="text-2xl font-medium text-[var(--text-primary)]">
             {numericValue != null ? (
               <AnimatedCounter value={numericValue} prefix={value.match(/^[^\d]*/)?.[0] || ''} suffix={value.match(/[^\d]*$/)?.[0] || ''} />
             ) : (
@@ -145,7 +145,7 @@ export default function SuperAdminDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
             {t('pageTitle')}
           </h1>
           <p className="text-sm mt-1 text-[var(--text-secondary)]">
@@ -305,7 +305,7 @@ export default function SuperAdminDashboard() {
             {topAcademies.map((a, i) => (
               <StaggerItem key={a.nome}>
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-[var(--bg-secondary)] hover-card">
-                  <span className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold bg-gold-500/15 text-gold-500">
+                  <span className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium bg-gold-500/15 text-gold-500">
                     {i + 1}
                   </span>
                   <span className="flex-1 text-sm font-medium text-[var(--text-primary)]">{a.nome}</span>
@@ -353,7 +353,7 @@ export default function SuperAdminDashboard() {
 
                 {/* MRR */}
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-gold-500">
+                  <span className="text-sm font-medium text-gold-500">
                     {formatBRL(academy.mrr)}/{t('monthShort')}
                   </span>
                 </div>

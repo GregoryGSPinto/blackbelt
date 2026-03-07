@@ -72,7 +72,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
         >
           <Calendar className="w-6 h-6" />
         </div>
-        <h2 className="text-xl font-bold" style={{ color: tokens.text }}>
+        <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
           First Class Schedule
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>

@@ -140,7 +140,7 @@ function AlunoDetalheContent() {
               { label: t('challenges'), value: aluno.desafios.filter(d => d.status === 'concluido').length, color: '#A78BFA' },
             ].map((s, i) => (
               <div key={i} className="text-center p-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                <span className="text-lg font-bold" style={{ color: s.color }}>{s.value}</span>
+                <span className="text-lg font-medium" style={{ color: s.color }}>{s.value}</span>
                 <p className="text-white/25 text-[10px] mt-0.5">{s.label}</p>
               </div>
             ))}
@@ -196,7 +196,7 @@ function AlunoDetalheContent() {
                   { label: t('nextSession'), value: aluno.frequencia.ultimaSessao },
                 ].map((f, i) => (
                   <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                    <span className="text-base font-bold text-white/80">{f.value}</span>
+                    <span className="text-base font-medium text-white/80">{f.value}</span>
                     <p className="text-white/25 text-[10px]">{f.label}</p>
                   </div>
                 ))}
@@ -277,7 +277,7 @@ function AlunoDetalheContent() {
             <div className="prof-glass-card p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-white/70">{t('overallProgress')}</h3>
-                <span className="text-xl sm:text-2xl font-bold prof-stat-value">{aluno.progresso.geral}%</span>
+                <span className="text-xl sm:text-2xl font-medium prof-stat-value">{aluno.progresso.geral}%</span>
               </div>
               <div className="h-3 rounded-full overflow-hidden mb-6" style={{ background: 'rgba(255,255,255,0.06)' }}>
                 <div className="h-full rounded-full" style={{
@@ -292,7 +292,7 @@ function AlunoDetalheContent() {
                   <div key={m.id} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-white/60 text-sm font-medium">{m.nome}</span>
-                      <span className="text-sm font-bold" style={{
+                      <span className="text-sm font-medium" style={{
                         color: m.progresso >= 70 ? '#4ADE80' : m.progresso >= 40 ? '#FBBF24' : '#F87171'
                       }}>{m.progresso}%</span>
                     </div>
@@ -319,7 +319,7 @@ function AlunoDetalheContent() {
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-white/50 text-xs capitalize">{av.tipo}</span>
                       <div className="flex items-center gap-2">
-                        {av.nota && <span className="text-amber-400 text-sm font-bold">{av.nota}</span>}
+                        {av.nota && <span className="text-amber-400 text-sm font-medium">{av.nota}</span>}
                         {av.resultado === 'aprovado' ? (
                           <span className="flex items-center gap-1 text-green-400 text-xs"><CheckCircle size={12} /> {t('challengeStatus.completed')}</span>
                         ) : av.resultado === 'reprovado' ? (

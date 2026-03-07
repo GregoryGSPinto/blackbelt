@@ -239,7 +239,7 @@ export default function DashboardPage() {
                 <span className="text-xs text-white/60">{r.nome}</span>
                 <div className="flex gap-0.5">
                   {r.frequenciaSemanas.map((f, i) => (
-                    <span key={i} className={`w-5 h-5 rounded text-[9px] font-bold flex items-center justify-center ${
+                    <span key={i} className={`w-5 h-5 rounded text-[9px] font-medium flex items-center justify-center ${
                       f >= 3 ? 'bg-emerald-500/20 text-emerald-400' :
                       f >= 2 ? 'bg-amber-500/20 text-amber-400' :
                       'bg-red-500/20 text-red-400'
@@ -285,8 +285,8 @@ export default function DashboardPage() {
           <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
             <div className="flex items-center gap-2 mb-4">
               <Award size={16} className="text-amber-400" />
-              <h3 className="text-sm font-bold text-white/70">{t('dashboard.readyForExam')}</h3>
-              <span className="ml-auto text-xs text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full">
+              <h3 className="text-sm font-semibold text-white/70">{t('dashboard.readyForExam')}</h3>
+              <span className="ml-auto text-xs text-amber-400 font-medium bg-amber-500/10 px-2 py-0.5 rounded-full">
                 {stats.aptosExame.quantidade}
               </span>
             </div>
@@ -300,7 +300,7 @@ export default function DashboardPage() {
                     <p className="text-[10px] text-white/25">{a.nivelAtual} → {a.proximaNível}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-white/50 font-bold">{a.presencaPct}%</p>
+                    <p className="text-xs text-white/50 font-medium">{a.presencaPct}%</p>
                     <p className="text-[9px] text-white/20">{a.tempoNivelMeses}m no nível</p>
                   </div>
                 </div>
@@ -311,7 +311,7 @@ export default function DashboardPage() {
           <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
             <div className="flex items-center gap-2 mb-4">
               <GraduationCap size={16} className="text-purple-400" />
-              <h3 className="text-sm font-bold text-white/70">{t('dashboard.avgTimePerLevel')}</h3>
+              <h3 className="text-sm font-semibold text-white/70">{t('dashboard.avgTimePerLevel')}</h3>
             </div>
             <div className="space-y-3">
               {stats.tempoMedioPorNível.map((item, i) => {
@@ -321,7 +321,7 @@ export default function DashboardPage() {
                   <div key={i}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-white/50">{item.nivel}</span>
-                      <span className="text-xs text-white/60 font-bold">{item.meses} {t('dashboard.months')}</span>
+                      <span className="text-xs text-white/60 font-medium">{item.meses} {t('dashboard.months')}</span>
                     </div>
                     <div className="h-2 rounded-full bg-white/10 overflow-hidden">
                       <div className="h-full rounded-full bg-gradient-to-r from-purple-500/50 to-purple-400/70 transition-all duration-500"
@@ -462,7 +462,7 @@ function MetricCard({ title, value, icon: Icon, link, comparison }: {
              comparison.value > value ? <TrendingDown size={16} className="text-red-400" /> : null}
             <div className="text-right">
               <p className="text-xs" style={{ color: tokens.textMuted }}>{comparison.label}</p>
-              <p className={`text-sm font-bold ${comparison.value < value ? 'text-green-400' : comparison.value > value ? 'text-red-400' : ''}`} style={comparison.value >= value && comparison.value <= value ? { color: tokens.textMuted } : undefined}>{comparison.value}</p>
+              <p className={`text-sm font-medium ${comparison.value < value ? 'text-green-400' : comparison.value > value ? 'text-red-400' : ''}`} style={comparison.value >= value && comparison.value <= value ? { color: tokens.textMuted } : undefined}>{comparison.value}</p>
             </div>
           </div>
         )}
@@ -483,8 +483,8 @@ function GestaoCard({ title, count, icon: Icon, color, emptyText, children }: {
         <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
           <Icon size={16} style={{ color }} />
         </div>
-        <span className="text-sm font-bold text-white/70 flex-1">{title}</span>
-        <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: `${color}15`, color }}>{count}</span>
+        <span className="text-sm font-medium text-white/70 flex-1">{title}</span>
+        <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ backgroundColor: `${color}15`, color }}>{count}</span>
         {count > 0 && (expanded ? <ChevronUp size={14} className="text-white/20" /> : <ChevronDown size={14} className="text-white/20" />)}
       </button>
       {expanded && count > 0 ? (
@@ -587,7 +587,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
       <div className="rounded-xl p-5 space-y-4" style={{ background: tokens.cardBg, border: '1px solid black' }}>
         <div className="flex items-center gap-2 mb-2">
           <DollarSign size={16} className="text-emerald-400" />
-          <h3 className="text-sm font-bold text-white/70">{t('dashboard.indicators')}</h3>
+          <h3 className="text-sm font-semibold text-white/70">{t('dashboard.indicators')}</h3>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <FinKpi label={t('dashboard.monthlyRevenueLabel')} value={`R$ ${(data.receitaMes / 1000).toFixed(1)}k`} sub={
@@ -606,7 +606,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
         <div className="pt-3 border-t border-white/[0.05]">
           <p className="text-[10px] text-white/25 mb-1">{t('dashboard.bestSellingPlan')}</p>
           <p className="text-sm text-white/60">
-            <span className="font-bold text-white/80">{data.planoMaisVendido.nome}</span>
+            <span className="font-medium text-white/80">{data.planoMaisVendido.nome}</span>
             <span className="ml-2 text-white/30">({data.planoMaisVendido.quantidade} alunos)</span>
           </p>
         </div>
@@ -615,7 +615,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
       <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
         <div className="flex items-center gap-2 mb-4">
           <CreditCard size={16} className="text-blue-400" />
-          <h3 className="text-sm font-bold text-white/70">{t('dashboard.planDistribution')}</h3>
+          <h3 className="text-sm font-semibold text-white/70">{t('dashboard.planDistribution')}</h3>
         </div>
         <div className="space-y-3">
           {data.distribuicaoPlanos.map((p, i) => {
@@ -625,7 +625,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
               <div key={i}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs text-white/50">{p.plano}</span>
-                  <span className="text-xs text-white/60 font-bold">{p.quantidade}</span>
+                  <span className="text-xs text-white/60 font-medium">{p.quantidade}</span>
                 </div>
                 <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
                   <div className={`h-full rounded-full bg-gradient-to-r ${colors[i % colors.length]} transition-all duration-500`}
@@ -647,7 +647,7 @@ function FinKpi({ label, value, sub }: { label: string; value: string; sub?: Rea
   return (
     <div className="rounded-xl px-3 py-2.5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
       <p className="text-[9px] text-white/25 uppercase tracking-wider">{label}</p>
-      <p className="text-lg font-black text-white mt-0.5">{value}</p>
+      <p className="text-lg font-medium text-white mt-0.5">{value}</p>
       {sub}
     </div>
   );

@@ -104,7 +104,7 @@ export default function ComunicacoesPage() {
         </div>
         <button
           onClick={() => setShowCompose(true)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-all"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-all"
         >
           <Plus size={16} /> Novo Comunicado
         </button>
@@ -118,7 +118,7 @@ export default function ComunicacoesPage() {
               <Send size={16} className="text-blue-400" />
               <span className="text-white/40 text-xs">Enviados</span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-white">{stats.comunicadosEnviados}</p>
+            <p className="text-xl sm:text-2xl font-medium text-white">{stats.comunicadosEnviados}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
@@ -139,7 +139,7 @@ export default function ComunicacoesPage() {
               <Clock size={16} className="text-purple-400" />
               <span className="text-white/40 text-xs">Último Envio</span>
             </div>
-            <p className="text-sm font-bold text-purple-400">
+            <p className="text-sm font-medium text-purple-400">
               {stats.ultimoEnvio ? formatDate(stats.ultimoEnvio, 'short') : '—'}
             </p>
           </div>
@@ -206,10 +206,10 @@ export default function ComunicacoesPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <p className="text-white font-medium text-sm">{com.titulo}</p>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${tipo.bg} ${tipo.text}`}>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${tipo.bg} ${tipo.text}`}>
                           {tipo.label}
                         </span>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${status.bg} ${status.text}`}>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${status.bg} ${status.text}`}>
                           {status.label}
                         </span>
                       </div>
@@ -309,14 +309,14 @@ export default function ComunicacoesPage() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${TIPO_STYLE[selectedCom.tipo]?.bg} ${TIPO_STYLE[selectedCom.tipo]?.text}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${TIPO_STYLE[selectedCom.tipo]?.bg} ${TIPO_STYLE[selectedCom.tipo]?.text}`}>
                       {TIPO_STYLE[selectedCom.tipo]?.label}
                     </span>
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${STATUS_STYLE[selectedCom.status]?.bg} ${STATUS_STYLE[selectedCom.status]?.text}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${STATUS_STYLE[selectedCom.status]?.bg} ${STATUS_STYLE[selectedCom.status]?.text}`}>
                       {STATUS_STYLE[selectedCom.status]?.label}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-white">{selectedCom.titulo}</h3>
+                  <h3 className="text-xl font-semibold text-white">{selectedCom.titulo}</h3>
                 </div>
                 <button onClick={() => setSelectedCom(null)} className="p-1 text-white/30 hover:text-white">
                   <X size={20} />
@@ -458,7 +458,7 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-white">{t('communications.newAnnouncement')}</h3>
+            <h3 className="text-xl font-semibold text-white">{t('communications.newAnnouncement')}</h3>
             <button onClick={onClose} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>
           </div>
 
@@ -549,14 +549,14 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
           <div className="flex gap-3 mt-6">
             <button
               onClick={onClose}
-              className="flex-1 py-3 rounded-xl text-sm font-bold text-white/50 bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+              className="flex-1 py-3 rounded-xl text-sm font-medium text-white/50 bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
             >
               Cancelar
             </button>
             <button
               onClick={handleSend}
               disabled={saving || !titulo.trim() || !mensagem.trim()}
-              className="flex-1 py-3 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="flex-1 py-3 rounded-xl text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               {saving ? 'Enviando...' : <><Send size={14} /> Enviar</>}
             </button>

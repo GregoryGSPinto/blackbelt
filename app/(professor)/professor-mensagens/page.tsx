@@ -162,7 +162,7 @@ export default function ProfessorMensagensPage() {
                   <div className="flex items-center justify-between mt-0.5">
                     <p className="text-[11px] text-white/40 truncate">{conv.ultimaMensagem.conteudo}</p>
                     {conv.naoLidas > 0 && (
-                      <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold bg-indigo-500 text-white rounded-full shrink-0">
+                      <span className="ml-2 px-1.5 py-0.5 text-[9px] font-medium bg-indigo-500 text-white rounded-full shrink-0">
                         {conv.naoLidas}
                       </span>
                     )}
@@ -189,7 +189,7 @@ export default function ProfessorMensagensPage() {
                 {otherParticipant.avatar || '🥋'}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white/80 truncate">{otherParticipant.nome}</p>
+                <p className="text-sm font-medium text-white/80 truncate">{otherParticipant.nome}</p>
                 <p className="text-[10px] text-white/30">{otherParticipant.tipo}</p>
               </div>
               <MessageActions recipientId={otherParticipant.id} recipientName={otherParticipant.nome} />

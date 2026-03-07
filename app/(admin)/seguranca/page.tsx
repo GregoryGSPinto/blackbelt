@@ -118,7 +118,7 @@ export default function SecurityDashboardPage() {
       {/* ─── Health Score Banner ─── */}
       <div className={`rounded-xl ${healthCfg.bg} border ${healthCfg.border} p-4 flex items-center justify-between`}>
         <div className="flex items-center gap-4">
-          <div className={`text-4xl font-black ${healthCfg.color}`}>
+          <div className={`text-4xl font-medium ${healthCfg.color}`}>
             {data.healthScore}
           </div>
           <div>
@@ -137,7 +137,7 @@ export default function SecurityDashboardPage() {
             const cfg = SEVERITY_CONFIG[sev];
             return (
               <div key={sev} className={`px-2 py-1 rounded-md ${cfg.bg} border ${cfg.border}`}>
-                <span className={`text-xs font-bold ${cfg.color}`}>{count} {sev}</span>
+                <span className={`text-xs font-medium ${cfg.color}`}>{count} {sev}</span>
               </div>
             );
           })}
@@ -235,7 +235,7 @@ function KPICard({ icon: Icon, label, value, subtext, trend }: {
         <Icon className={`w-4 h-4 ${trendColors[trend]}`} />
         <span className="text-xs text-white/50 font-medium">{label}</span>
       </div>
-      <div className={`text-2xl font-bold ${trendColors[trend]}`}>{value}</div>
+      <div className={`text-2xl font-medium ${trendColors[trend]}`}>{value}</div>
       <div className="text-xs text-white/30 mt-1">{subtext}</div>
     </div>
   );
@@ -347,7 +347,7 @@ function OverviewTab({ data }: { data: DashboardData }) {
                 'bg-white/5 border-white/10'
               }`}
             >
-              <span className={`text-lg font-bold ${
+              <span className={`text-lg font-medium ${
                 Number(status) >= 500 ? 'text-red-400' :
                 Number(status) === 403 ? 'text-orange-400' :
                 'text-white/60'
@@ -378,7 +378,7 @@ function SecurityCounter({ label, value, warn, icon: Icon }: {
         <Icon className={`w-3.5 h-3.5 ${warn ? 'text-red-400' : 'text-white/30'}`} />
         <span className="text-xs" style={{ color: tokens.textMuted }}>{label}</span>
       </div>
-      <span className={`text-xl font-bold ${
+      <span className={`text-xl font-medium ${
         warn ? 'text-red-400' : value === 0 ? 'text-white/20' : 'text-white/70'
       }`}>{value}</span>
     </div>
@@ -458,7 +458,7 @@ function AnomalyCard({ anomaly, expanded, onToggle }: {
         <Icon className={`w-5 h-5 mt-0.5 ${isResolved ? 'text-white/30' : cfg.color}`} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${cfg.bg} ${cfg.color}`}>
+            <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${cfg.bg} ${cfg.color}`}>
               {anomaly.severity}
             </span>
             <span className="text-xs text-white/30 font-mono">{anomaly.type}</span>
@@ -547,7 +547,7 @@ function LogsTab({ logs, logCounts }: { logs: StructuredLog[]; logCounts: Record
         <div className="divide-y">
           {filtered.map((log, i) => (
             <div key={i} className="px-4 py-2.5 hover:bg-black/20 transition-colors flex items-start gap-3">
-              <span className={`text-xs font-mono font-bold uppercase w-12 shrink-0 mt-0.5 ${LOG_LEVEL_COLORS[log.level]}`}>
+              <span className={`text-xs font-mono font-medium uppercase w-12 shrink-0 mt-0.5 ${LOG_LEVEL_COLORS[log.level]}`}>
                 {log.level}
               </span>
               <div className="flex-1 min-w-0">
@@ -604,7 +604,7 @@ function RulesTab({ rules }: { rules: DashboardData['detectionRules'] }) {
                   <span className="text-white/60 font-mono">{rule.threshold}</span>
                 </div>
                 <div className={`px-4 py-3 border-t border-white/5 flex items-center justify-center ${i % 2 === 0 ? '' : 'bg-black/20 backdrop-blur-sm'}`}>
-                  <span className={`px-2 py-0.5 rounded ${sevCfg.bg} ${sevCfg.color} font-bold`}>
+                  <span className={`px-2 py-0.5 rounded ${sevCfg.bg} ${sevCfg.color} font-medium`}>
                     {rule.severity}
                   </span>
                 </div>

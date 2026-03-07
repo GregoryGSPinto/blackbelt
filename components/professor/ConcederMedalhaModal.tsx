@@ -118,7 +118,7 @@ export function ConcederConquistaModal({
           {/* Header */}
           <div className="flex items-center justify-between p-5 border-b border-white/6">
             <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                 <Award size={18} className="text-amber-400" /> {t('grantAchievement')}
               </h2>
               <p className="text-xs text-white/40 mt-0.5">{t('forStudent')}: {alunoNome}</p>
@@ -133,7 +133,7 @@ export function ConcederConquistaModal({
             <div className="flex-1 flex flex-col items-center justify-center p-10 confetti-pop">
               <span className="text-6xl mb-4">{selected.emoji}</span>
               <Sparkles size={32} className="text-amber-400 mb-2" />
-              <p className="text-xl font-bold text-white">{selected.nome}</p>
+              <p className="text-xl font-medium text-white">{selected.nome}</p>
               <p className="text-white/40 text-sm mt-1">{t('achievementGranted')}</p>
             </div>
           ) : (

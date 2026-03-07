@@ -191,7 +191,7 @@ export function TrainingHeatmap({
 
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-white font-bold text-sm">Atividade de Treino</h3>
+        <h3 className="text-white font-semibold text-sm">Atividade de Treino</h3>
         <div className="flex items-center gap-3 text-[10px] text-white/30">
           <span>{stats.totalSessions} treinos</span>
           <span>·</span>
@@ -297,7 +297,7 @@ export function TrainingHeatmap({
         <div className="flex items-center gap-3 text-[10px]">
           {stats.currentStreak > 0 && (
             <span className="text-white/40">
-              🔥 <span className="text-white/70 font-bold">{stats.currentStreak}d</span> streak
+              🔥 <span className="text-white/70 font-medium">{stats.currentStreak}d</span> streak
             </span>
           )}
           {stats.maxStreak > 0 && (
@@ -320,7 +320,7 @@ export function TrainingHeatmap({
             border: '1px solid rgba(255,255,255,0.1)',
           }}
         >
-          <p className="text-white text-[11px] font-bold">
+          <p className="text-white text-[11px] font-medium">
             {tooltip.sessions === 0
               ? 'Sem treino'
               : `${tooltip.sessions} ${tooltip.sessions === 1 ? 'treino' : 'treinos'}`}

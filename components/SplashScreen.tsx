@@ -73,7 +73,7 @@ export default function SplashScreen() {
       <div
         style={{
           fontSize: 20,
-          fontWeight: 700,
+          fontWeight: 600,
           letterSpacing: '0.05em',
           marginBottom: 32,
           animation: prefersReduced ? 'none' : 'splash-text 1s ease-out 0.3s forwards',

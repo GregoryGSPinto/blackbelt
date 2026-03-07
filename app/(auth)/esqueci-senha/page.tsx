@@ -65,7 +65,7 @@ export default function EsqueciSenhaPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 tracking-tight">{t('forgotPassword.linkSent')}</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">{t('forgotPassword.linkSent')}</h2>
               <p className="text-white/70 text-base leading-relaxed mb-6">
                 {t('forgotPassword.linkSentDesc', { target: method === 'email' ? 'e-mail' : 'WhatsApp' })}
               </p>
@@ -110,7 +110,7 @@ export default function EsqueciSenhaPage() {
           <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-3 tracking-tight">
+              <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold mb-3 tracking-tight">
                 {t('forgotPassword.title')}
               </h1>
               <p className="text-white/70 text-base leading-relaxed">

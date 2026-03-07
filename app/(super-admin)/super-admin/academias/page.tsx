@@ -169,7 +169,7 @@ export default function AcademiasPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">{t('title')}</h1>
+          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">{t('title')}</h1>
           <p className="text-sm mt-1 text-[var(--text-secondary)]">
             {t('registeredCount', { count: academies.length })}
           </p>
@@ -265,7 +265,7 @@ export default function AcademiasPage() {
                 {/* Plan & MRR */}
                 <div className="flex items-center gap-4">
                   <Badge variant="gold">{academy.plano}</Badge>
-                  <span className="text-sm font-bold text-gold-500">
+                  <span className="text-sm font-medium text-gold-500">
                     {formatBRL(academy.mrr)}/{t('monthShort')}
                   </span>
                 </div>

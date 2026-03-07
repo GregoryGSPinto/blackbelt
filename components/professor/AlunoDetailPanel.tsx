@@ -128,7 +128,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-1">
-              <h2 className="text-lg font-bold text-white/90 truncate">{aluno.nome}</h2>
+              <h2 className="text-lg font-semibold text-white/90 truncate">{aluno.nome}</h2>
               <span
                 className="px-1.5 py-0.5 rounded text-[9px] font-medium"
                 style={{ background: STATUS_CONFIG[aluno.status].bg, color: STATUS_CONFIG[aluno.status].color }}
@@ -285,7 +285,7 @@ export function AlunoDetailPanel({ alunoId, onClose }: Props) {
 function StatBox({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <div className="rounded-lg p-2 text-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
-      <p className="text-base font-bold" style={{ color }}>{value}</p>
+      <p className="text-base font-medium" style={{ color }}>{value}</p>
       <p className="text-[9px] text-white/25 mt-0.5">{label}</p>
     </div>
   );

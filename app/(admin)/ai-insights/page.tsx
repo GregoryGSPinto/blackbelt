@@ -46,7 +46,7 @@ export default function AIInsightsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
+          <h1 className="text-xl md:text-2xl font-semibold text-zinc-100">
             {t('aiInsights.title')}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">

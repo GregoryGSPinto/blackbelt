@@ -281,7 +281,7 @@ export default function ProfessorVideosPage() {
         ].map((stat) => (
           <div key={stat.label} className="prof-glass-card p-4 text-center">
             <stat.icon size={18} className="mx-auto text-amber-400/40 mb-2" />
-            <p className="prof-stat-value text-xl font-bold">{stat.value}</p>
+            <p className="prof-stat-value text-xl font-medium">{stat.value}</p>
             <p className="text-[10px] text-white/50 mt-0.5">{stat.label}</p>
           </div>
         ))}

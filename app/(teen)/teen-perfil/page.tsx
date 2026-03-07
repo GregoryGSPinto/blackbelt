@@ -54,7 +54,7 @@ export default function TeenPerfilPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 px-4 md:px-0 pt-6 pb-8">
-      <h2 className="text-lg sm:text-xl font-bold font-teen" style={{ color: 'var(--text-primary)' }}>
+      <h2 className="text-lg sm:text-xl font-semibold font-teen" style={{ color: 'var(--text-primary)' }}>
         {t('title')}
       </h2>
 
@@ -68,7 +68,7 @@ export default function TeenPerfilPage() {
             {avatar}
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl md:text-2xl font-bold font-teen" style={{ color: 'var(--text-primary)' }}>{nome}</h3>
+            <h3 className="text-xl md:text-2xl font-semibold font-teen" style={{ color: 'var(--text-primary)' }}>{nome}</h3>
             <p className="text-sm md:text-base font-teen mt-1" style={{ color: 'var(--text-secondary)' }}>
               {idade} anos · {graduacao}
             </p>
@@ -86,7 +86,7 @@ export default function TeenPerfilPage() {
 
       {/* Personal Info */}
       <div style={{ ...card, padding: '1.5rem' }}>
-        <h3 className="text-sm font-bold font-teen mb-4" style={{ color: 'var(--text-primary)' }}>Informacoes</h3>
+        <h3 className="text-sm font-semibold font-teen mb-4" style={{ color: 'var(--text-primary)' }}>Informacoes</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { icon: Calendar, label: t('dob'), value: formatDate(currentTeen.dataNascimento) },
@@ -107,7 +107,7 @@ export default function TeenPerfilPage() {
 
       {/* Guardian Info */}
       <div style={{ ...card, padding: '1.5rem' }}>
-        <h3 className="text-sm font-bold font-teen mb-4" style={{ color: 'var(--text-primary)' }}>{t('legalGuardian')}</h3>
+        <h3 className="text-sm font-semibold font-teen mb-4" style={{ color: 'var(--text-primary)' }}>{t('legalGuardian')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { icon: User, label: t('name'), value: currentTeen.responsavel.nome },

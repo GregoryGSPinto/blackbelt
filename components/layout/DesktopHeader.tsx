@@ -80,7 +80,7 @@ export default function DesktopHeader() {
             className="rounded-lg object-cover transition-all duration-300 shadow-lg"
             style={{ boxShadow: `0 0 0 1.5px ${ringColor}` }}
           />
-          <span className="text-[20px] font-bold tracking-wide hidden lg:block" style={{ color: brandColor }}>
+          <span className="text-[20px] font-medium tracking-wide hidden lg:block" style={{ color: brandColor }}>
             BLACKBELT
           </span>
         </Link>
@@ -120,7 +120,7 @@ export default function DesktopHeader() {
             aria-label={`${t('notifications.title')}${unreadCount > 0 ? ` (${t('notifications.newCount', { count: unreadCount })})` : ''}`}>
             <Bell size={24} style={{ color: iconColor }} />
             {unreadCount > 0 && (
-              <span className={`absolute -top-0.5 -right-0.5 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center rounded-full bg-red-500 text-white text-[13px] font-bold leading-none ${justReceived ? 'notif-badge-pulse' : ''}`}
+              <span className={`absolute -top-0.5 -right-0.5 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center rounded-full bg-red-500 text-white text-[13px] font-medium leading-none ${justReceived ? 'notif-badge-pulse' : ''}`}
                 style={{ boxShadow: `0 0 0 3px ${isDark ? 'rgba(0,0,0,0.6)' : 'rgba(247,245,242,0.9)'}` }}>
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
@@ -132,7 +132,7 @@ export default function DesktopHeader() {
           <button onClick={openDrawer}
             className="w-[54px] h-[54px] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 ml-1.5"
             aria-label={tShell('header.myAccount')}>
-            <div className={`w-12 h-12 bg-gradient-to-br ${perfil?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-[19px] font-bold transition-all duration-300`}
+            <div className={`w-12 h-12 bg-gradient-to-br ${perfil?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-[19px] font-medium transition-all duration-300`}
               style={{ boxShadow: `0 0 0 3px ${ringColor}` }}>
               {user?.avatar || initial}
             </div>

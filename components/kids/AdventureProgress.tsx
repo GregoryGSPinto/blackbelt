@@ -41,7 +41,7 @@ const AdventureProgress = memo(function AdventureProgress({ adventure }: Adventu
       {/* Chapter Title */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xl">📖</span>
-        <h3 className="text-zinc-200 font-bold text-lg">
+        <h3 className="text-zinc-200 font-semibold text-lg">
           {currentChapter}
         </h3>
       </div>

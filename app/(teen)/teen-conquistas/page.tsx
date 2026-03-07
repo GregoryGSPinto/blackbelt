@@ -59,7 +59,7 @@ export default function TeenConquistasPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold teen-text-heading font-teen">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold teen-text-heading font-teen">
           {t('title')}
         </h2>
         <p className="teen-text-muted mt-1 font-teen">
@@ -73,7 +73,7 @@ export default function TeenConquistasPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 bg-teen-ocean-light rounded-full mb-4">
             <Award className="w-10 h-10 text-teen-ocean-dark" />
           </div>
-          <p className="text-2xl sm:text-3xl lg:text-4xl font-bold font-teen teen-text-heading mb-2">
+          <p className="text-2xl sm:text-3xl lg:text-4xl font-medium font-teen teen-text-heading mb-2">
             {conquistadas.length}
           </p>
           <p className="font-teen teen-text-muted">
@@ -85,7 +85,7 @@ export default function TeenConquistasPage() {
       {/* Conquistadas */}
       {conquistadas.length > 0 && (
         <div>
-          <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
+          <h3 className="text-lg font-semibold font-teen teen-text-heading mb-4">
             {t('unlockedTab')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -94,7 +94,7 @@ export default function TeenConquistasPage() {
                 <div className="flex items-start gap-4">
                   <div className="text-4xl">{conquista.icone}</div>
                   <div className="flex-1">
-                    <h4 className="font-bold font-teen teen-text-heading mb-1">
+                    <h4 className="font-semibold font-teen teen-text-heading mb-1">
                       {conquista.nome}
                     </h4>
                     <p className="text-sm teen-text-muted font-teen mb-2">
@@ -114,7 +114,7 @@ export default function TeenConquistasPage() {
       {/* Em Progresso */}
       {emProgresso.length > 0 && (
         <div>
-          <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
+          <h3 className="text-lg font-semibold font-teen teen-text-heading mb-4">
             {t('inProgressTab')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,7 +123,7 @@ export default function TeenConquistasPage() {
                 <div className="flex items-start gap-4">
                   <div className="text-4xl opacity-70">{conquista.icone}</div>
                   <div className="flex-1">
-                    <h4 className="font-bold font-teen teen-text-heading mb-1">
+                    <h4 className="font-semibold font-teen teen-text-heading mb-1">
                       {conquista.nome}
                     </h4>
                     <p className="text-sm teen-text-muted font-teen mb-3">
@@ -152,7 +152,7 @@ export default function TeenConquistasPage() {
       {/* Bloqueadas */}
       {bloqueadas.length > 0 && (
         <div>
-          <h3 className="text-lg font-bold font-teen teen-text-heading mb-4">
+          <h3 className="text-lg font-semibold font-teen teen-text-heading mb-4">
             {t('nextAchievements')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -161,7 +161,7 @@ export default function TeenConquistasPage() {
                 <div className="flex items-start gap-4 opacity-50">
                   <div className="text-4xl">{conquista.icone}</div>
                   <div className="flex-1">
-                    <h4 className="font-bold font-teen teen-text-heading mb-1">
+                    <h4 className="font-semibold font-teen teen-text-heading mb-1">
                       {conquista.nome}
                     </h4>
                     <p className="text-sm teen-text-muted font-teen mb-2">

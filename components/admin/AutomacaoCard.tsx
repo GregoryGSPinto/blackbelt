@@ -81,7 +81,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-white/80">{automacao.nome}</p>
+          <p className="text-sm font-medium text-white/80">{automacao.nome}</p>
           <p className="text-[11px] text-white/30 line-clamp-1">{automacao.descricao}</p>
         </div>
 
@@ -206,7 +206,7 @@ function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] px-3 py-2">
       <p className="text-[9px] text-white/20 uppercase tracking-wider">{label}</p>
-      <p className="text-sm font-bold text-white/60 mt-0.5">{value}</p>
+      <p className="text-sm font-medium text-white/60 mt-0.5">{value}</p>
     </div>
   );
 }

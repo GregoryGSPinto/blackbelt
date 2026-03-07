@@ -111,7 +111,7 @@ export default function PermissoesPage() {
             <div className={`w-12 h-12 bg-gradient-to-br ${perfil.color} rounded-lg flex items-center justify-center mb-3`}>
               <Shield className="w-6 h-6 text-white" />
             </div>
-            <h3 className="text-sm font-bold text-white mb-1">{perfil.nome}</h3>
+            <h3 className="text-sm font-semibold text-white mb-1">{perfil.nome}</h3>
             <p className="text-xs" style={{ color: tokens.textMuted }}>{perfil.descricao}</p>
           </button>
         ))}
@@ -126,7 +126,7 @@ export default function PermissoesPage() {
         <div className="space-y-8">
           {Object.entries(permissoesPorCategoria).map(([categoria, perms]) => (
             <div key={categoria}>
-              <h4 className="text-sm font-bold text-white/50 uppercase tracking-wider mb-3">
+              <h4 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">
                 {categoria}
               </h4>
               <div className="space-y-2">

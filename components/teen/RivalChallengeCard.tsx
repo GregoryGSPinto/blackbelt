@@ -30,7 +30,7 @@ const RivalChallengeCard = memo(function RivalChallengeCard({ challenge }: Rival
       {/* VS Header */}
       <div className="flex items-center justify-center mb-4">
         <div className="bg-red-500/10 border border-red-500/30 rounded-full px-4 py-1">
-          <span className="text-red-400 font-black text-sm tracking-wider">VS</span>
+          <span className="text-red-400 font-medium text-sm tracking-wider">VS</span>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ const RivalChallengeCard = memo(function RivalChallengeCard({ challenge }: Rival
             🥋
           </div>
           <span className="text-xs text-zinc-400 mb-1">Voce</span>
-          <span className="text-xl font-black text-zinc-200">{yourScore}</span>
+          <span className="text-xl font-medium text-zinc-200">{yourScore}</span>
         </div>
 
         {/* Rival */}
@@ -63,7 +63,7 @@ const RivalChallengeCard = memo(function RivalChallengeCard({ challenge }: Rival
             {rivalAvatar || '👤'}
           </div>
           <span className="text-xs text-zinc-400 mb-1 truncate max-w-full">{rivalName}</span>
-          <span className="text-xl font-black text-zinc-200">{rivalScore}</span>
+          <span className="text-xl font-medium text-zinc-200">{rivalScore}</span>
         </div>
       </div>
 

@@ -116,7 +116,7 @@ function StatMini({ icon: Icon, value, label, color }: { icon: typeof Award; val
   return (
     <div className="rounded-xl p-4 bg-white/[0.04] border border-white/[0.06]">
       <Icon size={16} className={`${color} mb-2`} />
-      <p className="text-xl sm:text-2xl font-bold text-white tabular-nums">{value}</p>
+      <p className="text-xl sm:text-2xl font-medium text-white tabular-nums">{value}</p>
       <p className="text-white/30 text-[10px] mt-0.5">{label}</p>
     </div>
   );
@@ -195,10 +195,10 @@ export default function PainelResponsavelPage() {
             {selectedKid.avatar}
           </div>
           <div className="flex-1">
-            <h2 className="text-white font-bold text-lg">{selectedKid.nome}</h2>
+            <h2 className="text-white font-semibold text-lg">{selectedKid.nome}</h2>
             <p className="text-white/40 text-xs">{t('trackProgress', { name: '' }).replace(/ de$/, '')} {selectedKid.nivel} · {selectedKid.idade} anos · {selectedKid.turma.split(' - ')[0]}</p>
           </div>
-          <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold border ${statusBadge.color}`}>
+          <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-medium border ${statusBadge.color}`}>
             {statusBadge.icon}
             {statusBadge.text}
           </div>
@@ -208,7 +208,7 @@ export default function PainelResponsavelPage() {
         <div className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-5 ${behavior.bg}`}>
           <span className="text-2xl">{behavior.emoji}</span>
           <div>
-            <p className={`text-sm font-bold ${behavior.color}`}>{behavior.label}</p>
+            <p className={`text-sm font-medium ${behavior.color}`}>{behavior.label}</p>
             <p className="text-white/30 text-[10px]">{t('statusBasedOn')}</p>
           </div>
         </div>
@@ -223,7 +223,7 @@ export default function PainelResponsavelPage() {
         <div className="mb-5">
           <div className="flex justify-between items-center mb-2">
             <span className="text-white/50 text-xs">{t('monthAttendance')}</span>
-            <span className={`${presenca >= 85 ? 'text-emerald-400' : presenca >= 60 ? 'text-amber-400' : 'text-red-400'} font-bold text-sm tabular-nums`}>{presenca}%</span>
+            <span className={`${presenca >= 85 ? 'text-emerald-400' : presenca >= 60 ? 'text-amber-400' : 'text-red-400'} font-medium text-sm tabular-nums`}>{presenca}%</span>
           </div>
           <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
             <div
@@ -237,7 +237,7 @@ export default function PainelResponsavelPage() {
         <div className="flex gap-2">
           <Link
             href={`/painel-responsavel/checkin?kid=${selectedKid.id}`}
-            className="flex-1 py-3 rounded-xl bg-white text-black font-bold text-sm text-center hover:bg-white/90 transition-colors active:scale-[0.98]"
+            className="flex-1 py-3 rounded-xl bg-white text-black font-medium text-sm text-center hover:bg-white/90 transition-colors active:scale-[0.98]"
           >
             {t('checkinBtn')}
           </Link>
@@ -277,7 +277,7 @@ export default function PainelResponsavelPage() {
               <Star size={16} className="text-emerald-400" />
             </div>
             <div>
-              <p className="text-emerald-400 font-bold text-sm">{t('newAchievement')} 🎉</p>
+              <p className="text-emerald-400 font-medium text-sm">{t('newAchievement')} 🎉</p>
               <p className="text-white/50 text-xs mt-0.5">{selectedKid.nome} desbloqueou a conquista "Estudante Dedicado"!</p>
               <p className="text-white/20 text-[10px] mt-1">2h</p>
             </div>
@@ -287,7 +287,7 @@ export default function PainelResponsavelPage() {
 
       {/* ── Proximas Sessoes ── */}
       <section style={staggerStyle(3, undefined, 0, 60)}>
-        <h3 className="text-white font-bold text-sm mb-3 flex items-center gap-2">
+        <h3 className="text-white font-semibold text-sm mb-3 flex items-center gap-2">
           <Calendar size={16} className="text-blue-400" />
           {t('nextSessions')}
         </h3>
@@ -304,7 +304,7 @@ export default function PainelResponsavelPage() {
                 <p className="text-white font-semibold text-sm">{aula.dia}, {aula.hora}</p>
                 <p className="text-white/30 text-xs mt-0.5">{selectedKid.turma} · {selectedKid.instrutor}</p>
               </div>
-              <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border ${aula.badge}`}>
+              <span className={`px-2.5 py-1 rounded-lg text-[10px] font-medium border ${aula.badge}`}>
                 {aula.dia}
               </span>
             </div>
@@ -314,7 +314,7 @@ export default function PainelResponsavelPage() {
 
       {/* ── Avisos ── */}
       <section style={staggerStyle(4, undefined, 0, 60)}>
-        <h3 className="text-white font-bold text-sm mb-3 flex items-center gap-2">
+        <h3 className="text-white font-semibold text-sm mb-3 flex items-center gap-2">
           <AlertCircle size={16} className="text-amber-400" />
           {t('notices')}
         </h3>

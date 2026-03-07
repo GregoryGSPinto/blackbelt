@@ -126,7 +126,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
         >
           <div className="flex items-center gap-2">
             <Upload size={16} className="text-amber-400" />
-            <h3 className="text-sm font-bold text-white/80">
+            <h3 className="text-sm font-semibold text-white/80">
               {isEdit ? 'Editar Vídeo' : 'Adicionar Vídeo'}
             </h3>
           </div>
@@ -299,7 +299,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+              className="flex-1 py-2.5 rounded-xl text-xs font-medium text-white transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
               style={{
                 background: 'linear-gradient(135deg, #D97706, #B45309)',
                 boxShadow: '0 4px 12px rgba(217,119,6,0.25)',

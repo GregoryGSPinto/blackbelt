@@ -41,7 +41,7 @@ function FinCard({ icon: Icon, label, value, sub, alert }: {
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">{label}</p>
-          <p className="text-2xl font-bold text-[var(--text-primary)]">{value}</p>
+          <p className="text-2xl font-medium text-[var(--text-primary)]">{value}</p>
           {sub && (
             <p className="text-xs text-[var(--text-secondary)]">{sub}</p>
           )}
@@ -105,7 +105,7 @@ export default function FinanceiroPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">{t('title')}</h1>
+          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">{t('title')}</h1>
           <p className="text-sm mt-1 text-[var(--text-secondary)]">
             {t('subtitle')}
           </p>

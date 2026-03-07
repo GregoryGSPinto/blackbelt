@@ -126,12 +126,12 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             </button>
           </div>
           <div className="flex items-center gap-4">
-            <div className={`w-16 h-16 bg-gradient-to-br ${perfil?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg`}
+            <div className={`w-16 h-16 bg-gradient-to-br ${perfil?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-2xl flex items-center justify-center text-white text-2xl font-medium shadow-lg`}
               style={{ boxShadow: `0 0 0 2px ${c.ringColor}, 0 10px 15px -3px rgba(0,0,0,0.1)` }}>
               {user.avatar || initial}
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-bold truncate" style={{ color: c.heading }}>{user.nome}</h3>
+              <h3 className="text-lg font-semibold truncate" style={{ color: c.heading }}>{user.nome}</h3>
               <p className="text-sm truncate mt-0.5" style={{ color: c.email }}>{user.email}</p>
             </div>
           </div>

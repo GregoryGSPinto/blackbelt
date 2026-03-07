@@ -42,7 +42,7 @@ export function SizeSelector({
               transition-all duration-150
               ${
                 selectedSize === size.label
-                  ? 'bg-primary border-2 border-primary text-white font-bold scale-105'
+                  ? 'bg-primary border-2 border-primary text-white font-medium scale-105'
                   : size.available
                   ? 'bg-transparent border-2 border-dark-surface text-white/40 hover:border-primary hover:bg-primary/10 hover:text-white'
                   : 'bg-dark-elevated border-2 border-dashed border-dark-surface text-white/30 opacity-50 cursor-not-allowed'

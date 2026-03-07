@@ -30,7 +30,7 @@ export default function MascotCard({ mascot, size = 'md' }: MascotCardProps) {
         <span className={s.emoji}>{mascot.emoji}</span>
       </div>
       <p
-        className={`${s.name} font-kids font-bold mt-2`}
+        className={`${s.name} font-kids font-medium mt-2`}
         style={{ color: isDark ? '#F1F5F9' : '#374151' }}
       >
         {mascot.nome}

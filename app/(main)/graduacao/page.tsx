@@ -89,7 +89,7 @@ export default function GraduacaoPage() {
           <div className="mt-5 pt-4 border-t border-white/[0.06]">
             <div className="flex items-center gap-2 mb-3">
               <ChevronRight size={14} className="text-white/20" />
-              <p className="text-xs" style={{ color: tokens.textMuted }}>Próximo nível: <span className="font-bold text-white/60">{proximoNivel}</span></p>
+              <p className="text-xs" style={{ color: tokens.textMuted }}>Próximo nível: <span className="font-medium text-white/60">{proximoNivel}</span></p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <ProgressMini label="Tempo" current={tempoNoNivel} required={reqProxima.tempoMinimoMeses} unit="meses" />
@@ -102,7 +102,7 @@ export default function GraduacaoPage() {
 
       {/* Timeline */}
       <div>
-        <h2 className="text-sm font-bold text-white/40 uppercase tracking-wider mb-4">Linha do Tempo</h2>
+        <h2 className="text-sm font-semibold text-white/40 uppercase tracking-wider mb-4">Linha do Tempo</h2>
         <div className="relative pl-6">
           {/* Vertical line */}
           <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-white/[0.06]" />
@@ -118,7 +118,7 @@ export default function GraduacaoPage() {
                 <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 hover-card">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-bold text-white/70">{grad.nivel}</p>
+                      <p className="text-sm font-medium text-white/70">{grad.nivel}</p>
                       <p className="text-[10px] text-white/25 mt-0.5">
                         {formatDate(grad.data + 'T12:00:00', 'long')}
                       </p>
@@ -138,7 +138,7 @@ export default function GraduacaoPage() {
             <div className="relative mb-0 opacity-30">
               <div className="absolute -left-6 top-1 w-4 h-4 rounded-full border-2 border-dashed border-white/20 bg-transparent" />
               <div className="rounded-xl border border-dashed border-white/[0.06] p-4">
-                <p className="text-sm font-bold text-white/40">{proximoNivel}</p>
+                <p className="text-sm font-medium text-white/40">{proximoNivel}</p>
                 <p className="text-[10px] text-white/15">Em progresso...</p>
               </div>
             </div>
@@ -155,7 +155,7 @@ function ProgressMini({ label, current, required, unit }: { label: string; curre
   return (
     <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3">
       <p className="text-[9px] text-white/20 uppercase tracking-wider">{label}</p>
-      <p className={`text-sm font-bold mt-0.5 ${met ? 'text-emerald-400' : 'text-white/50'}`}>
+      <p className={`text-sm font-medium mt-0.5 ${met ? 'text-emerald-400' : 'text-white/50'}`}>
         {current}/{required} {unit}
       </p>
       <div className="h-1.5 rounded-full bg-white/[0.05] mt-1.5 overflow-hidden">

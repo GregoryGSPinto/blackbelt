@@ -31,7 +31,7 @@ export default function StepDone({ onFinish, tokens }: StepDoneProps) {
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold mb-2" style={{ color: tokens.text }}>
+        <h2 className="text-2xl font-semibold mb-2" style={{ color: tokens.text }}>
           All set!
         </h2>
         <p className="text-sm" style={{ color: tokens.textMuted }}>

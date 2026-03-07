@@ -87,7 +87,7 @@ export default function AdminEventosPage() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-300 text-sm font-bold hover:bg-amber-500/30 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-300 text-sm font-medium hover:bg-amber-500/30 transition-colors"
         >
           <Plus size={16} />
           Novo Evento
@@ -153,7 +153,7 @@ export default function AdminEventosPage() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-white/80 truncate">{evento.nome}</p>
+                    <p className="text-sm font-medium text-white/80 truncate">{evento.nome}</p>
                     <div className="flex items-center gap-3 mt-0.5 text-[11px] text-white/30">
                       <span className="flex items-center gap-1">
                         <Calendar size={10} />{formatDate(evento.data, 'short')}
@@ -168,7 +168,7 @@ export default function AdminEventosPage() {
                   </div>
 
                   {/* Badges */}
-                  <span className={`hidden sm:inline text-[10px] font-bold ${statusCfg.color}`}>{statusCfg.label}</span>
+                  <span className={`hidden sm:inline text-[10px] font-medium ${statusCfg.color}`}>{statusCfg.label}</span>
                   <span className="hidden sm:inline text-[10px] text-white/25">{evento.tipo}</span>
 
                   {/* Actions */}
@@ -250,7 +250,7 @@ export default function AdminEventosPage() {
                               <span>{res.resultado?.conquista === 'OURO' ? '🥇' : res.resultado?.conquista === 'PRATA' ? '🥈' : res.resultado?.conquista === 'BRONZE' ? '🥉' : ''}</span>
                               <span className="text-white/60 flex-1">{res.alunoNome}</span>
                               <span className="text-white/25">{res.categoriaDescricao}</span>
-                              <span className="text-white/40 font-bold">{res.resultado?.posicao}º</span>
+                              <span className="text-white/40 font-medium">{res.resultado?.posicao}º</span>
                             </div>
                           ))}
                         </div>
@@ -276,7 +276,7 @@ function StatCard({ label, value, color }: { label: string; value: number; color
   return (
     <div className="hover-card rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-3">
       <p className="text-[10px] text-white/25 uppercase tracking-wider">{label}</p>
-      <p className={`text-2xl font-black ${color}`}>{value}</p>
+      <p className={`text-2xl font-medium ${color}`}>{value}</p>
     </div>
   );
 }
@@ -341,7 +341,7 @@ function EventoFormModal({ onClose, onCreated }: { onClose: () => void; onCreate
         <button
           onClick={handleSubmit}
           disabled={!nome || !data || !local || submitting}
-          className="w-full py-3 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold text-sm disabled:opacity-40 hover:bg-amber-500/30 transition-colors"
+          className="w-full py-3 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-300 font-medium text-sm disabled:opacity-40 hover:bg-amber-500/30 transition-colors"
         >
           {submitting ? 'Criando...' : 'Criar Evento'}
         </button>

@@ -79,7 +79,7 @@ export default function PlanosPage() {
               {planos.map(p => (
                 <th key={p.id} className="text-center p-3" style={{ color: 'var(--text-primary)', borderBottom: '1px solid black' }}>
                   <div className="font-semibold text-base">{p.nome}</div>
-                  <div className="text-lg font-bold mt-1">{formatMoney(p.preco)}<span className="text-xs font-normal">/mes</span></div>
+                  <div className="text-lg font-medium mt-1">{formatMoney(p.preco)}<span className="text-xs font-normal">/mes</span></div>
                 </th>
               ))}
             </tr>

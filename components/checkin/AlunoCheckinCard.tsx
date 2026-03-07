@@ -226,7 +226,7 @@ function SingleCheckinCard({
           <div className="flex items-center gap-2">
             <p className="text-sm font-semibold text-white/85 truncate">{turma.nome}</p>
             <span
-              className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full flex-shrink-0"
+              className="text-[9px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded-full flex-shrink-0"
               style={{
                 background: isActive ? 'rgba(34,197,94,0.15)' : 'rgba(59,130,246,0.12)',
                 color: isActive ? '#4ADE80' : '#60A5FA',
@@ -248,7 +248,7 @@ function SingleCheckinCard({
         {/* Action */}
         {confirmed ? (
           <div className="text-right flex-shrink-0" style={{ animation: 'checkin-pop 300ms ease both' }}>
-            <p className="text-xs font-bold text-green-400">Confirmado</p>
+            <p className="text-xs font-medium text-green-400">Confirmado</p>
             {confirmTime && (
               <p className="text-[9px] text-green-400/50 mt-0.5">às {confirmTime}</p>
             )}
@@ -257,7 +257,7 @@ function SingleCheckinCard({
           <button
             onClick={handleCheckin}
             disabled={confirming}
-            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 hover:scale-[1.03] active:scale-95 disabled:opacity-50"
+            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 hover:scale-[1.03] active:scale-95 disabled:opacity-50"
             style={{
               background: isActive
                 ? 'linear-gradient(135deg, #22C55E, #16A34A)'

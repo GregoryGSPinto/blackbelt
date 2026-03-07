@@ -80,7 +80,7 @@ export default function MinhaListaPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Bookmark size={24} className="text-primary-light" />
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold" style={{ color: 'rgb(var(--color-text))' }}>
               {t('myList.title')}
             </h1>
           </div>
@@ -101,7 +101,7 @@ export default function MinhaListaPage() {
               style={{ background: 'rgb(var(--color-border) / 0.06)' }}>
               <ListX size={36} style={{ color: 'rgb(var(--color-text-subtle) / 0.3)' }} />
             </div>
-            <h2 className="text-xl font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
+            <h2 className="text-xl font-semibold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
               {t('myList.emptyTitle')}
             </h2>
             <p className="text-sm max-w-sm mx-auto mb-8"
@@ -170,7 +170,7 @@ function FavoriteCard({ video, onPlay, onRemove }: {
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="text-sm font-bold leading-snug mb-2 line-clamp-2 cursor-pointer"
+        <h3 className="text-sm font-semibold leading-snug mb-2 line-clamp-2 cursor-pointer"
           style={{ color: 'rgb(var(--color-text))' }}
           onClick={onPlay}>
           {video.title}

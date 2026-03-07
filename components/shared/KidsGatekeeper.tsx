@@ -500,7 +500,7 @@ export function KidsGatekeeper({
           key={`key-${digit}`}
           onClick={() => onDigit(digit)}
           disabled={disabled || currentLength >= 4}
-          className="w-full aspect-square rounded-2xl text-2xl font-bold transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+          className="w-full aspect-square rounded-2xl text-2xl font-medium transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
           style={{ background: colors.keyBg, color: colors.keyText }}
           onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyBg; }}
@@ -514,7 +514,7 @@ export function KidsGatekeeper({
       <button
         onClick={() => onDigit('0')}
         disabled={disabled || currentLength >= 4}
-        className="w-full aspect-square rounded-2xl text-2xl font-bold transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+        className="w-full aspect-square rounded-2xl text-2xl font-medium transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
         style={{ background: colors.keyBg, color: colors.keyText }}
         onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyBg; }}
@@ -591,7 +591,7 @@ export function KidsGatekeeper({
           } rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg`}>
             {mode === 'forgot' ? <KeyRound size={32} className="text-white" /> : <Shield size={32} className="text-white" />}
           </div>
-          <h2 className="text-xl font-bold" style={{ color: colors.heading }}>
+          <h2 className="text-xl font-semibold" style={{ color: colors.heading }}>
             {mode === 'forgot' ? t('resetPin') : t('parentVerification')}
           </h2>
           <p className="text-sm mt-1" style={{ color: colors.subtitle }}>
@@ -752,7 +752,7 @@ export function KidsGatekeeper({
                 <p className="text-sm mb-2" style={{ color: colors.heading }}>
                   {t('sendVerificationCode')}
                 </p>
-                <p className="text-base font-mono font-bold mb-6" style={{ color: colors.teal }}>
+                <p className="text-base font-mono font-medium mb-6" style={{ color: colors.teal }}>
                   {maskEmail(PARENT_EMAIL)}
                 </p>
                 <button
@@ -796,7 +796,7 @@ export function KidsGatekeeper({
                     placeholder="000000"
                     aria-label="Código de verificação"
                     autoFocus
-                    className="w-48 text-center text-2xl font-mono font-bold py-3 rounded-xl outline-none transition-all focus:ring-2"
+                    className="w-48 text-center text-2xl font-mono font-medium py-3 rounded-xl outline-none transition-all focus:ring-2"
                     style={{
                       background: colors.inputBg,
                       border: `1.5px solid ${colors.inputBorder}`,
@@ -853,7 +853,7 @@ export function KidsGatekeeper({
                     {[0, 1, 2, 3].map(i => (
                       <div
                         key={i}
-                        className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-bold transition-all"
+                        className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-medium transition-all"
                         style={{
                           background: i < newPin.length ? colors.btnPrimaryBg : colors.dotEmpty,
                           color: colors.teal,
@@ -898,7 +898,7 @@ export function KidsGatekeeper({
                   style={{ background: colors.bioCircleActive }}>
                   <CheckCircle size={48} style={{ color: colors.teal }} />
                 </div>
-                <p className="text-lg font-bold mb-2" style={{ color: colors.heading }}>
+                <p className="text-lg font-medium mb-2" style={{ color: colors.heading }}>
                   {t('pinUpdated')}
                 </p>
                 <p className="text-sm" style={{ color: colors.subtitle }}>

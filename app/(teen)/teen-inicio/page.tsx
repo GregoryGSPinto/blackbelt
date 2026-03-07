@@ -148,7 +148,7 @@ export default function TeenInicioPage() {
               label="completo"
               showGlow={true}
             />
-            <h3 className="text-base font-bold font-teen teen-text-heading mt-4">
+            <h3 className="text-base font-semibold font-teen teen-text-heading mt-4">
               {t('journey', { level: graduacao })}
             </h3>
             <p className="text-xs teen-text-muted font-teen mt-1">
@@ -190,7 +190,7 @@ export default function TeenInicioPage() {
       <div className="teen-enter-4">
         <TeenCard>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-bold font-teen teen-text-heading">
+            <h3 className="text-base font-semibold font-teen teen-text-heading">
               {t('levelProgress', { level: graduacao })}
             </h3>
             <span className="text-xs font-teen font-semibold px-2.5 py-1 rounded-lg"
@@ -244,7 +244,7 @@ export default function TeenInicioPage() {
       {/* ═══ SECTION 5: Recomendações — cards amigáveis ═══ */}
       <div className="teen-enter-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-base font-bold font-teen teen-text-heading">
+          <h3 className="text-base font-semibold font-teen teen-text-heading">
             {t('recommendedForYou')}
           </h3>
           <button className="flex items-center gap-1 text-xs font-teen font-semibold transition-colors"
@@ -271,7 +271,7 @@ export default function TeenInicioPage() {
                   <Play size={22} className={isDark ? 'text-white' : 'text-teen-ocean'} fill="currentColor" fillOpacity={0.3} />
                 </div>
               </div>
-              <h4 className="font-bold font-teen teen-text-heading text-sm mb-1 truncate">
+              <h4 className="font-semibold font-teen teen-text-heading text-sm mb-1 truncate">
                 {aula.titulo}
               </h4>
               <p className="text-xs teen-text-muted font-teen mb-2.5">
@@ -305,7 +305,7 @@ export default function TeenInicioPage() {
               <Target className="w-6 h-6 text-teen-energy" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-bold font-teen teen-text-heading text-sm">
+              <h3 className="font-semibold font-teen teen-text-heading text-sm">
                 {t('nextTraining')}
               </h3>
               <p className="text-xs teen-text-muted font-teen mt-0.5">
@@ -315,7 +315,7 @@ export default function TeenInicioPage() {
                 {currentTeen.instrutor}
               </p>
             </div>
-            <button className="px-5 py-2.5 rounded-xl text-sm font-teen font-bold transition-all duration-200 flex-shrink-0"
+            <button className="px-5 py-2.5 rounded-xl text-sm font-teen font-medium transition-all duration-200 flex-shrink-0"
               style={{
                 background: isDark
                   ? 'linear-gradient(135deg, #006B8F, #0088B5)'

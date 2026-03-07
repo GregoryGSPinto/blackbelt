@@ -80,7 +80,7 @@ export function MobileAccountBar({
             className="rounded-lg"
           />
           <div className="min-w-0">
-            <p className={`text-sm font-bold tracking-tight truncate ${
+            <p className={`text-sm font-medium tracking-tight truncate ${
               isDark ? 'text-white' : 'text-gray-900'
             }`}>
               BLACKBELT
@@ -106,7 +106,7 @@ export function MobileAccountBar({
             }`}>
               {firstName}
             </span>
-            <div className={`w-7 h-7 bg-gradient-to-br ${perfilInfo?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0`}>
+            <div className={`w-7 h-7 bg-gradient-to-br ${perfilInfo?.cor || 'from-[#3D3228] to-[#1D1A14]'} rounded-full flex items-center justify-center text-white text-xs font-medium shrink-0`}>
               {user.avatar ? (
                 <span className="text-sm">{user.avatar}</span>
               ) : (

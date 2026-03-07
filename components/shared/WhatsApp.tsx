@@ -52,7 +52,7 @@ export function WhatsAppButton({
     return (
       <button
         onClick={handleClick}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-bold hover:bg-emerald-500/20 transition-colors ${className}`}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium hover:bg-emerald-500/20 transition-colors ${className}`}
       >
         <MessageCircle size={12} />
         {label}
@@ -64,7 +64,7 @@ export function WhatsAppButton({
   return (
     <button
       onClick={handleClick}
-      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-sm font-bold hover:bg-[#25D366]/30 transition-colors ${className}`}
+      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-sm font-medium hover:bg-[#25D366]/30 transition-colors ${className}`}
     >
       <MessageCircle size={16} />
       {label}
@@ -121,7 +121,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] sticky top-0 bg-[#0D1117] z-10">
           <div className="flex items-center gap-2">
             <MessageCircle size={18} className="text-[#25D366]" />
-            <h3 className="text-base font-bold text-white">{t('send')}</h3>
+            <h3 className="text-base font-semibold text-white">{t('send')}</h3>
           </div>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-white/[0.06] text-white/30"><X size={18} /></button>
         </div>
@@ -133,7 +133,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
               <MessageCircle size={14} className="text-[#25D366]" />
             </div>
             <div>
-              <p className="text-sm font-bold text-white/70">{nome}</p>
+              <p className="text-sm font-medium text-white/70">{nome}</p>
               <p className="text-[10px] text-white/25">{phone}</p>
             </div>
           </div>
@@ -155,9 +155,9 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
                         : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
                     }`}
                   >
-                    <p className="text-xs font-bold text-white/60">{tpl.nome}</p>
+                    <p className="text-xs font-medium text-white/60">{tpl.nome}</p>
                     <div className="flex items-center gap-1.5 mt-1">
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${catCfg?.color || ''}`}>
+                      <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${catCfg?.color || ''}`}>
                         {catCfg?.label}
                       </span>
                     </div>
@@ -206,13 +206,13 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
         {/* Footer */}
         <div className="flex gap-3 px-5 py-4 border-t border-white/[0.06] sticky bottom-0 bg-[#0D1117]">
           <button onClick={onClose}
-            className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-bold hover:bg-white/[0.08] transition-colors">
+            className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-white/40 text-sm font-medium hover:bg-white/[0.08] transition-colors">
             {tActions('cancel')}
           </button>
           <button
             onClick={handleSend}
             disabled={!mensagem.trim()}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-sm font-bold hover:bg-[#25D366]/30 transition-colors disabled:opacity-30"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-sm font-medium hover:bg-[#25D366]/30 transition-colors disabled:opacity-30"
           >
             <Send size={14} />
             {t('open')}

@@ -138,7 +138,7 @@ export default function Sidebar() {
             className="rounded-lg flex-shrink-0 object-contain"
           />
           {isExpanded && (
-            <h1 className="text-lg font-bold tracking-tight whitespace-nowrap overflow-hidden">
+            <h1 className="text-lg font-semibold tracking-tight whitespace-nowrap overflow-hidden">
               BLACKBELT
             </h1>
           )}

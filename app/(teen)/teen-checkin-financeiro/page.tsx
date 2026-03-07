@@ -99,13 +99,13 @@ export default function TeenCheckinFinanceiroPage() {
 
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-teen-ocean font-teen mb-2">{t('title')} 🎯</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-teen-ocean font-teen mb-2">{t('title')} 🎯</h1>
           <p className="teen-text-muted font-teen">{t('subtitle')}</p>
         </div>
 
         {/* Status Atual */}
         <div className="teen-card rounded-2xl p-6 shadow-lg border-2 border-transparent">
-          <p className="text-sm font-bold teen-text-muted uppercase tracking-wider mb-4 font-teen">
+          <p className="text-sm font-medium teen-text-muted uppercase tracking-wider mb-4 font-teen">
             {t('statusTitle')}
           </p>
 
@@ -117,7 +117,7 @@ export default function TeenCheckinFinanceiroPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-3xl">{currentStatus.badge.emoji}</span>
-                  <span className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-black ${currentStatus.badge.textColor} font-teen`}>
+                  <span className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium ${currentStatus.badge.textColor} font-teen`}>
                     {currentStatus.badge.text}
                   </span>
                 </div>
@@ -135,7 +135,7 @@ export default function TeenCheckinFinanceiroPage() {
 
           {/* Treino de Hoje */}
           <div className="teen-card rounded-2xl p-5 shadow-md border-2 border-transparent">
-            <p className="text-sm font-bold teen-text-muted uppercase tracking-wider mb-3 font-teen">
+            <p className="text-sm font-medium teen-text-muted uppercase tracking-wider mb-3 font-teen">
               {t('todayTraining')}
             </p>
             <div className="flex items-center gap-2 mb-2">
@@ -144,7 +144,7 @@ export default function TeenCheckinFinanceiroPage() {
               ) : (
                 <XCircle size={28} className="text-gray-400" />
               )}
-              <span className={`text-xl font-black font-teen ${currentStatus.training.available ? 'text-green-600' : 'text-gray-500'}`}>
+              <span className={`text-xl font-medium font-teen ${currentStatus.training.available ? 'text-green-600' : 'text-gray-500'}`}>
                 {currentStatus.training.text}
               </span>
             </div>
@@ -155,12 +155,12 @@ export default function TeenCheckinFinanceiroPage() {
 
           {/* Última Validação */}
           <div className="teen-card rounded-2xl p-5 shadow-md border-2 border-transparent">
-            <p className="text-sm font-bold teen-text-muted uppercase tracking-wider mb-3 font-teen">
+            <p className="text-sm font-medium teen-text-muted uppercase tracking-wider mb-3 font-teen">
               {t('lastCheck')}
             </p>
             <div className="flex items-center gap-3 mb-2">
               <Calendar size={24} className="text-teen-ocean" />
-              <span className="text-xl font-black text-teen-ocean font-teen">07/02/2026</span>
+              <span className="text-xl font-medium text-teen-ocean font-teen">07/02/2026</span>
             </div>
             <div className="flex items-center gap-2 text-sm teen-text-muted font-teen">
               <Clock size={16} />
@@ -175,7 +175,7 @@ export default function TeenCheckinFinanceiroPage() {
             checkinDone ? (
               <button
                 disabled
-                className="w-full py-5 bg-green-500/20 border-2 border-green-500 rounded-xl text-green-600 text-lg font-black font-teen cursor-not-allowed"
+                className="w-full py-5 bg-green-500/20 border-2 border-green-500 rounded-xl text-green-600 text-lg font-medium font-teen cursor-not-allowed"
               >
                 <div className="flex items-center justify-center gap-3">
                   <CheckCircle size={24} />
@@ -186,7 +186,7 @@ export default function TeenCheckinFinanceiroPage() {
               <button
                 onClick={handleCheckin}
                 disabled={isProcessing}
-                className="w-full py-5 bg-gradient-to-r from-teen-ocean to-teen-purple hover:from-teen-ocean/90 hover:to-teen-purple/90 rounded-xl text-white text-lg font-black font-teen transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-5 bg-gradient-to-r from-teen-ocean to-teen-purple hover:from-teen-ocean/90 hover:to-teen-purple/90 rounded-xl text-white text-lg font-medium font-teen transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="flex items-center justify-center gap-3">
                   {isProcessing ? (
@@ -207,7 +207,7 @@ export default function TeenCheckinFinanceiroPage() {
             <>
               <button
                 disabled
-                className="w-full py-5 bg-gray-200 border-2 border-gray-300 rounded-xl text-gray-500 text-lg font-black font-teen cursor-not-allowed"
+                className="w-full py-5 bg-gray-200 border-2 border-gray-300 rounded-xl text-gray-500 text-lg font-medium font-teen cursor-not-allowed"
               >
                 <div className="flex items-center justify-center gap-3">
                   <XCircle size={24} />
@@ -216,7 +216,7 @@ export default function TeenCheckinFinanceiroPage() {
               </button>
 
               <div className="mt-4 p-4 bg-teen-lightning/20 border-2 border-teen-lightning/40 rounded-xl">
-                <p className="text-sm text-teen-ocean font-teen font-bold text-center">
+                <p className="text-sm text-teen-ocean font-teen font-medium text-center">
                   ℹ️ {t('unavailableNote')} 💪
                 </p>
               </div>
@@ -225,7 +225,7 @@ export default function TeenCheckinFinanceiroPage() {
 
           {checkinDone && (
             <div className="mt-4 p-4 bg-green-500/20 border-2 border-green-500 rounded-xl animate-fade-in">
-              <p className="text-center text-green-600 font-black font-teen mb-2 text-lg">
+              <p className="text-center text-green-600 font-medium font-teen mb-2 text-lg">
                 ✓ {t('checkinDone')}
               </p>
               <p className="text-center text-sm teen-text-muted font-teen">
@@ -238,7 +238,7 @@ export default function TeenCheckinFinanceiroPage() {
         {/* Histórico */}
         <div className="teen-card rounded-2xl p-6 shadow-lg border-2 border-transparent">
           <div className="mb-5">
-            <h2 className="text-xl font-black text-teen-ocean font-teen mb-1">{t('historyTitle')} 📊</h2>
+            <h2 className="text-xl font-semibold text-teen-ocean font-teen mb-1">{t('historyTitle')} 📊</h2>
             <p className="text-sm teen-text-muted font-teen">{t('last6Months')}</p>
           </div>
 
@@ -251,8 +251,8 @@ export default function TeenCheckinFinanceiroPage() {
                 <span className="text-2xl flex-shrink-0">{item.emoji}</span>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="teen-text-heading font-bold font-teen">{item.month}</span>
-                    <span className={`text-sm font-bold font-teen ${
+                    <span className="teen-text-heading font-medium font-teen">{item.month}</span>
+                    <span className={`text-sm font-medium font-teen ${
                       item.color === 'green' ? 'text-green-600' :
                       item.color === 'yellow' ? 'text-yellow-600' :
                       'text-red-600'

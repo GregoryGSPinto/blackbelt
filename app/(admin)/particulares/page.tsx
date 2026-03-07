@@ -77,7 +77,7 @@ export default function ParticularesPage() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CalendarCheck size={16} className="text-blue-400" /><span className="text-white/40 text-xs">Agendadas</span></div>
-          <p className="text-xl sm:text-2xl font-bold text-white">{totalAgendadas}</p>
+          <p className="text-xl sm:text-2xl font-medium text-white">{totalAgendadas}</p>
         </div>
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><CheckCircle size={16} className="text-green-400" /><span className="text-white/40 text-xs">Realizadas</span></div>
@@ -85,7 +85,7 @@ export default function ParticularesPage() {
         </div>
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
           <div className="flex items-center gap-2 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Mês</span></div>
-          <p className="text-xl font-bold text-purple-400">{formatMoney(receitaMes)}</p>
+          <p className="text-xl font-medium text-purple-400">{formatMoney(receitaMes)}</p>
         </div>
       </div>
 
@@ -113,7 +113,7 @@ export default function ParticularesPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${st.bg} ${st.text}`}>{st.icon}{st.label}</span>
+                    <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${st.bg} ${st.text}`}>{st.icon}{st.label}</span>
                     <span className="text-white/20 text-xs">{a.duracao}min</span>
                     {a.recorrencia !== 'unica' && <span className="text-purple-400/60 text-[10px]">{a.recorrencia}</span>}
                   </div>
@@ -126,7 +126,7 @@ export default function ParticularesPage() {
                   {a.observacao && <p className="text-white/25 text-xs mt-0.5">{a.observacao}</p>}
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-green-400 font-bold text-sm">{formatMoney(a.valor)}</p>
+                  <p className="text-green-400 font-medium text-sm">{formatMoney(a.valor)}</p>
                   <p className="text-white/30 text-xs">{formatDate(a.data, 'short')} · {a.horario}</p>
                   <p className="text-white/15 text-[10px] mt-0.5">Split: {a.splitUnidade}% acad / {a.splitInstrutor}% prof</p>
                 </div>

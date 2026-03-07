@@ -284,7 +284,7 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
             </p>
             <button
               onClick={startCamera}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-all"
             >
               {t('startScanner')}
             </button>
@@ -368,7 +368,7 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
 
         <button
           onClick={handleRescan}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all flex items-center gap-2"
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-all flex items-center gap-2"
         >
           <Camera size={16} />
           {scanState === 'idle' ? t('start') : t('scanAgain')}
@@ -400,7 +400,7 @@ export function QRScanner({ onScan, onClose, mockMode = true }: QRScannerProps) 
 
       {/* Status text */}
       <p className={`text-center text-sm mt-3 transition-colors duration-300 ${
-        scanState === 'success' ? 'text-green-400 font-bold' :
+        scanState === 'success' ? 'text-green-400 font-medium' :
         scanState === 'scanning' ? 'text-blue-400' :
         'text-white/40'
       }`}>

@@ -76,7 +76,7 @@ export function UpcomingEventsTimeline({ events }: UpcomingEventsTimelineProps) 
             <div key={`${event.date}-${event.type}-${i}`} className="relative flex gap-4 pb-6 last:pb-0">
               {/* Date column */}
               <div className="flex flex-col items-center w-10 shrink-0 text-center">
-                <span className="text-sm font-bold text-zinc-200 leading-none">{day}</span>
+                <span className="text-sm font-medium text-zinc-200 leading-none">{day}</span>
                 <span className="text-[10px] text-zinc-500 uppercase mt-0.5">{monthYear}</span>
               </div>
 

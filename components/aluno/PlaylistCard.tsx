@@ -49,7 +49,7 @@ export function PlaylistCard({ playlist, watchedVideoIds = new Set(), onVideoCli
           <div className="flex items-center gap-2">
             <p className="text-sm font-semibold text-white/80 truncate">{playlist.titulo}</p>
             <span
-              className="text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full flex-shrink-0"
+              className="text-[8px] font-medium uppercase px-1.5 py-0.5 rounded-full flex-shrink-0"
               style={{ background: tipoConf.bg, color: tipoConf.text }}
             >
               {tipoConf.label}
@@ -64,7 +64,7 @@ export function PlaylistCard({ playlist, watchedVideoIds = new Set(), onVideoCli
                 style={{ width: `${pct}%`, background: tipoConf.text }}
               />
             </div>
-            <span className="text-[10px] font-bold" style={{ color: tipoConf.text }}>{pct}%</span>
+            <span className="text-[10px] font-medium" style={{ color: tipoConf.text }}>{pct}%</span>
           </div>
         </div>
 

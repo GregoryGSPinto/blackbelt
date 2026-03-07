@@ -120,7 +120,7 @@ export default function OwnerExecutiveDashboard() {
                 <div key={d.nome} className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ background: d.cor }} />
                   <span className="text-xs text-white/50 flex-1">{d.nome}</span>
-                  <span className="text-xs text-white/70 font-bold">{d.valor}</span>
+                  <span className="text-xs text-white/70 font-medium">{d.valor}</span>
                 </div>
               ))}
             </div>
@@ -144,7 +144,7 @@ export default function OwnerExecutiveDashboard() {
                 <div key={d.nome} className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ background: d.cor }} />
                   <span className="text-xs text-white/50 flex-1">{d.nome}</span>
-                  <span className="text-xs text-white/70 font-bold">{d.valor}</span>
+                  <span className="text-xs text-white/70 font-medium">{d.valor}</span>
                 </div>
               ))}
             </div>
@@ -168,7 +168,7 @@ export default function OwnerExecutiveDashboard() {
                       className="h-full rounded-lg flex items-center justify-end pr-3 transition-all duration-700"
                       style={{ width: `${width}%`, background: `${colors[i]}30`, borderRight: `2px solid ${colors[i]}` }}
                     >
-                      <span className="text-xs font-bold" style={{ color: colors[i] }}>{f.quantidade}</span>
+                      <span className="text-xs font-medium" style={{ color: colors[i] }}>{f.quantidade}</span>
                     </div>
                   </div>
                   <span className="text-xs text-white/30 w-12">{f.taxa}%</span>
@@ -216,11 +216,11 @@ export default function OwnerExecutiveDashboard() {
             <table className="w-full text-xs">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  <th className="text-left px-4 py-3 text-white/30 font-bold uppercase tracking-wider text-[10px]">Metrica</th>
-                  <th className="text-right px-4 py-3 text-white/30 font-bold uppercase tracking-wider text-[10px]">Mes Atual</th>
-                  <th className="text-right px-4 py-3 text-white/30 font-bold uppercase tracking-wider text-[10px]">Mes Anterior</th>
-                  <th className="text-right px-4 py-3 text-white/30 font-bold uppercase tracking-wider text-[10px]">Mesmo Mes Ano Ant.</th>
-                  <th className="text-right px-4 py-3 text-white/30 font-bold uppercase tracking-wider text-[10px]">Var. YoY</th>
+                  <th className="text-left px-4 py-3 text-white/30 font-medium uppercase tracking-wider text-[10px]">Metrica</th>
+                  <th className="text-right px-4 py-3 text-white/30 font-medium uppercase tracking-wider text-[10px]">Mes Atual</th>
+                  <th className="text-right px-4 py-3 text-white/30 font-medium uppercase tracking-wider text-[10px]">Mes Anterior</th>
+                  <th className="text-right px-4 py-3 text-white/30 font-medium uppercase tracking-wider text-[10px]">Mesmo Mes Ano Ant.</th>
+                  <th className="text-right px-4 py-3 text-white/30 font-medium uppercase tracking-wider text-[10px]">Var. YoY</th>
                 </tr>
               </thead>
               <tbody>
@@ -230,10 +230,10 @@ export default function OwnerExecutiveDashboard() {
                   return (
                     <tr key={i} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
                       <td className="px-4 py-2.5 text-white/60 font-medium">{c.metrica}</td>
-                      <td className="px-4 py-2.5 text-white/80 text-right font-bold">{c.mesAtual.toLocaleString()}</td>
+                      <td className="px-4 py-2.5 text-white/80 text-right font-medium">{c.mesAtual.toLocaleString()}</td>
                       <td className="px-4 py-2.5 text-white/40 text-right">{c.mesAnterior.toLocaleString()}</td>
                       <td className="px-4 py-2.5 text-white/40 text-right">{c.mesmoMesAnoAnterior.toLocaleString()}</td>
-                      <td className={`px-4 py-2.5 text-right font-bold ${yoyNum > 0 ? 'text-emerald-400' : yoyNum < 0 ? 'text-red-400' : 'text-white/30'}`}>
+                      <td className={`px-4 py-2.5 text-right font-medium ${yoyNum > 0 ? 'text-emerald-400' : yoyNum < 0 ? 'text-red-400' : 'text-white/30'}`}>
                         {yoy !== '—' ? `${yoyNum > 0 ? '+' : ''}${yoy}%` : '—'}
                       </td>
                     </tr>
@@ -276,7 +276,7 @@ function KpiCard({ label, value, sub, color, trend, href, small }: {
   const inner = (
     <div className="rounded-xl p-3.5 hover:bg-white/[0.02] transition-all" style={card}>
       <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">{label}</p>
-      <p className={`${small ? 'text-sm' : 'text-xl'} font-bold tabular-nums`} style={{ color }}>{value}</p>
+      <p className={`${small ? 'text-sm' : 'text-xl'} font-medium tabular-nums`} style={{ color }}>{value}</p>
       {sub && (
         <div className="flex items-center gap-1 mt-1">
           {trend === 'up' && <TrendingUp size={10} className="text-emerald-400" />}

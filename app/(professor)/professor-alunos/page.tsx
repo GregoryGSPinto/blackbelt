@@ -182,7 +182,7 @@ export default function ProfessorAlunosPage() {
                 <stat.icon size={16} style={{ color: stat.color }} />
                 <span className="text-white/40 text-xs uppercase tracking-wider">{stat.label}</span>
               </div>
-              <span className="text-xl sm:text-2xl font-bold prof-stat-value">{stat.value}</span>
+              <span className="text-xl sm:text-2xl font-medium prof-stat-value">{stat.value}</span>
             </div>
           ))}
         </div>
@@ -201,7 +201,7 @@ export default function ProfessorAlunosPage() {
                 background: filtro === c.categoria ? 'rgba(217,175,105,0.08)' : undefined,
               }}
             >
-              <span className="text-xl font-bold prof-stat-value">{c.total}</span>
+              <span className="text-xl font-medium prof-stat-value">{c.total}</span>
               <p className="text-white/40 text-xs mt-0.5">{c.categoria}</p>
             </button>
           ))}
@@ -365,24 +365,24 @@ export default function ProfessorAlunosPage() {
                 {/* Desktop metrics */}
                 <div className="hidden md:flex items-center gap-5 flex-shrink-0">
                   <div className="text-center w-16">
-                    <span className="text-sm font-bold" style={{ color: aluno.frequencia.presenca30d >= 80 ? '#4ADE80' : aluno.frequencia.presenca30d >= 60 ? '#FBBF24' : '#F87171' }}>
+                    <span className="text-sm font-medium" style={{ color: aluno.frequencia.presenca30d >= 80 ? '#4ADE80' : aluno.frequencia.presenca30d >= 60 ? '#FBBF24' : '#F87171' }}>
                       {aluno.frequencia.presenca30d}%
                     </span>
                     <p className="text-white/25 text-[10px]">{t('freqShort')}</p>
                   </div>
                   <div className="text-center w-16">
-                    <span className="text-sm font-bold text-white/70">{aluno.progresso.geral}%</span>
+                    <span className="text-sm font-medium text-white/70">{aluno.progresso.geral}%</span>
                     <p className="text-white/25 text-[10px]">{t('progShort')}</p>
                   </div>
                   <div className="text-center w-12">
-                    <span className="text-sm font-bold text-amber-400">{aluno.conquistas.length}</span>
+                    <span className="text-sm font-medium text-amber-400">{aluno.conquistas.length}</span>
                     <p className="text-white/25 text-[10px]">{t('medShort')}</p>
                   </div>
                 </div>
 
                 {/* Mobile metrics */}
                 <div className="flex md:hidden items-center gap-2 flex-shrink-0">
-                  <span className="text-xs font-bold" style={{ color: aluno.frequencia.presenca30d >= 80 ? '#4ADE80' : aluno.frequencia.presenca30d >= 60 ? '#FBBF24' : '#F87171' }}>
+                  <span className="text-xs font-medium" style={{ color: aluno.frequencia.presenca30d >= 80 ? '#4ADE80' : aluno.frequencia.presenca30d >= 60 ? '#FBBF24' : '#F87171' }}>
                     {aluno.frequencia.presenca30d}%
                   </span>
                   <ChevronRight size={16} className="text-white/20" />

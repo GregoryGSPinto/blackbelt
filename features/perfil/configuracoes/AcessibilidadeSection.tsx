@@ -30,7 +30,7 @@ export function AcessibilidadeSection({ legendas, setLegendas }: AcessibilidadeS
       {/* Legendas */}
       <div className="flex items-center justify-between p-5 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
         <div>
-          <h3 className="font-bold text-lg mb-1">Legendas Automáticas</h3>
+          <h3 className="font-semibold text-lg mb-1">Legendas Automáticas</h3>
           <p className="text-sm text-white/40">Ativar legendas em português por padrão</p>
         </div>
         <ToggleSwitch
@@ -41,7 +41,7 @@ export function AcessibilidadeSection({ legendas, setLegendas }: AcessibilidadeS
 
       {/* Navegação por Teclado */}
       <div className="p-5 bg-white/5 rounded-xl border border-white/10">
-        <h3 className="font-bold text-lg mb-3">Navegação por Teclado</h3>
+        <h3 className="font-semibold text-lg mb-3">Navegação por Teclado</h3>
         <div className="space-y-2">
           {KEYBOARD_SHORTCUTS.map((shortcut) => (
             <p key={shortcut.key} className="text-sm text-white/55">

@@ -18,7 +18,7 @@ function StatusBadge({ status }: { status: MemberStatusType }) {
 
   const v = variants[status];
   return (
-    <span className={`px-3 py-1 ${v.bg} border ${v.border} ${v.text} rounded-full text-xs font-bold`}>
+    <span className={`px-3 py-1 ${v.bg} border ${v.border} ${v.text} rounded-full text-xs font-medium`}>
       {v.label}
     </span>
   );
@@ -36,7 +36,7 @@ function PlanCard({ member }: { member: MemberStatus }) {
     <div className="p-8 bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-2 border-blue-600/30 rounded-2xl">
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h3 className="text-lg sm:text-xl md:text-2xl font-black mb-2">{member.planType}</h3>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2">{member.planType}</h3>
           <p className="text-white/55">Membro desde {member.activeSince}</p>
         </div>
         <StatusBadge status={member.status} />
@@ -45,7 +45,7 @@ function PlanCard({ member }: { member: MemberStatus }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="p-4 bg-white/5 rounded-xl">
           <p className="text-sm text-white/40 mb-1">Status da Conta</p>
-          <p className="text-xl font-bold">
+          <p className="text-xl font-medium">
             {member.status === 'ativa' && '✅ Conta Ativa'}
             {member.status === 'atencao' && '⚠️ Requer Atenção'}
             {member.status === 'bloqueada' && '🔒 Bloqueada'}
@@ -53,12 +53,12 @@ function PlanCard({ member }: { member: MemberStatus }) {
         </div>
         <div className="p-4 bg-white/5 rounded-xl">
           <p className="text-sm text-white/40 mb-1">Próxima Renovação</p>
-          <p className="text-xl font-bold">{member.nextRenewal}</p>
+          <p className="text-xl font-medium">{member.nextRenewal}</p>
         </div>
       </div>
 
       <div className="mt-6 pt-6 border-t border-white/10">
-        <h4 className="font-bold mb-3">Benefícios do seu plano:</h4>
+        <h4 className="font-semibold mb-3">Benefícios do seu plano:</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {PLAN_BENEFITS.map((benefit) => (
             <div key={benefit} className="flex items-center gap-2 text-sm">
@@ -92,7 +92,7 @@ export function MinhaContaSection() {
           <div className="flex items-start gap-3">
             <CheckCircle size={20} className="text-green-400 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="font-bold text-green-400 mb-1">Tudo certo com sua conta!</p>
+              <p className="font-medium text-green-400 mb-1">Tudo certo com sua conta!</p>
               <p className="text-sm text-white/55">
                 Sua assinatura está ativa e você pode treinar normalmente.
               </p>
@@ -104,7 +104,7 @@ export function MinhaContaSection() {
           <div className="flex items-start gap-3">
             <AlertCircle size={20} className="text-yellow-400 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="font-bold text-yellow-400 mb-1">Atenção necessária</p>
+              <p className="font-medium text-yellow-400 mb-1">Atenção necessária</p>
               <p className="text-sm text-white/55">
                 Entre em contato com a recepção para regularizar sua conta.
               </p>
@@ -117,7 +117,7 @@ export function MinhaContaSection() {
       <div className="mt-8 pt-6 border-t border-red-500/20">
         <div className="flex items-center gap-3 mb-3">
           <AlertTriangle size={20} className="text-red-400" />
-          <h3 className="text-lg font-bold text-red-400">Excluir minha conta</h3>
+          <h3 className="text-lg font-semibold text-red-400">Excluir minha conta</h3>
         </div>
         <p className="text-sm text-white/50 mb-4">
           Esta ação é irreversível. Todos os seus dados pessoais serão anonimizados
@@ -126,7 +126,7 @@ export function MinhaContaSection() {
         </p>
         <button
           onClick={() => setShowDeleteModal(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-all duration-200"
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-all duration-200"
         >
           <Trash2 size={16} />
           Excluir Conta
@@ -221,7 +221,7 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
                 <AlertTriangle size={20} className="text-red-400" />
               </div>
               <div>
-                <h3 className="font-bold text-white">Excluir Conta</h3>
+                <h3 className="font-semibold text-white">Excluir Conta</h3>
                 <p className="text-xs text-white/40">
                   {step === 'confirm' && 'Etapa 1 de 3 — Confirmação'}
                   {step === 'reason' && 'Etapa 2 de 3 — Motivo'}
@@ -257,13 +257,13 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={onClose}
-                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-bold rounded-lg transition-all duration-200"
+                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-medium rounded-lg transition-all duration-200"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={() => setStep('reason')}
-                  className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-600 text-white text-sm font-bold rounded-lg transition-all duration-200"
+                  className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
                 >
                   Continuar
                 </button>
@@ -305,13 +305,13 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => setStep('confirm')}
-                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-bold rounded-lg transition-all duration-200"
+                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-medium rounded-lg transition-all duration-200"
                 >
                   Voltar
                 </button>
                 <button
                   onClick={() => setStep('final')}
-                  className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-600 text-white text-sm font-bold rounded-lg transition-all duration-200"
+                  className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
                 >
                   Continuar
                 </button>
@@ -323,7 +323,7 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
           {step === 'final' && !done && (
             <div className="space-y-4">
               <div className="p-4 bg-red-600/10 border border-red-600/30 rounded-lg">
-                <p className="text-sm text-red-300 font-bold mb-2">
+                <p className="text-sm text-red-300 font-medium mb-2">
                   Esta ação é irreversível após 30 dias.
                 </p>
                 <p className="text-xs text-white/50">
@@ -334,7 +334,7 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
               </div>
               <div>
                 <label className="text-sm text-white/60 block mb-2">
-                  Digite <span className="font-bold text-red-400">EXCLUIR</span> para confirmar:
+                  Digite <span className="font-medium text-red-400">EXCLUIR</span> para confirmar:
                 </label>
                 <input
                   type="text"
@@ -355,14 +355,14 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
                 <button
                   onClick={() => { setStep('reason'); setError(''); }}
                   disabled={loading}
-                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-bold rounded-lg transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:opacity-50"
                 >
                   Voltar
                 </button>
                 <button
                   onClick={handleDelete}
                   disabled={confirmText !== 'EXCLUIR' || loading}
-                  className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
@@ -383,10 +383,10 @@ function DeleteAccountModal({ onClose }: { onClose: () => void }) {
               <div className="w-16 h-16 mx-auto rounded-full bg-red-600/20 flex items-center justify-center">
                 <CheckCircle size={32} className="text-red-400" />
               </div>
-              <h3 className="text-xl font-bold text-white">Solicitação recebida</h3>
+              <h3 className="text-xl font-semibold text-white">Solicitação recebida</h3>
               <div className="text-sm text-white/60 space-y-2">
                 <p>Sua conta será desativada agora.</p>
-                <p>Você tem <span className="text-white font-bold">30 dias</span> para cancelar a exclusão.</p>
+                <p>Você tem <span className="text-white font-medium">30 dias</span> para cancelar a exclusão.</p>
                 <p>Após 30 dias, todos os dados serão anonimizados irreversivelmente.</p>
                 <p className="text-white/40 pt-2">Um e-mail de confirmação foi enviado.</p>
               </div>

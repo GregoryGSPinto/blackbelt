@@ -386,7 +386,7 @@ export function FABCheckin() {
         )}
         {/* Offline pending badge */}
         {mode === 'closed' && pendingCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center shadow-md">
+          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-500 text-black text-[10px] font-medium flex items-center justify-center shadow-md">
             {pendingCount}
           </span>
         )}

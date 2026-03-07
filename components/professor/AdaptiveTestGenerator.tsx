@@ -165,7 +165,7 @@ export function AdaptiveTestGenerator() {
                   style={{ width: `${test.difficultyDistribution.easy}%` }}
                 >
                   {test.difficultyDistribution.easy >= 15 && (
-                    <span className="text-[9px] font-bold text-white">{test.difficultyDistribution.easy}%</span>
+                    <span className="text-[9px] font-medium text-white">{test.difficultyDistribution.easy}%</span>
                   )}
                 </div>
               )}
@@ -175,7 +175,7 @@ export function AdaptiveTestGenerator() {
                   style={{ width: `${test.difficultyDistribution.medium}%` }}
                 >
                   {test.difficultyDistribution.medium >= 15 && (
-                    <span className="text-[9px] font-bold text-white">{test.difficultyDistribution.medium}%</span>
+                    <span className="text-[9px] font-medium text-white">{test.difficultyDistribution.medium}%</span>
                   )}
                 </div>
               )}
@@ -185,7 +185,7 @@ export function AdaptiveTestGenerator() {
                   style={{ width: `${test.difficultyDistribution.hard}%` }}
                 >
                   {test.difficultyDistribution.hard >= 15 && (
-                    <span className="text-[9px] font-bold text-white">{test.difficultyDistribution.hard}%</span>
+                    <span className="text-[9px] font-medium text-white">{test.difficultyDistribution.hard}%</span>
                   )}
                 </div>
               )}
@@ -195,7 +195,7 @@ export function AdaptiveTestGenerator() {
                   style={{ width: `${test.difficultyDistribution.stretch}%` }}
                 >
                   {test.difficultyDistribution.stretch >= 15 && (
-                    <span className="text-[9px] font-bold text-white">{test.difficultyDistribution.stretch}%</span>
+                    <span className="text-[9px] font-medium text-white">{test.difficultyDistribution.stretch}%</span>
                   )}
                 </div>
               )}

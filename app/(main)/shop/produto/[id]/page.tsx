@@ -74,7 +74,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">Produto não encontrado</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4">Produto não encontrado</h2>
           <button onClick={() => router.push('/shop')} className="btn-primary">
             Voltar para a Loja
           </button>
@@ -182,7 +182,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
             {/* Price */}
             <div className="border-b border-dark-elevated pb-6">
-              <div className="text-xl md:text-2xl lg:text-4xl font-bold text-primary mb-2">
+              <div className="text-xl md:text-2xl lg:text-4xl font-medium text-primary mb-2">
                 {formatMoney(product.price)}
               </div>
               {product.installments > 1 && (
@@ -279,7 +279,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {activeTab === 'description' && (
               <div className="prose prose-invert max-w-none">
                 <p className="text-white/55 leading-relaxed">{product.description}</p>
-                <h3 className="text-xl font-bold text-white mt-6 mb-3">Características</h3>
+                <h3 className="text-xl font-semibold text-white mt-6 mb-3">Características</h3>
                 <ul className="space-y-2 text-white/55">
                   <li>✓ Material de alta qualidade</li>
                   <li>✓ Costuras reforçadas</li>
@@ -324,7 +324,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
             {activeTab === 'care' && (
               <div className="prose prose-invert max-w-none">
-                <h3 className="text-xl font-bold text-white mb-4">Instruções de Cuidado</h3>
+                <h3 className="text-xl font-semibold text-white mb-4">Instruções de Cuidado</h3>
                 <ul className="space-y-2 text-white/55">
                   <li>🧼 Lavar em água fria (máx 30°C)</li>
                   <li>☀️ Secar à sombra</li>

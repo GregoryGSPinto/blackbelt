@@ -34,7 +34,7 @@ export function ShellSidebarMobileHeader({ config, state }: Props) {
           <div className="flex items-center justify-between px-4 py-2 bg-black/40 backdrop-blur-2xl border-b border-white/10">
             <div className="flex items-center gap-2">
               <Image src="/images/logo-blackbelt.png" alt="BlackBelt" width={32} height={32} className="rounded-lg" />
-              <span className="text-xs font-bold tracking-tight text-white">{theme.logoLabel}</span>
+              <span className="text-xs font-medium tracking-tight text-white">{theme.logoLabel}</span>
             </div>
             <div className="flex items-center gap-1">
               {!nav.hideSearch && (

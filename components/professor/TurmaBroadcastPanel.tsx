@@ -75,7 +75,7 @@ export function TurmaBroadcastPanel({ isOpen, onClose }: TurmaBroadcastPanelProp
           style={{ background: 'rgba(20,20,30,0.98)' }}>
           <div className="flex items-center gap-2">
             <MessageSquare size={16} className="text-amber-400" />
-            <h3 className="text-sm font-bold text-white/80">Mensagem para Turma</h3>
+            <h3 className="text-sm font-semibold text-white/80">Mensagem para Turma</h3>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/5"><X size={16} className="text-white/40" /></button>
         </div>
@@ -155,7 +155,7 @@ export function TurmaBroadcastPanel({ isOpen, onClose }: TurmaBroadcastPanelProp
           <button
             onClick={handleSend}
             disabled={!turmaId || !conteudo.trim() || sending || sent}
-            className="w-full py-3 rounded-xl text-xs font-bold text-white transition-all disabled:opacity-30"
+            className="w-full py-3 rounded-xl text-xs font-medium text-white transition-all disabled:opacity-30"
             style={{
               background: sent
                 ? 'rgba(74,222,128,0.2)'

@@ -63,7 +63,7 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
         >
           <Building2 className="w-6 h-6" />
         </div>
-        <h2 className="text-xl font-bold" style={{ color: tokens.text }}>
+        <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
           Create your Academy
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>

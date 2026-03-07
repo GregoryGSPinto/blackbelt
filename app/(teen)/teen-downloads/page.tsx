@@ -67,7 +67,7 @@ export default function TeenDownloadsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="teen-enter-1">
-        <h2 className="text-xl sm:text-2xl font-bold teen-text-heading font-teen">{t('title')}</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold teen-text-heading font-teen">{t('title')}</h2>
         <p className="teen-text-muted text-sm font-teen mt-1">
           {t('subtitle')}
         </p>
@@ -81,7 +81,7 @@ export default function TeenDownloadsPage() {
               <HardDrive size={22} />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-bold font-teen teen-text-heading">
+              <p className="text-sm font-medium font-teen teen-text-heading">
                 {t('downloadedCount', { count: downloaded.length })}
               </p>
               <p className="text-xs font-teen teen-text-muted mt-0.5">
@@ -100,7 +100,7 @@ export default function TeenDownloadsPage() {
       {/* Downloaded */}
       {downloaded.length > 0 && (
         <div className="teen-enter-3 space-y-3">
-          <h3 className="text-base font-bold font-teen teen-text-heading">{t('downloadedTab')}</h3>
+          <h3 className="text-base font-semibold font-teen teen-text-heading">{t('downloadedTab')}</h3>
           {downloaded.map(item => (
             <DownloadRow key={item.id} item={item} isDark={isDark} />
           ))}
@@ -110,7 +110,7 @@ export default function TeenDownloadsPage() {
       {/* Available */}
       {others.length > 0 && (
         <div className="teen-enter-4 space-y-3">
-          <h3 className="text-base font-bold font-teen teen-text-heading">{t('availableTab')}</h3>
+          <h3 className="text-base font-semibold font-teen teen-text-heading">{t('availableTab')}</h3>
           {others.map(item => (
             <DownloadRow key={item.id} item={item} isDark={isDark} />
           ))}
@@ -130,7 +130,7 @@ function DownloadRow({ item, isDark }: { item: DownloadItem; isDark: boolean }) 
             background: `linear-gradient(135deg, ${isDark ? 'rgba(0,107,143,0.2)' : 'rgba(0,107,143,0.1)'}, ${isDark ? 'rgba(123,104,238,0.15)' : 'rgba(123,104,238,0.07)'})`,
           }}>
           <Play size={18} className={isDark ? 'text-white/60' : 'text-teen-ocean/60'} />
-          <div className="absolute bottom-0.5 right-1 px-1 py-px rounded text-[9px] font-bold"
+          <div className="absolute bottom-0.5 right-1 px-1 py-px rounded text-[9px] font-medium"
             style={{
               background: isDark ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.5)',
               color: '#FFFFFF',

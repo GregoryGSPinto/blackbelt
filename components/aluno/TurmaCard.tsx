@@ -96,8 +96,8 @@ export function TurmaCard({ turma, index = 0, onClick }: TurmaCardProps) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 mb-1.5">
-              <h3 className="text-white font-bold text-lg leading-tight truncate">{turma.nome}</h3>
-              <span className={`flex-shrink-0 px-2 py-0.5 rounded-md text-[10px] font-bold border ${badge.bg} ${badge.text}`}>
+              <h3 className="text-white font-semibold text-lg leading-tight truncate">{turma.nome}</h3>
+              <span className={`flex-shrink-0 px-2 py-0.5 rounded-md text-[10px] font-medium border ${badge.bg} ${badge.text}`}>
                 {turma.categoria}
               </span>
             </div>
@@ -112,11 +112,11 @@ export function TurmaCard({ turma, index = 0, onClick }: TurmaCardProps) {
             {turma.proximaSessao.emAndamento ? (
               <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/20">
                 <div className="w-2 h-2 rounded-full bg-emerald-500" style={{ animation: 'turma-live-dot 1.5s ease-in-out infinite' }} />
-                <span className="text-emerald-400 text-[10px] font-bold uppercase">Ao Vivo</span>
+                <span className="text-emerald-400 text-[10px] font-medium uppercase">Ao Vivo</span>
               </div>
             ) : (
               <div className="px-2.5 py-1.5 rounded-lg text-center" style={{ background: `${turma.cor}15`, border: `1px solid ${turma.cor}25` }}>
-                <p className="text-[10px] font-bold uppercase" style={{ color: turma.cor }}>{turma.proximaSessao.dia}</p>
+                <p className="text-[10px] font-medium uppercase" style={{ color: turma.cor }}>{turma.proximaSessao.dia}</p>
                 <p className="text-white/50 text-[10px]">{turma.proximaSessao.horario}</p>
               </div>
             )}
@@ -145,7 +145,7 @@ export function TurmaCard({ turma, index = 0, onClick }: TurmaCardProps) {
           <div className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
             <p className="text-white/30 text-[10px] uppercase tracking-wider mb-1.5">Minha Presença</p>
             <div className="flex items-end gap-1">
-              <span className={`text-xl font-bold tabular-nums ${presencaColor(turma.minhaPresenca)}`}>
+              <span className={`text-xl font-medium tabular-nums ${presencaColor(turma.minhaPresenca)}`}>
                 {turma.minhaPresenca}%
               </span>
             </div>
@@ -165,7 +165,7 @@ export function TurmaCard({ turma, index = 0, onClick }: TurmaCardProps) {
             <p className="text-white/30 text-[10px] uppercase tracking-wider mb-1.5">Alunos</p>
             <div className="flex items-center gap-1.5">
               <Users size={14} className="text-white/30" />
-              <span className="text-white font-bold text-xl tabular-nums">
+              <span className="text-white font-medium text-xl tabular-nums">
                 {turma.matriculados}
                 <span className="text-white/30 font-normal text-sm">/{turma.capacidade}</span>
               </span>

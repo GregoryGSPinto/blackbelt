@@ -56,7 +56,7 @@ export default function StepInvite({ academyId, onComplete, onBack, tokens }: St
         >
           <UserPlus className="w-6 h-6" />
         </div>
-        <h2 className="text-xl font-bold" style={{ color: tokens.text }}>
+        <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
           Invite your Team
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>

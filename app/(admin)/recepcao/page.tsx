@@ -134,7 +134,7 @@ export default function RecepcaoPage() {
           <div>
             <div className="flex items-center gap-4 mb-2">
               <div className="w-16 h-16 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">C</span>
+                <span className="text-white font-medium text-2xl">C</span>
               </div>
               <div>
                 <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('reception.title')}</h1>
@@ -159,7 +159,7 @@ export default function RecepcaoPage() {
                 <Check className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.welcome')}</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mb-2">{t('reception.welcome')}</h3>
                 <p className="text-2xl text-green-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-1">
                   {t('reception.checkinDoneAt', { time: formatTime(new Date()) })}
@@ -177,7 +177,7 @@ export default function RecepcaoPage() {
                 <X className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{t('reception.accessBlocked')}</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mb-2">{t('reception.accessBlocked')}</h3>
                 <p className="text-2xl text-red-400">{selectedAluno.nome}</p>
                 <p className="text-lg text-white/50 mt-2">
                   {selectedAluno.observacoes || t('reception.goToReception')}
@@ -191,7 +191,7 @@ export default function RecepcaoPage() {
         <div className="flex gap-3">
           <button
             onClick={() => setMode('manual')}
-            className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-xl text-lg font-bold transition-all ${
+            className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-xl text-lg font-medium transition-all ${
               mode === 'manual'
                 ? 'bg-white/10 border-2 border-white/20 text-white'
                 : 'bg-white/5 border-2 border-transparent text-white/40 hover:text-white/60'
@@ -202,7 +202,7 @@ export default function RecepcaoPage() {
           </button>
           <button
             onClick={() => setMode('qr')}
-            className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-xl text-lg font-bold transition-all ${
+            className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-xl text-lg font-medium transition-all ${
               mode === 'qr'
                 ? 'bg-blue-600/20 border-2 border-blue-500/30 text-blue-400'
                 : 'bg-white/5 border-2 border-transparent text-white/40 hover:text-white/60'
@@ -217,7 +217,7 @@ export default function RecepcaoPage() {
         {mode === 'qr' && (
           <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
             <div className="max-w-md mx-auto">
-              <h2 className="text-xl font-bold text-white text-center mb-2">{t('reception.qrScanner')}</h2>
+              <h2 className="text-xl font-semibold text-white text-center mb-2">{t('reception.qrScanner')}</h2>
               <p className="text-white/40 text-sm text-center mb-6">
                 {t('reception.pointCameraQR')}
               </p>
@@ -233,7 +233,7 @@ export default function RecepcaoPage() {
                   <div className="flex items-center gap-3">
                     <AlertCircle size={20} className="text-red-400 flex-shrink-0" />
                     <div>
-                      <p className="text-red-400 font-bold text-sm">{t('reception.checkinError')}</p>
+                      <p className="text-red-400 font-medium text-sm">{t('reception.checkinError')}</p>
                       <p className="text-white/50 text-sm">{qrResult.error}</p>
                     </div>
                   </div>
@@ -248,7 +248,7 @@ export default function RecepcaoPage() {
                       <Check size={24} className="text-green-400" />
                     </div>
                     <div>
-                      <p className="text-green-400 font-bold">{qrResult.aluno.nome}</p>
+                      <p className="text-green-400 font-medium">{qrResult.aluno.nome}</p>
                       <p className="text-white/50 text-sm">{qrResult.aluno.graduacao} • {t('reception.checkinRegistered')}</p>
                     </div>
                   </div>
@@ -297,13 +297,13 @@ export default function RecepcaoPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-6 flex-1">
                         <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-2xl">
+                          <span className="text-white font-medium text-2xl">
                             {aluno.nome.split(' ').map(n => n[0]).join('').substring(0, 2)}
                           </span>
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h4 className="text-xl sm:text-2xl font-bold text-white">{aluno.nome}</h4>
+                            <h4 className="text-xl sm:text-2xl font-semibold text-white">{aluno.nome}</h4>
                             {aluno.status === 'ATIVO' && (
                               <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-green-400 font-medium">
                                 {t('reception.statusActive')}
@@ -331,7 +331,7 @@ export default function RecepcaoPage() {
                       <button
                         onClick={() => handleCheckIn(aluno)}
                         disabled={jaFezCheckIn || aluno.status === 'BLOQUEADO'}
-                        className={`px-10 py-5 rounded-xl font-bold text-lg transition-all ${
+                        className={`px-10 py-5 rounded-xl font-medium text-lg transition-all ${
                           jaFezCheckIn
                             ? 'bg-white/10 text-white/40 cursor-not-allowed'
                             : aluno.status === 'BLOQUEADO'
@@ -373,11 +373,11 @@ export default function RecepcaoPage() {
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
               <p className="text-xl text-white/50 mb-2">{t('reception.checkinsToday')}</p>
-              <p className="text-6xl font-bold text-white/70">{checkInsHoje.length}</p>
+              <p className="text-6xl font-medium text-white/70">{checkInsHoje.length}</p>
             </div>
             <div className="bg-black/40 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-8">
               <p className="text-xl text-white/50 mb-2">{t('reception.totalStudents')}</p>
-              <p className="text-6xl font-bold text-white">{alunos.length}</p>
+              <p className="text-6xl font-medium text-white">{alunos.length}</p>
             </div>
           </div>
         )}

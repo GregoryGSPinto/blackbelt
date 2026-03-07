@@ -28,7 +28,7 @@ export default function AreaDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg font-bold mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.areaNotFound')}</p>
+          <p className="text-lg font-medium mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.areaNotFound')}</p>
           <button onClick={() => router.push('/academia')}
             className="text-primary-light text-sm font-medium">
             {t('unit.backToUnit')}
@@ -65,7 +65,7 @@ export default function AreaDetailPage() {
               <Icon size={30} className="text-white" />
             </div>
             <div className="flex-1">
-              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold leading-tight mb-2"
+              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold leading-tight mb-2"
                 style={{ color: 'rgb(var(--color-text))' }}>
                 {area.title}
               </h1>
@@ -84,7 +84,7 @@ export default function AreaDetailPage() {
                   background: `linear-gradient(90deg, ${area.accentDark}, ${area.accent})`,
                 }} />
             </div>
-            <span className="text-sm font-bold" style={{ color: area.accent }}>{pct}%</span>
+            <span className="text-sm font-medium" style={{ color: area.accent }}>{pct}%</span>
           </div>
 
           <div className="flex items-center gap-3 mt-3">
@@ -108,7 +108,7 @@ export default function AreaDetailPage() {
           }}>
           <div className="flex items-center gap-2 mb-6">
             <BookOpen size={18} style={{ color: area.accent }} />
-            <h2 className="text-lg font-bold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>
+            <h2 className="text-lg font-semibold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>
               {t('unit.theoreticalContent')}
             </h2>
           </div>
@@ -137,14 +137,14 @@ export default function AreaDetailPage() {
 
           {/* Key Points */}
           <div className="mt-8 p-5 rounded-xl" style={{ background: 'rgb(var(--color-border) / 0.04)' }}>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-4"
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4"
               style={{ color: area.accent }}>
               {t('unit.keyPoints')}
             </h3>
             <div className="space-y-3">
               {area.content.keyPoints.map((kp, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold text-white"
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-medium text-white"
                     style={{ background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})` }}>
                     {i + 1}
                   </div>
@@ -172,7 +172,7 @@ export default function AreaDetailPage() {
               <Target size={22} className="text-white" />
             </div>
             <div className="text-left">
-              <p className="text-white font-bold text-base">
+              <p className="text-white font-medium text-base">
                 {p?.testCompleted ? t('unit.retakeTest') : t('unit.takeTest')}
               </p>
               <p className="text-white/60 text-sm mt-0.5">

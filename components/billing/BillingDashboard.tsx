@@ -71,9 +71,9 @@ export default function BillingDashboard({
         {currentPlan ? (
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-white">{currentPlan.name}</p>
+              <p className="text-xl font-medium text-white">{currentPlan.name}</p>
               <p className="text-sm text-zinc-400">{currentPlan.description}</p>
-              <p className="text-2xl font-bold text-white mt-2">
+              <p className="text-2xl font-medium text-white mt-2">
                 {formatPrice(currentPlan.priceCents)}
                 <span className="text-sm text-zinc-400 font-normal">/mes</span>
               </p>
@@ -119,9 +119,9 @@ export default function BillingDashboard({
                 currentPlan?.id === plan.id ? 'border-indigo-500' : 'border-zinc-800'
               }`}
             >
-              <h3 className="text-lg font-bold text-white">{plan.name}</h3>
+              <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
               <p className="text-sm text-zinc-400 mt-1">{plan.description}</p>
-              <p className="text-2xl font-bold text-white mt-3">
+              <p className="text-2xl font-medium text-white mt-3">
                 {formatPrice(plan.priceCents)}
                 <span className="text-sm text-zinc-400 font-normal">/mes</span>
               </p>
@@ -162,7 +162,7 @@ export default function BillingDashboard({
             return (
               <div key={metric} className="space-y-1">
                 <p className="text-sm text-zinc-400">{METRIC_LABELS[metric]}</p>
-                <p className="text-xl font-bold text-white">
+                <p className="text-xl font-medium text-white">
                   {value.toLocaleString('pt-BR')}
                   {limit > 0 && (
                     <span className="text-sm text-zinc-500 font-normal">

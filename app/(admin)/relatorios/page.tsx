@@ -131,7 +131,7 @@ export default function RelatoriosPage() {
                       <Icon size={16} style={{ color: config.cor }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-bold ${isSelected ? 'text-white' : 'text-white/70'}`}>
+                      <p className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-white/70'}`}>
                         {config.nome}
                       </p>
                       <p className="text-[10px] text-white/30 line-clamp-2 mt-0.5">
@@ -187,7 +187,7 @@ export default function RelatoriosPage() {
             <button
               onClick={handleGerar}
               disabled={generating}
-              className="flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-300 text-sm font-bold hover:bg-blue-500/30 transition-colors disabled:opacity-40"
+              className="flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-300 text-sm font-medium hover:bg-blue-500/30 transition-colors disabled:opacity-40"
             >
               {generating ? (
                 <><Loader2 size={16} className="animate-spin" /> {t('reports.generating')}</>
@@ -213,7 +213,7 @@ export default function RelatoriosPage() {
               {relatorio.resumo.map((r, i) => (
                 <div key={i} className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-2.5">
                   <p className="text-[9px] text-white/25 uppercase tracking-wider">{r.label}</p>
-                  <p className="text-lg font-black text-white">{r.valor}</p>
+                  <p className="text-lg font-medium text-white">{r.valor}</p>
                 </div>
               ))}
             </div>
@@ -229,7 +229,7 @@ export default function RelatoriosPage() {
                 <button
                   key={formato}
                   onClick={() => handleExport(formato)}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-bold transition-colors hover:opacity-80 ${cfg.color}`}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-medium transition-colors hover:opacity-80 ${cfg.color}`}
                 >
                   <FormatoIcon size={14} />
                   {cfg.label}
@@ -250,7 +250,7 @@ export default function RelatoriosPage() {
                     {relatorio.colunas.map(col => (
                       <th
                         key={col.key}
-                        className="text-left px-4 py-3 text-white/30 font-bold uppercase tracking-wider text-[10px] whitespace-nowrap"
+                        className="text-left px-4 py-3 text-white/30 font-medium uppercase tracking-wider text-[10px] whitespace-nowrap"
                       >
                         {col.label}
                       </th>
@@ -295,10 +295,10 @@ export default function RelatoriosPage() {
 function StepHeader({ number, title }: { number: number; title: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
-      <span className="w-6 h-6 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-[10px] font-bold text-white/40">
+      <span className="w-6 h-6 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-[10px] font-medium text-white/40">
         {number}
       </span>
-      <h2 className="text-sm font-bold text-white/50">{title}</h2>
+      <h2 className="text-sm font-semibold text-white/50">{title}</h2>
     </div>
   );
 }
@@ -320,7 +320,7 @@ function CellValue({ value, colKey }: { value: string | number | boolean | undef
       'Cancelado': 'text-red-400 bg-red-500/10',
     };
     const colorCls = colors[str] || 'text-white/40 bg-white/5';
-    return <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${colorCls}`}>{str}</span>;
+    return <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${colorCls}`}>{str}</span>;
   }
 
   // Risco badges
@@ -330,7 +330,7 @@ function CellValue({ value, colKey }: { value: string | number | boolean | undef
       'Médio': 'text-amber-400 bg-amber-500/10',
       'Baixo': 'text-emerald-400 bg-emerald-500/10',
     };
-    return <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${colors[str] || ''}`}>{str}</span>;
+    return <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${colors[str] || ''}`}>{str}</span>;
   }
 
   // Conquista emoji
@@ -342,7 +342,7 @@ function CellValue({ value, colKey }: { value: string | number | boolean | undef
   // Apto badge
   if (colKey === 'apto_exame') {
     return str === 'Sim'
-      ? <span className="text-emerald-400 font-bold">✓ Sim</span>
+      ? <span className="text-emerald-400 font-medium">✓ Sim</span>
       : <span className="text-white/25">Não</span>;
   }
 
@@ -350,7 +350,7 @@ function CellValue({ value, colKey }: { value: string | number | boolean | undef
   if (colKey === 'pct_frequencia' || colKey === 'presenca_pct') {
     const num = Number(str);
     const color = num >= 80 ? 'text-emerald-400' : num >= 60 ? 'text-amber-400' : 'text-red-400';
-    return <span className={`font-bold ${color}`}>{str}%</span>;
+    return <span className={`font-medium ${color}`}>{str}%</span>;
   }
 
   return <span>{str}</span>;

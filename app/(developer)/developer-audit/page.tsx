@@ -21,7 +21,7 @@ const severityStyle: Record<string, string> = {
   INFO: 'text-emerald-400 bg-emerald-400/10',
   WARN: 'text-yellow-400 bg-yellow-400/10',
   ERROR: 'text-red-400 bg-red-400/10',
-  CRITICAL: 'text-red-300 bg-red-500/20 font-bold',
+  CRITICAL: 'text-red-300 bg-red-500/20 font-medium',
 };
 
 export default function DeveloperAuditPage() {

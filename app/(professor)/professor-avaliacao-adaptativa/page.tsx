@@ -22,7 +22,7 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
           <div className="p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
             <Brain size={20} className="text-violet-400" />
           </div>
-          <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
+          <h1 className="text-xl md:text-2xl font-semibold text-zinc-100">
             {t('title')}
           </h1>
         </div>

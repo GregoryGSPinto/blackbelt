@@ -74,7 +74,8 @@
       "Bash(for icon in Tag AlunoEmRisco; do echo \"=== $icon ===\"; grep -n \"$icon\" 'app/\\(admin\\)/marketing/page.tsx' | grep -v \"^[0-9]*:import\" | head -3; done)",
       "Bash(for icon in TrendingUp Calendar; do echo \"=== $icon ===\"; grep -n \"<$icon\\\\|{$icon}\" 'app/\\(admin\\)/metas/page.tsx' | head -3; done)",
       "Bash(for icon in Clock BarChart Bar; do echo \"=== $icon ===\"; grep -n \"<$icon \" 'components/admin/OwnerExecutiveDashboard.tsx' | head -3; done)",
-      "Bash(ls -la 'app/\\(super-admin\\)/super-admin/usuarios/page.tsx' 'app/\\(super-admin\\)/super-admin/logs/page.tsx' 'app/\\(super-admin\\)/super-admin/inadimplencia/page.tsx' 'app/\\(super-admin\\)/super-admin/impersonar/page.tsx' 'app/\\(super-admin\\)/super-admin/notificacoes/page.tsx' 2>&1)"
+      "Bash(ls -la 'app/\\(super-admin\\)/super-admin/usuarios/page.tsx' 'app/\\(super-admin\\)/super-admin/logs/page.tsx' 'app/\\(super-admin\\)/super-admin/inadimplencia/page.tsx' 'app/\\(super-admin\\)/super-admin/impersonar/page.tsx' 'app/\\(super-admin\\)/super-admin/notificacoes/page.tsx' 2>&1)",
+      "Bash(wc -l /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(auth\\\\\\)/login/page.tsx)"
     ]
   }
 }

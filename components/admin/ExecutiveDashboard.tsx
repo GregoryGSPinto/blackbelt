@@ -232,7 +232,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
             </div>
 
             <p
-              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tabular-nums leading-none mb-1"
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium tabular-nums leading-none mb-1"
               style={{ color: kpi.color }}
             >
               {kpi.value}
@@ -270,7 +270,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
           </div>
           <div className="flex items-center gap-1.5">
             <Users size={13} className="text-blue-400/50" />
-            <span className="text-lg font-bold text-blue-400 tabular-nums">{stats.alunosAtivos}</span>
+            <span className="text-lg font-medium text-blue-400 tabular-nums">{stats.alunosAtivos}</span>
           </div>
         </div>
 
@@ -353,7 +353,7 @@ export default function ExecutiveDashboard({ stats }: ExecutiveDashboardProps) {
           ].map(item => (
             <div key={item.label}>
               <p className="text-[10px] text-white/25 mb-1">{item.label}</p>
-              <p className={`text-lg font-bold tabular-nums ${item.color}`}>{item.value}</p>
+              <p className={`text-lg font-medium tabular-nums ${item.color}`}>{item.value}</p>
             </div>
           ))}
         </div>

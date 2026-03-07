@@ -105,7 +105,7 @@ export default function SuperAdminAIHealthPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
             {t('pageTitle')}
           </h1>
           <p className="text-sm text-[var(--text-secondary)] mt-1">
@@ -122,7 +122,7 @@ export default function SuperAdminAIHealthPage() {
         <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)] mb-2">
           {t('healthScore')}
         </p>
-        <p className={`text-5xl font-bold ${scoreColor}`}>
+        <p className={`text-5xl font-medium ${scoreColor}`}>
           <AnimatedCounter value={healthScore} />
         </p>
         <p className="text-xs text-[var(--text-secondary)] mt-2">
@@ -213,7 +213,7 @@ export default function SuperAdminAIHealthPage() {
                 <StaggerItem key={academy.id}>
                   <div className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-secondary)] hover-card">
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-bold text-gold-500 w-5">
+                      <span className="text-xs font-medium text-gold-500 w-5">
                         #{i + 1}
                       </span>
                       <span className="text-sm text-[var(--text-primary)]">
@@ -287,7 +287,7 @@ function HealthMetricCard({
           {icon}
         </div>
       </div>
-      <p className="text-2xl font-bold text-[var(--text-primary)]">{value}</p>
+      <p className="text-2xl font-medium text-[var(--text-primary)]">{value}</p>
       <p className="text-xs text-[var(--text-secondary)] mt-1">{label}</p>
     </div>
   );

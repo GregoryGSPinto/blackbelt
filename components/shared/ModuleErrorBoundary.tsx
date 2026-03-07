@@ -174,11 +174,11 @@ function ErrorFallbackUI({
               <div className="flex-1">
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3 ${config.badgeColor}`}>
                   <AlertTriangle size={14} />
-                  <span className="text-xs font-bold uppercase tracking-wide">
+                  <span className="text-xs font-medium uppercase tracking-wide">
                     {t('moduleError')}
                   </span>
                 </div>
-                <h1 className="text-xl md:text-2xl lg:text-4xl font-black text-white mb-2 flex items-center gap-3">
+                <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold text-white mb-2 flex items-center gap-3">
                   <span>{config.emoji}</span>
                   <span>{config.displayName}</span>
                 </h1>
@@ -246,7 +246,7 @@ function ErrorFallbackUI({
                   size={20}
                   className="text-white/80 group-hover:text-white group-hover:rotate-180 transition-all duration-500"
                 />
-                <span className="text-sm font-bold text-white">
+                <span className="text-sm font-medium text-white">
                   {t('tryAgain')}
                 </span>
               </button>
@@ -259,7 +259,7 @@ function ErrorFallbackUI({
                   size={20}
                   className="text-gray-900 group-hover:scale-110 transition-transform"
                 />
-                <span className="text-sm font-bold text-gray-900">
+                <span className="text-sm font-medium text-gray-900">
                   {t('goHome')}
                 </span>
               </Link>
@@ -277,7 +277,7 @@ function ErrorFallbackUI({
           <div className="mt-6 bg-black/60 backdrop-blur-sm border border-red-500/20 rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle size={16} className="text-red-400" />
-              <h3 className="text-sm font-bold text-red-300 uppercase tracking-wide">
+              <h3 className="text-sm font-semibold text-red-300 uppercase tracking-wide">
                 Dev Mode - Stack Trace
               </h3>
             </div>

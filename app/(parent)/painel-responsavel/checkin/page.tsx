@@ -70,7 +70,7 @@ export default function CheckinPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <AlertCircle size={40} className="mx-auto mb-3 text-yellow-400/50" />
-          <p className="text-lg font-bold text-white/60">{t('noChildSelected')}</p>
+          <p className="text-lg font-medium text-white/60">{t('noChildSelected')}</p>
         </div>
       </div>
     );
@@ -192,7 +192,7 @@ function StatCard({ label, value, color }: { label: string; value: string; color
       className="rounded-xl p-3 text-center"
       style={{ background: `${color}08`, border: `1px solid ${color}12` }}
     >
-      <p className="text-lg font-black" style={{ color }}>{value}</p>
+      <p className="text-lg font-medium" style={{ color }}>{value}</p>
       <p className="text-[9px] text-white/30 mt-0.5">{label}</p>
     </div>
   );

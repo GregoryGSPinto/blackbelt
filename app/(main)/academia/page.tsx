@@ -22,7 +22,7 @@ export default function UnidadePage() {
             <Trophy size={14} className="text-primary-light" />
             <span className="text-xs font-semibold text-primary-light">{t('unit.title')}</span>
           </div>
-          <h1 className="text-2xl font-extrabold mb-2 leading-tight tracking-tight"
+          <h1 className="text-2xl font-semibold mb-2 leading-tight tracking-tight"
             style={{ color: 'var(--text-primary)' }}>
             {t('unit.subtitle')}
           </h1>
@@ -43,7 +43,7 @@ export default function UnidadePage() {
               {t('unit.title')}
             </span>
           </div>
-          <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] mb-4"
+          <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-semibold tracking-tight leading-[1.1] mb-4"
             style={{ color: 'var(--text-primary)' }}>
             {t('unit.subtitle')}
           </h1>
@@ -105,7 +105,7 @@ export default function UnidadePage() {
                   <Icon size={26} className="text-white" />
                 </div>
 
-                <h3 className="text-[17px] font-bold mb-2 group-hover/card:text-primary-light transition-colors leading-snug"
+                <h3 className="text-[17px] font-semibold mb-2 group-hover/card:text-primary-light transition-colors leading-snug"
                   style={{ color: 'var(--text-primary)' }}>
                   {area.title}
                 </h3>
@@ -132,7 +132,7 @@ export default function UnidadePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <span style={{ color: 'var(--text-secondary)' }} className="font-medium">{t('unit.progressLabel')}</span>
-                    <span className="font-bold" style={{ color: area.accent }}>{pct}%</span>
+                    <span className="font-medium" style={{ color: area.accent }}>{pct}%</span>
                   </div>
                   <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--card-bg)' }}>
                     <div className="h-full rounded-full transition-all duration-700"
@@ -248,7 +248,7 @@ export default function UnidadePage() {
                         background: `linear-gradient(90deg, ${area.accentDark}, ${area.accent})`,
                       }} />
                   </div>
-                  <div className="w-12 text-right text-[13px] font-bold" style={{ color: area.accent }}>
+                  <div className="w-12 text-right text-[13px] font-medium" style={{ color: area.accent }}>
                     {pct}%
                   </div>
                 </div>
@@ -258,7 +258,7 @@ export default function UnidadePage() {
 
           <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid black' }}>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
-              {t('unit.overallAvg')} <span className="text-primary-light font-bold text-lg">{avgProgress}%</span>
+              {t('unit.overallAvg')} <span className="text-primary-light font-medium text-lg">{avgProgress}%</span>
             </p>
           </div>
         </div>

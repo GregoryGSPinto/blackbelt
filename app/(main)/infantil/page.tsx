@@ -6,7 +6,7 @@ export default async function InfantilPage() {
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="text-center max-w-md">
         <div className="text-8xl mb-6">🥋</div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{t('infantil.title')}</h1>
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">{t('infantil.title')}</h1>
         <p className="text-lg text-white/40 mb-8">
           {t('infantil.description')}
         </p>

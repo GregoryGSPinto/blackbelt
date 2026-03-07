@@ -102,7 +102,7 @@ export default function TurmasPage() {
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-1">{turma.nome}</h3>
+                  <h3 className="text-lg font-semibold text-white mb-1">{turma.nome}</h3>
                   <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
                     turma.categoria === 'ADULTO'
                       ? 'bg-white/10 text-white'

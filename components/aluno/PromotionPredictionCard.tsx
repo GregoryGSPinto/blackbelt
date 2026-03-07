@@ -49,7 +49,7 @@ export function PromotionPredictionCard({ prediction }: PromotionPredictionCardP
         <div className="flex items-center justify-center gap-3">
           <div className="flex flex-col items-center">
             <div className="w-10 h-10 rounded-full bg-zinc-800 border-2 border-zinc-600 flex items-center justify-center">
-              <span className="text-[10px] font-bold text-zinc-400">Atual</span>
+              <span className="text-[10px] font-medium text-zinc-400">Atual</span>
             </div>
             <span className="text-[10px] text-zinc-500 mt-1.5 text-center max-w-[72px] leading-tight">
               {prediction.currentBelt}
@@ -64,7 +64,7 @@ export function PromotionPredictionCard({ prediction }: PromotionPredictionCardP
 
           <div className="flex flex-col items-center">
             <div className="w-10 h-10 rounded-full bg-blue-500/10 border-2 border-blue-500/40 flex items-center justify-center">
-              <span className="text-[10px] font-bold text-blue-400">Prox</span>
+              <span className="text-[10px] font-medium text-blue-400">Prox</span>
             </div>
             <span className="text-[10px] text-zinc-500 mt-1.5 text-center max-w-[72px] leading-tight">
               {prediction.nextBelt}
@@ -76,7 +76,7 @@ export function PromotionPredictionCard({ prediction }: PromotionPredictionCardP
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Progresso</span>
-            <span className="text-xs font-bold text-zinc-300">{progressClamped}%</span>
+            <span className="text-xs font-medium text-zinc-300">{progressClamped}%</span>
           </div>
           <div className="h-2 rounded-full bg-zinc-800">
             <div

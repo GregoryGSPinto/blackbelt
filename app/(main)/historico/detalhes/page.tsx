@@ -111,7 +111,7 @@ export default function HistoricoDetalhes() {
           >
             <ArrowLeft size={16} /> {t('history.backToSummary')}
           </button>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2" style={{ color: 'rgb(var(--color-text))' }}>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2" style={{ color: 'rgb(var(--color-text))' }}>
             {t('history.allTrainings')}
           </h1>
           <p style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
@@ -141,7 +141,7 @@ export default function HistoricoDetalhes() {
         {/* Grouped list */}
         {Object.entries(grouped).map(([month, treinos]) => (
           <section key={month}>
-            <h2 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
+            <h2 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>
               {month}
             </h2>
             <div className="space-y-3">
@@ -153,7 +153,7 @@ export default function HistoricoDetalhes() {
                   <div className="flex items-start gap-4">
                     {/* Date block */}
                     <div className="w-14 text-center flex-shrink-0 pt-0.5">
-                      <p className="text-lg sm:text-xl md:text-2xl font-black" style={{ color: 'rgb(var(--color-text))' }}>
+                      <p className="text-lg sm:text-xl md:text-2xl font-medium" style={{ color: 'rgb(var(--color-text))' }}>
                         {treino.data.split('/')[0]}
                       </p>
                       <p className="text-[10px] uppercase" style={{ color: 'rgb(var(--color-text-body) / var(--text-body-alpha))' }}>

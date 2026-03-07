@@ -70,10 +70,10 @@ export default function AdminLojaPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
         <div className="relative h-full flex items-end p-4 md:p-8">
           <div className="max-w-2xl">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white">{featuredProduct.name}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-3 text-white">{featuredProduct.name}</h1>
             <p className="text-sm md:text-base text-white/55 mb-4 line-clamp-2">{featuredProduct.description}</p>
             <div className="mt-4 flex items-center gap-3 text-sm text-white/40">
-              <span className="font-bold text-lg text-white/70">{formatMoney(featuredProduct.price)}</span>
+              <span className="font-medium text-lg text-white/70">{formatMoney(featuredProduct.price)}</span>
               <span>·</span>
               <span>{featuredProduct.installments}x sem juros</span>
             </div>

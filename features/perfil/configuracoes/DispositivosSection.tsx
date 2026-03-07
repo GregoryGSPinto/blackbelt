@@ -50,7 +50,7 @@ export function DispositivosSection() {
                     <DeviceIcon size={24} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-1">
+                    <h3 className="font-semibold text-lg mb-1">
                       {device.name}
                       {device.isCurrent && (
                         <span className="ml-2 px-2 py-0.5 bg-blue-600 text-white text-xs rounded-full">ATUAL</span>
@@ -78,7 +78,7 @@ export function DispositivosSection() {
       </div>
 
       {/* Encerrar todas as sessões */}
-      <button className="w-full py-4 bg-red-600/20 hover:bg-red-600/30 border-2 border-red-600/30 rounded-xl text-red-400 font-bold transition-all duration-200 hover:scale-[1.02] flex items-center justify-center gap-2">
+      <button className="w-full py-4 bg-red-600/20 hover:bg-red-600/30 border-2 border-red-600/30 rounded-xl text-red-400 font-medium transition-all duration-200 hover:scale-[1.02] flex items-center justify-center gap-2">
         <LogOut size={20} />
         Encerrar sessão em outros dispositivos
       </button>

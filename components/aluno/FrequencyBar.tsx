@@ -70,13 +70,13 @@ export function FrequencyBar({
 
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-white font-bold text-sm flex items-center gap-2">
+        <h3 className="text-white font-semibold text-sm flex items-center gap-2">
           <Target size={15} className="text-emerald-400/70" />
           Frequência Mensal
         </h3>
         <div className={`flex items-center gap-1 ${trendColor}`}>
           <TrendIcon size={14} />
-          <span className="text-xs font-bold">{trendText}</span>
+          <span className="text-xs font-medium">{trendText}</span>
           <span className="text-white/20 text-[10px] ml-0.5">vs anterior</span>
         </div>
       </div>
@@ -98,16 +98,16 @@ export function FrequencyBar({
 
       {/* Labels */}
       <div className="flex items-center justify-between mb-5">
-        <span className="text-white font-bold">
+        <span className="text-white font-medium">
           {sessõesAssistidas}
           <span className="text-white/30 font-normal text-sm">/{metaMensal} sessões</span>
         </span>
         {faltam > 0 ? (
           <span className="text-white/40 text-xs">
-            Faltam <span className="text-white/70 font-bold">{faltam}</span> para a meta
+            Faltam <span className="text-white/70 font-medium">{faltam}</span> para a meta
           </span>
         ) : (
-          <span className="text-emerald-400 text-xs font-bold">Meta atingida! 🎉</span>
+          <span className="text-emerald-400 text-xs font-medium">Meta atingida! 🎉</span>
         )}
       </div>
 

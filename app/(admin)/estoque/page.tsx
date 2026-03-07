@@ -144,8 +144,8 @@ export default function EstoquePage() {
         <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
           <AlertTriangle size={16} className="text-amber-400/60 mt-0.5 shrink-0" />
           <div className="text-xs text-amber-300/50">
-            {semEstoque > 0 && <span className="font-bold text-red-400">{semEstoque} produto(s) sem estoque. </span>}
-            {baixoEstoque > 0 && <span className="font-bold text-amber-400">{baixoEstoque} produto(s) abaixo do mínimo. </span>}
+            {semEstoque > 0 && <span className="font-medium text-red-400">{semEstoque} produto(s) sem estoque. </span>}
+            {baixoEstoque > 0 && <span className="font-medium text-amber-400">{baixoEstoque} produto(s) abaixo do mínimo. </span>}
             Verifique a aba de produtos para detalhes.
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function EstoquePage() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
               tab === t.key ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/50'
             }`}
           >
@@ -186,7 +186,7 @@ export default function EstoquePage() {
             <div className="flex gap-1.5 flex-wrap">
               {(['todas', 'uniformes', 'roupas', 'acessorios', 'conveniencia'] as CategoriaFilter[]).map(c => (
                 <button key={c} onClick={() => setCatFilter(c)}
-                  className={`px-3 py-2 rounded-lg text-[11px] font-bold transition-colors ${
+                  className={`px-3 py-2 rounded-lg text-[11px] font-medium transition-colors ${
                     catFilter === c ? 'bg-white/10 text-white' : 'text-white/25 hover:text-white/40'
                   }`}>
                   {c === 'todas' ? 'Todas' : CATEGORIA_CONFIG[c]?.label}
@@ -217,10 +217,10 @@ export default function EstoquePage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-bold text-white/80 truncate">{prod.nome}</p>
+                        <p className="text-sm font-medium text-white/80 truncate">{prod.nome}</p>
                         {prod.sku && <span className="text-[9px] text-white/15 font-mono">{prod.sku}</span>}
                         {prod.curvaABC && (
-                          <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${ABC_COLORS[prod.curvaABC].bg} ${ABC_COLORS[prod.curvaABC].text}`}>
+                          <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${ABC_COLORS[prod.curvaABC].bg} ${ABC_COLORS[prod.curvaABC].text}`}>
                             {prod.curvaABC}
                           </span>
                         )}
@@ -230,7 +230,7 @@ export default function EstoquePage() {
 
                     {/* Stock indicator */}
                     <div className="text-right shrink-0">
-                      <p className={`text-lg font-black ${isCritical ? 'text-red-400' : isLow ? 'text-amber-400' : 'text-white/70'}`}>
+                      <p className={`text-lg font-medium ${isCritical ? 'text-red-400' : isLow ? 'text-amber-400' : 'text-white/70'}`}>
                         {prod.estoque}
                       </p>
                       <p className="text-[9px] text-white/20">mín: {prod.estoqueMinimo}</p>
@@ -270,8 +270,8 @@ export default function EstoquePage() {
                                 t.estoque <= 2 ? 'bg-amber-500/5 border-amber-500/20' :
                                 'bg-black/30 border-white/10'
                               }`}>
-                                <p className="text-[10px] text-white/30 font-bold">{t.tamanho}</p>
-                                <p className={`text-sm font-black ${
+                                <p className="text-[10px] text-white/30 font-medium">{t.tamanho}</p>
+                                <p className={`text-sm font-medium ${
                                   t.estoque === 0 ? 'text-red-400' : t.estoque <= 2 ? 'text-amber-400' : 'text-white/60'
                                 }`}>{t.estoque}</p>
                               </div>
@@ -284,13 +284,13 @@ export default function EstoquePage() {
                       <div className="flex gap-2">
                         <button
                           onClick={e => { e.stopPropagation(); openModal('entrada', prod); }}
-                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-bold hover:bg-emerald-500/20 transition-colors"
+                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium hover:bg-emerald-500/20 transition-colors"
                         >
                           <Plus size={14} /> Entrada
                         </button>
                         <button
                           onClick={e => { e.stopPropagation(); openModal('ajuste', prod); }}
-                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-bold hover:bg-amber-500/20 transition-colors"
+                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-medium hover:bg-amber-500/20 transition-colors"
                         >
                           <RefreshCw size={14} /> Ajuste
                         </button>
@@ -320,7 +320,7 @@ export default function EstoquePage() {
                   <p className="text-[10px] text-white/25">{mov.motivo || 'Sem motivo'}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className={`text-sm font-bold ${cfg.color}`}>
+                  <p className={`text-sm font-medium ${cfg.color}`}>
                     {mov.tipo === 'entrada' ? '+' : mov.tipo === 'saida' ? '-' : ''}{Math.abs(mov.quantidade)}
                   </p>
                   <p className="text-[9px] text-white/20">{formatDate(mov.data, 'short')}</p>
@@ -355,9 +355,9 @@ export default function EstoquePage() {
             return (
               <div key={curva} className="rounded-xl bg-black/30 backdrop-blur-xl border border-white/10 overflow-hidden">
                 <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.04]">
-                  <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black ${cfg.bg} ${cfg.text}`}>{curva}</span>
+                  <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium ${cfg.bg} ${cfg.text}`}>{curva}</span>
                   <div className="flex-1">
-                    <p className={`text-sm font-bold ${cfg.text}`}>{cfg.label}</p>
+                    <p className={`text-sm font-medium ${cfg.text}`}>{cfg.label}</p>
                     <p className="text-[10px] text-white/20">{prods.length} produtos · Estoque: {fmt(valorTotal)}</p>
                   </div>
                 </div>
@@ -369,7 +369,7 @@ export default function EstoquePage() {
                         <span className="text-xs text-white/60 flex-1">{p.nome}</span>
                         <span className="text-[10px] text-white/20 font-mono">{p.sku}</span>
                         {margem !== null && <span className="text-[10px] text-white/30">{margem}%</span>}
-                        <span className={`text-xs font-bold ${p.estoque === 0 ? 'text-red-400' : p.estoque <= p.estoqueMinimo ? 'text-amber-400' : 'text-white/50'}`}>
+                        <span className={`text-xs font-medium ${p.estoque === 0 ? 'text-red-400' : p.estoque <= p.estoqueMinimo ? 'text-amber-400' : 'text-white/50'}`}>
                           {p.estoque} un
                         </span>
                       </div>
@@ -392,13 +392,13 @@ export default function EstoquePage() {
                   <Truck size={16} className="text-blue-400" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-white/70">{f.nome}</p>
+                  <p className="text-sm font-medium text-white/70">{f.nome}</p>
                   <p className="text-[10px] text-white/25">
                     {f.produtos} produtos · {Array.from(f.categorias).map(c => CATEGORIA_CONFIG[c]?.label || c).join(', ')}
                   </p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-sm font-bold text-white/60">{fmt(f.valorEstoque)}</p>
+                  <p className="text-sm font-medium text-white/60">{fmt(f.valorEstoque)}</p>
                   <p className="text-[9px] text-white/20">em estoque</p>
                 </div>
               </div>
@@ -462,7 +462,7 @@ function MiniStat({ label, value, icon: Icon, color, alert }: {
         <Icon size={12} className={color} />
         <span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span>
       </div>
-      <p className="text-sm font-black text-white">{value}</p>
+      <p className="text-sm font-medium text-white">{value}</p>
     </div>
   );
 }
@@ -498,7 +498,7 @@ function MovimentoModal({ mode, product, onClose, onConfirm }: {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="w-full max-w-md rounded-2xl bg-[#0D1117] border border-white/10 overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
-          <h3 className="text-base font-bold text-white">{title}</h3>
+          <h3 className="text-base font-semibold text-white">{title}</h3>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-white/10 text-white/30">
             <X size={18} />
           </button>
@@ -508,7 +508,7 @@ function MovimentoModal({ mode, product, onClose, onConfirm }: {
           <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/10">
             <Package size={18} className="text-white/30" />
             <div>
-              <p className="text-sm font-bold text-white/70">{product.nome}</p>
+              <p className="text-sm font-medium text-white/70">{product.nome}</p>
               <p className="text-[10px] text-white/25">Estoque atual: {product.estoque} · Mínimo: {product.estoqueMinimo}</p>
             </div>
           </div>
@@ -524,7 +524,7 @@ function MovimentoModal({ mode, product, onClose, onConfirm }: {
                 <Minus size={16} />
               </button>
               <input type="number" value={qty} onChange={e => setQty(Number(e.target.value))}
-                className="w-24 px-3 py-2.5 rounded-xl bg-black/30 border border-white/10 text-white/70 text-center text-lg font-bold focus:outline-none focus:border-white/20" />
+                className="w-24 px-3 py-2.5 rounded-xl bg-black/30 border border-white/10 text-white/70 text-center text-lg font-medium focus:outline-none focus:border-white/20" />
               <button onClick={() => setQty(q => q + 1)}
                 className="w-10 h-10 rounded-xl bg-black/30 border border-white/10 flex items-center justify-center text-white/40 hover:text-white/60">
                 <Plus size={16} />
@@ -547,11 +547,11 @@ function MovimentoModal({ mode, product, onClose, onConfirm }: {
         </div>
 
         <div className="flex gap-3 px-5 py-4 border-t border-white/[0.06]">
-          <button onClick={onClose} className="flex-1 px-4 py-2.5 rounded-xl bg-black/30 border border-white/10 text-white/40 text-sm font-bold hover:bg-white/10 transition-colors">
+          <button onClick={onClose} className="flex-1 px-4 py-2.5 rounded-xl bg-black/30 border border-white/10 text-white/40 text-sm font-medium hover:bg-white/10 transition-colors">
             Cancelar
           </button>
           <button onClick={handleSubmit} disabled={qty === 0}
-            className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors disabled:opacity-30 bg-${color}-500/15 border border-${color}-500/25 text-${color}-300 hover:bg-${color}-500/25`}>
+            className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors disabled:opacity-30 bg-${color}-500/15 border border-${color}-500/25 text-${color}-300 hover:bg-${color}-500/25`}>
             Confirmar
           </button>
         </div>

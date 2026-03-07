@@ -81,7 +81,7 @@ export function StartClassModal({ turmas, onClose, onStarted }: StartClassModalP
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/[0.06]">
           <div>
-            <h2 className="text-white font-bold text-lg">{t('title')}</h2>
+            <h2 className="text-white font-semibold text-lg">{t('title')}</h2>
             <p className="text-white/30 text-xs mt-0.5">{t('selectClass')}</p>
           </div>
           <button
@@ -111,7 +111,7 @@ export function StartClassModal({ turmas, onClose, onStarted }: StartClassModalP
                   <div className="flex items-center gap-2">
                     <span className="text-white font-semibold text-sm">{turma.nome}</span>
                     {isToday && (
-                      <span className="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full font-bold">
+                      <span className="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full font-medium">
                         HOJE
                       </span>
                     )}
@@ -143,7 +143,7 @@ export function StartClassModal({ turmas, onClose, onStarted }: StartClassModalP
           <button
             onClick={handleStart}
             disabled={!selectedId || loading}
-            className="w-full py-3 rounded-xl bg-amber-500/90 text-black font-bold text-sm hover:bg-amber-400 transition-colors active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl bg-amber-500/90 text-black font-medium text-sm hover:bg-amber-400 transition-colors active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

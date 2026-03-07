@@ -89,7 +89,7 @@ export default function MeusInsightsPage() {
     <div className="min-h-screen p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
+        <h1 className="text-xl md:text-2xl font-semibold text-zinc-100">
           {t('insights.title')}
         </h1>
         <p className="text-sm text-zinc-500 mt-1">

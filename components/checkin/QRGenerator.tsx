@@ -203,13 +203,13 @@ export function QRGenerator({
       {/* Header: Avatar + Info */}
       <div className="flex items-center gap-3 mb-4">
         <div
-          className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold border-2"
+          className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-medium border-2"
           style={{ borderColor: nivelColor, backgroundColor: `${nivelColor}20` }}
         >
           {avatar || nome.charAt(0)}
         </div>
         <div>
-          <p className="font-bold text-white text-lg">{nome}</p>
+          <p className="font-medium text-white text-lg">{nome}</p>
           <div className="flex items-center gap-2">
             <span
               className="w-3 h-3 rounded-full"
@@ -230,7 +230,7 @@ export function QRGenerator({
         {/* Center logo */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-10 h-10 rounded-lg bg-[#1a1a2e] flex items-center justify-center border-2 border-white">
-            <span className="text-white text-xs font-black">CJJ</span>
+            <span className="text-white text-xs font-medium">CJJ</span>
           </div>
         </div>
       </div>

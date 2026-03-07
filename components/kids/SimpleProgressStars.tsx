@@ -54,7 +54,7 @@ const SimpleProgressStars = memo(function SimpleProgressStars({ stars }: SimpleP
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xl">⭐</span>
-        <h3 className="text-zinc-200 font-bold text-lg">Minhas Estrelas</h3>
+        <h3 className="text-zinc-200 font-semibold text-lg">Minhas Estrelas</h3>
       </div>
 
       {/* Category Rows */}

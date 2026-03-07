@@ -49,7 +49,7 @@ export default function ProgressoPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
+          <h1 className="text-xl md:text-2xl font-semibold text-zinc-100">
             {t('title', { name: childName ? `de ${childName}` : '' })}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">

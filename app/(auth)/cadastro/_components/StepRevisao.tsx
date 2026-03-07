@@ -81,7 +81,7 @@ export function StepRevisao({ dados, kids, onFinalizar, onOpenModal, error }: St
             <div className="space-y-2">
               {kids.map((k, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-medium">
                     {k.nome.charAt(0).toUpperCase()}
                   </div>
                   <div>

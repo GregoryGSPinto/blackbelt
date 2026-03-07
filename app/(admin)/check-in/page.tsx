@@ -135,7 +135,7 @@ export default function CheckInPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('checkin.todayCheckins')}</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{checkInsHoje.length}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white/70">{checkInsHoje.length}</p>
             </div>
             <Check className="w-10 h-10 text-white/40" />
           </div>
@@ -145,7 +145,7 @@ export default function CheckInPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('checkin.totalStudents')}</p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alunos.length}</p>
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white">{alunos.length}</p>
             </div>
             <UsersIcon className="w-10 h-10 text-white/40" />
           </div>
@@ -238,7 +238,7 @@ export default function CheckInPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1">
                       <div className="w-14 h-14 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">
+                        <span className="text-white font-medium text-lg">
                           {aluno.nome.split(' ').map(n => n[0]).join('').substring(0, 2)}
                         </span>
                       </div>
