@@ -1,83 +1,41 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to the BlackBelt app will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - Sprint 1: Preparação para Produção
-
-### Added
-
-#### Seed e Dados Demo
-- Seed SQL completo (`supabase/seed.sql`) com:
-  - Academy demo com configurações completas
-  - Sistemas de faixa (BJJ, Judo, Muay Thai, Karate)
-  - Conquistas (attendance, streak, belt, social)
-  - Planos (Starter, Professional, Enterprise)
-  - Categorias e produtos da loja
-  - Áreas de conhecimento para Teen
-  - Séries e vídeos de conteúdo
-  - Eventos e CRM/leads
-- Scripts de seed para ambiente demo:
-  - `scripts/seed-demo-users.ts`: 9 usuários demo com perfis completos
-  - `scripts/seed-demo-classes.ts`: 15+ horários de aula
-  - `scripts/seed-all-demo.ts`: Script mestre
-- Documentação completa de seed no SETUP.md
-
-#### Screenshots para Lojas
-- Script `scripts/generate-screenshots.js` para gerar imagens automaticamente
-- 48 screenshots em 6 resoluções diferentes:
-  - App Store: iPhone 6.7", 6.5", iPad 12.9"
-  - Google Play: Phone, 7" tablet, 10" tablet
-- 8 telas principais: Login, Dashboard, Check-in, Kids, Teen, Shop, Admin, Professor
-
-#### Configuração de Produção
-- Atualização do `.env.example` com todas as variáveis de produção:
-  - Stripe (Publishable Key, Secret Key, Webhook Secret)
-  - PIX para Brasil (`STRIPE_PIX_ENABLED`)
-  - Sentry (DSN, Auth Token)
-  - Google Analytics 4 (`NEXT_PUBLIC_GA_ID`)
-  - Resend (API Key, From Email)
-- Guia completo de configuração do Stripe (`docs/STRIPE_SETUP.md`)
-
-### Changed
-
-- SETUP.md atualizado com:
-  - Seção "Seeding Demo Data" completa
-  - Seção "Production Configuration" com Stripe, Sentry, GA4, Resend
-  - Lista de todos os usuários demo com credenciais
-
-### Security
-
-- Segurança: httpOnly cookies implementados
-- RLS policies no Supabase
-- Rate limiting em APIs públicas
-- CSRF protection
-- Zod validation em POST routes
-
 ## [1.0.0] - 2026-03-07
 
-### Features
-- ✅ Plataforma completa para gestão de academias de artes marciais
-- ✅ Multi-perfil: Admin, Professor, Aluno Adulto, Teen, Kids, Responsável
-- ✅ Sistema de check-in com QR Code e geofencing
-- ✅ Gestão de turmas e graduações
-- ✅ Controle financeiro integrado
-- ✅ Gamificação com conquistas e streaks
-- ✅ Loja integrada
-- ✅ Videos e conteúdo educativo
-- ✅ App mobile (iOS/Android) com Capacitor
-- ✅ PWA com Service Worker
+### Added
+- Initial release of BlackBelt mobile app
+- Complete academy management system for Brazilian Jiu-Jitsu
+- Multi-role authentication (Super Admin, Admin, Professor, Student)
+- OAuth integration with Google Sign-In and Apple Sign-In
+- Comprehensive dashboard for each user role
+- Student management with belt progression tracking
+- Class scheduling and attendance system
+- Exercise library with technique videos
+- Profile management with avatar upload
+- Responsive dark mode UI (#1A1A2E theme)
+- Premium loading experience with animated progress bar
+- iOS and Android native builds via Capacitor
+- App Store and Google Play Store assets
+
+### Security
+- Row Level Security (RLS) policies for all database tables
+- Secure authentication flow with Supabase Auth
+- LGPD-compliant privacy policy
+
+### Technical
+- Next.js 14 with App Router
+- React 18 with TypeScript
+- Supabase backend integration
+- Capacitor 8 for mobile builds
+- Comprehensive test suite (570+ tests)
 
 ---
 
-## Template de Commits
+## Version History
 
-- `feat`: Nova funcionalidade
-- `fix`: Correção de bug
-- `docs`: Documentação
-- `style`: Formatação (sem alteração de código)
-- `refactor`: Refatoração de código
-- `test`: Testes
-- `chore`: Tarefas de build/config
+- v1.0.0 - First public release
