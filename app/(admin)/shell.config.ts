@@ -10,7 +10,7 @@ import {
   LayoutDashboard, DollarSign, GraduationCap, Users,
   CreditCard, ShoppingCart, Percent, Calendar, Target,
   Megaphone, Package, UserPlus, Trophy, Zap, BarChart3,
-  Award, Bell, Settings, ClipboardCheck, Activity, ShoppingBag,
+  Award, Bell, Settings, ClipboardCheck, Activity, ShoppingBag, Building2, FileText,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -58,6 +58,11 @@ const DRAWER_NAV = [
   { href: '/gestao-eventos',  icon: Trophy,            label: 'Eventos' },
   { href: '/automacoes',      icon: Zap,               label: 'Automações' },
   { href: '/alertas',         icon: Bell,              label: 'Alertas' },
+  { href: '/minha-academia',        icon: Building2,         label: 'Minha Academia' },
+  { href: '/minha-academia/modalidades', icon: Award,          label: 'Modalidades' },
+  { href: '/minha-academia/grade',  icon: Calendar,          label: 'Grade Horaria' },
+  { href: '/minha-academia/planos', icon: CreditCard,        label: 'Planos' },
+  { href: '/minha-academia/contratos', icon: FileText,        label: 'Contratos' },
   { href: '/loja',            icon: ShoppingBag,       label: 'Loja' },
   { href: '/configuracoes',   icon: Settings,          label: 'Configurações' },
 ];
