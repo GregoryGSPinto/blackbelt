@@ -153,7 +153,7 @@ const professorTheme: ShellTheme = {
   moduleName: 'INSTRUTOR',
 
   // Misc
-  supportsLightMode: false,
+  supportsLightMode: true,
 
   // Custom CSS (professor-specific cinematographic system)
   globalStyles: `
@@ -173,10 +173,19 @@ const professorTheme: ShellTheme = {
       border-radius: 20px;
       transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
     }
+    .light .prof-glass-card {
+      background: linear-gradient(155deg, rgba(255,255,255,0.9), rgba(250,248,245,0.85));
+      border: 1px solid rgba(180,140,60,0.15);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+    }
     .prof-glass-card:hover {
       border-color: rgba(217,175,105,0.18);
       box-shadow: 0 8px 48px rgba(0,0,0,0.35), inset 0 1px 0 rgba(217,175,105,0.08);
       transform: translateY(-3px);
+    }
+    .light .prof-glass-card:hover {
+      border-color: rgba(180,140,60,0.3);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
     }
     .prof-stat-value {
       background: linear-gradient(135deg, #c9a05c, #f5d89a 40%, #d9af69 60%, #f5d89a);

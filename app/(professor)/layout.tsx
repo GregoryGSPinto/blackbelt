@@ -19,25 +19,20 @@ import { useTranslations } from 'next-intl';
 
 /**
  * Professor-specific background overlays.
- * These are unique to the professor area's cinematographic system
- * and are injected into the AppShell via theme.backgroundOverlays.
+ * Uses theme-aware colors that adapt to light/dark mode automatically.
  */
 function ProfessorBackgroundOverlays() {
   return (
     <>
-      {/* Light sweep animation */}
+      {/* Light sweep animation - subtle in both modes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="prof-light-sweep" />
       </div>
-      {/* Multi-layer cinematic gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-[#1a150e]/55 to-black/85" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/25" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0d0a06]/90 via-transparent to-transparent" />
-      <div
-        className="absolute inset-0"
+      {/* Theme-aware cinematic gradients - use CSS variables for automatic theming */}
+      <div 
+        className="absolute inset-0 transition-opacity duration-500"
         style={{
-          background:
-            'radial-gradient(ellipse 80% 70% at 50% 40%, transparent 30%, rgba(13,10,6,0.6) 100%)',
+          background: 'linear-gradient(to bottom, var(--gradient-from, rgba(0,0,0,0.1)) 0%, var(--gradient-via, rgba(26,21,14,0.05)) 50%, var(--gradient-to, rgba(0,0,0,0.15)) 100%)',
         }}
       />
     </>
