@@ -1,0 +1,20 @@
+{
+  "title": "BlackBelt - Academy Management",
+  "shortDescription": "Complete martial arts academy management",
+  "fullDescription": "BlackBelt is the most complete platform for martial arts academy management. Manage students, classes, belt rankings, finances, QR code check-in, and much more.\n\nFeatures:\n* Smart dashboard with real-time metrics\n* QR Code check-in with geofencing\n* Class and belt ranking management\n* Complete financial control\n* Direct communication with students\n* Progress tracking\n* Achievement and gamification system\n* Kids mode with adapted interface (ages 4-11)\n* Teen profile with guided autonomy (ages 12-17)\n* Parents area\n* Videos and educational content\n* Integrated store\n* Support for BJJ, Judo, Karate, Muay Thai and more\n\nFor academy owners, instructors, students, and parents.",
+  "category": "SPORTS",
+  "contentRating": "Everyone",
+  "tags": ["academy", "martial arts", "jiu jitsu", "management", "sports", "bjj", "muay thai", "karate"],
+  "privacyPolicyUrl": "https://blackbelt.app/politica-privacidade",
+  "defaultLanguage": "en-US",
+  "contactEmail": "support@blackbelt.app",
+  "contactWebsite": "https://blackbelt.app",
+  "screenshots": [
+    "01_login_landing.png - Login screen with plans and modalities",
+    "02_admin_dashboard.png - Admin dashboard with metrics",
+    "03_checkin_qrcode.png - QR Code check-in",
+    "04_student_progress.png - Student progress with achievements",
+    "05_class_management.png - Class management",
+    "06_kids_interface.png - Gamified Kids interface"
+  ]
+}

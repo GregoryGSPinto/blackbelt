@@ -1,0 +1,20 @@
+{
+  "title": "BlackBelt - Gestao de Academias",
+  "subtitle": "Plataforma completa para artes marciais",
+  "description": "BlackBelt e a plataforma mais completa para gestao de academias de artes marciais. Gerencie alunos, turmas, graduacoes, financeiro, check-in por QR code e muito mais.\n\nFuncionalidades:\n- Dashboard inteligente com metricas em tempo real\n- Check-in por QR Code e geofencing\n- Gestao de turmas e graduacoes\n- Controle financeiro completo\n- Comunicacao direta com alunos\n- Acompanhamento de progresso\n- Sistema de conquistas e gamificacao\n- Modo Kids com interface adaptada\n- Perfil Teen com autonomia guiada\n- Area de Responsaveis\n- Videos e conteudo educativo\n- Loja integrada\n- Suporte a BJJ, Judo, Karate, Muay Thai e mais\n\nPara donos de academia, professores, alunos e responsaveis.",
+  "keywords": "academia,artes marciais,jiu jitsu,muay thai,karate,gestao,alunos,turmas,check-in,graduacao,faixa,bjj,judo,treino,esportes",
+  "category": "Sports",
+  "secondaryCategory": "Education",
+  "ageRating": "4+",
+  "privacyUrl": "https://blackbelt.app/politica-privacidade",
+  "supportUrl": "https://blackbelt.app/support",
+  "marketingUrl": "https://blackbelt.app",
+  "screenshots": [
+    "01_login_landing.png - Tela de login com planos e modalidades",
+    "02_admin_dashboard.png - Dashboard administrativo com metricas",
+    "03_checkin_qrcode.png - Check-in por QR Code",
+    "04_aluno_progresso.png - Progresso do aluno com conquistas",
+    "05_turmas_gestao.png - Gestao de turmas e horarios",
+    "06_kids_interface.png - Interface Kids gamificada"
+  ]
+}
