@@ -972,17 +972,30 @@ function LoginContent() {
               exit="exit"
               style={{
                 width: '100%',
-                maxWidth: 480,
+                maxWidth: 400,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
                 willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
             >
-              <form onSubmit={handleEmailSubmit}>
+              {/* Logo at top */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+                style={{ marginBottom: '2rem' }}
+              >
+                <AnimatedLogo isDark={isDark} />
+              </motion.div>
+
+              <form onSubmit={handleEmailSubmit} style={{ width: '100%' }}>
                 <motion.div 
-                  style={{ position: 'relative' }}
-                  variants={slideInLeft}
-                  initial="initial"
-                  animate="animate"
+                  style={{ position: 'relative', width: '100%' }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1, ease: EASE_PREMIUM }}
                 >
                   {/* Back arrow to INITIAL */}
                   <motion.button
@@ -991,8 +1004,8 @@ function LoginContent() {
                     aria-label={tCommon('actions.goBack')}
                     style={{
                       position: 'absolute',
-                      top: '1rem',
-                      left: '1rem',
+                      top: '-3rem',
+                      left: 0,
                       zIndex: 2,
                       background: 'none',
                       border: 'none',
@@ -1022,7 +1035,7 @@ function LoginContent() {
                   whileHover={{ borderColor: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)' }}
                 >
                   {/* Card content */}
-                  <div style={{ padding: '2rem 2rem 1.5rem' }}>
+                  <div style={{ padding: '2rem 1.5rem 1.5rem' }}>
                     {/* Title */}
                     <motion.h2
                       style={{
@@ -1037,7 +1050,7 @@ function LoginContent() {
                       }}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1, duration: 0.4 }}
+                      transition={{ delay: 0.2, duration: 0.4 }}
                     >
                       {t('login.title').toUpperCase()}
                     </motion.h2>
@@ -1344,12 +1357,25 @@ function LoginContent() {
               exit="exit"
               style={{
                 width: '100%',
-                maxWidth: 480,
+                maxWidth: 400,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
                 willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
             >
-            <form onSubmit={handlePasswordSubmit}>
+              {/* Logo at top */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+                style={{ marginBottom: '2rem' }}
+              >
+                <AnimatedLogo isDark={isDark} />
+              </motion.div>
+
+            <form onSubmit={handlePasswordSubmit} style={{ width: '100%' }}>
               <motion.div
                 style={{
                   border: `1px solid ${colors.cardBorder}`,
@@ -1359,49 +1385,52 @@ function LoginContent() {
                   backdropFilter: 'blur(12px) saturate(1.2)',
                   WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
                   transition: transitions.theme,
+                  position: 'relative',
                 }}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
               >
-                {/* Conteudo superior */}
-                <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
-                  {/* Back button */}
-                  <motion.button
-                    type="button"
-                    onClick={goBackToEmail}
-                    style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      left: '1rem',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '0.25rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      willChange: shouldReduceMotion ? undefined : 'transform',
-                    }}
-                    aria-label={tCommon('actions.goBack')}
-                    whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
-                    whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
-                    transition={SPRING_GENTLE}
-                  >
-                    <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                  </motion.button>
+                {/* Back button */}
+                <motion.button
+                  type="button"
+                  onClick={goBackToEmail}
+                  style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    left: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0.25rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    willChange: shouldReduceMotion ? undefined : 'transform',
+                    zIndex: 2,
+                  }}
+                  aria-label={tCommon('actions.goBack')}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
+                  transition={SPRING_GENTLE}
+                >
+                  <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                </motion.button>
 
+                {/* Conteudo superior */}
+                <div style={{ padding: '2.5rem 1.5rem 1.5rem' }}>
                   {/* Email display */}
                   <motion.p
                     style={{
                       fontSize: '0.85rem',
                       color: colors.textMuted,
-                      marginBottom: '2rem',
+                      marginBottom: '1.5rem',
+                      marginTop: '0.5rem',
                       textAlign: 'center',
-                      opacity: 0.6,
+                      opacity: 0.8,
                       transition: transitions.theme,
                     }}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.6 }}
+                    animate={{ opacity: 0.8 }}
                     transition={{ delay: 0.1 }}
                   >
                     {email}
