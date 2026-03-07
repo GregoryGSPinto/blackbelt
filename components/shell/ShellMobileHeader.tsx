@@ -55,51 +55,13 @@ export function ShellMobileHeader({ config, state }: Props) {
         <div className="flex items-center gap-3 flex-shrink-0 flex-1 min-w-0">
           <span
             className={`text-xl font-normal tracking-tight whitespace-nowrap overflow-hidden truncate ${font}`}
-            style={{
-              color: theme.logoLabelColor(isDark),
-              opacity: searchOpen ? 0 : 1,
-              transition: 'opacity 200ms ease',
-            }}
+            style={{ color: theme.logoLabelColor(isDark) }}
           >
             {user?.nome || ''}
           </span>
         </div>
 
-        {/* Search overlay (absolute, does not affect flex layout) */}
-        {showSearch && (
-          <div
-            className={`absolute left-4 right-[140px] top-1/2 -translate-y-1/2 ${MORPH}`}
-            style={{ opacity: searchOpen ? 1 : 0, pointerEvents: searchOpen ? 'auto' : 'none' }}
-          >
-            <div className="relative">
-              <Search
-                size={15}
-                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: theme.textMuted(isDark) }}
-              />
-              <input
-                ref={mobileSearchInputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={nav.searchPlaceholder || t('search.placeholder')}
-                aria-label={t('search.openSearch')}
-                className={`w-full pl-9 pr-4 py-2.5 rounded-full text-sm outline-none ${font}`}
-                style={{
-                  background: theme.searchBg(isDark),
-                  border: `1px solid ${theme.searchBorder(isDark)}`,
-                  color: theme.searchText(isDark),
-                }}
-                tabIndex={searchOpen ? 0 : -1}
-                autoComplete="off"
-                autoCorrect="off"
-                spellCheck={false}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Right: Lupa + Bell + Theme + Avatar */}
+        {/* Right: Lupa + Bell + Theme + Avatar — NEVER moves */}
         <div className="flex items-center gap-0.5 flex-shrink-0 h-full">
           {/* Search toggle */}
           {showSearch && (
@@ -107,9 +69,9 @@ export function ShellMobileHeader({ config, state }: Props) {
               onClick={handleSearchToggle}
               className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90"
               style={{ color: theme.textMuted(isDark) }}
-              aria-label={searchOpen ? t('search.closeSearch') : t('search.openSearch')}
+              aria-label={t('search.openSearch')}
             >
-              {searchOpen ? <X size={17} /> : <Search size={17} />}
+              <Search size={17} />
             </button>
           )}
 
@@ -220,6 +182,45 @@ export function ShellMobileHeader({ config, state }: Props) {
           </div>
         </div>
       </div>
+
+      {/* ─── Search Overlay — covers entire header when open ─── */}
+      {showSearch && searchOpen && (
+        <div
+          className="fixed top-0 left-0 right-0 z-[9999] flex items-center gap-3 px-4"
+          style={{
+            height: 72,
+            paddingTop: 'env(safe-area-inset-top, 0px)',
+            background: 'var(--card-bg)',
+            borderBottom: '1px solid black',
+          }}
+        >
+          <button
+            onClick={handleSearchToggle}
+            className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 active:scale-90"
+            style={{ color: 'var(--text-secondary)' }}
+            aria-label={t('search.closeSearch')}
+          >
+            <X size={20} />
+          </button>
+          <input
+            ref={mobileSearchInputRef}
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={nav.searchPlaceholder || t('search.placeholder')}
+            aria-label={t('search.openSearch')}
+            className={`flex-1 py-2.5 px-4 rounded-xl text-sm outline-none ${font}`}
+            style={{
+              background: 'var(--card-bg)',
+              border: '1px solid black',
+              color: 'var(--text-primary)',
+            }}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

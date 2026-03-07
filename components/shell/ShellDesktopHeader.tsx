@@ -83,7 +83,6 @@ export function ShellDesktopHeader({ config, state }: Props) {
       <nav className="flex-1 flex items-center justify-center relative z-10">
         <div
           className={`flex items-center gap-1 lg:gap-2 ${MORPH}`}
-          style={{ opacity: searchOpen ? 0 : 1, pointerEvents: searchOpen ? 'none' : 'auto' }}
         >
           {visibleItems.map(({ href, label }) => {
             const active = pathname === href || pathname.startsWith(href + '/');
@@ -200,65 +199,17 @@ export function ShellDesktopHeader({ config, state }: Props) {
         </div>
       </nav>
 
-      {/* ─── Search Bar Overlay ─── */}
-      <div
-        className={`absolute inset-x-0 top-0 h-full flex items-center justify-center pointer-events-none z-[5] ${MORPH}`}
-        style={{ opacity: searchOpen ? 1 : 0 }}
-      >
-        <div className="pointer-events-auto" style={{ width: 'min(520px, 40vw)' }}>
-          <div className="relative">
-            <Search
-              size={16}
-              className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ color: theme.textMuted(isDark) }}
-            />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={nav.searchPlaceholder || t('search.placeholder')}
-              aria-label={t('search.openSearch')}
-              className={`w-full pl-11 pr-10 py-2.5 rounded-full text-sm outline-none transition-all duration-200 ${font}`}
-              style={{
-                background: theme.searchBg(isDark),
-                border: `1px solid ${theme.searchBorder(isDark)}`,
-                color: theme.searchText(isDark),
-              }}
-              tabIndex={searchOpen ? 0 : -1}
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck={false}
-            />
-            {query && (
-              <button
-                onClick={() => setQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center transition-colors"
-                style={{ background: theme.searchBg(isDark) }}
-                aria-label={t('search.clearSearch')}
-              >
-                <X size={10} style={{ color: theme.textMuted(isDark) }} />
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* ─── Right Actions ─── */}
+      {/* ─── Right Actions — NEVER moves ─── */}
       <div className="flex items-center gap-1.5 flex-shrink-0 relative z-10 h-full">
         {/* Lupa toggle */}
         <button
           onClick={handleSearchToggle}
-          className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-200 ${
-            searchOpen ? 'bg-white/10' : ''
-          }`}
-          style={{
-            color: searchOpen ? theme.textHeading(isDark) : theme.textMuted(isDark),
-          }}
-          aria-label={searchOpen ? t('search.closeSearch') : t('search.openSearch')}
+          className="w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-200"
+          style={{ color: theme.textMuted(isDark) }}
+          aria-label={t('search.openSearch')}
           title="⌘K"
         >
-          {searchOpen ? <X size={20} /> : <Search size={20} />}
+          <Search size={20} />
         </button>
 
         {/* Bell */}
@@ -402,6 +353,51 @@ export function ShellDesktopHeader({ config, state }: Props) {
           )}
         </div>
       </div>
+
+      {/* ─── Search Overlay — covers entire header when open ─── */}
+      {searchOpen && (
+        <div
+          className="fixed top-0 left-0 right-0 z-[9999] flex items-center gap-4 px-8 lg:px-14"
+          style={{
+            height: 96,
+            background: 'var(--card-bg)',
+            borderBottom: '1px solid black',
+          }}
+        >
+          <button
+            onClick={handleSearchToggle}
+            className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 active:scale-95"
+            style={{ color: 'var(--text-secondary)' }}
+            aria-label={t('search.closeSearch')}
+          >
+            <X size={22} />
+          </button>
+          <div className="flex-1 relative" style={{ maxWidth: 600 }}>
+            <Search
+              size={16}
+              className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+              style={{ color: 'var(--text-secondary)' }}
+            />
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={nav.searchPlaceholder || t('search.placeholder')}
+              aria-label={t('search.openSearch')}
+              className={`w-full pl-11 pr-4 py-3 rounded-xl text-sm outline-none ${font}`}
+              style={{
+                background: 'var(--card-bg)',
+                border: '1px solid black',
+                color: 'var(--text-primary)',
+              }}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 }
