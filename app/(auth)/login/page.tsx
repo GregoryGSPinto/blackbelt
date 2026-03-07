@@ -892,7 +892,7 @@ function LoginContent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              style={{ textAlign: 'center', position: 'relative' }}
+              style={{ textAlign: 'center', position: 'relative', paddingBottom: '5rem' }}
             >
               {/* Logo with pulse */}
               <div style={{ display: 'flex', justifyContent: 'center' }}>
