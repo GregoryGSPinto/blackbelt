@@ -216,10 +216,7 @@ function ScrollIndicator({ colors, onClick }: { colors: ReturnType<typeof getDes
     <motion.button
       onClick={onClick}
       style={{
-        position: 'absolute',
-        bottom: '2rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        position: 'relative',
         background: 'none',
         border: 'none',
         cursor: 'pointer',
@@ -228,7 +225,7 @@ function ScrollIndicator({ colors, onClick }: { colors: ReturnType<typeof getDes
         alignItems: 'center',
         justifyContent: 'center',
         gap: '0.5rem',
-        margin: '0 auto',
+        marginTop: 'auto',
       }}
       animate={shouldReduceMotion ? undefined : {
         y: [0, -12, 0],
@@ -865,19 +862,21 @@ function LoginContent() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════
-          HERO — First viewport: Login button + bouncing arrow
+          HERO — First viewport: Logo top, Button center, Saiba mais bottom
           ═══════════════════════════════════════════════════════ */}
       <motion.div
         style={{
           position: 'relative',
           zIndex: 10,
-          minHeight: '100vh',
+          height: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
+          paddingTop: '15vh',
+          paddingBottom: '2.5rem',
         }}
         initial="initial"
         animate="animate"
@@ -892,17 +891,38 @@ function LoginContent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              style={{ textAlign: 'center', position: 'relative', paddingBottom: '5rem' }}
+              style={{ 
+                textAlign: 'center', 
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
             >
-              {/* Logo with pulse */}
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              {/* Logo at top */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+              >
                 <AnimatedLogo isDark={isDark} />
-              </div>
+              </motion.div>
               
+              {/* Center content - Login button */}
               <motion.div
                 variants={staggerContainer}
                 initial="initial"
                 animate="animate"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1,
+                }}
               >
                 <motion.button
                   variants={staggerItem}
@@ -929,11 +949,11 @@ function LoginContent() {
                   whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                   transition={SPRING_PREMIUM}
                 >
-                  Login
+                  Entrar
                 </motion.button>
               </motion.div>
 
-              {/* Scroll indicator with bounce */}
+              {/* Scroll indicator at bottom */}
               <ScrollIndicator colors={colors} onClick={scrollToSobre} />
             </motion.div>
           )}
