@@ -24,7 +24,8 @@ export function wireReadModels(): void {
   wired = true;
 
   for (const model of registeredModels) {
-    eventBus.onMany(model.handles as string[], async (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    eventBus.onMany(model.handles as any, async (event) => {
       try {
         const stored: StoredEvent = {
           id: '',

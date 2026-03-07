@@ -13,9 +13,10 @@ import { AnimatedCounter } from '@/components/transitions/AnimatedCounter';
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
 
 import { useTranslations } from 'next-intl';
+import { signInWithGoogle, signInWithApple } from '@/lib/auth/oauth';
 
 // ─── Types ──────────────────────────────────────────────────
-type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
+type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR' | 'OAUTH_REDIRECT';
 
 // ─── Premium Animation Constants ────────────────────────────
 const EASE_PREMIUM = [0.4, 0, 0.2, 1] as const;
@@ -625,6 +626,7 @@ function LoginContent() {
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isOAuthLoading, setIsOAuthLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const sobreRef = useRef<HTMLDivElement>(null);
 
@@ -790,6 +792,35 @@ function LoginContent() {
   const scrollToSobre = () => {
     sobreRef.current?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
   };
+
+  // ─── OAuth handlers ────────────────────────────────────────
+  const handleGoogleSignIn = useCallback(async () => {
+    try {
+      setIsOAuthLoading(true);
+      setError('');
+      await signInWithGoogle();
+      // Redirect happens automatically
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Falha no login com Google';
+      setError(message);
+      setIsOAuthLoading(false);
+      logger.error('[Login]', 'Google sign-in error:', err);
+    }
+  }, []);
+
+  const handleAppleSignIn = useCallback(async () => {
+    try {
+      setIsOAuthLoading(true);
+      setError('');
+      await signInWithApple();
+      // Redirect happens automatically
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Falha no login com Apple';
+      setError(message);
+      setIsOAuthLoading(false);
+      logger.error('[Login]', 'Apple sign-in error:', err);
+    }
+  }, []);
 
   // ─── Defer render until mounted ───────────────────────────
   if (!mounted) return null;
@@ -1214,6 +1245,8 @@ function LoginContent() {
                     <motion.button
                       variants={staggerItem}
                       type="button"
+                      onClick={handleGoogleSignIn}
+                      disabled={isOAuthLoading}
                       aria-label={t('login.loginWithGoogle')}
                       style={{
                         flex: 1,
@@ -1222,24 +1255,27 @@ function LoginContent() {
                         borderRight: `1px solid ${colors.cardBorder}`,
                         borderRadius: 0,
                         background: 'transparent',
-                        cursor: 'pointer',
+                        cursor: isOAuthLoading ? 'wait' : 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         willChange: shouldReduceMotion ? undefined : 'transform',
+                        opacity: isOAuthLoading ? 0.6 : 1,
                       }}
-                      whileHover={shouldReduceMotion ? undefined : { 
+                      whileHover={shouldReduceMotion || isOAuthLoading ? undefined : { 
                         backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
                         scale: 1.03,
                       }}
-                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                      whileTap={shouldReduceMotion || isOAuthLoading ? undefined : { scale: 0.97 }}
                       transition={SPRING_PREMIUM}
                     >
-                      <GoogleIcon />
+                      {isOAuthLoading ? <AnimatedSpinner color={colors.error} /> : <GoogleIcon />}
                     </motion.button>
                     <motion.button
                       variants={staggerItem}
                       type="button"
+                      onClick={handleAppleSignIn}
+                      disabled={isOAuthLoading}
                       aria-label={t('login.loginWithApple')}
                       style={{
                         flex: 1,
@@ -1247,20 +1283,21 @@ function LoginContent() {
                         border: 'none',
                         borderRadius: 0,
                         background: 'transparent',
-                        cursor: 'pointer',
+                        cursor: isOAuthLoading ? 'wait' : 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         willChange: shouldReduceMotion ? undefined : 'transform',
+                        opacity: isOAuthLoading ? 0.6 : 1,
                       }}
-                      whileHover={shouldReduceMotion ? undefined : { 
+                      whileHover={shouldReduceMotion || isOAuthLoading ? undefined : { 
                         backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
                         scale: 1.03,
                       }}
-                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                      whileTap={shouldReduceMotion || isOAuthLoading ? undefined : { scale: 0.97 }}
                       transition={SPRING_PREMIUM}
                     >
-                      <AppleIcon color={colors.text} />
+                      {isOAuthLoading ? <AnimatedSpinner color={colors.error} /> : <AppleIcon color={colors.text} />}
                     </motion.button>
                   </motion.div>
                 </motion.div>{/* end unified border */}
