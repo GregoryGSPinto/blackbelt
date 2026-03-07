@@ -1,140 +1,304 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Star, MessageSquare, ChevronDown, Calendar } from 'lucide-react';
-
-const MOCK_TESTIMONIALS = [
-  { id: '1', nome: 'Carlos Silva', comentario: 'A BlackBelt transformou completamente a gestão da minha academia!', nota: 5, data: '2026-03-01', perfil: 'admin' },
-  { id: '2', nome: 'Prof. Ana Martinez', comentario: 'Consigo acompanhar o progresso de cada aluno de forma individualizada.', nota: 5, data: '2026-02-28', perfil: 'professor' },
-  { id: '3', nome: 'João Pedro', comentario: 'Meu filho está mais motivado que nunca com o sistema de conquistas!', nota: 5, data: '2026-02-25', perfil: 'responsavel' }
-];
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import CinematicBackground from '@/components/ui/CinematicBackground';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { signInWithGoogle, signInWithApple } from '@/lib/auth/oauth';
+import { logger } from '@/lib/logger';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showThanks, setShowThanks] = useState(false);
-  const [formData, setFormData] = useState({ nome: '', comentario: '', nota: 5 });
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<'google' | 'apple' | null>(null);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    // Check for success message from registration
+    const cadastro = searchParams.get('cadastro');
+    if (cadastro === 'sucesso') {
+      setSuccessMessage('Conta criada com sucesso! Faça login para continuar.');
+    }
+    // Check for error from OAuth callback
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+    }
+  }, [searchParams]);
 
-  if (!mounted) return <div className="min-h-screen flex items-center justify-center bg-slate-50">Carregando...</div>;
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <Loader2 className="w-8 h-8 animate-spin text-white/50" />
+      </div>
+    );
+  }
 
-  const formatarData = (dataString: string) => {
-    const data = new Date(dataString);
-    return data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        setError('Email ou senha incorretos');
+        logger.error('[Login]', 'Email login error:', signInError);
+        return;
+      }
+
+      router.push('/dashboard');
+      router.refresh();
+    } catch (err) {
+      setError('Erro ao fazer login. Tente novamente.');
+      logger.error('[Login]', 'Unexpected error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setShowLoginModal(true); };
+  const handleGoogleLogin = async () => {
+    setSocialLoading('google');
+    setError('');
+    try {
+      await signInWithGoogle();
+      // Redirect happens automatically via OAuth
+    } catch (err) {
+      setError('Erro ao conectar com Google. Tente novamente.');
+      setSocialLoading(null);
+      logger.error('[Login]', 'Google login error:', err);
+    }
+  };
 
-  const visibleTestimonials = MOCK_TESTIMONIALS.slice(0, visibleCount);
-  const hasMore = visibleCount < MOCK_TESTIMONIALS.length;
+  const handleAppleLogin = async () => {
+    setSocialLoading('apple');
+    setError('');
+    try {
+      await signInWithApple();
+      // Redirect happens automatically via OAuth
+    } catch (err) {
+      setError('Erro ao conectar com Apple. Tente novamente.');
+      setSocialLoading(null);
+      logger.error('[Login]', 'Apple login error:', err);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2 text-center">BlackBelt</h1>
-          <p className="text-slate-600 text-center mb-6">Gestão inteligente para artes marciais</p>
-          <form className="space-y-4">
-            <input type="email" placeholder="Email" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-red-500 outline-none" />
-            <input type="password" placeholder="Senha" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-red-500 outline-none" />
-            <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold">Entrar</button>
-          </form>
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <CinematicBackground />
+
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 sm:p-6">
+        <div className="w-full max-w-md animate-slide-up">
+          {/* Back Link */}
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-medium">Voltar</span>
+          </Link>
+
+          {/* Main Card */}
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h1 className="text-2xl sm:text-3xl font-semibold mb-2">Bem-vindo de volta</h1>
+              <p className="text-white/60 text-sm">Entre na sua conta para continuar</p>
+            </div>
+
+            {/* Success Message */}
+            {successMessage && (
+              <div className="mb-4 p-3 bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm">
+                {successMessage}
+              </div>
+            )}
+
+            {/* Error Message */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            {/* Social Login Buttons */}
+            <div className="space-y-3 mb-6">
+              <button
+                onClick={handleGoogleLogin}
+                disabled={socialLoading !== null}
+                className="w-full flex items-center justify-center gap-3 bg-white text-slate-900 py-3 px-4 rounded-xl font-medium hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {socialLoading === 'google' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    />
+                    <path
+                      fill="currentColor"
+                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    />
+                    <path
+                      fill="currentColor"
+                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    />
+                    <path
+                      fill="currentColor"
+                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    />
+                  </svg>
+                )}
+                Continuar com Google
+              </button>
+
+              <button
+                onClick={handleAppleLogin}
+                disabled={socialLoading !== null}
+                className="w-full flex items-center justify-center gap-3 bg-white text-slate-900 py-3 px-4 rounded-xl font-medium hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {socialLoading === 'apple' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.22 7.13-.57 1.5-1.31 2.99-2.27 4.08zm-5.85-15.1c.07-2.04 1.76-3.79 3.78-3.94.29 2.32-1.93 4.48-3.78 3.94z" />
+                  </svg>
+                )}
+                Continuar com Apple
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/10"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-black/40 text-white/50">ou</span>
+              </div>
+            </div>
+
+            {/* Email Login Form */}
+            <form onSubmit={handleEmailLogin} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Email</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="seu@email.com"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Senha</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-sm">
+                <label className="flex items-center gap-2 text-white/60 hover:text-white/80 cursor-pointer">
+                  <input type="checkbox" className="rounded bg-white/5 border-white/20 text-white focus:ring-white/20" />
+                  <span>Lembrar-me</span>
+                </label>
+                <Link href="/recuperar-senha" className="text-white/60 hover:text-white transition-colors">
+                  Esqueceu a senha?
+                </Link>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading || socialLoading !== null}
+                className="w-full bg-white text-slate-900 py-3 rounded-xl font-semibold hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Entrando...
+                  </>
+                ) : (
+                  'Entrar'
+                )}
+              </button>
+            </form>
+
+            {/* Register Link */}
+            <div className="mt-6 text-center">
+              <p className="text-white/60 text-sm">
+                Não tem uma conta?{' '}
+                <Link href="/cadastro" className="text-white font-medium hover:underline">
+                  Criar conta
+                </Link>
+              </p>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-8 text-center">
+            <p className="text-white/40 text-xs">
+              Ao entrar, você concorda com nossos{' '}
+              <Link href="/termos-de-uso" className="text-white/60 hover:text-white transition-colors">
+                Termos de Uso
+              </Link>{' '}
+              e{' '}
+              <Link href="/politica-privacidade" className="text-white/60 hover:text-white transition-colors">
+                Política de Privacidade
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
 
-      <section className="w-full py-16 px-4 bg-gradient-to-b from-slate-50 to-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">O que dizem nossos clientes</h2>
-          </div>
-
-          <div className="flex justify-center mb-10">
-            <button onClick={() => setIsFormOpen(!isFormOpen)} className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-semibold shadow-lg">
-              <MessageSquare className="w-5 h-5" />
-              {isFormOpen ? 'Cancelar' : 'Deixar meu depoimento'}
-            </button>
-          </div>
-
-          {isFormOpen && (
-            <div className="mb-10 bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100">
-              <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
-                Compartilhe sua experiência
-              </h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input type="text" value={formData.nome} onChange={(e) => setFormData({...formData, nome: e.target.value})} placeholder="Seu nome" className="w-full px-4 py-3 rounded-lg border border-slate-200 outline-none" required />
-                <div className="flex gap-2">
-                  {[1,2,3,4,5].map((star) => (
-                    <button key={star} type="button" onClick={() => setFormData({...formData, nota: star})}>
-                      <Star className={`w-8 h-8 ${star <= formData.nota ? 'text-yellow-400 fill-yellow-400' : 'text-slate-300'}`} />
-                    </button>
-                  ))}
-                </div>
-                <textarea value={formData.comentario} onChange={(e) => setFormData({...formData, comentario: e.target.value})} rows={4} placeholder="Seu depoimento..." className="w-full px-4 py-3 rounded-lg border border-slate-200 outline-none resize-none" maxLength={500} />
-                <span className="text-xs text-slate-400">{formData.comentario.length}/500</span>
-                <button type="submit" className="w-full bg-slate-900 text-white font-semibold py-3 rounded-lg">Enviar depoimento</button>
-              </form>
-            </div>
-          )}
-
-          {showLoginModal && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
-              <div className="absolute inset-0 bg-black/60" onClick={() => setShowLoginModal(false)} />
-              <div className="bg-white rounded-2xl p-8 max-w-md w-full relative z-10 shadow-2xl">
-                <h3 className="text-xl font-bold text-slate-900 mb-4">Faça login para continuar</h3>
-                <p className="text-slate-600 mb-6">Para enviar um depoimento, você precisa estar logado.</p>
-                <div className="flex gap-3">
-                  <button onClick={() => setShowLoginModal(false)} className="flex-1 px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50">Cancelar</button>
-                  <button onClick={() => setShowLoginModal(false)} className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">Fazer login</button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {showThanks && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
-              <div className="absolute inset-0 bg-black/50" onClick={() => setShowThanks(false)} />
-              <div className="bg-white rounded-2xl p-8 max-w-md w-full relative z-10 text-center shadow-2xl">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-8 h-8 text-green-600 fill-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">Obrigado!</h3>
-                <p className="text-slate-600">Seu depoimento foi enviado com sucesso!</p>
-              </div>
-            </div>
-          )}
-
-          <div className="space-y-6">
-            {visibleTestimonials.map((t) => (
-              <div key={t.id} className="bg-white rounded-xl p-6 shadow-md border border-slate-100">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white font-bold text-lg">{t.nome.charAt(0)}</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900">{t.nome}</h4>
-                      <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full">{t.perfil}</span>
-                    </div>
-                  </div>
-                  <div className="flex gap-0.5">{[...Array(t.nota)].map((_,i) => <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />)}</div>
-                </div>
-                <p className="text-slate-700 leading-relaxed mb-4">"{t.comentario}"</p>
-                <div className="flex items-center gap-2 text-slate-400 text-sm"><Calendar className="w-4 h-4" /><span>{formatarData(t.data)}</span></div>
-              </div>
-            ))}
-          </div>
-
-          {hasMore && (
-            <div className="flex justify-center mt-8">
-              <button onClick={() => setVisibleCount(prev => prev + 3)} className="flex items-center gap-2 text-slate-600 hover:text-red-600 font-medium px-6 py-3 rounded-full hover:bg-red-50">
-                <ChevronDown className="w-5 h-5" />Ver mais depoimentos
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
+      <style jsx global>{`
+        @keyframes slide-up {
+          from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+          } 
+          to { 
+            opacity: 1; 
+            transform: translateY(0); 
+          }
+        }
+        .animate-slide-up { 
+          animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+      `}</style>
     </div>
   );
 }
