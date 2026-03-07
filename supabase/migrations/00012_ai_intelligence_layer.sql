@@ -123,7 +123,7 @@ CREATE TABLE ai_instructor_briefings (
 -- ai_student_dna_cache
 CREATE INDEX idx_ai_student_dna_cache_academy ON ai_student_dna_cache(academy_id);
 CREATE INDEX idx_ai_student_dna_cache_membership ON ai_student_dna_cache(membership_id);
-CREATE INDEX idx_ai_student_dna_cache_expires ON ai_student_dna_cache(expires_at) WHERE expires_at > now();
+CREATE INDEX idx_ai_student_dna_cache_expires ON ai_student_dna_cache(expires_at);
 
 -- ai_engagement_snapshots
 CREATE INDEX idx_ai_engagement_snapshots_academy ON ai_engagement_snapshots(academy_id);

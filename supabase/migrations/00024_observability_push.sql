@@ -8,7 +8,7 @@
 -- ────────────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS request_logs (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID DEFAULT gen_random_uuid(),
   method TEXT NOT NULL,
   path TEXT NOT NULL,
   status_code INT,
@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS request_logs (
   academy_id UUID,
   ip_hash TEXT,
   user_agent TEXT,
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
 -- Partitions for current and next month
@@ -38,9 +39,10 @@ CREATE POLICY "Admins can read request logs"
   ON request_logs FOR SELECT
   USING (
     EXISTS (
-      SELECT 1 FROM profiles
-      WHERE profiles.id = auth.uid()
-      AND profiles.role IN ('admin', 'super_admin')
+      SELECT 1 FROM memberships m
+      WHERE m.profile_id = auth.uid()
+      AND m.role IN ('owner', 'admin')
+      AND m.status = 'active'
     )
   );
 
