@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import {
-  BarChart3, Users, DollarSign, Megaphone, Download,
+  BarChart3, Users, DollarSign, Megaphone,
 } from 'lucide-react';
+import { ExportDropdown } from '@/components/shared/ExportDropdown';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line,
@@ -83,9 +84,14 @@ export default function RelatoriosGerenciaisPage() {
             <option value="trimestre">Trimestre</option>
             <option value="ano">Ano</option>
           </select>
-          <button className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs hover:bg-white/10 transition-colors">
-            <Download size={12} /> Exportar
-          </button>
+          <ExportDropdown
+            title="Relatorios Gerenciais"
+            columns={['mes', 'receita', 'despesa']}
+            columnLabels={['Mes', 'Receita', 'Despesa']}
+            data={RECEITA_MENSAL.map(r => ({ mes: r.mes, receita: r.receita, despesa: r.despesa ?? 0 }))}
+            buttonClassName="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium"
+            buttonStyle={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
+          />
         </div>
       </div>
 

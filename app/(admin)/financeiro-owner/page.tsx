@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { DollarSign, TrendingUp, AlertTriangle, CreditCard, Receipt, BarChart3, Send, Ban, MessageSquare, Users, ChevronDown, ChevronUp } from 'lucide-react';
+import { DollarSign, TrendingUp, AlertTriangle, CreditCard, Send, Ban, MessageSquare, Users, ChevronDown, ChevronUp } from 'lucide-react';
+import { ExportDropdown } from '@/components/shared/ExportDropdown';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RPieChart, Pie, Cell } from 'recharts';
 import { OWNER_KPIS, RECEITA_MENSAL, RECEITA_POR_MODALIDADE, RECEITA_POR_PLANO, DESPESAS, INADIMPLENTES, REGUA_COBRANCA, type ReguaCobranca, type Despesa } from '@/lib/__mocks__/unit-owner.mock';
 
@@ -721,24 +722,14 @@ export default function FinanceiroOwnerPage() {
             </div>
           </div>
 
-          {/* Export Buttons */}
-          <div className="flex gap-3 justify-end">
-            <button
-              onClick={() => alert('Exportar CSV — funcionalidade em breve')}
-              className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2"
-              style={{ border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)', background: 'var(--card-bg)' }}
-            >
-              <Receipt className="w-4 h-4" />
-              Exportar CSV
-            </button>
-            <button
-              onClick={() => alert('Exportar PDF — funcionalidade em breve')}
-              className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2"
-              style={{ background: '#3B82F6', color: '#fff', borderRadius: 12 }}
-            >
-              <BarChart3 className="w-4 h-4" />
-              Exportar PDF
-            </button>
+          {/* Export */}
+          <div className="flex justify-end">
+            <ExportDropdown
+              title="DRE Financeiro"
+              columns={['mes', 'receita', 'despesa', 'lucro']}
+              columnLabels={['Mes', 'Receita', 'Despesa', 'Lucro']}
+              data={RECEITA_MENSAL.map(r => ({ mes: r.mes, receita: r.receita, despesa: r.despesa, lucro: r.lucro }))}
+            />
           </div>
         </div>
       )}

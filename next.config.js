@@ -43,7 +43,26 @@ const nextConfig = {
     ],
   },
 
-  webpack: (config) => {
+  webpack: (config, { isServer, webpack }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        https: false,
+        http: false,
+        stream: false,
+        crypto: false,
+        path: false,
+        os: false,
+        zlib: false,
+      };
+      // Ignore node: protocol imports from pptxgenjs (client-side only)
+      config.plugins.push(
+        new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+          resource.request = resource.request.replace(/^node:/, '');
+        })
+      );
+    }
     return config;
   },
 

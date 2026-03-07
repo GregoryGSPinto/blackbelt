@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Trophy, Calendar, MapPin, Users, Plus, Search, Trash2, Download, ChevronDown,
+  Trophy, Calendar, MapPin, Users, Plus, Search, Trash2, ChevronDown,
   ChevronUp, X,
 } from 'lucide-react';
+import { ExportDropdown } from '@/components/shared/ExportDropdown';
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, StatusEvento, TipoEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
@@ -60,16 +61,6 @@ export default function AdminEventosPage() {
     return matchSearch && matchStatus;
   });
 
-  const handleExportCSV = (evento: Evento) => {
-    const csv = eventosService.exportarInscritosCSV(evento);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `inscritos_${evento.nome.replace(/\s+/g, '_')}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Tem certeza que deseja excluir este evento?')) return;
@@ -189,13 +180,16 @@ export default function AdminEventosPage() {
                     >
                       {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                     </button>
-                    <button
-                      onClick={() => handleExportCSV(evento)}
-                      className="p-2 rounded-lg hover:bg-white/10 text-white/30 hover:text-white/60 transition-colors"
-                      title="Exportar CSV"
-                    >
-                      <Download size={16} />
-                    </button>
+                    <ExportDropdown
+                      title={`Inscritos ${evento.nome}`}
+                      columns={['nome', 'categoria', 'peso', 'dataInscricao']}
+                      columnLabels={['Nome', 'Categoria', 'Peso', 'Data Inscricao']}
+                      data={evento.inscritos.map(i => ({ nome: i.alunoNome, categoria: i.categoriaDescricao, peso: i.peso, dataInscricao: i.dataInscricao }))}
+                      buttonClassName="p-2 rounded-lg hover:bg-white/10 text-white/30 hover:text-white/60 transition-colors"
+                      buttonStyle={{}}
+                      buttonLabel=""
+                      showIcon={true}
+                    />
                     <button
                       onClick={() => handleDelete(evento.id)}
                       className="p-2 rounded-lg hover:bg-red-500/10 text-white/20 hover:text-red-400 transition-colors"
