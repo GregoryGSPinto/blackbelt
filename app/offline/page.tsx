@@ -28,7 +28,7 @@ export default function OfflinePage() {
           <WifiOff size={28} className="text-amber-400" />
         </div>
 
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Sem Conexão</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>Sem Conexão</h1>
         <p className="text-sm text-white/40 mb-6">
           Você está offline. Conecte-se à internet para acessar o BlackBelt.
         </p>

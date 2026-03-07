@@ -70,7 +70,7 @@ export default function ProfessorTurmasPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('management')}</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('yourClasses')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('yourClasses')}</h1>
         <p className="text-white/55 text-sm mt-2">{turmas.length} {t('activeClasses')} · {turmas.reduce((a, tr) => a + tr.totalAlunos, 0)} {t('enrolledStudents')}</p>
         <div className="prof-gold-line mt-6" />
       </section>

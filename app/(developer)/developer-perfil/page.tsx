@@ -11,7 +11,6 @@ export default function DeveloperPerfilPage() {
   const { user } = useAuth();
 
   const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const label = { fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 } as const;
 
   const fields = [
     { icon: User, label: 'Nome Completo', value: user?.nome || '' },
@@ -24,27 +23,27 @@ export default function DeveloperPerfilPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+    <div className="space-y-6 max-w-4xl mx-auto px-4 md:px-0 pt-6 pb-8">
+      <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
         Meu Perfil
       </h1>
 
       <div style={{ ...card, padding: '1.5rem' }}>
-        <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-xl flex items-center justify-center text-4xl" style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
+        <div className="flex flex-col md:flex-row items-center gap-5 md:gap-8">
+          <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl flex items-center justify-center text-5xl md:text-6xl" style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
             {user?.avatar || '👤'}
           </div>
-          <div>
-            <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{user?.nome}</h2>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{user?.email}</p>
-            <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>Desenvolvedor</p>
+          <div className="text-center md:text-left">
+            <h2 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{user?.nome}</h2>
+            <p className="text-sm md:text-base mt-1" style={{ color: 'var(--text-secondary)' }}>{user?.email}</p>
+            <p className="text-xs md:text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Desenvolvedor</p>
           </div>
         </div>
       </div>
 
       <div style={{ ...card, padding: '1.5rem' }}>
-        <h3 style={{ ...label, marginBottom: '1rem' }}>Informacoes Pessoais</h3>
-        <div className="space-y-4">
+        <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Informacoes Pessoais</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {fields.map((f) => (
             <div key={f.label} className="flex items-center gap-4 px-3 py-3 rounded-xl" style={{ border: '1px solid black' }}>
               <f.icon size={16} style={{ color: 'var(--text-secondary)', flexShrink: 0 }} />

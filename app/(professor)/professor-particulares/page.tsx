@@ -54,7 +54,7 @@ export default function ProfessorParticularesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('subtitle')}</p>
       </div>
 

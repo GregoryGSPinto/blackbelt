@@ -162,7 +162,7 @@ export default function ProfessorChamadaPage() {
       <div className="space-y-8 pt-6 pb-8">
         <section className="prof-enter-1">
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('attendanceFinished')}</p>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('summary')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('summary')}</h1>
           <div className="prof-gold-line mt-6" />
         </section>
 
@@ -171,7 +171,7 @@ export default function ProfessorChamadaPage() {
           <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
             <Check size={32} className="text-green-400" />
           </div>
-          <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.25rem' }}>{resumo.turmaNome}</h2>
+          <h2 className="text-lg font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{resumo.turmaNome}</h2>
           <p className="text-white/50 text-sm">{formatDateFull(resumo.data)}</p>
         </section>
 
@@ -227,7 +227,7 @@ export default function ProfessorChamadaPage() {
             <ChevronLeft size={16} />
           </button>
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('quickAttendance')}</p>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{selectedTurma.nome}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{selectedTurma.nome}</h1>
           <p className="text-white/50 text-sm mt-1">
             {selectedTurma.dias} · {selectedTurma.horario} · {formatDate(new Date(), 'short')}
           </p>
@@ -395,7 +395,7 @@ export default function ProfessorChamadaPage() {
       {/* Header */}
       <section className="prof-enter-1">
         <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('title')}</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('quickAttendance')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('quickAttendance')}</h1>
         <p className="text-white/55 text-sm mt-2">{t('selectClass')}</p>
         <div className="prof-gold-line mt-6" />
       </section>

@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           <BarChart3 size={24} className="text-cyan-400" />
           {t('analytics.retentionAnalytics')}
         </h1>
@@ -222,7 +222,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   const tokens = getDesignTokens(isDark);
   return (
     <div>
-      <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{title}</h2>
+      <h2 className="text-base font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{title}</h2>
       {children}
     </div>
   );

@@ -115,7 +115,7 @@ export default function ProfessorMensagensPage() {
       } flex-col w-full md:w-80 lg:w-96 border-r border-white/[0.06] bg-black/20`}>
         {/* Header */}
         <div className="p-4 border-b border-white/[0.06]">
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             <MessageSquare className="w-4 h-4 text-indigo-400" />
             {t('menu.messages')}
           </h1>

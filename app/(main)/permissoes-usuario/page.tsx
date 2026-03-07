@@ -41,7 +41,7 @@ export default function PermissoesUsuarioPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('permissions.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('permissions.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('permissions.subtitle')}</p>
       </div>
 
@@ -104,7 +104,7 @@ export default function PermissoesUsuarioPage() {
       {/* Lista de Permissões */}
       <div className="bg-dark-card border border-dark-elevated rounded-xl overflow-hidden">
         <div className="p-6 border-b border-dark-elevated">
-          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('permissions.systemPermissions')}</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('permissions.systemPermissions')}</h3>
         </div>
         
         <div className="divide-y divide-dark-elevated">

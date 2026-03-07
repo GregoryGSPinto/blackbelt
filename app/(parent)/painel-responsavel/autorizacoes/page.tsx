@@ -72,7 +72,7 @@ export default function AutorizacoesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             <ShieldCheck size={20} className="text-emerald-400" />
             {t('title')}
           </h1>
@@ -94,7 +94,7 @@ export default function AutorizacoesPage() {
 
       {/* Active persons */}
       <div>
-        <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('activeTab')} ({ativas.length})</h2>
+        <h2 className="text-base font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{t('activeTab')} ({ativas.length})</h2>
         <div className="space-y-2">
           {ativas.map(p => (
             <PersonCard key={p.id} pessoa={p} onToggle={handleToggle} />
@@ -108,7 +108,7 @@ export default function AutorizacoesPage() {
       {/* Inactive */}
       {inativas.length > 0 && (
         <div>
-          <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('disabledTab')} ({inativas.length})</h2>
+          <h2 className="text-base font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{t('disabledTab')} ({inativas.length})</h2>
           <div className="space-y-2">
             {inativas.map(p => (
               <PersonCard key={p.id} pessoa={p} onToggle={handleToggle} />

@@ -82,7 +82,7 @@ export default function SecurityDashboardPage() {
       {/* ─── Header ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             <Shield className="w-6 h-6 text-white/80" />
             {t('security.title')}
           </h1>

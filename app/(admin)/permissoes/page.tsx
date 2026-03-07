@@ -79,7 +79,7 @@ export default function PermissoesPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('permissions.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('permissions.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Controle de acesso baseado em perfis</p>
       </div>
 
@@ -119,7 +119,7 @@ export default function PermissoesPage() {
 
       {/* Permissões do Perfil Selecionado */}
       <div style={{ ...glass, padding: '1.5rem' }}>
-        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1.5rem' }}>
+        <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--text-primary)' }}>
           Permissões do Perfil: {perfis.find(p => p.id === selectedPerfil)?.nome}
         </h3>
 

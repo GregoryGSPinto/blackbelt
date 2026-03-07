@@ -81,7 +81,7 @@ export default function GraduacoesAdminPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           <GraduationCap size={24} className="text-purple-400" />
           {t('graduations.title')}
         </h1>
@@ -115,7 +115,7 @@ export default function GraduacoesAdminPage() {
         <div className="space-y-4">
           {agendados.length > 0 && (
             <div>
-              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('graduations.upcomingExams')}</h2>
+              <h2 className="text-base font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{t('graduations.upcomingExams')}</h2>
               <div className="space-y-2">
                 {agendados.map(exam => (
                   <ExamCard key={exam.id} exam={exam} expanded={expandedId === exam.id}
@@ -127,7 +127,7 @@ export default function GraduacoesAdminPage() {
           )}
           {historico.length > 0 && (
             <div>
-              <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>{t('graduations.history')}</h2>
+              <h2 className="text-base font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{t('graduations.history')}</h2>
               <div className="space-y-2">
                 {historico.map(exam => (
                   <ExamCard key={exam.id} exam={exam} expanded={expandedId === exam.id}

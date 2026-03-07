@@ -99,7 +99,7 @@ function AlunoDetalheContent() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{aluno.nome}</h1>
+                <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{aluno.nome}</h1>
                 <span className="px-2 py-0.5 rounded-lg text-[10px] font-medium"
                   style={{ background: STATUS_CONFIG[aluno.status].bg, color: STATUS_CONFIG[aluno.status].color }}>
                   {STATUS_CONFIG[aluno.status].label}

@@ -95,7 +95,7 @@ export default function EventoDetalhePage() {
               {evento.tipo === 'INTERNO' ? 'Interno' : 'Externo'}
             </span>
           </div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{evento.nome}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{evento.nome}</h1>
           <p className="text-sm text-white/40 mt-2">{evento.descricao}</p>
         </div>
 
@@ -307,7 +307,7 @@ function InscricaoModal({
         </button>
 
         <div>
-          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>Inscrição</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Inscrição</h3>
           <p className="text-xs text-white/40 mt-1">{evento.nome}</p>
         </div>
 

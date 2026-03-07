@@ -10,7 +10,6 @@ export default function SuperAdminConfiguracoesPage() {
   const tokens = getDesignTokens(isDark);
   const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
   const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)' } as const;
-  const label = { fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 } as const;
 
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -36,7 +35,7 @@ export default function SuperAdminConfiguracoesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           Configuracoes
         </h1>
         <button onClick={handleSave} disabled={saving}
@@ -51,16 +50,16 @@ export default function SuperAdminConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Building2 size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Configuracoes da Plataforma</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Configuracoes da Plataforma</h3>
         </div>
         <div className="space-y-4">
           <div>
-            <label style={{ display: 'block', ...label, marginBottom: '0.5rem' }}>Nome da Plataforma</label>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>Nome da Plataforma</label>
             <input value={platformName} onChange={(e) => setPlatformName(e.target.value)}
               className="w-full px-3 py-2 rounded-xl text-sm outline-none" style={inputStyle} />
           </div>
           <div>
-            <label style={{ display: 'block', ...label, marginBottom: '0.5rem' }}>Limite de Academias</label>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>Limite de Academias</label>
             <input type="number" value={maxAcademias} onChange={(e) => setMaxAcademias(e.target.value)}
               className="w-full px-3 py-2 rounded-xl text-sm outline-none" style={inputStyle} />
           </div>
@@ -71,7 +70,7 @@ export default function SuperAdminConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Shield size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Feature Flags</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Feature Flags</h3>
         </div>
         <div className="space-y-3">
           <label className="flex items-center justify-between py-2 cursor-pointer">
@@ -89,7 +88,7 @@ export default function SuperAdminConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Bell size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Notificacoes</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Notificacoes</h3>
         </div>
         <div className="space-y-3">
           <label className="flex items-center justify-between py-2 cursor-pointer">
@@ -107,7 +106,7 @@ export default function SuperAdminConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Globe size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Idioma e Tema</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Idioma e Tema</h3>
         </div>
         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
           Idioma detectado automaticamente. Tema segue preferencia do sistema.

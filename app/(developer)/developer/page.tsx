@@ -207,8 +207,8 @@ export default function DeveloperDashboard() {
             <Terminal className="w-5 h-5 text-emerald-500" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
-            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('subtitle')}</p>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('title')}</h1>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{t('subtitle')}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -238,7 +238,7 @@ export default function DeveloperDashboard() {
       {/* ── Active Alerts ── */}
       {alerts.length > 0 && (
         <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
-          <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+          <h2 className="mb-3 flex items-center gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
             <Bell className="w-4 h-4 text-red-500" />
             Alertas Ativos ({alerts.length})
           </h2>
@@ -272,7 +272,7 @@ export default function DeveloperDashboard() {
           >
             <link.icon className="w-5 h-5 text-emerald-500 opacity-60 group-hover:opacity-100 transition-opacity mb-2" />
             <p style={{ fontWeight: 300, color: tokens.text, fontSize: '0.85rem' }}>{link.label}</p>
-            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', color: tokens.textMuted }}>{link.desc}</p>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{link.desc}</p>
           </Link>
         ))}
       </div>
@@ -287,7 +287,7 @@ export default function DeveloperDashboard() {
             { label: 'Anomalies 24h', value: obs.anomaliesLast24h, unit: '' },
           ].map((m) => (
             <div key={m.label} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{m.label}</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{m.label}</p>
               <p className={`font-mono mt-1 ${obsMetricColor(m.label, m.value)}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: obsMetricColor(m.label, m.value) ? undefined : tokens.text }}>
                 {m.value}<span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{m.unit}</span>
               </p>
@@ -298,14 +298,14 @@ export default function DeveloperDashboard() {
 
       {/* ── System Health Grid ── */}
       <div>
-        <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+        <h2 className="mb-3 flex items-center gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
           <Shield className="w-4 h-4" /> System Health
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {health.map((metric) => (
             <div key={metric.name} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
               <div className="flex items-center justify-between mb-1">
-                <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{metric.name}</p>
+                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{metric.name}</p>
                 <span className={`text-[9px] px-1.5 py-0.5 font-mono ${statusBadge(metric.status)}`} style={{ borderRadius: '8px' }}>
                   {metric.status}
                 </span>
@@ -324,7 +324,7 @@ export default function DeveloperDashboard() {
 
       {/* ── Device Insights (AI) ── */}
       <div>
-        <h2 className="mb-3 flex items-center gap-2" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+        <h2 className="mb-3 flex items-center gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
           <Smartphone className="w-4 h-4" /> Device Analysis
           <span className={`text-[9px] px-1.5 py-0.5 ${isDark ? 'bg-violet-500/15 text-violet-400' : 'bg-violet-100 text-violet-700'}`} style={{ borderRadius: '8px' }}>AI</span>
         </h2>

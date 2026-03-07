@@ -26,7 +26,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.5rem' }}>{t('childNotFound')}</p>
+          <p className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{t('childNotFound')}</p>
           <Link href="/painel-responsavel/meus-filhos" className="text-blue-400 hover:underline">
             {t('title')}
           </Link>

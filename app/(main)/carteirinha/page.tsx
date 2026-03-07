@@ -52,7 +52,7 @@ export default function CarteirinhaPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <CreditCard size={24} className="text-blue-400" />
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
               Carteirinha Digital
             </h1>
           </div>

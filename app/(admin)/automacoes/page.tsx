@@ -73,7 +73,7 @@ export default function AutomacoesPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           <Zap size={24} className="text-amber-400" />
           Automações
         </h1>

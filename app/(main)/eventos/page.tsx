@@ -77,7 +77,7 @@ export default function EventosPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('events.title')}</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('events.title')}</h1>
           </div>
           <p className="text-white/40 text-sm">
             {t('events.subtitle')}

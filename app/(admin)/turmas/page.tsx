@@ -78,7 +78,7 @@ export default function TurmasPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('classes.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('classes.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('classes.subtitle')}</p>
         </div>
         <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}>
@@ -175,7 +175,7 @@ export default function TurmasPage() {
               {/* Header */}
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.5rem' }}>{turma.nome}</h2>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{turma.nome}</h2>
                   <p style={{ fontWeight: 300, color: tokens.textMuted }}>{turma.sala}</p>
                 </div>
                 <button
@@ -189,19 +189,19 @@ export default function TurmasPage() {
               {/* Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.professor')}</p>
+                  <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('classes.professor')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{usuarios.find(u => u.id === turma.professorId)?.nome}</p>
                 </div>
                 <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.schedule')}</p>
+                  <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('classes.schedule')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.horario}</p>
                 </div>
                 <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.weekDays')}</p>
+                  <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('classes.weekDays')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>{turma.diasSemana.join(', ')}</p>
                 </div>
                 <div style={{ background: tokens.cardBg, borderRadius: '12px', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('classes.capacity')}</p>
+                  <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('classes.capacity')}</p>
                   <p style={{ color: tokens.text, fontWeight: 500 }}>
                     {turma.alunosMatriculados}/{turma.capacidadeMaxima}
                   </p>
@@ -210,7 +210,7 @@ export default function TurmasPage() {
 
               {/* Alunos */}
               <div className="mb-6">
-                <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1rem' }}>{t('classes.enrolledStudents')} ({alunosDaTurma.length})</h3>
+                <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{t('classes.enrolledStudents')} ({alunosDaTurma.length})</h3>
                 <div className="bg-white/10 rounded-xl divide-y max-h-80 overflow-y-auto">
                   {alunosDaTurma.map((aluno) => (
                     <div key={aluno.id} className="p-3 flex items-center justify-between">

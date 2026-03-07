@@ -101,7 +101,7 @@ export default function CheckinFinanceiroPage() {
         
         {/* Header */}
         <div className="mb-8">
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkin.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('checkin.title')}</h1>
           <p className="text-white/60">{t('checkin.subtitle')}</p>
         </div>
 

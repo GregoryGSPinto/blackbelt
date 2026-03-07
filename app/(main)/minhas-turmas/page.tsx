@@ -54,7 +54,7 @@ export default function MinhasTurmasPage() {
 
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('myClasses.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('myClasses.title')}</h1>
         <p className="text-white/40 text-sm mt-1">{t('myClasses.enrolledCount', { count: turmas.length })}</p>
       </div>
 

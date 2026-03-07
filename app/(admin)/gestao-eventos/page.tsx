@@ -86,7 +86,7 @@ export default function AdminEventosPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             <Trophy size={24} className="text-amber-400" />
             Eventos & Campeonatos
           </h1>
@@ -321,7 +321,7 @@ function EventoFormModal({ onClose, onCreated }: { onClose: () => void; onCreate
           <X size={20} />
         </button>
 
-        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('events.newEvent')}</h3>
+        <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('events.newEvent')}</h3>
 
         <Field label="Nome" value={nome} onChange={setNome} placeholder="Ex: Copa BlackBelt 2026" />
         <Field label="Descrição" value={descricao} onChange={setDescricao} placeholder="Descrição do evento" multiline />

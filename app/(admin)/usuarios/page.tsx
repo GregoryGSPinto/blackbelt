@@ -135,7 +135,7 @@ export default function UsuariosPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('users.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('users.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.subtitle')}</p>
         </div>
         <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}>
@@ -149,7 +149,7 @@ export default function UsuariosPage() {
         <div className="hover-card" style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.activeStudents')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.activeStudents')}</p>
               <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.ativos}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
@@ -159,7 +159,7 @@ export default function UsuariosPage() {
         <div className="hover-card" style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.statusOverdue')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.statusOverdue')}</p>
               <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
@@ -169,7 +169,7 @@ export default function UsuariosPage() {
         <div className="hover-card" style={{ ...glass, padding: '1rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.statusBlocked')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.statusBlocked')}</p>
               <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.bloqueados}</p>
             </div>
             <Ban className="w-10 h-10 text-white/30" />
@@ -182,7 +182,7 @@ export default function UsuariosPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div className="md:col-span-1">
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('users.search')}
             </label>
             <div className="relative">
@@ -199,7 +199,7 @@ export default function UsuariosPage() {
 
           {/* Status Filter */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               Status
             </label>
             <select
@@ -218,7 +218,7 @@ export default function UsuariosPage() {
 
           {/* Tipo Filter */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('users.thCategory')}
             </label>
             <select
@@ -346,7 +346,7 @@ export default function UsuariosPage() {
             <div className="p-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '0.25rem' }}>{selectedUser.nome}</h2>
+                  <h2 className="text-lg font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{selectedUser.nome}</h2>
                   <p style={{ fontWeight: 300, color: tokens.textMuted }}>{selectedUser.email}</p>
                 </div>
                 <button
@@ -360,29 +360,29 @@ export default function UsuariosPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.phone')}</p>
+                    <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.phone')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.telefone}</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>Status</p>
+                    <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>Status</p>
                     {getStatusBadge(selectedUser.status)}
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.thCategory')}</p>
+                    <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.thCategory')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.categoria}</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.thGraduation')}</p>
+                    <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.thGraduation')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>{selectedUser.graduacao}</p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.registrationDate')}</p>
+                    <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.registrationDate')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>
                       {formatDate(selectedUser.dataCadastro, 'short')}
                     </p>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('users.nextDueDate')}</p>
+                    <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.nextDueDate')}</p>
                     <p style={{ color: tokens.text, fontWeight: 500 }}>
                       {selectedUser.proximoVencimento
                         ? formatDate(selectedUser.proximoVencimento, 'short')

@@ -76,7 +76,7 @@ export default function DeveloperAuditPage() {
             <ScrollText className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>System Audit Log</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>System Audit Log</h1>
             <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>{total} events • Page {page}/{totalPages || 1}</p>
           </div>
         </div>

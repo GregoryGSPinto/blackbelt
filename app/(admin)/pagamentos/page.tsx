@@ -87,7 +87,7 @@ export default function PagamentosPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('payments.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('payments.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>Gateway de pagamento e controle de assinaturas</p>
       </div>
 
@@ -153,7 +153,7 @@ export default function PagamentosPage() {
 
       {/* Revenue by method */}
       <div style={{ ...glass, padding: '1.5rem' }}>
-        <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '1rem', fontWeight: 400 }}>Receita por Método</h3>
+        <h3 className="text-base font-medium mb-4" style={{ color: 'var(--text-primary)' }}>Receita por Método</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {(Object.entries(dashboard.porMetodo) as [string, number][]).map(([metodo, valor]) => {
             const m = METODO_LABELS[metodo] || { icon: '💰', label: metodo };

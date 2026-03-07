@@ -117,7 +117,7 @@ export default function RankingPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy size={24} className="text-amber-400" />
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Ranking</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>Ranking</h1>
           </div>
           <p className="text-white/40 text-sm">
             Sua posição entre os guerreiros do BlackBelt
@@ -322,7 +322,7 @@ function StatCard({
         <Icon size={14} className={color} />
         <p className="text-[10px] text-white/30 uppercase tracking-wider">{label}</p>
       </div>
-      <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{value}</p>
+      <p className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{value}</p>
     </div>
   );
 }

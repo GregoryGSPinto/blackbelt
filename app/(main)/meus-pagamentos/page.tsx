@@ -121,7 +121,7 @@ export default function MeusPagamentosPage() {
       <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
         {/* Header */}
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('payments.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('payments.title')}</h1>
           <p className="text-white/60">{t('payments.subtitle')}</p>
         </div>
 

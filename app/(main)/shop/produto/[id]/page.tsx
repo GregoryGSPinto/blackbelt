@@ -155,7 +155,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <div className="space-y-6">
             {/* Title & Rating */}
             <div>
-              <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+              <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
                 {product.name}
               </h1>
               {product.rating && (

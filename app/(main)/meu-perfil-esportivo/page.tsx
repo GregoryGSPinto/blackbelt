@@ -77,7 +77,7 @@ export default function PerfilEsportivoPage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('sportProfile.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('sportProfile.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('sportProfile.subtitle')}</p>
       </div>
 

@@ -65,7 +65,7 @@ export default function FinanceiroPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('financial.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('financial.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted, marginTop: '0.25rem' }}>{t('financial.paymentStatusControl')}</p>
       </div>
 
@@ -82,12 +82,12 @@ export default function FinanceiroPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.onTime')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('financial.onTime')}</p>
               <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: '#4ade80' }}>{stats.emDia}</p>
             </div>
             <CheckCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
-          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+          <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
             {t('financial.percentStudents', { pct: Math.round((stats.emDia / alunos.length) * 100) })}
           </div>
         </div>
@@ -95,30 +95,30 @@ export default function FinanceiroPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.overdue')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('financial.overdue')}</p>
               <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: tokens.warning }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
-          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('financial.requiresAttention')}</div>
+          <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{t('financial.requiresAttention')}</div>
         </div>
 
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('financial.blocked')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('financial.blocked')}</p>
               <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: tokens.error }}>{stats.bloqueados}</p>
             </div>
             <DollarSign className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
-          <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('financial.criticalDefault')}</div>
+          <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{t('financial.criticalDefault')}</div>
         </div>
       </div>
 
       {alunosPorStatus.emAtraso.length > 0 && (
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="flex items-center gap-2" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
+            <h3 className="flex items-center gap-2 text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
               <AlertCircle className="w-5 h-5" style={{ color: tokens.warning }} />
               {t('financial.overdueStudents')} ({alunosPorStatus.emAtraso.length})
             </h3>
@@ -151,7 +151,7 @@ export default function FinanceiroPage() {
       {alunosPorStatus.bloqueados.length > 0 && (
         <div style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="flex items-center gap-2" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
+            <h3 className="flex items-center gap-2 text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
               <DollarSign className="w-5 h-5" style={{ color: tokens.error }} />
               {t('financial.blockedStudents')} ({alunosPorStatus.bloqueados.length})
             </h3>
@@ -180,7 +180,7 @@ export default function FinanceiroPage() {
       )}
 
       <div style={{ ...glass, padding: '1.5rem' }}>
-        <h3 className="mb-6" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('financial.statusChangeHistory')}</h3>
+        <h3 className="mb-6 text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('financial.statusChangeHistory')}</h3>
         <div className="space-y-3">
           {historico.slice(0, 5).map((hist) => {
             const aluno = allUsuarios.find(u => u.id === hist.alunoId);

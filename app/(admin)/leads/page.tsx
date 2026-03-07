@@ -128,7 +128,7 @@ export default function LeadsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('leads.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('leads.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Acompanhe e gerencie seus leads</p>
         </div>
         <button

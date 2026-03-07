@@ -83,7 +83,7 @@ export default function CheckinPage() {
       {/* Header */}
       <section className="pt-4" style={staggerStyle(0)}>
         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">{t('title')}</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkinOf', { name: primeiroNome })}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('checkinOf', { name: primeiroNome })}</h1>
       </section>
 
       {/* Kid selector (if multiple) */}

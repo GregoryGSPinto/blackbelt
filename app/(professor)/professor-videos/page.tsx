@@ -245,7 +245,7 @@ export default function ProfessorVideosPage() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
             <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('library')}</p>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('videos')}</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('videos')}</h1>
             <p className="text-white/55 text-sm mt-2">
               {totalVideos} {t('videos').toLowerCase()} · {totalViews} {t('totalViews')}
             </p>

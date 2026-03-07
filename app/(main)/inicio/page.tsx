@@ -64,7 +64,7 @@ function TrailerPreview({ youtubeId, onClose }: { youtubeId: string; onClose: ()
           style={{ opacity: loaded ? 1 : 0, transition: 'opacity 300ms ease' }}
         />
       </div>
-      <div className="px-3 py-2 text-center" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+      <div className="px-3 py-2 text-center text-xs" style={{ color: 'var(--text-secondary)' }}>
         {t('home.silentPreview')}
       </div>
     </div>
@@ -174,7 +174,7 @@ export default function InicioPage() {
             <span style={{ color: tokens.textMuted }}>•</span>
             <span style={{ color: tokens.text }}>{featuredVideo.category}</span>
           </div>
-          <h1 className="text-2xl mb-3 leading-tight" style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{featuredVideo.title}</h1>
+          <h1 className="text-2xl font-semibold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>{featuredVideo.title}</h1>
           <p className="text-sm mb-2 leading-relaxed line-clamp-2" style={{ fontWeight: 300, color: tokens.text }}>{featuredVideo.description}</p>
           <p className="text-xs mb-5" style={{ color: tokens.textMuted }}>
             {featuredVideo.duration} · {featuredVideo.instructor}

@@ -64,7 +64,7 @@ export default function GraduacaoPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           <GraduationCap size={20} className="text-purple-400" />
           Minha Graduação
         </h1>

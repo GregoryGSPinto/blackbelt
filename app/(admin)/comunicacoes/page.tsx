@@ -99,7 +99,7 @@ export default function ComunicacoesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('communications.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('communications.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Envie comunicados e gerencie mensagens</p>
         </div>
         <button
@@ -364,7 +364,7 @@ export default function ComunicacoesPage() {
                   <p className="text-xs text-white/30 mb-1">
                     De: <span className="text-white/60">{selectedMsg.remetenteNome}</span> → <span className="text-white/60">{selectedMsg.destinatarioNome}</span>
                   </p>
-                  <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{selectedMsg.assunto}</h3>
+                  <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{selectedMsg.assunto}</h3>
                   <p className="text-white/25 text-xs mt-1">{formatDateTime(selectedMsg.data)}</p>
                 </div>
                 <button onClick={() => setSelectedMsg(null)} className="p-1 text-white/30 hover:text-white"><X size={20} /></button>

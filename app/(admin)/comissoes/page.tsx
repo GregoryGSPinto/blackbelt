@@ -47,7 +47,7 @@ export default function ComissoesPage() {
     <div className="space-y-8">
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('commissions.title')}</h1>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('commissions.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>Relatório de pagamento aos instrutores</p>
         </div>
         <input type="month" value={mes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMes(e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white outline-none" />

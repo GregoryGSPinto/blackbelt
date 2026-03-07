@@ -171,7 +171,7 @@ export default function PainelResponsavelPage() {
       {/* ── Header ── */}
       <section className="pt-4">
         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-2">{t('title')}</p>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           {t('greeting', { name: parentProfile?.nome?.split(' ')[0] || '' })} 👋
         </h1>
         <p className="text-white/50 text-sm mt-1">{t('trackProgress', { name: selectedKid.nome })}</p>

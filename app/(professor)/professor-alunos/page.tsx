@@ -162,7 +162,7 @@ export default function ProfessorAlunosPage() {
     <div className={`space-y-6 ${isMobile ? 'pb-32' : 'pb-4 px-4'}`}>
       {/* ═══ Header ═══ */}
       <div className="prof-enter-1">
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{tCommon('menu.students')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{tCommon('menu.students')}</h1>
         <p className="text-white/40 text-sm">
           {t('title')} — {stats?.totalAlunos ?? 0} {tCommon('menu.students').toLowerCase()}
         </p>

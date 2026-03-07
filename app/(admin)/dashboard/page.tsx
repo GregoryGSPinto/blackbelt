@@ -100,7 +100,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             {viewMode === 'executive' ? t('dashboard.executiveView') : t('dashboard.advancedDashboard')}
           </h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }} className="text-sm mt-1">
@@ -379,9 +379,9 @@ function Section({ title, children, action }: { title: string; children: React.R
     <div>
       <div className="gold-accent-bar mb-4" />
       <div className="flex items-center justify-between mb-3">
-        <h2 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{title}</h2>
+        <h2 className="text-xs" style={{ color: 'var(--text-secondary)' }}>{title}</h2>
         {action && (
-          <Link href={action.href} className="flex items-center gap-1" style={{ fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+          <Link href={action.href} className="flex items-center gap-1 text-xs" style={{ color: 'var(--text-secondary)' }}>
             {action.label} <ArrowRight size={14} />
           </Link>
         )}
@@ -409,7 +409,7 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
       <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${iconBg}`}>
         <Icon size={20} className={iconColor} />
       </div>
-      <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-2">{title}</h3>
+      <h3 className="text-xs mb-2" style={{ color: 'var(--text-secondary)' }}>{title}</h3>
       <div className="flex items-end justify-between mb-3">
         <p className={`${valueColor}`} style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.02em', color: valueColor ? undefined : tokens.text }}>{value}</p>
         {total !== undefined && percentage !== undefined && (
@@ -438,7 +438,7 @@ function MetricCard({ title, value, icon: Icon, link, comparison }: {
       <div className="w-11 h-11 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/15 transition-colors">
         <Icon size={20} className="text-white/70" />
       </div>
-      <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-2">{title}</h3>
+      <h3 className="text-xs mb-2" style={{ color: 'var(--text-secondary)' }}>{title}</h3>
       <div className="flex items-end justify-between">
         <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
         {comparison && (

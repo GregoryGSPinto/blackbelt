@@ -16,7 +16,6 @@ export default function ParentConfiguracoesPage() {
 
   const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
   const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)' } as const;
-  const label = { fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 } as const;
 
   // Notifications
   const [notifEmail, setNotifEmail] = useState(true);
@@ -43,7 +42,7 @@ export default function ParentConfiguracoesPage() {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto px-4 pt-6 pb-20">
-      <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+      <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
         Configuracoes
       </h1>
 
@@ -51,7 +50,7 @@ export default function ParentConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Bell size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Notificacoes</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Notificacoes</h3>
         </div>
         <div className="space-y-3">
           {[
@@ -71,7 +70,7 @@ export default function ParentConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Users size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Configuracoes dos Filhos</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Configuracoes dos Filhos</h3>
         </div>
         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
           Gerencie permissoes e notificacoes dos filhos cadastrados na plataforma.
@@ -82,7 +81,7 @@ export default function ParentConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Lock size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Alterar Senha</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Alterar Senha</h3>
         </div>
         <div className="space-y-4">
           {[
@@ -91,7 +90,7 @@ export default function ParentConfiguracoesPage() {
             { lbl: 'Confirmar Nova Senha', val: confirmar, set: setConfirmar },
           ].map((f) => (
             <div key={f.lbl}>
-              <label style={{ display: 'block', ...label, marginBottom: '0.5rem' }}>{f.lbl}</label>
+              <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>{f.lbl}</label>
               <div className="relative">
                 <input
                   type={showPw ? 'text' : 'password'} value={f.val} onChange={(e) => f.set(e.target.value)}
@@ -117,7 +116,7 @@ export default function ParentConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Globe size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Idioma e Tema</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Idioma e Tema</h3>
         </div>
         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
           Idioma detectado automaticamente. Tema segue preferencia do sistema.

@@ -69,7 +69,7 @@ export default function AgendaPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('agenda.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('agenda.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>{formatDateFull(new Date())}</p>
       </div>
 
@@ -78,7 +78,7 @@ export default function AgendaPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.classesToday')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('agenda.classesToday')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{turmasHoje.length}</p>
             </div>
             <Calendar className="w-10 h-10 text-white/40" />
@@ -88,7 +88,7 @@ export default function AgendaPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.checkinsDone')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('agenda.checkinsDone')}</p>
               <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{checkInsHoje.length}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
@@ -98,7 +98,7 @@ export default function AgendaPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('agenda.totalStudents')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('agenda.totalStudents')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                 {turmasHoje.reduce((sum, t) => sum + t.alunosMatriculados, 0)}
               </p>
@@ -110,7 +110,7 @@ export default function AgendaPage() {
 
       {/* Timeline */}
       <div style={{ ...glass, padding: '1.5rem' }}>
-        <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text, marginBottom: '1.5rem' }}>{t('agenda.classSchedule')}</h3>
+        <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--text-primary)' }}>{t('agenda.classSchedule')}</h3>
         <div className="space-y-4">
           {turmasHoje
             .sort((a, b) => {

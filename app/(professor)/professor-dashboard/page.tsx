@@ -180,7 +180,7 @@ export default function ProfessorDashboardPage() {
       <section className="pt-6 md:pt-8 prof-enter-1" data-tour="prof-dashboard">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }} className="mb-3">
+            <p className="text-2xl font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>
               {saudacao}
             </p>
             <h1 style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }} className="md:text-2xl lg:text-4xl tracking-tight leading-tight">
@@ -298,7 +298,7 @@ export default function ProfessorDashboardPage() {
               </div>
             </div>
             <p style={{ fontSize: '2.5rem', fontWeight: 200, color: tokens.text }} className="leading-none">{stat.value}</p>
-            <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mt-2">{stat.label}</p>
+            <p className="text-xs mt-2" style={{ color: 'var(--text-secondary)' }}>{stat.label}</p>
           </div>
         ))}
       </section>
@@ -330,7 +330,7 @@ export default function ProfessorDashboardPage() {
             ].map((s, i) => (
               <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
                 <span style={{ fontSize: '2rem', fontWeight: 200 }} className="leading-none" >{s.value}</span>
-                <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mt-0.5">{s.label}</p>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{s.label}</p>
               </div>
             ))}
           </div>
@@ -340,7 +340,7 @@ export default function ProfessorDashboardPage() {
 
             {/* Evolução Mensal */}
             <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
-              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('monthlyEvolution')}</h3>
+              <h3 className="text-xs" style={{ color: 'var(--text-secondary)' }}>{t('monthlyEvolution')}</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.evolucaoMensal} barCategoryGap="20%">
                   <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} />
@@ -358,7 +358,7 @@ export default function ProfessorDashboardPage() {
 
             {/* Frequência Semanal */}
             <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
-              <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('weeklyFrequency')}</h3>
+              <h3 className="text-xs" style={{ color: 'var(--text-secondary)' }}>{t('weeklyFrequency')}</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={pedStats.frequenciaSemanal} barCategoryGap="15%">
                   <XAxis dataKey="dia" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} />
@@ -381,7 +381,7 @@ export default function ProfessorDashboardPage() {
 
           {/* Distribuição por Nível */}
           <div className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
-            <h3 style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }} className="mb-4">{t('levelDistribution')}</h3>
+            <h3 className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>{t('levelDistribution')}</h3>
             <div className="flex items-end gap-2 h-24">
               {pedStats.distribuicaoNiveis.map((f) => {
                 const maxVal = Math.max(...pedStats.distribuicaoNiveis.map(x => x.total));

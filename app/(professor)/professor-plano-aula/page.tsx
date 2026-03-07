@@ -102,7 +102,7 @@ export default function PlanoAulaPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             <ClipboardList size={20} className="text-blue-400" />
             {t('title')}
           </h1>

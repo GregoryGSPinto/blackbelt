@@ -74,7 +74,7 @@ export default function TeenInicioPage() {
       {/* ═══ SECTION 1: Boas-vindas + Sequência ═══ */}
       <div className="teen-enter-1 flex items-start justify-between">
         <div>
-          <h2 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+          <h2 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             {t('greeting', { name: nomeExibicao })}
           </h2>
           <p className="text-sm font-teen mt-1.5" style={{ fontWeight: 300, color: tokens.textMuted }}>
@@ -90,7 +90,7 @@ export default function TeenInicioPage() {
             <p className="leading-none" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
               {currentTeen.progresso.sequenciaAtual}
             </p>
-            <p className="leading-tight mt-0.5" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{t('consecutiveDays')}</p>
+            <p className="leading-tight mt-0.5 text-xs" style={{ color: 'var(--text-secondary)' }}>{t('consecutiveDays')}</p>
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function TeenInicioPage() {
                 </svg>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="mb-1" style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>
+                <p className="mb-1 text-xs" style={{ color: 'var(--text-secondary)' }}>
                   {t('continueWatching')}
                 </p>
                 <h3 className="truncate" style={{ fontWeight: 300, color: tokens.text, fontSize: '1.1rem' }}>

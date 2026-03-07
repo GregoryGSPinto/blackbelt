@@ -71,7 +71,7 @@ export default function AssinaturaPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           <FileText size={20} className="text-blue-400" />
           {t('signature.title')}
         </h1>

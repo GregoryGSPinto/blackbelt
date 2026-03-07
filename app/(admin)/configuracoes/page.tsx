@@ -68,7 +68,7 @@ export default function ConfiguracoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('config.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('config.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('config.subtitle')}</p>
       </div>
 
@@ -94,14 +94,14 @@ export default function ConfiguracoesPage() {
             <AlertCircle className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.defaultPolicies')}</h3>
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('config.defaultPolicies')}</h3>
             <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.defaultPoliciesDesc')}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('config.overdueLimit')}
             </label>
             <input
@@ -116,7 +116,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('config.daysToBlock')}
             </label>
             <input
@@ -139,13 +139,13 @@ export default function ConfiguracoesPage() {
             <MessageSquare className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.blockMessage')}</h3>
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('config.blockMessage')}</h3>
             <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.blockMessageDesc')}</p>
           </div>
         </div>
 
         <div>
-          <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+          <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
             {t('config.message')}
           </label>
           <textarea
@@ -167,14 +167,14 @@ export default function ConfiguracoesPage() {
             <Clock className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.businessHours')}</h3>
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('config.businessHours')}</h3>
             <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.businessHoursDesc')}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('config.openingTime')}
             </label>
             <input
@@ -189,7 +189,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('config.closingTime')}
             </label>
             <input
@@ -213,7 +213,7 @@ export default function ConfiguracoesPage() {
               <Clock className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('config.earlyCheckin')}</h3>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('config.earlyCheckin')}</h3>
               <p className="text-sm" style={{ color: tokens.textMuted }}>{t('config.earlyCheckinDesc')}</p>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function ConfiguracoesPage() {
 
         {config.permitirCheckInAntecipado && (
           <div>
-            <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.5rem', fontWeight: 400 }}>
+            <label className="block text-sm font-normal mb-2" style={{ color: 'var(--text-secondary)' }}>
               {t('config.minutesAhead')}
             </label>
             <input

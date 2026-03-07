@@ -125,7 +125,7 @@ export default function CheckInPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('checkin.title')}</h1>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('checkin.title')}</h1>
         <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('checkin.validatePresence')}</p>
       </div>
 
@@ -134,7 +134,7 @@ export default function CheckInPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.todayCheckins')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('checkin.todayCheckins')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/70">{checkInsHoje.length}</p>
             </div>
             <Check className="w-10 h-10 text-white/40" />
@@ -144,7 +144,7 @@ export default function CheckInPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.totalStudents')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('checkin.totalStudents')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{alunos.length}</p>
             </div>
             <UsersIcon className="w-10 h-10 text-white/40" />
@@ -154,7 +154,7 @@ export default function CheckInPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.25rem' }}>{t('checkin.attendanceRate')}</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('checkin.attendanceRate')}</p>
               <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>
                 {Math.round((checkInsHoje.length / alunos.length) * 100)}%
               </p>
@@ -172,7 +172,7 @@ export default function CheckInPage() {
               <Check className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.checkinDone')}</h3>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('checkin.checkinDone')}</h3>
               <p className="text-green-400">{selectedAluno.nome} - {formatTime(new Date())}</p>
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function CheckInPage() {
               <X className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.studentBlocked')}</h3>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('checkin.studentBlocked')}</h3>
               <p className="text-red-400">{t('checkin.cannotCheckin', { name: selectedAluno.nome })}</p>
               <p className="text-sm text-white/50 mt-1">
                 {t('checkin.reason')}: {selectedAluno.observacoes || t('checkin.regularizeSituation')}
@@ -199,7 +199,7 @@ export default function CheckInPage() {
 
       {/* Search Area */}
       <div style={{ ...glass, padding: '1.5rem' }}>
-        <label style={{ display: 'block', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, marginBottom: '0.75rem', fontWeight: 400 }}>
+        <label className="block text-sm font-normal mb-3" style={{ color: 'var(--text-secondary)' }}>
           {t('checkin.searchStudent')}
         </label>
         <div className="relative">
@@ -219,7 +219,7 @@ export default function CheckInPage() {
       {searchTerm && (
         <div style={{ ...glass, overflow: 'hidden' }}>
           <div className="p-4 border-b border-white/10">
-            <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
               {t('checkin.resultsFound', { count: filteredAlunos.length })}
             </h3>
           </div>
@@ -244,7 +244,7 @@ export default function CheckInPage() {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{aluno.nome}</h4>
+                          <h4 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{aluno.nome}</h4>
                           {aluno.status === 'ATIVO' && (
                             <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-xs text-green-400 font-medium">
                               {t('checkin.statusActive')}
@@ -318,7 +318,7 @@ export default function CheckInPage() {
       {/* Check-ins Today */}
       <div style={{ ...glass, overflow: 'hidden' }}>
         <div className="p-6 border-b border-white/10">
-          <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.text }}>{t('checkin.todayCheckinsList')}</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('checkin.todayCheckinsList')}</h3>
         </div>
         <div className="divide-y">
           {checkInsHoje.map((checkIn) => {

@@ -9,7 +9,6 @@ export default function DeveloperConfiguracoesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const label = { fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted, fontWeight: 400 } as const;
 
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -28,7 +27,7 @@ export default function DeveloperConfiguracoesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           Configuracoes
         </h1>
         <button onClick={handleSave} disabled={saving}
@@ -43,7 +42,7 @@ export default function DeveloperConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Shield size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Seguranca</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Seguranca</h3>
         </div>
         <button className="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
           style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
@@ -55,7 +54,7 @@ export default function DeveloperConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Bell size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Notificacoes</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Notificacoes</h3>
         </div>
         <div className="space-y-3">
           {[
@@ -75,7 +74,7 @@ export default function DeveloperConfiguracoesPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <div className="flex items-center gap-2 mb-4">
           <Globe size={16} style={{ color: 'var(--text-secondary)' }} />
-          <h3 style={{ ...label, marginBottom: 0 }}>Idioma e Tema</h3>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Idioma e Tema</h3>
         </div>
         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
           Idioma detectado automaticamente. Tema segue preferencia do sistema.

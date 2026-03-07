@@ -137,7 +137,7 @@ export default function RecepcaoPage() {
                 <span className="text-white font-bold text-2xl">C</span>
               </div>
               <div>
-                <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('reception.title')}</h1>
+                <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('reception.title')}</h1>
                 <p className="text-white/50 text-lg">{t('reception.quickCheckin')}</p>
               </div>
             </div>

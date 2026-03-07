@@ -94,7 +94,7 @@ export default function MinhaEvolucaoPage() {
       {/* HEADER                                      */}
       {/* ═══════════════════════════════════════════ */}
       <div className="evo-section">
-        <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>
+        <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           Minha Evolução
         </h1>
         <p className="text-white/40 text-sm mt-1">

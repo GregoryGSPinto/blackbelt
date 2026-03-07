@@ -150,7 +150,7 @@ export default function VideoUploadPage() {
             <Upload size={18} className="text-amber-400/60" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>{t('title')}</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('title')}</h1>
             <p className="text-white/35 text-xs">{t('subtitle')}</p>
           </div>
         </div>

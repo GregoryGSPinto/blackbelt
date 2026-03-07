@@ -53,23 +53,23 @@ export default function TeenPerfilPage() {
   const fieldStyle = { border: '1px solid black' } as const;
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 px-4 md:px-0 pt-6 pb-8">
       <h2 className="text-lg sm:text-xl font-bold font-teen" style={{ color: 'var(--text-primary)' }}>
         {t('title')}
       </h2>
 
       {/* Avatar + Info */}
       <div style={{ ...card, padding: '1.5rem' }}>
-        <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
           <div
-            className="w-24 h-24 rounded-xl flex items-center justify-center text-5xl"
+            className="w-24 h-24 md:w-32 md:h-32 rounded-xl flex items-center justify-center text-5xl md:text-6xl"
             style={{ background: 'var(--card-bg)', border: '1px solid black' }}
           >
             {avatar}
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl font-bold font-teen" style={{ color: 'var(--text-primary)' }}>{nome}</h3>
-            <p className="text-sm font-teen mt-1" style={{ color: 'var(--text-secondary)' }}>
+            <h3 className="text-xl md:text-2xl font-bold font-teen" style={{ color: 'var(--text-primary)' }}>{nome}</h3>
+            <p className="text-sm md:text-base font-teen mt-1" style={{ color: 'var(--text-secondary)' }}>
               {idade} anos · {graduacao}
             </p>
             <div className="flex flex-wrap gap-2 justify-center md:justify-start mt-3">
@@ -87,7 +87,7 @@ export default function TeenPerfilPage() {
       {/* Personal Info */}
       <div style={{ ...card, padding: '1.5rem' }}>
         <h3 className="text-sm font-bold font-teen mb-4" style={{ color: 'var(--text-primary)' }}>Informacoes</h3>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { icon: Calendar, label: t('dob'), value: formatDate(currentTeen.dataNascimento) },
             { icon: User, label: t('professor'), value: user?.instrutor || currentTeen.instrutor },
@@ -108,7 +108,7 @@ export default function TeenPerfilPage() {
       {/* Guardian Info */}
       <div style={{ ...card, padding: '1.5rem' }}>
         <h3 className="text-sm font-bold font-teen mb-4" style={{ color: 'var(--text-primary)' }}>{t('legalGuardian')}</h3>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { icon: User, label: t('name'), value: currentTeen.responsavel.nome },
             { icon: Mail, label: t('email'), value: currentTeen.responsavel.email },

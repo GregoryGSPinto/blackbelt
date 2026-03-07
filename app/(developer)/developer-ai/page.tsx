@@ -60,7 +60,7 @@ export default function DeveloperAIPage() {
             <Brain className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>AI Model Governance</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>AI Model Governance</h1>
             <p className="text-[10px] font-mono" style={{ color: tokens.textMuted }}>{models.length} models registered • No PII access</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function DeveloperAIPage() {
           <div key={m.label} className="p-3" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
             <div className="flex items-center gap-1.5 mb-1">
               <m.icon className="w-3.5 h-3.5" style={{ color: tokens.textMuted }} />
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: tokens.textMuted }}>{m.label}</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{m.label}</p>
             </div>
             <p className={`font-mono ${m.color}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: m.color ? undefined : tokens.text }}>{m.value}</p>
           </div>

@@ -67,7 +67,7 @@ export default function DeveloperObservabilityPage() {
             <Activity className="w-4.5 h-4.5 text-emerald-400" />
           </div>
           <div>
-            <h1 style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, fontWeight: 400, color: tokens.textMuted }}>Observability</h1>
+            <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>Observability</h1>
             <p className="text-[10px] text-white/30 font-mono">
               Metrics Collector • Structured Logger • Anomaly Detector • HTTP Interceptor
             </p>
