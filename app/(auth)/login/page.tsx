@@ -579,24 +579,43 @@ function LoginContent() {
                     )}
 
                     {/* Remember me + Criar conta + Forgot email */}
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" style={{ marginTop: '1.5rem' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
-                        <input type="checkbox" className="w-4 h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
-                        Remember me
+                    {/* Mobile: Criar conta LEFT | Lembrar-me CENTER | Esqueci email RIGHT */}
+                    <div className="flex items-center justify-between md:hidden" style={{ marginTop: '1.5rem' }}>
+                      <Link
+                        href="/cadastro"
+                        style={{
+                          fontSize: '0.875rem',
+                          color: colors.text,
+                          opacity: 0.5,
+                          textDecoration: 'none',
+                          transition: transitions.theme,
+                        }}
+                      >
+                        {t('login.createAccount')}
+                      </Link>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
+                        <input type="checkbox" className="w-3 h-3" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                        Lembrar-me
                       </label>
-                      <div className="flex flex-row items-center gap-4">
-                        <Link
-                          href="/cadastro"
-                          style={{
-                            fontSize: '0.875rem',
-                            color: colors.text,
-                            opacity: 0.5,
-                            textDecoration: 'none',
-                            transition: transitions.theme,
-                          }}
-                        >
-                          {t('login.createAccount')}
-                        </Link>
+                      <Link
+                        href="/esqueci-email"
+                        style={{
+                          fontSize: '0.875rem',
+                          color: colors.linkColor,
+                          textDecoration: 'none',
+                          transition: transitions.theme,
+                        }}
+                      >
+                        {t('login.forgotEmail')}
+                      </Link>
+                    </div>
+                    {/* Desktop: original layout with Criar conta centered */}
+                    <div className="hidden md:flex md:flex-col md:items-center md:gap-3" style={{ marginTop: '1.5rem' }}>
+                      <div className="flex items-center justify-between w-full">
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
+                          <input type="checkbox" className="w-4 h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                          Remember me
+                        </label>
                         <Link
                           href="/esqueci-email"
                           style={{
@@ -609,6 +628,18 @@ function LoginContent() {
                           {t('login.forgotEmail')}
                         </Link>
                       </div>
+                      <Link
+                        href="/cadastro"
+                        style={{
+                          fontSize: '0.875rem',
+                          color: colors.text,
+                          opacity: 0.5,
+                          textDecoration: 'none',
+                          transition: transitions.theme,
+                        }}
+                      >
+                        {t('login.createAccount')}
+                      </Link>
                     </div>
                   </div>
 
