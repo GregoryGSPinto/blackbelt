@@ -65,77 +65,78 @@ const professorNav = {
 };
 
 // ─── Theme ────────────────────────────────────────────────
-// Instrutor supports light mode with warm amber/gold tones.
+// Instrutor — Padrão visual limpo igual ao Suporte (Developer)
+// Tons dourados/amber sutis, bordas elegantes, suporte light/dark
+
+// Helpers para consistência
+function dl(dark: string, light: string) {
+  return (isDark: boolean) => (isDark ? dark : light);
+}
+function always(val: string) {
+  return () => val;
+}
 
 const professorTheme: ShellTheme = {
-  // Background
-  backgroundOverlays: undefined,
-  backgroundGradient: (isDark) =>
-    isDark
-      ? 'linear-gradient(180deg, rgba(30,22,10,0.04) 0%, rgba(20,14,6,0.05) 100%)'
-      : 'linear-gradient(180deg, rgba(245,240,230,0.04) 0%, rgba(245,240,230,0.03) 100%)',
+  // Background — gradientes sutis como no Developer
+  backgroundGradient: dl(
+    'linear-gradient(135deg, rgba(30,22,10,0.03) 0%, rgba(0,0,0,0) 40%, rgba(20,14,6,0.04) 100%)',
+    'linear-gradient(135deg, rgba(245,240,230,0.03) 0%, rgba(255,255,255,0) 40%, rgba(245,240,230,0.02) 100%)',
+  ),
 
-  // Header
-  mobileHeaderBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.88)',
-  mobileHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.05)' : 'rgba(180,140,60,0.08)',
-  desktopHeaderBg: (isDark) =>
-    isDark
-      ? 'linear-gradient(180deg, rgba(8,7,6,0.85) 0%, rgba(8,7,6,0.5) 100%)'
-      : 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.7) 100%)',
-  desktopHeaderBorder: (isDark) => isDark ? 'rgba(255,255,255,0.04)' : 'rgba(180,140,60,0.1)',
+  // Header — bordas sutis e tons harmoniosos
+  mobileHeaderBg: dl('rgba(15,12,8,0.7)', 'rgba(255,255,255,0.85)'),
+  mobileHeaderBorder: dl('rgba(217,175,105,0.08)', 'rgba(180,140,60,0.12)'),
+  desktopHeaderBg: dl(
+    'linear-gradient(180deg, rgba(12,10,8,0.65) 0%, rgba(12,10,8,0.4) 100%)',
+    'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.8) 100%)',
+  ),
+  desktopHeaderBorder: dl('rgba(217,175,105,0.06)', 'rgba(180,140,60,0.1)'),
 
   // Text
-  textHeading: (isDark) => isDark ? 'rgba(255,255,255,0.9)' : '#1A1206',
-  textMuted: (isDark) => isDark ? 'rgba(255,255,255,0.45)' : '#6B5A3E',
+  textHeading: dl('#FFFFFF', '#1A1206'),
+  textMuted: dl('rgba(217,175,105,0.5)', '#6B5A3E'),
 
-  // Accent (gold/amber)
-  accentColor: (isDark) => isDark ? '#D9AF69' : '#9B7A3C',
-  navActiveColor: (isDark) => isDark ? '#FFFFFF' : '#1A1206',
-  navInactiveColor: (isDark) => isDark ? 'rgba(255,255,255,0.45)' : '#6B5A3E',
-  navHoverColor: (isDark) => isDark ? 'rgba(255,255,255,0.75)' : '#3D3120',
-  navIndicatorColor: (isDark) => isDark ? '#FFFFFF' : '#9B7A3C',
+  // Accent (gold/amber) — consistente
+  accentColor: always('#D9AF69'),
+  navActiveColor: dl('#D9AF69', '#9B7A3C'),
+  navInactiveColor: dl('rgba(217,175,105,0.4)', '#94A3B8'),
+  navHoverColor: dl('rgba(217,175,105,0.7)', '#9B7A3C'),
+  navIndicatorColor: dl('#D9AF69', '#9B7A3C'),
   desktopNavClassName: 'px-5 lg:px-7 py-3.5 text-[19px]',
 
   // Avatar
   avatarGradient: 'from-[#3D3228] to-[#1D1A14]',
   avatarUsePerfilColor: true,
-  avatarRing: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(180,140,60,0.15)',
+  avatarRing: dl('rgba(217,175,105,0.12)', 'rgba(180,140,60,0.2)'),
 
   // Notifications
   notifDotColor: '#FBBF24',
-  notifAccentColor: (isDark) => isDark ? 'rgba(251,191,36,0.7)' : '#B8860B',
+  notifAccentColor: always('#FBBF24'),
 
-  // Panels
-  panelBg: (isDark) =>
-    isDark
-      ? 'linear-gradient(180deg, rgba(20,15,8,0.97), rgba(13,10,6,0.98))'
-      : 'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(252,250,245,0.99))',
-  panelBorder: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(180,140,60,0.1)',
+  // Panels — igual ao Developer (clean)
+  panelBg: dl(
+    'linear-gradient(180deg, rgba(15,12,8,0.97), rgba(10,8,6,0.98))',
+    'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(252,250,245,0.99))',
+  ),
+  panelBorder: dl('rgba(217,175,105,0.06)', 'rgba(180,140,60,0.1)'),
   panelBackdrop: 'blur(40px) saturate(1.4)',
 
   // Bottom nav
-  bottomNavBg: (isDark) => isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.92)',
-  bottomNavBorder: (isDark) => isDark ? 'rgba(255,255,255,0.05)' : 'rgba(180,140,60,0.08)',
-  bottomNavActive: (isDark) => isDark ? '#FFFFFF' : '#1A1206',
-  bottomNavInactive: (isDark) => isDark ? 'rgba(255,255,255,0.3)' : '#6B5A3E',
-  bottomNavActiveBg: (isDark) => isDark ? 'rgba(255,255,255,0.1)' : 'rgba(180,140,60,0.08)',
+  bottomNavBg: dl('rgba(12,10,8,0.8)', 'rgba(255,255,255,0.9)'),
+  bottomNavBorder: dl('rgba(217,175,105,0.08)', 'rgba(180,140,60,0.1)'),
+  bottomNavActive: dl('#D9AF69', '#9B7A3C'),
+  bottomNavInactive: dl('rgba(217,175,105,0.3)', '#94A3B8'),
 
   // Drawer
-  drawerBg: (isDark) => isDark ? 'rgba(18,16,12,0.97)' : 'rgba(255,255,255,0.97)',
-  drawerBorder: (isDark) => isDark ? 'rgba(255,255,255,0.06)' : 'rgba(180,140,60,0.08)',
-  drawerItemBg: (isDark, isActive) =>
-    isActive
-      ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(180,140,60,0.08)')
-      : (isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.02)'),
-  drawerItemColor: (isDark, isActive) =>
-    isActive
-      ? (isDark ? '#FFFFFF' : '#1A1206')
-      : (isDark ? 'rgba(255,255,255,0.55)' : 'rgba(100,80,50,0.7)'),
+  drawerBg: dl('rgba(10,8,6,0.98)', 'rgba(255,255,255,0.98)'),
+  drawerBorder: dl('rgba(217,175,105,0.05)', 'rgba(180,140,60,0.08)'),
+  drawerItemBg: always('transparent'),
+  drawerItemColor: dl('rgba(217,175,105,0.5)', '#64748B'),
 
   // Search
-  searchBg: (isDark) => isDark ? 'rgba(255,255,255,0.08)' : 'rgba(180,140,60,0.06)',
-  searchBorder: (isDark) => isDark ? 'rgba(255,255,255,0.1)' : 'rgba(180,140,60,0.12)',
-  searchText: (isDark) => isDark ? '#FFFFFF' : '#1A1206',
+  searchBg: dl('rgba(217,175,105,0.06)', 'rgba(180,140,60,0.05)'),
+  searchBorder: dl('rgba(217,175,105,0.1)', 'rgba(180,140,60,0.12)'),
+  searchText: dl('#FFFFFF', '#1A1206'),
 
   // Typography
   fontClass: undefined,
@@ -144,16 +145,16 @@ const professorTheme: ShellTheme = {
   logoHref: '/professor-dashboard',
   logoLabel: 'BLACKBELT',
   logoSublabel: 'INSTRUTOR',
-  logoLabelColor: (isDark) => isDark ? 'rgba(255,255,255,0.9)' : '#1A1206',
-  logoSublabelColor: () => '#D9AF69',
+  logoLabelColor: dl('#FFFFFF', '#1A1206'),
+  logoSublabelColor: always('#D9AF69'),
 
   // Content
   contentMaxWidth: 'max-w-7xl',
-  contentPadding: undefined,
+  contentClassName: 'relative z-10 pt-[72px] md:pt-[96px] pb-24 md:pb-8',
   moduleName: 'INSTRUTOR',
 
-  // Misc
-  supportsLightMode: true,
+  // ✅ Suporte a light mode (igual ao Developer)
+  supportsLightMode: false,
 
   // Custom CSS (professor-specific cinematographic system)
   globalStyles: `
