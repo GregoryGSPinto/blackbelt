@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0",
+  "versionCode": 1,
+  "languages": ["pt-BR", "en-US"],
+  "defaultLanguage": "pt-BR",
+  "pt-BR": {
+    "title": "BlackBelt - Gestão de Academias de Jiu-Jitsu e Artes Marciais",
+    "shortDescription": "A plataforma mais completa para gestão de academias de artes marciais com check-in QR e controle financeiro.",
+    "fullDescription": "BlackBelt é a plataforma inteligente de gestão desenvolvida especialmente para academias de artes marciais. Simplifique a administração da sua academia e ofereça uma experiência premium aos seus alunos.\n\n<b>PRINCIPAIS FUNCIONALIDADES:</b>\n\n✓ <b>CHECK-IN INTELIGENTE</b>\n• Check-in rápido via QR Code\n• Geofencing para validação de presença\n• Modo offline com sincronização automática\n• Histórico completo de frequência\n\n✓ <b>GESTÃO DE ALUNOS</b>\n• Cadastro completo com perfis personalizados\n• Controle de graduações e faixas\n• Acompanhamento de progresso individual\n• Sistema de conquistas e gamificação\n\n✓ <b>MULTIPERFIL</b>\n• Interface Kids (4-11 anos) com design lúdico\n• Perfil Teen (12-17 anos) com autonomia guiada\n• Dashboard Adulto completo\n• Área do Responsável para acompanhamento\n\n✓ <b>GESTÃO DE TURMAS</b>\n• Horários e agendamento de aulas\n• Controle de presença\n• Lista de espera\n• Comunicação com alunos\n\n✓ <b>FINANCEIRO INTEGRADO</b>\n• Controle de mensalidades\n• Pagamentos via cartão e PIX\n• Relatórios financeiros\n• Lembretes automáticos\n\n✓ <b>CONTEÚDO EDUCATIVO</b>\n• Biblioteca de vídeos\n• Séries de técnicas\n• Material complementar\n• Aulas particulares\n\n✓ <b>LOJA INTEGRADA</b>\n• Venda de uniformes e equipamentos\n• Kimonos, luvas, protetores\n• Gestão de estoque\n• Pagamento integrado\n\n<b>MODALIDADES SUPORTADAS:</b>\n• Jiu-Jitsu (BJJ)\n• Judô\n• Muay Thai\n• Karatê\n• Taekwondo\n• Boxe\n• MMA\n\n<b>PERFEITO PARA:</b>\n✓ Donos de academias que querem profissionalizar a gestão\n✓ Professores que precisam organizar turmas\n✓ Alunos que desejam monitorar seu progresso\n✓ Pais que querem acompanhar a evolução dos filhos\n\n<b>SEGURANÇA E PRIVACIDADE:</b>\n• Dados criptografados\n• Conformidade com LGPD\n• Autenticação segura\n• Controle de privacidade por perfil\n\nExperimente gratuitamente e descubra por que centenas de academias já escolheram o BlackBelt!\n\n---\n\n<b>Dúvidas ou sugestões?</b>\n📧 suporte@blackbelt.app\n🌐 https://blackbelt.app",
+    "video": "",
+    "recentChanges": "Lançamento oficial do BlackBelt!\n\n✨ Novidades desta versão:\n• Sistema completo de gestão para academias\n• Check-in QR Code e geofencing\n• Multiperfil: Kids, Teen e Adulto\n• Controle financeiro integrado\n• Loja de equipamentos\n• Biblioteca de vídeos\n• Sistema de conquistas e gamificação\n• Suporte a múltiplas modalidades de artes marciais",
+    "privacyPolicy": "https://blackbelt.app/politica-privacidade"
+  },
+  "en-US": {
+    "title": "BlackBelt - Martial Arts Gym Management",
+    "shortDescription": "The most complete platform for martial arts gym management with QR check-in and financial control.",
+    "fullDescription": "BlackBelt is the intelligent management platform designed specifically for martial arts gyms. Simplify your gym administration and offer a premium experience to your students.\n\n<b>KEY FEATURES:</b>\n\n✓ <b>SMART CHECK-IN</b>\n• Quick QR Code check-in\n• Geofencing for attendance validation\n• Offline mode with automatic sync\n• Complete attendance history\n\n✓ <b>STUDENT MANAGEMENT</b>\n• Complete registration with personalized profiles\n• Belt rank tracking\n• Individual progress monitoring\n• Achievement and gamification system\n\n✓ <b>MULTIPROFILE</b>\n• Kids interface (ages 4-11) with playful design\n• Teen profile (ages 12-17) with guided autonomy\n• Complete Adult dashboard\n• Parent area for monitoring\n\n✓ <b>CLASS MANAGEMENT</b>\n• Schedule and class scheduling\n• Attendance tracking\n• Waitlist management\n• Student communication\n\n✓ <b>INTEGRATED FINANCIAL</b>\n• Membership control\n• Card and PIX payments\n• Financial reports\n• Automatic reminders\n\n✓ <b>EDUCATIONAL CONTENT</b>\n• Video library\n• Technique series\n• Supplementary materials\n• Private lessons\n\n✓ <b>INTEGRATED SHOP</b>\n• Uniform and equipment sales\n• Kimonos, gloves, protectors\n• Inventory management\n• Integrated payment\n\n<b>SUPPORTED MODALITIES:</b>\n• Brazilian Jiu-Jitsu (BJJ)\n• Judo\n• Muay Thai\n• Karate\n• Taekwondo\n• Boxing\n• MMA\n\n<b>PERFECT FOR:</b>\n✓ Gym owners who want to professionalize management\n✓ Teachers who need to organize classes\n✓ Students who want to monitor their progress\n✓ Parents who want to track their children's evolution\n\n<b>SECURITY AND PRIVACY:</b>\n• Encrypted data\n• GDPR compliance\n• Secure authentication\n• Privacy control by profile\n\nTry it for free and discover why hundreds of gyms have already chosen BlackBelt!\n\n---\n\n<b>Questions or suggestions?</b>\n📧 support@blackbelt.app\n🌐 https://blackbelt.app",
+    "video": "",
+    "recentChanges": "Official BlackBelt launch!\n\n✨ What's new in this version:\n• Complete gym management system\n• QR Code check-in and geofencing\n• Multi-profile: Kids, Teen, and Adult\n• Integrated financial control\n• Equipment shop\n• Video library\n• Achievement and gamification system\n• Support for multiple martial arts modalities",
+    "privacyPolicy": "https://blackbelt.app/privacy-policy"
+  },
+  "applicationCategory": "HEALTH_AND_FITNESS",
+  "categories": ["Health & Fitness", "Sports"],
+  "tags": [
+    "jiu-jitsu",
+    "academy",
+    "martial arts",
+    "bjj",
+    "gym management",
+    "check-in",
+    "training",
+    "belt progression",
+    "student tracking",
+    "fitness"
+  ],
+  "contentRating": "Everyone",
+  "contactEmail": "suporte@blackbelt.app",
+  "contactPhone": "+55 11 99999-9999",
+  "contactWebsite": "https://blackbelt.app",
+  "price": {
+    "currency": "BRL",
+    "micros": 0
+  },
+  "subscription": {
+    "available": true,
+    "freeTrial": "14 days"
+  }
+}
