@@ -46,7 +46,7 @@ const parentNav = {
   notifications: NOTIFICATIONS,
   hideSearch: true,
   profileHref: '/painel-responsavel/perfil',
-  settingsHref: '/painel-responsavel/perfil',
+  settingsHref: '/painel-responsavel/configuracoes',
 };
 
 // ─── Theme ────────────────────────────────────────────────

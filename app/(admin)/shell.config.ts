@@ -71,7 +71,7 @@ const adminNav = {
   allItems: ALL_NAV,
   searchPlaceholder: 'Buscar alunos, turmas, financeiro...',
   notifications: NOTIFICATIONS,
-  profileHref: '/configuracoes',
+  profileHref: '/meu-perfil',
   settingsHref: '/configuracoes',
 };
 

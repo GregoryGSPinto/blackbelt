@@ -54,7 +54,7 @@ const teenNav = {
   searchPlaceholder: 'Buscar sessões, conquistas, turmas...',
   notifications: NOTIFICATIONS,
   profileHref: '/teen-perfil',
-  settingsHref: '/teen-perfil',
+  settingsHref: '/teen-configuracoes',
 };
 
 // ─── Theme ────────────────────────────────────────────────

@@ -60,7 +60,7 @@ const professorNav = {
   searchPlaceholder: 'Buscar alunos, turmas, vídeos, avaliações...',
   notifications: NOTIFICATIONS,
   profileHref: '/professor-perfil',
-  settingsHref: '/professor-perfil',
+  settingsHref: '/professor-configuracoes',
 };
 
 // ─── Theme ────────────────────────────────────────────────

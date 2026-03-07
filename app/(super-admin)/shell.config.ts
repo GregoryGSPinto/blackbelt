@@ -60,7 +60,7 @@ const superAdminNav = {
     { id: 2, title: 'Alerta de inadimplência', desc: '5 academias com pagamento atrasado', time: '2h' },
     { id: 3, title: 'Atualização do sistema', desc: 'Versão 2.4 disponível para deploy', time: '1d' },
   ],
-  profileHref: '/super-admin/configuracoes',
+  profileHref: '/super-admin/perfil',
   settingsHref: '/super-admin/configuracoes',
 };
 

@@ -53,7 +53,7 @@ const devNav = {
   allItems: ALL_NAV,
   searchPlaceholder: 'Buscar logs, métricas, modelos...',
   notifications: [],
-  profileHref: '/developer-configuracoes',
+  profileHref: '/developer-perfil',
   settingsHref: '/developer-configuracoes',
 };
 
