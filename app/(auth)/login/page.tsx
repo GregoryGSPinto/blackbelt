@@ -506,15 +506,15 @@ const MODALITIES = [
 const FAQ_ITEMS = [
   {
     question: 'Como cadastrar minha academia?',
-    answer: 'Basta clicar em "Comece Grátis", preencher os dados da sua academia e em poucos minutos você já estará utilizando a plataforma. Oferecemos suporte completo durante todo o processo de onboarding.',
+    answer: 'Basta preencher o formulário de contato ou solicitar uma demonstração. Nossa equipe entrará em contato em até 24 horas para entender suas necessidades e apresentar a melhor solução.',
   },
   {
     question: 'Posso testar grátis?',
-    answer: 'Sim! Oferecemos 14 dias de teste grátis em todos os planos, sem necessidade de cartão de crédito. Você pode explorar todas as funcionalidades antes de decidir.',
+    answer: 'Sim! Oferecemos período de teste grátis em todas as modalidades, sem necessidade de cartão de crédito. Você pode explorar todas as funcionalidades antes de decidir.',
   },
   {
     question: 'Quais formas de pagamento?',
-    answer: 'Aceitamos cartão de crédito (Visa, Mastercard, Elo, Amex), boleto bancário, PIX e transferência bancária. Planos anuais possuem desconto especial.',
+    answer: 'Aceitamos cartão de crédito (Visa, Mastercard, Elo, Amex), boleto bancário, PIX e transferência bancária. Consulte nossa equipe comercial para condições especiais.',
   },
 ];
 
@@ -1911,10 +1911,10 @@ function LoginContent() {
             </motion.div>
           </section>
 
-          {/* ─── SEÇÃO 2 — PLANOS ─────────────────────────── */}
+          {/* ─── SEÇÃO 2 — SOLICITAR DEMONSTRAÇÃO ─────────────────────────── */}
           <section
             style={{
-              minHeight: '100vh',
+              minHeight: '80vh',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -1928,10 +1928,19 @@ function LoginContent() {
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                 fontWeight: 600,
                 textAlign: 'center',
-                marginBottom: '3rem',
+                marginBottom: '1rem',
               }}>
-                Planos
+                Solicite uma Demonstração
               </h2>
+              <p style={{
+                color: colors.textMuted,
+                textAlign: 'center',
+                maxWidth: 500,
+                margin: '0 auto 3rem',
+              }}>
+                Conheça todas as funcionalidades do BlackBelt com uma demonstração 
+                personalizada. Nossa equipe entrará em contato em até 24 horas.
+              </p>
             </AnimatedSection>
 
             <motion.div 
@@ -1944,32 +1953,27 @@ function LoginContent() {
             >
               {[
                 {
-                  name: 'Starter',
-                  price: 'R$ 197',
-                  period: '/mês',
-                  features: ['Até 50 alunos', '2 professores', '3 modalidades', 'Relatórios básicos'],
-                  popular: false,
+                  name: 'Start',
+                  description: 'Ideal para academias iniciantes',
+                  features: ['Até 50 alunos', 'Gestão completa', 'App mobile', 'Relatórios básicos'],
                 },
                 {
                   name: 'Professional',
-                  price: 'R$ 497',
-                  period: '/mês',
-                  features: ['Até 200 alunos', '10 professores', 'Modalidades ilimitadas', 'AI Insights', 'Relatórios avançados'],
+                  description: 'Para academias em crescimento',
+                  features: ['Até 200 alunos', 'AI Insights', 'Relatórios avançados', 'Suporte prioritário'],
                   popular: true,
                 },
                 {
                   name: 'Enterprise',
-                  price: 'R$ 997',
-                  period: '/mês',
-                  features: ['Alunos ilimitados', 'Professores ilimitados', 'White-label', 'API completa', 'Suporte prioritário'],
-                  popular: false,
+                  description: 'Para grandes academias',
+                  features: ['Alunos ilimitados', 'White-label', 'API completa', 'Suporte dedicado'],
                 },
               ].map((plan, index) => (
                 <motion.div
                   key={plan.name}
                   style={{
                     ...sectionCard,
-                    border: plan.popular
+                    border: plan?.popular
                       ? `2px solid ${isDark ? '#fff' : '#111'}`
                       : sectionCard.border,
                     position: 'relative',
@@ -2002,13 +2006,12 @@ function LoginContent() {
                       Mais Popular
                     </motion.span>
                   )}
-                  <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                  <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
                     {plan.name}
                   </h3>
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <span style={{ color: colors.text, fontSize: '2rem', fontWeight: 600 }}>{plan.price}</span>
-                    <span style={{ color: colors.textMuted, fontSize: '0.875rem' }}>{plan.period}</span>
-                  </div>
+                  <p style={{ color: colors.textMuted, fontSize: '0.875rem', marginBottom: '1.5rem' }}>
+                    {plan.description}
+                  </p>
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                     {plan.features.map((f) => (
                       <li key={f} style={{ color: colors.textMuted, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -2017,6 +2020,7 @@ function LoginContent() {
                     ))}
                   </ul>
                   <motion.button
+                    onClick={() => router.push('/contato')}
                     style={{
                       width: '100%',
                       padding: '0.75rem',
@@ -2034,7 +2038,7 @@ function LoginContent() {
                     whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                     transition={SPRING_PREMIUM}
                   >
-                    Comece Grátis
+                    Solicitar Proposta
                   </motion.button>
                 </motion.div>
               ))}

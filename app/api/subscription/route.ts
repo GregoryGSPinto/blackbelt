@@ -4,7 +4,7 @@
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { planManagement, overageBilling, addonManagement } from '@/lib/subscription/services';
+import { planService } from '@/lib/subscription/services-v3';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     // Get user's academy
     const { data: userAcademy } = await supabase
       .from('usuarios_academia')
-      .select('academia_id')
+      .select('academia_id, perfil')
       .eq('usuario_id', user.id)
       .single();
 
@@ -39,11 +39,14 @@ export async function GET(request: Request) {
 
     const academyId = userAcademy.academia_id;
 
-    // Get subscription data
-    const subscription = await planManagement.getSubscription(academyId);
+    // Get subscription data with plan
+    const subscription = await planService.getSubscription(academyId);
     if (!subscription) {
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 });
     }
+
+    // Get student limit status
+    const studentLimit = await planService.checkStudentLimit(academyId);
 
     // Get quotas
     const { data: quotas } = await supabase
@@ -51,33 +54,14 @@ export async function GET(request: Request) {
       .select('*')
       .eq('academy_id', academyId);
 
-    // Get addons
-    const addons = await addonManagement.getActiveAddons(academyId);
-
-    // Get student limit status
-    const studentLimit = await planManagement.checkStudentLimit(academyId);
-
-    // Calculate upcoming invoice
-    const { breakdown, total: overagesAmount } = await overageBilling.calculateOverages(academyId);
-    const addonsAmount = addons.reduce((sum, a) => sum + a.price, 0);
-    const subscriptionAmount = subscription.billing_cycle === 'annual'
-      ? (subscription.plan?.base_price_annual || 0) / 12
-      : (subscription.plan?.base_price_monthly || 0);
-
     return NextResponse.json({
       subscription: {
         ...subscription,
-        student_limit_status: studentLimit
+        plan: subscription.plan,
       },
-      quotas: quotas || [],
-      addons,
-      upcomingInvoice: {
-        subscriptionAmount: Math.round(subscriptionAmount * 100) / 100,
-        addonsAmount: Math.round(addonsAmount * 100) / 100,
-        overagesAmount: Math.round(overagesAmount * 100) / 100,
-        totalAmount: Math.round((subscriptionAmount + addonsAmount + overagesAmount) * 100) / 100,
-        periodStart: subscription.current_period_starts_at,
-        periodEnd: subscription.current_period_ends_at
+      usage: {
+        students: studentLimit,
+        quotas: quotas || [],
       }
     });
   } catch (error) {

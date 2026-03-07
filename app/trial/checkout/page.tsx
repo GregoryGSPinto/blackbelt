@@ -19,7 +19,6 @@ import Link from 'next/link';
 interface PlanInfo {
   id: string;
   name: string;
-  price: number;
   trialDays: number;
   features: string[];
 }
@@ -28,28 +27,24 @@ const PLANS: Record<string, PlanInfo> = {
   start: {
     id: 'start',
     name: 'Start',
-    price: 149,
     trialDays: 14,
     features: ['50 alunos', '3 usuários', '5GB storage', 'Suporte por email'],
   },
   medium: {
     id: 'medium',
     name: 'Medium',
-    price: 199,
     trialDays: 14,
     features: ['100 alunos', '5 usuários', '10GB storage', 'Suporte por chat'],
   },
   pro: {
     id: 'pro',
     name: 'Pro',
-    price: 279,
     trialDays: 30,
     features: ['150 alunos', '10 usuários', '20GB storage', 'Suporte prioritário', 'Loja virtual'],
   },
   business: {
     id: 'business',
     name: 'Business',
-    price: 449,
     trialDays: 30,
     features: ['300 alunos', '20 usuários', '50GB storage', 'Suporte dedicado', 'White label'],
   },
@@ -233,15 +228,9 @@ export default function TrialCheckoutPage() {
             className="lg:sticky lg:top-8 h-fit"
           >
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold">Plano {plan.name}</h2>
-                  <p className="text-slate-400">{plan.trialDays} dias grátis</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-3xl font-bold">R$ {plan.price}</p>
-                  <p className="text-slate-400">/mês</p>
-                </div>
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold">Plano {plan.name}</h2>
+                <p className="text-slate-400">{plan.trialDays} dias grátis</p>
               </div>
 
               <div className="border-t border-white/10 pt-6 mb-6">
@@ -270,8 +259,8 @@ export default function TrialCheckoutPage() {
               <div className="mt-6 text-center">
                 <p className="text-sm text-slate-400">
                   Quer outro plano?{' '}
-                  <Link href="/precos" className="text-emerald-400 hover:underline">
-                    Ver todos os planos
+                  <Link href="/contato" className="text-emerald-400 hover:underline">
+                    Falar com consultor
                   </Link>
                 </p>
               </div>

@@ -4,8 +4,8 @@
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { planManagement } from '@/lib/subscription/services';
-import type { BillingCycle } from '@/lib/subscription/types';
+import { planService } from '@/lib/subscription/services-v3';
+import type { BillingCycle } from '@/lib/subscription/types-v3';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -46,38 +46,36 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { targetPlanId, billingCycle = 'monthly' } = body;
+    const { target_plan_id, billing_cycle } = body;
 
-    if (!targetPlanId) {
+    if (!target_plan_id) {
       return NextResponse.json(
-        { error: 'targetPlanId required' },
+        { error: 'target_plan_id required' },
         { status: 400 }
       );
     }
 
     const academyId = userAcademy.academia_id;
 
-    // Calculate prorated amount
-    const calculation = await planManagement.calculateProratedUpgrade(
-      academyId,
-      targetPlanId,
-      billingCycle as BillingCycle
-    );
-
     // Perform upgrade
-    await planManagement.upgradePlan(academyId, targetPlanId, 'manual');
+    await planService.upgradePlan(academyId, target_plan_id);
+
+    // If billing cycle changed, update it
+    if (billing_cycle && ['monthly', 'annual'].includes(billing_cycle)) {
+      await supabase
+        .from('academy_subscriptions')
+        .update({ billing_cycle })
+        .eq('academy_id', academyId);
+    }
 
     return NextResponse.json({
       success: true,
-      proratedAmount: calculation.proratedAmount,
-      newAmount: calculation.newPlanPrice,
-      effectiveDate: new Date().toISOString(),
-      clientSecret: null // Would be populated with Stripe secret for payment
+      message: 'Upgrade realizado com sucesso',
     });
   } catch (error) {
     console.error('[Subscription Upgrade API]', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }
