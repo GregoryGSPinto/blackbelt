@@ -7,7 +7,7 @@
 // ============================================================
 import {
   LayoutDashboard, Building2, DollarSign, Users, ScrollText, Settings,
-  AlertTriangle, UserCog, Bell,
+  AlertTriangle, UserCog, Bell, ShoppingBag,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -44,6 +44,7 @@ const DRAWER_NAV = [
   { href: '/super-admin',            icon: AlertTriangle,   label: 'Inadimplência' },
   { href: '/super-admin',            icon: UserCog,         label: 'Impersonar' },
   { href: '/super-admin',            icon: Bell,            label: 'Notificações' },
+  { href: '/super-admin/loja',      icon: ShoppingBag,     label: 'Loja' },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...DRAWER_NAV]

@@ -6,7 +6,7 @@
 // Desktop: 5 itens | Mobile: 3 + Menu
 // ============================================================
 import {
-  Terminal, ScrollText, Shield, Brain, AlertTriangle, Activity, LogIn, Lock,
+  Terminal, ScrollText, Shield, Brain, AlertTriangle, Activity, LogIn, Lock, ShoppingBag,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -41,6 +41,7 @@ const DRAWER_NAV = [
   { href: '/developer-observability', icon: Activity,       label: 'Observability' },
   { href: '/developer-danger',        icon: AlertTriangle,  label: 'Danger Zone' },
   { href: '/developer-permissoes',              icon: Lock,           label: 'Permissões' },
+  { href: '/developer-loja',         icon: ShoppingBag,    label: 'Loja' },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...DRAWER_NAV]

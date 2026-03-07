@@ -2,7 +2,7 @@
 // Instrutor Shell Config — Theme + Navigation
 // ============================================================
 import {
-  LayoutDashboard, Users, ClipboardCheck, Play, GraduationCap, ClipboardList, Timer, Calendar, BookOpen, MessageSquare,
+  LayoutDashboard, Users, ClipboardCheck, Play, GraduationCap, ClipboardList, Timer, Calendar, BookOpen, MessageSquare, ShoppingBag,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -41,6 +41,7 @@ const DRAWER_NAV = [
   { href: '/professor-videos', icon: Play, label: 'Vídeos' },
   { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/professor-particulares', icon: Calendar, label: 'Particulares' },
+  { href: '/professor-loja', icon: ShoppingBag, label: 'Loja' },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]

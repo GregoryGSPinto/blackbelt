@@ -1,7 +1,7 @@
 // ============================================================
 // Parent Shell Config — Painel do Responsável
 // ============================================================
-import { Home, Users, Clock, TrendingUp, ShieldCheck, MessageSquare, UserCog } from 'lucide-react';
+import { Home, Users, Clock, TrendingUp, ShieldCheck, MessageSquare, UserCog, ShoppingBag } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
 // ─── Navigation ───────────────────────────────────────────
@@ -27,6 +27,7 @@ const DRAWER_NAV = [
   { href: '/painel-responsavel/mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/painel-responsavel/autorizacoes', icon: ShieldCheck, label: 'Autorizações' },
   { href: '/painel-responsavel/progresso', icon: TrendingUp, label: 'Progresso' },
+  { href: '/painel-responsavel/loja', icon: ShoppingBag, label: 'Loja' },
   { href: '/painel-responsavel/perfil', icon: UserCog, label: 'Meu Perfil' },
 ];
 

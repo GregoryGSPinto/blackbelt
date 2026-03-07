@@ -66,7 +66,10 @@
       "Bash(python3 -c \"\nimport json\nfor lang in ['pt-BR', 'en-US']:\n    d=json.load\\(open\\(f'/Users/user_pc/Projetos/BlackBelt/messages/{lang}.json'\\)\\)\n    a=d.get\\('common',{}\\).get\\('actions',{}\\)\n    print\\(f'{lang}: entering={a.get\\(\\\\\"entering\\\\\",\\\\\"MISSING\\\\\"\\)}, loading={a.get\\(\\\\\"loading\\\\\",\\\\\"MISSING\\\\\"\\)}, redirecting={a.get\\(\\\\\"redirecting\\\\\",\\\\\"MISSING\\\\\"\\)}'\\)\n\")",
       "Bash(pkill -f \"next dev\" 2>/dev/null; echo \"done\")",
       "Bash(ls '/Users/user_pc/Projetos/BlackBelt/app/\\(developer\\)/developer-configuracoes/page.tsx' 2>/dev/null && echo \"exists\" || echo \"missing\"\nls '/Users/user_pc/Projetos/BlackBelt/app/\\(developer\\)/developer-perfil/' 2>/dev/null && echo \"exists\" || echo \"missing\"\nls '/Users/user_pc/Projetos/BlackBelt/app/\\(admin\\)/perfil/' 2>/dev/null && echo \"exists\" || echo \"missing\"\nls '/Users/user_pc/Projetos/BlackBelt/app/\\(admin\\)/configuracoes/' 2>/dev/null && echo \"exists\" || echo \"missing\")",
-      "Bash(ls '/Users/user_pc/Projetos/BlackBelt/app/\\(main\\)/aulas/_components/')"
+      "Bash(ls '/Users/user_pc/Projetos/BlackBelt/app/\\(main\\)/aulas/_components/')",
+      "Bash(ls app/\\\\\\(admin\\\\\\)/ | head -5 && echo \"---\" && ls app/\\\\\\(teen\\\\\\)/ | head -5 && echo \"---\" && ls app/\\\\\\(professor\\\\\\)/ | head -5)",
+      "Bash(for dir in \"app/\\(professor\\)/professor-loja\" \"app/\\(parent\\)/painel-responsavel/loja\" \"app/\\(super-admin\\)/super-admin/loja\" \"app/\\(developer\\)/developer-loja\"; do\n  cp \"app/\\(admin\\)/loja/page.tsx\" \"$dir/page.tsx\"\ndone\necho \"done\")",
+      "Bash(sed -i '' 's/AdminLojaPage/ProfessorLojaPage/' \"app/\\(professor\\)/professor-loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/ParentLojaPage/' \"app/\\(parent\\)/painel-responsavel/loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/SuperAdminLojaPage/' \"app/\\(super-admin\\)/super-admin/loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/DeveloperLojaPage/' \"app/\\(developer\\)/developer-loja/page.tsx\"\necho \"done\")"
     ]
   }
 }

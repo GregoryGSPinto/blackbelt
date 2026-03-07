@@ -3,7 +3,7 @@
 // ============================================================
 import {
   Home, Video, TrendingUp, Award, CheckSquare,
-  GraduationCap, ClipboardCheck, Download,
+  GraduationCap, ClipboardCheck, Download, ShoppingBag,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -35,6 +35,7 @@ const DRAWER_NAV = [
   { href: '/teen-progresso', icon: TrendingUp, label: 'Progresso' },
   { href: '/teen-conquistas', icon: Award, label: 'Conquistas' },
   { href: '/teen-downloads', icon: Download, label: 'Downloads' },
+  { href: '/teen-loja', icon: ShoppingBag, label: 'Loja' },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...MOBILE_BAR, ...DRAWER_NAV]
