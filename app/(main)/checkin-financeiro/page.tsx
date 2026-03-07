@@ -1,15 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertCircle, XCircle, CheckSquare, Clock, Calendar, QrCode } from 'lucide-react';
 import { QRGenerator } from '@/components/checkin/QRGenerator';
 import { createPortal } from 'react-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
-
-// Mock status - em produção viria do backend
-const MOCK_STATUS = 'ativo'; // 'ativo' | 'atraso' | 'bloqueado'
+import * as pagService from '@/lib/api/pagamentos.service';
+import { useAuth } from '@/contexts/AuthContext';
 
 /* Status config — text/message keys resolved via t() inside component */
 const statusConfig = {
@@ -66,25 +65,37 @@ const statusConfig = {
   },
 };
 
-const historico = [
-  { month: 'Fev 2026', status: 'ativo', date: '07/02/2026', color: 'green' },
-  { month: 'Jan 2026', status: 'ativo', date: '05/01/2026', color: 'green' },
-  { month: 'Dez 2025', status: 'atraso', date: '28/12/2025', color: 'yellow' },
-  { month: 'Nov 2025', status: 'ativo', date: '03/11/2025', color: 'green' },
-  { month: 'Out 2025', status: 'ativo', date: '02/10/2025', color: 'green' },
-  { month: 'Set 2025', status: 'ativo', date: '01/09/2025', color: 'green' },
+const DEFAULT_HISTORICO = [
+  { month: '', status: 'ativo', date: '', color: 'green' },
 ];
 
 export default function CheckinFinanceiroPage() {
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
+  const { user } = useAuth();
 
   const [checkinDone, setCheckinDone] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showQR, setShowQR] = useState(false);
-  
-  const currentStatus = statusConfig[MOCK_STATUS as keyof typeof statusConfig];
+  const [financialStatus, setFinancialStatus] = useState<string>('ativo');
+  const [historico, setHistorico] = useState(DEFAULT_HISTORICO);
+
+  useEffect(() => {
+    const userId = user?.id || 'u1';
+    pagService.getFinancialStatus(userId)
+      .then(status => {
+        if (status) setFinancialStatus(status);
+      })
+      .catch(() => { /* keep default */ });
+    pagService.getFinancialHistory(userId)
+      .then(history => {
+        if (Array.isArray(history) && history.length > 0) setHistorico(history);
+      })
+      .catch(() => { /* keep default */ });
+  }, [user?.id]);
+
+  const currentStatus = statusConfig[financialStatus as keyof typeof statusConfig] || statusConfig.ativo;
   const StatusIcon = currentStatus.badge.icon;
 
   const handleCheckin = async () => {

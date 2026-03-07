@@ -3,41 +3,12 @@ import {
 } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { VerTudoButton } from './_components/VerTudoButton';
+import { getHistoricoStats, getUltimosTreinos, getDiasSemana } from '@/lib/api/historico.service';
 
 /**
- * Histórico de Treinos — Server Component
- * Dados mock renderizados no servidor. Único ponto interativo (navegação)
- * extraído para Client Component VerTudoButton.
+ * Historico de Treinos — Server Component
+ * Dados carregados via historico.service (mock ou real).
  */
-
-/* ─── Mock data ─── */
-const MOCK_STATS = {
-  totalTreinos: 147,
-  treinosMes: 14,
-  streak: 5,
-  melhorStreak: 12,
-  mediaSemanal: 3.5,
-  tempoTotal: '294h',
-};
-
-const DIAS_SEMANA = [
-  { dia: 'Seg', treinos: 28, ativo: true },
-  { dia: 'Ter', treinos: 22, ativo: true },
-  { dia: 'Qua', treinos: 30, ativo: true },
-  { dia: 'Qui', treinos: 25, ativo: true },
-  { dia: 'Sex', treinos: 18, ativo: true },
-  { dia: 'Sáb', treinos: 14, ativo: false },
-  { dia: 'Dom', treinos: 0, ativo: false },
-];
-const maxDia = Math.max(...DIAS_SEMANA.map(d => d.treinos));
-
-const ULTIMOS_TREINOS = [
-  { id: '1', data: '13/02/2026', hora: '18:00', tipo: 'Avançado', instrutor: 'Prof. Ricardo', duracao: '90 min' },
-  { id: '2', data: '12/02/2026', hora: '18:00', tipo: 'Iniciante', instrutor: 'Prof. Ricardo', duracao: '60 min' },
-  { id: '3', data: '11/02/2026', hora: '19:30', tipo: 'Competição', instrutor: 'Prof. Marcos', duracao: '90 min' },
-  { id: '4', data: '10/02/2026', hora: '06:30', tipo: 'Fundamentos', instrutor: 'Prof. Ricardo', duracao: '60 min' },
-  { id: '5', data: '07/02/2026', hora: '18:00', tipo: 'Avançado', instrutor: 'Prof. Ricardo', duracao: '90 min' },
-];
 
 // Pre-generated grid (deterministic for SSR)
 const SEMANAS_GRID: boolean[][] = [
@@ -69,6 +40,10 @@ function tipoColor(tipo: string) {
 
 export default async function HistoricoDashboard() {
   const t = await getTranslations('athlete');
+  const MOCK_STATS = await getHistoricoStats();
+  const ULTIMOS_TREINOS = await getUltimosTreinos();
+  const DIAS_SEMANA = getDiasSemana();
+  const maxDia = Math.max(...DIAS_SEMANA.map(d => d.treinos), 1);
   return (
     <div className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto space-y-8">

@@ -19,6 +19,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useAuth } from '@/contexts/AuthContext';
 
 const STATUS_BADGE: Record<string, { bg: string; text: string; icon: typeof CheckCircle; label: string }> = {
   pago: { bg: 'bg-green-600/20', text: 'text-green-400', icon: CheckCircle, label: 'Pago' },
@@ -39,6 +40,7 @@ export default function MeusPagamentosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
+  const { user } = useAuth();
 
   const [resumo, setResumo] = useState<ResumoFinanceiroAluno | null>(null);
   const [loading, setLoading] = useState(true);
@@ -54,13 +56,12 @@ export default function MeusPagamentosPage() {
   // Show all faturas
   const [showAll, setShowAll] = useState(false);
 
-  // Mock: user ID (em produção vem do auth context)
-  const MOCK_USER_ID = 'u1';
+  const userId = user?.id || 'u1';
 
   useEffect(() => {
     setError(null);
     setLoading(true);
-    pagService.getResumoAluno(MOCK_USER_ID)
+    pagService.getResumoAluno(userId)
       .then(setResumo)
       .catch((err: unknown) => setError(handleServiceError(err, 'MeusPagamentos')))
       .finally(() => setLoading(false));
