@@ -116,3 +116,15 @@ export async function getTodayCheckins(): Promise<CheckIn[]> {
   const { data } = await apiClient.get<CheckIn[]>('/checkin/today');
   return data;
 }
+
+// ── Weekly frequency (parent dashboard) ──
+export type DayStatus = 'presente' | 'ausente' | 'sem_aula';
+
+export async function getWeeklyFrequency(alunoId: string): Promise<DayStatus[]> {
+  if (useMock()) {
+    await mockDelay();
+    return ['presente', 'sem_aula', 'presente', 'sem_aula', 'ausente'];
+  }
+  const { data } = await apiClient.get<DayStatus[]>(`/checkin/weekly-frequency/${alunoId}`);
+  return data;
+}

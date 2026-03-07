@@ -5,7 +5,7 @@
 // behavioral indicator, quick message, and premium design
 // ============================================================
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   CheckCircle, AlertCircle, XCircle, Clock, Award,
@@ -18,6 +18,8 @@ import { AnimatedPage } from '@/components/shared/AnimatedPage';
 import { staggerStyle } from '@/lib/animations';
 import { QuickMessage } from '@/components/shared/QuickMessage';
 import { WelcomeCard } from '@/components/shared/WelcomeCard';
+import * as checkinService from '@/lib/api/checkin.service';
+import type { DayStatus } from '@/lib/api/checkin.service';
 import { ParentCheckinCard } from '@/components/checkin/ParentCheckinCard';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -45,14 +47,7 @@ function getBehaviorHelper(t: ReturnType<typeof useTranslations>) {
   };
 }
 
-// ── Weekly frequency mock ──
-
-type DayStatus = 'presente' | 'ausente' | 'sem_aula';
-
-function getMockWeeklyFrequency(): DayStatus[] {
-  // Simulates this week: present on class days, absent once
-  return ['presente', 'sem_aula', 'presente', 'sem_aula', 'ausente'];
-}
+// ── Weekly frequency (loaded from service) ──
 
 // ── Page styles ──
 
@@ -134,7 +129,15 @@ export default function PainelResponsavelPage() {
 
   const { selectedKid, parentProfile } = useParent();
   const [showMessage, setShowMessage] = useState(false);
-  const weeklyDays = getMockWeeklyFrequency();
+  const [weeklyDays, setWeeklyDays] = useState<DayStatus[]>([]);
+
+  useEffect(() => {
+    if (selectedKid?.id) {
+      checkinService.getWeeklyFrequency(selectedKid.id).then(setWeeklyDays).catch(() => {
+        setWeeklyDays(['sem_aula', 'sem_aula', 'sem_aula', 'sem_aula', 'sem_aula']);
+      });
+    }
+  }, [selectedKid?.id]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {

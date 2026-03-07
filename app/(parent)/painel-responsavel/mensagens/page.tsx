@@ -11,35 +11,30 @@ import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useFormatting } from '@/hooks/useFormatting';
+import * as mensagensService from '@/lib/api/mensagens.service';
+import type { Mensagem, Conversa } from '@/lib/api/mensagens.service';
+import { PageError, handleServiceError } from '@/components/shared/DataStates';
+import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
-interface Mensagem {
-  id: string;
-  remetenteId: string;
-  remetenteNome: string;
-  conteudo: string;
-  timestamp: string;
-  lida: boolean;
+function getConversaName(c: Conversa): string {
+  const other = c.participantes?.find(p => p.tipo !== 'responsavel');
+  return other?.nome || 'Professor';
 }
 
-interface Conversa {
-  id: string;
-  professorNome: string;
-  professorId: string;
-  ultimaMensagem: string;
-  timestamp: string;
-  naoLidas: number;
+function getConversaPreview(c: Conversa): string {
+  if (!c.ultimaMensagem) return '';
+  return c.ultimaMensagem.conteudo || '';
 }
 
-const MOCK_CONVERSAS: Conversa[] = [
-  { id: 'c1', professorNome: 'Prof. Ricardo', professorId: 'prof-001', ultimaMensagem: 'Seu filho teve otimo desempenho hoje!', timestamp: '14:30', naoLidas: 2 },
-  { id: 'c2', professorNome: 'Prof. Ana', professorId: 'prof-002', ultimaMensagem: 'Lembrete: treino extra amanha as 15h', timestamp: 'Ontem', naoLidas: 0 },
-];
-
-const MOCK_MSGS: Mensagem[] = [
-  { id: 'm1', remetenteId: 'prof-001', remetenteNome: 'Prof. Ricardo', conteudo: 'Ola! Queria informar que o Miguel teve excelente desempenho no sparring hoje.', timestamp: '14:25', lida: true },
-  { id: 'm2', remetenteId: 'parent-001', remetenteNome: 'Voce', conteudo: 'Que otimo! Ele tem treinado bastante em casa tambem.', timestamp: '14:28', lida: true },
-  { id: 'm3', remetenteId: 'prof-001', remetenteNome: 'Prof. Ricardo', conteudo: 'Seu filho teve otimo desempenho hoje! Parabens pela dedicacao.', timestamp: '14:30', lida: false },
-];
+function getConversaTimestamp(c: Conversa): string {
+  if (!c.ultimaMensagem?.timestamp) return '';
+  try {
+    const d = new Date(c.ultimaMensagem.timestamp);
+    return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return '';
+  }
+}
 
 export default function MensagensParentPage() {
   const t = useTranslations('parent.messages');
@@ -49,17 +44,37 @@ export default function MensagensParentPage() {
   const { formatTime } = useFormatting();
 
   const toast = useToast();
-  const [conversas] = useState<Conversa[]>(MOCK_CONVERSAS);
+  const [conversas, setConversas] = useState<Conversa[]>([]);
   const [activeConversa, setActiveConversa] = useState<Conversa | null>(null);
   const [mensagens, setMensagens] = useState<Mensagem[]>([]);
   const [newMsg, setNewMsg] = useState('');
   const [sending, setSending] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    async function loadConversas() {
+      try {
+        setError(null);
+        const data = await mensagensService.getConversas();
+        setConversas(data);
+      } catch (err) {
+        setError(handleServiceError(err, 'Mensagens'));
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadConversas();
+  }, [retryCount]);
+
+  useEffect(() => {
     if (activeConversa) {
-      setMensagens(MOCK_MSGS);
-      setTimeout(() => scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight }), 100);
+      mensagensService.getConversaMensagens(activeConversa.id).then(msgs => {
+        setMensagens(msgs);
+        setTimeout(() => scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight }), 100);
+      });
     }
   }, [activeConversa]);
 
@@ -67,15 +82,13 @@ export default function MensagensParentPage() {
     if (!newMsg.trim() || !activeConversa) return;
     setSending(true);
     try {
-      await new Promise(r => setTimeout(r, 300));
-      const msg: Mensagem = {
-        id: `m-${Date.now()}`,
-        remetenteId: 'parent-001',
-        remetenteNome: 'Voce',
-        conteudo: newMsg.trim(),
-        timestamp: formatTime(new Date()),
-        lida: true,
-      };
+      const msg = await mensagensService.sendMessage(
+        activeConversa.id,
+        newMsg.trim(),
+        'parent-001',
+        'Voce',
+        'responsavel',
+      );
       setMensagens(prev => [...prev, msg]);
       setNewMsg('');
       setTimeout(() => scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' }), 50);
@@ -85,6 +98,9 @@ export default function MensagensParentPage() {
       setSending(false);
     }
   }, [newMsg, activeConversa, toast]);
+
+  if (loading) return <PremiumLoader text="Carregando mensagens..." />;
+  if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   return (
     <div className="min-h-screen">
@@ -99,7 +115,7 @@ export default function MensagensParentPage() {
         </div>
 
         {!activeConversa ? (
-          /* ── Lista de Conversas ── */
+          /* -- Lista de Conversas -- */
           <div className="px-4 space-y-2">
             {conversas.length === 0 ? (
               <div className="p-8 text-center rounded-2xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
@@ -113,17 +129,17 @@ export default function MensagensParentPage() {
                   onClick={() => setActiveConversa(c)}
                   className="w-full flex items-center gap-3 p-4 rounded-2xl text-left transition-colors hover:bg-white/6"
                   style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
-                  aria-label={t('conversationWith', { name: c.professorNome })}
+                  aria-label={t('conversationWith', { name: getConversaName(c) })}
                 >
                   <div className="w-10 h-10 rounded-full bg-teal-600/20 flex items-center justify-center flex-shrink-0">
                     <User size={18} className="text-teal-400" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold text-white/80">{c.professorNome}</p>
-                      <span className="text-[10px] text-white/30">{c.timestamp}</span>
+                      <p className="text-sm font-semibold text-white/80">{getConversaName(c)}</p>
+                      <span className="text-[10px] text-white/30">{getConversaTimestamp(c)}</span>
                     </div>
-                    <p className="text-xs text-white/40 truncate">{c.ultimaMensagem}</p>
+                    <p className="text-xs text-white/40 truncate">{getConversaPreview(c)}</p>
                   </div>
                   {c.naoLidas > 0 && (
                     <span className="w-5 h-5 rounded-full bg-teal-500 text-[10px] font-medium text-white flex items-center justify-center flex-shrink-0">
@@ -135,7 +151,7 @@ export default function MensagensParentPage() {
             )}
           </div>
         ) : (
-          /* ── Chat View ── */
+          /* -- Chat View -- */
           <div className="flex flex-col" style={{ height: 'calc(100vh - 160px)' }}>
             {/* Chat header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/6">
@@ -145,7 +161,7 @@ export default function MensagensParentPage() {
               <div className="w-8 h-8 rounded-full bg-teal-600/20 flex items-center justify-center">
                 <User size={14} className="text-teal-400" />
               </div>
-              <p className="text-sm font-semibold text-white/80">{activeConversa.professorNome}</p>
+              <p className="text-sm font-semibold text-white/80">{getConversaName(activeConversa)}</p>
             </div>
 
             {/* Messages */}
