@@ -38,12 +38,12 @@ const DRAWER_NAV = [
   { href: '/super-admin',            icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/super-admin/academias',  icon: Building2,       label: 'Academias' },
   { href: '/super-admin/financeiro', icon: DollarSign,      label: 'Financeiro' },
-  { href: '/super-admin',            icon: Users,           label: 'Usuários' },
-  { href: '/super-admin',            icon: ScrollText,      label: 'Logs' },
-  { href: '/super-admin',            icon: Settings,        label: 'Configurações' },
-  { href: '/super-admin',            icon: AlertTriangle,   label: 'Inadimplência' },
-  { href: '/super-admin',            icon: UserCog,         label: 'Impersonar' },
-  { href: '/super-admin',            icon: Bell,            label: 'Notificações' },
+  { href: '/super-admin/usuarios',       icon: Users,           label: 'Usuários' },
+  { href: '/super-admin/logs',            icon: ScrollText,      label: 'Logs' },
+  { href: '/super-admin/configuracoes',   icon: Settings,        label: 'Configurações' },
+  { href: '/super-admin/inadimplencia',   icon: AlertTriangle,   label: 'Inadimplência' },
+  { href: '/super-admin/impersonar',      icon: UserCog,         label: 'Impersonar' },
+  { href: '/super-admin/notificacoes',    icon: Bell,            label: 'Notificações' },
   { href: '/super-admin/loja',      icon: ShoppingBag,     label: 'Loja' },
 ];
 
