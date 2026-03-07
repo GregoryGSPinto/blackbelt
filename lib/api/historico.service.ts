@@ -30,6 +30,7 @@ export interface Treino {
   tipo: string;
   instrutor: string;
   duracao: string;
+  obs?: string;
 }
 
 export async function getHistoricoStats(): Promise<HistoricoStats> {
@@ -74,6 +75,30 @@ export async function getUltimosTreinos(): Promise<Treino[]> {
   try {
     const { data } = await apiClient.get<Treino[]>('/checkin/history');
     return Array.isArray(data) ? data.slice(0, 5) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getTodosTreinos(): Promise<Treino[]> {
+  if (useMock()) {
+    await mockDelay();
+    return [
+      { id: '01', data: '13/02/2026', hora: '18:00', tipo: 'Avancado', instrutor: 'Prof. Ricardo', duracao: '90 min', obs: 'Trabalho de raspagem da guarda-aranha.' },
+      { id: '02', data: '12/02/2026', hora: '18:00', tipo: 'Iniciante', instrutor: 'Prof. Ricardo', duracao: '60 min', obs: '' },
+      { id: '03', data: '11/02/2026', hora: '19:30', tipo: 'Competicao', instrutor: 'Prof. Marcos', duracao: '90 min', obs: 'Simulacao de luta com rounds de 6 min.' },
+      { id: '04', data: '10/02/2026', hora: '06:30', tipo: 'Fundamentos', instrutor: 'Prof. Ricardo', duracao: '60 min', obs: '' },
+      { id: '05', data: '07/02/2026', hora: '18:00', tipo: 'Avancado', instrutor: 'Prof. Ricardo', duracao: '90 min', obs: 'Passagem de guarda com pressao.' },
+      { id: '06', data: '06/02/2026', hora: '19:30', tipo: 'No-Gi', instrutor: 'Prof. Marcos', duracao: '90 min', obs: '' },
+      { id: '07', data: '05/02/2026', hora: '18:00', tipo: 'Iniciante', instrutor: 'Prof. Ricardo', duracao: '60 min', obs: 'Revisao de posicoes basicas.' },
+      { id: '08', data: '04/02/2026', hora: '06:30', tipo: 'Fundamentos', instrutor: 'Prof. Ricardo', duracao: '60 min', obs: '' },
+      { id: '09', data: '03/02/2026', hora: '18:00', tipo: 'Avancado', instrutor: 'Prof. Ricardo', duracao: '90 min', obs: 'Drill de leg-lock e defesas.' },
+      { id: '10', data: '31/01/2026', hora: '18:00', tipo: 'Avancado', instrutor: 'Prof. Ricardo', duracao: '90 min', obs: '' },
+    ];
+  }
+  try {
+    const { data } = await apiClient.get<Treino[]>('/checkin/history');
+    return Array.isArray(data) ? data : [];
   } catch {
     return [];
   }
