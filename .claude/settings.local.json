@@ -69,7 +69,11 @@
       "Bash(ls '/Users/user_pc/Projetos/BlackBelt/app/\\(main\\)/aulas/_components/')",
       "Bash(ls app/\\\\\\(admin\\\\\\)/ | head -5 && echo \"---\" && ls app/\\\\\\(teen\\\\\\)/ | head -5 && echo \"---\" && ls app/\\\\\\(professor\\\\\\)/ | head -5)",
       "Bash(for dir in \"app/\\(professor\\)/professor-loja\" \"app/\\(parent\\)/painel-responsavel/loja\" \"app/\\(super-admin\\)/super-admin/loja\" \"app/\\(developer\\)/developer-loja\"; do\n  cp \"app/\\(admin\\)/loja/page.tsx\" \"$dir/page.tsx\"\ndone\necho \"done\")",
-      "Bash(sed -i '' 's/AdminLojaPage/ProfessorLojaPage/' \"app/\\(professor\\)/professor-loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/ParentLojaPage/' \"app/\\(parent\\)/painel-responsavel/loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/SuperAdminLojaPage/' \"app/\\(super-admin\\)/super-admin/loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/DeveloperLojaPage/' \"app/\\(developer\\)/developer-loja/page.tsx\"\necho \"done\")"
+      "Bash(sed -i '' 's/AdminLojaPage/ProfessorLojaPage/' \"app/\\(professor\\)/professor-loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/ParentLojaPage/' \"app/\\(parent\\)/painel-responsavel/loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/SuperAdminLojaPage/' \"app/\\(super-admin\\)/super-admin/loja/page.tsx\"\nsed -i '' 's/AdminLojaPage/DeveloperLojaPage/' \"app/\\(developer\\)/developer-loja/page.tsx\"\necho \"done\")",
+      "Bash(for icon in TrendingDown PieChart Clock Inadimplente; do echo \"=== $icon ===\"; grep -n \"$icon\" 'app/\\(admin\\)/financeiro-owner/page.tsx' | grep -v \"^[0-9]*:import\" | head -3; done)",
+      "Bash(for icon in Tag AlunoEmRisco; do echo \"=== $icon ===\"; grep -n \"$icon\" 'app/\\(admin\\)/marketing/page.tsx' | grep -v \"^[0-9]*:import\" | head -3; done)",
+      "Bash(for icon in TrendingUp Calendar; do echo \"=== $icon ===\"; grep -n \"<$icon\\\\|{$icon}\" 'app/\\(admin\\)/metas/page.tsx' | head -3; done)",
+      "Bash(for icon in Clock BarChart Bar; do echo \"=== $icon ===\"; grep -n \"<$icon \" 'components/admin/OwnerExecutiveDashboard.tsx' | head -3; done)"
     ]
   }
 }

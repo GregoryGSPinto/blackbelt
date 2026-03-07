@@ -11,6 +11,7 @@ import {
   CreditCard, ShoppingCart, Percent, Calendar, Target,
   Megaphone, Package, UserPlus, Trophy, Zap, BarChart3,
   Award, Bell, Settings, ClipboardCheck, Activity, ShoppingBag, Building2, FileText,
+  TrendingUp, Wrench, FileBarChart,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -63,8 +64,15 @@ const DRAWER_NAV = [
   { href: '/minha-academia/grade',  icon: Calendar,          label: 'Grade Horaria' },
   { href: '/minha-academia/planos', icon: CreditCard,        label: 'Planos' },
   { href: '/minha-academia/contratos', icon: FileText,        label: 'Contratos' },
-  { href: '/loja',            icon: ShoppingBag,       label: 'Loja' },
-  { href: '/configuracoes',   icon: Settings,          label: 'Configurações' },
+  { href: '/financeiro-owner', icon: DollarSign,        label: 'Financeiro Completo' },
+  { href: '/equipe',           icon: Users,             label: 'Equipe' },
+  { href: '/crm',              icon: Target,            label: 'CRM e Vendas' },
+  { href: '/marketing',        icon: Megaphone,         label: 'Marketing' },
+  { href: '/infraestrutura',   icon: Wrench,            label: 'Infraestrutura' },
+  { href: '/metas',            icon: TrendingUp,        label: 'Metas e OKRs' },
+  { href: '/relatorios-gerenciais', icon: FileBarChart,  label: 'Relatorios Gerenciais' },
+  { href: '/loja',             icon: ShoppingBag,       label: 'Loja' },
+  { href: '/configuracoes',    icon: Settings,          label: 'Configurações' },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...DRAWER_NAV]

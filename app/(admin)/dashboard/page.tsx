@@ -23,6 +23,7 @@ import * as alertasIntService from '@/lib/api/alertas-inteligentes.service';
 import type { AlertaInteligente } from '@/lib/api/alertas-inteligentes.service';
 import { ProactiveAlertList } from '@/components/shared/ProactiveAlert';
 import ExecutiveDashboard from '@/components/admin/ExecutiveDashboard';
+import OwnerExecutiveDashboard from '@/components/admin/OwnerExecutiveDashboard';
 import { WelcomeCard } from '@/components/shared/WelcomeCard';
 import { useFormatting } from '@/hooks/useFormatting';
 
@@ -59,8 +60,8 @@ export default function DashboardPage() {
     { label: 'AdminAlertasInt', maxRetries: 1 }
   );
 
-  // View mode toggle: operational vs executive
-  const [viewMode, setViewMode] = useState<'operational' | 'executive'>('operational');
+  // View mode toggle: operational vs executive vs owner
+  const [viewMode, setViewMode] = useState<'operational' | 'executive' | 'owner'>('operational');
 
   // ─── Search Registration ──────────────────────────────
   const searchItems = useMemo<SearchItem[]>(() => {
@@ -137,6 +138,18 @@ export default function DashboardPage() {
               <Crown size={13} />
               <span className="hidden md:inline">{t('dashboard.executive')}</span>
             </button>
+            <button
+              onClick={() => setViewMode('owner')}
+              className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-all ${
+                viewMode === 'owner'
+                  ? 'bg-white/10 text-white'
+                  : 'text-white/30 hover:text-white/50'
+              }`}
+              aria-label="Visao Owner"
+            >
+              <BarChart3 size={13} />
+              <span className="hidden md:inline">Owner</span>
+            </button>
           </div>
           <div className="flex items-center gap-2 text-xs" style={{ color: tokens.textMuted }}>
             <Clock size={14} />
@@ -145,8 +158,10 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* ── Executive View ── */}
-      {viewMode === 'executive' ? (
+      {/* ── Owner View ── */}
+      {viewMode === 'owner' ? (
+        <OwnerExecutiveDashboard />
+      ) : viewMode === 'executive' ? (
         <ExecutiveDashboard stats={stats} />
       ) : (
       <>
