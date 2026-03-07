@@ -6,7 +6,7 @@ import {
   Clock, 
   Sparkles, 
   AlertTriangle, 
-  CheckCircle2,
+
   ArrowRight,
   Gift
 } from 'lucide-react';

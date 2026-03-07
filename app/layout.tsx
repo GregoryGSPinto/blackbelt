@@ -19,7 +19,6 @@ import { NpsSurvey } from "@/components/shared/NpsSurvey";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
-import { AppInitializer } from "@/components/shared/AppInitializer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -94,7 +93,6 @@ export default async function RootLayout({
         `}} />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <AppInitializer>
         <GoogleAnalytics />
         <a href="#main-content" className="skip-to-content">{t('meta.skipToContent')}</a>
         <NextIntlClientProvider locale={locale} messages={messages}>
@@ -123,7 +121,6 @@ export default async function RootLayout({
           </div>
         </ThemeProvider>
         </NextIntlClientProvider>
-        </AppInitializer>
       </body>
     </html>
   );

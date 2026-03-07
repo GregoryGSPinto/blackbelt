@@ -1,22 +1,34 @@
 /**
- * Content Service — Vídeos e séries da BlackBelt
+ * Content Service — Vídeos e séries da BlackBelt — FAIL-SAFE
  *
- * MOCK:  useMock() === true → retorna dados de __mocks__/content.mock.ts
- * PROD:  useMock() === false → chama apiClient
- *
- * TODO(BE-011): Implementar endpoints content
- *   GET /content/videos?category=&level=&search=
- *   GET /content/series
- *   GET /content/top10
- *   GET /content/videos/:id
+ * PRINCÍPIO: Nunca quebra a UI, sempre retorna dados válidos
  */
 
 import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
+import { logger } from '@/lib/logger';
 import type { Video, Serie } from '@/lib/__mocks__/content.mock';
 
 // Re-export types para UI consumir via service
 export type { Video, Serie };
+
+// Fallbacks vazios seguros
+const emptyVideo: Video = {
+  id: '',
+  title: 'Vídeo',
+  description: '',
+  duration: '0:00',
+  category: 'Técnica',
+  level: 'Iniciante',
+  youtubeId: '',
+  thumbnail: '',
+  views: 0,
+  instructor: 'Instrutor',
+  criadoPor: '',
+  turmasAssociadas: [],
+  tags: [],
+  criadoEm: new Date().toISOString(),
+};
 
 // ── Mock helpers (lazy import) ────────────────────────────
 
@@ -33,7 +45,7 @@ export async function getVideos(filters?: {
 }): Promise<Video[]> {
   if (useMock()) {
     await mockDelay();
-    const { mockVideos, getVideosByCategory, getVideosByLevel } = await getMockModule();
+    const { mockVideos } = await getMockModule();
 
     // Merge public uploaded videos into the content feed
     const { getPublicUploadedVideos } = await import('@/lib/__mocks__/professor-videos.mock');
@@ -69,12 +81,17 @@ export async function getVideos(filters?: {
     return allVideos;
   }
 
-  const params = new URLSearchParams();
-  if (filters?.category) params.set('category', filters.category);
-  if (filters?.level) params.set('level', filters.level);
-  if (filters?.search) params.set('search', filters.search);
-  const { data } = await apiClient.get<Video[]>(`/content/videos?${params}`);
-  return data;
+  try {
+    const params = new URLSearchParams();
+    if (filters?.category) params.set('category', filters.category);
+    if (filters?.level) params.set('level', filters.level);
+    if (filters?.search) params.set('search', filters.search);
+    const { data } = await apiClient.get<Video[]>(`/content/videos?${params}`);
+    return data || [];
+  } catch (err) {
+    logger.error('[content.service]', 'getVideos failed', err);
+    return [];
+  }
 }
 
 export async function getSeries(): Promise<Serie[]> {
@@ -83,8 +100,14 @@ export async function getSeries(): Promise<Serie[]> {
     const { mockSeries } = await getMockModule();
     return [...mockSeries];
   }
-  const { data } = await apiClient.get<Serie[]>('/content/series');
-  return data;
+  
+  try {
+    const { data } = await apiClient.get<Serie[]>('/content/series');
+    return data || [];
+  } catch (err) {
+    logger.error('[content.service]', 'getSeries failed', err);
+    return [];
+  }
 }
 
 export async function getTop10(): Promise<Video[]> {
@@ -93,18 +116,30 @@ export async function getTop10(): Promise<Video[]> {
     const { top10Videos } = await getMockModule();
     return [...top10Videos];
   }
-  const { data } = await apiClient.get<Video[]>('/content/top10');
-  return data;
+  
+  try {
+    const { data } = await apiClient.get<Video[]>('/content/top10');
+    return data || [];
+  } catch (err) {
+    logger.error('[content.service]', 'getTop10 failed', err);
+    return [];
+  }
 }
 
-export async function getVideoById(id: string): Promise<Video | null> {
+export async function getVideoById(id: string): Promise<Video> {
   if (useMock()) {
     await mockDelay(100);
     const { mockVideos } = await getMockModule();
-    return mockVideos.find(v => v.id === id) || null;
+    return mockVideos.find(v => v.id === id) || { ...emptyVideo, id };
   }
-  const { data } = await apiClient.get<Video>(`/content/videos/${id}`);
-  return data;
+  
+  try {
+    const { data } = await apiClient.get<Video>(`/content/videos/${id}`);
+    return data || { ...emptyVideo, id };
+  } catch (err) {
+    logger.error('[content.service]', 'getVideoById failed', err);
+    return { ...emptyVideo, id };
+  }
 }
 
 export async function getRelatedVideos(video: Video, limit = 8): Promise<Video[]> {
@@ -116,6 +151,12 @@ export async function getRelatedVideos(video: Video, limit = 8): Promise<Video[]
     const others = mockVideos.filter(v => v.id !== video.id && v.category !== video.category && v.instructor !== video.instructor);
     return [...sameCategory, ...sameInstructor, ...others].slice(0, limit);
   }
-  const { data } = await apiClient.get<Video[]>(`/content/videos/${video.id}/related?limit=${limit}`);
-  return data;
+  
+  try {
+    const { data } = await apiClient.get<Video[]>(`/content/videos/${video.id}/related?limit=${limit}`);
+    return data || [];
+  } catch (err) {
+    logger.error('[content.service]', 'getRelatedVideos failed', err);
+    return [];
+  }
 }

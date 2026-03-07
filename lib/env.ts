@@ -30,5 +30,13 @@ export function useMock(): boolean {
   return false;
 }
 
+/**
+ * Alias compatível com o padrão isMock() usado em alguns services.
+ * Encapsula useMock() para manter a API estável.
+ */
+export function isMock(): boolean {
+  return useMock();
+}
+
 /** Simula latência de rede em ambiente mock */
 export const mockDelay = (ms = 200) => new Promise(resolve => setTimeout(resolve, ms));

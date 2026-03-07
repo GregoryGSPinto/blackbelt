@@ -7,15 +7,15 @@ import {
   Check, 
   X, 
   ArrowUpRight, 
-  ArrowDownRight,
+
   Users, 
   BarChart3, 
   HardDrive, 
   Zap,
   Headphones,
-  CreditCard,
+
   AlertTriangle,
-  Sparkles,
+
   Loader2,
   Crown
 } from 'lucide-react';
@@ -35,6 +35,7 @@ interface Plan {
   base_price_annual: number;
   setup_price: number;
   trial_days: number;
+  is_public: boolean;
   features: {
     ml_level: string;
     reports_limit: number | null;

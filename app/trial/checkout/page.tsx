@@ -9,7 +9,7 @@ import {
   Building2, 
   Mail, 
   Phone, 
-  User,
+
   ArrowRight,
   Shield,
   Zap

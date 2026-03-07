@@ -269,3 +269,20 @@ export const MOCK_TOP_ACADEMIES = MOCK_ACADEMIES
     plano: a.plano,
     status: a.status,
   }));
+
+// ============================================================
+// FUNÇÕES DE MOCK PARA SERVICES
+// ============================================================
+
+export function mockGetSuperAdminStats() {
+  return {
+    metrics: MOCK_DASHBOARD_METRICS,
+    monthlyData: MOCK_MONTHLY_DATA,
+    revenueByPlan: MOCK_REVENUE_BY_PLAN,
+    topAcademies: MOCK_TOP_ACADEMIES,
+  };
+}
+
+export function mockGetSuperAdminAcademies() {
+  return [...MOCK_ACADEMIES];
+}

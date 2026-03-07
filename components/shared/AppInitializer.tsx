@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export function AppInitializer({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
   
   // Detect system color scheme preference
   const [isDark, setIsDark] = useState(true);
@@ -22,6 +23,14 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
     const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
     mediaQuery.addEventListener('change', handler);
     return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  // Evita qualquer diferença entre SSR e cliente:
+  // na primeira renderização (SSR + primeira no cliente) não renderizamos
+  // nenhum elemento animado do framer-motion. Após o mount, habilitamos
+  // o loader animado normalmente.
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -53,6 +62,12 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
   const bg = isDark ? '#1A1A2E' : '#f5f5f5';
   const barTrack = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)';
   const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)';
+
+  // Primeira renderização (SSR + primeiro paint no cliente): sem animações,
+  // apenas conteúdo estático para evitar erro de hidratação.
+  if (!mounted) {
+    return <>{children}</>;
+  }
 
   return (
     <>

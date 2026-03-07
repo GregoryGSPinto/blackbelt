@@ -15,6 +15,7 @@ import type {
   TrialStatusResponse,
   ConvertTrialRequest,
   ConvertTrialResponse,
+  PlanFeatures,
 } from './types-v3';
 import {
   TRIAL_LIMITS,
@@ -470,7 +471,7 @@ export class PlanService {
 
     // Paid plan limit
     const planLimit = subscription.plan?.student_limit;
-    if (planLimit === null) {
+    if (planLimit === null || planLimit === undefined) {
       // Unlimited (Enterprise/Custom)
       return { current, limit: null, percentage: 0, status: 'ok' };
     }

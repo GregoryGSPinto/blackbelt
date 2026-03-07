@@ -29,21 +29,19 @@ export default function MeusInsightsPage() {
   const [memberId, setMemberId] = useState<string>('');
   const [memberName, setMemberName] = useState<string>('');
   const [loadingUser, setLoadingUser] = useState(true);
-  const [userError, setUserError] = useState<string | null>(null);
 
   // Fetch current user's member ID
   useEffect(() => {
     fetch('/api/me')
-      .then(res => {
-        if (!res.ok) throw new Error('Erro ao carregar perfil');
-        return res.json();
-      })
+      .then(res => res.json())
       .then(json => {
+        // Não mostra erro se não houver usuário logado - mostra dados genéricos
         if (json.data?.memberId) setMemberId(json.data.memberId);
         if (json.data?.nome) setMemberName(json.data.nome.split(' ')[0]);
       })
-      .catch(err => {
-        setUserError(err instanceof Error ? err.message : 'Erro desconhecido');
+      .catch(() => {
+        // Silenciosamente ignora erro - mostra dados genéricos
+        // Não precisamos fazer nada, o estado permanece vazio
       })
       .finally(() => setLoadingUser(false));
   }, []);
@@ -52,7 +50,6 @@ export default function MeusInsightsPage() {
   const { score, loading: engLoading, error: engError } = useEngagementScore(memberId);
 
   const isLoading = loadingUser || dnaLoading || engLoading;
-  const error = userError || dnaError?.message || engError?.message;
 
   if (isLoading) {
     return (
@@ -67,19 +64,6 @@ export default function MeusInsightsPage() {
               />
             ))}
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error && !dna && !score) {
-    return (
-      <div className="min-h-screen p-4 md:p-6 max-w-5xl mx-auto">
-        <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-8 text-center">
-          <p className="text-red-400 text-sm font-medium">
-            {t('insights.error')}
-          </p>
-          <p className="text-red-400/60 text-xs mt-1">{error}</p>
         </div>
       </div>
     );

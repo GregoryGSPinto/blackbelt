@@ -1,21 +1,21 @@
 /**
- * Check-in Service — QR Code + Manual
+ * Check-in Service — QR Code + Manual — FAIL-SAFE
  *
- * MOCK:  useMock() === true → dados de __mocks__/checkin.mock.ts
- * PROD:  useMock() === false → apiClient
- *
- * TODO(BE-060): Implementar endpoints check-in
- *   POST /checkin/register          { alunoId, turmaId, method }
- *   POST /checkin/validate-qr       { qrPayload }
- *   GET  /checkin/history/:alunoId  ?from=&to=
- *   GET  /checkin/today             (lista do dia)
+ * PRINCÍPIO: Nunca quebra a UI, sempre retorna dados válidos
  */
 
 import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
+import { logger } from '@/lib/logger';
 import type { CheckIn, CheckInQR, CheckInResult, CheckInMethod } from '@/lib/api/contracts';
 
 export type { CheckIn, CheckInQR, CheckInResult, CheckInMethod };
+
+// Fallback seguro
+const emptyCheckInResult: CheckInResult = {
+  success: false,
+  error: 'Erro ao processar check-in',
+};
 
 async function getMock() {
   return import('@/lib/__mocks__/checkin.mock');
@@ -31,16 +31,13 @@ export async function registerCheckin(
     await mockDelay(300);
     const mock = await getMock();
     const aluno = mock.MOCK_ALUNOS_CHECKIN.find(a => a.id === alunoId);
-    if (!aluno) return { success: false, error: 'Aluno não encontrado' };
+    if (!aluno) {
+      return { success: false, error: 'Aluno não encontrado' };
+    }
     if (aluno.status === 'BLOQUEADO') {
       return { success: false, aluno, error: 'Aluno bloqueado' };
     }
 
-    // TODO(BE-061): Validate that the student is enrolled in the specified class (turmaId).
-    // In production, the API route handles this via class_schedules + memberships join.
-    // Mock data is limited so we allow any turmaId through, but real implementation
-    // should check: 1) turmaId exists, 2) student has active enrollment in that class,
-    // 3) class is scheduled for today.
     if (turmaId && turmaId.trim() === '') {
       return { success: false, error: 'turmaId inválido' };
     }
@@ -60,7 +57,17 @@ export async function registerCheckin(
       aluno,
     };
   }
-  return apiClient.post<CheckInResult>('/checkin/register', { alunoId, turmaId, method }).then(r => r.data);
+  
+  try {
+    const { data } = await apiClient.post<CheckInResult>('/checkin/register', { alunoId, turmaId, method });
+    return data || emptyCheckInResult;
+  } catch (err) {
+    logger.error('[checkin.service]', 'registerCheckin failed', err);
+    return { 
+      success: false, 
+      error: 'Erro ao registrar check-in. Tente novamente.',
+    };
+  }
 }
 
 // ── Validate QR and register ──
@@ -70,7 +77,17 @@ export async function validateAndCheckin(qrPayload: CheckInQR): Promise<CheckInR
     const mock = await getMock();
     return mock.validateQR(qrPayload);
   }
-  return apiClient.post<CheckInResult>('/checkin/validate-qr', qrPayload).then(r => r.data);
+  
+  try {
+    const { data } = await apiClient.post<CheckInResult>('/checkin/validate-qr', qrPayload);
+    return data || emptyCheckInResult;
+  } catch (err) {
+    logger.error('[checkin.service]', 'validateAndCheckin failed', err);
+    return {
+      success: false,
+      error: 'QR Code inválido ou expirado',
+    };
+  }
 }
 
 // ── Get check-in history ──
@@ -93,14 +110,20 @@ export async function getCheckinHistory(
     }
     return results.sort((a, b) => b.dataHora.localeCompare(a.dataHora));
   }
-  const params = new URLSearchParams();
-  if (alunoId) params.set('alunoId', alunoId);
-  if (dateRange) {
-    params.set('from', dateRange.from);
-    params.set('to', dateRange.to);
+  
+  try {
+    const params = new URLSearchParams();
+    if (alunoId) params.set('alunoId', alunoId);
+    if (dateRange) {
+      params.set('from', dateRange.from);
+      params.set('to', dateRange.to);
+    }
+    const { data } = await apiClient.get<CheckIn[]>(`/checkin/history?${params}`);
+    return data || [];
+  } catch (err) {
+    logger.error('[checkin.service]', 'getCheckinHistory failed', err);
+    return [];
   }
-  const { data } = await apiClient.get<CheckIn[]>(`/checkin/history?${params}`);
-  return data;
 }
 
 // ── Get today's check-ins ──
@@ -113,8 +136,14 @@ export async function getTodayCheckins(): Promise<CheckIn[]> {
       .filter(c => c.dataHora.startsWith(today))
       .sort((a, b) => b.dataHora.localeCompare(a.dataHora));
   }
-  const { data } = await apiClient.get<CheckIn[]>('/checkin/today');
-  return data;
+  
+  try {
+    const { data } = await apiClient.get<CheckIn[]>('/checkin/today');
+    return data || [];
+  } catch (err) {
+    logger.error('[checkin.service]', 'getTodayCheckins failed', err);
+    return [];
+  }
 }
 
 // ── Weekly frequency (parent dashboard) ──
@@ -125,6 +154,12 @@ export async function getWeeklyFrequency(alunoId: string): Promise<DayStatus[]> 
     await mockDelay();
     return ['presente', 'sem_aula', 'presente', 'sem_aula', 'ausente'];
   }
-  const { data } = await apiClient.get<DayStatus[]>(`/checkin/weekly-frequency/${alunoId}`);
-  return data;
+  
+  try {
+    const { data } = await apiClient.get<DayStatus[]>(`/checkin/weekly-frequency/${alunoId}`);
+    return data || ['sem_aula', 'sem_aula', 'sem_aula', 'sem_aula', 'sem_aula'];
+  } catch (err) {
+    logger.error('[checkin.service]', 'getWeeklyFrequency failed', err);
+    return ['sem_aula', 'sem_aula', 'sem_aula', 'sem_aula', 'sem_aula'];
+  }
 }

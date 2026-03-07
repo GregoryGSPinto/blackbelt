@@ -14,10 +14,14 @@ import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useFormatting } from '@/hooks/useFormatting';
+import {
+  getSuperAdminStats,
+  getSuperAdminAcademies,
+} from '@/lib/api/super-admin.service';
 import type {
-  MockDashboardMetrics, MockMonthlyData, MockRevenueByPlan,
-  MockAcademy,
-} from '@/lib/__mocks__/super-admin.mock';
+  SuperAdminStatsDTO,
+  SuperAdminAcademyDTO,
+} from '@/lib/api/super-admin.service';
 import { AnimatedCounter } from '@/components/transitions/AnimatedCounter';
 import { StaggerList, StaggerItem } from '@/components/transitions/StaggerList';
 import { Badge } from '@/components/ui/Badge';
@@ -96,44 +100,39 @@ export default function SuperAdminDashboard() {
   const { formatMoney, formatNumber } = useFormatting();
   const formatBRL = (value: number) => formatMoney(value, { minimumFractionDigits: 0 });
   const formatNum = (value: number) => formatNumber(value);
-  const [metrics, setMetrics] = useState<MockDashboardMetrics | null>(null);
-  const [monthlyData, setMonthlyData] = useState<MockMonthlyData[]>([]);
-  const [revenueByPlan, setRevenueByPlan] = useState<MockRevenueByPlan[]>([]);
-  const [academies, setAcademies] = useState<MockAcademy[]>([]);
-  const [topAcademies, setTopAcademies] = useState<{ nome: string; alunos: number; plano: string; status: string }[]>([]);
+  const [metrics, setMetrics] = useState<SuperAdminStatsDTO['metrics'] | null>(null);
+  const [monthlyData, setMonthlyData] = useState<SuperAdminStatsDTO['monthlyData']>([]);
+  const [revenueByPlan, setRevenueByPlan] = useState<SuperAdminStatsDTO['revenueByPlan']>([]);
+  const [academies, setAcademies] = useState<SuperAdminAcademyDTO[]>([]);
+  const [topAcademies, setTopAcademies] = useState<SuperAdminStatsDTO['topAcademies']>([]);
 
   useEffect(() => {
+    let active = true;
+
     async function loadData() {
       try {
-        const res = await fetch('/api/super-admin/dashboard');
-        if (res.ok) {
-          const data = await res.json();
-          setMetrics(data.metrics);
-          setMonthlyData(data.monthlyData);
-          setRevenueByPlan(data.revenueByPlan);
-          setTopAcademies(data.topAcademies);
-        }
-      } catch {
-        // fallback: import mock directly
-        const mock = await import('@/lib/__mocks__/super-admin.mock');
-        setMetrics(mock.MOCK_DASHBOARD_METRICS);
-        setMonthlyData(mock.MOCK_MONTHLY_DATA);
-        setRevenueByPlan(mock.MOCK_REVENUE_BY_PLAN);
-        setTopAcademies(mock.MOCK_TOP_ACADEMIES);
-      }
+        const [stats, academiesData] = await Promise.all([
+          getSuperAdminStats(),
+          getSuperAdminAcademies(),
+        ]);
 
-      try {
-        const res = await fetch('/api/super-admin/academies');
-        if (res.ok) {
-          const data = await res.json();
-          setAcademies(data.academies);
-        }
+        if (!active) return;
+
+        setMetrics(stats.metrics);
+        setMonthlyData(stats.monthlyData);
+        setRevenueByPlan(stats.revenueByPlan);
+        setTopAcademies(stats.topAcademies);
+        setAcademies(academiesData);
       } catch {
-        const mock = await import('@/lib/__mocks__/super-admin.mock');
-        setAcademies(mock.MOCK_ACADEMIES);
+        // Os services já fazem fallback para mocks e não devem lançar
       }
     }
+
     loadData();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   if (!metrics) {

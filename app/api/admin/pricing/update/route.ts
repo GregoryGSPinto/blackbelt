@@ -1,6 +1,5 @@
 // ============================================================
-// GET /api/super-admin/academies - List academies with subscriptions
-// Super Admin only
+// POST /api/admin/pricing/update - Update pricing (Super Admin only)
 // ============================================================
 
 import { NextResponse } from 'next/server';
@@ -12,7 +11,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   try {
     // Verify authentication
     const authHeader = request.headers.get('authorization');
@@ -41,18 +40,38 @@ export async function GET(request: Request) {
       );
     }
 
-    // Parse query params
-    const { searchParams } = new URL(request.url);
-    const plan = searchParams.get('plan') || undefined;
-    const status = searchParams.get('status') || undefined;
-    const search = searchParams.get('search') || undefined;
+    // Parse request body
+    const body = await request.json();
+    const { config_key, new_value, reason } = body;
 
-    // Fetch academies
-    const academies = await pricingService.getAcademies({ plan, status, search });
+    if (!config_key || typeof new_value !== 'number') {
+      return NextResponse.json(
+        { error: 'Missing required fields: config_key, new_value' },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json({ data: academies });
+    // Update pricing
+    const updated = await pricingService.updatePricing(
+      config_key,
+      new_value,
+      user.id,
+      reason
+    );
+
+    // Broadcast realtime update
+    await supabase.channel('pricing_updates').send({
+      type: 'broadcast',
+      event: 'price_change',
+      payload: { config_key, new_value, updated_at: new Date().toISOString() }
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: updated
+    });
   } catch (error) {
-    console.error('[Super Admin Academies API]', error);
+    console.error('[Admin Pricing Update API]', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }

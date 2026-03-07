@@ -1,5 +1,5 @@
 /**
- * GET /api/admin/turmas — Lista turmas da academia
+ * GET /api/content/videos — Lista vídeos disponíveis
  *
  * Endpoint seguro: retorna array vazio se não houver dados
  */

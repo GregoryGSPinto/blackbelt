@@ -5,7 +5,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { planService } from '@/lib/subscription/services-v3';
-import type { BillingCycle } from '@/lib/subscription/types-v3';
+// BillingCycle type imported from '@/lib/subscription/types-v3'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
