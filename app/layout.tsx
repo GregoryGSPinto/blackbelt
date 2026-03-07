@@ -28,8 +28,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "BlackBelt - Plataforma de Gestão",
-  description: "Plataforma inteligente de gestão e desenvolvimento",
+  title: "BlackBelt - Plataforma de Gestão para Academias de Artes Marciais",
+  description: "Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.",
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
@@ -38,6 +38,26 @@ export const metadata: Metadata = {
       { url: '/icon-1024.png', sizes: '1024x1024', type: 'image/png' },
     ],
     apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: "BlackBelt - Plataforma de Gestão para Academias",
+    description: "Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.",
+    url: "https://blackbelt-five.vercel.app",
+    siteName: "BlackBelt",
+    type: "website",
+    images: [
+      {
+        url: "https://blackbelt-five.vercel.app/icon-1024.png",
+        width: 1024,
+        height: 1024,
+        alt: "BlackBelt - Plataforma de Gestão",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BlackBelt - Plataforma de Gestão para Academias",
+    description: "Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.",
   },
 };
 
