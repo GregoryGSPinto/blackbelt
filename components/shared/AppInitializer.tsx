@@ -25,9 +25,11 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    // Simulate progressive loading
+    // Simulate progressive loading with minimum display time to prevent flicker
     const steps = [20, 45, 70, 90, 100];
     let currentStep = 0;
+    const startTime = Date.now();
+    const minDisplayTime = 1200; // Minimum 1.2s to prevent flash
 
     const interval = setInterval(() => {
       if (currentStep < steps.length) {
@@ -35,10 +37,13 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
         currentStep++;
       } else {
         clearInterval(interval);
-        // Small delay before showing content for smooth transition
-        setTimeout(() => setIsReady(true), 200);
+        // Ensure minimum display time before hiding
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, minDisplayTime - elapsed);
+        
+        setTimeout(() => setIsReady(true), remaining + 200);
       }
-    }, 150);
+    }, 120); // Slightly slower for smoother feel
 
     // Cleanup
     return () => clearInterval(interval);
