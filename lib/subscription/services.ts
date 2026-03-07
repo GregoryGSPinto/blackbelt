@@ -711,19 +711,6 @@ export class AddonManagementService {
       throw new Error('Addon already active');
     }
 
-    // Calculate prorated price if monthly
-    let proratedPrice = config.price;
-    if (config.billingCycle === 'monthly') {
-      const subscription = await new PlanManagementService().getSubscription(academyId);
-      if (subscription) {
-        const periodEnd = new Date(subscription.current_period_ends_at);
-        const now = new Date();
-        const daysRemaining = Math.ceil((periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-        const daysInMonth = 30;
-        proratedPrice = Math.round((config.price / daysInMonth) * daysRemaining * 100) / 100;
-      }
-    }
-
     const { data, error } = await supabase
       .from('usage_addons')
       .insert({
