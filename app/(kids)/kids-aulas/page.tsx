@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import * as kidsService from '@/lib/api/kids.service';
-import type { KidProfile } from '@/lib/api/kids.service';
+import type { KidProfile, KidsSession } from '@/lib/api/kids.service';
 import { Play, Clock, Star, Lock, UserX } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,15 +11,6 @@ import { PageError, PageEmpty, handleServiceError } from '@/components/shared/Da
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';
 
-const SESSOES_MOCK = [
-  { id: 1, titulo: 'Posicao de Guarda', duracao: '8 min', nivel: 'Facil', thumb: '🛡️', disponivel: true, completada: true },
-  { id: 2, titulo: 'Aprendendo a Rolar', duracao: '6 min', nivel: 'Facil', thumb: '🤸', disponivel: true, completada: true },
-  { id: 3, titulo: 'Defesa Basica', duracao: '10 min', nivel: 'Facil', thumb: '🛡️', disponivel: true, completada: false },
-  { id: 4, titulo: 'Passagem de Guarda Simples', duracao: '12 min', nivel: 'Medio', thumb: '🥋', disponivel: true, completada: false },
-  { id: 5, titulo: 'Raspagem Basica', duracao: '9 min', nivel: 'Medio', thumb: '⚡', disponivel: true, completada: false },
-  { id: 6, titulo: 'Posicoes de Montada', duracao: '11 min', nivel: 'Medio', thumb: '🎯', disponivel: false, completada: false },
-  { id: 7, titulo: 'Finalizacao - Armlock', duracao: '15 min', nivel: 'Dificil', thumb: '🌟', disponivel: false, completada: false },
-];
 
 export default function KidsSessoesPage() {
   const t = useTranslations('kids.sessions');
@@ -27,6 +18,7 @@ export default function KidsSessoesPage() {
   const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
   const [currentKid, setCurrentKid] = useState<KidProfile | null>(null);
+  const [sessions, setSessions] = useState<KidsSession[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -38,18 +30,24 @@ export default function KidsSessoesPage() {
         setError(null);
 
         // Buscar perfil kids pelo userId do AuthContext
-        if (user?.id) {
-          const profile = await kidsService.getKidProfileByUserId(user.id);
-          if (profile) {
-            setCurrentKid(profile);
-          } else {
-            const all = await kidsService.getKidsProfiles();
-            setCurrentKid(all[0] ?? null);
-          }
-        } else {
-          const all = await kidsService.getKidsProfiles();
-          setCurrentKid(all[0] ?? null);
-        }
+        const [sessionsData] = await Promise.all([
+          kidsService.getKidsSessions(),
+          (async () => {
+            if (user?.id) {
+              const profile = await kidsService.getKidProfileByUserId(user.id);
+              if (profile) {
+                setCurrentKid(profile);
+              } else {
+                const all = await kidsService.getKidsProfiles();
+                setCurrentKid(all[0] ?? null);
+              }
+            } else {
+              const all = await kidsService.getKidsProfiles();
+              setCurrentKid(all[0] ?? null);
+            }
+          })(),
+        ]);
+        setSessions(sessionsData);
       } catch (err) {
         setError(handleServiceError(err, 'KidsSessoes'));
       } finally {
@@ -142,7 +140,7 @@ export default function KidsSessoesPage() {
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{
-                width: `${(currentKid.progresso.sessõesAssistidas / SESSOES_MOCK.length) * 100}%`,
+                width: `${(currentKid.progresso.sessõesAssistidas / sessions.length) * 100}%`,
                 background: `linear-gradient(to right, ${isDark ? '#7DD3FC' : '#60A5FA'}, ${c.blue})`,
               }}
             />
@@ -158,7 +156,7 @@ export default function KidsSessoesPage() {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {SESSOES_MOCK.map((aula) => {
+          {sessions.map((aula) => {
             const nivel = getNivelColor(aula.nivel);
             const disabled = !aula.disponivel;
 

@@ -96,6 +96,34 @@ export async function getKidProfileByUserId(userId: string): Promise<KidProfile 
   return data;
 }
 
+// ── Kids Sessions/Aulas ──
+export interface KidsSession {
+  id: number;
+  titulo: string;
+  duracao: string;
+  nivel: string;
+  thumb: string;
+  disponivel: boolean;
+  completada: boolean;
+}
+
+export async function getKidsSessions(): Promise<KidsSession[]> {
+  if (useMock()) {
+    await mockDelay();
+    return [
+      { id: 1, titulo: 'Posicao de Guarda', duracao: '8 min', nivel: 'Facil', thumb: '\uD83D\uDEE1\uFE0F', disponivel: true, completada: true },
+      { id: 2, titulo: 'Aprendendo a Rolar', duracao: '6 min', nivel: 'Facil', thumb: '\uD83E\uDD38', disponivel: true, completada: true },
+      { id: 3, titulo: 'Defesa Basica', duracao: '10 min', nivel: 'Facil', thumb: '\uD83D\uDEE1\uFE0F', disponivel: true, completada: false },
+      { id: 4, titulo: 'Passagem de Guarda Simples', duracao: '12 min', nivel: 'Medio', thumb: '\uD83E\uDD4B', disponivel: true, completada: false },
+      { id: 5, titulo: 'Raspagem Basica', duracao: '9 min', nivel: 'Medio', thumb: '\u26A1', disponivel: true, completada: false },
+      { id: 6, titulo: 'Posicoes de Montada', duracao: '11 min', nivel: 'Medio', thumb: '\uD83C\uDFAF', disponivel: false, completada: false },
+      { id: 7, titulo: 'Finalizacao - Armlock', duracao: '15 min', nivel: 'Dificil', thumb: '\uD83C\uDF1F', disponivel: false, completada: false },
+    ];
+  }
+  const { data } = await apiClient.get<KidsSession[]>('/kids/sessions');
+  return data;
+}
+
 // ── Synchronous helpers (re-export from mock for dev convenience) ──
 
 // TODO(BE-010): Migrar helpers síncronos para endpoints async quando backend estiver pronto
