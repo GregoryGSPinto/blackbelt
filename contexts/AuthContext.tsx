@@ -362,6 +362,7 @@ function mapSupabaseRoleToTipoPerfil(role: string): TipoPerfil {
     admin: 'ADMINISTRADOR',
     owner: 'UNIT_OWNER',
     parent: 'RESPONSAVEL',
+    super_admin: 'SUPER_ADMIN',
   };
   return map[role] || 'ALUNO_ADULTO';
 }

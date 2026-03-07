@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   try {
     const { membership } = await withAuth(req);
 
-    if (!membership || !['owner', 'admin'].includes(membership.role)) {
+    if (!membership || !['owner', 'admin', 'super_admin'].includes(membership.role)) {
       return apiForbidden('Acesso restrito a super-admins');
     }
 
