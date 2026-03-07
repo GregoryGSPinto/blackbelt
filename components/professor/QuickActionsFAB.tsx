@@ -1,12 +1,18 @@
 // ============================================================
-// QuickActionsFAB — Quick actions "+" button for professors
+// QuickActionsFAB — Floating Action Button with Expandable Menu
+// ============================================================
+// Mobile: FAB bottom-right, expands vertically above
+// Desktop: Same behavior or horizontal (adaptive)
+// Features: Drag, smooth animations, click outside to close
 // ============================================================
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Plus, X, Film, ClipboardList, Medal, FileText, Loader2, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ── Mock student list for medal/observation ──
 const MOCK_ALUNOS = [
@@ -27,100 +33,242 @@ const CONQUISTAS = [
 
 type ModalType = null | 'conquista' | 'observacao';
 
-const ACTIONS_CONFIG = [
-  { id: 'video', icon: Film, labelKey: 'video', color: '#D97706' },
-  { id: 'plano', icon: ClipboardList, labelKey: 'lessonPlan', color: '#3B82F6' },
-  { id: 'conquista', icon: Medal, labelKey: 'achievement', color: '#22C55E' },
-  { id: 'obs', icon: FileText, labelKey: 'observation', color: '#8B5CF6' },
-] as const;
+interface ActionItem {
+  id: string;
+  icon: React.ElementType;
+  labelKey: string;
+  color: string;
+  gradient: string;
+}
+
+const ACTIONS: ActionItem[] = [
+  { id: 'video', icon: Film, labelKey: 'video', color: '#F59E0B', gradient: 'from-amber-500 to-orange-600' },
+  { id: 'plano', icon: ClipboardList, labelKey: 'lessonPlan', color: '#3B82F6', gradient: 'from-blue-500 to-indigo-600' },
+  { id: 'conquista', icon: Medal, labelKey: 'achievement', color: '#22C55E', gradient: 'from-emerald-500 to-teal-600' },
+  { id: 'obs', icon: FileText, labelKey: 'observation', color: '#8B5CF6', gradient: 'from-violet-500 to-purple-600' },
+];
+
+// Animation variants
+const fabVariants = {
+  closed: { rotate: 0, scale: 1 },
+  open: { rotate: 135, scale: 1 },
+};
+
+const menuVariants = {
+  closed: { 
+    opacity: 0, 
+    scale: 0.8,
+    transition: { duration: 0.2, ease: 'easeInOut' }
+  },
+  open: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { 
+      duration: 0.3, 
+      ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.05,
+      delayChildren: 0.1
+    }
+  },
+};
+
+const itemVariants = {
+  closed: { 
+    opacity: 0, 
+    y: 20, 
+    scale: 0.8,
+    transition: { duration: 0.2 }
+  },
+  open: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
+  },
+};
 
 export function QuickActionsFAB() {
   const tq = useTranslations('professor.quickActions');
   const router = useRouter();
+  const { isDark } = useTheme();
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState<ModalType>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const dragControls = useDragControls();
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Close on Escape
+  // Close on Escape or click outside
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
+    const keyHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { setOpen(false); setModal(null); }
     };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, []);
+    const clickHandler = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener('keydown', keyHandler);
+    if (open) {
+      setTimeout(() => window.addEventListener('mousedown', clickHandler), 100);
+    }
+    return () => {
+      window.removeEventListener('keydown', keyHandler);
+      window.removeEventListener('mousedown', clickHandler);
+    };
+  }, [open]);
 
   const handleAction = useCallback((id: string) => {
     setOpen(false);
-    switch (id) {
-      case 'video': router.push('/professor-videos'); break;
-      case 'plano': router.push('/professor-plano-aula'); break;
-      case 'conquista': setModal('conquista'); break;
-      case 'obs': setModal('observacao'); break;
-    }
+    setTimeout(() => {
+      switch (id) {
+        case 'video': router.push('/professor-videos'); break;
+        case 'plano': router.push('/professor-plano-aula'); break;
+        case 'conquista': setModal('conquista'); break;
+        case 'obs': setModal('observacao'); break;
+      }
+    }, 200);
   }, [router]);
+
+  // Calculate stacked positions for vertical layout
+  const getStackedPosition = (index: number) => {
+    const spacing = 64; // 56px button + 8px gap
+    return -(spacing * (index + 1));
+  };
 
   return (
     <>
       {/* Backdrop */}
-      {open && (
-        <div className="fixed inset-0 bg-black/40 z-[45] backdrop-blur-[2px]" onClick={() => setOpen(false)} />
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[44] bg-black/30 backdrop-blur-sm md:bg-black/20"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
-      {/* Mini action buttons */}
-      <div className="fixed z-[46]" style={{ bottom: '110px', right: '20px' }}>
-        {open && ACTIONS_CONFIG.map((action, idx) => (
-          <button
-            key={action.id}
-            onClick={() => handleAction(action.id)}
-            className="flex items-center gap-2 mb-2 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:scale-[1.03]"
-            style={{
-              background: `${action.color}25`,
-              border: `1px solid ${action.color}30`,
-              animation: `quickSlideUp 200ms ease both`,
-              animationDelay: `${idx * 50}ms`,
-            }}
-          >
-            <action.icon size={14} style={{ color: action.color }} />
-            {tq(action.labelKey)}
-          </button>
-        ))}
-      </div>
-
-      {/* Main FAB */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed z-[46] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
-        style={{
-          bottom: '100px',
+      {/* FAB Container - Draggable */}
+      <motion.div
+        ref={containerRef}
+        drag
+        dragControls={dragControls}
+        dragConstraints={{ left: -100, right: 100, top: -300, bottom: 0 }}
+        dragElastic={0.1}
+        dragMomentum={false}
+        whileDrag={{ scale: 1.05 }}
+        className="fixed z-[45] flex flex-col items-center"
+        style={{ 
+          bottom: '20px', 
           right: '20px',
-          background: open ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #D97706, #B45309)',
-          boxShadow: open ? 'none' : '0 6px 20px rgba(217,119,6,0.3)',
+          touchAction: 'none'
         }}
-        aria-label="Ações rápidas"
+        initial={false}
+        animate={{ x: position.x, y: position.y }}
       >
-        {open ? <X size={18} className="text-white/60" /> : <Plus size={20} className="text-white" />}
-      </button>
+        {/* Expanded Menu Items - Stacked Vertically */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="absolute bottom-[72px] flex flex-col items-center gap-2"
+            >
+              {ACTIONS.map((action, index) => (
+                <motion.button
+                  key={action.id}
+                  variants={itemVariants}
+                  onClick={() => handleAction(action.id)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium text-white shadow-lg transition-shadow hover:shadow-xl"
+                  style={{
+                    background: isDark 
+                      ? `linear-gradient(135deg, ${action.color}30, ${action.color}15)`
+                      : `linear-gradient(135deg, ${action.color}20, ${action.color}10)`,
+                    border: `1px solid ${action.color}40`,
+                    backdropFilter: 'blur(12px)',
+                    minWidth: '160px',
+                  }}
+                  whileHover={{ scale: 1.05, x: -4 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div 
+                    className="w-8 h-8 rounded-xl flex items-center justify-center"
+                    style={{ background: `${action.color}30` }}
+                  >
+                    <action.icon size={16} style={{ color: action.color }} />
+                  </div>
+                  <span style={{ color: isDark ? '#fff' : '#1a1a1a' }}>
+                    {tq(action.labelKey)}
+                  </span>
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Quick modals */}
-      {modal === 'conquista' && (
-        <ConquistaModal onClose={() => setModal(null)} />
-      )}
-      {modal === 'observacao' && (
-        <ObservacaoModal onClose={() => setModal(null)} />
-      )}
+        {/* Main FAB Button */}
+        <motion.button
+          onClick={() => setOpen(!open)}
+          className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl"
+          style={{
+            background: open 
+              ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)')
+              : 'linear-gradient(135deg, #D97706, #B45309)',
+            backdropFilter: open ? 'blur(12px)' : undefined,
+            border: open ? `1px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'}` : undefined,
+            boxShadow: open 
+              ? '0 8px 32px rgba(0,0,0,0.2)'
+              : '0 6px 24px rgba(217,119,6,0.4), 0 0 0 1px rgba(255,255,255,0.1) inset',
+          }}
+          variants={fabVariants}
+          animate={open ? 'open' : 'closed'}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          aria-label={open ? tq('close') : tq('quickActions')}
+          dragListener={false}
+        >
+          <Plus size={24} className="text-white" />
+        </motion.button>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes quickSlideUp {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}} />
+        {/* Hint text when closed */}
+        <AnimatePresence>
+          {!open && (
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute -top-8 text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap pointer-events-none"
+              style={{
+                background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+                color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
+                backdropFilter: 'blur(4px)',
+              }}
+            >
+              {tq('tapAndDrag')}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {modal === 'conquista' && (
+          <ConquistaModal onClose={() => setModal(null)} />
+        )}
+        {modal === 'observacao' && (
+          <ObservacaoModal onClose={() => setModal(null)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }
 
 // ── Conquista Modal ──
-
 function ConquistaModal({ onClose }: { onClose: () => void }) {
   const tq = useTranslations('professor.quickActions');
   const [search, setSearch] = useState('');
@@ -142,62 +290,58 @@ function ConquistaModal({ onClose }: { onClose: () => void }) {
 
   return (
     <BottomSheet onClose={onClose} title={`🏅 ${tq('grantAchievement')}`}>
-      {/* Aluno search */}
       <div className="relative mb-3">
-        <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
         <input
           value={search}
-          onChange={(e: { target: { value: string } }) => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder={tq('searchStudent')}
-          className="w-full pl-8 pr-3 py-2 rounded-lg text-xs text-white/70 placeholder:text-white/15 outline-none"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-amber-500/50 transition-colors"
         />
       </div>
-      <div className="flex flex-wrap gap-1 mb-4 max-h-20 overflow-y-auto">
+      <div className="flex flex-wrap gap-2 mb-4 max-h-24 overflow-y-auto">
         {filtered.map((a) => (
           <button
             key={a.id}
             onClick={() => setSelectedAluno(a.id)}
-            className={`px-2 py-1 rounded-lg text-[10px] font-medium transition-all ${
-              selectedAluno === a.id ? 'bg-green-500/15 text-green-300 border-green-500/20' : 'bg-white/[0.02] text-white/30 border-white/[0.04]'
-            }`}
-            style={{ border: `1px solid ${selectedAluno === a.id ? 'rgba(74,222,128,0.2)' : 'rgba(255,255,255,0.04)'}` }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              selectedAluno === a.id 
+                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' 
+                : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10'
+            } border`}
           >
             {a.nome}
           </button>
         ))}
       </div>
-
-      {/* Conquista selection */}
-      <div className="flex flex-wrap gap-1.5 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {CONQUISTAS.map((m) => (
           <button
             key={m.id}
             onClick={() => setSelectedConquista(m.id)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all ${
-              selectedConquista === m.id ? 'bg-amber-500/15 text-amber-200 border-amber-500/20' : 'bg-white/[0.02] text-white/30 border-white/[0.04]'
-            }`}
-            style={{ border: `1px solid ${selectedConquista === m.id ? 'rgba(245,158,11,0.2)' : 'rgba(255,255,255,0.04)'}` }}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+              selectedConquista === m.id 
+                ? 'bg-amber-500/20 text-amber-200 border-amber-500/30' 
+                : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10'
+            } border`}
           >
             <span>{m.emoji}</span> {m.label}
           </button>
         ))}
       </div>
-
       <button
         onClick={handleSave}
         disabled={!selectedAluno || !selectedConquista || saving || done}
-        className="w-full py-2.5 rounded-xl text-xs font-medium text-white transition-all disabled:opacity-30"
-        style={{ background: done ? 'rgba(74,222,128,0.2)' : 'linear-gradient(135deg, #D97706, #B45309)' }}
+        className="w-full py-3.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+        style={{ background: done ? 'rgba(34,197,94,0.3)' : 'linear-gradient(135deg, #D97706, #B45309)' }}
       >
-        {done ? `✅ ${tq('achievementGranted')}` : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : tq('grant')}
+        {done ? `✅ ${tq('achievementGranted')}` : saving ? <Loader2 size={16} className="animate-spin mx-auto" /> : tq('grant')}
       </button>
     </BottomSheet>
   );
 }
 
 // ── Observação Modal ──
-
 function ObservacaoModal({ onClose }: { onClose: () => void }) {
   const tq = useTranslations('professor.quickActions');
   const [selectedAluno, setSelectedAluno] = useState('');
@@ -216,15 +360,16 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
 
   return (
     <BottomSheet onClose={onClose} title={`📝 ${tq('observationTitle')}`}>
-      <div className="flex flex-wrap gap-1 mb-3">
+      <div className="flex flex-wrap gap-2 mb-3">
         {MOCK_ALUNOS.map((a) => (
           <button
             key={a.id}
             onClick={() => setSelectedAluno(a.id)}
-            className={`px-2 py-1 rounded-lg text-[10px] font-medium transition-all ${
-              selectedAluno === a.id ? 'bg-purple-500/15 text-purple-300 border-purple-500/20' : 'bg-white/[0.02] text-white/30 border-white/[0.04]'
-            }`}
-            style={{ border: `1px solid ${selectedAluno === a.id ? 'rgba(139,92,246,0.2)' : 'rgba(255,255,255,0.04)'}` }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              selectedAluno === a.id 
+                ? 'bg-violet-500/20 text-violet-300 border-violet-500/30' 
+                : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10'
+            } border`}
           >
             {a.nome}
           </button>
@@ -232,43 +377,66 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
       </div>
       <textarea
         value={text}
-        onChange={(e: { target: { value: string } }) => setText(e.target.value)}
+        onChange={(e) => setText(e.target.value)}
         placeholder={tq('observationPlaceholder')}
         maxLength={200}
-        rows={3}
-        className="w-full px-3 py-2 rounded-xl text-xs text-white/70 placeholder:text-white/15 outline-none resize-none mb-3"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+        rows={4}
+        className="w-full px-4 py-3 rounded-xl text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none resize-none mb-2 focus:border-violet-500/50 transition-colors"
       />
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-[9px] text-white/15">{text.length}/200</span>
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-xs text-white/30">{text.length}/200</span>
       </div>
       <button
         onClick={handleSave}
         disabled={!selectedAluno || !text.trim() || saving || done}
-        className="w-full py-2.5 rounded-xl text-xs font-medium text-white transition-all disabled:opacity-30"
-        style={{ background: done ? 'rgba(74,222,128,0.2)' : 'linear-gradient(135deg, #8B5CF6, #7C3AED)' }}
+        className="w-full py-3.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+        style={{ background: done ? 'rgba(34,197,94,0.3)' : 'linear-gradient(135deg, #8B5CF6, #7C3AED)' }}
       >
-        {done ? `✅ ${tq('observationSaved')}` : saving ? <Loader2 size={14} className="animate-spin mx-auto" /> : tq('grant')}
+        {done ? `✅ ${tq('observationSaved')}` : saving ? <Loader2 size={16} className="animate-spin mx-auto" /> : tq('grant')}
       </button>
     </BottomSheet>
   );
 }
 
 // ── BottomSheet wrapper ──
-
 function BottomSheet({ onClose, title, children }: { onClose: () => void; title: string; children: React.ReactNode }) {
   return (
-    <div className="fixed inset-0 z-[55] flex items-end sm:items-center justify-center">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-5 space-y-3"
-        style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.08)' }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[55] flex items-end sm:items-center justify-center"
+    >
+      <motion.div 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+        onClick={onClose} 
+      />
+      <motion.div
+        initial={{ y: '100%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '100%', opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        className="relative w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-6"
+        style={{ 
+          background: 'linear-gradient(180deg, rgba(25,25,35,0.98), rgba(15,15,25,0.99))',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: 'none'
+        }}
       >
-        <div className="flex items-center justify-between mb-1">
-          <h3 className="text-sm font-semibold text-white/80">{title}</h3>
-          <button onClick={onClose} className="p-1 hover:bg-white/5 rounded-lg"><X size={14} className="text-white/30" /></button>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-base font-semibold text-white/90">{title}</h3>
+          <button 
+            onClick={onClose} 
+            className="p-2 hover:bg-white/10 rounded-xl transition-colors"
+          >
+            <X size={18} className="text-white/40" />
+          </button>
         </div>
         {children}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
