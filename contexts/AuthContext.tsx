@@ -1,32 +1,8 @@
 'use client';
 
 /**
- * TODO(SEC-001): MIGRAÇÃO DE SEGURANÇA — AuthContext → TokenStore
- *
- * ESTADO ATUAL: AuthContext usa localStorage para tokens (legado).
- * DESTINO:      Migrar para lib/security/token-store.ts (memória + httpOnly cookies).
- *
- * PLANO DE MIGRAÇÃO:
- * 1. Substituir localStorage.getItem(TOKEN_KEY) → tokenStore.getAccessToken()
- * 2. Substituir persistSession() → tokenStore.setAuth() + mockPersistSession()
- * 3. Substituir clearSession() → tokenStore.clearAuth() + mockClearSession()
- * 4. Substituir login flow → authService.secureLogin() (rate limit + audit)
- * 5. Substituir logout → authService.secureLogout()
- * 6. Remover todas as referências a localStorage
- *
- * DEPENDÊNCIAS: Todas as páginas que usam useAuth() — testar cada fluxo.
- * RISCO: Alto — qualquer erro quebra TODA autenticação.
- * ESTRATÉGIA: Feature flag (NEXT_PUBLIC_USE_SECURE_AUTH=true) para rollout gradual.
- *
- * NOVA INFRAESTRUTURA DISPONÍVEL:
- * - lib/security/token-store.ts   → Token em memória (sem localStorage)
- * - lib/security/rbac.ts          → RBAC + Policy Engine
- * - lib/security/audit.ts         → Audit log imutável
- * - lib/security/session.ts       → Gerenciamento de sessões
- * - lib/security/rate-limiter.ts  → Rate limiting no login
- * - lib/security/device-fingerprint.ts → Device fingerprint
- * - lib/api/auth.service.ts       → secureLogin() / secureLogout()
- * - middleware.ts                  → Proteção de rotas server-side
+ * SEC-001: MIGRADO — Tokens agora usam httpOnly cookies via /api/auth/session.
+ * localStorage foi removido. In-memory fallback para quando cookie API nao esta disponivel.
  */
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -229,13 +205,52 @@ export function getConfigRouteForProfile(tipo: TipoPerfil): string {
 }
 
 // ============================================================
-// STORAGE KEYS (Token-based)
+// SESSION API (httpOnly cookies — replaces localStorage)
 // ============================================================
 
-const TOKEN_KEY = 'blackbelt_token';
-const REFRESH_TOKEN_KEY = 'blackbelt_refresh_token';
-const SESSION_KEY = 'blackbelt_session';
-const PROFILES_KEY = 'blackbelt_profiles';
+async function fetchSession(): Promise<{ token: string; user: User; profiles: User[] } | null> {
+  try {
+    const res = await fetch('/api/auth/session', {
+      credentials: 'include',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
+    const { session } = await res.json();
+    return session;
+  } catch {
+    return null;
+  }
+}
+
+async function saveSession(token: string, user: User, profiles?: User[], refreshToken?: string): Promise<void> {
+  try {
+    await fetch('/api/auth/session', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify({ token, user, profiles, refreshToken }),
+    });
+  } catch {
+    // fallback: keep in-memory only
+  }
+}
+
+async function clearSession(): Promise<void> {
+  try {
+    await fetch('/api/auth/session', {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
+  } catch {
+    // ignore
+  }
+}
+
+// In-memory fallback (used when cookie API unavailable)
+let _inMemoryToken: string | null = null;
+let _inMemoryUser: User | null = null;
+let _inMemoryProfiles: User[] = [];
+let _inMemoryLoginEmail: string | null = null;
 
 // ============================================================
 // TYPE GUARDS & HELPERS
@@ -282,14 +297,15 @@ function isTokenExpired(token: string): boolean {
   }
 }
 
-/** Limpa toda a sessão do storage */
+/** Limpa toda a sessao (httpOnly cookie + in-memory) */
 function clearStorage(): void {
-  if (typeof window === 'undefined') return;
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
-  localStorage.removeItem(SESSION_KEY);
-  localStorage.removeItem(PROFILES_KEY);
-  localStorage.removeItem('blackbelt_login_email');
+  _inMemoryToken = null;
+  _inMemoryUser = null;
+  _inMemoryProfiles = [];
+  _inMemoryLoginEmail = null;
+  if (typeof window !== 'undefined') {
+    clearSession();
+  }
 }
 
 // ============================================================
@@ -440,102 +456,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   /**
-   * Carrega sessão do storage.
-   * Sessão só é válida se TOKEN existir e não estiver expirado.
-   * Sem token = não autenticado.
+   * Carrega sessao do httpOnly cookie via API.
+   * Fallback para in-memory se cookie nao disponivel.
    */
-  // Versão da app (deve coincidir com CURRENT_SEED_VERSION no auth.service)
-  const APP_VERSION = '2';
-  const APP_VERSION_KEY = 'blackbelt_app_version';
-
-  function loadSession() {
+  async function loadSession() {
     try {
       if (typeof window === 'undefined') {
         setLoading(false);
         return;
       }
 
-      // Se versão da app mudou, limpar sessão antiga (força re-login com seed novo)
-      const savedVersion = localStorage.getItem(APP_VERSION_KEY);
-      if (savedVersion !== APP_VERSION) {
-        clearStorage();
-        localStorage.setItem(APP_VERSION_KEY, APP_VERSION);
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      const token = localStorage.getItem(TOKEN_KEY);
-      if (!token) {
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      // Verificar expiração do JWT
-      if (isTokenExpired(token)) {
-        logger.info('[Auth]', 'Token expirado, limpando sessão');
-        clearStorage();
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      // Carregar e validar dados do usuário
-      const sessionStr = localStorage.getItem(SESSION_KEY);
-      if (!sessionStr) {
-        logger.warn('[Auth]', 'Token sem sessão, limpando');
-        clearStorage();
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(sessionStr);
-      } catch {
-        logger.warn('[Auth]', 'Sessão JSON inválido, limpando');
-        clearStorage();
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      if (!isValidUser(parsed)) {
-        logger.warn('[Auth]', 'Sessão sem campos obrigatórios, limpando');
-        clearStorage();
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      setUser(parsed);
-
-      // Restaurar email original de login
-      const savedLoginEmail = localStorage.getItem('blackbelt_login_email');
-      if (savedLoginEmail) setLoginEmail(savedLoginEmail);
-
-      // Restaurar perfis disponíveis
-      const profilesStr = localStorage.getItem(PROFILES_KEY);
-      if (profilesStr) {
-        try {
-          const profilesParsed: unknown = JSON.parse(profilesStr);
-          if (Array.isArray(profilesParsed) && profilesParsed.every(isValidUser)) {
-            setAvailableProfiles(profilesParsed);
-          } else {
-            setAvailableProfiles([parsed]);
-          }
-        } catch {
-          setAvailableProfiles([parsed]);
+      // Try to restore from httpOnly cookie via API
+      const session = await fetchSession();
+      if (session && session.token && isValidUser(session.user)) {
+        // Check token expiration
+        if (isTokenExpired(session.token)) {
+          logger.info('[Auth]', 'Token expirado, limpando sessao');
+          clearStorage();
+          setUser(null);
+          setLoading(false);
+          return;
         }
-      } else {
-        setAvailableProfiles([parsed]);
+
+        _inMemoryToken = session.token;
+        _inMemoryUser = session.user;
+        setUser(session.user);
+
+        if (Array.isArray(session.profiles) && session.profiles.every(isValidUser)) {
+          setAvailableProfiles(session.profiles);
+          _inMemoryProfiles = session.profiles;
+        } else {
+          setAvailableProfiles([session.user]);
+        }
+
+        setLoading(false);
+        return;
       }
 
+      // Fallback: check in-memory
+      if (_inMemoryUser && _inMemoryToken) {
+        setUser(_inMemoryUser);
+        setAvailableProfiles(_inMemoryProfiles.length ? _inMemoryProfiles : [_inMemoryUser]);
+        setLoading(false);
+        return;
+      }
+
+      setUser(null);
       setLoading(false);
     } catch (err) {
-      logger.error('[Auth]', 'Erro ao carregar sessão', err);
+      logger.error('[Auth]', 'Erro ao carregar sessao', err);
       clearStorage();
       setUser(null);
       setLoading(false);
@@ -543,7 +512,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   /**
-   * Persiste sessão: token + refreshToken + dados do usuário + perfis.
+   * Persiste sessao via httpOnly cookie + in-memory fallback.
    */
   function persistSession(
     token: string,
@@ -551,17 +520,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     profiles?: User[],
     refreshToken?: string,
   ) {
+    _inMemoryToken = token;
+    _inMemoryUser = userData;
     setUser(userData);
+    if (profiles) {
+      setAvailableProfiles(profiles);
+      _inMemoryProfiles = profiles;
+    }
     if (typeof window !== 'undefined') {
-      localStorage.setItem(TOKEN_KEY, token);
-      if (refreshToken) {
-        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-      }
-      localStorage.setItem(SESSION_KEY, JSON.stringify(userData));
-      if (profiles) {
-        setAvailableProfiles(profiles);
-        localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
-      }
+      saveSession(token, userData, profiles, refreshToken);
     }
   }
 
@@ -611,9 +578,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const result = await authService.login({ email, password });
     if (!result) return null;
 
-    // Guardar email original de login (para verificação de senha na troca de perfil)
+    // Guardar email original de login (in-memory para troca de perfil)
     setLoginEmail(email);
-    try { localStorage.setItem('blackbelt_login_email', email); } catch {}
+    _inMemoryLoginEmail = email;
 
     const { user: userDTO, token, refreshToken } = result;
     const tipo = safeTipoPerfil(userDTO.tipo);
@@ -739,14 +706,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   /**
-   * Troca de perfil (para usuários com múltiplos perfis).
-   * Em produção, o back-end pode retornar novo token para o perfil selecionado.
+   * Troca de perfil (para usuarios com multiplos perfis).
    */
   const setPerfil = (perfil: User) => {
-    // Mantém o token atual, atualiza apenas os dados do usuário
-    const currentToken = typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null;
-    if (currentToken) {
-      persistSession(currentToken, perfil);
+    if (_inMemoryToken) {
+      persistSession(_inMemoryToken, perfil);
     }
   };
 
@@ -785,9 +749,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const verifyPassword = async (password: string): Promise<boolean> => {
     if (!user) return false;
     try {
-      // Usa email ORIGINAL de login (não o email do perfil atual)
+      // Usa email ORIGINAL de login (in-memory)
       const emailToVerify = loginEmail
-        || localStorage.getItem('blackbelt_login_email')
+        || _inMemoryLoginEmail
         || user.email;
       const result = await authService.login({ email: emailToVerify, password });
       return result !== null;

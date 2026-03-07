@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest } from 'next/server';
 import { withAuth, apiOk, apiCreated, apiError, apiServerError, apiForbidden } from '@/lib/api/route-helpers';
 import { MOCK_ACADEMIES } from '@/lib/__mocks__/super-admin.mock';
+import { AcademySchema } from '@/lib/api/schemas';
 
 export async function GET(req: NextRequest) {
   try {
@@ -29,15 +30,10 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    // Validate required fields
-    if (!body.nome || typeof body.nome !== 'string' || body.nome.trim().length < 2) {
-      return apiError('nome is required (min 2 chars)', 'VALIDATION');
-    }
-    if (body.email && (typeof body.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email))) {
-      return apiError('email must be valid', 'VALIDATION');
-    }
-    if (body.plano && !['BASICO', 'PRO', 'ENTERPRISE'].includes(body.plano)) {
-      return apiError('plano must be BASICO, PRO, or ENTERPRISE', 'VALIDATION');
+    // Validate with Zod schema
+    const parsed = AcademySchema.safeParse(body);
+    if (!parsed.success) {
+      return apiError(parsed.error.flatten().fieldErrors as unknown as string, 'VALIDATION');
     }
 
     const newAcademy = {

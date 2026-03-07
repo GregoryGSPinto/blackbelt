@@ -169,6 +169,19 @@ export async function middleware(request: NextRequest) {
     const locale = detectLocale(request);
     request.headers.set('x-locale', locale);
 
+    // ─── CSRF: Verify X-Requested-With for state-changing API requests ───
+    const method = request.method;
+    if (
+      pathname.startsWith('/api/') &&
+      ['POST', 'PUT', 'DELETE', 'PATCH'].includes(method) &&
+      !pathname.startsWith('/api/webhooks/')
+    ) {
+      const xRequestedWith = request.headers.get('x-requested-with');
+      if (xRequestedWith !== 'XMLHttpRequest') {
+        return NextResponse.json({ error: 'Forbidden — missing CSRF header' }, { status: 403 });
+      }
+    }
+
     // ─── Rotas públicas: permitir acesso livre ───
     if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
       const response = NextResponse.next({

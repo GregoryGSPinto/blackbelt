@@ -88,6 +88,7 @@ async function request<T>(
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
     ...(customHeaders as Record<string, string>),
   };
 
