@@ -902,16 +902,7 @@ function LoginContent() {
                 alignItems: 'center',
               }}
             >
-              {/* Logo at top */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: EASE_PREMIUM }}
-              >
-                <AnimatedLogo isDark={isDark} />
-              </motion.div>
-              
-              {/* Center content - Login button */}
+              {/* Center content - Logo + Login button */}
               <motion.div
                 variants={staggerContainer}
                 initial="initial"
@@ -924,6 +915,16 @@ function LoginContent() {
                   flex: 1,
                 }}
               >
+                {/* Logo above button */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+                  style={{ marginBottom: '1.875rem' }}
+                >
+                  <AnimatedLogo isDark={isDark} />
+                </motion.div>
+
                 <motion.button
                   variants={staggerItem}
                   onClick={goToEmail}
