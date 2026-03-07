@@ -8,6 +8,8 @@ const withBundleAnalyzer = process.env.ANALYZE === 'true'
   ? require('@next/bundle-analyzer')({ enabled: true })
   : (config) => config;
 
+const isCapacitorBuild = process.env.CAPACITOR_BUILD === 'true' && !process.env.VERCEL;
+
 const nextConfig = {
   // ============================================================
   // CAPACITOR: Para build nativo, executar:
@@ -15,7 +17,7 @@ const nextConfig = {
   // Isso ativa static export (output: 'export') que é incompatível
   // com API routes e middleware. NUNCA ativar na Vercel.
   // ============================================================
-  ...(process.env.CAPACITOR_BUILD === 'true' && !process.env.VERCEL ? { output: 'export' } : {}),
+  ...(isCapacitorBuild ? { output: 'export' } : {}),
 
   images: {
     unoptimized: process.env.CAPACITOR_BUILD === 'true', // Obrigatório para static export
