@@ -11,7 +11,6 @@
  */
 
 import { spawn } from 'child_process';
-import { resolve } from 'path';
 
 const SCRIPTS = [
   { name: 'Demo Users', cmd: 'tsx', args: ['scripts/seed-demo-users.ts'] },
@@ -26,7 +25,7 @@ async function runCommand(name: string, cmd: string, args: string[]): Promise<vo
 
     const child = spawn(cmd, args, {
       stdio: 'inherit',
-      cwd: resolve(__dirname, '..'),
+      cwd: process.cwd(),
     });
 
     child.on('close', (code) => {
