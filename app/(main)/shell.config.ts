@@ -5,7 +5,7 @@ import {
   Home, Video, GraduationCap, Tv, Bookmark,
   ScanLine, Download, ShoppingBag,
   TrendingUp, Settings, CreditCard, Award, Trophy, CalendarDays,
-  PenTool,
+  PenTool, Gift,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -39,6 +39,7 @@ const DRAWER_NAV = [
   { href: '/historico', icon: TrendingUp, label: 'Histórico' },
   { href: '/meu-perfil-esportivo', icon: Award, label: 'Perfil Esportivo' },
   { href: '/assinatura', icon: PenTool, label: 'Documentos' },
+  { href: '/indicar', icon: Gift, label: 'Indicar Amigo' },
   { href: '/perfil/configuracoes', icon: Settings, label: 'Configurações' },
 ];
 

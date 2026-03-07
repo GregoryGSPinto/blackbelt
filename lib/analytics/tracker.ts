@@ -27,7 +27,9 @@ export function initGA(measurementId: string): void {
 export function trackPageView(page: string): void {
   if (typeof window === 'undefined' || !window.gtag) return;
 
-  window.gtag('config', 'GA_MEASUREMENT_ID', {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || '';
+  if (!gaId) return;
+  window.gtag('config', gaId, {
     page_path: page,
   });
 }

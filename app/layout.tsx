@@ -15,6 +15,8 @@ import { DemoBanner } from "@/components/shared/DemoBanner";
 import { PrivacyConsentModal } from "@/components/shared/PrivacyConsentModal";
 import { ErrorTrackerInit } from "@/components/shared/ErrorTrackerInit";
 import { ThemedBackground } from "@/components/shared/ThemedBackground";
+import { NpsSurvey } from "@/components/shared/NpsSurvey";
+import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
 
@@ -86,6 +88,7 @@ export default async function RootLayout({
         `}} />
       </head>
       <body className={inter.className}>
+        <GoogleAnalytics />
         <a href="#main-content" className="skip-to-content">{t('meta.skipToContent')}</a>
         <NextIntlClientProvider locale={locale} messages={messages}>
         <ThemeProvider>
@@ -102,6 +105,7 @@ export default async function RootLayout({
                     <DemoBanner />
                     <SlowConnectionBanner />
                     <PrivacyConsentModal />
+                    <NpsSurvey />
                     {children}
                   </KeyboardProvider>
                   </ResponsiveProvider>
