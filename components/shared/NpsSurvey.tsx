@@ -63,7 +63,7 @@ export function NpsSurvey() {
     try {
       await fetch('/api/feedback/nps', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
         body: JSON.stringify({ score, comment, userId: user?.id }),
       });
       setSubmitted(true);

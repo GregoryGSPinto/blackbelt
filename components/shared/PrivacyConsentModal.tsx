@@ -51,7 +51,7 @@ async function saveConsentToBackend(consent: ConsentState & { acceptedAt: string
     // doesn't re-show even if this request fails.
     await fetch('/api/user/consent', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
       body: JSON.stringify(consent),
     });
   } catch {

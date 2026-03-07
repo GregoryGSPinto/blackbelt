@@ -30,7 +30,7 @@ export function useAdaptiveTest() {
     try {
       const res = await fetch('/api/ai/adaptive-test', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
         body: JSON.stringify(config),
       });
 

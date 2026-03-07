@@ -48,7 +48,7 @@ export function usePushNotifications(userId?: string): PushNotificationState {
       const platform = getPlatform();
       const response = await fetch('/api/push', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
         body: JSON.stringify({
           userId,
           token: deviceToken,
