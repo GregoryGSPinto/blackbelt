@@ -10,11 +10,106 @@ import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
 import { Users, DollarSign, TrendingUp, Mail, Phone, Clock, HelpCircle, ChevronDown as ChevronDownLucide } from 'lucide-react';
 import { AnimatedCounter } from '@/components/transitions/AnimatedCounter';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 import { useTranslations } from 'next-intl';
 
 // ─── Types ──────────────────────────────────────────────────
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR';
+
+// ─── Framer Motion Variants ─────────────────────────────────
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
+};
+
+const fadeInLeft = {
+  initial: { opacity: 0, x: 40 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -40 },
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: -40 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: 40 },
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.95 },
+  animate: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.95 },
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const staggerItem = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
+
+// ─── Animated Section Component ─────────────────────────────
+function AnimatedSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── Animated Button Component ──────────────────────────────
+function AnimatedButton({ children, onClick, style, className = '', type = 'button' as const, disabled, form, formAction, name, value }: { children: React.ReactNode; onClick?: () => void; style?: React.CSSProperties; className?: string; type?: 'button' | 'submit' | 'reset'; disabled?: boolean; form?: string; formAction?: string | ((formData: FormData) => void | Promise<void>); name?: string; value?: string | number | readonly string[] }) {
+  return (
+    <motion.button
+      type={type}
+      onClick={onClick}
+      className={className}
+      style={style}
+      disabled={disabled}
+      form={form}
+      formAction={formAction}
+      name={name}
+      value={value}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2 }}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+// ─── Animated Card Component ────────────────────────────────
+function AnimatedCard({ children, style, className = '' }: { children: React.ReactNode; style?: React.CSSProperties; className?: string }) {
+  return (
+    <motion.div
+      style={style}
+      className={className}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }}
+      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // ─── Demo users ─────────────────────────────────────────────
 const DEMO_USERS = [
@@ -142,15 +237,18 @@ function FaqItem({ question, answer, isDark, colors }: {
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div
+    <motion.div
       style={{
         border: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
         borderRadius: 12,
         overflow: 'hidden',
-        transition: 'border-color 0.2s ease',
       }}
+      initial={false}
+      animate={{ borderColor: isDark ? '#222' : '#e0e0e0' }}
+      whileHover={{ borderColor: isDark ? '#444' : '#ccc' }}
+      transition={{ duration: 0.2 }}
     >
-      <button
+      <motion.button
         onClick={() => setOpen(!open)}
         style={{
           width: '100%',
@@ -167,36 +265,43 @@ function FaqItem({ question, answer, isDark, colors }: {
           textAlign: 'left',
           gap: '1rem',
         }}
+        whileTap={{ scale: 0.99 }}
       >
         {question}
-        <ChevronDownLucide
-          size={18}
-          style={{
-            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.25s ease',
-            flexShrink: 0,
-            opacity: 0.5,
-          }}
-        />
-      </button>
-      <div
-        style={{
-          maxHeight: open ? 200 : 0,
-          overflow: 'hidden',
-          transition: 'max-height 0.3s ease',
-        }}
-      >
-        <p style={{
-          padding: '0 1.25rem 1rem',
-          fontSize: '0.875rem',
-          color: colors.textMuted,
-          lineHeight: 1.6,
-          margin: 0,
-        }}>
-          {answer}
-        </p>
-      </div>
-    </div>
+        <motion.div
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.25, ease: 'easeInOut' }}
+        >
+          <ChevronDownLucide
+            size={18}
+            style={{
+              flexShrink: 0,
+              opacity: 0.5,
+            }}
+          />
+        </motion.div>
+      </motion.button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <p style={{
+              padding: '0 1.25rem 1rem',
+              fontSize: '0.875rem',
+              color: colors.textMuted,
+              lineHeight: 1.6,
+              margin: 0,
+            }}>
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
@@ -453,17 +558,17 @@ function LoginContent() {
         }}
       >
         {/* ─── STEP: INITIAL ─────────────────────────────── */}
-        {step === 'INITIAL' && (
-          <>
-            <div
-              style={{
-                opacity: mounted ? 1 : 0,
-                transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-                transition: transitions.slideUp,
-                textAlign: 'center',
-              }}
+        <AnimatePresence mode="wait">
+          {step === 'INITIAL' && (
+            <motion.div
+              key="initial"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              style={{ textAlign: 'center' }}
             >
-              <button
+              <motion.button
                 onClick={goToEmail}
                 style={{
                   width: 200,
@@ -477,84 +582,94 @@ function LoginContent() {
                   textTransform: 'uppercase',
                   borderRadius: 12,
                   cursor: 'pointer',
-                  transition: transitions.theme,
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+                whileHover={{ 
+                  scale: 1.05, 
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
                 }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'transparent';
-                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
               >
                 Login
-              </button>
-            </div>
+              </motion.button>
 
-            {/* Bouncing arrow at bottom */}
-            <button
-              onClick={scrollToSobre}
-              style={{
-                position: 'absolute',
-                bottom: '2rem',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.5rem',
-                animation: 'bounceArrow 2s ease-in-out infinite',
-              }}
-            >
-              <span style={{
-                fontSize: '0.75rem',
-                color: colors.textMuted,
-                letterSpacing: '0.1em',
-              }}>
-                Saiba mais
-              </span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-          </>
-        )}
+              {/* Bouncing arrow at bottom */}
+              <motion.button
+                onClick={scrollToSobre}
+                style={{
+                  position: 'absolute',
+                  bottom: '2rem',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                }}
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <span style={{
+                  fontSize: '0.75rem',
+                  color: colors.textMuted,
+                  letterSpacing: '0.1em',
+                }}>
+                  Saiba mais
+                </span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
-        {step === 'EMAIL' && (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 480,
-              ...cardStyle(),
-            }}
-            className="login-card-responsive"
-          >
-            <form onSubmit={handleEmailSubmit}>
-              <div style={{ position: 'relative' }}>
+        <AnimatePresence mode="wait">
+          {step === 'EMAIL' && (
+            <motion.div
+              key="email"
+              initial={{ opacity: 0, x: slideDir === 'right' ? 40 : -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: slideDir === 'left' ? -40 : 40 }}
+              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                width: '100%',
+                maxWidth: 480,
+              }}
+              className="login-card-responsive"
+            >
+              <form onSubmit={handleEmailSubmit}>
+                <div style={{ position: 'relative' }}>
 
-                {/* Back arrow to INITIAL */}
-                <button
-                  type="button"
-                  onClick={() => { setStep('INITIAL'); setError(''); }}
-                  aria-label={tCommon('actions.goBack')}
-                  style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    left: '1rem',
-                    zIndex: 2,
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0.25rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                </button>
+                  {/* Back arrow to INITIAL */}
+                  <motion.button
+                    type="button"
+                    onClick={() => { setStep('INITIAL'); setError(''); }}
+                    aria-label={tCommon('actions.goBack')}
+                    style={{
+                      position: 'absolute',
+                      top: '1rem',
+                      left: '1rem',
+                      zIndex: 2,
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '0.25rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                    whileHover={{ scale: 1.1, x: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                  </motion.button>
 
                 {/* Unified bordered container: card + divider + SSO */}
                 <div
@@ -799,7 +914,7 @@ function LoginContent() {
 
                   {/* SSO buttons at bottom */}
                   <div style={{ display: 'flex' }}>
-                    <button
+                    <motion.button
                       type="button"
                       aria-label={t('login.loginWithGoogle')}
                       style={{
@@ -813,18 +928,14 @@ function LoginContent() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        transition: transitions.theme,
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                      }}
+                      whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <GoogleIcon />
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                       type="button"
                       aria-label={t('login.loginWithApple')}
                       style={{
@@ -837,38 +948,40 @@ function LoginContent() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        transition: transitions.theme,
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                      }}
+                      whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <AppleIcon color={colors.text} />
-                    </button>
+                    </motion.button>
                   </div>
                 </div>{/* end unified border */}
 
-                {/* Hidden submit for Enter key */}
-                <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
+                  {/* Hidden submit for Enter key */}
+                  <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
 
-              </div>
-            </form>
-          </div>
-        )}
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ─── STEP: PASSWORD ────────────────────────────── */}
-        {step === 'PASSWORD' && (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 480,
-              ...cardStyle(),
-            }}
-            className="login-card-responsive"
-          >
+        <AnimatePresence mode="wait">
+          {step === 'PASSWORD' && (
+            <motion.div
+              key="password"
+              initial={{ opacity: 0, x: slideDir === 'right' ? 40 : -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: slideDir === 'left' ? -40 : 40 }}
+              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                width: '100%',
+                maxWidth: 480,
+              }}
+              className="login-card-responsive"
+            >
             <form onSubmit={handlePasswordSubmit}>
               <div
                 style={{
@@ -884,7 +997,7 @@ function LoginContent() {
                 {/* Conteudo superior */}
                 <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
                   {/* Back button */}
-                  <button
+                  <motion.button
                     type="button"
                     onClick={goBackToEmail}
                     style={{
@@ -899,9 +1012,12 @@ function LoginContent() {
                       alignItems: 'center',
                     }}
                     aria-label={tCommon('actions.goBack')}
+                    whileHover={{ scale: 1.1, x: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                  </button>
+                  </motion.button>
 
                   {/* Email display */}
                   <p
@@ -1021,7 +1137,7 @@ function LoginContent() {
                 <div style={{ height: 1, background: colors.cardBorder }} />
 
                 {/* Botao ENTRAR na base do card */}
-                <button
+                <motion.button
                   type="submit"
                   style={{
                     width: '100%',
@@ -1034,103 +1150,116 @@ function LoginContent() {
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
-                    transition: 'background 0.2s ease',
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
                 >
                   {t('login.loginButton').toUpperCase()}
-                </button>
+                </motion.button>
               </div>
             </form>
-          </div>
-        )}
+          </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ─── STEP: LOADING ─────────────────────────────── */}
-        {step === 'LOADING' && (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 480,
-              opacity: 1,
-              transform: 'scale(1.03)',
-              transition: 'all 0.4s ease',
-            }}
-            className="login-card-responsive"
-          >
-            <div style={{ position: 'relative' }}>
-              <div
-                style={{
-                  border: `1px solid ${colors.cardBorder}`,
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  background: colors.cardBg,
-                  backdropFilter: 'blur(12px) saturate(1.2)',
-                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                  padding: '3rem 2rem',
-                  textAlign: 'center',
-                  transition: transitions.theme,
-                }}
-              >
-                <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
-                  <SpinnerIcon color={colors.text} />
-                </div>
-                <p
+        <AnimatePresence mode="wait">
+          {step === 'LOADING' && (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                width: '100%',
+                maxWidth: 480,
+              }}
+              className="login-card-responsive"
+            >
+              <div style={{ position: 'relative' }}>
+                <div
                   style={{
-                    color: colors.textMuted,
-                    fontSize: '0.875rem',
-                    transition: transitions.theme,
+                    border: `1px solid ${colors.cardBorder}`,
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    padding: '3rem 2rem',
+                    textAlign: 'center',
                   }}
                 >
-                  {tCommon('actions.entering')}
-                </p>
+                  <motion.div 
+                    style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                  >
+                    <SpinnerIcon color={colors.text} />
+                  </motion.div>
+                  <p
+                    style={{
+                      color: colors.textMuted,
+                      fontSize: '0.875rem',
+                    }}
+                  >
+                    {tCommon('actions.entering')}
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ─── STEP: ERROR (returns to password card) ────── */}
-        {step === 'ERROR' && (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 480,
-              opacity: 1,
-              transition: transitions.fadeIn,
-            }}
-            className="login-card-responsive"
-          >
-            <form onSubmit={handlePasswordSubmit}>
-              <div
-                style={{
-                  border: `1px solid ${colors.cardBorder}`,
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  background: colors.cardBg,
-                  backdropFilter: 'blur(12px) saturate(1.2)',
-                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                  transition: transitions.theme,
-                }}
-              >
-                <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
-                  <button
-                    type="button"
-                    onClick={goBackToEmail}
-                    style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      left: '1rem',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '0.25rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                    aria-label={tCommon('actions.goBack')}
-                  >
-                    <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                  </button>
+        <AnimatePresence mode="wait">
+          {step === 'ERROR' && (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                width: '100%',
+                maxWidth: 480,
+              }}
+              className="login-card-responsive"
+            >
+              <form onSubmit={handlePasswordSubmit}>
+                <div
+                  style={{
+                    border: `1px solid ${colors.cardBorder}`,
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                  }}
+                >
+                  <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
+                    <motion.button
+                      type="button"
+                      onClick={goBackToEmail}
+                      style={{
+                        position: 'absolute',
+                        top: '1rem',
+                        left: '1rem',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '0.25rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                      aria-label={tCommon('actions.goBack')}
+                      whileHover={{ scale: 1.1, x: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                    </motion.button>
 
                   <p
                     style={{
@@ -1240,32 +1369,33 @@ function LoginContent() {
                   </div>
                 </div>
 
-                <div style={{ height: 1, background: colors.cardBorder }} />
+                  <div style={{ height: 1, background: colors.cardBorder }} />
 
-                <button
-                  type="submit"
-                  style={{
-                    width: '100%',
-                    height: 52,
-                    border: 'none',
-                    background: 'transparent',
-                    color: colors.text,
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                >
-                  {t('login.loginButton').toUpperCase()}
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
+                  <motion.button
+                    type="submit"
+                    style={{
+                      width: '100%',
+                      height: 52,
+                      border: 'none',
+                      background: 'transparent',
+                      color: colors.text,
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                    }}
+                    whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {t('login.loginButton').toUpperCase()}
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ─── Footer (login flow only) ─────────────────── */}
         {isLoginFlow && <p
@@ -1300,26 +1430,40 @@ function LoginContent() {
               padding: '4rem 1.5rem',
             }}
           >
-            <h2 style={{
-              color: colors.text,
-              fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
-              fontWeight: 600,
-              textAlign: 'center',
-              maxWidth: 600,
-              marginBottom: '3rem',
-              lineHeight: 1.4,
-              transition: transitions.theme,
-            }}>
-              A plataforma completa para gestão de academias de artes marciais
-            </h2>
+            <AnimatedSection>
+              <h2 style={{
+                color: colors.text,
+                fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+                fontWeight: 600,
+                textAlign: 'center',
+                maxWidth: 600,
+                marginBottom: '3rem',
+                lineHeight: 1.4,
+              }}>
+                A plataforma completa para gestão de academias de artes marciais
+              </h2>
+            </AnimatedSection>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ maxWidth: 900, width: '100%' }}>
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-6" 
+              style={{ maxWidth: 900, width: '100%' }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: '-100px' }}
+            >
               {[
                 { Icon: Users, title: 'Gestão de Alunos', desc: 'Cadastro completo, controle de frequência, graduações e acompanhamento individual de cada aluno da sua academia.' },
                 { Icon: DollarSign, title: 'Controle Financeiro', desc: 'Mensalidades, cobranças automatizadas, relatórios financeiros e gestão completa do fluxo de caixa.' },
                 { Icon: TrendingUp, title: 'Acompanhamento de Evolução', desc: 'Métricas de progresso, histórico de graduações, análise de desempenho e insights com inteligência artificial.' },
-              ].map((item) => (
-                <div key={item.title} style={sectionCard}>
+              ].map((item, index) => (
+                <motion.div 
+                  key={item.title} 
+                  style={sectionCard}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                >
                   <item.Icon size={32} style={{ color: colors.text, marginBottom: '1rem' }} />
                   <h3 style={{ color: colors.text, fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>
                     {item.title}
@@ -1327,9 +1471,9 @@ function LoginContent() {
                   <p style={{ color: colors.textMuted, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
                     {item.desc}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           {/* ─── SEÇÃO 2 — PLANOS ─────────────────────────── */}
@@ -1343,18 +1487,26 @@ function LoginContent() {
               padding: '4rem 1.5rem',
             }}
           >
-            <h2 style={{
-              color: colors.text,
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '3rem',
-              transition: transitions.theme,
-            }}>
-              Planos
-            </h2>
+            <AnimatedSection>
+              <h2 style={{
+                color: colors.text,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: 600,
+                textAlign: 'center',
+                marginBottom: '3rem',
+              }}>
+                Planos
+              </h2>
+            </AnimatedSection>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ maxWidth: 1000, width: '100%' }}>
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-6" 
+              style={{ maxWidth: 1000, width: '100%' }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: '-100px' }}
+            >
               {[
                 {
                   name: 'Starter',
@@ -1377,8 +1529,8 @@ function LoginContent() {
                   features: ['Alunos ilimitados', 'Professores ilimitados', 'White-label', 'API completa', 'Suporte prioritário'],
                   popular: false,
                 },
-              ].map((plan) => (
-                <div
+              ].map((plan, index) => (
+                <motion.div
                   key={plan.name}
                   style={{
                     ...sectionCard,
@@ -1387,24 +1539,33 @@ function LoginContent() {
                       : sectionCard.border,
                     position: 'relative',
                   }}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
                 >
                   {plan.popular && (
-                    <span style={{
-                      position: 'absolute',
-                      top: -12,
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: isDark ? '#fff' : '#111',
-                      color: isDark ? '#111' : '#fff',
-                      fontSize: '0.7rem',
-                      fontWeight: 600,
-                      padding: '0.25rem 1rem',
-                      borderRadius: 20,
-                      letterSpacing: '0.05em',
-                      textTransform: 'uppercase',
-                    }}>
+                    <motion.span 
+                      style={{
+                        position: 'absolute',
+                        top: -12,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        background: isDark ? '#fff' : '#111',
+                        color: isDark ? '#111' : '#fff',
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                        padding: '0.25rem 1rem',
+                        borderRadius: 20,
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                      }}
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + index * 0.1, type: 'spring', stiffness: 300 }}
+                    >
                       Mais Popular
-                    </span>
+                    </motion.span>
                   )}
                   <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
                     {plan.name}
@@ -1420,7 +1581,7 @@ function LoginContent() {
                       </li>
                     ))}
                   </ul>
-                  <button
+                  <motion.button
                     style={{
                       width: '100%',
                       padding: '0.75rem',
@@ -1431,15 +1592,17 @@ function LoginContent() {
                       fontSize: '0.875rem',
                       fontWeight: 600,
                       cursor: 'pointer',
-                      transition: 'all 0.2s ease',
                       letterSpacing: '0.05em',
                     }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
                   >
                     Comece Grátis
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           {/* ─── SEÇÃO 3 — MODALIDADES ────────────────────── */}
@@ -1453,20 +1616,28 @@ function LoginContent() {
               padding: '4rem 1.5rem',
             }}
           >
-            <h2 style={{
-              color: colors.text,
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '3rem',
-              transition: transitions.theme,
-            }}>
-              Modalidades Suportadas
-            </h2>
+            <AnimatedSection>
+              <h2 style={{
+                color: colors.text,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: 600,
+                textAlign: 'center',
+                marginBottom: '3rem',
+              }}>
+                Modalidades Suportadas
+              </h2>
+            </AnimatedSection>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" style={{ maxWidth: 700, width: '100%' }}>
-              {MODALITIES.map((m) => (
-                <div
+            <motion.div 
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" 
+              style={{ maxWidth: 700, width: '100%' }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: '-50px' }}
+            >
+              {MODALITIES.map((m, index) => (
+                <motion.div
                   key={m.name}
                   style={{
                     border: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
@@ -1474,14 +1645,24 @@ function LoginContent() {
                     background: colors.cardBg,
                     padding: '1.25rem 1rem',
                     textAlign: 'center',
-                    transition: transitions.theme,
                   }}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ scale: 1.05, y: -3 }}
                 >
-                  <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>{m.emoji}</span>
+                  <motion.span 
+                    style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.05, type: 'spring', stiffness: 300 }}
+                  >
+                    {m.emoji}
+                  </motion.span>
                   <span style={{ color: colors.text, fontSize: '0.8rem', fontWeight: 500 }}>{m.name}</span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           {/* ─── SEÇÃO 4 — NÚMEROS ────────────────────────── */}
@@ -1495,25 +1676,39 @@ function LoginContent() {
               padding: '4rem 1.5rem',
             }}
           >
-            <h2 style={{
-              color: colors.text,
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '3rem',
-              transition: transitions.theme,
-            }}>
-              Números da Plataforma
-            </h2>
+            <AnimatedSection>
+              <h2 style={{
+                color: colors.text,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: 600,
+                textAlign: 'center',
+                marginBottom: '3rem',
+              }}>
+                Números da Plataforma
+              </h2>
+            </AnimatedSection>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6" style={{ maxWidth: 900, width: '100%' }}>
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-6" 
+              style={{ maxWidth: 900, width: '100%' }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: '-50px' }}
+            >
               {[
                 { value: 500, prefix: '+', label: 'Academias' },
                 { value: 50000, prefix: '+', label: 'Alunos' },
                 { value: 1000000, prefix: '+', label: 'Check-ins' },
                 { value: 10000, prefix: '+', label: 'Graduações' },
-              ].map((stat) => (
-                <div key={stat.label} style={{ ...sectionCard, textAlign: 'center' }}>
+              ].map((stat, index) => (
+                <motion.div 
+                  key={stat.label} 
+                  style={{ ...sectionCard, textAlign: 'center' }}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
                   <div style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontWeight: 600, color: colors.text, marginBottom: '0.5rem' }}>
                     <AnimatedCounter
                       value={stat.value}
@@ -1522,9 +1717,9 @@ function LoginContent() {
                     />
                   </div>
                   <span style={{ color: colors.textMuted, fontSize: '0.875rem' }}>{stat.label}</span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           {/* ─── SEÇÃO 5 — DEPOIMENTOS ────────────────────── */}
@@ -1538,18 +1733,26 @@ function LoginContent() {
               padding: '4rem 1.5rem',
             }}
           >
-            <h2 style={{
-              color: colors.text,
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '3rem',
-              transition: transitions.theme,
-            }}>
-              O que dizem nossos clientes
-            </h2>
+            <AnimatedSection>
+              <h2 style={{
+                color: colors.text,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: 600,
+                textAlign: 'center',
+                marginBottom: '3rem',
+              }}>
+                O que dizem nossos clientes
+              </h2>
+            </AnimatedSection>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ maxWidth: 1000, width: '100%' }}>
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-6" 
+              style={{ maxWidth: 1000, width: '100%' }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: '-50px' }}
+            >
               {[
                 {
                   name: 'Prof. Carlos Silva',
@@ -1566,22 +1769,34 @@ function LoginContent() {
                   academy: 'Tanaka Dojo',
                   text: 'A plataforma é intuitiva e completa. O suporte é excepcional — sempre respondem rápido e implementam nossas sugestões. Recomendo para qualquer academia que queira crescer profissionalmente.',
                 },
-              ].map((t) => (
-                <div key={t.name} style={sectionCard}>
+              ].map((t, index) => (
+                <motion.div 
+                  key={t.name} 
+                  style={sectionCard}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.15 }}
+                  whileHover={{ y: -5 }}
+                >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                    <div style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: '50%',
-                      background: isDark ? '#333' : '#ddd',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '1.25rem',
-                      flexShrink: 0,
-                    }}>
+                    <motion.div 
+                      style={{
+                        width: 48,
+                        height: 48,
+                        borderRadius: '50%',
+                        background: isDark ? '#333' : '#ddd',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.25rem',
+                        flexShrink: 0,
+                      }}
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.15 + 0.2, type: 'spring', stiffness: 300 }}
+                    >
                       {t.name.charAt(0)}
-                    </div>
+                    </motion.div>
                     <div>
                       <p style={{ color: colors.text, fontSize: '0.9rem', fontWeight: 600, margin: 0 }}>{t.name}</p>
                       <p style={{ color: colors.textMuted, fontSize: '0.75rem', margin: 0 }}>{t.academy}</p>
@@ -1590,9 +1805,9 @@ function LoginContent() {
                   <p style={{ color: colors.textMuted, fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
                     &ldquo;{t.text}&rdquo;
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           {/* ─── SEÇÃO 6 — SUPORTE ────────────────────────── */}
@@ -1606,80 +1821,127 @@ function LoginContent() {
               padding: '4rem 1.5rem',
             }}
           >
-            <h2 style={{
-              color: colors.text,
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '3rem',
-              transition: transitions.theme,
-            }}>
-              Suporte e Contato
-            </h2>
+            <AnimatedSection>
+              <h2 style={{
+                color: colors.text,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: 600,
+                textAlign: 'center',
+                marginBottom: '3rem',
+              }}>
+                Suporte e Contato
+              </h2>
+            </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" style={{ maxWidth: 900, width: '100%', marginBottom: '2.5rem' }}>
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" 
+              style={{ maxWidth: 900, width: '100%', marginBottom: '2.5rem' }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: '-50px' }}
+            >
               {[
                 { Icon: Mail, label: 'Email', value: 'suporte@blackbelt.app' },
                 { Icon: Phone, label: 'WhatsApp', value: '+55 31 99999-9999' },
                 { Icon: Clock, label: 'Horário', value: 'Seg-Sex 8h-18h' },
                 { Icon: HelpCircle, label: 'Central de Ajuda', value: 'help.blackbelt.app' },
-              ].map((c) => (
-                <div key={c.label} style={{ ...sectionCard, textAlign: 'center' }}>
-                  <c.Icon size={24} style={{ color: colors.text, marginBottom: '0.75rem' }} />
+              ].map((c, index) => (
+                <motion.div 
+                  key={c.label} 
+                  style={{ ...sectionCard, textAlign: 'center' }}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.2, type: 'spring', stiffness: 300 }}
+                  >
+                    <c.Icon size={24} style={{ color: colors.text, marginBottom: '0.75rem' }} />
+                  </motion.div>
                   <p style={{ color: colors.text, fontSize: '0.85rem', fontWeight: 600, margin: '0 0 0.25rem' }}>{c.label}</p>
                   <p style={{ color: colors.textMuted, fontSize: '0.8rem', margin: 0 }}>{c.value}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* FAQ */}
-            <div style={{ maxWidth: 600, width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <motion.div 
+              style={{ maxWidth: 600, width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5 }}
+            >
               <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
                 Perguntas Frequentes
               </h3>
-              {FAQ_ITEMS.map((item) => (
-                <FaqItem key={item.question} question={item.question} answer={item.answer} isDark={isDark} colors={colors} />
+              {FAQ_ITEMS.map((item, index) => (
+                <motion.div
+                  key={item.question}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                >
+                  <FaqItem question={item.question} answer={item.answer} isDark={isDark} colors={colors} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           {/* ─── SEÇÃO 7 — FOOTER ─────────────────────────── */}
-          <footer
+          <motion.footer
             style={{
               padding: '3rem 1.5rem',
               textAlign: 'center',
               borderTop: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
             }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: '1.5rem',
-              marginBottom: '1.5rem',
-            }}>
-              {['Termos de Uso', 'Política de Privacidade', 'LGPD', 'Instagram', 'Facebook'].map((link) => (
-                <a
+            <motion.div 
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                gap: '1.5rem',
+                marginBottom: '1.5rem',
+              }}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
+              {['Termos de Uso', 'Política de Privacidade', 'LGPD', 'Instagram', 'Facebook'].map((link, index) => (
+                <motion.a
                   key={link}
                   href="#"
                   style={{
                     color: colors.textMuted,
                     fontSize: '0.8rem',
                     textDecoration: 'none',
-                    transition: 'opacity 0.2s ease',
                   }}
+                  variants={staggerItem}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ opacity: 0.7 }}
                 >
                   {link}
-                </a>
+                </motion.a>
               ))}
-            </div>
+            </motion.div>
             <p style={{ color: colors.textMuted, fontSize: '0.8rem', margin: '0 0 0.5rem', opacity: 0.7 }}>
               Feito com ❤️ no Brasil
             </p>
             <p style={{ color: colors.textMuted, fontSize: '0.75rem', margin: 0, opacity: 0.5 }}>
               © 2026 BlackBelt — Todos os direitos reservados
             </p>
-          </footer>
+          </motion.footer>
         </div>
       )}
 
