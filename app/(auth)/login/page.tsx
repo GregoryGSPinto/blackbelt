@@ -731,7 +731,7 @@ function LoginContent() {
                     {/* Mobile: LINE 1 Lembrar-me centered | LINE 2 Criar conta LEFT + Esqueci email RIGHT */}
                     <div className="flex flex-col items-center gap-2 md:hidden" style={{ marginTop: '1.5rem' }}>
                       <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
-                        <input type="checkbox" className="w-3.5 h-3.5" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                        <input type="checkbox" className="w-3 h-3 md:w-4 md:h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
                         Lembrar-me
                       </label>
                       <div className="flex items-center justify-between w-full">
