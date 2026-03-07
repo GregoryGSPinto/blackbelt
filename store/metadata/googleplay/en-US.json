@@ -9,6 +9,7 @@
   "defaultLanguage": "en-US",
   "contactEmail": "support@blackbelt.app",
   "contactWebsite": "https://blackbelt.app",
+  "whatsnew": "v1.0.0 - Official Launch\n- QR Code and biometric check-in\n- Complete admin dashboard\n- Belt progression tracking\n- Gamified Kids mode\n- Teen profile with guided autonomy\n- Real-time push notifications\n- Offline mode with automatic sync",
   "screenshots": [
     "01_login_landing.png - Login screen with plans and modalities",
     "02_admin_dashboard.png - Admin dashboard with metrics",

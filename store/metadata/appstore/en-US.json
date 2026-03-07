@@ -9,6 +9,7 @@
   "privacyUrl": "https://blackbelt.app/politica-privacidade",
   "supportUrl": "https://blackbelt.app/support",
   "marketingUrl": "https://blackbelt.app",
+  "whatsnew": "v1.0.0 - Official Launch\n- QR Code and biometric check-in\n- Complete admin dashboard\n- Belt progression tracking\n- Gamified Kids mode (ages 4-11)\n- Teen profile with guided autonomy (ages 12-17)\n- Real-time push notifications\n- Offline mode with automatic sync\n- Integrated store\n- Support for BJJ, Judo, Karate, Muay Thai and more",
   "screenshots": [
     "01_login_landing.png - Login screen with plans and modalities",
     "02_admin_dashboard.png - Admin dashboard with metrics",
