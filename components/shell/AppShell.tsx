@@ -30,7 +30,7 @@ import { AppShellConfig, ShellState } from './types';
 import { ShellBackground } from './ShellBackground';
 import { ShellMobileHeader } from './ShellMobileHeader';
 import { ShellDesktopHeader } from './ShellDesktopHeader';
-import { ShellNotificationPanel } from './ShellNotificationPanel';
+
 import { ShellBottomNav } from './ShellBottomNav';
 import { ShellMobileDrawer } from './ShellMobileDrawer';
 import { ShellSidebar } from './ShellSidebar';
@@ -94,7 +94,6 @@ export function AppShell({
   // ─── State ───
   const [menuOpen, setMenuOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -102,7 +101,6 @@ export function AppShell({
   // ─── Refs ───
   const searchInputRef = useRef<HTMLInputElement>(null);
   const mobileSearchInputRef = useRef<HTMLInputElement>(null);
-  const notifRef = useRef<HTMLDivElement>(null);
 
   // ─── Derived ───
   const isDark = isDarkOverride ?? (typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : true);
@@ -127,7 +125,6 @@ export function AppShell({
   useEffect(() => {
     setDrawerOpen(false);
     setMenuOpen(false);
-    setNotifOpen(false);
     setSidebarOpen(false);
     if (searchOpen) closeSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -153,19 +150,18 @@ export function AppShell({
 
   // ESC close
   useEffect(() => {
-    if (!menuOpen && !drawerOpen && !notifOpen && !searchOpen && !sidebarOpen) return;
+    if (!menuOpen && !drawerOpen && !searchOpen && !sidebarOpen) return;
     const fn = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setMenuOpen(false);
         setDrawerOpen(false);
-        setNotifOpen(false);
         setSidebarOpen(false);
         if (searchOpen) closeSearch();
       }
     };
     document.addEventListener('keydown', fn);
     return () => document.removeEventListener('keydown', fn);
-  }, [menuOpen, drawerOpen, notifOpen, searchOpen, sidebarOpen, closeSearch]);
+  }, [menuOpen, drawerOpen, searchOpen, sidebarOpen, closeSearch]);
 
   // ⌘K shortcut (skip if search is hidden)
   useEffect(() => {
@@ -203,14 +199,8 @@ export function AppShell({
 
   const handleSearchToggle = useCallback(() => {
     if (searchOpen) closeSearch();
-    else { setMenuOpen(false); setNotifOpen(false); openSearch(); }
+    else { setMenuOpen(false); openSearch(); }
   }, [searchOpen, openSearch, closeSearch]);
-
-  const toggleNotif = useCallback(() => {
-    setNotifOpen((p) => !p);
-    setMenuOpen(false);
-    if (searchOpen) closeSearch();
-  }, [searchOpen, closeSearch]);
 
   const handleLogout = useCallback(() => {
     setMenuOpen(false);
@@ -246,7 +236,6 @@ export function AppShell({
   const state: ShellState = {
     menuOpen, setMenuOpen,
     drawerOpen, setDrawerOpen,
-    notifOpen, setNotifOpen,
     mounted, scrollY, isDark, toggleTheme,
     pathname,
     searchOpen, query, setQuery, openSearch, closeSearch,
@@ -254,8 +243,8 @@ export function AppShell({
     initial, displayName, graduacao,
     perfilInfo,
     handleSearchToggle, handleLogout, handleSwitchProfile,
-    navTo, toggleNotif,
-    searchInputRef, mobileSearchInputRef, notifRef,
+    navTo,
+    searchInputRef, mobileSearchInputRef,
     sidebarOpen, setSidebarOpen,
   };
 
@@ -357,19 +346,13 @@ export function AppShell({
       {/* Desktop Header */}
       <ShellDesktopHeader config={rankedConfig} state={state} />
 
-      {/* Click-outside overlay for menu/notif */}
-      {(menuOpen || notifOpen) && (
+      {/* Click-outside overlay for menu */}
+      {menuOpen && (
         <div
           className="fixed inset-0 z-[49]"
-          onClick={() => {
-            setMenuOpen(false);
-            setNotifOpen(false);
-          }}
+          onClick={() => setMenuOpen(false)}
         />
       )}
-
-      {/* Notification Panel */}
-      <ShellNotificationPanel config={rankedConfig} state={state} />
 
       {/* Search Results Overlay */}
       <SearchResultsOverlay />

@@ -58,14 +58,14 @@ const menuVariants = {
   closed: { 
     opacity: 0, 
     scale: 0.8,
-    transition: { duration: 0.2, ease: 'easeInOut' }
+    transition: { duration: 0.2 }
   },
   open: { 
     opacity: 1, 
     scale: 1,
     transition: { 
       duration: 0.3, 
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
       staggerChildren: 0.05,
       delayChildren: 0.1
     }
@@ -83,7 +83,7 @@ const itemVariants = {
     opacity: 1, 
     y: 0, 
     scale: 1,
-    transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }
   },
 };
 

@@ -11,7 +11,7 @@ export { AppShell } from './AppShell';
 export { ShellBackground } from './ShellBackground';
 export { ShellMobileHeader } from './ShellMobileHeader';
 export { ShellDesktopHeader } from './ShellDesktopHeader';
-export { ShellNotificationPanel } from './ShellNotificationPanel';
+
 export { ShellBottomNav } from './ShellBottomNav';
 export { ShellMobileDrawer } from './ShellMobileDrawer';
 

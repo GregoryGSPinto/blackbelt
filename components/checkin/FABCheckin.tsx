@@ -7,7 +7,7 @@
 //   - Quick list (students of current class by schedule)
 //   - Manual search by name
 //   - Immediate visual feedback (toast + animation)
-// Position: bottom-right, above BottomNav on mobile
+// Position: LEFT side - Desktop: always visible, Mobile: collapsible
 // ============================================================
 'use client';
 
@@ -41,6 +41,7 @@ interface AlunoQuickList {
 }
 
 type FABMode = 'closed' | 'menu' | 'qr' | 'list' | 'search';
+type FABCollapsed = boolean;
 type ToastType = 'success' | 'error' | 'info';
 
 interface ToastState {
@@ -218,6 +219,7 @@ export function FABCheckin() {
   const { user } = useAuth();
   const { isOnline, pendingCount, syncing, lastSync, saveCheckin, syncNow } = useOfflineCheckin();
   const [mode, setMode] = useState<FABMode>('closed');
+  const [collapsed, setCollapsed] = useState<FABCollapsed>(false);
   const [alunos, setAlunos] = useState<AlunoQuickList[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -320,6 +322,11 @@ export function FABCheckin() {
     setSearchQuery('');
   }, []);
 
+  // ── Toggle collapsed state (mobile only) ──
+  const toggleCollapsed = useCallback(() => {
+    setCollapsed(c => !c);
+  }, []);
+
   // ── Close on click outside ──
   useEffect(() => {
     if (mode === 'closed') return;
@@ -355,16 +362,16 @@ export function FABCheckin() {
     <>
       <style dangerouslySetInnerHTML={{ __html: FAB_STYLES }} />
 
-      {/* ─── FAB Button ─── */}
+      {/* ─── Desktop: Always visible LEFT button ─── */}
       <button
         onClick={() => setMode(mode === 'closed' ? 'menu' : 'closed')}
         className={`
-          fixed z-[55] right-4 shadow-2xl fab-checkin-btn
-          flex items-center justify-center
+          fixed z-[55] left-4 shadow-2xl fab-checkin-btn hidden md:flex
+          items-center justify-center
           transition-all duration-300 ease-out
           ${mode !== 'closed'
-            ? 'bg-white/20 backdrop-blur-xl bottom-4 md:bottom-6 w-14 h-14 rounded-full'
-            : 'bg-gradient-to-br from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 bottom-[calc(env(safe-area-inset-bottom,0px)+76px)] md:bottom-6 w-14 h-14 rounded-full md:w-auto md:h-12 md:rounded-2xl md:px-5 md:gap-2'
+            ? 'bg-white/20 backdrop-blur-xl bottom-6 w-14 h-14 rounded-full'
+            : 'bg-gradient-to-br from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 bottom-6 w-auto h-12 rounded-2xl px-5 gap-2'
           }
           ${fabPulse ? 'scale-125' : 'scale-100'}
         `}
@@ -378,8 +385,8 @@ export function FABCheckin() {
       >
         {mode === 'closed' ? (
           <>
-            <QrCode className="w-6 h-6 text-white md:w-5 md:h-5" />
-            <span className="hidden md:inline text-white text-sm font-semibold">Check-in</span>
+            <QrCode className="w-5 h-5 text-white" />
+            <span className="text-white text-sm font-semibold">Check-in</span>
           </>
         ) : (
           <X className="w-6 h-6 text-white" />
@@ -391,6 +398,63 @@ export function FABCheckin() {
           </span>
         )}
       </button>
+
+      {/* ─── Mobile: Collapsible LEFT button ─── */}
+      <div className="md:hidden fixed z-[55] left-4 flex flex-col items-start gap-2" style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 76px)' }}>
+        {/* Collapse toggle (only shows when FAB is closed) */}
+        {mode === 'closed' && (
+          <button
+            onClick={toggleCollapsed}
+            className={`
+              w-8 h-8 rounded-full flex items-center justify-center
+              bg-black/40 backdrop-blur-md border border-white/10
+              transition-all duration-300
+              ${collapsed ? 'rotate-180' : ''}
+            `}
+            aria-label={collapsed ? 'Expandir' : 'Recolher'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+        )}
+        
+        {/* Main FAB */}
+        <button
+          onClick={() => setMode(mode === 'closed' ? 'menu' : 'closed')}
+          className={`
+            shadow-2xl fab-checkin-btn
+            flex items-center justify-center
+            transition-all duration-300 ease-out
+            ${mode !== 'closed'
+              ? 'bg-white/20 backdrop-blur-xl w-14 h-14 rounded-full'
+              : collapsed 
+                ? 'w-0 h-14 opacity-0 overflow-hidden'
+                : 'bg-gradient-to-br from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 w-14 h-14 rounded-full'
+            }
+            ${fabPulse ? 'scale-125' : 'scale-100'}
+          `}
+          aria-label={mode === 'closed' ? t('openQuickCheckin') : t('closeCheckin')}
+          style={{
+            boxShadow: mode === 'closed' && !collapsed
+              ? '0 4px 24px rgba(16, 185, 129, 0.4)'
+              : '0 4px 12px rgba(0,0,0,0.2)',
+            animation: mode === 'closed' && !collapsed ? 'fab-pulse-ring 2s ease-out infinite' : undefined,
+          }}
+        >
+          {mode === 'closed' ? (
+            !collapsed && <QrCode className="w-6 h-6 text-white" />
+          ) : (
+            <X className="w-6 h-6 text-white" />
+          )}
+          {/* Offline pending badge */}
+          {mode === 'closed' && !collapsed && pendingCount > 0 && (
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-500 text-black text-[10px] font-medium flex items-center justify-center shadow-md">
+              {pendingCount}
+            </span>
+          )}
+        </button>
+      </div>
 
       {/* ─── Overlay ─── */}
       {mode !== 'closed' && (
@@ -406,7 +470,7 @@ export function FABCheckin() {
           ref={sheetRef}
           className="fixed z-[54] max-h-[85vh] overflow-hidden
                      bottom-0 left-0 right-0
-                     md:bottom-auto md:top-4 md:right-4 md:left-auto md:w-[420px] md:max-h-[calc(100vh-2rem)] md:rounded-2xl"
+                     md:bottom-auto md:top-4 md:left-4 md:right-auto md:w-[420px] md:max-h-[calc(100vh-2rem)] md:rounded-2xl"
           style={{ animation: 'fab-sheet-up 300ms cubic-bezier(0.16, 1, 0.3, 1)' }}
         >
           <div

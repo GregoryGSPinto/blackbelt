@@ -6,9 +6,10 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
+import { Search, X, Sun, Moon, LogOut, ArrowRightLeft, User, Settings, ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
+import { NotificationBell } from '@/components/ui/NotificationBell';
 
 
 interface Props {
@@ -24,10 +25,14 @@ export function ShellDesktopHeader({ config, state }: Props) {
   const { theme, nav } = config;
   const {
     mounted, isDark, toggleTheme, pathname, searchOpen, query, setQuery,
-    menuOpen, setMenuOpen, notifOpen, handleSearchToggle, handleLogout,
+    menuOpen, setMenuOpen, handleSearchToggle, handleLogout,
     handleSwitchProfile, navTo, searchInputRef, user, initial, displayName,
     graduacao, perfilInfo,
   } = state;
+
+  // "Mais" dropdown state
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   const font = theme.fontClass || '';
 
@@ -37,8 +42,6 @@ export function ShellDesktopHeader({ config, state }: Props) {
   const visibleItems = allDesktopItems.slice(0, MAX_VISIBLE);
   const overflowItems = allDesktopItems.slice(MAX_VISIBLE);
   const hasMore = overflowItems.length > 0;
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
 
   // Close "Mais" on click outside
   useEffect(() => {
@@ -214,24 +217,8 @@ export function ShellDesktopHeader({ config, state }: Props) {
           <Search size={20} />
         </button>
 
-        {/* Bell */}
-        <button
-          onClick={state.toggleNotif}
-          className="relative w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-200"
-          style={{ color: theme.textMuted(isDark) }}
-          aria-label={t('notifications.title')}
-          aria-expanded={state.notifOpen}
-        >
-          <Bell size={20} />
-          {nav.notifications.length > 0 && (
-            <span
-              className="absolute top-1 right-1 min-w-[20px] h-[20px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[11px] font-medium leading-none"
-              style={{ boxShadow: `0 0 0 2.5px ${theme.mobileHeaderBg(isDark)}` }}
-            >
-              {nav.notifications.length > 9 ? '9+' : nav.notifications.length}
-            </span>
-          )}
-        </button>
+        {/* Bell — dynamic notifications */}
+        <NotificationBell />
 
         {/* Theme toggle (only if supported) */}
         {theme.supportsLightMode && toggleTheme && (

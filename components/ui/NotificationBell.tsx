@@ -9,6 +9,7 @@ import { NotificationPanel } from './NotificationPanel';
 
 /**
  * NotificationBell — Self-contained bell icon + badge + panel
+ * Container with position relative for proper dropdown positioning
  */
 export function NotificationBell() {
   const t = useTranslations('common.notifications');
@@ -21,7 +22,7 @@ export function NotificationBell() {
   const ringBg = isDark ? 'rgba(0,0,0,0.8)' : 'rgba(247,245,242,0.9)';
 
   return (
-    <>
+    <div className="relative">
       <button
         ref={bellRef}
         onClick={togglePanel}
@@ -45,7 +46,8 @@ export function NotificationBell() {
         )}
       </button>
 
-      <NotificationPanel triggerRef={bellRef} />
+      {/* Dropdown panel - positioned absolutely relative to container */}
+      <NotificationPanel />
 
       <style>{`
         @keyframes notif-pulse {
@@ -57,6 +59,6 @@ export function NotificationBell() {
           animation: notif-pulse 0.6s ease-out 2;
         }
       `}</style>
-    </>
+    </div>
   );
 }

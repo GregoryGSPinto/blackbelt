@@ -10,10 +10,11 @@
 'use client';
 
 import {
-  Search, X, Bell, Sun, Moon, LogOut, ArrowRightLeft, User, Settings,
+  Search, X, Sun, Moon, LogOut, ArrowRightLeft, User, Settings,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
+import { NotificationBell } from '@/components/ui/NotificationBell';
 
 interface Props {
   config: AppShellConfig;
@@ -28,13 +29,12 @@ export function ShellMobileHeader({ config, state }: Props) {
   const { theme, nav } = config;
   const {
     mounted, isDark, toggleTheme, searchOpen, query, setQuery, menuOpen, setMenuOpen,
-    handleSearchToggle, toggleNotif, handleLogout, handleSwitchProfile,
+    handleSearchToggle, handleLogout, handleSwitchProfile,
     navTo, mobileSearchInputRef, user, initial, graduacao, perfilInfo,
   } = state;
 
   const font = theme.fontClass || '';
   const showSearch = !nav.hideSearch;
-  const showBell = nav.notifications.length > 0;
   const showThemeToggle = theme.supportsLightMode && toggleTheme;
 
   return (
@@ -75,23 +75,8 @@ export function ShellMobileHeader({ config, state }: Props) {
             </button>
           )}
 
-          {/* Bell (hidden when no notifications) */}
-          {showBell && (
-            <button
-              onClick={toggleNotif}
-              className="relative w-9 h-9 rounded-full flex items-center justify-center transition-colors"
-              style={{ color: theme.textMuted(isDark) }}
-              aria-label={t('notifications.title')}
-            >
-              <Bell size={17} />
-              <span
-                className="absolute top-0.5 right-0.5 min-w-[16px] h-[16px] px-0.5 flex items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-medium leading-none"
-                style={{ boxShadow: `0 0 0 2px ${theme.mobileHeaderBg(isDark)}` }}
-              >
-                {nav.notifications.length > 9 ? '9+' : nav.notifications.length}
-              </span>
-            </button>
-          )}
+          {/* Bell — dynamic notifications */}
+          <NotificationBell />
 
           {/* Theme toggle (shown when theme supports light mode) */}
           {showThemeToggle && (

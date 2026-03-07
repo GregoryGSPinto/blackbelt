@@ -219,8 +219,6 @@ export interface ShellState {
   setMenuOpen: (v: boolean) => void;
   drawerOpen: boolean;
   setDrawerOpen: (v: boolean) => void;
-  notifOpen: boolean;
-  setNotifOpen: (v: boolean) => void;
   mounted: boolean;
   scrollY: number;
   isDark: boolean;
@@ -243,11 +241,9 @@ export interface ShellState {
   handleLogout: () => void;
   handleSwitchProfile: () => void;
   navTo: (href: string) => void;
-  toggleNotif: () => void;
   // Refs
   searchInputRef: RefObject<HTMLInputElement>;
   mobileSearchInputRef: RefObject<HTMLInputElement>;
-  notifRef: RefObject<HTMLDivElement>;
   // Sidebar-specific (only populated for sidebar variant)
   sidebarOpen: boolean;
   setSidebarOpen: (v: boolean) => void;
