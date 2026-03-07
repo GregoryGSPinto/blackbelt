@@ -96,6 +96,81 @@ To create a new migration:
 pnpm supabase migration new <name>
 ```
 
+## Seeding Demo Data
+
+After running migrations, you can populate the database with demo data:
+
+### Option 1: Complete Demo Environment (Recommended)
+
+```bash
+# 1. Make sure Supabase is running and migrations are applied
+pnpm supabase db reset
+
+# 2. Seed all demo data (users, classes, enrollments)
+npx tsx scripts/seed-all-demo.ts
+```
+
+### Option 2: Individual Scripts
+
+```bash
+# Seed demo users only (9 demo accounts)
+npx tsx scripts/seed-demo-users.ts
+
+# Seed demo classes only
+npx tsx scripts/seed-demo-classes.ts
+
+# Legacy: Create basic test users (3 accounts)
+npx tsx scripts/create-test-user.ts
+```
+
+### Demo Users Available
+
+| Email | Password | Role | Profile |
+|-------|----------|------|---------|
+| `admin@blackbelt.com` | `blackbelt123` | 👔 Admin | Carlos Administrador |
+| `professor@blackbelt.com` | `blackbelt123` | 🥋 Professor | Prof. Ricardo Mendes |
+| `adulto@blackbelt.com` | `blackbelt123` | 🎓 Aluno Adulto | Carlos Silva |
+| `miguel@blackbelt.com` | `blackbelt123` | 🎓 Aluno Teen | Miguel Oliveira (15) |
+| `beatriz@blackbelt.com` | `blackbelt123` | 🎓 Aluno Teen | Beatriz Oliveira (14) |
+| `kid@blackbelt.com` | `blackbelt123` | 🎓 Aluno Kids | Pedro Ferreira (8) |
+| `sofia@blackbelt.com` | `blackbelt123` | 🎓 Aluno Kids | Sofia Ferreira (6) |
+| `paiteen@blackbelt.com` | `blackbelt123` | 👨‍👩‍👧 Responsável | Roberto Oliveira (pai) |
+| `paikids@blackbelt.com` | `blackbelt123` | 👨‍👩‍👧 Responsável | Ana Ferreira (mãe) |
+| `superadmin@blackbelt.com` | `blackbelt123` | 👨‍💼 Super Admin | Super Admin BlackBelt |
+
+**Families:**
+- **Família Oliveira**: Roberto (pai) + Miguel (15) + Beatriz (14)
+- **Família Ferreira**: Ana (mãe) + Pedro (8) + Sofia (6)
+
+### What Gets Created
+
+The complete seed includes:
+
+1. **Academy**: "Academia BlackBelt Demo" with full settings
+2. **Users**: 9 demo user accounts with profiles
+3. **Memberships**: Role-based memberships (student, professor, admin, parent)
+4. **Families**: Parent-child links for family features
+5. **Belt Systems**: BJJ, Judo, Muay Thai, Karate
+6. **Achievements**: Attendance, streak, belt, and social achievements
+7. **Class Schedules**: 15+ recurring classes (BJJ, Muay Thai, Kids, Teen)
+8. **Plans**: Starter, Professional, Enterprise subscription plans
+9. **Shop**: Products and categories
+10. **Videos**: Video series and content
+11. **Events**: Upcoming seminars and competitions
+12. **CRM**: Sample leads for testing
+
+### Reset Demo Data
+
+To completely reset the demo environment:
+
+```bash
+# Reset database (applies migrations + seed.sql)
+pnpm supabase db reset
+
+# Re-create all demo data
+npx tsx scripts/seed-all-demo.ts
+```
+
 ## Project Structure
 
 ```
