@@ -155,8 +155,10 @@ export function ShellDesktopHeader({ config, state }: Props) {
 
               {moreOpen && (
                 <div
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 min-w-[200px] rounded-xl overflow-hidden shadow-2xl z-[80]"
+                  className="absolute top-full mt-2 min-w-[220px] rounded-xl overflow-hidden shadow-2xl z-[80]"
                   style={{
+                    right: '50%',
+                    transform: 'translateX(50%)',
                     background: theme.panelBg(isDark),
                     backdropFilter: theme.panelBackdrop,
                     border: `1px solid ${theme.panelBorder(isDark)}`,
