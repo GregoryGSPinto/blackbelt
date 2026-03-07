@@ -49,7 +49,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="group/card cursor-pointer flex-shrink-0 w-[260px] md:w-[280px] snap-start"
+      className="group/card cursor-pointer flex-shrink-0 w-full snap-start"
       style={{
         transition: 'transform 200ms cubic-bezier(0.16,1,0.3,1), z-index 0ms',
         transform: isActive ? 'scale(1.05) translateY(-4px)' : 'scale(1)',
@@ -58,7 +58,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
       }}
     >
       {/* Thumbnail Container */}
-      <div className="relative aspect-video bg-black rounded-lg overflow-hidden mb-3 shadow-lg hover:shadow-2xl transition-shadow duration-300">
+      <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-2" style={{ maxHeight: '10rem', border: '1px solid black' }}>
         {/* Thumbnail */}
         <img
           src={video.thumbnail}
@@ -135,22 +135,22 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
       </div>
 
       {/* Info */}
-      <div className="space-y-1.5">
-        <h3 className="font-semibold text-white line-clamp-2 group-hover/card:text-white transition-colors leading-snug">
+      <div className="space-y-0.5 px-0.5">
+        <h3 className="font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>
           {video.title}
         </h3>
 
-        <div className="flex items-center gap-2 text-xs text-white/40">
+        <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
           {showInstructor && (
             <>
-              <span className="text-white/55">{video.instructor}</span>
-              <span className="text-white/30">•</span>
+              <span>{video.instructor}</span>
+              <span>•</span>
             </>
           )}
           <span>{video.category}</span>
           {showViews && (
             <>
-              <span className="text-white/30">•</span>
+              <span>•</span>
               <span className="flex items-center gap-1">
                 <Eye size={12} />
                 {video.views}
