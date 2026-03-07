@@ -2,10 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "buildCommand": "pnpm build",
-  "installCommand": "pnpm install",
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_USE_MOCK": "true"
-    }
-  }
+  "installCommand": "pnpm install"
 }
