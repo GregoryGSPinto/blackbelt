@@ -50,6 +50,7 @@ interface RLSContext {
   role: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ValidRole = 'ADMIN' | 'SUPER_ADMIN' | 'INSTRUTOR' | 'STUDENT' | 'TEEN' | 'KID' | 'PARENT';
 
 const VALID_ROLES: ReadonlySet<string> = new Set([

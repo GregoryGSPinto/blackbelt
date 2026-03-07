@@ -108,7 +108,7 @@ interface StepUpRecord {
 
 const mfaStore = new Map<string, MFARecord>();
 const stepUpStore = new Map<string, StepUpRecord>();
-const verifyAttemptTracker = new Map<string, { count: number; resetAt: number }>();
+const _verifyAttemptTracker = new Map<string, { count: number; resetAt: number }>(); // TODO: implement rate limiting
 
 // ── MFA SETUP ──
 

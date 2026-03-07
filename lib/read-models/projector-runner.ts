@@ -24,7 +24,7 @@ export function wireReadModels(): void {
   wired = true;
 
   for (const model of registeredModels) {
-    eventBus.onMany(model.handles as any[], async (event) => {
+    eventBus.onMany(model.handles as string[], async (event) => {
       try {
         const stored: StoredEvent = {
           id: '',

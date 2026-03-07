@@ -142,7 +142,7 @@ export function requireSameUnit(resourceUnitId: string): PermissionCheck {
  * Verifica se ação requer reautenticação.
  * Ações críticas: alteração de senha, exclusão de dados, export LGPD.
  */
-export function requireReauth(action: string): PermissionCheck {
+export function requireReauth(_action: string): PermissionCheck {
   const config = tokenStore.getSecurityConfig();
   if (!config.requireReauthForCritical) return { allowed: true };
 

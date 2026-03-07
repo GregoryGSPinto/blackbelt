@@ -32,7 +32,7 @@ export const athleteProfileReadModel: ReadModel = {
 
   async process(event: StoredEvent): Promise<void> {
     const admin = getSupabaseAdminClient();
-    const payload = event.payload as Record<string, any>;
+    const payload = event.payload as Record<string, unknown>;
     const participantId = payload?.participantId;
 
     if (!participantId) return;
@@ -109,7 +109,7 @@ export const athleteProfileReadModel: ReadModel = {
     }>();
 
     for (const event of events) {
-      const payload = event.payload as Record<string, any>;
+      const payload = event.payload as Record<string, unknown>;
       const pid = payload?.participantId;
       if (!pid) continue;
 
@@ -135,12 +135,12 @@ export const athleteProfileReadModel: ReadModel = {
           profile.displayData.lastPromotionAt = event.occurred_at;
           break;
         case 'AttendanceRecorded':
-          (profile.stats as any).totalSessions =
-            ((profile.stats as any).totalSessions ?? 0) + 1;
+          (profile.stats as { totalSessions?: number }).totalSessions =
+            ((profile.stats as { totalSessions?: number }).totalSessions ?? 0) + 1;
           break;
         case 'AchievementUnlocked':
-          (profile.stats as any).achievements =
-            ((profile.stats as any).achievements ?? 0) + 1;
+          (profile.stats as { achievements?: number }).achievements =
+            ((profile.stats as { achievements?: number }).achievements ?? 0) + 1;
           break;
       }
     }

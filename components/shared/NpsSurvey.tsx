@@ -15,7 +15,7 @@ function shouldShowNps(): boolean {
   const now = Date.now();
 
   // Track first use
-  let firstUse = localStorage.getItem(NPS_FIRST_USE_KEY);
+  const firstUse = localStorage.getItem(NPS_FIRST_USE_KEY);
   if (!firstUse) {
     localStorage.setItem(NPS_FIRST_USE_KEY, now.toString());
     return false;

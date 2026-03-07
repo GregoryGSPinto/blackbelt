@@ -99,7 +99,7 @@ const MOCK_DEPENDENCIES: Record<string, number> = {
   'student:ped_mariana': 2,
 };
 
-function getMockDependencyCount(resourceType: string, resourceId: string, depType: string): number {
+function getMockDependencyCount(resourceType: string, resourceId: string, _depType: string): number {
   return MOCK_DEPENDENCIES[`${resourceType}:${resourceId}`] || 0;
 }
 

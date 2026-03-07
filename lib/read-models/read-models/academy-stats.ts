@@ -25,7 +25,7 @@ export const academyStatsReadModel: ReadModel = {
 
   async process(event: StoredEvent): Promise<void> {
     const admin = getSupabaseAdminClient();
-    const academyId = (event.payload as any)?.academyId ?? event.aggregate_id;
+    const academyId = (event.payload as { academyId?: string })?.academyId ?? event.aggregate_id;
 
     if (!academyId) return;
 
@@ -87,7 +87,7 @@ export const academyStatsReadModel: ReadModel = {
     }>();
 
     for (const event of events) {
-      const academyId = (event.payload as any)?.academyId ?? event.aggregate_id;
+      const academyId = (event.payload as { academyId?: string })?.academyId ?? event.aggregate_id;
       if (!academyId) continue;
 
       if (!academyStats.has(academyId)) {
