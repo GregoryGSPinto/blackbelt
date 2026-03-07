@@ -11,7 +11,7 @@ import { ResponsiveProvider } from "@/contexts/ResponsiveContext";
 import { KeyboardProvider } from "@/components/shared/KeyboardProvider";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { SlowConnectionBanner } from "@/components/shared/SlowConnectionBanner";
-import { DemoBanner } from "@/components/shared/DemoBanner";
+// DemoBanner removido - não exibir barra de modo demonstração
 import { PrivacyConsentModal } from "@/components/shared/PrivacyConsentModal";
 import { ErrorTrackerInit } from "@/components/shared/ErrorTrackerInit";
 import { ThemedBackground } from "@/components/shared/ThemedBackground";
@@ -109,7 +109,7 @@ export default async function RootLayout({
                     <KeyboardProvider>
                     <ErrorTrackerInit />
                     <DynamicFavicon />
-                    <DemoBanner />
+                    {/* DemoBanner removido - interface mais limpa */}
                     <SlowConnectionBanner />
                     <PrivacyConsentModal />
                     <NpsSurvey />
