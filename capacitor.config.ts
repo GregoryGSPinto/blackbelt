@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchShowDuration: 2000,
       launchAutoHide: true,
-      backgroundColor: '#0d0d1a',
+      backgroundColor: '#1a1a2e',
       showSpinner: false,
       androidSplashResourceName: 'splash',
       splashFullScreen: true,
@@ -23,7 +23,7 @@ const config: CapacitorConfig = {
     },
     StatusBar: {
       style: 'Dark', // App tem tema escuro
-      backgroundColor: '#0d0d1a',
+      backgroundColor: '#1a1a2e',
     },
     Keyboard: {
       resize: 'body',
@@ -44,12 +44,12 @@ const config: CapacitorConfig = {
     scheme: 'BlackBelt',
     contentInset: 'automatic',
     allowsLinkPreview: true,
-    backgroundColor: '#0d0d1a',
+    backgroundColor: '#1a1a2e',
   },
 
   // ── Android ──
   android: {
-    backgroundColor: '#0d0d1a',
+    backgroundColor: '#1a1a2e',
     allowMixedContent: false, // HTTPS only
     captureInput: true,
     webContentsDebuggingEnabled: false, // Desabilitar em produção

@@ -89,12 +89,13 @@ export default function SplashScreen() {
       {/* Loading bar */}
       <div
         style={{
-          width: 200,
-          height: 2,
-          background: 'rgba(255,255,255,0.08)',
-          borderRadius: 1,
+          width: 240,
+          height: 4,
+          background: 'rgba(255,255,255,0.15)',
+          borderRadius: 2,
           position: 'relative',
           overflow: 'hidden',
+          boxShadow: '0 0 10px rgba(201, 162, 39, 0.3)',
         }}
         aria-hidden="true"
       >
@@ -104,9 +105,10 @@ export default function SplashScreen() {
             left: 0,
             top: 0,
             height: '100%',
-            width: '60%',
-            background: 'linear-gradient(90deg, transparent, #C9A227, transparent)',
-            animation: prefersReduced ? 'none' : 'splash-bar 1.5s ease-in-out infinite',
+            width: '40%',
+            background: 'linear-gradient(90deg, transparent, #C9A227, #FFD11A, #C9A227, transparent)',
+            animation: prefersReduced ? 'none' : 'splash-bar 1.2s ease-in-out infinite',
+            boxShadow: '0 0 8px rgba(201, 162, 39, 0.8)',
           }}
         />
       </div>

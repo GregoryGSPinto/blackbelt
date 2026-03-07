@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BlackBelt Theme Colors -->
+    <color name="colorPrimary">#1A1A2E</color>
+    <color name="colorPrimaryDark">#16162A</color>
+    <color name="colorAccent">#C9A227</color>
+    
+    <!-- Window background to prevent black flash -->
+    <color name="windowBackground">#1A1A2E</color>
+    <color name="splashBackground">#1A1A2E</color>
+    
+    <!-- Text colors -->
+    <color name="textPrimary">#F5F5F0</color>
+    <color name="textSecondary">#A2A2B8</color>
+</resources>
