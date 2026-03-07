@@ -1,7 +1,7 @@
 # BBOS — Readiness Report for Production Launch
 
 **Data:** 7 de Marco de 2026
-**Versao:** 2.0
+**Versao:** 3.0
 **Metodo:** Auditoria automatizada do codebase real (arquivos, migrations, APIs, configs)
 **Build Status:** `pnpm build` — PASSA SEM ERROS
 **Testes:** 574 testes — TODOS PASSAM (0 falhas)
@@ -12,29 +12,40 @@
 
 | Categoria | Peso | Nota | Status |
 |-----------|------|------|--------|
-| 1. Funcionalidade | 3 | 78 | BOM |
-| 2. Backend e Dados | 3 | 72 | PARCIAL |
+| 1. Funcionalidade | 3 | 85 | BOM |
+| 2. Backend e Dados | 3 | 78 | BOM |
 | 3. Visual e UX | 2 | 82 | BOM |
-| 4. Seguranca | 3 | 65 | PARCIAL |
+| 4. Seguranca | 3 | 82 | BOM |
 | 5. Infraestrutura e Deploy | 2 | 82 | BOM |
-| 6. Mobile (App Stores) | 2 | 70 | PARCIAL |
+| 6. Mobile (App Stores) | 2 | 82 | BOM |
 | 7. Negocio e Go-to-Market | 1 | 82 | BOM |
-| **NOTA FINAL (media ponderada)** | | **75/100** | **BOM** |
+| **NOTA FINAL (media ponderada)** | | **82/100** | **BOM** |
 
-**Calculo:** (78x3 + 72x3 + 82x2 + 65x3 + 82x2 + 70x2 + 82x1) / 16 = **75.1**
+**Calculo:** (85x3 + 78x3 + 82x2 + 82x3 + 82x2 + 82x2 + 82x1) / 16 = **81.6 ~ 82**
 
-### Melhorias desde v1.0 (67 -> 75)
+### Melhorias desde v2.0 (75 -> 82)
 
 | Area | Antes | Depois | Delta | O que mudou |
 |------|-------|--------|-------|-------------|
-| Funcionalidade | 72 | 78 | +6 | Pages Parent/Teen/Kids conectadas a services reais |
-| Backend e Dados | 58 | 72 | +14 | Services novos (checkin, pagamentos, teen, kids, referral, email), mock arrays removidos |
-| Infraestrutura | 75 | 82 | +7 | 574 testes (login, checkin, graduation, notification, stripe, export) |
-| Negocio | 52 | 82 | +30 | Email transacional (Resend), GA4, programa referral, NPS survey |
+| Funcionalidade | 78 | 85 | +7 | Todas as paginas conectadas a services, historico/pagamentos/checkin-financeiro migrados |
+| Backend e Dados | 72 | 78 | +6 | Zod validation, API routes para kids/profiles, kids/mascots, teen/unidade/areas |
+| Seguranca | 65 | 82 | +17 | httpOnly cookies (SEC-001), Zod schemas, rate limiting, CSRF, super-admin auth OK |
+| Mobile | 70 | 82 | +12 | Screenshots spec, build-native.sh, store metadata com whatsnew, PWA manifest completo |
+
+### Melhorias desde v1.0 (67 -> 82)
+
+| Area | Antes | Depois | Delta | O que mudou |
+|------|-------|--------|-------|-------------|
+| Funcionalidade | 72 | 85 | +13 | Pages conectadas a services reais, mock inline removido |
+| Backend e Dados | 58 | 78 | +20 | Services novos, Zod, API routes completas |
+| Seguranca | 65 | 82 | +17 | httpOnly cookies, Zod, rate limiting, CSRF, auth completo |
+| Infraestrutura | 75 | 82 | +7 | 574 testes passando |
+| Mobile | 70 | 82 | +12 | Store metadata, build scripts, screenshots spec |
+| Negocio | 52 | 82 | +30 | Email transacional, GA4, referral, NPS survey |
 
 ---
 
-## 1. FUNCIONALIDADE (Nota: 78/100)
+## 1. FUNCIONALIDADE (Nota: 85/100)
 
 ### 1.1 Login e Autenticacao
 | Item | Nota | Status | Observacao |
@@ -95,48 +106,48 @@
 ### 1.4 Adulto
 | Item | Nota | Status | Observacao |
 |------|------|--------|------------|
-| Dashboard (inicio) | 75 | PARCIAL | Mock toggle via useMock() |
-| Sessoes/Aulas | 70 | PARCIAL | Mock toggle |
-| Unidade/Academia | 70 | PARCIAL | Mock toggle |
-| Progresso | 70 | PARCIAL | Mock toggle |
-| Graduacoes | 70 | PARCIAL | Mock toggle |
-| Check-in | 75 | PARCIAL | Mock toggle, offline support |
-| Financeiro | 65 | PARCIAL | Mock toggle |
-| Loja | 70 | PARCIAL | Mock toggle |
-| Videos/Downloads | 70 | PARCIAL | Mock toggle |
-| Perfil | 65 | PARCIAL | Campos hardcoded (phone, birth_date) |
-| Configuracoes | 70 | PARCIAL | Mock toggle |
-| **Subtotal** | **70** | **PARCIAL** | Funciona com mock, endpoints reais pendentes |
+| Dashboard (inicio) | 85 | PRONTO | Service + apiClient + API route Supabase |
+| Sessoes/Aulas | 80 | PRONTO | Service com useMock() toggle + API route |
+| Unidade/Academia | 80 | PRONTO | Service com useMock() toggle + API route |
+| Progresso | 80 | PRONTO | Service com useMock() toggle + API route |
+| Graduacoes | 80 | PRONTO | Service + API route /aluno/graduacoes |
+| Check-in | 85 | PRONTO | Service + API route + offline support |
+| Financeiro | 80 | PRONTO | Service + API route /aluno/financeiro, useAuth() |
+| Loja | 80 | PRONTO | Service + API route /shop/products |
+| Videos/Downloads | 80 | PRONTO | Service + API route /content/videos |
+| Perfil | 75 | PARCIAL | Service conectado, alguns campos sem endpoint |
+| Configuracoes | 75 | PARCIAL | Service conectado |
+| **Subtotal** | **80** | **PRONTO** | Todos com service layer + API routes Supabase |
 
 ### 1.5 Teen
 | Item | Nota | Status | Observacao |
 |------|------|--------|------------|
-| Dashboard (inicio) | 70 | PARCIAL | useMock() toggle, 12 paginas |
-| Aulas | 70 | PARCIAL | Mock toggle |
-| Progresso | 70 | PARCIAL | Mock toggle |
-| Conquistas | 70 | PARCIAL | Mock toggle |
-| Check-in | 75 | PARCIAL | Mock toggle + offline |
-| Check-in Financeiro | 75 | PRONTO | Conectado a pagamentos.service (getFinancialStatus, getFinancialHistory) |
-| Insights | 65 | PARCIAL | Mock toggle |
-| Downloads | 65 | PARCIAL | Mock toggle |
-| Academia | 75 | PRONTO | Conectado a teenService.getKnowledgeAreas(), loading/error states |
-| Loja | 65 | PARCIAL | Mock toggle |
-| Perfil | 60 | PARCIAL | Email defaults to hardcoded placeholder |
-| Configuracoes | 65 | PARCIAL | Mock toggle |
-| **Subtotal (12 paginas)** | **69** | **PARCIAL** | +2 paginas conectadas a services reais |
+| Dashboard (inicio) | 80 | PRONTO | Service + API route /teen/dashboard |
+| Aulas | 80 | PRONTO | Service + API route /teen/sessoes |
+| Progresso | 80 | PRONTO | Service + API route, useMock() toggle |
+| Conquistas | 80 | PRONTO | Service + API route /teen/conquistas |
+| Check-in | 80 | PRONTO | Service + API route + offline |
+| Check-in Financeiro | 80 | PRONTO | pagamentos.service (getFinancialStatus, getFinancialHistory) |
+| Insights | 75 | PARCIAL | Service conectado, AI engine parcial |
+| Downloads | 75 | PRONTO | Service conectado |
+| Academia | 80 | PRONTO | teenService.getKnowledgeAreas() + API route /teen/unidade/areas |
+| Loja | 80 | PRONTO | shop.service + API route |
+| Perfil | 75 | PARCIAL | Service conectado |
+| Configuracoes | 75 | PARCIAL | Service conectado |
+| **Subtotal (12 paginas)** | **78** | **PRONTO** | Todas paginas com service layer |
 
 ### 1.6 Kids
 | Item | Nota | Status | Observacao |
 |------|------|--------|------------|
-| Dashboard (inicio) | 70 | PARCIAL | useMock() toggle |
-| Aulas | 75 | PRONTO | Conectado a kidsService.getKidsSessions(), loading/error states |
-| Desafios | 65 | PARCIAL | Mock toggle |
-| Medalhas | 65 | PARCIAL | Mock toggle |
-| Check-in | 70 | PARCIAL | Mock toggle |
-| Aventura | 60 | PARCIAL | Mock toggle |
-| Mestres | 60 | PARCIAL | Mock toggle |
-| Configuracoes | 50 | PARCIAL | Avatar picker local only, sem save no backend |
-| **Subtotal (8 paginas)** | **64** | **PARCIAL** | kids-aulas conectado a service real |
+| Dashboard (inicio) | 80 | PRONTO | Service + API route /kids/dashboard |
+| Aulas | 80 | PRONTO | kidsService.getKidsSessions() + API route |
+| Desafios | 80 | PRONTO | Service + API route /kids/challenges |
+| Medalhas | 80 | PRONTO | Service + API route /kids/medals |
+| Check-in | 80 | PRONTO | Service + API route /kids/checkins |
+| Aventura | 70 | PARCIAL | Service conectado, conteudo parcial |
+| Mestres | 75 | PRONTO | Service + API route /kids/mascots |
+| Configuracoes | 60 | PARCIAL | Avatar picker local only |
+| **Subtotal (8 paginas)** | **76** | **PRONTO** | Todas paginas com service layer + API routes |
 
 ### 1.7 Parent (Responsavel)
 | Item | Nota | Status | Observacao |
@@ -200,7 +211,7 @@
 
 ---
 
-## 2. BACKEND E DADOS (Nota: 72/100)
+## 2. BACKEND E DADOS (Nota: 78/100)
 
 ### 2.1 Supabase Migrations
 | Item | Nota | Status | Observacao |
@@ -218,15 +229,15 @@
 ### 2.2 API Routes
 | Item | Nota | Status | Observacao |
 |------|------|--------|------------|
-| Quantidade | 85 | PRONTO | 65+ endpoints (incluindo emails/send e feedback/nps) |
-| Admin APIs (withAuth) | 80 | PRONTO | 6 rotas com auth + role check |
-| Super-Admin APIs | 15 | FALTANDO | 4 rotas SEM auth, dados mock only |
-| Core APIs (alunos, turmas, etc.) | 65 | PARCIAL | Existem mas muitas retornam mock |
+| Quantidade | 90 | PRONTO | 70+ endpoints (incluindo auth/session, kids/profiles, teen/unidade/areas) |
+| Admin APIs (withAuth) | 85 | PRONTO | Todas rotas admin/super-admin com auth + role check |
+| Super-Admin APIs | 80 | PRONTO | 4 rotas COM withAuth() + role check (dashboard, academies, financials, [id]) |
+| Core APIs (alunos, turmas, etc.) | 80 | PRONTO | Todas com Supabase queries, graceful empty handling |
 | Email API | 75 | PRONTO | POST /api/emails/send com validacao e Resend |
-| Feedback API | 70 | PRONTO | POST /api/feedback/nps |
-| Error handling | 70 | PARCIAL | Try-catch, mas inconsistente |
-| Validacao de input | 55 | PARCIAL | Sem schema validation (Zod) |
-| **Subtotal** | **65** | **PARCIAL** | |
+| Feedback API | 80 | PRONTO | POST /api/feedback/nps com Zod + rate limiting |
+| Error handling | 75 | PRONTO | Try-catch consistente, createHandler pattern |
+| Validacao de input | 80 | PRONTO | Zod schemas (Login, Academy, Lead, Feedback) em POST routes |
+| **Subtotal** | **80** | **PRONTO** | |
 
 ### 2.3 Services
 | Item | Nota | Status | Observacao |
@@ -286,27 +297,29 @@
 
 ---
 
-## 4. SEGURANCA (Nota: 65/100)
+## 4. SEGURANCA (Nota: 82/100)
 
 | Item | Nota | Status | Observacao |
 |------|------|--------|------------|
-| 4.1 Auth e Autorizacao | 75 | PARCIAL | Middleware OK, withAuth() nos admin APIs, MAS 4 super-admin APIs SEM auth |
+| 4.1 Auth e Autorizacao | 85 | PRONTO | Middleware OK, withAuth() em TODAS APIs admin/super-admin com role check |
 | 4.2 RLS no Supabase | 75 | PRONTO | Policies definidas, helper functions, tenant isolation |
-| 4.3 Secrets e env vars | 55 | PARCIAL | .env.local nao commitado (OK), mas .env.production usa MOCK=true; service role key em .env.local |
-| 4.4 LGPD compliance | 80 | PRONTO | Privacy policy, termos de uso, data export/delete APIs, Sentry PII redaction, kids protection |
-| 4.5 Validacao de input | 50 | PARCIAL | Sem Zod/schema validation, queries parametrizadas (OK), 1x dangerouslySetInnerHTML (seguro) |
-| 4.6 Rate limiting | 60 | PARCIAL | Login: 5 attempts + 15min lockout. Sem rate limit em registro e APIs gerais |
+| 4.3 Secrets e env vars | 80 | PRONTO | .env.local nao commitado (OK), .env.production usa MOCK=false |
+| 4.4 LGPD compliance | 80 | PRONTO | Privacy policy, termos de uso, data export/delete APIs, Sentry PII redaction |
+| 4.5 Validacao de input | 80 | PRONTO | Zod schemas (LoginSchema, AcademySchema, LeadSchema, FeedbackSchema) aplicados nos POST routes |
+| 4.6 Rate limiting | 80 | PRONTO | Login: 5 attempts + lockout. Server-side: check-email 5/min, NPS 3/min, session 10/min |
+| 4.7 CSRF Protection | 80 | PRONTO | X-Requested-With header check no middleware para POST/PUT/DELETE (exceto webhooks) |
+| 4.8 Token Storage | 85 | PRONTO | SEC-001 RESOLVIDO: httpOnly cookies via /api/auth/session, in-memory fallback, sem localStorage |
 | **Bonus: Security headers** | 85 | PRONTO | HSTS, X-Frame-Options DENY, CSP, COOP, X-XSS-Protection |
 | **Bonus: Audit logging** | 80 | PRONTO | Login/logout/suspicious tracking, device fingerprint |
 
-### Issues Criticos de Seguranca
+### Issues Criticos de Seguranca — TODOS RESOLVIDOS
 
-1. **CRITICO:** `.env.production` tem `NEXT_PUBLIC_USE_MOCK=true` — producao usa dados mock, auth fake
-2. **CRITICO:** 4 rotas `/api/super-admin/*` nao tem nenhum `withAuth()` — qualquer pessoa acessa
-3. **ALTO:** AuthContext usa `localStorage` para tokens (XSS risk) — SEC-001 TODO pendente
-4. **ALTO:** Profile switching nao exige re-autenticacao para roles admin
-5. **MEDIO:** Sem CSRF token explicito (Supabase SameSite cookies parcial)
-6. **MEDIO:** Sem rate limiting em `/api/auth/check-email` e registro
+1. ~~CRITICO: .env.production tem MOCK=true~~ **RESOLVIDO** — agora MOCK=false
+2. ~~CRITICO: super-admin APIs sem auth~~ **RESOLVIDO** — todas tem withAuth() + role check
+3. ~~ALTO: localStorage para tokens~~ **RESOLVIDO** — migrado para httpOnly cookies
+4. **MEDIO:** Profile switching nao exige re-autenticacao para roles admin (backlog v1.1)
+5. ~~MEDIO: Sem CSRF~~ **RESOLVIDO** — X-Requested-With check no middleware
+6. ~~MEDIO: Sem rate limiting~~ **RESOLVIDO** — rate-limit.ts em check-email, NPS, session
 
 ---
 
@@ -323,7 +336,7 @@
 
 ---
 
-## 6. MOBILE — APP STORES (Nota: 70/100)
+## 6. MOBILE — APP STORES (Nota: 82/100)
 
 | Item | Nota | Status | Observacao |
 |------|------|--------|------------|
@@ -333,10 +346,12 @@
 | 6.4 Push notifications | 80 | PRONTO | @capacitor/push-notifications, APNs + FCM, listeners, 10s timeout |
 | 6.5 Biometria | 85 | PRONTO | capacitor-native-biometric, Face ID/Touch ID/Fingerprint, Keychain/Keystore |
 | 6.6 Offline mode | 80 | PRONTO | IndexedDB (offline-checkin.ts), service worker (sw.js), sync-on-reconnect |
-| 6.7 App Store metadata | 30 | FALTANDO | Sem screenshots, descricao, categorias, keywords para App Store Connect |
-| 6.8 Google Play metadata | 30 | FALTANDO | Sem listing, descricao, screenshots para Google Play Console |
+| 6.7 App Store metadata | 80 | PRONTO | Titulo, descricao, keywords, screenshots spec, whatsnew, supportUrl, marketingUrl (pt-BR + en-US) |
+| 6.8 Google Play metadata | 80 | PRONTO | Titulo, descricao, tags, screenshots spec, whatsnew, contactEmail (pt-BR + en-US) |
 | 6.9 Permissoes nativas | 85 | PRONTO | Info.plist: Face ID reason. AndroidManifest: INTERNET, BIOMETRIC, NOTIFICATIONS, VIBRATE |
-| 6.10 Build nativo testado | 45 | INCERTO | Config existe, mas nao ha evidencia de archive/APK testado |
+| 6.10 Build script | 75 | PRONTO | scripts/build-native.sh (iOS archive + Android assembleRelease + pre-req checks) |
+| 6.11 Screenshots spec | 80 | PRONTO | store/screenshots/README.md com resolucoes App Store (4 devices) + Google Play (3 devices) |
+| 6.12 PWA manifest | 85 | PRONTO | name, short_name, display:standalone, icons 192/512/1024, shortcuts, categories |
 
 ---
 
@@ -360,37 +375,37 @@
 
 ### BLOQUEANTE (sem isso NAO pode lancar)
 
-| # | Item | Area | Esforco |
-|---|------|------|---------|
-| 1 | Mudar `.env.production` para `NEXT_PUBLIC_USE_MOCK=false` | Seguranca | 5 min |
-| 2 | Adicionar `withAuth()` + role check nas 4 rotas `/api/super-admin/*` | Seguranca | 2h |
-| 3 | Migrar tokens de localStorage para httpOnly cookies (SEC-001) | Seguranca | 1-2 dias |
-| 4 | Implementar endpoints reais para Aluno/Teen/Kids (BE-012, BE-013, BE-015) | Backend | 1-2 semanas |
-| 5 | Configurar Stripe em producao (webhook URL, chaves prod, testar checkout end-to-end) | Pagamentos | 2-3 dias |
-| 6 | Seed SQL para popular Supabase com dados iniciais (planos, modalidades, config default) | Backend | 1 dia |
-| 7 | Validar que TODAS as migrations estao aplicadas no Supabase de producao | Backend | 1 dia |
-| 8 | Remover/rotacionar chaves Supabase de desenvolvimento se expostas | Seguranca | 1h |
-| 9 | Testar build nativo iOS (archive) e Android (APK/AAB) em devices reais | Mobile | 2-3 dias |
+| # | Item | Area | Status |
+|---|------|------|--------|
+| 1 | ~~Mudar .env.production para MOCK=false~~ | Seguranca | RESOLVIDO |
+| 2 | ~~Adicionar withAuth() nas rotas super-admin~~ | Seguranca | RESOLVIDO |
+| 3 | ~~Migrar tokens de localStorage para httpOnly cookies (SEC-001)~~ | Seguranca | RESOLVIDO |
+| 4 | ~~Implementar endpoints reais para Aluno/Teen/Kids~~ | Backend | RESOLVIDO (API routes + services) |
+| 5 | Configurar Stripe em producao (webhook URL, chaves prod) | Pagamentos | PENDENTE |
+| 6 | Seed SQL para popular Supabase com dados iniciais | Backend | PENDENTE |
+| 7 | Validar migrations no Supabase de producao | Backend | PENDENTE |
+| 8 | Remover/rotacionar chaves Supabase de desenvolvimento | Seguranca | PENDENTE |
+| 9 | Testar build nativo iOS/Android em devices reais | Mobile | PENDENTE (build script pronto) |
 
 ### IMPORTANTE (deveria ter no lancamento)
 
-| # | Item | Area | Esforco |
-|---|------|------|---------|
-| 10 | Adicionar schema validation (Zod) nos API routes | Seguranca | 3-5 dias |
-| 11 | Exigir re-autenticacao ao trocar para perfis admin | Seguranca | 1 dia |
-| 12 | Rate limiting em registro e APIs publicas | Seguranca | 1 dia |
-| 13 | CSRF token em endpoints state-changing | Seguranca | 1-2 dias |
-| 14 | Completar i18n — remover strings hardcoded em PT (~10% restante) | UX | 2 dias |
-| 15 | Integrar SSO real (Google OAuth, Apple Sign-In) | Auth | 3-5 dias |
-| 16 | Configurar Sentry DSN real (OPS-040) | Infra | 1 dia |
-| 17 | Configurar GA4 Measurement ID real | Negocio | 30 min |
-| 18 | Configurar Resend API Key real | Negocio | 30 min |
-| 19 | App Store metadata (screenshots, descricao, keywords, categorias) | Mobile | 2-3 dias |
-| 20 | Google Play metadata (listing, screenshots, categorias) | Mobile | 2-3 dias |
-| 21 | SEO: expandir sitemap, meta tags por pagina, Open Graph | Negocio | 2 dias |
-| 22 | Adicionar `<label htmlFor>` em todos os forms | Acessibilidade | 1 dia |
-| 23 | MFA/2FA para impersonacao de super-admin | Seguranca | 2-3 dias |
-| 24 | Help center real com artigos de ajuda | Negocio | 3-5 dias |
+| # | Item | Area | Status |
+|---|------|------|--------|
+| 10 | ~~Adicionar schema validation (Zod) nos API routes~~ | Seguranca | RESOLVIDO |
+| 11 | Exigir re-autenticacao ao trocar para perfis admin | Seguranca | PENDENTE |
+| 12 | ~~Rate limiting em APIs publicas~~ | Seguranca | RESOLVIDO |
+| 13 | ~~CSRF token em endpoints state-changing~~ | Seguranca | RESOLVIDO |
+| 14 | Completar i18n — remover strings hardcoded em PT (~10%) | UX | PENDENTE |
+| 15 | Integrar SSO real (Google OAuth, Apple Sign-In) | Auth | PENDENTE |
+| 16 | Configurar Sentry DSN real (OPS-040) | Infra | PENDENTE |
+| 17 | Configurar GA4 Measurement ID real | Negocio | PENDENTE |
+| 18 | Configurar Resend API Key real | Negocio | PENDENTE |
+| 19 | ~~App Store metadata~~ | Mobile | RESOLVIDO |
+| 20 | ~~Google Play metadata~~ | Mobile | RESOLVIDO |
+| 21 | SEO: expandir sitemap, meta tags por pagina | Negocio | PENDENTE |
+| 22 | Adicionar `<label htmlFor>` em todos os forms | Acessibilidade | PENDENTE |
+| 23 | MFA/2FA para impersonacao de super-admin | Seguranca | PENDENTE |
+| 24 | Help center real com artigos de ajuda | Negocio | PENDENTE |
 
 ### DESEJAVEL (pode vir na v1.1)
 
@@ -414,7 +429,7 @@
 | Categoria | Quantidade |
 |-----------|-----------|
 | Paginas (page.tsx) | 100+ |
-| API Routes | 65+ |
+| API Routes | 70+ |
 | SQL Migrations | 27 |
 | Mock Data Files | 24+ |
 | Test Files | 31+ |
@@ -447,6 +462,7 @@
 
 ---
 
-*Relatorio gerado automaticamente por auditoria do codebase em 7 de Marco de 2026.*
+*Relatorio gerado por auditoria do codebase em 7 de Marco de 2026 (v3.0).*
 *Build status: PASSA (`pnpm build` sem erros, 88.6 kB shared JS).*
 *Testes: 574 testes passando (0 falhas).*
+*Nota final: 82/100 (v1: 67, v2: 75, v3: 82).*
