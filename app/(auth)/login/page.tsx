@@ -8,6 +8,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { transitions } from '@/styles/transitions';
 import { logger } from '@/lib/logger';
+import { Users, DollarSign, TrendingUp, Mail, Phone, Clock, HelpCircle, ChevronDown as ChevronDownLucide } from 'lucide-react';
+import { AnimatedCounter } from '@/components/transitions/AnimatedCounter';
 
 import { useTranslations } from 'next-intl';
 
@@ -91,12 +93,110 @@ function BackArrowIcon({ color }: { color: string }) {
   );
 }
 
+// ─── Landing page data ──────────────────────────────────────
+const MODALITIES = [
+  { emoji: '🥋', name: 'Jiu-Jitsu' },
+  { emoji: '🥊', name: 'Muay Thai' },
+  { emoji: '🥊', name: 'Boxe' },
+  { emoji: '🥋', name: 'Judô' },
+  { emoji: '🥋', name: 'Karatê' },
+  { emoji: '🤼', name: 'Wrestling' },
+  { emoji: '👊', name: 'MMA' },
+  { emoji: '🤸', name: 'Capoeira' },
+  { emoji: '🦶', name: 'Taekwondo' },
+  { emoji: '🥋', name: 'Aikidô' },
+  { emoji: '🔪', name: 'Krav Magá' },
+  { emoji: '🥋', name: 'Kung Fu' },
+];
+
+const FAQ_ITEMS = [
+  {
+    question: 'Como cadastrar minha academia?',
+    answer: 'Basta clicar em "Comece Grátis", preencher os dados da sua academia e em poucos minutos você já estará utilizando a plataforma. Oferecemos suporte completo durante todo o processo de onboarding.',
+  },
+  {
+    question: 'Posso testar grátis?',
+    answer: 'Sim! Oferecemos 14 dias de teste grátis em todos os planos, sem necessidade de cartão de crédito. Você pode explorar todas as funcionalidades antes de decidir.',
+  },
+  {
+    question: 'Quais formas de pagamento?',
+    answer: 'Aceitamos cartão de crédito (Visa, Mastercard, Elo, Amex), boleto bancário, PIX e transferência bancária. Planos anuais possuem desconto especial.',
+  },
+];
+
 // ─── Main export ────────────────────────────────────────────
 export default function PremiumLoginPage() {
   return (
     <Suspense fallback={null}>
       <LoginContent />
     </Suspense>
+  );
+}
+
+// ─── FAQ Accordion Item ─────────────────────────────────────
+function FaqItem({ question, answer, isDark, colors }: {
+  question: string;
+  answer: string;
+  isDark: boolean;
+  colors: ReturnType<typeof getDesignTokens>;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div
+      style={{
+        border: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
+        borderRadius: 12,
+        overflow: 'hidden',
+        transition: 'border-color 0.2s ease',
+      }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          width: '100%',
+          padding: '1rem 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+          color: colors.text,
+          fontSize: '0.95rem',
+          fontWeight: 500,
+          textAlign: 'left',
+          gap: '1rem',
+        }}
+      >
+        {question}
+        <ChevronDownLucide
+          size={18}
+          style={{
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.25s ease',
+            flexShrink: 0,
+            opacity: 0.5,
+          }}
+        />
+      </button>
+      <div
+        style={{
+          maxHeight: open ? 200 : 0,
+          overflow: 'hidden',
+          transition: 'max-height 0.3s ease',
+        }}
+      >
+        <p style={{
+          padding: '0 1.25rem 1rem',
+          fontSize: '0.875rem',
+          color: colors.textMuted,
+          lineHeight: 1.6,
+          margin: 0,
+        }}>
+          {answer}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -119,6 +219,7 @@ function LoginContent() {
   const [mounted, setMounted] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const sobreRef = useRef<HTMLDivElement>(null);
 
   // Slide direction for transitions
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none');
@@ -126,6 +227,17 @@ function LoginContent() {
 
   // ─── Theme-aware colors (from shared design tokens) ──────
   const colors = getDesignTokens(isDark);
+
+  // Shared card style
+  const sectionCard: React.CSSProperties = {
+    border: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
+    borderRadius: 16,
+    background: colors.cardBg,
+    backdropFilter: 'blur(12px) saturate(1.2)',
+    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+    padding: '2rem',
+    transition: transitions.theme,
+  };
 
   // ─── Entry animation ─────────────────────────────────────
   useEffect(() => {
@@ -175,7 +287,6 @@ function LoginContent() {
     setPassword(demoUser.senha);
     setError('');
     setShowDropdown(false);
-    // Auto-redirect to password step
     setCardVisible(false);
     setSlideDir('left');
     setTimeout(() => {
@@ -286,12 +397,18 @@ function LoginContent() {
     };
   };
 
-  // ─── Defer render until mounted (avoids SSR/client theme mismatch) ──
+  const scrollToSobre = () => {
+    sobreRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // ─── Defer render until mounted ───────────────────────────
   if (!mounted) return null;
+
+  const isLoginFlow = step !== 'INITIAL';
 
   // ─── Render ───────────────────────────────────────────────
   return (
-    <div style={{ position: 'relative', minHeight: '100vh' }}>
+    <div style={{ position: 'relative', fontFamily: 'Inter, system-ui, sans-serif' }}>
       {/* ─── Background Layer ─────────────────────────────── */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }} aria-hidden="true">
         <div
@@ -319,8 +436,9 @@ function LoginContent() {
         />
       </div>
 
-
-      {/* ─── Content ──────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════
+          HERO — First viewport: Login button + bouncing arrow
+          ═══════════════════════════════════════════════════════ */}
       <div
         style={{
           position: 'relative',
@@ -330,47 +448,78 @@ function LoginContent() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          paddingBottom: '3rem',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
         }}
       >
         {/* ─── STEP: INITIAL ─────────────────────────────── */}
         {step === 'INITIAL' && (
-          <div
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-              transition: transitions.slideUp,
-              textAlign: 'center',
-            }}
-          >
-            <button
-              onClick={goToEmail}
+          <>
+            <div
               style={{
-                width: 200,
-                height: 52,
-                background: 'transparent',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
-                color: colors.text,
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                borderRadius: 12,
-                cursor: 'pointer',
-                transition: transitions.theme,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
+                opacity: mounted ? 1 : 0,
+                transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+                transition: transitions.slideUp,
+                textAlign: 'center',
               }}
             >
-              Login
+              <button
+                onClick={goToEmail}
+                style={{
+                  width: 200,
+                  height: 52,
+                  background: 'transparent',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)'}`,
+                  color: colors.text,
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  borderRadius: 12,
+                  cursor: 'pointer',
+                  transition: transitions.theme,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                }}
+              >
+                Login
+              </button>
+            </div>
+
+            {/* Bouncing arrow at bottom */}
+            <button
+              onClick={scrollToSobre}
+              style={{
+                position: 'absolute',
+                bottom: '2rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0.5rem',
+                animation: 'bounceArrow 2s ease-in-out infinite',
+              }}
+            >
+              <span style={{
+                fontSize: '0.75rem',
+                color: colors.textMuted,
+                letterSpacing: '0.1em',
+              }}>
+                Saiba mais
+              </span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
             </button>
-          </div>
+          </>
         )}
 
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
@@ -1118,8 +1267,8 @@ function LoginContent() {
           </div>
         )}
 
-        {/* ─── Footer ─────────────────────────────────────── */}
-        {step !== 'INITIAL' && <p
+        {/* ─── Footer (login flow only) ─────────────────── */}
+        {isLoginFlow && <p
           style={{
             textAlign: 'center',
             fontSize: '0.75rem',
@@ -1133,7 +1282,408 @@ function LoginContent() {
         </p>}
       </div>
 
-      {/* ─── Responsive styles ────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════
+          LANDING SECTIONS — Only visible on INITIAL step
+          ═══════════════════════════════════════════════════════ */}
+      {!isLoginFlow && (
+        <div style={{ position: 'relative', zIndex: 10 }}>
+
+          {/* ─── SEÇÃO 1 — SOBRE ──────────────────────────── */}
+          <section
+            ref={sobreRef}
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4rem 1.5rem',
+            }}
+          >
+            <h2 style={{
+              color: colors.text,
+              fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+              fontWeight: 600,
+              textAlign: 'center',
+              maxWidth: 600,
+              marginBottom: '3rem',
+              lineHeight: 1.4,
+              transition: transitions.theme,
+            }}>
+              A plataforma completa para gestão de academias de artes marciais
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ maxWidth: 900, width: '100%' }}>
+              {[
+                { Icon: Users, title: 'Gestão de Alunos', desc: 'Cadastro completo, controle de frequência, graduações e acompanhamento individual de cada aluno da sua academia.' },
+                { Icon: DollarSign, title: 'Controle Financeiro', desc: 'Mensalidades, cobranças automatizadas, relatórios financeiros e gestão completa do fluxo de caixa.' },
+                { Icon: TrendingUp, title: 'Acompanhamento de Evolução', desc: 'Métricas de progresso, histórico de graduações, análise de desempenho e insights com inteligência artificial.' },
+              ].map((item) => (
+                <div key={item.title} style={sectionCard}>
+                  <item.Icon size={32} style={{ color: colors.text, marginBottom: '1rem' }} />
+                  <h3 style={{ color: colors.text, fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>
+                    {item.title}
+                  </h3>
+                  <p style={{ color: colors.textMuted, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ─── SEÇÃO 2 — PLANOS ─────────────────────────── */}
+          <section
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4rem 1.5rem',
+            }}
+          >
+            <h2 style={{
+              color: colors.text,
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '3rem',
+              transition: transitions.theme,
+            }}>
+              Planos
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ maxWidth: 1000, width: '100%' }}>
+              {[
+                {
+                  name: 'Starter',
+                  price: 'R$ 197',
+                  period: '/mês',
+                  features: ['Até 50 alunos', '2 professores', '3 modalidades', 'Relatórios básicos'],
+                  popular: false,
+                },
+                {
+                  name: 'Professional',
+                  price: 'R$ 497',
+                  period: '/mês',
+                  features: ['Até 200 alunos', '10 professores', 'Modalidades ilimitadas', 'AI Insights', 'Relatórios avançados'],
+                  popular: true,
+                },
+                {
+                  name: 'Enterprise',
+                  price: 'R$ 997',
+                  period: '/mês',
+                  features: ['Alunos ilimitados', 'Professores ilimitados', 'White-label', 'API completa', 'Suporte prioritário'],
+                  popular: false,
+                },
+              ].map((plan) => (
+                <div
+                  key={plan.name}
+                  style={{
+                    ...sectionCard,
+                    border: plan.popular
+                      ? `2px solid ${isDark ? '#fff' : '#111'}`
+                      : sectionCard.border,
+                    position: 'relative',
+                  }}
+                >
+                  {plan.popular && (
+                    <span style={{
+                      position: 'absolute',
+                      top: -12,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: isDark ? '#fff' : '#111',
+                      color: isDark ? '#111' : '#fff',
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                      padding: '0.25rem 1rem',
+                      borderRadius: 20,
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
+                    }}>
+                      Mais Popular
+                    </span>
+                  )}
+                  <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                    {plan.name}
+                  </h3>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <span style={{ color: colors.text, fontSize: '2rem', fontWeight: 600 }}>{plan.price}</span>
+                    <span style={{ color: colors.textMuted, fontSize: '0.875rem' }}>{plan.period}</span>
+                  </div>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                    {plan.features.map((f) => (
+                      <li key={f} style={{ color: colors.textMuted, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ color: colors.text }}>&#10003;</span> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: `1px solid ${isDark ? '#444' : '#ccc'}`,
+                      borderRadius: 10,
+                      background: plan.popular ? (isDark ? '#fff' : '#111') : 'transparent',
+                      color: plan.popular ? (isDark ? '#111' : '#fff') : colors.text,
+                      fontSize: '0.875rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      letterSpacing: '0.05em',
+                    }}
+                  >
+                    Comece Grátis
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ─── SEÇÃO 3 — MODALIDADES ────────────────────── */}
+          <section
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4rem 1.5rem',
+            }}
+          >
+            <h2 style={{
+              color: colors.text,
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '3rem',
+              transition: transitions.theme,
+            }}>
+              Modalidades Suportadas
+            </h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" style={{ maxWidth: 700, width: '100%' }}>
+              {MODALITIES.map((m) => (
+                <div
+                  key={m.name}
+                  style={{
+                    border: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
+                    borderRadius: 16,
+                    background: colors.cardBg,
+                    padding: '1.25rem 1rem',
+                    textAlign: 'center',
+                    transition: transitions.theme,
+                  }}
+                >
+                  <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>{m.emoji}</span>
+                  <span style={{ color: colors.text, fontSize: '0.8rem', fontWeight: 500 }}>{m.name}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ─── SEÇÃO 4 — NÚMEROS ────────────────────────── */}
+          <section
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4rem 1.5rem',
+            }}
+          >
+            <h2 style={{
+              color: colors.text,
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '3rem',
+              transition: transitions.theme,
+            }}>
+              Números da Plataforma
+            </h2>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6" style={{ maxWidth: 900, width: '100%' }}>
+              {[
+                { value: 500, prefix: '+', label: 'Academias' },
+                { value: 50000, prefix: '+', label: 'Alunos' },
+                { value: 1000000, prefix: '+', label: 'Check-ins' },
+                { value: 10000, prefix: '+', label: 'Graduações' },
+              ].map((stat) => (
+                <div key={stat.label} style={{ ...sectionCard, textAlign: 'center' }}>
+                  <div style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontWeight: 600, color: colors.text, marginBottom: '0.5rem' }}>
+                    <AnimatedCounter
+                      value={stat.value}
+                      prefix={stat.prefix}
+                      duration={2}
+                    />
+                  </div>
+                  <span style={{ color: colors.textMuted, fontSize: '0.875rem' }}>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ─── SEÇÃO 5 — DEPOIMENTOS ────────────────────── */}
+          <section
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4rem 1.5rem',
+            }}
+          >
+            <h2 style={{
+              color: colors.text,
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '3rem',
+              transition: transitions.theme,
+            }}>
+              O que dizem nossos clientes
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ maxWidth: 1000, width: '100%' }}>
+              {[
+                {
+                  name: 'Prof. Carlos Silva',
+                  academy: 'Academia Força BJJ',
+                  text: 'O BlackBelt transformou completamente a gestão da minha academia. Antes eu perdia horas com planilhas, hoje tudo é automatizado. A funcionalidade de acompanhamento de evolução dos alunos é incrível.',
+                },
+                {
+                  name: 'Mestre Ana Rodrigues',
+                  academy: 'Centro de Artes Marciais Bushido',
+                  text: 'Desde que adotamos o BlackBelt, a retenção de alunos aumentou 40%. Os pais adoram acompanhar o progresso dos filhos pelo app. O controle financeiro nos deu uma visão que nunca tivemos.',
+                },
+                {
+                  name: 'Sensei Ricardo Tanaka',
+                  academy: 'Tanaka Dojo',
+                  text: 'A plataforma é intuitiva e completa. O suporte é excepcional — sempre respondem rápido e implementam nossas sugestões. Recomendo para qualquer academia que queira crescer profissionalmente.',
+                },
+              ].map((t) => (
+                <div key={t.name} style={sectionCard}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <div style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: '50%',
+                      background: isDark ? '#333' : '#ddd',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.25rem',
+                      flexShrink: 0,
+                    }}>
+                      {t.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p style={{ color: colors.text, fontSize: '0.9rem', fontWeight: 600, margin: 0 }}>{t.name}</p>
+                      <p style={{ color: colors.textMuted, fontSize: '0.75rem', margin: 0 }}>{t.academy}</p>
+                    </div>
+                  </div>
+                  <p style={{ color: colors.textMuted, fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ─── SEÇÃO 6 — SUPORTE ────────────────────────── */}
+          <section
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4rem 1.5rem',
+            }}
+          >
+            <h2 style={{
+              color: colors.text,
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '3rem',
+              transition: transitions.theme,
+            }}>
+              Suporte e Contato
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" style={{ maxWidth: 900, width: '100%', marginBottom: '2.5rem' }}>
+              {[
+                { Icon: Mail, label: 'Email', value: 'suporte@blackbelt.app' },
+                { Icon: Phone, label: 'WhatsApp', value: '+55 31 99999-9999' },
+                { Icon: Clock, label: 'Horário', value: 'Seg-Sex 8h-18h' },
+                { Icon: HelpCircle, label: 'Central de Ajuda', value: 'help.blackbelt.app' },
+              ].map((c) => (
+                <div key={c.label} style={{ ...sectionCard, textAlign: 'center' }}>
+                  <c.Icon size={24} style={{ color: colors.text, marginBottom: '0.75rem' }} />
+                  <p style={{ color: colors.text, fontSize: '0.85rem', fontWeight: 600, margin: '0 0 0.25rem' }}>{c.label}</p>
+                  <p style={{ color: colors.textMuted, fontSize: '0.8rem', margin: 0 }}>{c.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* FAQ */}
+            <div style={{ maxWidth: 600, width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <h3 style={{ color: colors.text, fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                Perguntas Frequentes
+              </h3>
+              {FAQ_ITEMS.map((item) => (
+                <FaqItem key={item.question} question={item.question} answer={item.answer} isDark={isDark} colors={colors} />
+              ))}
+            </div>
+          </section>
+
+          {/* ─── SEÇÃO 7 — FOOTER ─────────────────────────── */}
+          <footer
+            style={{
+              padding: '3rem 1.5rem',
+              textAlign: 'center',
+              borderTop: `1px solid ${isDark ? '#222' : '#e0e0e0'}`,
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '1.5rem',
+              marginBottom: '1.5rem',
+            }}>
+              {['Termos de Uso', 'Política de Privacidade', 'LGPD', 'Instagram', 'Facebook'].map((link) => (
+                <a
+                  key={link}
+                  href="#"
+                  style={{
+                    color: colors.textMuted,
+                    fontSize: '0.8rem',
+                    textDecoration: 'none',
+                    transition: 'opacity 0.2s ease',
+                  }}
+                >
+                  {link}
+                </a>
+              ))}
+            </div>
+            <p style={{ color: colors.textMuted, fontSize: '0.8rem', margin: '0 0 0.5rem', opacity: 0.7 }}>
+              Feito com ❤️ no Brasil
+            </p>
+            <p style={{ color: colors.textMuted, fontSize: '0.75rem', margin: 0, opacity: 0.5 }}>
+              © 2026 BlackBelt — Todos os direitos reservados
+            </p>
+          </footer>
+        </div>
+      )}
+
+      {/* ─── Responsive + animation styles ──────────────── */}
       <style jsx global>{`
         .login-card-responsive {
           width: 92%;
@@ -1161,6 +1711,11 @@ function LoginContent() {
           40% { transform: translateX(6px); }
           60% { transform: translateX(-4px); }
           80% { transform: translateX(4px); }
+        }
+        /* Bounce arrow animation */
+        @keyframes bounceArrow {
+          0%, 100% { transform: translateX(-50%) translateY(0); }
+          50% { transform: translateX(-50%) translateY(-12px); }
         }
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
