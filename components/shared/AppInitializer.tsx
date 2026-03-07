@@ -4,12 +4,25 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * AppInitializer — Smooth app startup with loading state.
+ * AppInitializer — Smooth app startup with loading state and automatic theme detection.
  * Prevents black flashes during hydration and initial load.
+ * Adapts to system color scheme preference (light/dark).
  */
 export function AppInitializer({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [progress, setProgress] = useState(0);
+  
+  // Detect system color scheme preference
+  const [isDark, setIsDark] = useState(true);
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setIsDark(mediaQuery.matches);
+    
+    const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
 
   useEffect(() => {
     // Simulate progressive loading
@@ -31,6 +44,11 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
     return () => clearInterval(interval);
   }, []);
 
+  // Theme-aware colors
+  const bg = isDark ? '#1A1A2E' : '#f5f5f5';
+  const barTrack = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)';
+  const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)';
+
   return (
     <>
       <AnimatePresence>
@@ -47,7 +65,7 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#1A1A2E',
+              background: bg,
             }}
           >
             {/* Logo */}
@@ -57,28 +75,10 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
               transition={{ duration: 0.5, ease: 'easeOut' }}
               style={{
                 fontSize: '3rem',
-                marginBottom: '1.5rem',
+                marginBottom: '2rem',
               }}
             >
               🥋
-            </motion.div>
-
-            {/* App name */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.4 }}
-              style={{
-                fontSize: '1.25rem',
-                fontWeight: 600,
-                letterSpacing: '0.1em',
-                marginBottom: '2rem',
-                background: 'linear-gradient(135deg, #C9A227, #FFD11A)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              BLACKBELT
             </motion.div>
 
             {/* Progress bar container */}
@@ -86,7 +86,7 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
               style={{
                 width: 280,
                 height: 4,
-                background: 'rgba(255,255,255,0.15)',
+                background: barTrack,
                 borderRadius: 2,
                 overflow: 'hidden',
                 position: 'relative',
@@ -114,7 +114,7 @@ export function AppInitializer({ children }: { children: React.ReactNode }) {
               style={{
                 marginTop: '1rem',
                 fontSize: '0.75rem',
-                color: 'rgba(255,255,255,0.5)',
+                color: textColor,
                 letterSpacing: '0.05em',
               }}
             >
