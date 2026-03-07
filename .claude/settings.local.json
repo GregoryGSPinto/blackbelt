@@ -75,7 +75,14 @@
       "Bash(for icon in TrendingUp Calendar; do echo \"=== $icon ===\"; grep -n \"<$icon\\\\|{$icon}\" 'app/\\(admin\\)/metas/page.tsx' | head -3; done)",
       "Bash(for icon in Clock BarChart Bar; do echo \"=== $icon ===\"; grep -n \"<$icon \" 'components/admin/OwnerExecutiveDashboard.tsx' | head -3; done)",
       "Bash(ls -la 'app/\\(super-admin\\)/super-admin/usuarios/page.tsx' 'app/\\(super-admin\\)/super-admin/logs/page.tsx' 'app/\\(super-admin\\)/super-admin/inadimplencia/page.tsx' 'app/\\(super-admin\\)/super-admin/impersonar/page.tsx' 'app/\\(super-admin\\)/super-admin/notificacoes/page.tsx' 2>&1)",
-      "Bash(wc -l /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(auth\\\\\\)/login/page.tsx)"
+      "Bash(wc -l /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(auth\\\\\\)/login/page.tsx)",
+      "Bash(ls -la /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(auth\\\\\\)/ 2>/dev/null || echo \"No auth dir\")",
+      "Bash(ls -la /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(super-admin\\\\\\)/super-admin/)",
+      "Bash(find /Users/user_pc/Projetos/BlackBelt -type f \\\\\\( -name \"stripe*\" -o -name \"*payment*\" \\\\\\) -not -path \"*/node_modules/*\" 2>/dev/null | head -20)",
+      "Bash(find /Users/user_pc/Projetos/BlackBelt -type f \\\\\\( -name \"*email*\" -o -name \"*mail*\" -o -name \"*nodemailer*\" -o -name \"*smtp*\" \\\\\\) -not -path \"*/node_modules/*\" 2>/dev/null | head -20)",
+      "Bash(ls -la /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(developer\\\\\\)/developer/)",
+      "Bash(grep -r \"t\\\\\\(\" /Users/user_pc/Projetos/BlackBelt/app --include=\"*.tsx\" 2>/dev/null | wc -l)",
+      "Bash(wc -l /Users/user_pc/Projetos/BlackBelt/package.json && git -C /Users/user_pc/Projetos/BlackBelt log --oneline | head -20)"
     ]
   }
 }
