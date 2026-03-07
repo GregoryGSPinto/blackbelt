@@ -6,13 +6,8 @@ import {
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { ACADEMY_AREAS, useAcademyProgress } from '@/lib/academy';
-import { useTheme } from '@/contexts/ThemeContext';
-import { getDesignTokens } from '@/lib/design-tokens';
-
 export default function UnidadePage() {
   const t = useTranslations('athlete');
-  const { isDark } = useTheme();
-  const tokens = getDesignTokens(isDark);
 
   const { progress, getAreaPercent, getOverallPercent } = useAcademyProgress();
   const avgProgress = getOverallPercent();
@@ -23,16 +18,16 @@ export default function UnidadePage() {
       <div className="md:hidden relative pt-6 pb-8 px-4 mb-2">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-3"
-            style={{ background: 'rgb(var(--color-border) / 0.12)' }}>
+            style={{ background: 'var(--card-bg)' }}>
             <Trophy size={14} className="text-primary-light" />
             <span className="text-xs font-semibold text-primary-light">{t('unit.title')}</span>
           </div>
           <h1 className="text-2xl font-extrabold mb-2 leading-tight tracking-tight"
-            style={{ color: 'rgb(var(--color-text))' }}>
+            style={{ color: 'var(--text-primary)' }}>
             {t('unit.subtitle')}
           </h1>
           <p className="text-sm leading-relaxed"
-            style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+            style={{ color: 'var(--text-secondary)' }}>
             {t('unit.fullSubtitle')}
           </p>
         </div>
@@ -42,18 +37,18 @@ export default function UnidadePage() {
       <div className="hidden md:block pt-8 tv:pt-12 pb-6 px-8 tv:px-16 mb-6">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-5"
-            style={{ background: 'rgb(var(--color-border) / 0.1)', border: '1px solid rgb(var(--color-border) / var(--color-border-alpha))' }}>
+            style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
             <Trophy size={16} className="text-primary-light" />
             <span className="text-xs font-semibold text-primary-light tracking-wider uppercase">
               {t('unit.title')}
             </span>
           </div>
           <h1 className="text-2xl sm:text-xl md:text-2xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] mb-4"
-            style={{ color: 'rgb(var(--color-text))' }}>
+            style={{ color: 'var(--text-primary)' }}>
             {t('unit.subtitle')}
           </h1>
           <p className="text-lg font-medium max-w-xl leading-relaxed"
-            style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+            style={{ color: 'var(--text-secondary)' }}>
             {t('unit.fullSubtitle')}
           </p>
         </div>
@@ -63,17 +58,17 @@ export default function UnidadePage() {
       <section className="px-4 md:px-8 tv:px-16 pb-10 md:pb-14">
         <div className="flex items-center justify-between mb-6 md:mb-8">
           <div>
-            <h2 className="text-xl font-bold mb-1" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>
+            <h2 className="text-xl font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
               {t('unit.knowledgeAreas')}
             </h2>
-            <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               {t('unit.knowledgeAreasDesc')}
             </p>
           </div>
           <div className="hidden md:flex items-center gap-2.5 px-4 py-2 rounded-xl"
-            style={{ background: 'rgb(var(--color-border) / 0.06)', border: '1px solid rgb(var(--color-border) / 0.06)' }}>
+            style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
             <Trophy size={15} className="text-primary-light" />
-            <span className="text-sm font-semibold" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+            <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
               {t('unit.average')} <span className="text-primary-light">{avgProgress}%</span>
             </span>
           </div>
@@ -87,19 +82,19 @@ export default function UnidadePage() {
 
             return (
               <Link key={area.id} href={`/academia/${area.id}`}
-                className="group/card relative rounded-2xl p-5 md:p-6 transition-all duration-300 hover:scale-[1.02]"
+                className="group/card relative rounded-xl p-5 md:p-6 transition-all duration-300 hover:scale-[1.02]"
                 style={{
-                  background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
+                  background: 'var(--card-bg)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgb(var(--color-border) / 0.06)',
+                  border: '1px solid black',
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.borderColor = 'rgb(var(--color-border) / 0.15)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgb(var(--glass-bg) / var(--glass-hover-alpha))';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'black';
+                  (e.currentTarget as HTMLElement).style.background = 'var(--card-bg)';
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.borderColor = 'rgb(var(--color-border) / 0.06)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgb(var(--glass-bg) / var(--glass-alpha))';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'black';
+                  (e.currentTarget as HTMLElement).style.background = 'var(--card-bg)';
                 }}
               >
                 <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4"
@@ -111,11 +106,11 @@ export default function UnidadePage() {
                 </div>
 
                 <h3 className="text-[17px] font-bold mb-2 group-hover/card:text-primary-light transition-colors leading-snug"
-                  style={{ color: 'rgb(var(--color-text) / 0.85)' }}>
+                  style={{ color: 'var(--text-primary)' }}>
                   {area.title}
                 </h3>
                 <p className="text-[13px] leading-relaxed mb-5"
-                  style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+                  style={{ color: 'var(--text-secondary)' }}>
                   {area.description}
                 </p>
 
@@ -136,10 +131,10 @@ export default function UnidadePage() {
                 {/* Progress bar */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span style={{ color: 'rgb(var(--color-text-subtle) / 0.35)' }} className="font-medium">{t('unit.progressLabel')}</span>
+                    <span style={{ color: 'var(--text-secondary)' }} className="font-medium">{t('unit.progressLabel')}</span>
                     <span className="font-bold" style={{ color: area.accent }}>{pct}%</span>
                   </div>
-                  <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgb(var(--color-border) / 0.08)' }}>
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--card-bg)' }}>
                     <div className="h-full rounded-full transition-all duration-700"
                       style={{
                         width: `${pct}%`,
@@ -160,11 +155,10 @@ export default function UnidadePage() {
 
       {/* ═══ TESTES DE CONHECIMENTO ═══ */}
       <section className="px-4 md:px-8 tv:px-16 pb-10 md:pb-14">
-        <div className="rounded-2xl p-6 md:p-8"
+        <div className="rounded-xl p-6 md:p-8"
           style={{
-            background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgb(var(--color-border) / 0.06)',
+            background: 'var(--card-bg)',
+            border: '1px solid black',
           }}>
           <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -172,8 +166,8 @@ export default function UnidadePage() {
               <Target size={22} className="text-white" />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold mb-1" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>{t('unit.knowledgeTests')}</h2>
-              <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+              <h2 className="text-xl font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{t('unit.knowledgeTests')}</h2>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 {t('unit.knowledgeTestsDesc')}
               </p>
             </div>
@@ -188,10 +182,10 @@ export default function UnidadePage() {
                 <Link key={area.id} href={`/academia/${area.id}/teste`}
                   className="p-4 rounded-xl transition-all hover:scale-[1.02] hover-card"
                   style={{
-                    background: 'rgb(var(--color-border) / 0.03)',
-                    border: `1px solid ${completed ? 'rgba(143,175,122,0.12)' : 'rgb(var(--color-border) / 0.06)'}`,
+                    background: 'var(--card-bg)',
+                    border: '1px solid black',
                   }}>
-                  <h3 className="font-semibold mb-2 text-sm" style={{ color: 'rgb(var(--color-text) / 0.8)' }}>
+                  <h3 className="font-semibold mb-2 text-sm" style={{ color: 'var(--text-primary)' }}>
                     {area.title}
                   </h3>
                   {completed ? (
@@ -200,15 +194,15 @@ export default function UnidadePage() {
                       <span className="font-medium">{p.testScore}/{p.testTotal} ✓</span>
                     </div>
                   ) : (
-                    <div className="text-sm mb-3 font-medium" style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+                    <div className="text-sm mb-3 font-medium" style={{ color: 'var(--text-secondary)' }}>
                       {t('unit.notTaken')}
                     </div>
                   )}
-                  <div className="w-full py-2.5 rounded-lg text-sm font-medium text-center transition-all active:scale-95"
+                  <div className="w-full py-2.5 rounded-xl text-sm font-medium text-center transition-all active:scale-95"
                     style={{
-                      background: 'rgb(var(--color-border) / 0.08)',
-                      border: '1px solid rgb(var(--color-border) / 0.1)',
-                      color: 'rgba(184,154,106,0.8)',
+                      background: 'var(--card-bg)',
+                      border: '1px solid black',
+                      color: 'var(--text-primary)',
                     }}>
                     {completed ? t('unit.retake') : t('unit.startTest')}
                   </div>
@@ -217,9 +211,9 @@ export default function UnidadePage() {
             })}
           </div>
 
-          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid rgb(var(--color-border) / 0.06)' }}>
-            <p className="text-sm" style={{ color: 'rgb(var(--color-text-subtle) / 0.35)' }}>
-              💡 <span className="font-medium" style={{ color: 'rgb(var(--color-text-subtle) / 0.5)' }}>Lembre-se:</span>{' '}
+          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid black' }}>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              💡 <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Lembre-se:</span>{' '}
               Aqui ninguém é avaliado. Aqui todo mundo evolui.
             </p>
           </div>
@@ -228,15 +222,14 @@ export default function UnidadePage() {
 
       {/* ═══ PROGRESSO GERAL ═══ */}
       <section className="px-4 md:px-8 tv:px-16 pb-16 md:pb-24">
-        <div className="rounded-2xl p-6 md:p-8"
+        <div className="rounded-xl p-6 md:p-8"
           style={{
-            background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgb(var(--color-border) / 0.06)',
+            background: 'var(--card-bg)',
+            border: '1px solid black',
           }}>
           <div className="flex items-center gap-3 mb-6">
             <Trophy size={20} className="text-primary-light" />
-            <h2 className="text-xl font-bold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>{t('unit.yourProgress')}</h2>
+            <h2 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('unit.yourProgress')}</h2>
           </div>
 
           <div className="space-y-4">
@@ -245,10 +238,10 @@ export default function UnidadePage() {
               return (
                 <div key={area.id} className="flex items-center gap-4">
                   <div className="w-36 md:w-44 text-[13px] font-medium truncate"
-                    style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
+                    style={{ color: 'var(--text-secondary)' }}>
                     {area.title}
                   </div>
-                  <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgb(var(--color-border) / 0.08)' }}>
+                  <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'var(--card-bg)' }}>
                     <div className="h-full rounded-full transition-all duration-700"
                       style={{
                         width: `${pct}%`,
@@ -263,8 +256,8 @@ export default function UnidadePage() {
             })}
           </div>
 
-          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid rgb(var(--color-border) / 0.06)' }}>
-            <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }} className="text-sm">
+          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid black' }}>
+            <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
               {t('unit.overallAvg')} <span className="text-primary-light font-bold text-lg">{avgProgress}%</span>
             </p>
           </div>

@@ -24,7 +24,7 @@ import { useGlobalSearch } from '@/contexts/GlobalSearchContext';
 import { SearchResultsOverlay } from '@/components/ui/SearchResultsOverlay';
 import { ModuleErrorBoundary, type ModuleName } from '@/components/shared/ModuleErrorBoundary';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
-import { recordNavVisit, rankNavItems } from '@/lib/nav-ranking';
+import { recordNavVisit } from '@/lib/nav-ranking';
 
 import { AppShellConfig, ShellState } from './types';
 import { ShellBackground } from './ShellBackground';
@@ -98,7 +98,6 @@ export function AppShell({
   const [mounted, setMounted] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [rankVersion, setRankVersion] = useState(0); // triggers re-rank on nav
 
   // ─── Refs ───
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -143,27 +142,14 @@ export function AppShell({
     );
     if (match) {
       recordNavVisit(theme.moduleName, match.href);
-      setRankVersion((v) => v + 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, mounted]);
 
-  // Ranked config: sort nav items by usage frequency
+  // Config with fixed nav order (no reordering)
   const rankedConfig = useMemo((): AppShellConfig => {
-    const mod = theme.moduleName;
-    return {
-      theme,
-      nav: {
-        ...nav,
-        desktopNav: rankNavItems(mod, nav.desktopNav),
-        mobileBar: rankNavItems(mod, nav.mobileBar),
-        drawerNav: rankNavItems(mod, nav.drawerNav),
-        allItems: rankNavItems(mod, nav.allItems),
-      },
-    };
-    // rankVersion forces recalculation after each navigation
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nav, theme, rankVersion]);
+    return { theme, nav };
+  }, [nav, theme]);
 
   // ESC close
   useEffect(() => {

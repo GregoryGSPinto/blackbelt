@@ -33,7 +33,7 @@ const TeenCard = memo(function TeenCard({
 
   return (
     <div 
-      className={`${variants[variant]} ${interactive} ${padding} rounded-2xl transition-all duration-300 ${className}`}
+      className={`${variants[variant]} ${interactive} ${padding} rounded-xl transition-all duration-300 ${className}`}
       onClick={onClick}
     >
       {children}
