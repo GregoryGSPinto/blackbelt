@@ -1,0 +1,33 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAM_ID.com.blackbelt.app",
+        "paths": [
+          "/academy/*",
+          "/athlete/*",
+          "/post/*",
+          "/competition/*",
+          "/selecionar-perfil",
+          "/dashboard",
+          "/professor-dashboard",
+          "/excluir-conta",
+          "/login",
+          "/cadastro",
+          "/esqueci-senha",
+          "/alterar-senha",
+          "/termos-de-uso",
+          "/politica-privacidade",
+          "NOT /api/*",
+          "NOT /_next/*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "TEAM_ID.com.blackbelt.app"
+    ]
+  }
+}

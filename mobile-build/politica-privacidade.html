@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidade — BlackBelt</title>
+  <meta name="description" content="Política de Privacidade do aplicativo BlackBelt. Conformidade com LGPD (Lei 13.709/2018), Google Play e Apple App Store.">
+  <style>
+    :root {
+      --navy: #1A3A5C;
+      --blue: #2E75B6;
+      --dark: #222;
+      --mid: #555;
+      --light: #888;
+      --bg: #FAFBFC;
+      --card: #FFFFFF;
+      --border: #E5E7EB;
+      --accent-bg: #EEF4FA;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--dark);
+      background: var(--bg);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .header {
+      background: var(--navy);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .header p { font-size: 0.95rem; opacity: 0.85; }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: var(--accent-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 2rem;
+      font-size: 0.88rem;
+      color: var(--mid);
+    }
+    .meta-bar strong { color: var(--navy); }
+
+    h2 {
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin: 2.2rem 0 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--blue);
+      display: inline-block;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: var(--blue);
+      margin: 1.4rem 0 0.5rem;
+    }
+
+    p { margin-bottom: 0.9rem; color: var(--dark); }
+
+    .highlight-box {
+      background: var(--accent-bg);
+      border-left: 4px solid var(--blue);
+      padding: 1rem 1.2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+    .highlight-box p { margin-bottom: 0.4rem; }
+    .highlight-box p:last-child { margin-bottom: 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.92rem;
+    }
+    th {
+      background: var(--navy);
+      color: white;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    td {
+      padding: 0.55rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #F8F9FA; }
+
+    .rights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .right-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+    }
+    .right-card strong { color: var(--navy); font-size: 0.92rem; display: block; margin-bottom: 0.2rem; }
+    .right-card span { font-size: 0.85rem; color: var(--mid); }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 0.6rem 0 0.6rem 2.8rem;
+      border-left: 2px solid var(--border);
+      margin-left: 0.9rem;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: -0.7rem;
+      top: 0.5rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      background: var(--blue);
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 1.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .steps li:last-child { border-left-color: transparent; }
+
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #D5F5E3;
+      color: #1B7A3D;
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .contact-box {
+      background: var(--navy);
+      color: white;
+      border-radius: 10px;
+      padding: 1.5rem 1.8rem;
+      margin: 2rem 0;
+    }
+    .contact-box h3 { color: white; margin-top: 0; }
+    .contact-box p { color: rgba(255,255,255,0.9); margin-bottom: 0.5rem; }
+    .contact-box a { color: #7EC8E3; }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--light);
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.4rem; }
+      .rights-grid { grid-template-columns: 1fr; }
+      .meta-bar { flex-direction: column; gap: 0.4rem; }
+      table { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Política de Privacidade</h1>
+  <p>BlackBelt — Plataforma de Gestão para Unidades de treinamento especializado</p>
+</div>
+
+<div class="container">
+
+  <div class="meta-bar">
+    <span><strong>Versão:</strong> 1.0</span>
+    <span><strong>Vigência:</strong> 15 de fevereiro de 2026</span>
+    <span><strong>Atualização:</strong> 15 de fevereiro de 2026</span>
+    <span><strong>Lei aplicável:</strong> LGPD (Lei nº 13.709/2018)</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. INTRODUÇÃO -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>1. Introdução</h2>
+  <p>A <strong>BlackBelt</strong> ("nós", "nosso" ou "Plataforma") é uma plataforma de gestão para unidades de Práticas de Desenvolvimento Pessoal que oferece funcionalidades de administração, acompanhamento pedagógico, streaming de conteúdo e comunicação entre instrutores, alunos e responsáveis.</p>
+  <p>Esta Política de Privacidade descreve como coletamos, utilizamos, armazenamos, compartilhamos e protegemos os dados pessoais dos nossos usuários, em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº 13.709/2018) e com as diretrizes de privacidade do Google Play e da Apple App Store.</p>
+  <p>Ao utilizar a Plataforma, você declara ter lido e compreendido esta Política. Se você não concordar com qualquer disposição aqui apresentada, pedimos que não utilize nossos serviços.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. CONTROLADOR -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>2. Controlador de Dados</h2>
+  <div class="highlight-box">
+    <p><strong>Razão Social:</strong> [RAZÃO SOCIAL DA EMPRESA]</p>
+    <p><strong>CNPJ:</strong> [XX.XXX.XXX/XXXX-XX]</p>
+    <p><strong>Endereço:</strong> [ENDEREÇO COMPLETO]</p>
+    <p><strong>E-mail do DPO:</strong> <a href="mailto:dpo@blackbelt.com.br">dpo@blackbelt.com.br</a></p>
+  </div>
+  <p>O controlador é a pessoa jurídica responsável pelas decisões referentes ao tratamento dos seus dados pessoais, nos termos do Art. 5º, VI da LGPD.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. DADOS COLETADOS -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>3. Dados Pessoais Coletados</h2>
+  <p>Coletamos apenas os dados estritamente necessários para a prestação dos nossos serviços, respeitando o princípio da minimização (Art. 6º, III da LGPD).</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Categoria</th>
+        <th>Dados</th>
+        <th>Obrigatório</th>
+        <th>Perfis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Identificação</strong></td>
+        <td>Nome completo</td>
+        <td>Sim</td>
+        <td>Todos</td>
+      </tr>
+      <tr>
+        <td><strong>Contato</strong></td>
+        <td>E-mail</td>
+        <td>Sim</td>
+        <td>Todos</td>
+      </tr>
+      <tr>
+        <td><strong>Contato</strong></td>
+        <td>Telefone celular</td>
+        <td>Não</td>
+        <td>Admin, Professor, Responsável</td>
+      </tr>
+      <tr>
+        <td><strong>Documento</strong></td>
+        <td>CPF</td>
+        <td>Sim</td>
+        <td>Adultos (matrícula e obrigação legal)</td>
+      </tr>
+      <tr>
+        <td><strong>Demográfico</strong></td>
+        <td>Data de nascimento</td>
+        <td>Sim</td>
+        <td>Alunos (classificação etária)</td>
+      </tr>
+      <tr>
+        <td><strong>Credenciais</strong></td>
+        <td>Senha (armazenada em hash)</td>
+        <td>Sim</td>
+        <td>Todos</td>
+      </tr>
+      <tr>
+        <td><strong>Pedagógico</strong></td>
+        <td>Graduação (nivel, subníveis), frequência, avaliações, conquistas, desafios concluídos</td>
+        <td>Gerado pelo uso</td>
+        <td>Alunos, Teens, Kids</td>
+      </tr>
+      <tr>
+        <td><strong>Administrativo</strong></td>
+        <td>Turma vinculada, horários de check-in, status de matrícula</td>
+        <td>Gerado pelo uso</td>
+        <td>Todos os alunos</td>
+      </tr>
+      <tr>
+        <td><strong>Técnico</strong></td>
+        <td>Endereço IP, fingerprint do dispositivo, user-agent, logs de acesso</td>
+        <td>Automático</td>
+        <td>Todos</td>
+      </tr>
+      <tr>
+        <td><strong>Imagem</strong></td>
+        <td>Foto de perfil (avatar)</td>
+        <td>Não</td>
+        <td>Todos</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.1. Dados de Menores de Idade</h3>
+  <p>A Plataforma trata dados de crianças (perfil Kids, menores de 12 anos) e adolescentes (perfil Teen, de 12 a 17 anos). Em conformidade com o Art. 14 da LGPD, o tratamento de dados de crianças é realizado exclusivamente com o consentimento específico e em destaque dado por pelo menos um dos pais ou pelo responsável legal, através do perfil Responsável vinculado à conta do menor.</p>
+  <p>Os dados pedagógicos de menores são acessíveis apenas ao responsável vinculado, aos instrutores da unidade e ao administrador da unidade. A Plataforma implementa controles técnicos adicionais de proteção para dados de menores, incluindo interface específica com restrições de conteúdo e isolamento de dados por perfil.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. FINALIDADE -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>4. Finalidade do Tratamento</h2>
+  <p>Seus dados pessoais são tratados para as seguintes finalidades específicas:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Finalidade</th>
+        <th>Dados Utilizados</th>
+        <th>Base Legal (LGPD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Cadastro e autenticação na Plataforma</td>
+        <td>Nome, e-mail, senha, CPF</td>
+        <td>Art. 7º, V — Execução de contrato</td>
+      </tr>
+      <tr>
+        <td>Gestão de matrícula e turmas</td>
+        <td>Nome, data de nascimento, turma, status</td>
+        <td>Art. 7º, V — Execução de contrato</td>
+      </tr>
+      <tr>
+        <td>Acompanhamento pedagógico (graduações, frequência, avaliações)</td>
+        <td>Dados pedagógicos, check-in, conquistas</td>
+        <td>Art. 7º, V — Execução de contrato</td>
+      </tr>
+      <tr>
+        <td>Comunicação entre academia, instrutores, alunos e responsáveis</td>
+        <td>Nome, e-mail, telefone</td>
+        <td>Art. 7º, V — Execução de contrato</td>
+      </tr>
+      <tr>
+        <td>Emissão de documentos fiscais e obrigações tributárias</td>
+        <td>Nome, CPF</td>
+        <td>Art. 7º, II — Obrigação legal</td>
+      </tr>
+      <tr>
+        <td>Segurança da Plataforma (prevenção de fraudes, detecção de anomalias)</td>
+        <td>IP, fingerprint, logs de acesso</td>
+        <td>Art. 7º, IX — Legítimo interesse</td>
+      </tr>
+      <tr>
+        <td>Exibição de conteúdo personalizado (vídeos, desafios por nível)</td>
+        <td>Graduação, nivel etária</td>
+        <td>Art. 7º, V — Execução de contrato</td>
+      </tr>
+      <tr>
+        <td>Monitoramento parental (acompanhamento do menor pelo responsável)</td>
+        <td>Dados pedagógicos do menor vinculado</td>
+        <td>Art. 14 — Consentimento do responsável</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. BASE LEGAL -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>5. Bases Legais</h2>
+  <p>Todo tratamento de dados pessoais na Plataforma está amparado por pelo menos uma das bases legais previstas na LGPD:</p>
+
+  <div class="highlight-box">
+    <p><strong>Art. 7º, I — Consentimento:</strong> Utilizado para o tratamento de dados de menores (Art. 14) e para funcionalidades opcionais como foto de perfil e notificações por e-mail.</p>
+    <p><strong>Art. 7º, II — Obrigação legal:</strong> Retenção de dados fiscais (CPF, nome) conforme legislação tributária e o Código Civil.</p>
+    <p><strong>Art. 7º, V — Execução de contrato:</strong> Base principal para a prestação dos serviços da Plataforma, incluindo cadastro, gestão de matrícula e acompanhamento pedagógico.</p>
+    <p><strong>Art. 7º, IX — Legítimo interesse:</strong> Utilizado para segurança da Plataforma, prevenção de fraudes e melhoria dos serviços, sempre respeitando os direitos e liberdades fundamentais do titular.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. COMPARTILHAMENTO -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>6. Compartilhamento de Dados</h2>
+  <p>A BlackBelt <strong>não vende, não aluga e não comercializa</strong> dados pessoais dos seus usuários.</p>
+  <p>Seus dados podem ser compartilhados exclusivamente nas seguintes situações:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Destinatário</th>
+        <th>Finalidade</th>
+        <th>Base Legal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Academia vinculada (administrador e instrutores)</td>
+        <td>Gestão pedagógica e administrativa</td>
+        <td>Execução de contrato</td>
+      </tr>
+      <tr>
+        <td>Responsável legal vinculado</td>
+        <td>Monitoramento de menores de idade</td>
+        <td>Art. 14 — Consentimento</td>
+      </tr>
+      <tr>
+        <td>Provedor de infraestrutura (hosting e banco de dados)</td>
+        <td>Armazenamento seguro dos dados</td>
+        <td>Legítimo interesse (operacional)</td>
+      </tr>
+      <tr>
+        <td>Autoridades públicas</td>
+        <td>Cumprimento de obrigação legal ou ordem judicial</td>
+        <td>Obrigação legal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Todos os provedores de infraestrutura são contratados mediante cláusulas de proteção de dados e operam em conformidade com padrões de segurança reconhecidos internacionalmente.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 7. RETENÇÃO -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>7. Retenção e Eliminação de Dados</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo de Dado</th>
+        <th>Período de Retenção</th>
+        <th>Justificativa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dados de conta (nome, e-mail, senha)</td>
+        <td>Enquanto a conta estiver ativa + 6 meses após exclusão</td>
+        <td>Execução de contrato + período de recuperação</td>
+      </tr>
+      <tr>
+        <td>CPF e dados fiscais</td>
+        <td>5 anos após o último registro fiscal</td>
+        <td>Obrigação tributária (CTN Art. 173)</td>
+      </tr>
+      <tr>
+        <td>Dados pedagógicos</td>
+        <td>Enquanto a conta estiver ativa + 2 anos</td>
+        <td>Histórico de graduação e continuidade pedagógica</td>
+      </tr>
+      <tr>
+        <td>Logs de acesso (IP, fingerprint)</td>
+        <td>6 meses</td>
+        <td>Marco Civil da Internet (Lei 12.965/2014, Art. 15)</td>
+      </tr>
+      <tr>
+        <td>Logs de auditoria de segurança</td>
+        <td>2 anos</td>
+        <td>Legítimo interesse (investigação de incidentes)</td>
+      </tr>
+      <tr>
+        <td>Dados de menores</td>
+        <td>Eliminados em até 30 dias após solicitação do responsável</td>
+        <td>Art. 14, §6º da LGPD</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Após o término do período de retenção, os dados são anonimizados de forma irreversível ou eliminados de maneira segura, conforme Art. 16 da LGPD.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 8. DIREITOS DO TITULAR -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>8. Direitos do Titular</h2>
+  <p>Em conformidade com os Arts. 17 a 22 da LGPD, você tem direito a:</p>
+
+  <div class="rights-grid">
+    <div class="right-card">
+      <strong>Confirmação e Acesso</strong>
+      <span>Confirmar a existência de tratamento e acessar seus dados pessoais.</span>
+    </div>
+    <div class="right-card">
+      <strong>Correção</strong>
+      <span>Solicitar a correção de dados incompletos, inexatos ou desatualizados.</span>
+    </div>
+    <div class="right-card">
+      <strong>Anonimização e Bloqueio</strong>
+      <span>Solicitar anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos.</span>
+    </div>
+    <div class="right-card">
+      <strong>Portabilidade</strong>
+      <span>Solicitar a portabilidade dos dados a outro fornecedor de serviço.</span>
+    </div>
+    <div class="right-card">
+      <strong>Eliminação</strong>
+      <span>Solicitar a eliminação dos dados tratados com base no consentimento.</span>
+    </div>
+    <div class="right-card">
+      <strong>Informação sobre Compartilhamento</strong>
+      <span>Saber com quais entidades públicas e privadas seus dados foram compartilhados.</span>
+    </div>
+    <div class="right-card">
+      <strong>Revogação do Consentimento</strong>
+      <span>Revogar o consentimento a qualquer momento, de forma gratuita e facilitada.</span>
+    </div>
+    <div class="right-card">
+      <strong>Oposição</strong>
+      <span>Opor-se ao tratamento realizado com base em legítimo interesse, caso haja descumprimento da LGPD.</span>
+    </div>
+  </div>
+
+  <p>Para exercer qualquer desses direitos, entre em contato pelo e-mail <strong>dpo@blackbelt.com.br</strong> ou pelo procedimento descrito na Seção 9. Responderemos em até <strong>15 dias úteis</strong>, conforme Art. 18, §5º da LGPD.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 9. EXCLUSÃO DE CONTA -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>9. Procedimento de Exclusão de Conta</h2>
+  <p>Você pode solicitar a exclusão da sua conta e de todos os dados pessoais associados a qualquer momento. O procedimento é:</p>
+
+  <ol class="steps">
+    <li><strong>Acesse Configurações > Minha Conta > Excluir Conta</strong> no aplicativo ou envie e-mail para <a href="mailto:dpo@blackbelt.com.br">dpo@blackbelt.com.br</a> com o assunto "Exclusão de Conta".</li>
+    <li><strong>Confirmação de identidade:</strong> Será necessário confirmar sua identidade por meio de autenticação multifator (MFA) ou respondendo a um e-mail de verificação.</li>
+    <li><strong>Período de carência:</strong> Sua conta será desativada imediatamente e os dados pessoais serão marcados para eliminação. Há um período de <strong>30 dias</strong> para recuperação, durante o qual você pode cancelar a exclusão.</li>
+    <li><strong>Eliminação definitiva:</strong> Após 30 dias, seus dados pessoais serão anonimizados de forma irreversível. Dados com obrigação legal de retenção (CPF, registros fiscais) serão mantidos pelo prazo legal e eliminados após o término.</li>
+    <li><strong>Confirmação:</strong> Você receberá e-mail confirmando a conclusão do processo.</li>
+  </ol>
+
+  <div class="highlight-box">
+    <p><strong>Exclusão de dados de menores:</strong> O responsável legal pode solicitar a exclusão dos dados do menor a qualquer momento, através do perfil Responsável ou por e-mail. O prazo de eliminação para dados de menores é de até <strong>30 dias</strong>, conforme Art. 14, §6º da LGPD.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 10. SEGURANÇA -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>10. Segurança e Criptografia</h2>
+  <p>A BlackBelt emprega medidas técnicas e organizacionais de segurança adequadas ao risco, conforme Art. 46 da LGPD. As principais medidas incluem:</p>
+
+  <h3>10.1. Criptografia</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Medida</th>
+        <th>Tecnologia</th>
+        <th>Aplicação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Transporte (dados em trânsito)</td>
+        <td>TLS 1.2+ (HTTPS obrigatório)</td>
+        <td>Todas as comunicações entre app e servidor</td>
+      </tr>
+      <tr>
+        <td>Armazenamento de PII (dados em repouso)</td>
+        <td>AES-256-CBC (pgcrypto)</td>
+        <td>CPF, telefone, endereço — cifrados no banco de dados</td>
+      </tr>
+      <tr>
+        <td>Senhas</td>
+        <td>SCRAM-SHA-256 / bcrypt</td>
+        <td>Senhas nunca armazenadas em texto claro</td>
+      </tr>
+      <tr>
+        <td>Autenticação de banco</td>
+        <td>SCRAM-SHA-256</td>
+        <td>Conexões ao PostgreSQL</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>10.2. Controles de Acesso</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Controle</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Isolamento multi-tenant (RLS)</td>
+        <td>Row-Level Security no PostgreSQL garante que dados de uma unidade nunca sejam visíveis para outra</td>
+      </tr>
+      <tr>
+        <td>RBAC (controle por papel)</td>
+        <td>6 perfis com permissões distintas: Admin, Professor, Aluno, Teen, Kid, Responsável</td>
+      </tr>
+      <tr>
+        <td>Autenticação multifator (MFA)</td>
+        <td>Obrigatório para Administradores e Instrutores (TOTP RFC 6238)</td>
+      </tr>
+      <tr>
+        <td>Step-up authentication</td>
+        <td>Reautenticação obrigatória para ações críticas (exclusão, exportação, configurações)</td>
+      </tr>
+      <tr>
+        <td>Rate limiting</td>
+        <td>Proteção contra tentativas automatizadas de acesso</td>
+      </tr>
+      <tr>
+        <td>Auditoria imutável</td>
+        <td>Todas as ações são registradas em log de auditoria que não pode ser alterado ou excluído</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>10.3. Monitoramento e Resposta</h3>
+  <p>A Plataforma opera com monitoramento contínuo, incluindo detecção de anomalias em tempo real, alertas automáticos para comportamentos suspeitos e procedimento formalizado de resposta a incidentes (IRP). Em caso de incidente de segurança envolvendo dados pessoais, notificaremos a ANPD e os titulares afetados nos prazos legais, conforme Art. 48 da LGPD.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 11. COOKIES -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>11. Cookies e Tecnologias de Rastreamento</h2>
+  <p>A Plataforma utiliza apenas cookies estritamente necessários para o funcionamento do serviço, incluindo cookies de sessão para manter a autenticação do usuário e cookies de preferência para armazenar configurações de interface (tema, idioma). Não utilizamos cookies de rastreamento publicitário ou de terceiros para fins de marketing.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 12. TRANSFERÊNCIA INTERNACIONAL -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>12. Transferência Internacional de Dados</h2>
+  <p>Caso os dados sejam processados ou armazenados em servidores localizados fora do Brasil, a transferência será realizada exclusivamente para países ou organismos que proporcionem grau de proteção adequado, ou mediante cláusulas contratuais específicas, conforme Art. 33 da LGPD. Atualmente, a infraestrutura utiliza provedores de nuvem com região de dados no Brasil (São Paulo) sempre que disponível.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 13. ALTERAÇÕES -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>13. Alterações nesta Política</h2>
+  <p>Esta Política poderá ser atualizada periodicamente para refletir mudanças nos nossos serviços, na legislação ou nas melhores práticas de privacidade. Sempre que houver alteração substancial, notificaremos os usuários por meio de aviso no aplicativo ou por e-mail, com pelo menos <strong>15 dias de antecedência</strong> da entrada em vigor da nova versão. A versão atualizada será sempre publicada neste endereço com a data de vigência atualizada.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 14. CONTATO DPO -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>14. Encarregado de Proteção de Dados (DPO)</h2>
+
+  <div class="contact-box">
+    <h3>Canal de Privacidade</h3>
+    <p><strong>Encarregado (DPO):</strong> [NOME DO DPO]</p>
+    <p><strong>E-mail:</strong> <a href="mailto:dpo@blackbelt.com.br">dpo@blackbelt.com.br</a></p>
+    <p><strong>Prazo de resposta:</strong> Até 15 dias úteis</p>
+    <p><strong>Horário:</strong> Segunda a sexta, das 9h às 18h (horário de Brasília)</p>
+    <p style="margin-top: 0.8rem; font-size: 0.9rem;">Se não estiver satisfeito com nossa resposta, você tem o direito de apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD) pelo site <a href="https://www.gov.br/anpd" target="_blank" rel="noopener">www.gov.br/anpd</a>.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 15. GOOGLE PLAY / APP STORE -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <h2>15. Informações para Google Play e App Store</h2>
+
+  <div class="highlight-box">
+    <p><strong>Coleta de dados de localização:</strong> Não. A Plataforma não coleta dados de geolocalização.</p>
+    <p><strong>Coleta de dados financeiros:</strong> Não. Pagamentos são processados por plataformas de pagamento certificadas PCI-DSS. Não armazenamos dados de cartão de crédito.</p>
+    <p><strong>Compartilhamento com terceiros para publicidade:</strong> Não. Não compartilhamos dados com redes de publicidade.</p>
+    <p><strong>Dados de crianças:</strong> A Plataforma coleta dados de menores de 13 anos exclusivamente com consentimento verificável do responsável legal, em conformidade com o Art. 14 da LGPD e as diretrizes da COPPA (Children's Online Privacy Protection Act).</p>
+    <p><strong>Exclusão de dados:</strong> Disponível em Configurações > Minha Conta > Excluir Conta ou por e-mail ao DPO.</p>
+  </div>
+
+  <div class="footer-note">
+    <p>BlackBelt — Política de Privacidade v1.0 — Vigência: 15 de fevereiro de 2026</p>
+    <p>Documento em conformidade com a LGPD (Lei nº 13.709/2018), diretrizes do Google Play e da Apple App Store.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
