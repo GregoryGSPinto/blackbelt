@@ -51,7 +51,20 @@ export default function DashboardPage() {
     { label: 'AdminDashboard', maxRetries: 3, ttl: TTL.MEDIUM }
   );
 
-  const stats = result?.[0] ?? null;
+const defaultStats = {
+  novatos: { quantidade: 0, lista: [] },
+  riscoEvasao: { quantidade: 0, lista: [] },
+  inadimplentes: { quantidade: 0, lista: [] },
+  aniversariantes: { quantidade: 0, lista: [] },
+  proximosExames: { quantidade: 0, lista: [] },
+  matriculasAtivas: { quantidade: 0, total: 0 },
+  aulasHoje: { quantidade: 0, lista: [] },
+  checkinsHoje: { quantidade: 0, total: 0 },
+  receitaMes: { valor: 0, variacao: 0 },
+  despesasMes: { valor: 0, variacao: 0 },
+};
+
+const stats = result?.[0] ? { ...defaultStats, ...result[0] } : defaultStats;
   const alertasAtivos = result?.[1] ?? [];
 
   // Proactive smart alerts
