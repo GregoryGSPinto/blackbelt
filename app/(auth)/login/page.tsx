@@ -399,6 +399,7 @@ interface AnimatedInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   autoFocus?: boolean;
   autoComplete?: string;
@@ -417,6 +418,7 @@ function AnimatedInput({
   onChange,
   onFocus,
   onBlur,
+  onKeyDown,
   placeholder,
   autoFocus,
   autoComplete,
@@ -456,6 +458,7 @@ function AnimatedInput({
         setIsFocused(false);
         onBlur?.(e);
       }}
+      onKeyDown={onKeyDown}
       animate={{
         borderBottomColor: isInvalid ? colors.error : isFocused ? colors.inputFocus : colors.inputBorder,
         scale: isFocused && !shouldReduceMotion ? 1.01 : 1,
@@ -1128,6 +1131,12 @@ function LoginContent() {
                         type="email"
                         value={email}
                         onChange={(e) => { setEmail(e.target.value); setError(''); setEmailInvalid(false); }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleEmailSubmit(e);
+                          }
+                        }}
                         placeholder="Email address"
                         autoFocus
                         autoComplete="email"
@@ -1530,6 +1539,12 @@ function LoginContent() {
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handlePasswordSubmit(e);
+                          }
+                        }}
                         placeholder={t('login.passwordPlaceholder')}
                         autoFocus
                         autoComplete="current-password"
