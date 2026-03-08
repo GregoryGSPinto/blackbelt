@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "start": "next start",
     "lint": "eslint app components contexts hooks i18n lib proxy.ts server/src --ext .js,.jsx,.ts,.tsx --quiet",
     "setup": "pnpm install && echo '✅ Lock file gerado e dependências instaladas.'",
@@ -57,7 +59,9 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@emotion/is-prop-valid": "1.4.0",
     "@next/bundle-analyzer": "16.1.6",
+    "@storybook/nextjs": "10.2.16",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.0.0",
@@ -77,6 +81,7 @@
     "lint-staged": "^15.0.0",
     "postcss": "^8",
     "sharp": "0.34.5",
+    "storybook": "10.2.16",
     "supabase": "2.76.15",
     "tailwindcss": "^3.4.1",
     "tsx": "4.21.0",
