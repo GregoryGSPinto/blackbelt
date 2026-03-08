@@ -37,6 +37,24 @@ const NIVEL_COLORS: Record<string, string> = {
 
 type AdminDashData = [EstatisticasDashboard, Alerta[]];
 
+// Helper para criar objeto seguro com defaults
+const createSafeStats = (rawStats: any) => {
+  const defaultObj = { quantidade: 0, lista: [], total: 0, valor: 0, variacao: 0 };
+  
+  return new Proxy(rawStats || {}, {
+    get(target, prop) {
+      if (!(prop in target) || target[prop] == null) {
+        return defaultObj;
+      }
+      // Merge com defaults se for objeto
+      if (typeof target[prop] === 'object' && !Array.isArray(target[prop])) {
+        return { ...defaultObj, ...target[prop] };
+      }
+      return target[prop];
+    }
+  });
+};
+
 export default function DashboardPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -51,20 +69,7 @@ export default function DashboardPage() {
     { label: 'AdminDashboard', maxRetries: 3, ttl: TTL.MEDIUM }
   );
 
-const defaultStats = {
-  novatos: { quantidade: 0, lista: [] },
-  riscoEvasao: { quantidade: 0, lista: [] },
-  inadimplentes: { quantidade: 0, lista: [] },
-  aniversariantes: { quantidade: 0, lista: [] },
-  proximosExames: { quantidade: 0, lista: [] },
-  matriculasAtivas: { quantidade: 0, total: 0 },
-  aulasHoje: { quantidade: 0, lista: [] },
-  checkinsHoje: { quantidade: 0, total: 0 },
-  receitaMes: { valor: 0, variacao: 0 },
-  despesasMes: { valor: 0, variacao: 0 },
-};
-
-const stats = result?.[0] ? { ...defaultStats, ...result[0] } : defaultStats;
+const stats = createSafeStats(result?.[0]);
   const alertasAtivos = result?.[1] ?? [];
 
   // Proactive smart alerts
