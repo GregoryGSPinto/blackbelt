@@ -1696,6 +1696,45 @@
     "checkin": {
       "title": "Check-in",
       "subtitle": "Registre sua presença na aula",
+      "currentStatus": "Status Atual",
+      "status": {
+        "active": {
+          "badge": "Ativo",
+          "message": "Sua matrícula está ativa",
+          "trainingText": "Treino Liberado",
+          "trainingDesc": "Você pode fazer check-in para a aula de hoje"
+        },
+        "inactive": {
+          "badge": "Inativo",
+          "message": "Sua matrícula está inativa"
+        },
+        "pending": {
+          "badge": "Pendente",
+          "message": "Aguardando ativação"
+        }
+      },
+      "atTime": "às",
+      "myQrCode": "Meu QR Code",
+      "qrCodeHint": "Apresente este código na recepção",
+      "weeklyGrid": "Horários da Semana",
+      "schedule": {
+        "time": "Horário",
+        "mon": "Seg",
+        "tue": "Ter",
+        "wed": "Qua",
+        "thu": "Qui",
+        "fri": "Sex",
+        "sat": "Sáb",
+        "sun": "Dom"
+      },
+      "statusLabels": {
+        "active": "Ativo",
+        "inactive": "Inativo",
+        "pending": "Pendente"
+      },
+      "validatedOn": "Validado em",
+      "makeCheckin": "FAZER CHECK-IN",
+      "history": "Histórico de Check-ins",
       "scanQR": "Escanear QR Code",
       "manualCheckin": "Check-in manual",
       "success": "Check-in realizado com sucesso!",
@@ -1716,7 +1755,6 @@
       "unavailable": "CHECK-IN INDISPONÍVEL",
       "unavailableNote": "Acesso temporariamente indisponível. Procure a recepção para regularizar sua situação.",
       "successMessage": "Check-in realizado com sucesso!",
-      "myQRCode": "Meu QR Code",
       "qrDescription": "Apresente na recepção para check-in rápido",
       "trainingSchedule": "Horários de Treino",
       "scheduleDesc": "Grade semanal de sessões disponíveis",
@@ -1725,7 +1763,9 @@
       "qrInstruction": "Apresente este código na recepção para registrar sua presença",
       "renew": "Renovar",
       "fullscreen": "Tela cheia",
-      "exitFullscreen": "Sair"
+      "exitFullscreen": "Sair",
+      "start": "Início",
+      "unit": "Unidade"
     },
     "home": {
       "silentPreview": "Prévia silenciosa · Passe o mouse para continuar",
