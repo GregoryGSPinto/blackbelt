@@ -36,7 +36,7 @@ import { ShellMobileDrawer } from './ShellMobileDrawer';
 import { ShellSidebar } from './ShellSidebar';
 import { ShellSidebarMobileHeader } from './ShellSidebarMobileHeader';
 import { ShellSidebarDesktopHeader } from './ShellSidebarDesktopHeader';
-import { FABCheckin } from '@/components/checkin/FABCheckin';
+import { FABCheckin } from '@/src/features/attendance/components/checkin/FABCheckin';
 import { PageTransition } from '@/components/transitions/PageTransition';
 
 interface AppShellProps {

@@ -18,7 +18,7 @@ import {
   gerarPix,
   getResumoAluno,
   getAdminFinanceDashboard,
-} from '@/lib/api/pagamentos.service';
+} from '@/src/features/payments/services/pagamentos.service';
 
 describe('Pagamentos Service (mock mode)', () => {
   describe('getPlanos', () => {

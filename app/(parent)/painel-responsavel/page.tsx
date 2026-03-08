@@ -18,9 +18,9 @@ import { AnimatedPage } from '@/components/shared/AnimatedPage';
 import { staggerStyle } from '@/lib/animations';
 import { QuickMessage } from '@/components/shared/QuickMessage';
 import { WelcomeCard } from '@/components/shared/WelcomeCard';
-import * as checkinService from '@/lib/api/checkin.service';
-import type { DayStatus } from '@/lib/api/checkin.service';
-import { ParentCheckinCard } from '@/components/checkin/ParentCheckinCard';
+import * as checkinService from '@/src/features/attendance/services/checkin.service';
+import type { DayStatus } from '@/src/features/attendance/services/checkin.service';
+import { ParentCheckinCard } from '@/src/features/attendance/components/checkin/ParentCheckinCard';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 

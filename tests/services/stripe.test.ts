@@ -12,7 +12,7 @@ import {
   gerarPix,
   getResumoAluno,
   getAdminFinanceDashboard,
-} from '@/lib/api/pagamentos.service';
+} from '@/src/features/payments/services/pagamentos.service';
 
 describe('Stripe/Pagamentos Service (mock mode)', () => {
   describe('Checkout session creation (plans)', () => {

@@ -13,8 +13,8 @@ import {
   DollarSign, TrendingUp, AlertTriangle, CreditCard, Users, Clock,
   QrCode, Filter,
 } from 'lucide-react';
-import * as pagService from '@/lib/api/pagamentos.service';
-import type { AdminFinanceDashboard, Fatura, Assinatura } from '@/lib/api/pagamentos.service';
+import * as pagService from '@/src/features/payments/services/pagamentos.service';
+import type { AdminFinanceDashboard, Fatura, Assinatura } from '@/src/features/payments/services/pagamentos.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';

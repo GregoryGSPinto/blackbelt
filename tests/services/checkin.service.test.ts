@@ -14,7 +14,7 @@ import {
   validateAndCheckin,
   getCheckinHistory,
   getTodayCheckins,
-} from '@/lib/api/checkin.service';
+} from '@/src/features/attendance/services/checkin.service';
 
 describe('Checkin Service (mock mode)', () => {
   describe('registerCheckin', () => {
