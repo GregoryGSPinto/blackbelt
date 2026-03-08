@@ -75,27 +75,31 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self), payment=()');
 
   const isDev = process.env.NODE_ENV === 'development';
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const csp = [
+  const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
+  const connectSources = [
+    "'self'",
+    isDev ? 'https:' : supabaseUrl,
+    isDev ? 'ws:' : null,
+    isDev ? 'wss:' : "wss://*.supabase.co",
+    'https://*.sentry.io',
+    'https://*.ingest.sentry.io',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const cspDirectives = [
     "default-src 'self'",
-    isDev
-      ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
-      : "script-src 'self' 'unsafe-inline'",
+    isDev ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'" : "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
-    isDev
-      ? "connect-src 'self' https: ws: wss:"
-      : `connect-src 'self' ${supabaseUrl} https://*.sentry.io https://*.ingest.sentry.io`,
+    `connect-src ${connectSources}`,
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-  ]
-    .filter(Boolean)
-    .join('; ')
-    .replace(/\n/g, ' ')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
+  ];
+
+  const csp = cspDirectives.join('; ');
 
   response.headers.set('Content-Security-Policy', csp);
 
