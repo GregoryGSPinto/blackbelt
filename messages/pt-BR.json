@@ -1695,6 +1695,7 @@
     },
     "checkin": {
       "title": "Check-in",
+      "subtitle": "Registre sua presença na aula",
       "scanQR": "Escanear QR Code",
       "manualCheckin": "Check-in manual",
       "success": "Check-in realizado com sucesso!",
