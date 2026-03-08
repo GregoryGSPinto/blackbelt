@@ -5,15 +5,57 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Mail, MessageSquare } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+
+// ─── Animation Constants ────────────────────────────────────
+const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as const;
+const DURATION_SLOW = 0.6;
+const DURATION_NORMAL = 0.5;
+const STAGGER_DELAY = 0.08;
+
+const containerVariants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: STAGGER_DELAY,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: EASE_OUT_EXPO,
+    },
+  },
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 30 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: DURATION_SLOW,
+      ease: EASE_OUT_EXPO,
+    },
+  },
+};
 
 export default function EsqueciSenhaPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
+  const shouldReduceMotion = useReducedMotion();
 
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -43,194 +85,225 @@ export default function EsqueciSenhaPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-black text-white overflow-hidden">
-        {/* Background Fixo */}
+      <div className="min-h-screen overflow-hidden" style={{ background: isDark ? '#0a0a0a' : '#f5f5f5' }}>
+        {/* Background */}
         <div className="fixed inset-0 z-0">
           <Image
             src="/images/logo-blackbelt.png"
             alt="Background"
             fill
-            className="object-cover"
+            className="object-cover opacity-30"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black" />
+          <div className="absolute inset-0" style={{ background: isDark ? 'rgba(0,0,0,0.85)' : 'rgba(255,255,255,0.85)' }} />
         </div>
 
         {/* Content */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-          <div className="w-full max-w-lg animate-slide-up">
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl text-center">
-              <div className="w-20 h-20 bg-green-600/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <motion.div
+            className="w-full max-w-md"
+            initial="initial"
+            animate="animate"
+            variants={fadeInUp}
+          >
+            <div
+              className="rounded-2xl p-8 shadow-2xl text-center"
+              style={{
+                background: tokens.cardBg,
+                border: `1px solid ${tokens.cardBorder}`,
+                backdropFilter: 'blur(12px)',
+              }}
+            >
+              <motion.div
+                className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+                style={{ background: 'rgba(34,197,94,0.2)' }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+              >
+                <svg className="w-10 h-10" style={{ color: '#22c55e' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-              </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">{t('forgotPassword.linkSent')}</h2>
-              <p className="text-white/70 text-base leading-relaxed mb-6">
+              </motion.div>
+              <h2 className="text-xl font-semibold mb-3" style={{ color: tokens.text }}>
+                {t('forgotPassword.linkSent')}
+              </h2>
+              <p className="leading-relaxed mb-6" style={{ color: tokens.textMuted }}>
                 {t('forgotPassword.linkSentDesc', { target: method === 'email' ? 'e-mail' : 'WhatsApp' })}
               </p>
-              <div className="inline-flex items-center gap-2 text-sm text-white/50">
-                <div className="w-2 h-2 bg-white/50 rounded-full animate-pulse"></div>
+              <div className="inline-flex items-center gap-2 text-sm" style={{ color: tokens.textMuted }}>
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: tokens.textMuted }} />
                 <span>{tCommon('actions.redirecting')}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Background Fixo - IDÊNTICO ao login */}
+    <div className="min-h-screen overflow-hidden" style={{ background: isDark ? '#0a0a0a' : '#f5f5f5' }}>
+      {/* Background */}
       <div className="fixed inset-0 z-0">
         <Image
           src="/images/logo-blackbelt.png"
           alt="Background"
           fill
-          className="object-cover"
+          className="object-cover opacity-30"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black" />
+        <div className="absolute inset-0" style={{ background: isDark ? 'rgba(0,0,0,0.85)' : 'rgba(255,255,255,0.85)' }} />
       </div>
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-        <div className="w-full max-w-lg animate-slide-up">
+        <motion.div
+          className="w-full max-w-md"
+          initial="initial"
+          animate="animate"
+          variants={containerVariants}
+        >
           {/* Botão Voltar */}
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-300 mb-8 group"
-          >
-            <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="text-sm font-medium">{t('forgotEmail.backToLogin')}</span>
-          </Link>
+          <motion.div variants={itemVariants}>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 mb-8 group transition-colors duration-300"
+              style={{ color: tokens.textMuted }}
+            >
+              <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
+              <span className="text-sm font-medium">{t('forgotEmail.backToLogin')}</span>
+            </Link>
+          </motion.div>
 
           {/* Container Principal */}
-          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl">
+          <motion.div
+            className="rounded-2xl p-8 shadow-2xl"
+            style={{
+              background: tokens.cardBg,
+              border: `1px solid ${tokens.cardBorder}`,
+              backdropFilter: 'blur(12px)',
+            }}
+            variants={itemVariants}
+          >
             {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold mb-3 tracking-tight">
+            <motion.div className="mb-8" variants={itemVariants}>
+              <h1 className="text-2xl font-semibold mb-3" style={{ color: tokens.text }}>
                 {t('forgotPassword.title')}
               </h1>
-              <p className="text-white/70 text-base leading-relaxed">
+              <p className="leading-relaxed" style={{ color: tokens.textMuted }}>
                 {t('forgotPassword.description')}
               </p>
-            </div>
+            </motion.div>
 
             {/* Method Selection */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <button
+            <motion.div className="grid grid-cols-2 gap-4 mb-8" variants={itemVariants}>
+              <motion.button
                 type="button"
                 onClick={() => setMethod('email')}
-                className={`p-5 rounded-xl border-2 transition-all duration-300 ${
-                  method === 'email'
-                    ? 'bg-white/10 border-white/30 shadow-lg'
-                    : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                }`}
+                className="p-5 rounded-xl border-2 transition-all duration-300"
+                style={{
+                  background: method === 'email' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)',
+                  borderColor: method === 'email' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)',
+                }}
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               >
-                <Mail className={`w-8 h-8 mx-auto mb-2 ${method === 'email' ? 'text-white' : 'text-white/60'}`} />
-                <span className={`text-sm font-medium ${method === 'email' ? 'text-white' : 'text-white/70'}`}>
+                <Mail className="w-8 h-8 mx-auto mb-2" style={{ color: method === 'email' ? tokens.text : tokens.textMuted }} />
+                <span className="text-sm font-medium" style={{ color: method === 'email' ? tokens.text : tokens.textMuted }}>
                   {t('forgotPassword.emailMethod')}
                 </span>
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
                 type="button"
                 onClick={() => setMethod('whatsapp')}
-                className={`p-5 rounded-xl border-2 transition-all duration-300 ${
-                  method === 'whatsapp'
-                    ? 'bg-white/10 border-white/30 shadow-lg'
-                    : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                }`}
+                className="p-5 rounded-xl border-2 transition-all duration-300"
+                style={{
+                  background: method === 'whatsapp' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)',
+                  borderColor: method === 'whatsapp' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)',
+                }}
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               >
-                <MessageSquare className={`w-8 h-8 mx-auto mb-2 ${method === 'whatsapp' ? 'text-white' : 'text-white/60'}`} />
-                <span className={`text-sm font-medium ${method === 'whatsapp' ? 'text-white' : 'text-white/70'}`}>
+                <MessageSquare className="w-8 h-8 mx-auto mb-2" style={{ color: method === 'whatsapp' ? tokens.text : tokens.textMuted }} />
+                <span className="text-sm font-medium" style={{ color: method === 'whatsapp' ? tokens.text : tokens.textMuted }}>
                   {t('forgotPassword.whatsappMethod')}
                 </span>
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <motion.form onSubmit={handleSubmit} className="space-y-6" variants={itemVariants}>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white mb-2.5">
+                <label htmlFor="email" className="block text-sm font-medium mb-2.5" style={{ color: tokens.text }}>
                   {t('forgotPassword.emailLabel')}
                 </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
-                  placeholder={t('forgotPassword.emailPlaceholder')}
-                  required
-                />
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: tokens.textMuted }} />
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 rounded-xl transition-all outline-none"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: `1px solid ${tokens.cardBorder}`,
+                      color: tokens.text,
+                    }}
+                    placeholder={t('forgotPassword.emailPlaceholder')}
+                    required
+                  />
+                </div>
               </div>
 
-              <button
+              <motion.button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                  color: '#fff',
+                }}
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               >
                 {loading ? tCommon('actions.sending') : t('forgotPassword.sendVia', { method: method === 'email' ? t('forgotPassword.emailMethod') : t('forgotPassword.whatsappMethod') })}
-              </button>
-            </form>
+              </motion.button>
+            </motion.form>
 
             {/* Divider */}
-            <div className="my-8 border-t border-white/10" />
+            <motion.div className="my-8 border-t" style={{ borderColor: tokens.cardBorder }} variants={itemVariants} />
 
             {/* Link alternativo */}
-            <div className="text-center space-y-3">
-              <p className="text-sm text-white/60">
+            <motion.div className="text-center space-y-3" variants={itemVariants}>
+              <p style={{ color: tokens.textMuted }}>
                 {t('forgotPassword.noEmailAccess')}
               </p>
               <Link
                 href="/esqueci-email"
-                className="inline-block text-sm font-semibold text-white hover:text-white/80 transition-all duration-300"
+                className="inline-block text-sm font-semibold transition-all duration-300"
+                style={{ color: tokens.text }}
               >
                 {t('forgotPassword.recoverEmail')} →
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Footer */}
-          <p className="text-center text-sm text-white/40 mt-8 animate-fade-in-delay">
+          <motion.p
+            className="text-center text-sm mt-8"
+            style={{ color: tokens.textMuted }}
+            variants={itemVariants}
+          >
             {t('forgotPassword.needAccount')}{' '}
-            <Link href="/cadastro" className="text-white hover:text-white/80 transition-colors font-medium">
+            <Link href="/cadastro" className="font-medium transition-colors" style={{ color: tokens.text }}>
               {t('forgotPassword.signUpFree')}
             </Link>
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </div>
-
-      {/* Animações CSS */}
-      <style jsx global>{`
-        @keyframes slide-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .animate-slide-up {
-          animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-fade-in-delay {
-          animation: fade-in 0.8s ease-out 0.3s forwards;
-          opacity: 0;
-        }
-      `}</style>
     </div>
   );
 }
