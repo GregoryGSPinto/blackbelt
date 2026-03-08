@@ -19,10 +19,15 @@ import { useMounted } from '@/hooks/useMounted';
 // ─── Types ──────────────────────────────────────────────────
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR' | 'OAUTH_REDIRECT';
 
-// ─── Premium Animation Constants ────────────────────────────
-// Transições curtas e suaves (0.35s)
-const EASE_PREMIUM = [0.4, 0, 0.2, 1] as const;
-const DURATION_PREMIUM = 0.35;
+// ─── Professional Animation Constants ────────────────────────────
+// Transições mais lentas e elegantes
+const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as const;
+const EASE_IN_OUT = [0.4, 0, 0.2, 1] as const;
+const EASE_SMOOTH = [0.25, 0.1, 0.25, 1] as const;
+
+const DURATION_SLOW = 0.6;
+const DURATION_NORMAL = 0.5;
+const DURATION_FAST = 0.35;
 const STAGGER_DELAY = 0.08;
 
 const SPRING_PREMIUM = {
@@ -37,24 +42,50 @@ const SPRING_GENTLE = {
   damping: 30,
 };
 
-// ─── Premium Framer Motion Variants ─────────────────────────
-// Transições curtas e suaves
+// ─── Professional Framer Motion Variants ─────────────────────────
+// Slide horizontal suave entre steps
+const slideVariants = {
+  initial: (direction: number) => ({
+    x: direction > 0 ? 80 : -80,
+    opacity: 0,
+    scale: 0.95,
+  }),
+  animate: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: DURATION_NORMAL,
+      ease: EASE_OUT_EXPO,
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 80 : -80,
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      duration: DURATION_FAST,
+      ease: [0.4, 0, 1, 1],
+    },
+  }),
+};
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: DURATION_PREMIUM,
-      ease: EASE_PREMIUM,
+      duration: DURATION_SLOW,
+      ease: EASE_OUT_EXPO,
     }
   },
   exit: { 
     opacity: 0, 
     y: -10,
     transition: {
-      duration: 0.25,
-      ease: EASE_PREMIUM,
+      duration: DURATION_FAST,
+      ease: EASE_IN_OUT,
     }
   },
 };
@@ -65,16 +96,16 @@ const slideInLeft = {
     opacity: 1, 
     x: 0,
     transition: {
-      duration: DURATION_PREMIUM,
-      ease: EASE_PREMIUM,
+      duration: DURATION_NORMAL,
+      ease: EASE_OUT_EXPO,
     }
   },
   exit: { 
     opacity: 0, 
     x: 20,
     transition: {
-      duration: 0.25,
-      ease: EASE_PREMIUM,
+      duration: DURATION_FAST,
+      ease: EASE_IN_OUT,
     }
   },
 };
@@ -82,44 +113,48 @@ const slideInLeft = {
 const stepTransition = {
   initial: (dir: 'left' | 'right') => ({ 
     opacity: 0, 
-    x: dir === 'right' ? 24 : -24 
+    x: dir === 'right' ? 60 : -60,
+    scale: 0.96,
   }),
   animate: { 
     opacity: 1, 
     x: 0,
+    scale: 1,
     transition: {
-      duration: DURATION_PREMIUM,
-      ease: EASE_PREMIUM,
+      duration: DURATION_NORMAL,
+      ease: EASE_OUT_EXPO,
     }
   },
   exit: (dir: 'left' | 'right') => ({ 
     opacity: 0, 
-    x: dir === 'left' ? -24 : 24,
+    x: dir === 'left' ? 60 : -60,
+    scale: 0.96,
     transition: {
-      duration: 0.25,
-      ease: EASE_PREMIUM,
+      duration: DURATION_FAST,
+      ease: EASE_IN_OUT,
     }
   }),
 };
 
+// Stagger container para elementos aparecerem em sequência
 const staggerContainer = {
   initial: {},
   animate: {
     transition: {
       staggerChildren: STAGGER_DELAY,
-      delayChildren: 0.05,
+      delayChildren: 0.1,
     },
   },
 };
 
 const staggerItem = {
-  initial: { opacity: 0, y: 12 },
+  initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: DURATION_PREMIUM,
-      ease: EASE_PREMIUM,
+      duration: 0.4,
+      ease: EASE_SMOOTH,
     }
   },
 };
@@ -423,8 +458,12 @@ function AnimatedInput({
       }}
       animate={{
         borderBottomColor: isInvalid ? colors.error : isFocused ? colors.inputFocus : colors.inputBorder,
+        scale: isFocused && !shouldReduceMotion ? 1.01 : 1,
       }}
-      transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
+      transition={{ 
+        duration: shouldReduceMotion ? 0 : 0.2, 
+        ease: [0.25, 0.1, 0.25, 1] 
+      }}
     />
   );
 }
