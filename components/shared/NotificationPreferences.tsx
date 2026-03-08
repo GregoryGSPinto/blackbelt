@@ -9,6 +9,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { Bell, BookOpen, Megaphone, MessageSquare, Trophy, Clock } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 // ── Types ──
 
@@ -68,6 +70,8 @@ function savePrefs(prefs: NotifPrefs) {
 
 export function NotificationPreferences() {
   const t = useTranslations('athlete.notificationPrefs');
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [prefs, setPrefs] = useState<NotifPrefs>(defaultPrefs);
 
   useEffect(() => {
@@ -117,10 +121,10 @@ export function NotificationPreferences() {
                 <cat.icon size={14} style={{ color: enabled ? cat.color : 'rgba(255,255,255,0.2)' }} />
               </div>
               <div className="flex-1 text-left min-w-0">
-                <p className={`text-sm font-medium ${enabled ? 'text-white/80' : 'text-white/30'}`}>
+                <p className="text-sm font-medium" style={{ color: enabled ? tokens.text : tokens.textMuted }}>
                   {t(cat.label)}
                 </p>
-                <p className="text-[10px] text-white/25 truncate">{t(cat.description)}</p>
+                <p className="text-[10px] truncate" style={{ color: tokens.textMuted }}>{t(cat.description)}</p>
               </div>
               {/* Toggle pill */}
               <div
@@ -144,8 +148,8 @@ export function NotificationPreferences() {
       {/* Frequency selector */}
       <div>
         <div className="flex items-center gap-2 mb-3">
-          <Clock size={12} className="text-white/25" />
-          <p className="text-xs text-white/40 font-medium">{t('frequency')}</p>
+          <Clock size={12} style={{ color: tokens.textMuted }} />
+          <p className="text-xs font-medium" style={{ color: tokens.textMuted }}>{t('frequency')}</p>
         </div>
         <div className="flex gap-2">
           {FREQUENCY_OPTIONS.map((opt) => {
@@ -154,14 +158,15 @@ export function NotificationPreferences() {
               <button
                 key={opt.value}
                 onClick={() => setFrequency(opt.value)}
-                className={`flex-1 py-2.5 px-3 rounded-xl text-center transition-all duration-200 ${
-                  active
-                    ? 'bg-white/10 text-white border border-white/15'
-                    : 'bg-white/[0.02] text-white/30 border border-white/[0.04] hover:bg-white/[0.04]'
-                }`}
+                className="flex-1 py-2.5 px-3 rounded-xl text-center transition-all duration-200"
+                style={{
+                  background: active ? tokens.cardBg : 'transparent',
+                  border: `1px solid ${active ? tokens.cardBorder : 'transparent'}`,
+                  color: active ? tokens.text : tokens.textMuted,
+                }}
               >
                 <p className="text-xs font-semibold">{t(`freqOptions.${opt.label}`)}</p>
-                <p className="text-[9px] text-white/20 mt-0.5">{t(`freqOptions.${opt.desc}`)}</p>
+                <p className="text-[9px] mt-0.5" style={{ color: tokens.textMuted }}>{t(`freqOptions.${opt.desc}`)}</p>
               </button>
             );
           })}
