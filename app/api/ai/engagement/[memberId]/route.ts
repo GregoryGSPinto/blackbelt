@@ -10,7 +10,7 @@ import { withAuth, apiOk, apiServerError, apiForbidden, apiNotFound } from '@/li
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { memberId: string } },
+  context: { params: Promise<{ memberId: string }> },
 ) {
   try {
     const { supabase, user, membership } = await withAuth(req);
@@ -19,7 +19,7 @@ export async function GET(
       return apiForbidden('Sem membership ativa');
     }
 
-    const { memberId } = params;
+    const { memberId } = await context.params;
 
     // Auth: admin/professor can view anyone; student can only view self
     const isSelf = membership.id === memberId;

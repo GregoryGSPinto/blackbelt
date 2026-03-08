@@ -344,6 +344,7 @@
       "suggestions": "Sugestões de Busca",
       "mostSearched": "Mais Buscados",
       "resultsCount": "{count, plural, one {# resultado encontrado} other {# resultados encontrados}}",
+      "results": "Resultados da busca",
       "noResultsFor": "Nenhum resultado para \"{query}\"",
       "tryDifferent": "Tente buscar por outro termo ou navegue pelas categorias"
     },

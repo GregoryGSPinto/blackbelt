@@ -8,7 +8,7 @@
  *   GET /aluno/home         (próxima sessão, frequência, conquistas)
  */
 
-import { apiClient } from './client';
+import { apiClient } from '@/lib/api/client';
 import { useMock, mockDelay } from '@/lib/env';
 import type { AlunoHomeData } from '@/lib/__mocks__/aluno-home.mock';
 

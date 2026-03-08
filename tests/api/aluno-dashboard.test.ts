@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAlunoHomeData } from '@/lib/api/aluno-home.service';
+import { getAlunoHomeData } from '@/src/features/students/services/aluno-home.service';
 
 describe('Aluno Dashboard Service (mock mode)', () => {
   it('returns dashboard data with required fields', async () => {

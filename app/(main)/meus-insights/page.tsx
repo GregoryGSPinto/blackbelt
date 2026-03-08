@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useStudentDNA } from '@/hooks/useStudentDNA';
+import { useStudentDNA } from '@/src/features/students/hooks/useStudentDNA';
 import { useEngagementScore } from '@/hooks/useEngagementScore';
-import { PersonalInsightsCard } from '@/components/aluno/PersonalInsightsCard';
-import { WeeklyChallengeCard } from '@/components/aluno/WeeklyChallengeCard';
-import { PromotionPredictionCard } from '@/components/aluno/PromotionPredictionCard';
-import { TrainingBuddiesWidget } from '@/components/aluno/TrainingBuddiesWidget';
-import { MotivationalBanner } from '@/components/aluno/MotivationalBanner';
+import { PersonalInsightsCard } from '@/src/features/students/components/aluno/PersonalInsightsCard';
+import { WeeklyChallengeCard } from '@/src/features/students/components/aluno/WeeklyChallengeCard';
+import { PromotionPredictionCard } from '@/src/features/students/components/aluno/PromotionPredictionCard';
+import { TrainingBuddiesWidget } from '@/src/features/students/components/aluno/TrainingBuddiesWidget';
+import { MotivationalBanner } from '@/src/features/students/components/aluno/MotivationalBanner';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 

@@ -3,6 +3,16 @@
 const createNextIntlPlugin = require('next-intl/plugin');
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
+// Some Next.js internals rely on NEXT_DEPLOYMENT_ID. Provide a fallback in dev.
+const nextDeploymentId =
+  process.env.NEXT_DEPLOYMENT_ID ||
+  process.env.VERCEL_DEPLOYMENT_ID ||
+  process.env.VERCEL_GIT_COMMIT_SHA ||
+  'local-development';
+
+process.env.NEXT_DEPLOYMENT_ID = nextDeploymentId;
+process.env.NEXT_PUBLIC_DEPLOYMENT_ID = nextDeploymentId;
+
 // Bundle analyzer (run: ANALYZE=true npm run build)
 const withBundleAnalyzer = process.env.ANALYZE === 'true'
   ? require('@next/bundle-analyzer')({ enabled: true })
@@ -80,6 +90,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts'],
   },
+
 }
 
 module.exports = withNextIntl(withBundleAnalyzer(nextConfig))

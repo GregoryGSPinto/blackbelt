@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useStudentDNA } from '@/hooks/useStudentDNA';
+import { useStudentDNA } from '@/src/features/students/hooks/useStudentDNA';
 import AdventureProgress from '@/components/kids/AdventureProgress';
 import StickerCollection from '@/components/kids/StickerCollection';
 import MascotBubble from '@/components/kids/MascotBubble';

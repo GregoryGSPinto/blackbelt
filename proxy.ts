@@ -38,6 +38,7 @@ function detectLocale(request: NextRequest): string {
 }
 
 const PUBLIC_ROUTES = [
+  '/',
   '/landing',
   '/login',
   '/cadastro',
@@ -49,12 +50,21 @@ const PUBLIC_ROUTES = [
   '/excluir-conta',
   '/politica-privacidade',
   '/termos-de-uso',
-  '/_next',
   '/favicon.ico',
   '/robots.txt',
   '/sitemap.xml',
   '/sw.js',
   '/manifest.json',
+];
+
+const PROTECTED_PREFIXES = [
+  '/dashboard',
+  '/app',
+  '/admin',
+  '/professor',
+  '/kids',
+  '/parent',
+  '/teen',
 ];
 
 const PUBLIC_API_ROUTES = [
@@ -109,11 +119,49 @@ function applySecurityHeaders(response: NextResponse): void {
 }
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
   const locale = detectLocale(request);
+  const isPublicRoute = PUBLIC_ROUTES.some(route =>
+    route === '/' ? pathname === '/' : pathname.startsWith(route),
+  );
+  const isProtected = PROTECTED_PREFIXES.some(prefix => pathname.startsWith(prefix));
   request.headers.set('x-locale', locale);
 
-  if (pathname.includes('.') || pathname.startsWith('/_next')) {
+  if (isPublicRoute) {
+    const publicResponse = NextResponse.next({
+      request: { headers: request.headers },
+    });
+
+    if (!request.cookies.get('locale')?.value) {
+      publicResponse.cookies.set('locale', locale, {
+        path: '/',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365,
+      });
+    }
+
+    applySecurityHeaders(publicResponse);
+    return publicResponse;
+  }
+
+  if (searchParams.get('fromMiddleware') === '1') {
+    const loopResponse = NextResponse.next({
+      request: { headers: request.headers },
+    });
+
+    if (!request.cookies.get('locale')?.value) {
+      loopResponse.cookies.set('locale', locale, {
+        path: '/',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365,
+      });
+    }
+
+    applySecurityHeaders(loopResponse);
+    return loopResponse;
+  }
+
+  if (pathname.startsWith('/_next/static') || pathname.startsWith('/_next/image')) {
     return NextResponse.next();
   }
 
@@ -129,7 +177,6 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  const isPublicPage = PUBLIC_ROUTES.some(route => pathname.startsWith(route));
   const isPublicApi = PUBLIC_API_ROUTES.some(route => pathname.startsWith(route));
 
   let response = NextResponse.next({
@@ -145,7 +192,12 @@ export async function proxy(request: NextRequest) {
     });
   }
 
-  if (isPublicPage || isPublicApi) {
+  if (isPublicApi) {
+    applySecurityHeaders(response);
+    return response;
+  }
+
+  if (!isProtected) {
     applySecurityHeaders(response);
     return response;
   }
@@ -165,6 +217,7 @@ export async function proxy(request: NextRequest) {
 
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('returnTo', pathname);
+    loginUrl.searchParams.set('fromMiddleware', '1');
     const redirectResponse = NextResponse.redirect(loginUrl);
     applySecurityHeaders(redirectResponse);
     return redirectResponse;
@@ -176,6 +229,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

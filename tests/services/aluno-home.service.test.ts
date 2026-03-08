@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { getAlunoHomeData } from '@/lib/api/aluno-home.service';
-import type { AlunoHomeData } from '@/lib/api/aluno-home.service';
+import { getAlunoHomeData } from '@/src/features/students/services/aluno-home.service';
+import type { AlunoHomeData } from '@/src/features/students/services/aluno-home.service';
 
 describe('Aluno Home Service (mock mode)', () => {
   it('returns complete AlunoHomeData', async () => {

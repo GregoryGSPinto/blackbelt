@@ -6,13 +6,17 @@
 import { useTranslations } from 'next-intl';
 import { Wifi, WifiOff } from 'lucide-react';
 import { useNetworkStatus } from '@/hooks/useNetworkStatus';
+import { useMounted } from '@/hooks/useMounted';
 
 const isMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
 export function SlowConnectionBanner() {
+  const mounted = useMounted();
   const t = useTranslations('common.connection');
   const tErr = useTranslations('common.errors');
   const { isOnline, isSlow, effectiveType } = useNetworkStatus();
+
+  if (!mounted) return null;
 
   if (isMock) return null;
   if (isOnline && !isSlow) return null;

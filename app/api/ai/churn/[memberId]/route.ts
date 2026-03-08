@@ -9,7 +9,7 @@ import { withAuth, apiOk, apiServerError, apiForbidden, apiNotFound } from '@/li
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { memberId: string } },
+  context: { params: Promise<{ memberId: string }> },
 ) {
   try {
     const { supabase, membership } = await withAuth(req);
@@ -18,7 +18,7 @@ export async function GET(
       return apiForbidden('Acesso restrito a administradores e instrutores');
     }
 
-    const { memberId } = params;
+    const { memberId } = await context.params;
 
     // Verify member belongs to same academy
     const { data: member } = await supabase

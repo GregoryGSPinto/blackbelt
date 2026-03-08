@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useStudentRisk } from '@/hooks/useStudentRisk';
+import { useStudentRisk } from '@/src/features/students/hooks/useStudentRisk';
 import type { ChurnRiskLevel } from '@/lib/domain/intelligence';
 
 // ════════════════════════════════════════════════════════════════════

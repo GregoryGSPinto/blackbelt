@@ -10,7 +10,7 @@ import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';
 import { useServiceCall, RetryToast } from '@/hooks/useServiceCall';
 import { PageError, PageEmpty } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
-import { TurmaCard } from '@/components/aluno/TurmaCard';
+import { TurmaCard } from '@/src/features/students/components/aluno/TurmaCard';
 import { AnimatedPage } from '@/components/shared/AnimatedPage';
 import { AnimatedList } from '@/components/shared/AnimatedList';
 import { useTheme } from '@/contexts/ThemeContext';

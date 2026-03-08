@@ -1,7 +1,7 @@
 // ============================================================
 // Evolução Mock — Timeline events + frequency history
 // ============================================================
-import type { TimelineEvent } from '@/components/aluno/EvolutionTimeline';
+import type { TimelineEvent } from '@/src/features/students/components/aluno/EvolutionTimeline';
 
 export interface FrequenciaHistorico {
   mes: string;           // "2025-01"
