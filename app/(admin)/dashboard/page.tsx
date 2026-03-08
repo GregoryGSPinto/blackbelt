@@ -37,9 +37,9 @@ const NIVEL_COLORS: Record<string, string> = {
 
 type AdminDashData = [EstatisticasDashboard, Alerta[]];
 
-// DEFAULTS COMPLETOS para todas as propriedades do dashboard
+// DEFAULTS COMPLETOS - inclui TODOS os campos usados no dashboard
 const defaultStats = {
-  // Cards críticos - valores diretos (números)
+  // Valores diretos (não são objetos)
   alunosAtivos: 0,
   totalAlunos: 0,
   alunosEmAtraso: 0,
@@ -49,6 +49,8 @@ const defaultStats = {
   turmasAtivas: 0,
   checkInsHoje: 0,
   checkInsOntem: 0,
+  trialAtivos: 0,
+  aulasHojeCount: 0,
   
   // Objetos com quantidade/lista
   novatos: { quantidade: 0, lista: [] },
@@ -59,14 +61,38 @@ const defaultStats = {
   proximosExames: { quantidade: 0, lista: [] },
   aptosExame: { quantidade: 0, lista: [] },
   aulasHoje: { quantidade: 0, lista: [] },
+  visitantes: { quantidade: 0, lista: [] },
+  leads: { quantidade: 0, lista: [] },
+  trial: { quantidade: 0, lista: [] },
+  graduacoes: { quantidade: 0, lista: [] },
+  faixas: { quantidade: 0, lista: [] },
   
   // Financeiro
   receitaMes: { valor: 0, variacao: 0 },
   despesasMes: { valor: 0, variacao: 0 },
-  financeiroResumo: { receita: 0, despesas: 0, lucro: 0 },
+  receitaMesAnterior: 0,
+  financeiroResumo: {
+    receita: 0,
+    despesas: 0,
+    lucro: 0,
+    receitaMes: 0,
+    receitaMesAnterior: 0,
+    ticketMedio: 0,
+    inadimplenciaPct: 0,
+    previsaoCaixa: 0,
+    planoMaisVendido: { nome: '-', quantidade: 0 },
+    distribuicaoPlanos: [],
+    distribuicaoModalidades: [],
+  },
   
-  // Matrículas
+  // Distribuição (usado em FinanceiroResumo)
+  distribuicaoPlanos: [],
+  distribuicaoModalidades: [],
+  
+  // Outros objetos
   matriculasAtivas: { quantidade: 0, total: 0, variacao: 0 },
+  evasao: { quantidade: 0, taxa: 0 },
+  renovacao: { quantidade: 0, taxa: 0 },
   
   // Arrays
   tempoMedioPorNivel: [],
@@ -620,7 +646,9 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
   const receitaDiff = data.receitaMes - data.receitaMesAnterior;
   const receitaPct = data.receitaMesAnterior > 0 ? Math.round((receitaDiff / data.receitaMesAnterior) * 100) : 0;
   const isUp = receitaDiff >= 0;
-  const maxPlano = Math.max(...data.distribuicaoPlanos.map(p => p.quantidade));
+  const maxPlano = data.distribuicaoPlanos?.length 
+    ? Math.max(...data.distribuicaoPlanos.map(p => p.quantidade)) 
+    : 0;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -646,8 +674,8 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
         <div className="pt-3 border-t border-white/[0.05]">
           <p className="text-[10px] text-white/25 mb-1">{t('dashboard.bestSellingPlan')}</p>
           <p className="text-sm text-white/60">
-            <span className="font-medium text-white/80">{data.planoMaisVendido.nome}</span>
-            <span className="ml-2 text-white/30">({data.planoMaisVendido.quantidade} alunos)</span>
+            <span className="font-medium text-white/80">{data.planoMaisVendido?.nome || '-'}</span>
+            <span className="ml-2 text-white/30">({data.planoMaisVendido?.quantidade || 0} alunos)</span>
           </p>
         </div>
       </div>
@@ -658,7 +686,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
           <h3 className="text-sm font-semibold text-white/70">{t('dashboard.planDistribution')}</h3>
         </div>
         <div className="space-y-3">
-          {data.distribuicaoPlanos.map((p, i) => {
+          {(data.distribuicaoPlanos || []).map((p, i) => {
             const pct = Math.round((p.quantidade / maxPlano) * 100);
             const colors = ['from-blue-500/50 to-blue-400/70', 'from-purple-500/50 to-purple-400/70', 'from-amber-500/50 to-amber-400/70', 'from-emerald-500/50 to-emerald-400/70'];
             return (
@@ -675,7 +703,7 @@ function FinanceiroResumo({ data }: { data: EstatisticasDashboard['financeiroRes
             );
           })}
         </div>
-        <p className="text-[9px] text-white/15 mt-3">Total: {data.distribuicaoPlanos.reduce((s, p) => s + p.quantidade, 0)} alunos com plano ativo</p>
+        <p className="text-[9px] text-white/15 mt-3">Total: {(data.distribuicaoPlanos || []).reduce((s, p) => s + (p.quantidade || 0), 0)} alunos com plano ativo</p>
       </div>
     </div>
   );
