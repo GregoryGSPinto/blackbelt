@@ -24,6 +24,7 @@ export default function AgendaPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [todayLabel, setTodayLabel] = useState('');
 
   useEffect(() => {
     async function loadData() {
@@ -49,6 +50,10 @@ export default function AgendaPage() {
     loadData();
   }, [retryCount]);
 
+  useEffect(() => {
+    setTodayLabel(formatDateFull(new Date()));
+  }, [formatDateFull]);
+
   if (loading) {
     return <PremiumLoader text={t('agenda.loading')} />;
   }
@@ -70,7 +75,7 @@ export default function AgendaPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('agenda.title')}</h1>
-        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{formatDateFull(new Date())}</p>
+        <p style={{ fontWeight: 300, color: tokens.textMuted }}>{todayLabel}</p>
       </div>
 
       {/* Stats */}

@@ -18,7 +18,7 @@
  */
 
 import { eventBus } from './event-bus';
-import { eventStore } from './event-store';
+import { eventStore, type EventStoreContext } from './event-store';
 
 let initialized = false;
 
@@ -34,34 +34,32 @@ let initialized = false;
  * ```
  */
 export function initializeEventSystem(options?: {
-  unitId?: string;
+  context?: EventStoreContext;
   debug?: boolean;
 }): void {
   if (initialized) return;
   initialized = true;
 
-  // 1. Configure event store
-  if (options?.unitId) {
-    eventStore.setDefaultUnitId(options.unitId);
-  }
-
-  // 2. Connect bus → store (persist all domain events)
+  // 1. Connect bus → store (persist all domain events)
   eventBus.onAny(async (event) => {
     try {
-      await eventStore.persist(event);
+      if (!options?.context) {
+        return;
+      }
+      await eventStore.persist(event, options.context);
     } catch (err) {
       console.error('[EventWiring] Failed to persist event:', event.type, err);
     }
   });
 
-  // 3. Wire ALL intelligence subscribers (churn, attendance, promotion, evaluation)
+  // 2. Wire ALL intelligence subscribers (churn, attendance, promotion, evaluation)
   import('../intelligence/subscribers/intelligence-wiring').then(mod => {
     mod.wireIntelligenceSubscribers(eventBus);
   }).catch(() => {
     // Intelligence module is optional — silently skip if not available
   });
 
-  // 4. Debug logging (dev mode only)
+  // 3. Debug logging (dev mode only)
   if (options?.debug) {
     eventBus.onAny((event) => {
       const pid = (event as any).payload?.participantId ?? '—';

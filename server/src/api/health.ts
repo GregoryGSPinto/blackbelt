@@ -10,7 +10,6 @@
  * ╚══════════════════════════════════════════════════════════════════╝
  */
 
-import { checkDatabaseHealth } from '../infrastructure/database/postgres';
 import { env } from '../infrastructure/env';
 
 // ════════════════════════════════════════════════════════════════════
@@ -61,6 +60,7 @@ export async function getHealth(): Promise<HealthResponse> {
 
   // If database is configured, test it
   if (env.hasDatabase) {
+    const { checkDatabaseHealth } = await import('../infrastructure/database/postgres');
     const dbHealth = await checkDatabaseHealth();
     response.checks.database = {
       status: dbHealth.healthy ? 'ok' : 'error',
@@ -95,6 +95,7 @@ export async function getHealthDb(): Promise<{
     };
   }
 
+  const { checkDatabaseHealth } = await import('../infrastructure/database/postgres');
   const result = await checkDatabaseHealth();
 
   return {

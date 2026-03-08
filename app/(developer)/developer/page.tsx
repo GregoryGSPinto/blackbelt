@@ -107,8 +107,8 @@ export default function DeveloperDashboard() {
   const [health, setHealth] = useState<SystemHealthMetric[]>([]);
   const [obs, setObs] = useState<ObservabilitySnapshot | null>(null);
   const [loading, setLoading] = useState(true);
-  const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
   const [deviceInsights] = useState<DeviceInsight[]>(() => getMockDeviceInsights());
+  const [alertTime, setAlertTime] = useState('');
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -116,15 +116,15 @@ export default function DeveloperDashboard() {
       const [h, o] = await Promise.all([getSystemHealth(), getObservability()]);
       setHealth(h);
       setObs(o);
-      setLastRefresh(new Date());
+      setAlertTime(formatTime(new Date()));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [formatTime]);
 
   useEffect(() => { refresh(); }, [refresh]);
 
-  const alerts = deriveAlerts(health, obs, formatTime(new Date()));
+  const alerts = deriveAlerts(health, obs, alertTime);
   const criticalCount = alerts.filter((a) => a.severity === 'critical').length;
   const warningCount = alerts.filter((a) => a.severity === 'warning').length;
 

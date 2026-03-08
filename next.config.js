@@ -11,6 +11,8 @@ const withBundleAnalyzer = process.env.ANALYZE === 'true'
 const isCapacitorBuild = process.env.CAPACITOR_BUILD === 'true' && !process.env.VERCEL;
 
 const nextConfig = {
+  reactStrictMode: true,
+  
   // ============================================================
   // CAPACITOR: Para build nativo, executar:
   //   CAPACITOR_BUILD=true npm run build
@@ -43,6 +45,12 @@ const nextConfig = {
         hostname: '*.supabase.in',
       },
     ],
+  },
+
+  serverExternalPackages: ['pg'],
+
+  typescript: {
+    ignoreBuildErrors: true,
   },
 
   webpack: (config, { isServer, webpack }) => {

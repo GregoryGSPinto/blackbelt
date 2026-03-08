@@ -37,6 +37,7 @@ export default function GraduacaoPage() {
   const [meusSubniveis, setMeusSubniveis] = useState<{ subniveisAtuais: number; dataUltimoSubnivel?: string }>({ subniveisAtuais: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [nowMs, setNowMs] = useState<number | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -46,6 +47,10 @@ export default function GraduacaoPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    setNowMs(Date.now());
+  }, []);
+
   const nivelAtual = historico.length > 0 ? historico[historico.length - 1].nivel : 'Nível Iniciante';
   const currentIdx = BELT_ORDER.indexOf(nivelAtual);
   const proximoNivel = currentIdx < BELT_ORDER.length - 1 ? BELT_ORDER[currentIdx + 1] : null;
@@ -53,7 +58,9 @@ export default function GraduacaoPage() {
 
   // Calculate time in current belt
   const lastGrad = historico.length > 0 ? historico[historico.length - 1] : null;
-  const tempoNoNivel = lastGrad ? Math.floor((Date.now() - new Date(lastGrad.data).getTime()) / (30 * 24 * 60 * 60 * 1000)) : 0;
+  const tempoNoNivel = lastGrad && nowMs
+    ? Math.floor((nowMs - new Date(lastGrad.data).getTime()) / (30 * 24 * 60 * 60 * 1000))
+    : 0;
 
   const nivelColors = NIVEL_COLORS[nivelAtual] || NIVEL_COLORS['Nível Iniciante'];
 

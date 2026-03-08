@@ -1,5 +1,8 @@
 'use client';
 
+'use client';
+
+import { useEffect, useState } from 'react';
 import { User, Calendar } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ErrorAlert } from './ErrorAlert';
@@ -15,6 +18,12 @@ interface StepDadosProps extends StepBaseProps {
 export function StepDados({ dados, setDados, onSubmit, error, setError }: StepDadosProps) {
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
+  const [maxBirthDate, setMaxBirthDate] = useState('');
+
+  useEffect(() => {
+    setMaxBirthDate(new Date().toISOString().split('T')[0]);
+  }, []);
+
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div>
@@ -45,7 +54,7 @@ export function StepDados({ dados, setDados, onSubmit, error, setError }: StepDa
             type="date"
             value={dados.dataNascimento}
             onChange={e => { setDados({ ...dados, dataNascimento: e.target.value }); setError(''); }}
-            max={new Date().toISOString().split('T')[0]}
+            max={maxBirthDate}
             className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/40 [color-scheme:dark]"
           />
         </div>

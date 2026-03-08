@@ -5,7 +5,6 @@ import {
   uploadAvatar,
   uploadDocument,
   uploadClassMedia,
-  type BUCKETS,
 } from '@/lib/supabase/storage';
 
 type UploadType = 'avatar' | 'document' | 'class-media';

@@ -16,7 +16,7 @@
  */
 
 import type { DomainEvent, DomainEventType } from '@/lib/domain/events/domain-events';
-import type { EventStore, StoredEvent } from '@/lib/application/events/event-store';
+import type { EventStore, EventStoreContext, StoredEvent } from '@/lib/application/events/event-store';
 import { assertTenantScope, type TenantContext } from './tenant-scope';
 
 export class ScopedEventStore {
@@ -28,13 +28,11 @@ export class ScopedEventStore {
     this.store = store;
     this.ctx = ctx;
 
-    // Inject unitId into store
-    this.store.setDefaultUnitId(ctx.unitId);
   }
 
   /** Persiste com unitId do tenant */
   async persist(event: DomainEvent): Promise<StoredEvent | null> {
-    return this.store.persist(event);
+    return this.store.persist(event, this.toEventStoreContext(event));
   }
 
   /** Histórico do participante — scopado ao tenant */
@@ -55,7 +53,7 @@ export class ScopedEventStore {
 
   /** Cadeia causal */
   async getCausalChain(correlationId: string): Promise<StoredEvent[]> {
-    return this.store.getCausalChain(correlationId);
+    return this.store.getCausalChain(correlationId, this.ctx.unitId);
   }
 
   /** Stats */
@@ -66,6 +64,15 @@ export class ScopedEventStore {
   /** Get tenant context */
   getTenant(): TenantContext {
     return this.ctx;
+  }
+
+  private toEventStoreContext(event: DomainEvent): EventStoreContext {
+    return {
+      tenantId: this.ctx.unitId,
+      actorId: this.ctx.userId || event.metadata?.causedBy || 'system',
+      correlationId: event.correlationId,
+      causationId: event.causationId,
+    };
   }
 }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Users, CheckCircle, ChevronRight, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ErrorAlert } from './ErrorAlert';
@@ -18,9 +18,14 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
   const [querKids, setQuerKids] = useState<boolean | null>(null);
+  const [maxBirthDate, setMaxBirthDate] = useState('');
   const [kidAtual, setKidAtual] = useState<DadosKid>({
     nome: '', dataNascimento: '', sexo: 'nao-informar'
   });
+
+  useEffect(() => {
+    setMaxBirthDate(new Date().toISOString().split('T')[0]);
+  }, []);
 
   const decidirKids = (sim: boolean) => {
     setQuerKids(sim);
@@ -118,7 +123,7 @@ export function StepKids({ kids, onAddKid, onRemoveKid, onContinue, error, setEr
             </div>
             <input type="date" value={kidAtual.dataNascimento}
               onChange={e => setKidAtual({ ...kidAtual, dataNascimento: e.target.value })}
-              max={new Date().toISOString().split('T')[0]}
+              max={maxBirthDate}
               className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/40 [color-scheme:dark]" />
             <button onClick={handleAddKid}
               className="w-full py-3 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 font-medium flex items-center justify-center gap-2">

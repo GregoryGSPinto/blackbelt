@@ -29,7 +29,7 @@
  */
 
 import type { DomainEvent } from '@/lib/domain/events/domain-events';
-import type { EventStore, StoredEvent } from '@/lib/application/events/event-store';
+import type { EventStore } from '@/lib/application/events/event-store';
 
 // ════════════════════════════════════════════════════════════════════
 // REPLAY MODES

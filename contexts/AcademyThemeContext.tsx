@@ -14,7 +14,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { useAuth } from './AuthContext';
-import { useMock, mockDelay } from '@/lib/env';
+import { useMock as isMockEnabled, mockDelay } from '@/lib/env';
 
 export interface AcademyTheme {
   primaryColor: string;
@@ -75,7 +75,7 @@ export function AcademyThemeProvider({ children }: { children: ReactNode }) {
     async function loadTheme() {
       setLoading(true);
       try {
-        if (useMock()) {
+        if (isMockEnabled()) {
           await mockDelay(100);
           // Mock: use default theme
           if (!cancelled) {
@@ -122,7 +122,7 @@ export function AcademyThemeProvider({ children }: { children: ReactNode }) {
     setTheme(newTheme);
     injectCSSVariables(newTheme);
 
-    if (useMock()) {
+    if (isMockEnabled()) {
       await mockDelay(200);
       return;
     }

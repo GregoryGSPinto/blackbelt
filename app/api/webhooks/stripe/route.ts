@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { constructWebhookEvent, processWebhookEvent } from '@/lib/payments/stripe-webhook';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   const signature = request.headers.get('stripe-signature');
   if (!signature) {

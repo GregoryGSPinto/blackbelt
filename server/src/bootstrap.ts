@@ -20,7 +20,7 @@ import { PostgresEventStoreAdapter } from './infrastructure/event-store/postgres
 import {
   EventStore,
   InMemoryEventStoreAdapter,
-  eventStore,
+  type EventStoreContext,
 } from '@/lib/application/events/event-store';
 import { initializeEventSystem } from '@/lib/application/events/event-wiring';
 import { eventBus } from '@/lib/application/events/event-bus';
@@ -90,8 +90,17 @@ export async function bootstrap(options?: {
   }
 
   // ── INITIALIZE EVENT SYSTEM ───────────────────────────────
+  const eventContext: EventStoreContext | undefined = options?.unitId
+    ? {
+        tenantId: options.unitId,
+        actorId: 'system',
+        correlationId: 'bootstrap',
+        causationId: 'bootstrap',
+      }
+    : undefined;
+
   initializeEventSystem({
-    unitId: options?.unitId,
+    context: eventContext,
     debug: env.isDevelopment,
   });
 
@@ -99,7 +108,12 @@ export async function bootstrap(options?: {
   if (env.hasDatabase) {
     eventBus.onAny(async (event) => {
       try {
-        const stored = await store.persist(event);
+        const stored = await store.persist(event, eventContext ?? {
+          tenantId: 'system',
+          actorId: 'system',
+          correlationId: event.correlationId,
+          causationId: event.causationId,
+        });
         if (stored) {
           logEvent('persisted', {
             type: event.type,

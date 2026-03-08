@@ -118,6 +118,13 @@ export interface EventQuery {
   offset?: number;
 }
 
+export interface EventStoreContext {
+  tenantId: string;
+  actorId: string;
+  correlationId: string;
+  causationId: string;
+}
+
 // ════════════════════════════════════════════════════════════════════
 // ADAPTER INTERFACE — Storage-agnostic
 // ════════════════════════════════════════════════════════════════════
@@ -230,8 +237,8 @@ export class InMemoryEventStoreAdapter implements EventStoreAdapter {
 class EventStore {
   private adapter: EventStoreAdapter;
   private sequenceCounter: number = 0;
-  private defaultUnitId: string = 'unit_default';
   private initialized = false;
+  private writeChain: Promise<void> = Promise.resolve();
 
   constructor(adapter: EventStoreAdapter) {
     this.adapter = adapter;
@@ -244,11 +251,6 @@ class EventStore {
     this.initialized = true;
   }
 
-  /** Define unitId padrão (configurado no bootstrap da app) */
-  setDefaultUnitId(unitId: string): void {
-    this.defaultUnitId = unitId;
-  }
-
   /**
    * Persiste um Domain Event.
    *
@@ -258,34 +260,45 @@ class EventStore {
    * Se o evento tem idempotencyKey e já existe → rejeita silenciosamente.
    * Retorna null se duplicado.
    */
-  async persist(event: DomainEvent): Promise<StoredEvent | null> {
-    await this.initialize();
+  async persist(event: DomainEvent, ctx: EventStoreContext): Promise<StoredEvent | null> {
+    return this.enqueueWrite(async () => {
+      await this.initialize();
+      assertEventStoreContext(ctx);
 
-    // Idempotency gate
-    if (event.idempotencyKey) {
-      const exists = await this.adapter.hasIdempotencyKey(event.idempotencyKey);
-      if (exists) return null; // duplicate — silently reject
-    }
+      // Idempotency gate
+      if (event.idempotencyKey) {
+        const exists = await this.adapter.hasIdempotencyKey(event.idempotencyKey);
+        if (exists) return null; // duplicate — silently reject
+      }
 
-    this.sequenceCounter++;
+      this.sequenceCounter++;
 
-    const stored: StoredEvent = {
-      id: generateId(),
-      sequence: this.sequenceCounter,
-      unitId: this.defaultUnitId,
-      participantId: extractParticipantId(event) ?? null,
-      eventType: event.type as DomainEventType,
-      eventVersion: event.version,
-      causationId: event.causationId,
-      correlationId: event.correlationId,
-      idempotencyKey: event.idempotencyKey ?? null,
-      occurredAt: event.occurredAt,
-      storedAt: utcNow(),
-      event,
-    };
+      const stored: StoredEvent = {
+        id: generateId(),
+        sequence: this.sequenceCounter,
+        unitId: ctx.tenantId,
+        participantId: extractParticipantId(event) ?? null,
+        eventType: event.type as DomainEventType,
+        eventVersion: event.version,
+        causationId: ctx.causationId,
+        correlationId: ctx.correlationId,
+        idempotencyKey: event.idempotencyKey ?? null,
+        occurredAt: event.occurredAt,
+        storedAt: utcNow(),
+        event: {
+          ...event,
+          causationId: ctx.causationId,
+          correlationId: ctx.correlationId,
+          metadata: {
+            ...event.metadata,
+            causedBy: event.metadata?.causedBy ?? ctx.actorId,
+          },
+        },
+      };
 
-    await this.adapter.append(stored);
-    return stored;
+      await this.adapter.append(stored);
+      return stored;
+    });
   }
 
   // ── QUERY METHODS ──────────────────────────────────────────
@@ -336,8 +349,8 @@ class EventStore {
    *
    * Retorna: promoção → conquista desbloqueada → notificação → etc.
    */
-  async getCausalChain(correlationId: string): Promise<StoredEvent[]> {
-    return this.adapter.query({ correlationId });
+  async getCausalChain(correlationId: string, unitId?: string): Promise<StoredEvent[]> {
+    return this.adapter.query({ correlationId, unitId });
   }
 
   /**
@@ -391,6 +404,21 @@ class EventStore {
 
     return { totalEvents: total, lastSequence: lastSeq, eventsByType: byType };
   }
+
+  private async enqueueWrite<T>(operation: () => Promise<T>): Promise<T> {
+    const previous = this.writeChain;
+    let release!: () => void;
+    this.writeChain = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+
+    await previous;
+    try {
+      return await operation();
+    } finally {
+      release();
+    }
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════
@@ -402,6 +430,21 @@ function generateId(): string {
   const timestamp = utcNowMs().toString(36);
   const random = Math.random().toString(36).slice(2, 10);
   return `evt_${timestamp}_${random}`;
+}
+
+function assertEventStoreContext(ctx: EventStoreContext): void {
+  if (!ctx.tenantId?.trim()) {
+    throw new Error('EventStoreContext.tenantId is required');
+  }
+  if (!ctx.actorId?.trim()) {
+    throw new Error('EventStoreContext.actorId is required');
+  }
+  if (!ctx.correlationId?.trim()) {
+    throw new Error('EventStoreContext.correlationId is required');
+  }
+  if (!ctx.causationId?.trim()) {
+    throw new Error('EventStoreContext.causationId is required');
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════
