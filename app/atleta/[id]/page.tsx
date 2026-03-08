@@ -20,9 +20,9 @@ import {
 } from 'lucide-react';
 import * as carteirinhaService from '@/lib/api/carteirinha.service';
 import type { AtletaPublico, GraduacaoHistorico } from '@/lib/api/contracts';
-import { TrainingHeatmap } from '@/components/aluno/TrainingHeatmap';
+import { TrainingHeatmap } from '@/src/features/students/components/aluno/TrainingHeatmap';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
-import type { TrainingDay } from '@/components/aluno/TrainingHeatmap';
+import type { TrainingDay } from '@/src/features/students/components/aluno/TrainingHeatmap';
 import { generateMockTrainingData } from '@/lib/__mocks__/atleta-perfil.mock';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';

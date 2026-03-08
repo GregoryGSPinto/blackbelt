@@ -1,20 +1,24 @@
-// ============================================================
-// ThemedBackground — Global app background with solid theme color
-// ============================================================
-// Renders a clean solid background: #0a0a0a (dark) / #f5f5f5 (light).
-// No images — consistent with login page design.
-// ============================================================
 'use client';
 
-import { useTheme } from '@/contexts/ThemeContext';
+import { useMounted } from '@/hooks/useMounted';
 
 export function ThemedBackground() {
-  const { isDark } = useTheme();
+  const mounted = useMounted();
+
+  if (!mounted) {
+    return (
+      <div
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{ backgroundColor: 'rgb(10, 10, 10)' }}
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
     <div
       className="fixed inset-0 z-0 pointer-events-none transition-colors duration-500"
-      style={{ backgroundColor: isDark ? '#0a0a0a' : '#f5f5f5' }}
+      style={{ backgroundColor: 'var(--bg-primary, rgb(10, 10, 10))' }}
       aria-hidden="true"
     />
   );

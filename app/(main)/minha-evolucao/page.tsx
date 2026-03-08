@@ -18,9 +18,9 @@ import type { EvolucaoData } from '@/lib/api/evolucao.service';
 import { useServiceCall, RetryToast } from '@/hooks/useServiceCall';
 import { PageError } from '@/components/shared/DataStates';
 import { PageSkeleton } from '@/components/shared/SkeletonLoader';
-import { FrequencyBar } from '@/components/aluno/FrequencyBar';
-import { FrequencyHistory } from '@/components/aluno/FrequencyHistory';
-import { EvolutionTimeline } from '@/components/aluno/EvolutionTimeline';
+import { FrequencyBar } from '@/src/features/students/components/aluno/FrequencyBar';
+import { FrequencyHistory } from '@/src/features/students/components/aluno/FrequencyHistory';
+import { EvolutionTimeline } from '@/src/features/students/components/aluno/EvolutionTimeline';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 

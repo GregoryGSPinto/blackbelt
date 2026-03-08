@@ -222,9 +222,9 @@ export default function DashboardPage() {
       {/* 1. ALERTAS DE GESTÃO */}
       <Section title={t('dashboard.managementAlerts')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <GestaoCard title={t('dashboard.newStudents30d')} count={stats.novatos.quantidade}
+          <GestaoCard title={t('dashboard.newStudents30d')} count={stats.novatos?.quantidade ?? 0}
             icon={UserPlus} color="#3B82F6" emptyText={t('dashboard.noRecentNewcomers')}>
-            {stats.novatos.lista.map(n => (
+            {stats.novatos?.lista?.map(n => (
               <div key={n.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{n.nome}</span>
                 <span className="text-[10px] text-white/25">{n.turma}</span>
@@ -652,4 +652,3 @@ function FinKpi({ label, value, sub }: { label: string; value: string; sub?: Rea
     </div>
   );
 }
-

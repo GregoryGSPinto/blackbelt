@@ -13,7 +13,7 @@
 
 import { useState, useEffect } from 'react';
 import { Clock, MapPin, User, Trophy, Target, ChevronRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import type { AlunoHomeData } from '@/lib/api/aluno-home.service';
+import type { AlunoHomeData } from '@/src/features/students/services/aluno-home.service';
 import { Bone } from '@/components/shared/SkeletonLoader';
 import { useFormatting } from '@/hooks/useFormatting';
 

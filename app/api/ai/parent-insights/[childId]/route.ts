@@ -11,7 +11,7 @@ import { withAuth, apiOk, apiServerError, apiForbidden, apiNotFound } from '@/li
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { childId: string } },
+  context: { params: Promise<{ childId: string }> },
 ) {
   try {
     const { supabase, user, membership } = await withAuth(req);
@@ -20,7 +20,7 @@ export async function GET(
       return apiForbidden('Sem membership ativa');
     }
 
-    const { childId } = params;
+    const { childId } = await context.params;
 
     // Verify the current user is a parent/guardian of this child
     // Parents have role 'parent' and are linked via parent_child table

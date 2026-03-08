@@ -91,6 +91,21 @@ export default async function RootLayout({
             document.documentElement.classList.add('loaded');
           });
         `}} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'dark';
+                  document.documentElement.setAttribute('data-theme', theme);
+                  document.documentElement.style.setProperty('--bg-primary', theme === 'dark' ? 'rgb(10, 10, 10)' : '#f5f5f5');
+                } catch (e) {
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <GoogleAnalytics />

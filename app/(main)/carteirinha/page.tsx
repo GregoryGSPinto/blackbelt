@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
-import CarteirinhaDigital from '@/components/aluno/CarteirinhaDigital';
+import CarteirinhaDigital from '@/src/features/students/components/aluno/CarteirinhaDigital';
 import * as carteirinhaService from '@/lib/api/carteirinha.service';
 import type { CarteirinhaDigital as CarteirinhaData } from '@/lib/api/contracts';
 import { useTheme } from '@/contexts/ThemeContext';

@@ -1,7 +1,7 @@
 // ============================================================
 // Training Heatmap Mock — Generates realistic training data
 // ============================================================
-import type { TrainingDay } from '@/components/aluno/TrainingHeatmap';
+import type { TrainingDay } from '@/src/features/students/components/aluno/TrainingHeatmap';
 
 /**
  * Generates ~365 days of training data with realistic patterns:
