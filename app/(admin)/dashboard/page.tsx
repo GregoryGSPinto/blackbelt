@@ -40,16 +40,31 @@ type AdminDashData = [EstatisticasDashboard, Alerta[]];
 // Helper para criar objeto seguro com defaults
 const createSafeStats = (rawStats: any) => {
   const defaultObj = { quantidade: 0, lista: [], total: 0, valor: 0, variacao: 0 };
+  // Propriedades que sabidamente são arrays
+  const arrayFields = ['tempoMedioPorNivel', 'tempoMedioPorNível', 'evolucaoMensal', 'distribuicaoPorNivel'];
   
   return new Proxy(rawStats || {}, {
     get(target, prop) {
+      const propStr = String(prop);
+      
       if (!(prop in target) || target[prop] == null) {
+        // Retorna array vazio para campos conhecidos como array
+        if (arrayFields.includes(propStr)) {
+          return [];
+        }
         return defaultObj;
       }
+      
+      // Se já for array, retorna como está
+      if (Array.isArray(target[prop])) {
+        return target[prop];
+      }
+      
       // Merge com defaults se for objeto
-      if (typeof target[prop] === 'object' && !Array.isArray(target[prop])) {
+      if (typeof target[prop] === 'object') {
         return { ...defaultObj, ...target[prop] };
       }
+      
       return target[prop];
     }
   });
