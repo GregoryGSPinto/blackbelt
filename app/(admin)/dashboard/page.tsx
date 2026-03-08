@@ -37,37 +37,43 @@ const NIVEL_COLORS: Record<string, string> = {
 
 type AdminDashData = [EstatisticasDashboard, Alerta[]];
 
-// Helper para criar objeto seguro com defaults
-const createSafeStats = (rawStats: any) => {
-  const defaultObj = { quantidade: 0, lista: [], total: 0, valor: 0, variacao: 0 };
-  // Propriedades que sabidamente são arrays
-  const arrayFields = ['tempoMedioPorNivel', 'tempoMedioPorNível', 'evolucaoMensal', 'distribuicaoPorNivel', 'mapaCalor'];
+// DEFAULTS COMPLETOS para todas as propriedades do dashboard
+const defaultStats = {
+  // Cards críticos - valores diretos (números)
+  alunosAtivos: 0,
+  totalAlunos: 0,
+  alunosEmAtraso: 0,
+  alunosInativos: 0,
+  alunosBloqueados: 0,
+  alunosCongelados: 0,
+  turmasAtivas: 0,
+  checkInsHoje: 0,
+  checkInsOntem: 0,
   
-  return new Proxy(rawStats || {}, {
-    get(target, prop) {
-      const propStr = String(prop);
-      
-      if (!(prop in target) || target[prop] == null) {
-        // Retorna array vazio para campos conhecidos como array
-        if (arrayFields.includes(propStr)) {
-          return [];
-        }
-        return defaultObj;
-      }
-      
-      // Se já for array, retorna como está
-      if (Array.isArray(target[prop])) {
-        return target[prop];
-      }
-      
-      // Merge com defaults se for objeto
-      if (typeof target[prop] === 'object') {
-        return { ...defaultObj, ...target[prop] };
-      }
-      
-      return target[prop];
-    }
-  });
+  // Objetos com quantidade/lista
+  novatos: { quantidade: 0, lista: [] },
+  riscoEvasao: { quantidade: 0, lista: [] },
+  inadimplentes: { quantidade: 0, lista: [] },
+  congelados: { quantidade: 0, lista: [] },
+  aniversariantes: { quantidade: 0, lista: [] },
+  proximosExames: { quantidade: 0, lista: [] },
+  aptosExame: { quantidade: 0, lista: [] },
+  aulasHoje: { quantidade: 0, lista: [] },
+  
+  // Financeiro
+  receitaMes: { valor: 0, variacao: 0 },
+  despesasMes: { valor: 0, variacao: 0 },
+  financeiroResumo: { receita: 0, despesas: 0, lucro: 0 },
+  
+  // Matrículas
+  matriculasAtivas: { quantidade: 0, total: 0, variacao: 0 },
+  
+  // Arrays
+  tempoMedioPorNivel: [],
+  tempoMedioPorNível: [],
+  evolucaoMensal: [],
+  distribuicaoPorNivel: [],
+  mapaCalor: [],
 };
 
 export default function DashboardPage() {
@@ -84,7 +90,8 @@ export default function DashboardPage() {
     { label: 'AdminDashboard', maxRetries: 3, ttl: TTL.MEDIUM }
   );
 
-const stats = createSafeStats(result?.[0]);
+// Merge profundo com defaults
+const stats = { ...defaultStats, ...(result?.[0] || {}) };
   const alertasAtivos = result?.[1] ?? [];
 
   // Proactive smart alerts
