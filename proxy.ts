@@ -76,7 +76,7 @@ function applySecurityHeaders(response: NextResponse): void {
 
   const isDev = process.env.NODE_ENV === 'development';
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  response.headers.set('Content-Security-Policy', [
+  const csp = [
     "default-src 'self'",
     isDev
       ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
@@ -90,8 +90,14 @@ function applySecurityHeaders(response: NextResponse): void {
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "upgrade-insecure-requests",
-  ].join('; '));
+  ]
+    .filter(Boolean)
+    .join('; ')
+    .replace(/\n/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+  response.headers.set('Content-Security-Policy', csp);
 
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
