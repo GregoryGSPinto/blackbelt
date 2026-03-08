@@ -11,6 +11,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { CheckCircle, XCircle, Info, AlertTriangle, X } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ── Types ──
 
@@ -46,32 +47,37 @@ export const useToast = () => useContext(ToastContext);
 const MAX_TOASTS = 3;
 const DEFAULT_DURATION = 3000;
 
-const TOAST_CONFIG: Record<ToastType, { icon: typeof CheckCircle; bg: string; border: string; text: string }> = {
+// Toast config com cores adaptáveis ao tema
+const TOAST_CONFIG = (isDark: boolean): Record<ToastType, { icon: typeof CheckCircle; bg: string; border: string; text: string; iconColor: string }> => ({
   success: {
     icon: CheckCircle,
-    bg: 'rgba(34,197,94,0.15)',
-    border: 'rgba(34,197,94,0.3)',
-    text: '#4ADE80',
+    bg: isDark ? 'rgba(34,197,94,0.15)' : 'rgba(34,197,94,0.1)',
+    border: isDark ? 'rgba(34,197,94,0.3)' : 'rgba(34,197,94,0.4)',
+    text: isDark ? '#4ADE80' : '#166534',
+    iconColor: isDark ? '#22c55e' : '#16a34a',
   },
   error: {
     icon: XCircle,
-    bg: 'rgba(239,68,68,0.15)',
-    border: 'rgba(239,68,68,0.3)',
-    text: '#F87171',
+    bg: isDark ? 'rgba(239,68,68,0.15)' : 'rgba(239,68,68,0.1)',
+    border: isDark ? 'rgba(239,68,68,0.3)' : 'rgba(239,68,68,0.4)',
+    text: isDark ? '#F87171' : '#991b1b',
+    iconColor: isDark ? '#ef4444' : '#dc2626',
   },
   info: {
     icon: Info,
-    bg: 'rgba(59,130,246,0.15)',
-    border: 'rgba(59,130,246,0.3)',
-    text: '#60A5FA',
+    bg: isDark ? 'rgba(59,130,246,0.15)' : 'rgba(59,130,246,0.1)',
+    border: isDark ? 'rgba(59,130,246,0.3)' : 'rgba(59,130,246,0.4)',
+    text: isDark ? '#60A5FA' : '#1e40af',
+    iconColor: isDark ? '#3b82f6' : '#2563eb',
   },
   warning: {
     icon: AlertTriangle,
-    bg: 'rgba(251,191,36,0.15)',
-    border: 'rgba(251,191,36,0.3)',
-    text: '#FBBF24',
+    bg: isDark ? 'rgba(251,191,36,0.15)' : 'rgba(251,191,36,0.1)',
+    border: isDark ? 'rgba(251,191,36,0.3)' : 'rgba(251,191,36,0.4)',
+    text: isDark ? '#FBBF24' : '#92400e',
+    iconColor: isDark ? '#f59e0b' : '#d97706',
   },
-};
+});
 
 // ── Styles ──
 
@@ -91,7 +97,8 @@ const TOAST_STYLES = `
 // ── Toast Item Component ──
 
 function ToastItemView({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: string) => void }) {
-  const config = TOAST_CONFIG[toast.type];
+  const { isDark } = useTheme();
+  const config = TOAST_CONFIG(isDark)[toast.type];
   const Icon = config.icon;
 
   return (
@@ -105,13 +112,13 @@ function ToastItemView({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id:
       role="alert"
       aria-live="polite"
     >
-      <Icon size={18} style={{ color: config.text, flexShrink: 0 }} />
+      <Icon size={18} style={{ color: config.iconColor, flexShrink: 0 }} />
       <p className="text-sm font-medium flex-1" style={{ color: config.text }}>
         {toast.message}
       </p>
       <button
         onClick={() => onDismiss(toast.id)}
-        className="p-1 rounded-lg transition-colors hover:bg-white/10"
+        className="p-1 rounded-lg transition-colors hover:bg-black/10 dark:hover:bg-white/10"
         aria-label="Fechar notificação"
       >
         <X size={14} style={{ color: config.text, opacity: 0.6 }} />
