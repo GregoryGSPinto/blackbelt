@@ -305,7 +305,7 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
       transition={{ 
         duration: shouldReduceMotion ? 0 : 0.6, 
         delay, 
-        ease: EASE_PREMIUM 
+        ease: EASE_OUT_EXPO 
       }}
       className={className}
       style={{ willChange: shouldReduceMotion ? undefined : 'transform, opacity' }}
@@ -384,7 +384,7 @@ function AnimatedCard({ children, style, className = '' }: { children: React.Rea
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -30 }}
-      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: EASE_PREMIUM }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: EASE_OUT_EXPO }}
     >
       {children}
     </motion.div>
@@ -643,7 +643,7 @@ function FaqItem({ question, answer, isDark, colors }: {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_PREMIUM }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_OUT_EXPO }}
           >
             <p style={{
               padding: '0 1.25rem 1rem',
@@ -979,7 +979,7 @@ function LoginContent() {
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+                  transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
                   style={{ marginBottom: '1.875rem' }}
                 >
                   <AnimatedLogo isDark={isDark} />
@@ -1044,7 +1044,7 @@ function LoginContent() {
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+                transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
                 style={{ marginBottom: '2rem' }}
               >
                 <AnimatedLogo isDark={isDark} />
@@ -1055,7 +1055,7 @@ function LoginContent() {
                   style={{ position: 'relative', width: '100%' }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1, ease: EASE_PREMIUM }}
+                  transition={{ duration: 0.5, delay: 0.1, ease: EASE_OUT_EXPO }}
                 >
                   {/* Back arrow to INITIAL */}
                   <motion.button
@@ -1435,7 +1435,7 @@ function LoginContent() {
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+                transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
                 style={{ marginBottom: '2rem' }}
               >
                 <AnimatedLogo isDark={isDark} />
@@ -1455,7 +1455,7 @@ function LoginContent() {
                 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: EASE_OUT_EXPO }}
               >
                 {/* Back button */}
                 <motion.button
@@ -1650,7 +1650,7 @@ function LoginContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_PREMIUM }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_OUT_EXPO }}
               style={{
                 width: '100%',
                 maxWidth: 480,
@@ -1704,7 +1704,7 @@ function LoginContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_PREMIUM }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_OUT_EXPO }}
               style={{
                 width: '100%',
                 maxWidth: 480,
