@@ -16,7 +16,7 @@
  *   - Validação no controller antes de retornar dados
  */
 
-import * as tokenStore from '@/lib/security/token-store';
+import * as tokenStore from '@/features/auth/services/token-store';
 import type {
   TenantQuery,
   SafeError,

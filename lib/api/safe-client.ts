@@ -11,6 +11,10 @@ import { apiClient, ApiError } from './client';
 import { mockDelay } from '@/lib/env';
 import { logger } from '@/lib/logger';
 
+const MOCK_MODULE_LOADERS: Record<string, () => Promise<any>> = {
+  '@/lib/__mocks__/admin.mock': () => import('@/lib/__mocks__/admin.mock'),
+};
+
 export interface SafeOptions<T> {
   /** Valor fallback em caso de erro */
   fallback: T;
@@ -53,12 +57,17 @@ export async function safeCall<T>(
 
     // Se habilitado, tentar fallback para mock
     if (useMockFallback && mockPath && mockExtractor) {
-      try {
-        await mockDelay(100);
-        const mockModule = await import(/* @vite-ignore */ mockPath);
-        return mockExtractor(mockModule);
-      } catch (mockErr) {
-        logger.error('[safeCall]', 'Mock fallback also failed', mockErr);
+      const loader = MOCK_MODULE_LOADERS[mockPath];
+      if (!loader) {
+        logger.error('[safeCall]', 'No mock loader registered for path', mockPath);
+      } else {
+        try {
+          await mockDelay(100);
+          const mockModule = await loader();
+          return mockExtractor(mockModule);
+        } catch (mockErr) {
+          logger.error('[safeCall]', 'Mock fallback also failed', mockErr);
+        }
       }
     }
 
@@ -92,6 +101,21 @@ export async function safeGet<T>(
   return safeCall(
     async () => {
       const { data } = await apiClient.get<T>(url);
+      return data;
+    },
+    { fallback, ...safeOptions }
+  );
+}
+
+export async function safePut<T>(
+  endpoint: string,
+  body: unknown,
+  options: SafeOptions<T> = { fallback: {} as T }
+): Promise<T> {
+  const { fallback, ...safeOptions } = options;
+  return safeCall(
+    async () => {
+      const { data } = await apiClient.put<T>(endpoint, body);
       return data;
     },
     { fallback, ...safeOptions }

@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { X, Award, History, ClipboardCheck, Download, Settings, LogOut, ChevronRight, Shield, Star, ShoppingBag, Bookmark, Tv, TrendingUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
+import { useAuth, PERFIL_INFO } from '@/features/auth/context/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 

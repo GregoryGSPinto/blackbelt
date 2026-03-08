@@ -13,7 +13,7 @@ import * as kidsService from '@/lib/api/kids.service';
 import type { KidProfile } from '@/lib/api/kids.service';
 import { ShieldAlert, CheckCircle, Clock, UserX, Info } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { getDesignTokens } from '@/lib/design-tokens';

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { X, MessageSquare } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 const NPS_STORAGE_KEY = 'bb_nps_last_shown';
 const NPS_FIRST_USE_KEY = 'bb_first_use_date';

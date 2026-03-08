@@ -7,7 +7,7 @@ import { useState, useRef, useCallback } from 'react';
 import { Camera, Upload, X, Check, Loader2, User } from 'lucide-react';
 import { SectionHeader } from './SectionHeader';
 import { useToast } from '@/contexts/ToastContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 const AVATARES_PREDEFINIDOS = [
   '/images/logo-blackbelt.png',

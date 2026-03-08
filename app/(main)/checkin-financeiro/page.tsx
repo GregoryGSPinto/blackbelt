@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import * as pagService from '@/lib/api/pagamentos.service';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 /* Status config — text/message keys resolved via t() inside component */
 const statusConfig = {

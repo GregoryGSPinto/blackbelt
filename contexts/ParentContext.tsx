@@ -7,7 +7,7 @@ import {
   getTeensByParent,
 } from '@/lib/api/kids.service';
 import type { ParentProfile } from '@/lib/api/kids.service';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 /** Tipo unificado para filhos (kid ou teen) — usado no dropdown de seleção */
 export interface FilhoUnificado {

@@ -17,7 +17,7 @@
  * - Rate limit headers parsing
  */
 
-import * as tokenStore from '@/lib/security/token-store';
+import * as tokenStore from '@/features/auth/services/token-store';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 const REQUEST_TIMEOUT = 30_000; // 30 segundos
@@ -112,7 +112,7 @@ async function request<T>(
 
     // ─── 401 Unauthorized → Tentar refresh automático ───
     if (response.status === 401 && !noAutoRefresh && retryCount === 0) {
-      const { refreshAccessToken } = await import('@/lib/security/session');
+    const { refreshAccessToken } = await import('@/features/auth/services/session');
       const refreshed = await refreshAccessToken();
       if (refreshed) {
         // Retry com novo token

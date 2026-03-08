@@ -11,8 +11,8 @@
 // ============================================================
 
 import { ComponentType, ReactNode, RefObject } from 'react';
-import type { User } from '@/contexts/AuthContext';
-import type { PerfilInfoUI } from '@/contexts/AuthContext';
+import type { User } from '@/features/auth/context/AuthContext';
+import type { PerfilInfoUI } from '@/features/auth/context/AuthContext';
 
 /** A single navigation item */
 export interface NavItem {

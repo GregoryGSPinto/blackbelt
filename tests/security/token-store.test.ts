@@ -15,7 +15,7 @@ import {
   getSessionId,
   getSecurityConfig,
   setSecurityConfig,
-} from '@/lib/security/token-store';
+} from '@/features/auth/services/token-store';
 import type { AuthenticatedUser } from '@/lib/api/contracts';
 
 const mockUser: AuthenticatedUser = {

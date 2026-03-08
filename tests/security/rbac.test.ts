@@ -21,7 +21,7 @@ import {
   isInstrutor,
   getCurrentPermissions,
 } from '@/lib/security/rbac';
-import { setAuth, clearAuth } from '@/lib/security/token-store';
+import { setAuth, clearAuth } from '@/features/auth/services/token-store';
 import type { AuthenticatedUser, SecurityRole, SecurityPermission } from '@/lib/api/contracts';
 
 function makeUser(overrides: Partial<AuthenticatedUser> = {}): AuthenticatedUser {

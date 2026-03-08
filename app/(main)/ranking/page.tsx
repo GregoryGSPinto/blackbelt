@@ -7,7 +7,7 @@ import {
   ChevronDown, Info, ScanLine, CheckCircle, Medal,
   Video, Award, TrendingUp,
 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { LeaderboardCard, PointsBadge } from '@/components/gamification';
 import * as rankingService from '@/lib/api/ranking.service';

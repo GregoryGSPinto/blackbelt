@@ -17,7 +17,7 @@ import {
   QrCode, Users, Search, X, Check, AlertCircle,
   Loader2,
 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useTranslations } from 'next-intl';
 import * as checkinService from '@/lib/api/checkin.service';
 import type { CheckInQR } from '@/lib/api/contracts';

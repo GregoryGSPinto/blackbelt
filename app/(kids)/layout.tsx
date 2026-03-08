@@ -20,7 +20,7 @@ import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { InactivityGuard } from '@/components/shared/InactivityGuard';
 import { KidsGatekeeper } from '@/components/shared/KidsGatekeeper';
 import { GlobalSearchProvider } from '@/contexts/GlobalSearchContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AppShell } from '@/components/shell';
 import { KIDS_SHELL_CONFIG } from './shell.config';

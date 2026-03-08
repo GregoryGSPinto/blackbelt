@@ -9,7 +9,7 @@ import {
   FileText, Tag, Clock, CheckCircle, X,
   Award, ChevronDown,
 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import * as eventosService from '@/lib/api/eventos.service';
 import type { Evento, StatusEvento } from '@/lib/api/contracts';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';

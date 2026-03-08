@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Send, X, Users, Clock, Eye, Loader2, MessageSquare, ChevronDown } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import * as broadcastService from '@/lib/api/turma-broadcast.service';
 import type { TurmaBroadcast, BroadcastTemplate } from '@/lib/api/turma-broadcast.service';
 import { useFormatting } from '@/hooks/useFormatting';

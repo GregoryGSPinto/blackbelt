@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import * as teenService from '@/lib/api/teen.service';
 import type { TeenProfile } from '@/lib/api/teen.service';
 import { User, Mail, Phone, Calendar, Award, UserX } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';

@@ -9,7 +9,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Check, Clock, User, Loader2 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useFormatting } from '@/hooks/useFormatting';
 import * as turmasService from '@/lib/api/minhas-turmas.service';
 import type { TurmaAluno } from '@/lib/api/minhas-turmas.service';

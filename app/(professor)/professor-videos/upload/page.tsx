@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Upload, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useVideoUpload } from '@/hooks/useVideoUpload';
 import { VideoDropZone } from '@/components/professor/VideoDropZone';

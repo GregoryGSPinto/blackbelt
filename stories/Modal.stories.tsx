@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { useState, type ComponentProps } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 
@@ -10,8 +10,10 @@ const meta: Meta<typeof Modal> = {
 
 export default meta;
 
+type ModalProps = ComponentProps<typeof Modal>;
+
 export const Default: StoryObj<typeof Modal> = {
-  render: (args) => {
+  render: (args: ModalProps) => {
     const [open, setOpen] = useState(true);
     return (
       <div className="h-screen flex items-center justify-center bg-[var(--bg-primary)]">

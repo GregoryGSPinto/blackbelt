@@ -21,7 +21,7 @@ vi.mock('@/contexts/ThemeContext', () => ({
 
 // Mock AuthContext
 const mockLogin = vi.fn();
-vi.mock('@/contexts/AuthContext', () => ({
+vi.mock('@/features/auth/context/AuthContext', () => ({
   useAuth: () => ({
     login: mockLogin,
     user: null,
@@ -52,15 +52,22 @@ vi.mock('@/lib/logger', () => ({
   logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn() },
 }));
 
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  process.env.NEXT_PUBLIC_SUPABASE_URL = 'http://localhost';
+}
+if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'anon';
+}
+
 describe('Login Page', () => {
   it('module exports a default component', async () => {
-    const LoginModule = await import('@/app/(auth)/login/page');
+    const LoginModule = await import('@/app/login/page');
     expect(LoginModule.default).toBeDefined();
     expect(typeof LoginModule.default).toBe('function');
   });
 
   it('renders the Suspense wrapper', async () => {
-    const LoginModule = await import('@/app/(auth)/login/page');
+    const LoginModule = await import('@/app/login/page');
     const LoginPage = LoginModule.default;
 
     // The page wraps content in Suspense which may render fallback initially
@@ -76,7 +83,7 @@ describe('Login Page', () => {
   it('DEMO_USERS constant exists in the module', async () => {
     // The login page defines DEMO_USERS with 9 profiles
     // We verify the page module can be loaded without errors
-    const LoginModule = await import('@/app/(auth)/login/page');
+    const LoginModule = await import('@/app/login/page');
     expect(LoginModule).toBeDefined();
   });
 });

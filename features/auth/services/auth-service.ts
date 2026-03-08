@@ -25,18 +25,18 @@
  */
 
 import { useMock, mockDelay } from '@/lib/env';
-import * as tokenStore from '@/lib/security/token-store';
+import * as tokenStore from '@/features/auth/services/token-store';
 import { getDeviceInfo } from '@/lib/security/device-fingerprint';
 import { checkRateLimit, recordAttempt, recordSuccess } from '@/lib/security/rate-limiter';
 import { audit } from '@/lib/security/audit';
-import { createSession, revokeAllSessions, isNewDevice, getActiveSessions } from '@/lib/security/session';
-import type { TipoPerfil, KidRegistroData, AuthenticatedUser } from './contracts';
+import { createSession, revokeAllSessions, isNewDevice, getActiveSessions } from '@/features/auth/services/session';
+import type { TipoPerfil, KidRegistroData, AuthenticatedUser, CategoriaRegistro } from '@/lib/api/contracts';
 import type {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
-} from './types';
+} from '@/lib/api/types';
 
 /** Dados completos de cadastro (incluindo perfil e dependentes) */
 export interface RegisterFullRequest {
@@ -399,7 +399,7 @@ export async function registerFull(data: RegisterFullRequest): Promise<RegisterR
     email: data.email,
     password: data.password,
     idade: data.idade,
-    categoria: data.categoria as import('./contracts').CategoriaRegistro | undefined,
+    categoria: data.categoria as CategoriaRegistro | undefined,
   });
 }
 

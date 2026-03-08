@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Gift, Copy, Share2, Users, Check, Award } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import * as referralService from '@/lib/api/referral.service';
 import type { ReferralStats } from '@/lib/api/referral.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';

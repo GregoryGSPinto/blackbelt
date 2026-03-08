@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import * as contentService from '@/lib/api/content.service';
 import type { Video } from '@/lib/api/content.service';
 import { useTranslations } from 'next-intl';

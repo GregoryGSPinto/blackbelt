@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { PERFIL_INFO, useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
-import type { User, TipoPerfil } from '@/contexts/AuthContext';
+import { PERFIL_INFO, useAuth, getRedirectForProfile } from '@/features/auth/context/AuthContext';
+import type { User, TipoPerfil } from '@/features/auth/context/AuthContext';
 import { LogOut, Settings, Shield, Lock, Eye, EyeOff, X } from 'lucide-react';
 import { KidsGatekeeper } from '@/components/shared/KidsGatekeeper';
 import { useTheme } from '@/contexts/ThemeContext';

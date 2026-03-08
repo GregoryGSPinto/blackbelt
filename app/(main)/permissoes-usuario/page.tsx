@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserProfile, PERMISSOES, PERFIL_INFO } from '@/contexts/AuthContext';
+import { useUserProfile, PERMISSOES, PERFIL_INFO } from '@/features/auth/context/AuthContext';
 import { useTranslations } from 'next-intl';
 import { Shield, CheckCircle, XCircle, Info } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
