@@ -263,9 +263,9 @@ const stats = result?.[0] ? { ...defaultStats, ...result[0] } : defaultStats;
             ))}
           </GestaoCard>
 
-          <GestaoCard title={t('dashboard.frozenPlans')} count={stats.congelados.quantidade}
+          <GestaoCard title={t('dashboard.frozenPlans')} count={stats?.congelados?.quantidade ?? 0}
             icon={Snowflake} color="#06B6D4" emptyText={t('dashboard.noFrozenPlans')}>
-            {stats.congelados.lista.map(c => (
+            {(stats?.congelados?.lista ?? []).map(c => (
               <div key={c.id} className="flex items-center justify-between py-1.5">
                 <span className="text-xs text-white/60">{c.nome}</span>
                 <span className="text-[10px] text-white/25">desde {formatDate(c.dataCongelamento, 'short')}</span>
