@@ -41,7 +41,7 @@ type AdminDashData = [EstatisticasDashboard, Alerta[]];
 const createSafeStats = (rawStats: any) => {
   const defaultObj = { quantidade: 0, lista: [], total: 0, valor: 0, variacao: 0 };
   // Propriedades que sabidamente são arrays
-  const arrayFields = ['tempoMedioPorNivel', 'tempoMedioPorNível', 'evolucaoMensal', 'distribuicaoPorNivel'];
+  const arrayFields = ['tempoMedioPorNivel', 'tempoMedioPorNível', 'evolucaoMensal', 'distribuicaoPorNivel', 'mapaCalor'];
   
   return new Proxy(rawStats || {}, {
     get(target, prop) {
