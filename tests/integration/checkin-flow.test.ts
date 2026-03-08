@@ -10,7 +10,7 @@ import {
   validateAndCheckin,
   getCheckinHistory,
   getTodayCheckins,
-} from '@/lib/api/checkin.service';
+} from '@/src/features/attendance/services/checkin.service';
 
 describe('Check-in Flow Integration', () => {
   describe('QR Code generation and validation', () => {

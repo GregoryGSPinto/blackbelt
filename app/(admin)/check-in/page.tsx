@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Check, X, AlertCircle, Clock, Users as UsersIcon } from 'lucide-react';
 import * as adminService from '@/lib/api/admin.service';
-import * as checkinService from '@/lib/api/checkin.service';
+import * as checkinService from '@/src/features/attendance/services/checkin.service';
 import type { Usuario, CheckIn, Turma } from '@/lib/api/admin.service';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';

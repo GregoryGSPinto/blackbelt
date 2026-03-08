@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertCircle, XCircle, Clock, Calendar, Zap } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
-import * as pagamentosService from '@/lib/api/pagamentos.service';
-import type { FinancialStatus, FinancialHistoryItem } from '@/lib/api/pagamentos.service';
+import * as pagamentosService from '@/src/features/payments/services/pagamentos.service';
+import type { FinancialStatus, FinancialHistoryItem } from '@/src/features/payments/services/pagamentos.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 

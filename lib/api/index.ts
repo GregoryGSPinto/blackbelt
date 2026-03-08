@@ -22,7 +22,7 @@ export * as automacoesService from './automacoes.service';
 export * as relatoriosService from './relatorios.service';
 export * as assinaturaService from './assinatura.service';
 export * as graduacaoService from './graduacao.service';
-export * as analyticsService from './analytics.service';
+export * as analyticsService from '@/src/features/analytics/services/analytics.service';
 export * as gatewayService from './gateway.service';
 export * as whatsappBusinessService from './whatsapp-business.service';
 export * as pushService from './push.service';

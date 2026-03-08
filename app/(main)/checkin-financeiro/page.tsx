@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckCircle, AlertCircle, XCircle, CheckSquare, Clock, Calendar, QrCode } from 'lucide-react';
-import { QRGenerator } from '@/components/checkin/QRGenerator';
+import { QRGenerator } from '@/src/features/attendance/components/checkin/QRGenerator';
 import { createPortal } from 'react-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
-import * as pagService from '@/lib/api/pagamentos.service';
+import * as pagService from '@/src/features/payments/services/pagamentos.service';
 import { useAuth } from '@/features/auth/context/AuthContext';
 
 /* Status config — text/message keys resolved via t() inside component */

@@ -5,8 +5,8 @@ import {
   TrendingUp, Users, UserMinus, UserPlus, UserCheck,
   DollarSign, Clock, BarChart3,
 } from 'lucide-react';
-import * as analyticsService from '@/lib/api/analytics.service';
-import type { AnalyticsRetencao } from '@/lib/api/analytics.service';
+import * as analyticsService from '@/src/features/analytics/services/analytics.service';
+import type { AnalyticsRetencao } from '@/src/features/analytics/services/analytics.service';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
