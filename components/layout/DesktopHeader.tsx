@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
+import { useAuth, PERFIL_INFO } from '@/features/auth/context/AuthContext';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { DesktopSearchHover } from './DesktopSearchHover';

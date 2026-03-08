@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth, type TipoPerfil } from '@/contexts/AuthContext';
+import { useAuth, type TipoPerfil } from '@/features/auth/context/AuthContext';
 
 export function useRequireRole(
   allowedRoles: TipoPerfil[],

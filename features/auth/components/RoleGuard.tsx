@@ -16,7 +16,7 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { ROLE_PERMISSIONS } from '@/lib/api/contracts';
 import type { SecurityRole, SecurityPermission } from '@/lib/api/contracts';
 import { Shield, Lock } from 'lucide-react';

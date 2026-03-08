@@ -7,7 +7,7 @@ import {
   ChevronRight, Eye, Calendar, Timer,
   BarChart3, AlertTriangle, GraduationCap, BookOpen } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import * as professorService from '@/lib/api/instrutor.service';

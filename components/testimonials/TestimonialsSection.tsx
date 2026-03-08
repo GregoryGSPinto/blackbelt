@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Star, MessageSquare, ChevronDown, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { createTestimonial } from '@/lib/api/testimonials.service';
 import type { TestimonialDTO } from '@/lib/api/testimonials.service';
 

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/features/auth/context/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { ToastProvider } from "@/contexts/ToastContext";

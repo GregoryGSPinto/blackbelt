@@ -7,3 +7,4 @@ export { Modal } from './Modal';
 export { Skeleton } from './Skeleton';
 export { EmptyState } from './EmptyState';
 export { ToastProvider, useToast } from './Toast';
+export { Spinner } from './Spinner';

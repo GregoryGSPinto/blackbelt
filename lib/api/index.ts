@@ -9,7 +9,7 @@ export * from './contracts';
 export * from './types';
 
 // Services por domínio
-export * as authService from './auth.service';
+export * as authService from '@/features/auth/services/auth-service';
 export * as adminService from './admin.service';
 export * as contentService from './content.service';
 export * as kidsService from './kids.service';

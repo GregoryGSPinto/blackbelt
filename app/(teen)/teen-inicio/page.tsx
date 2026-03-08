@@ -7,7 +7,7 @@ import * as teenService from '@/lib/api/teen.service';
 import { TEEN_SESSÕES, getProximaMeta } from '@/lib/api/teen.service';
 import type { TeenProfile } from '@/lib/api/teen.service';
 import { Play, Calendar, TrendingUp, Clock, Target, Video, Flame, ChevronRight, CheckCircle2 , UserX} from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';

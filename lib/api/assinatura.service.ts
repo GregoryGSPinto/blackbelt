@@ -15,10 +15,12 @@ export type { DocumentoAssinatura, ConsentimentoLGPD };
 const emptyDocumento: DocumentoAssinatura = {
   id: '',
   titulo: 'Documento',
-  tipo: 'CONTRATO',
+  tipo: 'CONTRATO_MATRICULA',
+  descricao: '',
+  conteudo: '',
+  versao: '1.0',
+  obrigatorio: true,
   status: 'PENDENTE',
-  dataCriacao: new Date().toISOString(),
-  url: '',
 };
 
 const emptyConsentimento: ConsentimentoLGPD = {
@@ -27,8 +29,6 @@ const emptyConsentimento: ConsentimentoLGPD = {
   descricao: '',
   obrigatorio: false,
   aceito: false,
-  versao: '1.0',
-  dataCriacao: new Date().toISOString(),
 };
 
 async function getMock() {

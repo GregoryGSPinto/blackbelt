@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { LogOut, ArrowRightLeft, ChevronDown, Settings } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/contexts/AuthContext';
+import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/features/auth/context/AuthContext';
 import { ProfileDropdownPortal } from '@/components/layout/ProfileDropdownPortal';
 
 interface MobileAccountBarProps {

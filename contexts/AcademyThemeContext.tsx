@@ -13,7 +13,7 @@
  */
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useMock as isMockEnabled, mockDelay } from '@/lib/env';
 
 export interface AcademyTheme {

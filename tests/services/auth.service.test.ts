@@ -14,8 +14,8 @@ import {
   login,
   checkEmailAvailable,
   register,
-} from '@/lib/api/auth.service';
-import { clearAuth, isAuthenticated } from '@/lib/security/token-store';
+} from '@/features/auth/services/auth-service';
+import { clearAuth, isAuthenticated } from '@/features/auth/services/token-store';
 import { clearAllTrackers } from '@/lib/security/rate-limiter';
 
 describe('Auth Service (mock mode)', () => {

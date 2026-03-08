@@ -7,7 +7,8 @@
  * Para usar em produção onde não queremos erros na UI.
  */
 
-import { safeGet, safePost, safePut, emptyArray, emptyObject } from './safe-client';
+import { safeGet, safePut, emptyArray } from './safe-client';
+import { getEstatisticas, configuracaoUnidade } from '@/lib/__mocks__/admin.mock';
 
 import type {
   Usuario, Turma, CheckIn, Alerta, HistoricoStatus,
@@ -23,45 +24,10 @@ export type {
 };
 
 // Estatísticas padrão (zeros)
-const defaultStats: EstatisticasDashboard = {
-  totalAlunos: 0,
-  totalProfessores: 0,
-  totalAulas: 0,
-  aulasHoje: 0,
-  taxaOcupacao: 0,
-  checkInsHoje: 0,
-  totalVisitantes: 0,
-  inadimplencias: 0,
-  alertasPendentes: 0,
-  tendencia: 'stable',
-};
+const defaultStats: EstatisticasDashboard = getEstatisticas();
 
 // Configuração padrão
-const defaultConfig: ConfiguracaoUnidade = {
-  id: 'default',
-  nome: 'Minha Academia',
-  endereco: '',
-  telefone: '',
-  email: '',
-  horarioFuncionamento: {
-    segunda: { abertura: '06:00', fechamento: '22:00', fechado: false },
-    terca: { abertura: '06:00', fechamento: '22:00', fechado: false },
-    quarta: { abertura: '06:00', fechamento: '22:00', fechado: false },
-    quinta: { abertura: '06:00', fechamento: '22:00', fechado: false },
-    sexta: { abertura: '06:00', fechamento: '22:00', fechado: false },
-    sabado: { abertura: '08:00', fechamento: '18:00', fechado: false },
-    domingo: { abertura: '', fechamento: '', fechado: true },
-  },
-  configuracoes: {
-    maxAlunosPorTurma: 20,
-    toleranciaAtrasoMinutos: 15,
-    notificacoes: {
-      email: true,
-      sms: false,
-      push: true,
-    },
-  },
-};
+const defaultConfig: ConfiguracaoUnidade = configuracaoUnidade;
 
 // ============================================================
 // FUNÇÕES SAFE (nunca throw)

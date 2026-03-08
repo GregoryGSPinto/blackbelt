@@ -48,6 +48,15 @@ const defaultStats: EstatisticasDashboard = {
   mapaCalor: [],
   aptosExame: { quantidade: 0, lista: [] },
   tempoMedioPorNível: [],
+  financeiroResumo: {
+    receitaMes: 0,
+    receitaMesAnterior: 0,
+    inadimplenciaPct: 0,
+    ticketMedio: 0,
+    planoMaisVendido: { nome: '', quantidade: 0 },
+    distribuicaoPlanos: [],
+    previsaoCaixa: 0,
+  },
 };
 
 const defaultConfig: ConfiguracaoUnidade = {

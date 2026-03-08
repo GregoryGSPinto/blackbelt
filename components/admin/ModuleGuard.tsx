@@ -18,7 +18,7 @@
 import { ReactNode, useEffect, useState, useMemo } from 'react';
 import { ShieldAlert, ArrowLeft, Lock } from 'lucide-react';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import type { AdminModule, SecurityRole } from '@/lib/api/contracts';
 import { resolveCanonicalRole, MODULE_ACCESS } from '@/lib/api/contracts';
 import { MODULE_META } from '@/lib/admin/module-registry';

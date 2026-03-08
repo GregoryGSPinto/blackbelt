@@ -11,7 +11,7 @@ import {
   getConfigRouteForProfile,
   PERFIL_INFO,
   PERMISSOES_POR_PERFIL,
-} from '@/contexts/AuthContext';
+} from '@/features/auth/context/AuthContext';
 import type { TipoPerfil } from '@/lib/api/contracts';
 
 const ALL_PROFILES: TipoPerfil[] = [

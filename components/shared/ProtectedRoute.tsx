@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useAuth, getRedirectForProfile, type TipoPerfil } from '@/contexts/AuthContext';
+import { useAuth, getRedirectForProfile, type TipoPerfil } from '@/features/auth/context/AuthContext';
 import { logger } from '@/lib/logger';
 import { PremiumLoader } from './PremiumLoader';
 

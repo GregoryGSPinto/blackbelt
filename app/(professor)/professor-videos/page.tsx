@@ -9,7 +9,7 @@ import * as videoUploadService from '@/lib/api/video-upload.service';
 import type { VideoRecente } from '@/lib/api/instrutor.service';
 import type { Video } from '@/lib/__mocks__/content.mock';
 import type { UploadedVideo } from '@/lib/api/video-provider.types';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useSearchRegistration, type SearchItem } from '@/contexts/GlobalSearchContext';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';

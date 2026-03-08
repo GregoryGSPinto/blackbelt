@@ -7,7 +7,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { User, Mail, Phone, Calendar, Save, Loader2 } from 'lucide-react';
 import { SectionHeader } from './SectionHeader';
 import { useToast } from '@/contexts/ToastContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 interface FormData {
   nome: string;

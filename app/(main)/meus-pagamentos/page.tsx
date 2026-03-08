@@ -19,7 +19,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useFormatting } from '@/hooks/useFormatting';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 const STATUS_BADGE: Record<string, { bg: string; text: string; icon: typeof CheckCircle; label: string }> = {
   pago: { bg: 'bg-green-600/20', text: 'text-green-400', icon: CheckCircle, label: 'Pago' },

@@ -33,7 +33,7 @@ import type {
   SecurityRole,
   PaginatedResponse,
 } from '@/lib/api/contracts';
-import * as tokenStore from '@/lib/security/token-store';
+import * as tokenStore from '@/features/auth/services/token-store';
 import { getDeviceInfo } from '@/lib/security/device-fingerprint';
 
 // ============================================================

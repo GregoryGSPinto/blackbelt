@@ -33,8 +33,8 @@ export async function GET() {
     }
 
     // Pegar token do header Authorization
-    const headersList = headers();
-    const authHeader = headersList.get('authorization');
+    const requestHeaders = await headers();
+    const authHeader = requestHeaders.get('authorization');
     const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
     if (!token) {

@@ -19,7 +19,7 @@
 import { ReactNode, useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useAuth, PERFIL_INFO } from '@/contexts/AuthContext';
+import { useAuth, PERFIL_INFO } from '@/features/auth/context/AuthContext';
 import { useGlobalSearch } from '@/contexts/GlobalSearchContext';
 import { SearchResultsOverlay } from '@/components/ui/SearchResultsOverlay';
 import { ModuleErrorBoundary, type ModuleName } from '@/components/shared/ModuleErrorBoundary';

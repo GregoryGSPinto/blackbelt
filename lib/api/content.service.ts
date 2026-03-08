@@ -126,19 +126,19 @@ export async function getTop10(): Promise<Video[]> {
   }
 }
 
-export async function getVideoById(id: string): Promise<Video> {
+export async function getVideoById(id: string): Promise<Video | null> {
   if (useMock()) {
     await mockDelay(100);
     const { mockVideos } = await getMockModule();
-    return mockVideos.find(v => v.id === id) || { ...emptyVideo, id };
+    return mockVideos.find(v => v.id === id) || null;
   }
   
   try {
     const { data } = await apiClient.get<Video>(`/content/videos/${id}`);
-    return data || { ...emptyVideo, id };
+    return data || null;
   } catch (err) {
     logger.error('[content.service]', 'getVideoById failed', err);
-    return { ...emptyVideo, id };
+    return null;
   }
 }
 

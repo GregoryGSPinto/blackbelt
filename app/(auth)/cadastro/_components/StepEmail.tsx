@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Mail } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ErrorAlert } from './ErrorAlert';
-import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
+import { SocialLoginButtons } from '@/features/auth/components/SocialLoginButtons';
 import type { DadosUsuario, StepBaseProps } from './types';
 
 interface StepEmailProps extends StepBaseProps {

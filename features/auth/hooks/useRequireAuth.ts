@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 export function useRequireAuth(redirectTo = '/login') {
   const { isAuthenticated, loading } = useAuth();

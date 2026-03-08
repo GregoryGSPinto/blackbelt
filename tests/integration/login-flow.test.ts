@@ -34,6 +34,13 @@ vi.mock('@/lib/logger', () => ({
   logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
 }));
 
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  process.env.NEXT_PUBLIC_SUPABASE_URL = 'http://localhost';
+}
+if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'anon';
+}
+
 vi.mock('@/styles/transitions', () => ({
   transitions: { slideUp: '', fadeIn: '' },
 }));
@@ -51,7 +58,7 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-vi.mock('@/contexts/AuthContext', () => ({
+vi.mock('@/features/auth/context/AuthContext', () => ({
   useAuth: () => ({
     login: mockLogin,
     user: null,
@@ -75,7 +82,7 @@ describe('Login Flow Integration', () => {
   });
 
   it('login module exports a valid page component', async () => {
-    const mod = await import('@/app/(auth)/login/page');
+    const mod = await import('@/app/login/page');
     expect(mod.default).toBeDefined();
     expect(typeof mod.default).toBe('function');
   });
@@ -90,7 +97,7 @@ describe('Login Flow Integration', () => {
   });
 
   it('login returns correct redirect for each profile type', async () => {
-    const { getRedirectForProfile } = await import('@/contexts/AuthContext');
+    const { getRedirectForProfile } = await import('@/features/auth/context/AuthContext');
 
     expect(getRedirectForProfile('admin')).toBe('/admin/dashboard');
     expect(getRedirectForProfile('professor')).toBe('/professor/turmas');
@@ -127,7 +134,7 @@ describe('Login Flow Integration', () => {
 
     await mockLogin('aluno@blackbelt.app', 'blackbelt123');
     // Simulate redirect after successful login
-    const { getRedirectForProfile } = await import('@/contexts/AuthContext');
+    const { getRedirectForProfile } = await import('@/features/auth/context/AuthContext');
     const redirect = getRedirectForProfile('aluno');
     mockPush(redirect);
 

@@ -11,7 +11,7 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth, getRedirectForProfile } from '@/contexts/AuthContext';
+import { useAuth, getRedirectForProfile } from '@/features/auth/context/AuthContext';
 import type { TipoPerfil } from '@/lib/api/contracts';
 import { Shield, Lock } from 'lucide-react';
 

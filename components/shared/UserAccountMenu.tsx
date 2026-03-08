@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { LogOut, ChevronDown, ArrowRightLeft, Settings } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/contexts/AuthContext';
+import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/features/auth/context/AuthContext';
 
 interface UserAccountMenuProps {
   variant?: 'dark' | 'light' | 'teen';

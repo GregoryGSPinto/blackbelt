@@ -13,7 +13,7 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth, type TipoPerfil, getRedirectForProfile } from '@/contexts/AuthContext';
+import { useAuth, type TipoPerfil, getRedirectForProfile } from '@/features/auth/context/AuthContext';
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 
 // ── Profile metadata ──

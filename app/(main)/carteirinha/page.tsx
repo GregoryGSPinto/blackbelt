@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import { PageError, PageLoading, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import CarteirinhaDigital from '@/components/aluno/CarteirinhaDigital';
