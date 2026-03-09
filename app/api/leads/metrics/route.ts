@@ -1,147 +1,130 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { leadApiError, leadApiSuccess, mapLeadError } from '@/lib/leads/http';
+import { LEAD_PIPELINE_STATUSES } from '@/lib/leads/types';
+import { requireSuperAdmin } from '@/lib/leads/server';
 
-// SECURITY: service role key bypasses RLS - use with caution
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function average(values: number[]) {
+  if (!values.length) return 0;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
 
-// GET /api/leads/metrics - Get dashboard metrics
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    // Verify super admin access
-    const authSupabase = await getSupabaseServerClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { supabase } = await requireSuperAdmin();
+    const { data: leads, error } = await supabase.from('leads').select('*');
+
+    if (error) {
+      return leadApiError(error.message, 500);
     }
 
-    // Check if user is super admin
-    const { data: membership } = await supabaseAdmin
-      .from('memberships')
-      .select('role')
-      .eq('profile_id', user.id)
-      .single();
+    const { data: statusHistory } = await supabase.from('lead_status_history').select('*');
+    const dataset = leads ?? [];
+    const wonLeads = dataset.filter((lead: any) => lead.status === 'WON');
+    const lostLeads = dataset.filter((lead: any) => lead.status === 'LOST');
 
-    if (membership?.role !== 'super_admin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
+    const summary = {
+      totalLeads: dataset.length,
+      conversionRate: dataset.length ? Number(((wonLeads.length / dataset.length) * 100).toFixed(1)) : 0,
+      avgDealSize: Math.round(average(wonLeads.map((lead: any) => Number(lead.closed_price ?? lead.proposed_price ?? 0)))),
+      revenuePotential: dataset.reduce((sum: number, lead: any) => sum + Number(lead.proposed_price ?? lead.suggested_price ?? 0), 0),
+      pipelineValue: dataset
+        .filter((lead: any) => !['WON', 'LOST'].includes(lead.status))
+        .reduce((sum: number, lead: any) => sum + Number(lead.proposed_price ?? lead.suggested_price ?? 0), 0),
+    };
 
-    // Get current month start
-    const now = new Date();
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString();
-    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0).toISOString();
+    const pipelineDistribution = LEAD_PIPELINE_STATUSES.map((status) => ({
+      status,
+      count: dataset.filter((lead: any) => lead.status === status).length,
+      value: dataset
+        .filter((lead: any) => lead.status === status)
+        .reduce((sum: number, lead: any) => sum + Number(lead.proposed_price ?? lead.suggested_price ?? 0), 0),
+    }));
 
-    // Fetch metrics
-    const [
-      { count: totalLeads },
-      { count: newLeadsThisMonth },
-      { count: qualifiedLeads },
-      { count: convertedLeads },
-      { count: newLeadsLastMonth },
-      { count: convertedLastMonth },
-    ] = await Promise.all([
-      supabaseAdmin.from('leads').select('*', { count: 'exact', head: true }),
-      supabaseAdmin.from('leads').select('*', { count: 'exact', head: true }).gte('created_at', monthStart),
-      supabaseAdmin.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'qualified'),
-      supabaseAdmin.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'converted'),
-      supabaseAdmin.from('leads').select('*', { count: 'exact', head: true }).gte('created_at', lastMonthStart).lte('created_at', lastMonthEnd),
-      supabaseAdmin.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'converted').gte('created_at', lastMonthStart).lte('created_at', lastMonthEnd),
-    ]);
+    const leadsPerCityMap = new Map<string, number>();
+    const modalityMap = new Map<string, number>();
+    const sourceMap = new Map<string, number>();
+    const stageConversion = LEAD_PIPELINE_STATUSES.map((status) => {
+      const entrants = dataset.filter((lead: any) => {
+        if (lead.status === status) return true;
+        const historyForLead = (statusHistory ?? []).filter((entry: any) => entry.lead_id === lead.id);
+        return historyForLead.some((entry: any) => entry.to_status === status);
+      }).length;
+      const nextWon = dataset.filter((lead: any) => lead.status === 'WON').filter((lead: any) => {
+        const historyForLead = (statusHistory ?? []).filter((entry: any) => entry.lead_id === lead.id);
+        return status === 'WON' || historyForLead.some((entry: any) => entry.to_status === status);
+      }).length;
+      return {
+        status,
+        entrants,
+        won: nextWon,
+        rate: entrants ? Number(((nextWon / entrants) * 100).toFixed(1)) : 0,
+      };
+    });
 
-    // Calculate conversion rate
-    const conversionRate = totalLeads ? ((convertedLeads || 0) / (totalLeads || 1)) * 100 : 0;
-
-    // Calculate trends
-    const leadsTrend = newLeadsLastMonth ? 
-      (((newLeadsThisMonth || 0) - (newLeadsLastMonth || 0)) / (newLeadsLastMonth || 1)) * 100 : 0;
-    
-    const conversionTrend = convertedLastMonth ?
-      (((convertedLeads || 0) - (convertedLastMonth || 0)) / (convertedLastMonth || 1)) * 100 : 0;
-
-    // Get status distribution
-    const { data: statusData } = await supabaseAdmin
-      .from('leads')
-      .select('status');
-
-    const statusDistribution = statusData?.reduce((acc: Record<string, number>, lead) => {
-      acc[lead.status] = (acc[lead.status] || 0) + 1;
-      return acc;
-    }, {}) || {};
-
-    // Get source distribution
-    const { data: sourceData } = await supabaseAdmin
-      .from('leads')
-      .select('source');
-
-    const sourceDistribution = sourceData?.reduce((acc: Record<string, number>, lead) => {
-      acc[lead.source] = (acc[lead.source] || 0) + 1;
-      return acc;
-    }, {}) || {};
-
-    // Get monthly data for chart
-    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1).toISOString();
-    const { data: monthlyData } = await supabaseAdmin
-      .from('leads')
-      .select('created_at, status')
-      .gte('created_at', sixMonthsAgo)
-      .order('created_at', { ascending: true });
-
-    const monthlyStats = monthlyData?.reduce((acc: Record<string, any>, lead) => {
-      const month = new Date(lead.created_at).toLocaleString('pt-BR', { month: 'short' });
-      if (!acc[month]) {
-        acc[month] = { leads: 0, qualified: 0, converted: 0 };
+    dataset.forEach((lead: any) => {
+      const cityKey = [lead.city, lead.state].filter(Boolean).join(', ');
+      if (cityKey) leadsPerCityMap.set(cityKey, (leadsPerCityMap.get(cityKey) ?? 0) + 1);
+      for (const modality of lead.modalities ?? []) {
+        modalityMap.set(modality, (modalityMap.get(modality) ?? 0) + 1);
       }
-      acc[month].leads++;
-      if (lead.status === 'qualified') acc[month].qualified++;
-      if (lead.status === 'converted') acc[month].converted++;
+      if (lead.lead_source) {
+        sourceMap.set(lead.lead_source, (sourceMap.get(lead.lead_source) ?? 0) + 1);
+      }
+    });
+
+    const topCities = [...leadsPerCityMap.entries()]
+      .map(([city, count]) => ({ city, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8);
+
+    const modalitiesPerformance = [...modalityMap.entries()]
+      .map(([modality, count]) => ({
+        modality,
+        count,
+        won: wonLeads.filter((lead: any) => (lead.modalities ?? []).includes(modality)).length,
+      }))
+      .map((item) => ({
+        ...item,
+        rate: item.count ? Number(((item.won / item.count) * 100).toFixed(1)) : 0,
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    const dealCycles = wonLeads
+      .filter((lead: any) => lead.converted_at)
+      .map((lead: any) => {
+        const created = new Date(lead.created_at).getTime();
+        const converted = new Date(lead.converted_at).getTime();
+        return Math.max(1, Math.round((converted - created) / 86_400_000));
+      });
+
+    const lossReasons = lostLeads.reduce((acc: Record<string, number>, lead: any) => {
+      const key = lead.loss_reason || 'UNSPECIFIED';
+      acc[key] = (acc[key] ?? 0) + 1;
       return acc;
-    }, {}) || {};
+    }, {});
 
-    // Calculate potential revenue
-    const { data: revenueData } = await supabaseAdmin
-      .from('leads')
-      .select('monthly_revenue, status')
-      .eq('status', 'converted');
+    const monthMap = new Map<string, { leads: number; won: number; proposals: number }>();
+    dataset.forEach((lead: any) => {
+      const month = new Date(lead.created_at).toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' });
+      const current = monthMap.get(month) ?? { leads: 0, won: 0, proposals: 0 };
+      current.leads += 1;
+      if (lead.status === 'WON') current.won += 1;
+      if (['PROPOSAL_SENT', 'NEGOTIATING', 'WON'].includes(lead.status)) current.proposals += 1;
+      monthMap.set(month, current);
+    });
 
-    const totalRevenue = revenueData?.reduce((sum, lead) => sum + (lead.monthly_revenue || 0), 0) || 0;
-
-    // Get hot leads (score >= 80)
-    const { data: hotLeads } = await supabaseAdmin
-      .from('leads')
-      .select('id, academy_name, city, score')
-      .gte('score', 80)
-      .in('status', ['new', 'qualified'])
-      .order('score', { ascending: false })
-      .limit(5);
-
-    return NextResponse.json({
-      summary: {
-        totalLeads: totalLeads || 0,
-        newLeadsThisMonth: newLeadsThisMonth || 0,
-        qualifiedLeads: qualifiedLeads || 0,
-        convertedLeads: convertedLeads || 0,
-        conversionRate: parseFloat(conversionRate.toFixed(1)),
-        leadsTrend: parseFloat(leadsTrend.toFixed(1)),
-        conversionTrend: parseFloat(conversionTrend.toFixed(1)),
-        totalRevenue,
-      },
-      distributions: {
-        status: statusDistribution,
-        source: sourceDistribution,
-      },
-      monthly: Object.entries(monthlyStats).map(([month, data]) => ({
-        month,
-        ...data,
-      })),
-      hotLeads: hotLeads || [],
+    return leadApiSuccess({
+      summary,
+      pipelineDistribution,
+      stageConversion,
+      topCities,
+      modalitiesPerformance,
+      sources: [...sourceMap.entries()].map(([source, count]) => ({ source, count })),
+      revenuePotentialByStatus: pipelineDistribution,
+      averageDealTime: Math.round(average(dealCycles)),
+      lossReasons: Object.entries(lossReasons).map(([reason, count]) => ({ reason, count })),
+      monthly: [...monthMap.entries()].map(([month, value]) => ({ month, ...value })),
     });
   } catch (error) {
-    console.error('[Leads Metrics API] Unexpected error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return mapLeadError(error);
   }
 }

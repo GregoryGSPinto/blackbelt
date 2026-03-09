@@ -9,9 +9,10 @@
  *   POST /alertas/:id/dismiss
  */
 
-import { apiClient } from './client';
+import { apiClient, ApiError } from './client';
 import { useMock, mockDelay } from '@/lib/env';
 import type { AlertaInteligente, TendenciaData } from '@/lib/__mocks__/alertas-inteligentes.mock';
+import { logger } from '@/lib/logger';
 
 export type { AlertaInteligente, AlertaTipo, AlertaPrioridade, AlertaCategoria, TendenciaData } from '@/lib/__mocks__/alertas-inteligentes.mock';
 
@@ -27,8 +28,20 @@ export async function getAlertas(): Promise<AlertaInteligente[]> {
     const mock = await getMock();
     return [...mock.MOCK_ALERTAS];
   }
-  const { data } = await apiClient.get<AlertaInteligente[]>('/alertas/inteligentes');
-  return data;
+  try {
+    const { data } = await apiClient.get<AlertaInteligente[]>('/alertas/inteligentes');
+    return data;
+  } catch (error) {
+    if (
+      error instanceof ApiError &&
+      error.status !== 401 &&
+      error.status !== 403
+    ) {
+      logger.warn('[AlertasInteligentes]', `Falha opcional no endpoint (${error.status}). Retornando lista vazia.`);
+      return [];
+    }
+    throw error;
+  }
 }
 
 // ── Dismiss an alert (24h cooldown) ──

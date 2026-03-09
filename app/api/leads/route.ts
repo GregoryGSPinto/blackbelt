@@ -1,144 +1,119 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { categorizeLeadScore } from '@/lib/leads/scoring';
+import { leadApiError, leadApiSuccess, mapLeadError } from '@/lib/leads/http';
+import { requireSuperAdmin } from '@/lib/leads/server';
+import { createLeadSchema, interactionSchema } from '@/lib/leads/validation';
 
-// SECURITY: service role key bypasses RLS - use with caution
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function parseListFilters(request: Request) {
+  const { searchParams } = new URL(request.url);
+  return {
+    status: searchParams.get('status'),
+    city: searchParams.get('city'),
+    modality: searchParams.get('modality'),
+    source: searchParams.get('source'),
+    assignedTo: searchParams.get('assignedTo'),
+    search: searchParams.get('search'),
+    scoreCategory: searchParams.get('scoreCategory'),
+    limit: Math.min(100, Math.max(1, Number(searchParams.get('limit') || 25))),
+    offset: Math.max(0, Number(searchParams.get('offset') || 0)),
+  };
+}
 
-// GET /api/leads - List all leads with filters
 export async function GET(request: Request) {
   try {
-    // Verify super admin access
-    const authSupabase = await getSupabaseServerClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const { supabase } = await requireSuperAdmin();
+    const filters = parseListFilters(request);
 
-    // Check if user is super admin
-    const { data: membership } = await supabaseAdmin
-      .from('memberships')
-      .select('role')
-      .eq('profile_id', user.id)
-      .single();
-
-    if (membership?.role !== 'super_admin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    // Parse query params
-    const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status');
-    const city = searchParams.get('city');
-    const modality = searchParams.get('modality');
-    const minScore = searchParams.get('minScore');
-    const search = searchParams.get('search');
-    const limit = parseInt(searchParams.get('limit') || '50');
-    const offset = parseInt(searchParams.get('offset') || '0');
-
-    // Build query
-    let query = supabaseAdmin
+    let query = supabase
       .from('leads')
       .select('*', { count: 'exact' })
+      .order('score', { ascending: false })
       .order('created_at', { ascending: false })
-      .limit(limit)
-      .range(offset, offset + limit - 1);
+      .range(filters.offset, filters.offset + filters.limit - 1);
 
-    // Apply filters
-    if (status && status !== 'all') {
-      query = query.eq('status', status);
-    }
-    if (city) {
-      query = query.ilike('city', `%${city}%`);
-    }
-    if (modality) {
-      query = query.contains('modalities', [modality]);
-    }
-    if (minScore) {
-      query = query.gte('score', parseInt(minScore));
-    }
-    if (search) {
-      query = query.or(`academy_name.ilike.%${search}%,email.ilike.%${search}%,city.ilike.%${search}%`);
+    if (filters.status && filters.status !== 'ALL') query = query.eq('status', filters.status);
+    if (filters.city) query = query.ilike('city', `%${filters.city}%`);
+    if (filters.modality) query = query.contains('modalities', [filters.modality]);
+    if (filters.source) query = query.eq('lead_source', filters.source);
+    if (filters.assignedTo) query = query.eq('assigned_to', filters.assignedTo);
+    if (filters.search) {
+      query = query.or([
+        `academy_name.ilike.%${filters.search}%`,
+        `responsible_name.ilike.%${filters.search}%`,
+        `email.ilike.%${filters.search}%`,
+        `city.ilike.%${filters.search}%`,
+      ].join(','));
     }
 
     const { data: leads, error, count } = await query;
-
     if (error) {
-      console.error('[Leads API] Error fetching leads:', error);
-      return NextResponse.json({ error: 'Failed to fetch leads' }, { status: 500 });
+      return leadApiError(error.message, 500);
     }
 
-    return NextResponse.json({ leads, count, limit, offset });
+    const normalizedLeads = (leads ?? []).filter(Boolean);
+    const filteredByCategory = filters.scoreCategory
+      ? normalizedLeads.filter((lead: any) => categorizeLeadScore(lead.score ?? 0) === filters.scoreCategory)
+      : normalizedLeads;
+
+    const summary = filteredByCategory.reduce((acc: any, lead: any) => {
+      const category = categorizeLeadScore(lead.score ?? 0).toLowerCase();
+      acc[category] += 1;
+      if (lead.status === 'WON') acc.won += 1;
+      acc.revenuePotential += Number(lead.proposed_price ?? lead.suggested_price ?? 0);
+      return acc;
+    }, { hot: 0, warm: 0, cold: 0, won: 0, revenuePotential: 0 });
+
+    return leadApiSuccess({
+      leads: filteredByCategory,
+      count: filters.scoreCategory ? filteredByCategory.length : (count ?? filteredByCategory.length),
+      limit: filters.limit,
+      offset: filters.offset,
+      summary,
+    });
   } catch (error) {
-    console.error('[Leads API] Unexpected error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return mapLeadError(error);
   }
 }
 
-// POST /api/leads - Create new lead
 export async function POST(request: Request) {
   try {
-    // Verify super admin access
-    const authSupabase = await getSupabaseServerClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { user, supabase } = await requireSuperAdmin();
+    const rawBody = await request.json();
+    const parsed = createLeadSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return leadApiError('Validation failed', 400, parsed.error.flatten());
     }
 
-    const body = await request.json();
-    
-    // Validate required fields
-    const required = ['academy_name', 'responsible_name', 'email', 'city', 'state'];
-    for (const field of required) {
-      if (!body[field]) {
-        return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
-      }
-    }
+    const body = parsed.data;
+    const insertPayload = {
+      ...body,
+      website: body.website || null,
+      assigned_to: body.assigned_to ?? user.id,
+    };
 
-    // Insert lead
-    const { data: lead, error } = await supabaseAdmin
+    const { data: lead, error } = await supabase
       .from('leads')
-      .insert({
-        academy_name: body.academy_name,
-        responsible_name: body.responsible_name,
-        email: body.email,
-        phone: body.phone,
-        city: body.city,
-        state: body.state,
-        address: body.address,
-        modalities: body.modalities || [],
-        current_students: body.current_students || 0,
-        monthly_revenue: body.monthly_revenue || 0,
-        source: body.source || 'manual',
-        assigned_to: user.id,
-        notes: body.notes,
-      })
-      .select()
+      .insert(insertPayload)
+      .select('*')
       .single();
 
     if (error) {
-      console.error('[Leads API] Error creating lead:', error);
-      return NextResponse.json({ error: 'Failed to create lead' }, { status: 500 });
+      return leadApiError(error.message, 500);
     }
 
-    // Create welcome interaction
-    await supabaseAdmin
-      .from('lead_interactions')
-      .insert({
-        lead_id: lead.id,
-        type: 'note',
-        content: 'Lead criado manualmente no sistema',
-        sent_by: user.id,
-      });
+    const initialInteraction = interactionSchema.parse({
+      lead_id: lead.id,
+      type: 'note',
+      content: 'Lead criado no sistema de captação.',
+    });
 
-    return NextResponse.json({ lead }, { status: 201 });
+    await supabase.from('lead_interactions').insert({
+      ...initialInteraction,
+      sent_by: user.id,
+      created_by: user.id,
+    });
+
+    return leadApiSuccess({ lead }, 201);
   } catch (error) {
-    console.error('[Leads API] Unexpected error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return mapLeadError(error);
   }
 }

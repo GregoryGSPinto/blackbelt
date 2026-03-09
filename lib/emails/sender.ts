@@ -7,6 +7,7 @@ import { Resend } from 'resend';
 import { welcomeEmail } from './welcome';
 import { newStudentEmail } from './new-student';
 import { paymentReminderEmail } from './payment-reminder';
+import { leadProposalEmail } from './lead-proposal';
 import { logger } from '@/lib/logger';
 
 const resend = process.env.RESEND_API_KEY
@@ -15,18 +16,20 @@ const resend = process.env.RESEND_API_KEY
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'BlackBelt <noreply@blackbelt.app>';
 
-export type EmailTemplate = 'welcome' | 'new-student' | 'payment-reminder';
+export type EmailTemplate = 'welcome' | 'new-student' | 'payment-reminder' | 'lead-proposal';
 
 interface TemplateData {
   welcome: { nome: string; email: string };
   'new-student': { studentName: string; studentEmail: string; plan: string; enrolledAt: string };
   'payment-reminder': { nome: string; amount: string; dueDate: string; planName: string };
+  'lead-proposal': { responsibleName: string; academyName: string; proposalValue: string; proposalUrl: string };
 }
 
 const SUBJECTS: Record<EmailTemplate, string> = {
   'welcome': 'Bem-vindo ao BlackBelt!',
   'new-student': 'Novo aluno matriculado',
   'payment-reminder': 'Lembrete de pagamento',
+  'lead-proposal': 'Sua proposta comercial BlackBelt',
 };
 
 function getHtml<T extends EmailTemplate>(template: T, data: TemplateData[T]): string {
@@ -42,6 +45,10 @@ function getHtml<T extends EmailTemplate>(template: T, data: TemplateData[T]): s
     case 'payment-reminder': {
       const d = data as TemplateData['payment-reminder'];
       return paymentReminderEmail({ nome: d.nome, amount: d.amount, dueDate: d.dueDate, planName: d.planName });
+    }
+    case 'lead-proposal': {
+      const d = data as TemplateData['lead-proposal'];
+      return leadProposalEmail(d);
     }
     default:
       return '<p>Template not found.</p>';

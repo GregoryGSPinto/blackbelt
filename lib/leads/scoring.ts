@@ -1,187 +1,114 @@
-/**
- * Lead Scoring Module - BlackBelt
- * Calcula o score de qualificação de leads baseado em múltiplos critérios
- */
+import type { LeadScoreCategory } from '@/lib/leads/types';
 
-export interface LeadScoringData {
-  current_students: number;
-  monthly_revenue: number;
-  modalities: string[];
-  city: string;
-  has_phone?: boolean;
-  has_email?: boolean;
+export interface LeadScoreInput {
+  current_students?: number | null;
+  monthly_revenue?: number | null;
+  modalities?: string[] | null;
+  city?: string | null;
+  state?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  website?: string | null;
+  instagram?: string | null;
+  address?: string | null;
+  responsible_name?: string | null;
 }
 
-export interface ScoringWeights {
-  students: number;
-  revenue: number;
-  modalities: number;
-  city: number;
-  completeness: number;
+export interface LeadScoreBreakdown {
+  score: number;
+  category: LeadScoreCategory;
+  pillars: {
+    students: number;
+    revenue: number;
+    modalities: number;
+    citySize: number;
+    completeness: number;
+  };
 }
 
-// Pesos padrão
-const DEFAULT_WEIGHTS: ScoringWeights = {
-  students: 30,
-  revenue: 25,
-  modalities: 20,
-  city: 15,
-  completeness: 10,
-};
-
-// Cidades premium (maior potencial)
-const PREMIUM_CITIES = [
+const TIER_1_CITIES = new Set([
   'São Paulo',
   'Rio de Janeiro',
   'Belo Horizonte',
+  'Brasília',
   'Curitiba',
   'Porto Alegre',
-  'Brasília',
   'Salvador',
   'Fortaleza',
   'Recife',
-  'Goiânia',
-];
+  'Campinas',
+]);
 
-// Modalidades premium (mais lucrativas)
-const PREMIUM_MODALITIES = ['bjj', 'muay_thai', 'mma', 'boxing'];
+const TIER_2_STATES = new Set(['SP', 'RJ', 'MG', 'PR', 'RS', 'SC', 'DF']);
+const STRATEGIC_MODALITIES = ['bjj', 'jiu-jitsu', 'muay thai', 'mma', 'boxe'];
 
-/**
- * Calcula o score de um lead baseado nos critérios configurados
- */
-export function calculateLeadScore(
-  data: LeadScoringData,
-  weights: ScoringWeights = DEFAULT_WEIGHTS
-): number {
-  let score = 0;
-
-  // 1. Score por quantidade de alunos (0-30 pontos)
-  score += calculateStudentsScore(data.current_students, weights.students);
-
-  // 2. Score por faturamento (0-25 pontos)
-  score += calculateRevenueScore(data.monthly_revenue, weights.revenue);
-
-  // 3. Score por modalidades (0-20 pontos)
-  score += calculateModalitiesScore(data.modalities, weights.modalities);
-
-  // 4. Score por cidade (0-15 pontos)
-  score += calculateCityScore(data.city, weights.city);
-
-  // 5. Score por completude dos dados (0-10 pontos)
-  score += calculateCompletenessScore(data, weights.completeness);
-
-  // Garantir que o score máximo seja 100
-  return Math.min(Math.round(score), 100);
+export function categorizeLeadScore(score: number): LeadScoreCategory {
+  if (score >= 75) return 'HOT';
+  if (score >= 45) return 'WARM';
+  return 'COLD';
 }
 
-/**
- * Calcula score baseado na quantidade de alunos
- */
-function calculateStudentsScore(students: number, maxPoints: number): number {
-  if (students >= 200) return maxPoints;
-  if (students >= 100) return maxPoints * 0.7;
-  if (students >= 50) return maxPoints * 0.4;
-  if (students >= 20) return maxPoints * 0.2;
-  return maxPoints * 0.1;
-}
+export function calculateLeadScore(input: LeadScoreInput): LeadScoreBreakdown {
+  const students = input.current_students ?? 0;
+  const revenue = input.monthly_revenue ?? 0;
+  const modalities = (input.modalities ?? []).map((item) => item.toLowerCase());
 
-/**
- * Calcula score baseado no faturamento mensal
- */
-function calculateRevenueScore(revenue: number, maxPoints: number): number {
-  if (revenue >= 50000) return maxPoints;
-  if (revenue >= 30000) return maxPoints * 0.8;
-  if (revenue >= 20000) return maxPoints * 0.6;
-  if (revenue >= 10000) return maxPoints * 0.4;
-  if (revenue >= 5000) return maxPoints * 0.2;
-  return maxPoints * 0.1;
-}
+  const studentsPoints =
+    students >= 300 ? 30 :
+    students >= 180 ? 24 :
+    students >= 90 ? 18 :
+    students >= 40 ? 10 :
+    4;
 
-/**
- * Calcula score baseado nas modalidades
- */
-function calculateModalitiesScore(modalities: string[], maxPoints: number): number {
-  if (!modalities || modalities.length === 0) return 0;
+  const revenuePoints =
+    revenue >= 80_000 ? 25 :
+    revenue >= 40_000 ? 20 :
+    revenue >= 20_000 ? 14 :
+    revenue >= 10_000 ? 8 :
+    3;
 
-  const normalizedModalities = modalities.map(m => m.toLowerCase().replace(/\s+/g, '_'));
-  
-  // Verifica se tem modalidades premium
-  const hasPremium = normalizedModalities.some(m => 
-    PREMIUM_MODALITIES.includes(m)
+  let modalitiesPoints =
+    modalities.length >= 4 ? 15 :
+    modalities.length >= 2 ? 11 :
+    modalities.length === 1 ? 7 :
+    0;
+
+  if (modalities.some((item) => STRATEGIC_MODALITIES.includes(item))) {
+    modalitiesPoints = Math.min(modalitiesPoints + 5, 15);
+  }
+
+  const cityPoints = TIER_1_CITIES.has(input.city ?? '')
+    ? 15
+    : TIER_2_STATES.has(input.state ?? '')
+      ? 10
+      : 5;
+
+  const completenessFields = [
+    input.email,
+    input.phone,
+    input.website,
+    input.instagram,
+    input.address,
+    input.responsible_name,
+  ];
+  let completenessPoints = completenessFields.filter(Boolean).length * 2;
+  if (input.city && input.state) completenessPoints += 3;
+  completenessPoints = Math.min(completenessPoints, 15);
+
+  const score = Math.min(
+    studentsPoints + revenuePoints + modalitiesPoints + cityPoints + completenessPoints,
+    100,
   );
 
-  // Verifica diversidade
-  const diversity = Math.min(modalities.length, 3); // Máximo 3 pontos por diversidade
-
-  if (hasPremium && diversity >= 2) return maxPoints;
-  if (hasPremium) return maxPoints * 0.8;
-  if (diversity >= 2) return maxPoints * 0.6;
-  return maxPoints * 0.4;
-}
-
-/**
- * Calcula score baseado na cidade
- */
-function calculateCityScore(city: string, maxPoints: number): number {
-  if (!city) return 0;
-  
-  const normalizedCity = city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  
-  const isPremium = PREMIUM_CITIES.some(premium => 
-    normalizedCity.includes(premium.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
-  );
-
-  return isPremium ? maxPoints : maxPoints * 0.5;
-}
-
-/**
- * Calcula score por completude dos dados
- */
-function calculateCompletenessScore(data: LeadScoringData, maxPoints: number): number {
-  let completedFields = 0;
-  const totalFields = 5;
-
-  if (data.current_students > 0) completedFields++;
-  if (data.monthly_revenue > 0) completedFields++;
-  if (data.modalities && data.modalities.length > 0) completedFields++;
-  if (data.city) completedFields++;
-  if (data.has_phone && data.has_email) completedFields++;
-
-  return (completedFields / totalFields) * maxPoints;
-}
-
-/**
- * Classifica o lead baseado no score
- */
-export function classifyLead(score: number): 'hot' | 'warm' | 'cold' {
-  if (score >= 80) return 'hot';
-  if (score >= 50) return 'warm';
-  return 'cold';
-}
-
-/**
- * Retorna recomendação de ação baseada no score
- */
-export function getLeadRecommendation(score: number): string {
-  if (score >= 80) {
-    return 'Lead quente - Priorizar contato imediato e proposta personalizada';
-  }
-  if (score >= 50) {
-    return 'Lead morno - Seguir sequência de nutrição padrão';
-  }
-  return 'Lead frio - Adicionar à lista de nutrição de longo prazo';
-}
-
-/**
- * Calcula score em tempo real para preview
- */
-export function calculatePreviewScore(data: Partial<LeadScoringData>): number {
-  return calculateLeadScore({
-    current_students: data.current_students || 0,
-    monthly_revenue: data.monthly_revenue || 0,
-    modalities: data.modalities || [],
-    city: data.city || '',
-    has_phone: data.has_phone,
-    has_email: data.has_email,
-  });
+  return {
+    score,
+    category: categorizeLeadScore(score),
+    pillars: {
+      students: studentsPoints,
+      revenue: revenuePoints,
+      modalities: modalitiesPoints,
+      citySize: cityPoints,
+      completeness: completenessPoints,
+    },
+  };
 }
