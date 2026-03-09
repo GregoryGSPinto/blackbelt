@@ -51,13 +51,18 @@ export function PremiumLoader({ text = 'Carregando...' }: PremiumLoaderProps) {
         padding: '3rem',
       }}
     >
-      <div style={{ position: 'relative', width: 80, height: 80 }}>
-        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#C9A227" strokeWidth="2" />
-          <text x="50" y="55" textAnchor="middle" fill="#C9A227" fontSize="40" fontWeight="bold">
-            B
-          </text>
-        </svg>
+      <div style={{ 
+        position: 'relative', 
+        width: 80, 
+        height: 80,
+        borderRadius: '50%',
+        background: 'linear-gradient(135deg, #333 0%, #111 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 8px 32px rgba(255,255,255,0.1)',
+      }}>
+        <span style={{ fontSize: '2.5rem' }}>🥋</span>
       </div>
 
       <div style={spinnerStyles} aria-hidden="true">
