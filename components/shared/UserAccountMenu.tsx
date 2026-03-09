@@ -202,9 +202,18 @@ export function UserAccountMenu({
 
               <button
                 onClick={() => handleAction(logout)}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors"
+                className={`w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 border ${s.divider}`}
                 role="menuitem"
-                style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
+                style={{ 
+                  background: 'transparent', 
+                  color: variant === 'dark' ? 'white' : (variant === 'light' ? '#111827' : '#1f2937'),
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = variant === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                }}
               >
                 <LogOut size={18} className="shrink-0" />
                 <span className="font-medium text-sm">{t('logout')}</span>
