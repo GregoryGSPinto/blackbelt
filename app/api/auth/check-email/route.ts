@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { useMock as checkMockMode } from '@/lib/env';
 import { rateLimit } from '@/lib/api/rate-limit';
+import { logServerError } from '@/lib/server/error-handler';
 import { z } from 'zod';
 
 const CheckEmailSchema = z.object({
@@ -34,7 +35,8 @@ export async function POST(req: NextRequest) {
     // Real mode: Supabase Auth doesn't expose email lookup without admin key.
     // Return exists: true so login flow is never blocked.
     return NextResponse.json({ exists: true });
-  } catch {
+  } catch (error) {
+    logServerError('api/auth/check-email', error);
     return NextResponse.json({ exists: true });
   }
 }

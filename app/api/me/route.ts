@@ -8,6 +8,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { logServerError } from '@/lib/server/error-handler';
 
 // SECURITY: service role key bypasses RLS
 const supabase = createClient(
@@ -66,7 +67,7 @@ export async function GET() {
     });
 
   } catch (err) {
-    console.error('[API /me] Error:', err);
+    logServerError('API /me', err);
     // NUNCA retornar erro 500 — sempre dados vazios
     return NextResponse.json({ data: emptyUser });
   }

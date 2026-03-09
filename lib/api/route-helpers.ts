@@ -12,6 +12,7 @@
  */
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { createErrorResponse, handleServerError } from '@/lib/server/error-handler';
 
 // ── Response helpers ──────────────────────────────────────
 export function apiOk<T>(data: T, status = 200) {
@@ -23,7 +24,7 @@ export function apiCreated<T>(data: T) {
 }
 
 export function apiError(message: string, code: string, status = 400) {
-  return NextResponse.json({ error: message, code }, { status });
+  return createErrorResponse(message, status, code);
 }
 
 export function apiUnauthorized(message = 'Não autenticado') {
@@ -39,9 +40,7 @@ export function apiNotFound(message = 'Recurso não encontrado') {
 }
 
 export function apiServerError(err: unknown) {
-  const message = err instanceof Error ? err.message : 'Internal Server Error';
-  console.error('[API Error]', err);
-  return apiError(message, 'INTERNAL_ERROR', 500);
+  return handleServerError('API Error', err);
 }
 
 // ── Auth extraction ───────────────────────────────────────
