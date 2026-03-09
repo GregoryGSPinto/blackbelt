@@ -20,72 +20,75 @@ import { useMounted } from '@/hooks/useMounted';
 type LoginStep = 'INITIAL' | 'EMAIL' | 'PASSWORD' | 'LOADING' | 'ERROR' | 'OAUTH_REDIRECT';
 
 // ─── Professional Animation Constants ────────────────────────────
-// Transições mais lentas e elegantes
+// Transições suaves, lentas e elegantes (profissional)
 const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as const;
-const EASE_IN_OUT = [0.4, 0, 0.2, 1] as const;
-const EASE_SMOOTH = [0.25, 0.1, 0.25, 1] as const;
+const EASE_IN_OUT_CUBIC = [0.65, 0, 0.35, 1] as const;
+const EASE_SMOOTH = [0.4, 0, 0.2, 1] as const;
+const EASE_GENTLE = [0.25, 0.1, 0.25, 1] as const;
 
-const DURATION_SLOW = 0.6;
-const DURATION_NORMAL = 0.5;
-const DURATION_FAST = 0.35;
-const STAGGER_DELAY = 0.08;
+// Durações mais longas para transições suaves
+const DURATION_SLOW = 0.8;
+const DURATION_NORMAL = 0.6;
+const DURATION_FAST = 0.4;
+const STAGGER_DELAY = 0.1;
 
+// Springs mais suaves
 const SPRING_PREMIUM = {
   type: 'spring' as const,
-  stiffness: 400,
-  damping: 25,
+  stiffness: 280,
+  damping: 28,
 };
 
 const SPRING_GENTLE = {
   type: 'spring' as const,
-  stiffness: 300,
-  damping: 30,
+  stiffness: 200,
+  damping: 25,
 };
 
 // ─── Professional Framer Motion Variants ─────────────────────────
-// Slide horizontal suave entre steps
+// Slide horizontal suave e elegante entre steps
 const slideVariants = {
   initial: (direction: number) => ({
-    x: direction > 0 ? 80 : -80,
+    x: direction > 0 ? 40 : -40,
     opacity: 0,
-    scale: 0.95,
+    scale: 0.98,
   }),
   animate: {
     x: 0,
     opacity: 1,
     scale: 1,
     transition: {
-      duration: DURATION_NORMAL,
-      ease: EASE_OUT_EXPO,
+      duration: DURATION_SLOW,
+      ease: EASE_IN_OUT_CUBIC,
     },
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 80 : -80,
+    x: direction < 0 ? 40 : -40,
     opacity: 0,
-    scale: 0.95,
+    scale: 0.98,
     transition: {
-      duration: DURATION_FAST,
-      ease: [0.4, 0, 1, 1],
+      duration: DURATION_NORMAL,
+      ease: EASE_SMOOTH,
     },
   }),
 };
 
 const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 30 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
       duration: DURATION_SLOW,
-      ease: EASE_OUT_EXPO,
+      ease: EASE_IN_OUT_CUBIC,
     }
   },
   exit: { 
     opacity: 0, 
-    y: -10,
+    y: -15,
     transition: {
-      duration: DURATION_FAST,
-      ease: EASE_IN_OUT,
+      duration: DURATION_NORMAL,
+      ease: EASE_GENTLE,
     }
   },
 };
@@ -113,25 +116,25 @@ const slideInLeft = {
 const stepTransition = {
   initial: (dir: 'left' | 'right') => ({ 
     opacity: 0, 
-    x: dir === 'right' ? 60 : -60,
-    scale: 0.96,
+    x: dir === 'right' ? 30 : -30,
+    scale: 0.98,
   }),
   animate: { 
     opacity: 1, 
     x: 0,
     scale: 1,
     transition: {
-      duration: DURATION_NORMAL,
-      ease: EASE_OUT_EXPO,
+      duration: DURATION_SLOW,
+      ease: EASE_IN_OUT_CUBIC,
     }
   },
   exit: (dir: 'left' | 'right') => ({ 
     opacity: 0, 
-    x: dir === 'left' ? 60 : -60,
-    scale: 0.96,
+    x: dir === 'left' ? 30 : -30,
+    scale: 0.98,
     transition: {
-      duration: DURATION_FAST,
-      ease: EASE_IN_OUT,
+      duration: DURATION_NORMAL,
+      ease: EASE_GENTLE,
     }
   }),
 };
@@ -148,13 +151,13 @@ const staggerContainer = {
 };
 
 const staggerItem = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 25 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: 0.4,
-      ease: EASE_SMOOTH,
+      duration: DURATION_NORMAL,
+      ease: EASE_IN_OUT_CUBIC,
     }
   },
 };
@@ -758,12 +761,12 @@ function LoginContent() {
       setStep('PASSWORD');
       setSlideDir('right');
       setTimeout(() => setCardVisible(true), 20);
-    }, shouldReduceMotion ? 0 : 200);
+    }, shouldReduceMotion ? 0 : 450);
   }, [shouldReduceMotion]);
 
   // ─── Step transitions ─────────────────────────────────────
-  // Timing curto e suave para transições entre telas
-  const TRANSITION_DELAY = shouldReduceMotion ? 0 : 200;
+  // Timing suave e elegante para transições entre telas (mais lento = mais premium)
+  const TRANSITION_DELAY = shouldReduceMotion ? 0 : 450;
   
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
@@ -787,7 +790,7 @@ function LoginContent() {
       if (!data.exists) {
         setEmailInvalid(true);
         setError(t('login.emailNotFound'));
-        setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 400);
+        setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 600);
         return;
       }
     } catch {
