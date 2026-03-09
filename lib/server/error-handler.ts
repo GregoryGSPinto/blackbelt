@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { logger } from '@/src/infrastructure/logger';
 
 export type ServerErrorShape = {
   success: false;
@@ -21,7 +22,7 @@ export function createErrorResponse(
 }
 
 export function logServerError(scope: string, error: unknown) {
-  console.error(`[${scope}]`, error);
+  logger.error(scope, 'Unhandled server error', error);
 }
 
 export function handleServerError(

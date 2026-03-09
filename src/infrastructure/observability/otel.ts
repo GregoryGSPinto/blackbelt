@@ -1,5 +1,6 @@
 import type { NodeSDK } from '@opentelemetry/sdk-node';
 import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/src/infrastructure/logger';
 
 let sdkPromise: Promise<NodeSDK | null> | null = null;
 
@@ -50,7 +51,7 @@ async function createSdk() {
 export function initializeOpenTelemetry() {
   if (!sdkPromise) {
     sdkPromise = createSdk().catch((error) => {
-      console.error('[otel] failed to initialize', error);
+      logger.error('otel', 'failed to initialize', error);
       return null;
     });
   }
