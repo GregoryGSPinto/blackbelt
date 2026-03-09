@@ -52,7 +52,7 @@ check_prereqs() {
 build_web() {
   echo ""
   echo "--- Building Next.js web app ---"
-  pnpm build
+  CAPACITOR_BUILD=true pnpm exec next build --webpack
   echo "Web build complete"
 }
 

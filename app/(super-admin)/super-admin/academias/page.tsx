@@ -86,10 +86,7 @@ export default function SuperAdminAcademiesPage() {
 
   async function fetchPricing() {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('/api/pricing/current', {
-        headers: { 'Authorization': `Bearer ${session?.access_token}` }
-      });
+      const res = await fetch('/api/pricing/current');
       if (res.ok) {
         const data = await res.json();
         setPricing(data);
@@ -101,11 +98,8 @@ export default function SuperAdminAcademiesPage() {
 
   async function fetchAcademies() {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
       const params = selectedPlan !== 'all' ? `?plan=${selectedPlan}` : '';
-      const res = await fetch(`/api/super-admin/academies${params}`, {
-        headers: { 'Authorization': `Bearer ${session?.access_token}` }
-      });
+      const res = await fetch(`/api/super-admin/academies${params}`);
       if (res.ok) {
         const { data } = await res.json();
         setAcademies(data || []);
@@ -120,14 +114,12 @@ export default function SuperAdminAcademiesPage() {
     
     setUpdating(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
       const newValue = Math.round(parseFloat(editValue) * 100); // Convert to cents
       
       const res = await fetch('/api/admin/pricing/update', {
         method: 'POST',
         headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.access_token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
           config_key: configKey, 

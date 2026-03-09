@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
@@ -13,7 +12,7 @@ export async function listMembersAction(
     offset?: number
   }
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   let query = supabase
     .from('memberships')
@@ -55,7 +54,7 @@ export async function createMemberAction(data: {
   status?: string
   belt_rank?: string
 }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (!data.profile_id || !data.academy_id || !data.role) {
     return { success: false as const, error: 'profile_id, academy_id, and role are required' }
@@ -85,7 +84,7 @@ export async function updateMemberAction(
     belt_rank?: string
   }
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (!id) {
     return { success: false as const, error: 'Membership id is required' }

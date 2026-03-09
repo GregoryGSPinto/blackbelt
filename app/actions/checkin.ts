@@ -1,15 +1,15 @@
-// @ts-nocheck
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
+import type { Database } from '@/lib/supabase/types'
 
 export async function recordCheckinAction(data: {
   sessionId: string
   membershipId: string
   academyId: string
-  method?: string
+  method?: Database['public']['Enums']['checkin_method']
 }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (!data.sessionId || !data.membershipId || !data.academyId) {
     return {
@@ -46,7 +46,7 @@ export async function recordCheckinAction(data: {
 }
 
 export async function getSessionAttendanceAction(sessionId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (!sessionId) {
     return { success: false as const, error: 'sessionId is required' }

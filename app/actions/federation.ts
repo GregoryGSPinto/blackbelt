@@ -1,7 +1,7 @@
-// @ts-nocheck
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
+import type { Json } from '@/lib/supabase/types'
 
 export async function createFederationAction(data: {
   name: string
@@ -9,7 +9,7 @@ export async function createFederationAction(data: {
   description?: string
   country?: string
 }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
   const { data: user } = await supabase.auth.getUser()
   if (!user.user) return { success: false as const, error: 'Not authenticated' }
 
@@ -33,9 +33,9 @@ export async function createFederationAction(data: {
 
 export async function updateFederationAction(
   federationId: string,
-  updates: { name?: string; description?: string; logo_url?: string; settings?: Record<string, unknown> },
+  updates: { name?: string; description?: string; logo_url?: string; settings?: Json },
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data, error } = await supabase
     .from('federations')
@@ -52,7 +52,7 @@ export async function addAcademyToFederationAction(
   federationId: string,
   academyId: string,
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data, error } = await supabase
     .from('federation_memberships')
@@ -68,7 +68,7 @@ export async function removeAcademyFromFederationAction(
   federationId: string,
   academyId: string,
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { error } = await supabase
     .from('federation_memberships')
@@ -85,7 +85,7 @@ export async function addFederationAdminAction(
   profileId: string,
   role: 'admin' | 'viewer' = 'admin',
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data, error } = await supabase
     .from('federation_admins')
@@ -101,7 +101,7 @@ export async function removeFederationAdminAction(
   federationId: string,
   profileId: string,
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { error } = await supabase
     .from('federation_admins')
@@ -114,7 +114,7 @@ export async function removeFederationAdminAction(
 }
 
 export async function listFederationsAction() {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data, error } = await supabase
     .from('federations')
@@ -126,7 +126,7 @@ export async function listFederationsAction() {
 }
 
 export async function getFederationWithAcademiesAction(federationId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const [fedResult, membersResult, adminsResult] = await Promise.all([
     supabase.from('federations').select('*').eq('id', federationId).single(),

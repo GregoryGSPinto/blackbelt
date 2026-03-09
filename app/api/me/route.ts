@@ -7,8 +7,9 @@
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { headers } from 'next/headers';
+import { getSupabaseServerClient } from '@/lib/supabase/server';
 
+// SECURITY: service role key bypasses RLS
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.SUPABASE_SERVICE_ROLE_KEY || ''
@@ -32,17 +33,8 @@ export async function GET() {
       return NextResponse.json({ data: emptyUser });
     }
 
-    // Pegar token do header Authorization
-    const requestHeaders = await headers();
-    const authHeader = requestHeaders.get('authorization');
-    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-
-    if (!token) {
-      return NextResponse.json({ data: emptyUser });
-    }
-
-    // Verificar token e pegar usuário
-    const { data: { user }, error } = await supabase.auth.getUser(token);
+    const authSupabase = await getSupabaseServerClient();
+    const { data: { user }, error } = await authSupabase.auth.getUser();
 
     if (error || !user) {
       return NextResponse.json({ data: emptyUser });

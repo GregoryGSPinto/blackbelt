@@ -144,14 +144,7 @@ export function UsageQuotas({ academyId }: UsageQuotasProps) {
   useEffect(() => {
     async function fetchUsage() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) return;
-
-        const response = await fetch('/api/usage', {
-          headers: {
-            'Authorization': `Bearer ${session.access_token}`
-          }
-        });
+        const response = await fetch('/api/usage');
 
         if (response.ok) {
           const result = await response.json();

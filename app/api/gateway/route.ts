@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
+import { createHandler, apiError, apiOk } from '@/lib/api/supabase-helpers';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,7 +8,6 @@ export const GET = createHandler(async (_req: NextRequest) => {
 });
 
 export const POST = createHandler(async (req: NextRequest) => {
-  const body = await req.json();
-  // Payment gateway integration placeholder
-  return apiOk({ id: `charge_${Date.now()}`, status: 'pending', ...body });
+  void req;
+  return apiError('Gateway endpoint not implemented', 'NOT_IMPLEMENTED', 501);
 });

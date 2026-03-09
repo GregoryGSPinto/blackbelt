@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, unused-imports/no-unused-imports */
-// @ts-nocheck
+/* eslint-disable unused-imports/no-unused-imports */
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
@@ -25,14 +24,16 @@ interface Federation {
   slug: string;
   description: string | null;
   logo_url: string | null;
-  country: string;
-  created_at: string;
+  country: string | null;
+  created_at: string | null;
+  settings?: unknown;
+  updated_at?: string | null;
 }
 
 interface FederationDetail {
   federation: Federation;
   academies: Array<{ academy_id: string; role: string; joined_at: string; academies: { id: string; name: string; slug: string } }>;
-  admins: Array<{ profile_id: string; role: string; profiles: { id: string; full_name: string; email: string } }>;
+  admins: Array<{ profile_id: string; role: string; profiles: { id: string; full_name: string; email?: string | null } | null }>;
 }
 
 export default function FederationPage() {
@@ -106,7 +107,7 @@ export default function FederationPage() {
     try {
       const result = await getFederationWithAcademiesAction(fed.id);
       if (result.success) {
-        setSelectedFed(result.data as FederationDetail);
+        setSelectedFed(result.data as unknown as FederationDetail);
       }
     } finally {
       setDetailLoading(false);
@@ -122,7 +123,7 @@ export default function FederationPage() {
         categoria: 'Federation',
         icon: '🌐',
         href: '/federation',
-        keywords: [f.slug, f.country],
+        keywords: [f.slug, f.country].filter((keyword): keyword is string => Boolean(keyword)),
       })),
     [federations],
   );
@@ -162,7 +163,7 @@ export default function FederationPage() {
         <PageEmpty
           icon={Globe}
           title="No federations yet"
-          description="Create your first federation to connect academies"
+          message="Create your first federation to connect academies"
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

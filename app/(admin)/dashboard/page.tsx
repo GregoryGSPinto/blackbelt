@@ -49,6 +49,7 @@ const defaultStats = {
   turmasAtivas: 0,
   checkInsHoje: 0,
   checkInsOntem: 0,
+  alertasNaoLidos: 0,
   trialAtivos: 0,
   aulasHojeCount: 0,
   
@@ -116,8 +117,11 @@ export default function DashboardPage() {
     { label: 'AdminDashboard', maxRetries: 3, ttl: TTL.MEDIUM }
   );
 
-// Merge profundo com defaults
-const stats = { ...defaultStats, ...(result?.[0] || {}) };
+  // Merge com defaults para manter o contrato completo do dashboard.
+  const stats: EstatisticasDashboard = {
+    ...defaultStats,
+    ...(result?.[0] || {}),
+  };
   const alertasAtivos = result?.[1] ?? [];
 
   // Proactive smart alerts

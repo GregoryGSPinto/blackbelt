@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk, apiError } from '@/lib/api/supabase-helpers';
+import { createHandler, apiError } from '@/lib/api/supabase-helpers';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,14 +13,12 @@ export const PUT = createHandler(async (req: NextRequest) => {
   const id = extractId(req);
   if (!id) return apiError('ID é obrigatório', 'MISSING_ID', 400);
 
-  const body = await req.json();
-  return apiOk({ id, ...body, atualizadoEm: new Date().toISOString() });
+  return apiError('Video update not implemented', 'NOT_IMPLEMENTED', 501);
 });
 
 export const DELETE = createHandler(async (req: NextRequest) => {
   const id = extractId(req);
   if (!id) return apiError('ID é obrigatório', 'MISSING_ID', 400);
 
-  // TODO(BE-150): Delete from storage provider + database
-  return apiOk({ deleted: true, id });
+  return apiError('Video deletion not implemented', 'NOT_IMPLEMENTED', 501);
 });
