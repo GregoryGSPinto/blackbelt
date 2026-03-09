@@ -263,7 +263,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
                 style={{
                   background: theme.panelBg(isDark),
                   backdropFilter: theme.panelBackdrop,
-                  border: '1px solid black',
+                  border: `1px solid ${theme.panelBorder(isDark)}`,
                 }}
               >
                 {/* User info */}
@@ -329,8 +329,18 @@ export function ShellDesktopHeader({ config, state }: Props) {
                   />
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors"
-                    style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200"
+                    style={{ 
+                      background: 'transparent', 
+                      border: `1px solid ${theme.panelBorder(isDark)}`, 
+                      color: theme.textHeading(isDark),
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = 'transparent';
+                    }}
                   >
                     <LogOut size={16} />
                     <span className="text-sm font-medium">{t('menu.logout')}</span>
