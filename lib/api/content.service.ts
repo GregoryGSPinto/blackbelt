@@ -4,7 +4,7 @@
  * PRINCÍPIO: Nunca quebra a UI, sempre retorna dados válidos
  */
 
-import { apiClient } from './client';
+import { apiClient, ApiError } from './client';
 import { useMock, mockDelay } from '@/lib/env';
 import { logger } from '@/lib/logger';
 import type { Video, Serie } from '@/lib/__mocks__/content.mock';
@@ -90,6 +90,26 @@ export async function getVideos(filters?: {
     return data || [];
   } catch (err) {
     logger.error('[content.service]', 'getVideos failed', err);
+    
+    // Fallback para mock em caso de network error (API offline)
+    if (err instanceof ApiError && err.status === 0) {
+      logger.warn('[content.service]', 'Network error - fallback to mock');
+      const { mockVideos } = await getMockModule();
+      
+      // Aplicar filtros nos dados mock
+      let filteredVideos = [...mockVideos];
+      if (filters?.category) filteredVideos = filteredVideos.filter(v => v.category === filters.category);
+      if (filters?.level) filteredVideos = filteredVideos.filter(v => v.level === filters.level);
+      if (filters?.search) {
+        const term = filters.search.toLowerCase();
+        filteredVideos = filteredVideos.filter(v =>
+          v.title.toLowerCase().includes(term) ||
+          v.description.toLowerCase().includes(term)
+        );
+      }
+      return filteredVideos;
+    }
+    
     return [];
   }
 }
