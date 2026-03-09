@@ -8,10 +8,5 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   // Por enquanto retorna array vazio — implementar com Supabase depois
-  return NextResponse.json({ 
-    data: { 
-      usuarios: [],
-      total: 0 
-    } 
-  });
+  return NextResponse.json([]);
 }
