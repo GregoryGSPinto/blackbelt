@@ -108,7 +108,7 @@ const slideInLeft = {
     x: 20,
     transition: {
       duration: DURATION_FAST,
-      ease: EASE_IN_OUT,
+      ease: EASE_SMOOTH,
     }
   },
 };
