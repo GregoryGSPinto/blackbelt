@@ -1662,10 +1662,15 @@ function LoginContent() {
                 width: '100%',
                 maxWidth: 480,
                 willChange: shouldReduceMotion ? undefined : 'transform, opacity',
+                margin: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
               }}
               className="login-card-responsive"
             >
-              <div style={{ position: 'relative' }}>
+              <div style={{ width: '100%' }}>
                 <motion.div
                   style={{
                     border: `1px solid ${colors.cardBorder}`,
@@ -1716,10 +1721,15 @@ function LoginContent() {
                 width: '100%',
                 maxWidth: 480,
                 willChange: shouldReduceMotion ? undefined : 'transform, opacity',
+                margin: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
               }}
               className="login-card-responsive"
             >
-              <form onSubmit={handlePasswordSubmit}>
+              <form onSubmit={handlePasswordSubmit} style={{ width: '100%' }}>
                 <motion.div
                   style={{
                     border: `1px solid ${colors.cardBorder}`,
