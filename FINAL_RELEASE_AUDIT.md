@@ -34,6 +34,10 @@ Date: 2026-03-09
 
 - Static code validation: PASS
   - `app/api/webhooks/stripe/route.ts` calls the Stripe webhook constructor path via `constructWebhookEvent(...)`.
+- Required webhook events now implemented in `lib/payments/stripe-webhook.ts`:
+  - `checkout.session.completed`
+  - `invoice.payment_failed`
+- Release validation script added: `scripts/validate-stripe-release.ts`
 - Dynamic end-to-end payment simulation: NOT EXECUTED in this environment.
   - No live Stripe CLI replay or test-card checkout was run from this shell.
 
@@ -52,6 +56,10 @@ Date: 2026-03-09
 - RLS/policy/index coverage exists across the recent pricing/federation/observability migrations.
 - `supabase/migrations/00029_pricing_v3_0.sql` was converted away from destructive `DROP TABLE` statements to an additive-safe migration posture.
 - `pnpm exec supabase db push --dry-run`: PASS in dry-run mode with the current pending migration set.
+- Current migration scan for destructive statements:
+  - `DROP TABLE`: none in active migration SQL, only historical comment text remains
+  - `TRUNCATE`: none
+  - `DROP COLUMN`: none
 
 ## UX Validation
 
@@ -116,3 +124,5 @@ Blocking issues:
 - `lib/utils/sanitize.ts`
 - `supabase/migrations/00029_pricing_v3_0.sql`
 - `DATABASE_BACKUP.md`
+- `lib/payments/stripe-webhook.ts`
+- `scripts/validate-stripe-release.ts`
