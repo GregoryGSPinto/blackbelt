@@ -46,97 +46,96 @@ const SPRING_GENTLE = {
 };
 
 // ─── Professional Framer Motion Variants ─────────────────────────
-// Slide horizontal suave e elegante entre steps
-const slideVariants = {
-  initial: (direction: number) => ({
-    x: direction > 0 ? 40 : -40,
+// Transição suave de "apagar e acender" — centralizada, sem movimento lateral
+const FADE_DURATION = 0.7;
+const FADE_EASE = [0.4, 0, 0.2, 1];
+
+// Fade suave para transições entre steps (sem movimento lateral)
+const fadeTransition = {
+  initial: { 
     opacity: 0,
-    scale: 0.98,
-  }),
-  animate: {
-    x: 0,
-    opacity: 1,
+    scale: 0.96,
+  },
+  animate: { 
+    opacity: 1, 
     scale: 1,
     transition: {
-      duration: DURATION_SLOW,
-      ease: EASE_IN_OUT_CUBIC,
-    },
+      duration: FADE_DURATION,
+      ease: FADE_EASE,
+    }
   },
-  exit: (direction: number) => ({
-    x: direction < 0 ? 40 : -40,
-    opacity: 0,
-    scale: 0.98,
+  exit: { 
+    opacity: 0, 
+    scale: 0.96,
     transition: {
-      duration: DURATION_NORMAL,
-      ease: EASE_SMOOTH,
-    },
-  }),
+      duration: FADE_DURATION * 0.8,
+      ease: FADE_EASE,
+    }
+  },
 };
 
+// Fade com leve elevação para elementos que aparecem
 const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: DURATION_SLOW,
-      ease: EASE_IN_OUT_CUBIC,
+      duration: FADE_DURATION,
+      ease: FADE_EASE,
     }
   },
   exit: { 
     opacity: 0, 
-    y: -15,
+    y: -10,
     transition: {
-      duration: DURATION_NORMAL,
-      ease: EASE_GENTLE,
+      duration: FADE_DURATION * 0.6,
+      ease: FADE_EASE,
     }
   },
 };
 
-const slideInLeft = {
-  initial: { opacity: 0, x: -20 },
+// Apenas fade para elementos laterais
+const fadeIn = {
+  initial: { opacity: 0 },
   animate: { 
     opacity: 1, 
-    x: 0,
     transition: {
-      duration: DURATION_NORMAL,
-      ease: EASE_OUT_EXPO,
+      duration: FADE_DURATION,
+      ease: FADE_EASE,
     }
   },
   exit: { 
     opacity: 0, 
-    x: 20,
     transition: {
-      duration: DURATION_FAST,
-      ease: EASE_SMOOTH,
+      duration: FADE_DURATION * 0.6,
+      ease: FADE_EASE,
     }
   },
 };
 
+// Transição entre steps (apenas fade centralizado)
 const stepTransition = {
-  initial: (dir: 'left' | 'right') => ({ 
+  initial: { 
     opacity: 0, 
-    x: dir === 'right' ? 30 : -30,
-    scale: 0.98,
-  }),
+    scale: 0.97,
+  },
   animate: { 
     opacity: 1, 
-    x: 0,
     scale: 1,
     transition: {
-      duration: DURATION_SLOW,
-      ease: EASE_IN_OUT_CUBIC,
+      duration: FADE_DURATION,
+      ease: FADE_EASE,
     }
   },
-  exit: (dir: 'left' | 'right') => ({ 
+  exit: { 
     opacity: 0, 
-    x: dir === 'left' ? 30 : -30,
-    scale: 0.98,
+    scale: 0.97,
     transition: {
-      duration: DURATION_NORMAL,
-      ease: EASE_GENTLE,
+      duration: FADE_DURATION * 0.8,
+      ease: FADE_EASE,
     }
-  }),
+  },
 };
 
 // Stagger container para elementos aparecerem em sequência
@@ -689,10 +688,6 @@ function LoginContent() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const sobreRef = useRef<HTMLDivElement>(null);
 
-  // Slide direction for transitions
-  const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none');
-  const [cardVisible, setCardVisible] = useState(true);
-
   // ─── Theme-aware colors (from shared design tokens) ──────
   const colors = getDesignTokens(isDark);
 
@@ -755,24 +750,21 @@ function LoginContent() {
     setPassword(demoUser.senha);
     setError('');
     setShowDropdown(false);
-    setCardVisible(false);
-    setSlideDir('left');
+    // Transição suave de fade — apenas delay para animação
     setTimeout(() => {
       setStep('PASSWORD');
-      setSlideDir('right');
-      setTimeout(() => setCardVisible(true), 20);
-    }, shouldReduceMotion ? 0 : 450);
+    }, shouldReduceMotion ? 0 : 500);
   }, [shouldReduceMotion]);
 
   // ─── Step transitions ─────────────────────────────────────
-  // Timing suave e elegante para transições entre telas (mais lento = mais premium)
-  const TRANSITION_DELAY = shouldReduceMotion ? 0 : 450;
+  // Timing suave para transições de fade (apagar e acender)
+  const TRANSITION_DELAY = shouldReduceMotion ? 0 : 600;
   
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
       setEmailInvalid(true);
       setError(t('login.emailNotFound'));
-      setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 400);
+      setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 500);
       return;
     }
 
@@ -797,24 +789,18 @@ function LoginContent() {
       // If API unavailable, allow through (fallback)
     }
 
-    setCardVisible(false);
-    setSlideDir('left');
+    // Transição suave de fade — apenas delay para animação
     setTimeout(() => {
       setStep('PASSWORD');
-      setSlideDir('right');
-      setTimeout(() => setCardVisible(true), 20);
     }, TRANSITION_DELAY);
   }, [email, t, shouldReduceMotion, TRANSITION_DELAY]);
 
   const goBackToEmail = useCallback(() => {
     setError('');
     setPassword('');
-    setCardVisible(false);
-    setSlideDir('right');
+    // Transição suave de fade — apenas delay para animação
     setTimeout(() => {
       setStep('EMAIL');
-      setSlideDir('left');
-      setTimeout(() => setCardVisible(true), 20);
     }, TRANSITION_DELAY);
   }, [TRANSITION_DELAY]);
 
@@ -1026,11 +1012,10 @@ function LoginContent() {
         </AnimatePresence>
 
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
-        <AnimatePresence mode="wait" custom={slideDir === 'right' ? 'right' : 'left'}>
+        <AnimatePresence mode="wait">
           {step === 'EMAIL' && (
             <motion.div
               key="email"
-              custom={slideDir === 'right' ? 'right' : 'left'}
               variants={stepTransition}
               initial="initial"
               animate="animate"
@@ -1419,11 +1404,10 @@ function LoginContent() {
         </AnimatePresence>
 
         {/* ─── STEP: PASSWORD ────────────────────────────── */}
-        <AnimatePresence mode="wait" custom={slideDir === 'right' ? 'right' : 'left'}>
+        <AnimatePresence mode="wait">
           {step === 'PASSWORD' && (
             <motion.div
               key="password"
-              custom={slideDir === 'right' ? 'right' : 'left'}
               variants={stepTransition}
               initial="initial"
               animate="animate"
