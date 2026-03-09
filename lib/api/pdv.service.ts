@@ -19,13 +19,13 @@ async function getMock() {
 /** Fallback silencioso para mock quando API falhar */
 async function withMockFallback<T>(
   operation: () => Promise<T>,
-  mockGetter: (m: any) => T,
+  mockGetter: (m: any) => T | Promise<T>,
   endpoint: string
 ): Promise<T> {
   if (useMock()) {
     await mockDelay();
     const m = await getMock();
-    return mockGetter(m);
+    return await mockGetter(m);
   }
 
   try {
@@ -35,7 +35,7 @@ async function withMockFallback<T>(
     logger.warn(`[PDVService] API ${endpoint} falhou (${status || 'error'}), usando mock`);
     await mockDelay(200);
     const m = await getMock();
-    return mockGetter(m);
+    return await mockGetter(m);
   }
 }
 

@@ -20,6 +20,8 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { AlertTriangle, Trash2, Info, CheckCircle, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 type Variant = 'danger' | 'warning' | 'info' | 'success';
 
@@ -78,6 +80,8 @@ export function ConfirmModal({
 }: ConfirmModalProps) {
   const t = useTranslations('common.confirm');
   const tActions = useTranslations('common.actions');
+  const { isDark } = useTheme();
+  const colors = getDesignTokens(isDark);
   const inputRef = useRef<HTMLInputElement>(null);
   const typingMatch = useRef(false);
   const effectiveConfirmLabel = confirmLabel || tActions('confirm');
@@ -113,9 +117,14 @@ export function ConfirmModal({
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 z-[9998] bg-black/40"
+        className="fixed inset-0 z-[9998]"
         onClick={onCancel}
-        style={{ animation: 'confirm-fade-in 150ms ease-out' }}
+        style={{
+          background: isDark ? 'rgba(0,0,0,0.58)' : 'rgba(10,10,10,0.22)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          animation: 'confirm-fade-in 180ms ease-out',
+        }}
       />
 
       {/* Dialog */}
@@ -127,23 +136,24 @@ export function ConfirmModal({
         aria-describedby="confirm-message"
       >
         <div
-          className="w-full max-w-sm rounded-xl p-5 sm:p-6 relative"
+          className="w-full max-w-sm rounded-xl relative overflow-hidden"
           style={{
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border)',
-            backdropFilter: 'blur(24px) saturate(1.3)',
-            WebkitBackdropFilter: 'blur(24px) saturate(1.3)',
-            boxShadow: '0 24px 80px rgba(0,0,0,0.4)',
-            animation: 'confirm-scale-in 200ms cubic-bezier(0.16,1,0.3,1)',
+            background: colors.cardBg,
+            border: `1px solid ${colors.cardBorder}`,
+            backdropFilter: 'blur(24px) saturate(1.2)',
+            WebkitBackdropFilter: 'blur(24px) saturate(1.2)',
+            boxShadow: isDark ? '0 24px 80px rgba(0,0,0,0.45)' : '0 24px 80px rgba(0,0,0,0.12)',
+            animation: 'confirm-scale-in 220ms cubic-bezier(0.16,1,0.3,1)',
           }}
           onClick={e => e.stopPropagation()}
         >
+          <div style={{ padding: '1.5rem 1.5rem 1.25rem', position: 'relative' }}>
           {/* Close X */}
           <button
             onClick={onCancel}
             aria-label={effectiveCancelLabel}
             className="absolute top-3 right-3 p-1.5 transition-colors rounded-lg"
-            style={{ color: 'var(--text-secondary)' }}
+            style={{ color: colors.textMuted }}
           >
             <X size={16} />
           </button>
@@ -162,7 +172,7 @@ export function ConfirmModal({
           </h3>
 
           {/* Message */}
-          <div id="confirm-message" className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <div id="confirm-message" className="text-sm mb-6 leading-relaxed" style={{ color: colors.textMuted }}>
             {message}
           </div>
 
@@ -176,7 +186,7 @@ export function ConfirmModal({
                 ref={inputRef}
                 type="text"
                 className="w-full px-3 py-2 rounded-xl text-sm outline-none transition-colors"
-                style={{ color: 'var(--text-primary)', background: 'transparent', border: '1px solid var(--border)' }}
+                style={{ color: colors.text, background: 'transparent', border: `1px solid ${colors.cardBorder}` }}
                 placeholder={requireTyping}
                 onChange={e => {
                   typingMatch.current = e.target.value === requireTyping;
@@ -184,16 +194,28 @@ export function ConfirmModal({
               />
             </div>
           )}
+          </div>
+
+          <div style={{ height: 1, background: colors.cardBorder }} />
 
           {/* Actions - Padrão do Sistema */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2" style={{ padding: '1rem 1.25rem 1.25rem' }}>
             <button
               onClick={handleConfirm}
               disabled={loading || (!!requireTyping && !typingMatch.current)}
               className="w-full min-h-[48px] rounded-xl text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-50 tracking-wide"
-              style={{ 
-                background: cfg.iconColor, 
-                color: '#000',
+              style={{
+                background: 'transparent',
+                border: `1px solid ${colors.cardBorder}`,
+                color: colors.text,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'transparent';
               }}
             >
               {loading ? tActions('processing') : effectiveConfirmLabel}
@@ -204,11 +226,13 @@ export function ConfirmModal({
               className="w-full min-h-[48px] rounded-xl text-sm font-medium transition-all active:scale-[0.98] disabled:opacity-50"
               style={{ 
                 background: 'transparent', 
-                border: '1px solid var(--border)', 
-                color: 'var(--text-primary)' 
+                border: `1px solid ${colors.cardBorder}`,
+                color: colors.textMuted,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'var(--bg-secondary, rgba(255,255,255,0.03))';
+                (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)';
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.background = 'transparent';

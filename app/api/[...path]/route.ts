@@ -9,6 +9,17 @@ export const dynamic = 'force-dynamic';
 
 async function handler(req: NextRequest) {
   try {
+    const hasSupabaseEnv = Boolean(
+      process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
+
+    if (!hasSupabaseEnv) {
+      return NextResponse.json(
+        { error: 'Endpoint not implemented', code: 'NOT_IMPLEMENTED' },
+        { status: 501 },
+      );
+    }
+
     const supabase = await getSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
 

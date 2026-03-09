@@ -48,7 +48,7 @@ const SPRING_GENTLE = {
 // ─── Professional Framer Motion Variants ─────────────────────────
 // Transição suave de "apagar e acender" — centralizada, sem movimento lateral
 const FADE_DURATION = 0.7;
-const FADE_EASE = [0.4, 0, 0.2, 1];
+const FADE_EASE = [0.4, 0, 0.2, 1] as const;
 
 // Fade suave para transições entre steps (sem movimento lateral)
 const fadeTransition = {
@@ -750,15 +750,10 @@ function LoginContent() {
     setPassword(demoUser.senha);
     setError('');
     setShowDropdown(false);
-    // Transição suave de fade — apenas delay para animação
-    setTimeout(() => {
-      setStep('PASSWORD');
-    }, shouldReduceMotion ? 0 : 500);
-  }, [shouldReduceMotion]);
+    setStep('PASSWORD');
+  }, []);
 
   // ─── Step transitions ─────────────────────────────────────
-  // Timing suave para transições de fade (apagar e acender)
-  const TRANSITION_DELAY = shouldReduceMotion ? 0 : 600;
   
   const goToPassword = useCallback(async () => {
     if (!email.trim() || !validateEmail(email)) {
@@ -789,20 +784,14 @@ function LoginContent() {
       // If API unavailable, allow through (fallback)
     }
 
-    // Transição suave de fade — apenas delay para animação
-    setTimeout(() => {
-      setStep('PASSWORD');
-    }, TRANSITION_DELAY);
-  }, [email, t, shouldReduceMotion, TRANSITION_DELAY]);
+    setStep('PASSWORD');
+  }, [email, t, shouldReduceMotion]);
 
   const goBackToEmail = useCallback(() => {
     setError('');
     setPassword('');
-    // Transição suave de fade — apenas delay para animação
-    setTimeout(() => {
-      setStep('EMAIL');
-    }, TRANSITION_DELAY);
-  }, [TRANSITION_DELAY]);
+    setStep('EMAIL');
+  }, []);
 
   // ─── Submit login ─────────────────────────────────────────
   const handleLogin = useCallback(async () => {
@@ -923,11 +912,11 @@ function LoginContent() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: isLoginFlow ? 'center' : 'space-between',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
-          paddingTop: '15vh',
-          paddingBottom: '2.5rem',
+          paddingTop: isLoginFlow ? '0' : '15vh',
+          paddingBottom: isLoginFlow ? '0' : '2.5rem',
         }}
         initial="initial"
         animate="animate"
@@ -1026,6 +1015,7 @@ function LoginContent() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
                 willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
@@ -1418,6 +1408,7 @@ function LoginContent() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
                 willChange: shouldReduceMotion ? undefined : 'transform, opacity',
               }}
               className="login-card-responsive"
@@ -1638,10 +1629,10 @@ function LoginContent() {
           {step === 'LOADING' && (
             <motion.div
               key="loading"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_OUT_EXPO }}
+              variants={stepTransition}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{
                 width: '100%',
                 maxWidth: 480,
@@ -1666,9 +1657,9 @@ function LoginContent() {
                     padding: '3rem 2rem',
                     textAlign: 'center',
                   }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: FADE_EASE }}
                 >
                   <motion.div 
                     style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}
@@ -1697,10 +1688,10 @@ function LoginContent() {
           {step === 'ERROR' && (
             <motion.div
               key="error"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASE_OUT_EXPO }}
+              variants={stepTransition}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{
                 width: '100%',
                 maxWidth: 480,
@@ -1723,9 +1714,9 @@ function LoginContent() {
                     backdropFilter: 'blur(12px) saturate(1.2)',
                     WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
                   }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: FADE_EASE }}
                 >
                   <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
                     <motion.button

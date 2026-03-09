@@ -6,7 +6,9 @@
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { logger } from '@/lib/logger';
 
-const supabase = getSupabaseBrowserClient();
+function getOAuthClient() {
+  return getSupabaseBrowserClient();
+}
 
 interface OAuthProvider {
   provider: 'google' | 'apple';
@@ -19,6 +21,7 @@ interface OAuthProvider {
  */
 export async function signInWithOAuth({ provider }: Omit<OAuthProvider, 'redirectTo'>): Promise<void> {
   try {
+    const supabase = getOAuthClient();
     const redirectTo = `${window.location.origin}/auth/callback`;
     
     logger.info('[OAuth]', `Initiating ${provider} sign-in...`);
@@ -52,6 +55,7 @@ export async function signInWithOAuth({ provider }: Omit<OAuthProvider, 'redirec
  */
 export async function handleOAuthCallback(code: string): Promise<{ success: boolean; error?: string }> {
   try {
+    const supabase = getOAuthClient();
     logger.info('[OAuth]', 'Processing callback...');
     
     // The session is automatically set by Supabase in the callback
@@ -81,6 +85,7 @@ export async function handleOAuthCallback(code: string): Promise<{ success: bool
  */
 export async function getOAuthUserProfile() {
   try {
+    const supabase = getOAuthClient();
     const { data: { user }, error } = await supabase.auth.getUser();
     
     if (error) {
