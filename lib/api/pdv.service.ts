@@ -1,14 +1,13 @@
 /**
- * PDV Service — Ponto de Venda + Estoque
+ * PDV Service — Ponto de Venda + Estoque — FAIL-SAFE
  *
- * MOCK:  useMock() === true → __mocks__/pdv.mock.ts
- * PROD:  useMock() === false → apiClient
- *
- * TODO(BE-065): Implementar endpoints pdv
+ * Retorna dados mock automaticamente se API não estiver implementada (501)
+ * ou qualquer outro erro ocorrer.
  */
 
 import { apiClient } from './client';
 import { useMock, mockDelay } from '@/lib/env';
+import { logger } from '@/lib/logger';
 import type { VendaBalcao, ProdutoEstoque, MovimentoEstoque, ContaAluno, ItemVenda, FormaPagamentoPDV } from '@/lib/api/contracts';
 
 export type { VendaBalcao, ProdutoEstoque, MovimentoEstoque, ContaAluno, ItemVenda, FormaPagamentoPDV };
@@ -17,54 +16,67 @@ async function getMock() {
   return import('@/lib/__mocks__/pdv.mock');
 }
 
-export async function getProdutos(): Promise<ProdutoEstoque[]> {
+/** Fallback silencioso para mock quando API falhar */
+async function withMockFallback<T>(
+  operation: () => Promise<T>,
+  mockGetter: (m: any) => T,
+  endpoint: string
+): Promise<T> {
   if (useMock()) {
     await mockDelay();
     const m = await getMock();
-    return [...m.PRODUTOS];
+    return mockGetter(m);
   }
-  const { data } = await apiClient.get<ProdutoEstoque[]>('/pdv/estoque');
-  return data;
+
+  try {
+    return await operation();
+  } catch (err) {
+    const status = (err as any)?.status;
+    logger.warn(`[PDVService] API ${endpoint} falhou (${status || 'error'}), usando mock`);
+    await mockDelay(200);
+    const m = await getMock();
+    return mockGetter(m);
+  }
+}
+
+export async function getProdutos(): Promise<ProdutoEstoque[]> {
+  return withMockFallback(
+    () => apiClient.get<ProdutoEstoque[]>('/pdv/estoque').then(r => r.data),
+    (m) => [...m.PRODUTOS],
+    '/pdv/estoque'
+  );
 }
 
 export async function getVendas(): Promise<VendaBalcao[]> {
-  if (useMock()) {
-    await mockDelay();
-    const m = await getMock();
-    return [...m.VENDAS].sort((a: VendaBalcao, b: VendaBalcao) => b.data.localeCompare(a.data));
-  }
-  const { data } = await apiClient.get<VendaBalcao[]>('/pdv/vendas');
-  return data;
+  return withMockFallback(
+    () => apiClient.get<VendaBalcao[]>('/pdv/vendas').then(r => r.data),
+    (m) => [...m.VENDAS].sort((a: VendaBalcao, b: VendaBalcao) => b.data.localeCompare(a.data)),
+    '/pdv/vendas'
+  );
 }
 
 export async function registrarVenda(itens: ItemVenda[], clienteId?: string, clienteNome?: string, formaPagamento?: FormaPagamentoPDV, desconto?: number): Promise<VendaBalcao> {
-  if (useMock()) {
-    await mockDelay(400);
-    const m = await getMock();
-    return m.registrarVendaMock(itens, clienteId, clienteNome, formaPagamento, desconto);
-  }
-  const { data } = await apiClient.post<VendaBalcao>('/pdv/venda', { itens, clienteId, clienteNome, formaPagamento, desconto });
-  return data;
+  return withMockFallback(
+    () => apiClient.post<VendaBalcao>('/pdv/venda', { itens, clienteId, clienteNome, formaPagamento, desconto }).then(r => r.data),
+    async (m) => m.registrarVendaMock(itens, clienteId, clienteNome, formaPagamento, desconto),
+    '/pdv/venda'
+  );
 }
 
 export async function getMovimentos(): Promise<MovimentoEstoque[]> {
-  if (useMock()) {
-    await mockDelay();
-    const m = await getMock();
-    return [...m.MOVIMENTOS].sort((a: MovimentoEstoque, b: MovimentoEstoque) => b.data.localeCompare(a.data));
-  }
-  const { data } = await apiClient.get<MovimentoEstoque[]>('/pdv/estoque/movimentos');
-  return data;
+  return withMockFallback(
+    () => apiClient.get<MovimentoEstoque[]>('/pdv/estoque/movimentos').then(r => r.data),
+    (m) => [...m.MOVIMENTOS].sort((a: MovimentoEstoque, b: MovimentoEstoque) => b.data.localeCompare(a.data)),
+    '/pdv/estoque/movimentos'
+  );
 }
 
 export async function getContas(): Promise<ContaAluno[]> {
-  if (useMock()) {
-    await mockDelay();
-    const m = await getMock();
-    return [...m.CONTAS];
-  }
-  const { data } = await apiClient.get<ContaAluno[]>('/pdv/contas');
-  return data;
+  return withMockFallback(
+    () => apiClient.get<ContaAluno[]>('/pdv/contas').then(r => r.data),
+    (m) => [...m.CONTAS],
+    '/pdv/contas'
+  );
 }
 
 export interface PDVStats {
@@ -77,11 +89,9 @@ export interface PDVStats {
 }
 
 export async function getStats(): Promise<PDVStats> {
-  if (useMock()) {
-    await mockDelay();
-    const m = await getMock();
-    return m.getStats();
-  }
-  const { data } = await apiClient.get<PDVStats>('/pdv/stats');
-  return data;
+  return withMockFallback(
+    () => apiClient.get<PDVStats>('/pdv/stats').then(r => r.data),
+    (m) => m.getStats(),
+    '/pdv/stats'
+  );
 }
