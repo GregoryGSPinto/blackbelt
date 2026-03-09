@@ -1,10 +1,9 @@
-// @ts-nocheck
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
 export async function listSchedulesAction(academyId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (!academyId) {
     return { success: false as const, error: 'academy_id is required' }
@@ -34,7 +33,7 @@ export async function createScheduleAction(data: {
   max_capacity?: number
   location?: string
 }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (
     !data.academy_id ||
@@ -81,7 +80,7 @@ export async function createSessionAction(data: {
   instructor_id: string
   notes?: string
 }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   if (!data.schedule_id || !data.academy_id || !data.date || !data.instructor_id) {
     return {

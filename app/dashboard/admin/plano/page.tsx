@@ -114,9 +114,7 @@ export default function AdminPlanoPage() {
       }
 
       // Load subscription
-      const subResponse = await fetch('/api/subscription', {
-        headers: { 'Authorization': `Bearer ${session.access_token}` }
-      });
+      const subResponse = await fetch('/api/subscription');
       
       if (subResponse.ok) {
         const subData = await subResponse.json();
@@ -145,12 +143,10 @@ export default function AdminPlanoPage() {
   async function handleUpgrade(targetPlanId: string) {
     setUpgrading(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
       const response = await fetch('/api/subscription/upgrade', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.access_token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           target_plan_id: targetPlanId,

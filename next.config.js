@@ -59,10 +59,6 @@ const nextConfig = {
 
   serverExternalPackages: ['pg'],
 
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       config.resolve.fallback = {

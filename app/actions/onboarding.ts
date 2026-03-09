@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
@@ -10,7 +9,7 @@ export async function createAcademyOnboardingAction(data: {
   phone?: string
   email?: string
 }): Promise<{ success: true; data: { id: string; [key: string]: unknown } } | { success: false; error: string }> {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
   const { data: user } = await supabase.auth.getUser()
   if (!user.user) return { success: false as const, error: 'Not authenticated' }
 
@@ -61,7 +60,7 @@ export async function createFirstScheduleAction(data: {
   endTime: string
   modality?: string
 }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data: schedule, error } = await supabase
     .from('schedules')
@@ -86,7 +85,7 @@ export async function createFirstScheduleAction(data: {
 }
 
 export async function generateInviteLinkAction(academyId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   // Generate a simple invite token
   const token = crypto.randomUUID()
@@ -111,7 +110,7 @@ export async function generateInviteLinkAction(academyId: string) {
 }
 
 export async function activateTrialAction(academyId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const trialEnd = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString() // 14 days
 
@@ -141,7 +140,7 @@ export async function completeOnboardingStepAction(
   academyId: string,
   step: string,
 ) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data: current } = await supabase
     .from('onboarding_progress')
@@ -169,7 +168,7 @@ export async function completeOnboardingStepAction(
 }
 
 export async function getOnboardingProgressAction(academyId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient() as any
 
   const { data, error } = await supabase
     .from('onboarding_progress')

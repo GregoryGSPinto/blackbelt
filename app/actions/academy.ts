@@ -1,7 +1,7 @@
-// @ts-nocheck
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
+import type { Json } from '@/lib/supabase/types'
 
 export async function getAcademyAction(academyId: string) {
   const supabase = await getSupabaseServerClient()
@@ -20,7 +20,7 @@ export async function updateAcademyAction(
   academyId: string,
   updates: {
     name?: string
-    settings?: Record<string, unknown>
+    settings?: Json
     phone?: string
     email?: string
   }

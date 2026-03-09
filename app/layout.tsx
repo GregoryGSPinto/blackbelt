@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
@@ -19,9 +18,6 @@ import { NpsSurvey } from "@/components/shared/NpsSurvey";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
-
-const inter = Inter({ subsets: ["latin"] });
-
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -107,7 +103,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         <GoogleAnalytics />
         <a href="#main-content" className="skip-to-content">{t('meta.skipToContent')}</a>
         <NextIntlClientProvider locale={locale} messages={messages}>

@@ -23,7 +23,9 @@ export async function POST(req: NextRequest) {
     const { score, comment, userId } = parsed.data;
 
     // TODO(BE-090): Save to database
-    console.log('[NPS] Response received:', { score, comment, userId, timestamp: new Date().toISOString() });
+    void score;
+    void comment;
+    void userId;
 
     return NextResponse.json({ success: true });
   } catch (err) {

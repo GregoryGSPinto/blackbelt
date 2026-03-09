@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
+import { createHandler, apiError, apiOk } from '@/lib/api/supabase-helpers';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +25,6 @@ export const GET = createHandler(async (req: NextRequest) => {
 });
 
 export const POST = createHandler(async (req: NextRequest) => {
-  const body = await req.json();
-  return apiOk({ id: `vid_${Date.now()}`, ...body, created: true });
+  void req;
+  return apiError('Video creation not implemented', 'NOT_IMPLEMENTED', 501);
 });

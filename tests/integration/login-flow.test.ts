@@ -82,7 +82,7 @@ describe('Login Flow Integration', () => {
   });
 
   it('login module exports a valid page component', async () => {
-    const mod = await import('@/app/login/page');
+    const mod = await import('@/app/(auth)/login/page');
     expect(mod.default).toBeDefined();
     expect(typeof mod.default).toBe('function');
   });

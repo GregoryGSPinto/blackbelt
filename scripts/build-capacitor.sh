@@ -33,7 +33,7 @@ move_to_backup "app/(main)/shop/produto/[id]"
 
 # Executar build
 echo "🔨 Executando build..."
-if CAPACITOR_BUILD=true pnpm build; then
+if CAPACITOR_BUILD=true pnpm exec next build --webpack; then
     echo "✅ Build concluído!"
 else
     echo "❌ Build falhou"
