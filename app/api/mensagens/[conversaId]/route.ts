@@ -1,10 +1,28 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
+import { createHandler, apiOk, type AuthContext } from '@/lib/api/supabase-helpers';
+import type { MessageRow as SupabaseMessageRow } from '@/src/infrastructure/supabase/types';
 
 export const dynamic = 'force-dynamic';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const GET = createHandler(async (req: NextRequest, { supabase }: any) => {
+interface MessageProfileRow {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+}
+
+interface MessageRow extends Pick<SupabaseMessageRow, 'id' | 'conversation_id' | 'sender_id' | 'content' | 'message_type' | 'created_at'> {
+  profiles: MessageProfileRow | null;
+}
+
+interface MessageRequestBody {
+  conteudo?: string;
+  content?: string;
+  tipo?: string;
+  remetenteNome?: string;
+  remetenteTipo?: string;
+}
+
+export const GET = createHandler(async (req: NextRequest, { supabase }: AuthContext) => {
   const url = new URL(req.url);
   const conversaId = url.pathname.split('/mensagens/')[1]?.split('/')[0];
   const page = parseInt(url.searchParams.get('page') || '1');
@@ -20,8 +38,7 @@ export const GET = createHandler(async (req: NextRequest, { supabase }: any) => 
 
   if (error) throw error;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mensagens = (data || []).map((msg: any) => ({
+  const mensagens = ((data || []) as MessageRow[]).map((msg) => ({
     id: msg.id,
     conversaId: msg.conversation_id,
     remetenteId: msg.sender_id,
@@ -35,11 +52,10 @@ export const GET = createHandler(async (req: NextRequest, { supabase }: any) => 
   return apiOk(mensagens);
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const POST = createHandler(async (req: NextRequest, { supabase, user }: any) => {
+export const POST = createHandler(async (req: NextRequest, { supabase, user }: AuthContext) => {
   const url = new URL(req.url);
   const conversaId = url.pathname.split('/mensagens/')[1]?.split('/')[0];
-  const body = await req.json();
+  const body = (await req.json()) as MessageRequestBody;
 
   const { data, error } = await supabase
     .from('messages')

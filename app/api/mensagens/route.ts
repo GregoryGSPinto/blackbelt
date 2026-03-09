@@ -1,10 +1,31 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
+import { createHandler, apiOk, type AuthContext } from '@/lib/api/supabase-helpers';
+import type { ConversationRow, MembershipRow } from '@/src/infrastructure/supabase/types';
 
 export const dynamic = 'force-dynamic';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const GET = createHandler(async (_req: NextRequest, { supabase, user }: any) => {
+interface ConversationProfileRow {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+}
+
+interface ConversationMemberRow {
+  profile_id: string;
+  profiles: ConversationProfileRow | null;
+}
+
+interface ConversationWithMembersRow extends Pick<ConversationRow, 'id' | 'type' | 'title' | 'academy_id' | 'updated_at'> {
+  conversation_members: ConversationMemberRow[] | null;
+}
+
+interface ConversationMembershipRow extends Pick<MembershipRow, never> {
+  conversation_id: string;
+  last_read_at: string | null;
+  conversations: ConversationWithMembersRow | null;
+}
+
+export const GET = createHandler(async (_req: NextRequest, { supabase, user }: AuthContext) => {
   const { data, error } = await supabase
     .from('conversation_members')
     .select(`
@@ -20,24 +41,20 @@ export const GET = createHandler(async (_req: NextRequest, { supabase, user }: a
 
   if (error) throw error;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const conversas = (data || []).map((item: any) => {
+  const conversas = ((data || []) as ConversationMembershipRow[]).map((item) => {
     const conv = item.conversations;
     if (!conv) return null;
     const members = conv.conversation_members || [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const otherMembers = members.filter((m: any) => m.profile_id !== user.id);
+    const otherMembers = members.filter((member) => member.profile_id !== user.id);
 
     return {
       id: conv.id,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      titulo: conv.title || otherMembers.map((m: any) => m.profiles?.full_name || 'Desconhecido').join(', '),
+      titulo: conv.title || otherMembers.map((member) => member.profiles?.full_name || 'Desconhecido').join(', '),
       tipo: conv.type || 'individual',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      participantes: members.map((m: any) => ({
-        id: m.profile_id,
-        nome: m.profiles?.full_name || '',
-        avatar: m.profiles?.avatar_url || '',
+      participantes: members.map((member) => ({
+        id: member.profile_id,
+        nome: member.profiles?.full_name || '',
+        avatar: member.profiles?.avatar_url || '',
       })),
       ultimaMensagem: null,
       naoLidas: 0,

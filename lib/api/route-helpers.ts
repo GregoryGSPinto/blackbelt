@@ -45,8 +45,9 @@ export function apiServerError(err: unknown) {
 }
 
 // ── Auth extraction ───────────────────────────────────────
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AuthContext = {
+  // Intentionally loose at the boundary because the generated Database type
+  // is not yet aligned with all live tables/relations used by legacy routes.
   supabase: any;
   user: { id: string; email: string };
   membership: { id: string; academy_id: string; role: string } | null;

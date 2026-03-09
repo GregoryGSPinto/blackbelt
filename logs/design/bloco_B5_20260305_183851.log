@@ -1,3 +1,0 @@
-The play button hardcoded black is intentional — it's on a white circle overlay, so black ensures visibility regardless of theme. The QR code white background is also correct — QR codes require high contrast on a white background to be scannable. Both are valid design choices, not actual bugs.
-
-The BLOCO B5 task is complete. The commit `[bloco B5] Dark Mode Polish + Acessibilidade` is done with build passing (0 errors) and all 473 tests passing.

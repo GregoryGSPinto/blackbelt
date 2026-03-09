@@ -1,7 +1,0 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,929609,e=>{"use strict";var t=e.i(385390);function i(e){let i=window.matchMedia("(prefers-color-scheme: dark)").matches;return(0,t.jsxs)("div",{role:"status","aria-label":"Loading",style:{position:"fixed",inset:0,background:i?"#0a0a0a":"#f5f5f5",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100},children:[(0,t.jsx)("div",{style:{width:200,height:1,background:i?"rgba(255,255,255,0.12)":"rgba(0,0,0,0.08)",position:"relative",overflow:"hidden"},"aria-hidden":"true",children:(0,t.jsx)("div",{style:{position:"absolute",left:0,top:0,height:"100%",width:"60%",background:i?"rgba(255,255,255,0.7)":"rgba(0,0,0,0.5)",animation:"premium-bar-slide 1.2s ease-in-out infinite"}})}),(0,t.jsx)("span",{className:"sr-only",children:"Loading..."}),(0,t.jsx)("style",{children:`
-        @keyframes premium-bar-slide {
-          0% { transform: translateX(-100%); }
-          50% { transform: translateX(80%); }
-          100% { transform: translateX(240%); }
-        }
-      `})]})}e.s(["PremiumLoader",()=>i])},305789,e=>{"use strict";var t=e.i(385390),i=e.i(929609);function r(){return(0,t.jsx)(i.PremiumLoader,{})}e.s(["default",()=>r])}]);

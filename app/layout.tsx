@@ -16,6 +16,8 @@ import { ErrorTrackerInit } from "@/components/shared/ErrorTrackerInit";
 import { ThemedBackground } from "@/components/shared/ThemedBackground";
 import { NpsSurvey } from "@/components/shared/NpsSurvey";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
 export const viewport: Viewport = {
@@ -105,6 +107,8 @@ export default async function RootLayout({
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <GoogleAnalytics />
+        <Analytics />
+        <SpeedInsights />
         <a href="#main-content" className="skip-to-content">{t('meta.skipToContent')}</a>
         <NextIntlClientProvider locale={locale} messages={messages}>
         <ThemeProvider>

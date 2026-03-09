@@ -3,10 +3,12 @@
 // ============================================================
 
 import * as Sentry from '@sentry/nextjs';
+import { initializeOpenTelemetry } from '@/src/infrastructure/observability/otel';
 
 const SENTRY_DSN = process.env.SENTRY_DSN;
 
 if (SENTRY_DSN) {
+  void initializeOpenTelemetry();
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: process.env.NODE_ENV,
