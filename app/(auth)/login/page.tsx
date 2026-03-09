@@ -484,6 +484,8 @@ const DEMO_USERS = [
   { label: 'Unit Owner',  email: 'owner@blackbelt.com',      senha: 'blackbelt123', icon: '🏢', gradient: 'from-slate-600 to-slate-800' },
 ] as const;
 
+const SHOW_DEMO_USERS = process.env.NODE_ENV === 'development';
+
 // ─── SVG Icons (inline, no library) ─────────────────────────
 function GoogleIcon() {
   return (
@@ -1157,36 +1159,38 @@ function LoginContent() {
                         }}
                       />
                       {/* Dropdown arrow */}
-                      <motion.button
-                        type="button"
-                        onClick={() => setShowDropdown(!showDropdown)}
-                        aria-label="Select demo user"
-                        style={{
-                          position: 'absolute',
-                          right: 0,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '0.5rem',
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                        animate={{ rotate: showDropdown ? 180 : 0 }}
-                        transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <ChevronDownLucide 
-                          size={18} 
-                          color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'} 
-                        />
-                      </motion.button>
+                      {SHOW_DEMO_USERS && (
+                        <motion.button
+                          type="button"
+                          onClick={() => setShowDropdown(!showDropdown)}
+                          aria-label="Selecionar usuário de desenvolvimento"
+                          style={{
+                            position: 'absolute',
+                            right: 0,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '0.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                          animate={{ rotate: showDropdown ? 180 : 0 }}
+                          transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <ChevronDownLucide 
+                            size={18} 
+                            color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'} 
+                          />
+                        </motion.button>
+                      )}
 
                       {/* Dropdown menu */}
                       <AnimatePresence>
-                        {showDropdown && (
+                        {SHOW_DEMO_USERS && showDropdown && (
                           <motion.div
                             onTouchMove={(e) => e.stopPropagation()}
                             initial={{ opacity: 0, y: -10 }}

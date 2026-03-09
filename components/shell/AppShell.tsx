@@ -25,6 +25,7 @@ import { SearchResultsOverlay } from '@/components/ui/SearchResultsOverlay';
 import { ModuleErrorBoundary, type ModuleName } from '@/components/shared/ModuleErrorBoundary';
 import { ConfirmModal } from '@/components/shared/ConfirmModal';
 import { recordNavVisit } from '@/lib/nav-ranking';
+import { sanitizeInlineStyleSheet } from '@/lib/utils/sanitize';
 
 import { AppShellConfig, ShellState } from './types';
 import { ShellBackground } from './ShellBackground';
@@ -260,7 +261,7 @@ export function AppShell({
 
         {/* Global shell animations */}
         <style dangerouslySetInnerHTML={{ __html: SHELL_GLOBAL_STYLES }} />
-        {theme.globalStyles && <style dangerouslySetInnerHTML={{ __html: theme.globalStyles }} />}
+        {theme.globalStyles && <style dangerouslySetInnerHTML={{ __html: sanitizeInlineStyleSheet(theme.globalStyles) }} />}
 
         {/* Background */}
         <ShellBackground theme={theme} scrollY={scrollY} isDark={isDark} />
@@ -335,7 +336,7 @@ export function AppShell({
       <style dangerouslySetInnerHTML={{ __html: SHELL_GLOBAL_STYLES }} />
 
       {/* Theme-specific global CSS */}
-      {theme.globalStyles && <style dangerouslySetInnerHTML={{ __html: theme.globalStyles }} />}
+      {theme.globalStyles && <style dangerouslySetInnerHTML={{ __html: sanitizeInlineStyleSheet(theme.globalStyles) }} />}
 
       {/* Background */}
       <ShellBackground theme={theme} scrollY={scrollY} isDark={isDark} />

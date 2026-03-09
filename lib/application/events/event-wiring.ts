@@ -62,12 +62,7 @@ export function initializeEventSystem(options?: {
   // 3. Debug logging (dev mode only)
   if (options?.debug) {
     eventBus.onAny((event) => {
-      const pid = (event as any).payload?.participantId ?? '—';
-      console.log(
-        `%c[Event] ${event.type} v${event.version}`,
-        'color: #8B5CF6; font-weight: bold',
-        `| pid: ${pid} | ${event.occurredAt}`,
-      );
+      void event;
     });
     eventBus.enableLogging();
   }

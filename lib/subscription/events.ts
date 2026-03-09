@@ -3,6 +3,7 @@
 // ============================================================
 
 import type { MetricType, AddonType, PlanName } from './types';
+import { logger } from '@/lib/logger';
 
 // Event Types
 export type SubscriptionEventType =
@@ -162,24 +163,24 @@ export const subscriptionEvents = new SubscriptionEventBus();
 
 // Send notification when approaching limit
 subscriptionEvents.on('StudentLimitApproaching', async (event: StudentLimitApproachingEvent) => {
-  console.log(`[Subscription Event] Academy ${event.academyId} approaching student limit: ${event.percentage.toFixed(1)}%`);
+  logger.info('[Subscription Event]', `Academy ${event.academyId} approaching student limit: ${event.percentage.toFixed(1)}%`);
   // TODO: Send email/notification to admin
 });
 
 // Log plan upgrades
 subscriptionEvents.on('PlanUpgraded', async (event: PlanUpgradedEvent) => {
-  console.log(`[Subscription Event] Academy ${event.academyId} upgraded from ${event.previousPlan} to ${event.newPlan}`);
+  logger.info('[Subscription Event]', `Academy ${event.academyId} upgraded from ${event.previousPlan} to ${event.newPlan}`);
   // TODO: Send confirmation email
 });
 
 // Alert on overage
 subscriptionEvents.on('OverageIncurred', async (event: OverageIncurredEvent) => {
-  console.log(`[Subscription Event] Academy ${event.academyId} incurred overage: ${event.metricType} = R$ ${event.charge}`);
+  logger.info('[Subscription Event]', `Academy ${event.academyId} incurred overage: ${event.metricType} = R$ ${event.charge}`);
   // TODO: Update real-time dashboard
 });
 
 // Track store sales
 subscriptionEvents.on('StoreSaleCompleted', async (event: StoreSaleCompletedEvent) => {
-  console.log(`[Subscription Event] Store sale completed: ${event.orderId} = R$ ${event.amount}`);
+  logger.info('[Subscription Event]', `Store sale completed: ${event.orderId} = R$ ${event.amount}`);
   // TODO: Update analytics
 });

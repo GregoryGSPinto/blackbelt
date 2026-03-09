@@ -43,22 +43,16 @@ export interface LogData {
 export const logger = {
   /** Informação operacional (fluxo normal, navegação, sucesso) */
   info(tag: string, ...args: unknown[]): void {
-    if (!IS_DEV) {
-      // TODO(OPS-040): Sentry.addBreadcrumb({ category: tag, message: String(args[0]), level: 'info' });
-      return;
-    }
-    // eslint-disable-next-line no-console
-    console.log(tag, ...args);
+    void tag;
+    void args;
+    // TODO(OPS-040): Sentry.addBreadcrumb({ category: tag, message: String(args[0]), level: 'info' });
   },
 
   /** Alerta sobre estado inesperado mas recuperável */
   warn(tag: string, ...args: unknown[]): void {
-    if (!IS_DEV) {
-      // TODO(OPS-040): Sentry.captureMessage(`${tag} ${args[0]}`, 'warning');
-      return;
-    }
-    // eslint-disable-next-line no-console
-    console.warn(tag, ...args);
+    void tag;
+    void args;
+    // TODO(OPS-040): Sentry.captureMessage(`${tag} ${args[0]}`, 'warning');
   },
 
   /** Erro que impacta funcionalidade — sempre será reportado ao Sentry */
@@ -73,9 +67,8 @@ export const logger = {
 
   /** Debug verbose — nunca aparece em produção, mesmo com Sentry */
   debug(tag: string, ...args: unknown[]): void {
-    if (!IS_DEV) return;
-    // eslint-disable-next-line no-console
-    console.debug(tag, ...args);
+    void tag;
+    void args;
   },
 
   /**

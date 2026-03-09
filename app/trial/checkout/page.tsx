@@ -58,6 +58,7 @@ export default function TrialCheckoutPage() {
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -68,6 +69,7 @@ export default function TrialCheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setSubmitError('');
 
     try {
       const response = await fetch('/api/trial/start', {
@@ -85,11 +87,11 @@ export default function TrialCheckoutPage() {
         router.push(`/onboarding?trial_id=${data.trial_id}&academy_id=${data.academy_id}`);
       } else {
         const error = await response.json();
-        alert(error.error || 'Erro ao iniciar trial');
+        setSubmitError(error.error || 'Erro ao iniciar trial');
       }
     } catch (error) {
       console.error(error);
-      alert('Erro ao iniciar trial');
+      setSubmitError('Erro ao iniciar trial');
     } finally {
       setLoading(false);
     }
@@ -135,6 +137,11 @@ export default function TrialCheckoutPage() {
           >
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {submitError && (
+                  <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+                    {submitError}
+                  </div>
+                )}
                 <div>
                   <label className="block text-sm font-medium mb-2">Nome da Academia</label>
                   <div className="relative">

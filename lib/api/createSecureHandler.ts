@@ -64,7 +64,7 @@ function logAudit(
     console.warn(serialized);
     return;
   }
-  console.log(serialized);
+  return;
 }
 
 export function createSecureHandler<TSchema extends ZodTypeAny | undefined = undefined>(

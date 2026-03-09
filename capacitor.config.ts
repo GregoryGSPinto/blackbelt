@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.blackbelt.app',
   appName: 'BlackBelt',
-  webDir: 'out',
+  webDir: 'mobile-build',
 
   // ── Dev server (usar em desenvolvimento local) ──
   // server: {

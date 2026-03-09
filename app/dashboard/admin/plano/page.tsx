@@ -100,6 +100,7 @@ export default function AdminPlanoPage() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [upgrading, setUpgrading] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
     loadData();
@@ -142,6 +143,7 @@ export default function AdminPlanoPage() {
 
   async function handleUpgrade(targetPlanId: string) {
     setUpgrading(true);
+    setFeedback(null);
     try {
       const response = await fetch('/api/subscription/upgrade', {
         method: 'POST',
@@ -158,14 +160,14 @@ export default function AdminPlanoPage() {
         await loadData();
         setShowUpgradeModal(false);
         setSelectedPlan(null);
-        alert('Upgrade realizado com sucesso!');
+        setFeedback({ type: 'success', message: 'Upgrade realizado com sucesso.' });
       } else {
         const error = await response.json();
-        alert(error.error || 'Erro ao realizar upgrade');
+        setFeedback({ type: 'error', message: error.error || 'Erro ao realizar upgrade.' });
       }
     } catch (error) {
       console.error('Upgrade error:', error);
-      alert('Erro ao realizar upgrade');
+      setFeedback({ type: 'error', message: 'Erro ao realizar upgrade.' });
     } finally {
       setUpgrading(false);
     }
@@ -192,6 +194,18 @@ export default function AdminPlanoPage() {
             Gerencie sua assinatura e faça upgrade quando necessário
           </p>
         </div>
+
+        {feedback && (
+          <div
+            className={`mb-6 rounded-2xl border px-4 py-3 text-sm ${
+              feedback.type === 'success'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                : 'border-rose-200 bg-rose-50 text-rose-700'
+            }`}
+          >
+            {feedback.message}
+          </div>
+        )}
 
         {/* Current Plan Card */}
         {currentPlan && (

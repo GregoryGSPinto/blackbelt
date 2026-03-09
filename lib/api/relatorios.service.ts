@@ -99,7 +99,8 @@ export function exportarRelatorio(relatorio: RelatorioGerado, formato: FormatoEx
       break;
     case 'PDF':
       // PDF gerado pelo backend em produção
-      alert('Exportação PDF será gerada pelo servidor em produção.');
+      console.error('Exportação PDF indisponível nesta build. Gerando XLSX como fallback.');
+      exportarXLSX(relatorio);
       break;
   }
 }

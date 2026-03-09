@@ -7,6 +7,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import type { PricingResponse, AcademyWithSubscription } from './types';
+import { logger } from '@/lib/logger';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -24,7 +25,7 @@ export function useRealtimePricing(onUpdate?: (payload: any) => void) {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'pricing_config' },
         (payload) => {
-          console.log('Pricing change received:', payload);
+          logger.info('[Pricing]', 'Realtime update received', payload);
           onUpdate?.(payload);
         }
       )
