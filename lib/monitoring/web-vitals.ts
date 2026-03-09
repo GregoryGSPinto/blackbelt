@@ -52,14 +52,6 @@ function onReport(metric: { name: string; value: number; delta: number; id: stri
   };
 
   queue.push(entry);
-
-  if (process.env.NODE_ENV === 'development') {
-    const color = rating === 'good' ? '🟢' : rating === 'needs-improvement' ? '🟡' : '🔴';
-    // eslint-disable-next-line no-console
-    console.log(
-      `${color} [WebVitals] ${name}: ${entry.value}${name === 'CLS' ? '' : 'ms'} (${rating})`
-    );
-  }
 }
 
 /** Initialize web vitals tracking (call once) */

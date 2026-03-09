@@ -7,6 +7,7 @@ import { Resend } from 'resend';
 import { welcomeEmail } from './welcome';
 import { newStudentEmail } from './new-student';
 import { paymentReminderEmail } from './payment-reminder';
+import { logger } from '@/lib/logger';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -53,7 +54,7 @@ export async function sendEmail<T extends EmailTemplate>(
   data: TemplateData[T],
 ): Promise<{ success: boolean; id?: string; error?: string }> {
   if (!resend) {
-    console.log(`[Email] RESEND_API_KEY not configured. Would send "${template}" to ${to}`);
+    logger.info('[Email]', `RESEND_API_KEY not configured. Would send "${template}" to ${to}`);
     return { success: true, id: 'mock-' + Date.now() };
   }
 

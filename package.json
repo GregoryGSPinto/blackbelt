@@ -44,6 +44,7 @@
     "dotenv": "^16.4.0",
     "framer-motion": "12.35.0",
     "html2canvas": "1.4.1",
+    "isomorphic-dompurify": "3.0.0",
     "jspdf": "4.2.0",
     "jsqr": "1.4.0",
     "lucide-react": "^0.365.0",

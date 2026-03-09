@@ -176,16 +176,10 @@ function outputLog(entry: StructuredLog): void {
     // eslint-disable-next-line no-console
     console[method](JSON.stringify(entry));
   } else {
-    // Dev: output legível com cor
-    const colors: Record<LogLevel, string> = {
-      debug: '\x1b[90m', info: '\x1b[36m', warn: '\x1b[33m',
-      error: '\x1b[31m', fatal: '\x1b[41m\x1b[37m',
-    };
-    const reset = '\x1b[0m';
-    const prefix = `${colors[entry.level]}[${entry.level.toUpperCase()}]${reset} [${entry.category}]`;
-    const ctx = entry.context ? ` ${JSON.stringify(entry.context)}` : '';
-    // eslint-disable-next-line no-console
-    console.log(`${prefix} ${entry.message}${ctx}`);
+    if (entry.level === 'error' || entry.level === 'fatal') {
+      // eslint-disable-next-line no-console
+      console.error(`[${entry.level.toUpperCase()}] [${entry.category}] ${entry.message}`, entry.context || {});
+    }
   }
 }
 

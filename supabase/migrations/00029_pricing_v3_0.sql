@@ -3,15 +3,11 @@
 -- Description: Modelo otimizado com trial, setup e funcionalidades diferenciadas
 -- ============================================================
 
--- Drop existing tables to recreate with new structure
-DROP TABLE IF EXISTS trial_tracking CASCADE;
-DROP TABLE IF EXISTS subscription_addons CASCADE;
-DROP TABLE IF EXISTS usage_quotas CASCADE;
-DROP TABLE IF EXISTS academy_subscriptions CASCADE;
-DROP TABLE IF EXISTS subscription_plans CASCADE;
+-- SAFETY: production migrations must be additive and non-destructive.
+-- Legacy DROP TABLE statements were removed to preserve billing data.
 
 -- 1. Tabela de Planos Base (v3.0)
-CREATE TABLE subscription_plans (
+CREATE TABLE IF NOT EXISTS subscription_plans (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     name varchar(50) NOT NULL UNIQUE, -- Start, Medium, Pro, Business, Enterprise, Custom
     display_name varchar(100) NOT NULL,
@@ -51,7 +47,7 @@ CREATE TABLE subscription_plans (
 );
 
 -- 2. Tabela de Assinaturas das Academias
-CREATE TABLE academy_subscriptions (
+CREATE TABLE IF NOT EXISTS academy_subscriptions (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     academy_id uuid NOT NULL UNIQUE REFERENCES academias(id) ON DELETE CASCADE,
     plan_id uuid NOT NULL REFERENCES subscription_plans(id),
@@ -95,7 +91,7 @@ CREATE TABLE academy_subscriptions (
 );
 
 -- 3. Tabela de Rastreamento de Trial (histórico detalhado)
-CREATE TABLE trial_tracking (
+CREATE TABLE IF NOT EXISTS trial_tracking (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     academy_id uuid NOT NULL REFERENCES academias(id) ON DELETE CASCADE,
     
@@ -133,7 +129,7 @@ CREATE TABLE trial_tracking (
 );
 
 -- 4. Tabela de Quotas de Uso (por período)
-CREATE TABLE usage_quotas (
+CREATE TABLE IF NOT EXISTS usage_quotas (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     academy_id uuid NOT NULL REFERENCES academias(id) ON DELETE CASCADE,
     metric_type varchar(50) NOT NULL 
@@ -158,7 +154,7 @@ CREATE TABLE usage_quotas (
 );
 
 -- 5. Tabela de Add-ons
-CREATE TABLE subscription_addons (
+CREATE TABLE IF NOT EXISTS subscription_addons (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     academy_id uuid NOT NULL REFERENCES academias(id) ON DELETE CASCADE,
     
@@ -185,7 +181,7 @@ CREATE TABLE subscription_addons (
 );
 
 -- 6. Tabela de Invoices
-CREATE TABLE subscription_invoices (
+CREATE TABLE IF NOT EXISTS subscription_invoices (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     academy_id uuid NOT NULL REFERENCES academias(id) ON DELETE CASCADE,
     

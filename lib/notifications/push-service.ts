@@ -175,7 +175,7 @@ async function sendPush(token: string, platform: PushPlatform, payload: PushPayl
   // TODO: Integrate with FCM (Android/Web) and APNs (iOS) when keys are configured
   // For now, log the notification attempt
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[PushService] Would send to ${platform} token ${token.slice(0, 8)}...`, {
+    logger.info('[PushService]', `Would send to ${platform} token ${token.slice(0, 8)}...`, {
       title: payload.title,
       body: payload.body,
     });
@@ -195,3 +195,4 @@ async function sendPush(token: string, platform: PushPlatform, payload: PushPayl
 
   return true;
 }
+import { logger } from '@/lib/logger';
