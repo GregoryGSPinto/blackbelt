@@ -65,7 +65,26 @@ const PROTECTED_PREFIXES = [
   '/kids',
   '/parent',
   '/teen',
+  '/inicio',
+  '/minha-evolucao',
+  '/aulas',
+  '/buscar-academia',
+  '/academia',
+  '/matricula',
+  '/conteudo',
 ];
+
+// Role-based route mapping
+const ROLE_ROUTES: Record<string, string> = {
+  student: '/inicio',
+  kids: '/kids-inicio',
+  teen: '/teen-inicio',
+  professor: '/professor-dashboard',
+  admin: '/dashboard',
+  owner: '/dashboard',
+  super_admin: '/super-admin',
+  parent: '/painel-responsavel',
+};
 
 const PUBLIC_API_ROUTES = [
   '/api/health',

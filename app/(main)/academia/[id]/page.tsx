@@ -1,188 +1,294 @@
-
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { ArrowRight, CheckCircle, BookOpen, Target } from 'lucide-react';
-import { useEffect } from 'react';
-import { getAreaById, useAcademyProgress } from '@/lib/academy';
-import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { useTheme } from '@/contexts/ThemeContext';
-import { getDesignTokens } from '@/lib/design-tokens';
+import { useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 
-export default function AreaDetailPage() {
-  const t = useTranslations('athlete');
-  const { isDark } = useTheme();
-  const tokens = getDesignTokens(isDark);
+import { motion } from 'framer-motion';
+import { 
+  MapPin, 
+  Star, 
+  Clock, 
+  Users, 
+  Phone,
+  Instagram,
+  ChevronLeft,
+  CheckCircle2,
+  Award,
+  Calendar,
+  Shield
+} from 'lucide-react';
 
-  const { id } = useParams<{ id: string }>();
+// Mock data
+const academyData = {
+  id: '1',
+  name: 'Academia Gracie Barra SP',
+  description: 'A maior rede de Jiu-Jitsu do mundo. Aqui você encontra estrutura de alto nível, professores graduados e uma comunidade acolhedora para todos os níveis, desde iniciantes até competidores profissionais.',
+  address: 'Rua Augusta, 1500 - Consolação, São Paulo - SP',
+  rating: 4.9,
+  reviews: 128,
+  phone: '(11) 99999-9999',
+  instagram: '@graciebarra_sp',
+  image: '/images/academy-1.jpg',
+  hours: 'Seg-Sex: 06:00 - 22:00\nSáb: 08:00 - 14:00',
+  students: 450,
+  founded: '2005',
+  headInstructor: 'Prof. Carlos Silva',
+  belt: 'Faixa Preta 4º grau',
+  modalities: [
+    { name: 'BJJ', description: 'Jiu-Jitsu Brasileiro para todas as idades', icon: '🥋' },
+    { name: 'Muay Thai', description: 'Boxe tailandês e condicionamento', icon: '🥊' },
+    { name: 'Boxe', description: 'Fundamentos e sparring', icon: '🥊' },
+  ],
+  facilities: [
+    '4 tatames de alta qualidade',
+    'Sala de musculação',
+    'Vestiários com armários',
+    'Estacionamento próprio',
+    'Loja de equipamentos',
+  ],
+  plans: [
+    {
+      id: 'basic',
+      name: 'Básico',
+      price: 'R$ 199',
+      period: '/mês',
+      description: '2x por semana',
+      features: [
+        'Aulas 2x por semana',
+        'Acesso a 1 modalidade',
+        'Check-in via app',
+        'Acompanhamento de progresso',
+      ],
+      popular: false,
+    },
+    {
+      id: 'unlimited',
+      name: 'Ilimitado',
+      price: 'R$ 299',
+      period: '/mês',
+      description: 'Aulas ilimitadas',
+      features: [
+        'Aulas ilimitadas',
+        'Todas as modalidades',
+        'Acesso ao conteúdo online',
+        'Sem taxa de matrícula',
+        'Aulas particulares 10% off',
+      ],
+      popular: true,
+    },
+    {
+      id: 'competitor',
+      name: 'Competidor',
+      price: 'R$ 399',
+      period: '/mês',
+      description: 'Preparação completa',
+      features: [
+        'Tudo do plano Ilimitado',
+        'Treinos especiais de competição',
+        'Preparação física inclusa',
+        'Aulas particulares 20% off',
+        'Camiseta oficial GB',
+      ],
+      popular: false,
+    },
+  ],
+};
+
+export default function AcademiaDetailPage() {
   const router = useRouter();
-  const area = getAreaById(id);
-  const { progress, markContentRead, getAreaPercent } = useAcademyProgress();
+  const params = useParams();
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
-  // Marcar como lido ao abrir a página
-  useEffect(() => {
-    if (area) markContentRead(area.id);
-  }, [area, markContentRead]);
-
-  if (!area) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-lg font-medium mb-2" style={{ color: 'rgb(var(--color-text))' }}>{t('unit.areaNotFound')}</p>
-          <button onClick={() => router.push('/academia')}
-            className="text-primary-light text-sm font-medium">
-            {t('unit.backToUnit')}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const Icon = area.icon;
-  const pct = getAreaPercent(area.id);
-  const p = progress[area.id];
+  const handleEnroll = (planId: string) => {
+    router.push(`/matricula/${academyData.id}?plan=${planId}`);
+  };
 
   return (
-    <div className="min-h-screen px-4 md:px-8 tv:px-16 py-8 md:py-12">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen bg-slate-950 text-white pb-20">
+      {/* Header Image */}
+      <div className="relative h-64 bg-gradient-to-br from-amber-400/20 to-amber-600/20">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Award className="h-32 w-32 text-amber-400/30" />
+        </div>
+        
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="absolute left-4 top-4 rounded-full bg-black/50 p-2 text-white backdrop-blur transition hover:bg-black/70"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+      </div>
 
-        {/* Breadcrumb */}
-        <Breadcrumb dynamicLabel={area.title} />
-
-        {/* Header */}
-        <div className="rounded-2xl p-6 md:p-8"
-          style={{
-            background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgb(var(--color-border) / 0.06)',
-          }}>
-          <div className="flex items-start gap-4 mb-6">
-            <div className="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{
-                background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})`,
-                boxShadow: `0 4px 16px ${area.accentDark}40`,
-              }}>
-              <Icon size={30} className="text-white" />
+      <div className="mx-auto max-w-4xl px-4 -mt-8">
+        {/* Info Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-2xl border border-white/10 bg-slate-900 p-6"
+        >
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">{academyData.name}</h1>
+              <div className="mt-2 flex items-center gap-2 text-amber-400">
+                <Star className="h-5 w-5 fill-current" />
+                <span className="font-medium">{academyData.rating}</span>
+                <span className="text-slate-400">({academyData.reviews} avaliações)</span>
+              </div>
             </div>
-            <div className="flex-1">
-              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold leading-tight mb-2"
-                style={{ color: 'rgb(var(--color-text))' }}>
-                {area.title}
-              </h1>
-              <p style={{ color: 'rgb(var(--color-text-subtle) / var(--text-subtle-alpha))' }}>
-                {area.description}
-              </p>
+            <div className="rounded-full bg-amber-400/20 px-3 py-1 text-sm font-medium text-amber-400">
+              {academyData.belt}
             </div>
           </div>
 
-          {/* Progress */}
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgb(var(--color-border) / 0.08)' }}>
-              <div className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${pct}%`,
-                  background: `linear-gradient(90deg, ${area.accentDark}, ${area.accent})`,
-                }} />
-            </div>
-            <span className="text-sm font-medium" style={{ color: area.accent }}>{pct}%</span>
-          </div>
+          <p className="mt-4 text-slate-300">{academyData.description}</p>
 
-          <div className="flex items-center gap-3 mt-3">
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400">
-              <CheckCircle size={11} /> {t('unit.contentRead')}
+          <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-400">
+            <span className="flex items-center gap-1">
+              <MapPin className="h-4 w-4" />
+              {academyData.address}
             </span>
-            {p?.testCompleted && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-400">
-                <Target size={11} /> {t('unit.testLabel')} {p.testScore}/{p.testTotal}
-              </span>
-            )}
+            <span className="flex items-center gap-1">
+              <Users className="h-4 w-4" />
+              {academyData.students} alunos
+            </span>
+            <span className="flex items-center gap-1">
+              <Calendar className="h-4 w-4" />
+              Desde {academyData.founded}
+            </span>
           </div>
+        </motion.div>
+
+        {/* Contact Buttons */}
+        <div className="mt-4 flex gap-3">
+          <a
+            href={`tel:${academyData.phone}`}
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-white/5 py-3 text-slate-300 transition hover:bg-white/10"
+          >
+            <Phone className="h-5 w-5" />
+            Ligar
+          </a>
+          <a
+            href={`https://instagram.com/${academyData.instagram.replace('@', '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-white/5 py-3 text-slate-300 transition hover:bg-white/10"
+          >
+            <Instagram className="h-5 w-5" />
+            Instagram
+          </a>
         </div>
 
-        {/* ═══ CONTEÚDO TEÓRICO ═══ */}
-        <div className="rounded-2xl p-6 md:p-8"
-          style={{
-            background: 'rgb(var(--glass-bg) / var(--glass-alpha))',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgb(var(--color-border) / 0.06)',
-          }}>
-          <div className="flex items-center gap-2 mb-6">
-            <BookOpen size={18} style={{ color: area.accent }} />
-            <h2 className="text-lg font-semibold" style={{ color: 'rgb(var(--color-text) / 0.9)' }}>
-              {t('unit.theoreticalContent')}
-            </h2>
-          </div>
-
-          {/* Intro quote */}
-          <div className="mb-8 p-5 rounded-xl relative"
-            style={{
-              background: `linear-gradient(135deg, ${area.accentDark}15, ${area.accent}08)`,
-              borderLeft: `3px solid ${area.accent}`,
-            }}>
-            <p className="text-base md:text-lg font-semibold italic leading-relaxed"
-              style={{ color: 'rgb(var(--color-text) / 0.8)' }}>
-              "{area.content.intro}"
-            </p>
-          </div>
-
-          {/* Paragraphs */}
-          <div className="space-y-5">
-            {area.content.paragraphs.map((p, i) => (
-              <p key={i} className="text-[15px] leading-[1.8]"
-                style={{ color: 'rgb(var(--color-text-subtle) / 0.65)' }}>
-                {p}
-              </p>
+        {/* Modalities */}
+        <section className="mt-8">
+          <h2 className="text-xl font-bold">Modalidades</h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {academyData.modalities.map((mod) => (
+              <div
+                key={mod.name}
+                className="rounded-xl border border-white/10 bg-white/5 p-4"
+              >
+                <span className="text-3xl">{mod.icon}</span>
+                <h3 className="mt-2 font-semibold">{mod.name}</h3>
+                <p className="mt-1 text-sm text-slate-400">{mod.description}</p>
+              </div>
             ))}
           </div>
+        </section>
 
-          {/* Key Points */}
-          <div className="mt-8 p-5 rounded-xl" style={{ background: 'rgb(var(--color-border) / 0.04)' }}>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4"
-              style={{ color: area.accent }}>
-              {t('unit.keyPoints')}
-            </h3>
-            <div className="space-y-3">
-              {area.content.keyPoints.map((kp, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-medium text-white"
-                    style={{ background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})` }}>
-                    {i + 1}
-                  </div>
-                  <p className="text-sm leading-relaxed"
-                    style={{ color: 'rgb(var(--color-text) / 0.7)' }}>
-                    {kp}
-                  </p>
+        {/* Facilities */}
+        <section className="mt-8">
+          <h2 className="text-xl font-bold">Estrutura</h2>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {academyData.facilities.map((facility) => (
+              <li key={facility} className="flex items-center gap-2 text-slate-300">
+                <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                {facility}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Schedule */}
+        <section className="mt-8">
+          <h2 className="text-xl font-bold">Horários</h2>
+          <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-4">
+            <div className="flex items-center gap-2 text-slate-300">
+              <Clock className="h-5 w-5 text-amber-400" />
+              <pre className="whitespace-pre-wrap font-sans text-sm">
+                {academyData.hours}
+              </pre>
+            </div>
+          </div>
+        </section>
+
+        {/* Plans */}
+        <section className="mt-8">
+          <h2 className="text-xl font-bold">Planos</h2>
+          <p className="mt-2 text-slate-400">Escolha o plano ideal para você</p>
+          
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {academyData.plans.map((plan) => (
+              <motion.div
+                key={plan.id}
+                whileHover={{ scale: 1.02 }}
+                onClick={() => setSelectedPlan(plan.id)}
+                className={`relative cursor-pointer rounded-2xl border p-4 transition ${
+                  selectedPlan === plan.id
+                    ? 'border-amber-400 bg-amber-400/10'
+                    : 'border-white/10 bg-white/5 hover:border-white/20'
+                }`}
+              >
+                {plan.popular && (
+                  <span className="absolute -top-2 left-4 rounded-full bg-amber-400 px-3 py-1 text-xs font-medium text-slate-950">
+                    Mais Popular
+                  </span>
+                )}
+                
+                <h3 className="font-semibold">{plan.name}</h3>
+                <p className="text-sm text-slate-400">{plan.description}</p>
+                
+                <div className="mt-4">
+                  <span className="text-3xl font-bold">{plan.price}</span>
+                  <span className="text-slate-400">{plan.period}</span>
                 </div>
-              ))}
+                
+                <ul className="mt-4 space-y-2">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-emerald-400" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEnroll(plan.id);
+                  }}
+                  className="mt-4 w-full rounded-xl bg-amber-400 py-2 font-medium text-slate-950 transition hover:bg-amber-300"
+                >
+                  Matricular-se
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Safety Info */}
+        <div className="mt-8 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-6">
+          <div className="flex items-start gap-4">
+            <Shield className="h-6 w-6 flex-shrink-0 text-emerald-400" />
+            <div>
+              <h3 className="font-semibold text-emerald-400">Matrícula Segura</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Pagamento processado com criptografia. Você pode cancelar a qualquer momento 
+                sem multa. 7 dias de garantia.
+              </p>
             </div>
           </div>
         </div>
-
-        {/* ═══ CTA — Ir para Teste ═══ */}
-        <button
-          onClick={() => router.push(`/academia/${area.id}/teste`)}
-          className="w-full rounded-2xl p-6 flex items-center justify-between transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] group"
-          style={{
-            background: `linear-gradient(135deg, ${area.accentDark}, ${area.accent})`,
-            boxShadow: `0 8px 24px ${area.accentDark}30`,
-          }}
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center">
-              <Target size={22} className="text-white" />
-            </div>
-            <div className="text-left">
-              <p className="text-white font-medium text-base">
-                {p?.testCompleted ? t('unit.retakeTest') : t('unit.takeTest')}
-              </p>
-              <p className="text-white/60 text-sm mt-0.5">
-                {t('unit.validateLearning')}
-              </p>
-            </div>
-          </div>
-          <ArrowRight size={20} className="text-white/70 group-hover:translate-x-1 transition-transform" />
-        </button>
       </div>
     </div>
   );

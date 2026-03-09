@@ -7,7 +7,7 @@
 // ============================================================
 import {
   LayoutDashboard, Building2, DollarSign, Users, ScrollText, Settings,
-  AlertTriangle, UserCog, Bell, ShoppingBag,
+  AlertTriangle, UserCog, Bell, ShoppingBag, Target, UserPlus,
 } from 'lucide-react';
 import type { AppShellConfig, ShellTheme } from '@/components/shell';
 
@@ -26,18 +26,22 @@ const DESKTOP_NAV = [
   { href: '/super-admin',            icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/super-admin/academias',  icon: Building2,       label: 'Academias' },
   { href: '/super-admin/financeiro', icon: DollarSign,      label: 'Financeiro' },
+  { href: '/super-admin/captacao',   icon: Target,          label: 'Captação' },
 ];
 
 const MOBILE_BAR = [
   { href: '/super-admin',            icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/super-admin/academias',  icon: Building2,       label: 'Academias' },
   { href: '/super-admin/financeiro', icon: DollarSign,      label: 'Financeiro' },
+  { href: '/super-admin/captacao',   icon: Target,          label: 'Captação' },
 ];
 
 const DRAWER_NAV = [
   { href: '/super-admin',            icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/super-admin/academias',  icon: Building2,       label: 'Academias' },
   { href: '/super-admin/financeiro', icon: DollarSign,      label: 'Financeiro' },
+  { href: '/super-admin/captacao',   icon: Target,          label: 'Captação' },
+  { href: '/super-admin/captacao/leads', icon: UserPlus,    label: 'Leads' },
   { href: '/super-admin/usuarios',       icon: Users,           label: 'Usuários' },
   { href: '/super-admin/logs',            icon: ScrollText,      label: 'Logs' },
   { href: '/super-admin/configuracoes',   icon: Settings,        label: 'Configurações' },
