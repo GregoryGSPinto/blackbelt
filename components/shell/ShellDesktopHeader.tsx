@@ -345,26 +345,26 @@ export function ShellDesktopHeader({ config, state }: Props) {
       {/* ─── Search Overlay — covers entire header when open ─── */}
       {searchOpen && (
         <div
-          className="fixed top-0 left-0 right-0 z-[9999] flex items-center gap-4 px-8 lg:px-14"
+          className="fixed top-0 left-0 right-0 z-[9999] flex items-center justify-center gap-4 px-8 lg:px-14"
           style={{
             height: 96,
-            background: 'var(--card-bg)',
-            borderBottom: '1px solid black',
+            background: isDark ? '#0a0a0a' : '#f5f5f5',
+            borderBottom: `1px solid ${theme.desktopHeaderBorder(isDark)}`,
           }}
         >
           <button
             onClick={handleSearchToggle}
-            className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 active:scale-95"
-            style={{ color: 'var(--text-secondary)' }}
+            className="absolute left-8 lg:left-14 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 active:scale-95"
+            style={{ color: theme.textMuted(isDark) }}
             aria-label={t('search.closeSearch')}
           >
             <X size={22} />
           </button>
-          <div className="flex-1 relative" style={{ maxWidth: 600 }}>
+          <div className="relative w-full" style={{ maxWidth: 600 }}>
             <Search
               size={16}
-              className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ color: 'var(--text-secondary)' }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10"
+              style={{ color: theme.textMuted(isDark) }}
             />
             <input
               ref={searchInputRef}
@@ -375,9 +375,9 @@ export function ShellDesktopHeader({ config, state }: Props) {
               aria-label={t('search.openSearch')}
               className={`w-full pl-11 pr-4 py-3 rounded-xl text-sm outline-none ${font}`}
               style={{
-                background: 'var(--card-bg)',
-                border: '1px solid black',
-                color: 'var(--text-primary)',
+                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                border: `1px solid ${theme.desktopHeaderBorder(isDark)}`,
+                color: theme.textHeading(isDark),
               }}
               autoComplete="off"
               autoCorrect="off"

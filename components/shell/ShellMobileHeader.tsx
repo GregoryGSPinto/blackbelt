@@ -175,14 +175,14 @@ export function ShellMobileHeader({ config, state }: Props) {
           style={{
             height: 72,
             paddingTop: 'env(safe-area-inset-top, 0px)',
-            background: 'var(--card-bg)',
-            borderBottom: '1px solid black',
+            background: isDark ? '#0a0a0a' : '#f5f5f5',
+            borderBottom: `1px solid ${theme.mobileHeaderBorder(isDark)}`,
           }}
         >
           <button
             onClick={handleSearchToggle}
             className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 active:scale-90"
-            style={{ color: 'var(--text-secondary)' }}
+            style={{ color: theme.textMuted(isDark) }}
             aria-label={t('search.closeSearch')}
           >
             <X size={20} />
@@ -196,9 +196,9 @@ export function ShellMobileHeader({ config, state }: Props) {
             aria-label={t('search.openSearch')}
             className={`flex-1 py-2.5 px-4 rounded-xl text-sm outline-none ${font}`}
             style={{
-              background: 'var(--card-bg)',
-              border: '1px solid black',
-              color: 'var(--text-primary)',
+              background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+              border: `1px solid ${theme.mobileHeaderBorder(isDark)}`,
+              color: theme.textHeading(isDark),
             }}
             autoComplete="off"
             autoCorrect="off"
