@@ -120,6 +120,13 @@ export default function AlertasPage() {
           text: 'text-white',
           dot: 'bg-white/20'
         };
+      default:
+        return {
+          bg: 'bg-black/40 backdrop-blur-xl',
+          border: 'border-white/10',
+          text: 'text-white',
+          dot: 'bg-white/20'
+        };
     }
   };
 
@@ -136,7 +143,7 @@ export default function AlertasPage() {
         <div className="hover-card bg-black/40 backdrop-blur-xl border border-red-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>t('alerts.priorities.high')</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('alerts.priorities.high')}</p>
               <p className="text-red-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{alertasPorPrioridade.ALTA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
@@ -146,7 +153,7 @@ export default function AlertasPage() {
         <div className="hover-card bg-black/40 backdrop-blur-xl border border-yellow-500/20 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>t('alerts.priorities.medium')</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('alerts.priorities.medium')}</p>
               <p className="text-yellow-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{alertasPorPrioridade.MEDIA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
@@ -156,7 +163,7 @@ export default function AlertasPage() {
         <div className="hover-card" style={{ ...glass, padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>t('alerts.priorities.low')</p>
+              <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('alerts.priorities.low')}</p>
               <p className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white">{alertasPorPrioridade.BAIXA}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/40" />
