@@ -191,9 +191,19 @@ export function MobileAccountBar({
               e.stopPropagation();
               handleAction(logout);
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-sm"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm"
             role="menuitem"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
+            style={{ 
+              background: 'transparent', 
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, 
+              color: isDark ? 'white' : '#111827' 
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'transparent';
+            }}
           >
             <LogOut size={16} className="shrink-0" />
             <span className="font-medium">{t('logout')}</span>
