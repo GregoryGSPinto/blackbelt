@@ -9,7 +9,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { X, Sun, Moon, User, LogOut, ArrowRightLeft } from 'lucide-react';
+import { X, Sun, Moon, User, LogOut, ArrowRightLeft, HelpCircle, MessageCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 
@@ -175,16 +175,53 @@ export function ShellMobileDrawer({ config, state }: Props) {
             )}
 
 
-            {/* Logout */}
-            <button
-              onClick={() => { setDrawerOpen(false); handleLogout(); }}
-              className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors focus:outline-none"
-              style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, color: 'var(--text-primary)' }}
-              aria-label={t('confirm.logoutTitle')}
-            >
-              <LogOut className="w-5 h-5" />
-              <span className={`text-sm font-semibold ${font}`}>{t('menu.logout')}</span>
-            </button>
+            {/* Divider */}
+            <div className="mx-5 my-1" style={{ height: 1, background: theme.drawerBorder(isDark) }} />
+
+            {/* Ajuda / Suporte */}
+            <div className="px-4 py-3">
+              <p className="text-xs mb-2 px-4" style={{ color: theme.textMuted(isDark) }}>
+                {t('help.needHelp')}
+              </p>
+              <button
+                onClick={() => { setDrawerOpen(false); navTo('/suporte'); }}
+                className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-colors"
+                style={{ 
+                  background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)',
+                  border: `1px solid ${theme.drawerBorder(isDark)}`,
+                  color: theme.textMuted(isDark),
+                }}
+              >
+                <HelpCircle className="w-5 h-5" />
+                <span className={`text-sm font-medium ${font}`}>{t('help.helpCenter')}</span>
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="mx-5 my-1" style={{ height: 1, background: theme.drawerBorder(isDark) }} />
+
+            {/* Logout - Padrão do Sistema */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => { setDrawerOpen(false); handleLogout(); }}
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
+                style={{ 
+                  background: 'transparent',
+                  border: `1px solid ${theme.drawerBorder(isDark)}`,
+                  color: theme.textHeading(isDark),
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                }}
+                aria-label={t('confirm.logoutTitle')}
+              >
+                <LogOut className="w-5 h-5" />
+                <span className={`text-sm font-semibold ${font}`}>{t('menu.logout')}</span>
+              </button>
+            </div>
           </div>
         </div>
 

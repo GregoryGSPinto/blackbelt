@@ -3408,5 +3408,12 @@
     "contactDpo": "DPO Contact",
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use"
+  },
+  "help": {
+    "needHelp": "Need help?",
+    "helpCenter": "Help Center",
+    "helpCenterDesc": "FAQs and tutorials",
+    "support": "Support",
+    "contactSupport": "Contact support"
   }
 }

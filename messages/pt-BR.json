@@ -3451,5 +3451,12 @@
     "contactDpo": "Contato do DPO",
     "privacyPolicy": "Política de Privacidade",
     "termsOfUse": "Termos de Uso"
+  },
+  "help": {
+    "needHelp": "Precisa de ajuda?",
+    "helpCenter": "Central de Ajuda",
+    "helpCenterDesc": "Perguntas frequentes e tutoriais",
+    "support": "Suporte",
+    "contactSupport": "Falar com o suporte"
   }
 }
