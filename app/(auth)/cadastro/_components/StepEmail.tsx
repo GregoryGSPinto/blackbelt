@@ -98,7 +98,7 @@ export function StepEmail({ dados, setDados, onSubmit, error, setError }: StepEm
               transition: transitions.theme,
             }}
           >
-            {t('register.createAccount').toUpperCase()}
+            {t('register.createButton').toUpperCase()}
           </h2>
 
           {/* Error */}
