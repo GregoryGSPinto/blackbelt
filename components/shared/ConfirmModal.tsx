@@ -127,11 +127,13 @@ export function ConfirmModal({
         aria-describedby="confirm-message"
       >
         <div
-          className="w-full max-w-sm rounded-xl p-4 sm:p-6 relative"
+          className="w-full max-w-sm rounded-xl p-5 sm:p-6 relative"
           style={{
             background: 'var(--card-bg)',
-            border: '1px solid black',
-            boxShadow: '0 24px 80px rgba(0,0,0,0.3)',
+            border: '1px solid var(--border)',
+            backdropFilter: 'blur(24px) saturate(1.3)',
+            WebkitBackdropFilter: 'blur(24px) saturate(1.3)',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.4)',
             animation: 'confirm-scale-in 200ms cubic-bezier(0.16,1,0.3,1)',
           }}
           onClick={e => e.stopPropagation()}
@@ -160,7 +162,7 @@ export function ConfirmModal({
           </h3>
 
           {/* Message */}
-          <div id="confirm-message" className="text-sm mb-5 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <div id="confirm-message" className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             {message}
           </div>
 
@@ -174,7 +176,7 @@ export function ConfirmModal({
                 ref={inputRef}
                 type="text"
                 className="w-full px-3 py-2 rounded-xl text-sm outline-none transition-colors"
-                style={{ color: 'var(--text-primary)', background: 'var(--card-bg)', border: '1px solid black' }}
+                style={{ color: 'var(--text-primary)', background: 'transparent', border: '1px solid var(--border)' }}
                 placeholder={requireTyping}
                 onChange={e => {
                   typingMatch.current = e.target.value === requireTyping;
@@ -183,23 +185,36 @@ export function ConfirmModal({
             </div>
           )}
 
-          {/* Actions */}
-          <div className="flex gap-2">
-            <button
-              onClick={onCancel}
-              disabled={loading}
-              className="flex-1 min-h-[44px] rounded-xl text-sm font-medium transition-all active:scale-95 disabled:opacity-50"
-              style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
-            >
-              {effectiveCancelLabel}
-            </button>
+          {/* Actions - Padrão do Sistema */}
+          <div className="flex flex-col gap-2">
             <button
               onClick={handleConfirm}
               disabled={loading || (!!requireTyping && !typingMatch.current)}
-              className="flex-1 min-h-[44px] rounded-xl text-sm font-medium transition-all active:scale-95 disabled:opacity-50"
-              style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
+              className="w-full min-h-[48px] rounded-xl text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-50 tracking-wide"
+              style={{ 
+                background: cfg.iconColor, 
+                color: '#000',
+              }}
             >
               {loading ? tActions('processing') : effectiveConfirmLabel}
+            </button>
+            <button
+              onClick={onCancel}
+              disabled={loading}
+              className="w-full min-h-[48px] rounded-xl text-sm font-medium transition-all active:scale-[0.98] disabled:opacity-50"
+              style={{ 
+                background: 'transparent', 
+                border: '1px solid var(--border)', 
+                color: 'var(--text-primary)' 
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'var(--bg-secondary, rgba(255,255,255,0.03))';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'transparent';
+              }}
+            >
+              {effectiveCancelLabel}
             </button>
           </div>
         </div>
