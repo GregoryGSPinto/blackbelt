@@ -1,41 +1,34 @@
 # Changelog
 
-All notable changes to the BlackBelt app will be documented in this file.
+All notable changes to this repository are documented here.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format follows Keep a Changelog and the project continues to use semantic-version-style release notes when formal releases are cut.
+
+## [Unreleased] - 2026-03-09
+
+### Changed
+
+- Replaced the top-level README with a current-state project overview and workflow guide.
+- Added [ARCHITECTURE.md](/Users/user_pc/Projetos/BlackBelt/ARCHITECTURE.md) and [CONTRIBUTING.md](/Users/user_pc/Projetos/BlackBelt/CONTRIBUTING.md).
+- Added [docs/REPOSITORY_DIAGNOSTIC.md](/Users/user_pc/Projetos/BlackBelt/docs/REPOSITORY_DIAGNOSTIC.md) to document architectural and repository risks.
+- Updated `.gitignore` to stop accepting new `logs/`, `mobile-build/`, and `.claude/` artifacts.
+- Removed an unused import in the mobile shell drawer to restore lint compliance.
+
+### Validation
+
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm build`
+
+### Known Follow-Up
+
+- Large files, duplicated module roots, and broad `any` usage remain and require staged refactors rather than a single unsafe rewrite.
 
 ## [1.0.0] - 2026-03-07
 
 ### Added
-- Initial release of BlackBelt mobile app
-- Complete academy management system for Brazilian Jiu-Jitsu
-- Multi-role authentication (Super Admin, Admin, Professor, Student)
-- OAuth integration with Google Sign-In and Apple Sign-In
-- Comprehensive dashboard for each user role
-- Student management with belt progression tracking
-- Class scheduling and attendance system
-- Exercise library with technique videos
-- Profile management with avatar upload
-- Responsive dark mode UI (#1A1A2E theme)
-- Premium loading experience with animated progress bar
-- iOS and Android native builds via Capacitor
-- App Store and Google Play Store assets
 
-### Security
-- Row Level Security (RLS) policies for all database tables
-- Secure authentication flow with Supabase Auth
-- LGPD-compliant privacy policy
-
-### Technical
-- Next.js 14 with App Router
-- React 18 with TypeScript
-- Supabase backend integration
-- Capacitor 8 for mobile builds
-- Comprehensive test suite (570+ tests)
-
----
-
-## Version History
-
-- v1.0.0 - First public release
+- Initial application release line for the BlackBelt platform
+- Multi-role web/mobile experience
+- Supabase-backed schema and migration set
+- Mock-first service layer and automated test suite

@@ -9,7 +9,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { X, Sun, Moon, User, LogOut, ArrowRightLeft, HelpCircle, MessageCircle } from 'lucide-react';
+import { X, Sun, Moon, User, LogOut, ArrowRightLeft, HelpCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppShellConfig, ShellState } from './types';
 

@@ -44,3 +44,6 @@ package-lock.json
 supabase/.temp/
 .vercel
 .env*.local
+.claude/
+logs/
+mobile-build/
