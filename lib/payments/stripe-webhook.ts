@@ -38,8 +38,14 @@ export function constructWebhookEvent(
  */
 export async function processWebhookEvent(event: Stripe.Event): Promise<void> {
   switch (event.type) {
+    case 'checkout.session.completed':
+      await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
+      break;
     case 'invoice.paid':
       await handleInvoicePaid(event.data.object as Stripe.Invoice);
+      break;
+    case 'invoice.payment_failed':
+      await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice);
       break;
     case 'customer.subscription.updated':
       await handleSubscriptionUpdated(event.data.object as Stripe.Subscription);
@@ -47,6 +53,49 @@ export async function processWebhookEvent(event: Stripe.Event): Promise<void> {
     case 'customer.subscription.deleted':
       await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
       break;
+  }
+}
+
+async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const supabase = getSupabaseAdminClient() as any;
+
+  const academyId = session.metadata?.academy_id;
+  const stripeSubscriptionId =
+    typeof session.subscription === 'string'
+      ? session.subscription
+      : session.subscription?.id ?? null;
+  const stripeCustomerId =
+    typeof session.customer === 'string'
+      ? session.customer
+      : session.customer?.id ?? null;
+
+  if (!academyId || !stripeSubscriptionId) return;
+
+  await supabase
+    .from('academies')
+    .update({ stripe_customer_id: stripeCustomerId })
+    .eq('id', academyId);
+
+  const { data: existing } = await supabase
+    .from('subscriptions')
+    .select('id')
+    .eq('academy_id', academyId)
+    .maybeSingle();
+
+  const payload = {
+    academy_id: academyId,
+    stripe_subscription_id: stripeSubscriptionId,
+    stripe_customer_id: stripeCustomerId,
+    status: 'active',
+    billing_cycle: session.mode === 'subscription' ? 'monthly' : null,
+    current_period_starts_at: new Date().toISOString(),
+  };
+
+  if (existing?.id) {
+    await supabase.from('subscriptions').update(payload).eq('id', existing.id);
+  } else {
+    await supabase.from('subscriptions').insert(payload);
   }
 }
 
@@ -117,6 +166,39 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
     },
   );
   eventBus.publish(domainEvent);
+}
+
+async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const supabase = getSupabaseAdminClient() as any;
+  const stripeSubscriptionId = getSubscriptionIdFromInvoice(invoice);
+
+  if (!stripeSubscriptionId) return;
+
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('id, academy_id')
+    .eq('stripe_subscription_id', stripeSubscriptionId)
+    .single();
+
+  if (!sub) return;
+
+  await supabase
+    .from('subscriptions')
+    .update({ status: 'past_due' })
+    .eq('id', sub.id);
+
+  await supabase
+    .from('invoices')
+    .upsert({
+      subscription_id: sub.id,
+      academy_id: sub.academy_id,
+      stripe_invoice_id: invoice.id,
+      amount_cents: invoice.amount_due,
+      status: 'failed',
+      due_date: new Date(invoice.created * 1000).toISOString().split('T')[0],
+      failed_at: new Date().toISOString(),
+    }, { onConflict: 'stripe_invoice_id' });
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
