@@ -3,19 +3,14 @@
 // ============================================================
 
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { planManagement } from '@/lib/subscription/services';
+import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
-
-// SECURITY: service role key bypasses RLS
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 export async function POST(request: Request) {
   try {
     const authSupabase = await getSupabaseServerClient();
+    const supabase = getSupabaseAdminClient();
     const { data: { user }, error: authError } = await authSupabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

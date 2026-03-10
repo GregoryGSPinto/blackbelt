@@ -10,6 +10,7 @@
 
 import { structuredLog } from './structured-logger';
 import { recordLatency } from './metrics';
+import { getOptionalEnv } from '@/lib/env';
 
 // ============================================================
 // TYPES
@@ -42,8 +43,8 @@ async function flushToSupabase(): Promise<void> {
 
   try {
     const { createClient } = await import('@supabase/supabase-js');
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const url = getOptionalEnv('NEXT_PUBLIC_SUPABASE_URL');
+    const key = getOptionalEnv('SUPABASE_SERVICE_ROLE_KEY') || getOptionalEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
     if (!url || !key) return;
 

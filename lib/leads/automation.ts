@@ -3,12 +3,13 @@
  * Gerencia automação de emails e sequências para leads
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabaseAdmin = new Proxy({} as any, {
+  get(_target, prop) {
+    return getSupabaseAdminClient()[prop as keyof ReturnType<typeof getSupabaseAdminClient>];
+  },
+});
 
 export interface EmailTemplate {
   id: string;
@@ -292,10 +293,10 @@ export async function getAutomationStats(): Promise<{
     }
 
     return {
-      pending: data.filter(d => d.status === 'pending').length,
-      sent: data.filter(d => d.status === 'sent').length,
-      failed: data.filter(d => d.status === 'failed').length,
-      cancelled: data.filter(d => d.status === 'cancelled').length,
+      pending: data.filter((d: any) => d.status === 'pending').length,
+      sent: data.filter((d: any) => d.status === 'sent').length,
+      failed: data.filter((d: any) => d.status === 'failed').length,
+      cancelled: data.filter((d: any) => d.status === 'cancelled').length,
     };
   } catch (error) {
     console.error('[Lead Automation] Error getting stats:', error);

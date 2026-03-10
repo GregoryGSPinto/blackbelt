@@ -432,7 +432,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Build available profiles from all memberships
       if (memberships && memberships.length > 1) {
-        const profiles = memberships.map(m =>
+        const profiles = memberships.map((m: any) =>
           buildUserFromSupabase(session, profile, m)
         );
         setAvailableProfiles(profiles);
@@ -441,7 +441,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       // Listen for auth state changes
-      supabase.auth.onAuthStateChange((_event, newSession) => {
+      supabase.auth.onAuthStateChange((_event: any, newSession: any) => {
         if (!newSession) {
           setUser(null);
           setAvailableProfiles([]);
@@ -562,7 +562,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(builtUser);
 
         if (memberships && memberships.length > 1) {
-          setAvailableProfiles(memberships.map(m =>
+          setAvailableProfiles(memberships.map((m: any) =>
             buildUserFromSupabase(data.session!, profile, m)
           ));
         } else {
@@ -812,5 +812,4 @@ export function useUserProfile() {
     isAluno: auth.isAluno,
   };
 }
-
 

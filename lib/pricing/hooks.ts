@@ -5,14 +5,15 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import type { PricingResponse, AcademyWithSubscription } from './types';
 import { logger } from '@/lib/logger';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = new Proxy({} as any, {
+  get(_target, prop) {
+    return getSupabaseBrowserClient()[prop as keyof ReturnType<typeof getSupabaseBrowserClient>];
+  },
+});
 
 /**
  * Hook to subscribe to realtime pricing updates
@@ -24,7 +25,7 @@ export function useRealtimePricing(onUpdate?: (payload: any) => void) {
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'pricing_config' },
-        (payload) => {
+        (payload: any) => {
           logger.info('[Pricing]', 'Realtime update received', payload);
           onUpdate?.(payload);
         }

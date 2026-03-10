@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getOptionalEnv } from '@/lib/env';
 import { updateSupabaseSession } from '@/lib/supabase/middleware';
 
 const SUPPORTED_LOCALES = ['pt-BR', 'en-US'] as const;
@@ -104,7 +105,7 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self), payment=()');
 
   const isDev = process.env.NODE_ENV === 'development';
-  const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
+  const supabaseUrl = getOptionalEnv('NEXT_PUBLIC_SUPABASE_URL') || '';
   const connectSources = [
     "'self'",
     isDev ? 'https:' : supabaseUrl,

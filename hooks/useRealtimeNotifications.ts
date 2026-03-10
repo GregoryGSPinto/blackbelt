@@ -60,7 +60,7 @@ export function useRealtimeNotifications({
             table: 'notifications',
             filter: `profile_id=eq.${profileId}`,
           },
-          (payload) => {
+          (payload: any) => {
             const row = payload.new as RealtimeNotification;
             callbackRef.current(row);
           },

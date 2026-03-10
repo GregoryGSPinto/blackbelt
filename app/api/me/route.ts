@@ -6,15 +6,9 @@
  */
 
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import { logServerError } from '@/lib/server/error-handler';
-
-// SECURITY: service role key bypasses RLS
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-);
 
 // Dados vazios de fallback
 const emptyUser = {
@@ -28,13 +22,8 @@ const emptyUser = {
 
 export async function GET() {
   try {
-    // Verificar se Supabase está configurado
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      console.warn('[API /me] Supabase não configurado, retornando dados vazios');
-      return NextResponse.json({ data: emptyUser });
-    }
-
     const authSupabase = await getSupabaseServerClient();
+    const supabase = getSupabaseAdminClient();
     const { data: { user }, error } = await authSupabase.auth.getUser();
 
     if (error || !user) {

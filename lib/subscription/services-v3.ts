@@ -2,7 +2,6 @@
 // BlackBelt Pricing v3.0 - Services
 // ============================================================
 
-import { createClient } from '@supabase/supabase-js';
 import type {
   SubscriptionPlan,
   AcademySubscription,
@@ -22,11 +21,13 @@ import {
   ADDON_PRICES,
   ALERT_THRESHOLDS,
 } from './types-v3';
+import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = new Proxy({} as any, {
+  get(_target, prop) {
+    return getSupabaseAdminClient()[prop as keyof ReturnType<typeof getSupabaseAdminClient>];
+  },
+});
 
 // ============================================================
 // TrialService
@@ -333,7 +334,7 @@ export class TrialService {
       return false;
     }
 
-    const academyIds = academies.map(a => a.id);
+    const academyIds = academies.map((a: any) => a.id);
 
     const { data: trials } = await supabase
       .from('trial_tracking')

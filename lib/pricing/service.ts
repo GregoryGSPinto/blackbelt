@@ -2,25 +2,24 @@
 // Pricing Service
 // ============================================================
 
-import { createClient } from '@supabase/supabase-js';
 import type { 
   PricingConfig, 
   PricingHistory, 
   PricingResponse,
   AcademyWithSubscription
 } from './types';
+import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getPricingSupabase() {
+  return getSupabaseAdminClient() as any;
+}
 
 export class PricingService {
   /**
    * Get all active pricing configs
    */
   async getCurrentPricing(): Promise<PricingConfig[]> {
-    const { data, error } = await supabase
+    const { data, error } = await getPricingSupabase()
       .from('pricing_config')
       .select('*')
       .eq('is_active', true)
@@ -98,7 +97,7 @@ export class PricingService {
     userId: string,
     reason?: string
   ): Promise<PricingConfig> {
-    const { data, error } = await supabase
+    const { data, error } = await getPricingSupabase()
       .from('pricing_config')
       .update({
         config_value: newValue,
@@ -117,7 +116,7 @@ export class PricingService {
    * Get pricing history
    */
   async getPricingHistory(limit: number = 50): Promise<PricingHistory[]> {
-    const { data, error } = await supabase
+    const { data, error } = await getPricingSupabase()
       .from('pricing_history')
       .select('*')
       .order('changed_at', { ascending: false })
@@ -131,7 +130,7 @@ export class PricingService {
    * Get single pricing config by key
    */
   async getConfigByKey(configKey: string): Promise<PricingConfig | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getPricingSupabase()
       .from('pricing_config')
       .select('*')
       .eq('config_key', configKey)
@@ -149,7 +148,7 @@ export class PricingService {
     status?: string;
     search?: string;
   }): Promise<AcademyWithSubscription[]> {
-    let query = supabase
+    let query = getPricingSupabase()
       .from('academy_subscriptions')
       .select(`
         *,
@@ -210,7 +209,7 @@ export class PricingService {
       updateData.current_period_ends_at = effectiveDate;
     }
 
-    const { error } = await supabase
+    const { error } = await getPricingSupabase()
       .from('academy_subscriptions')
       .update(updateData)
       .eq('academy_id', academyId);

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   DollarSign, 
   Users, 
   TrendingUp, 
@@ -17,18 +17,19 @@ import {
   Building2,
   Plus
 } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
 import type { PricingResponse, AcademyWithSubscription } from '@/lib/pricing/types';
 import { PLAN_DISPLAY_NAMES, formatCurrency } from '@/lib/pricing/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useTranslations } from 'next-intl';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = new Proxy({} as any, {
+  get(_target, prop) {
+    return getSupabaseBrowserClient()[prop as keyof ReturnType<typeof getSupabaseBrowserClient>];
+  },
+});
 
 const PLAN_NAMES = ['start', 'medium', 'pro', 'business', 'enterprise'] as const;
 

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { createClient } from '@supabase/supabase-js';
 import { 
   BarChart3, 
   Database, 
@@ -27,11 +26,6 @@ interface Quota {
 interface UsageQuotasProps {
   academyId: string;
 }
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 const METRIC_CONFIG: Record<MetricType, { label: string; icon: React.ReactNode; unit: string }> = {
   custom_reports: { 

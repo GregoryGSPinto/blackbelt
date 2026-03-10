@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { Users, ArrowUpRight, AlertCircle, Check } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 interface SubscriptionData {
   subscription: {
@@ -32,11 +32,6 @@ interface SubscriptionCardProps {
   academyId: string;
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export function SubscriptionCard({ academyId }: SubscriptionCardProps) {
   const t = useTranslations('subscription');
   const [data, setData] = useState<SubscriptionData | null>(null);
@@ -45,6 +40,7 @@ export function SubscriptionCard({ academyId }: SubscriptionCardProps) {
   useEffect(() => {
     async function fetchSubscription() {
       try {
+        const supabase = getSupabaseBrowserClient();
         const response = await fetch('/api/subscription');
 
         if (response.ok) {

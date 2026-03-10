@@ -9,6 +9,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { getOptionalEnv } from '@/lib/env';
 
 // ============================================================
 // TYPES
@@ -48,8 +49,8 @@ export interface HealthCheckResult {
 const startTime = Date.now();
 
 function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = getOptionalEnv('NEXT_PUBLIC_SUPABASE_URL');
+  const key = getOptionalEnv('SUPABASE_SERVICE_ROLE_KEY') || getOptionalEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
   if (!url || !key) return null;
   return createClient(url, key);
 }

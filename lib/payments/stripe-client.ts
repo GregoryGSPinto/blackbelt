@@ -4,16 +4,14 @@
  */
 
 import Stripe from 'stripe';
+import { getRequiredEnv } from '@/lib/env';
 
 let stripeInstance: Stripe | null = null;
 
 export function getStripeClient(): Stripe {
   if (stripeInstance) return stripeInstance;
 
-  const secretKey = process.env.STRIPE_SECRET_KEY;
-  if (!secretKey) {
-    throw new Error('Missing STRIPE_SECRET_KEY environment variable');
-  }
+  const secretKey = getRequiredEnv('STRIPE_SECRET_KEY');
 
   stripeInstance = new Stripe(secretKey);
 

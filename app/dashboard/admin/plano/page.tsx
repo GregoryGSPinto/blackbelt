@@ -19,12 +19,7 @@ import {
   Loader2,
   Crown
 } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 interface Plan {
   id: string;
@@ -108,6 +103,7 @@ export default function AdminPlanoPage() {
 
   async function loadData() {
     try {
+      const supabase = getSupabaseBrowserClient();
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         router.push('/login');
