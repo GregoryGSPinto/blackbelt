@@ -3,17 +3,14 @@
  * Returns a 501 so placeholder endpoints fail safely in production.
  */
 import { NextRequest, NextResponse } from 'next/server';
+import { hasRequiredSupabaseEnv } from '@/src/config/env';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
 async function handler(req: NextRequest) {
   try {
-    const hasSupabaseEnv = Boolean(
-      process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    );
-
-    if (!hasSupabaseEnv) {
+    if (!hasRequiredSupabaseEnv()) {
       return NextResponse.json(
         { error: 'Endpoint not implemented', code: 'NOT_IMPLEMENTED' },
         { status: 501 },

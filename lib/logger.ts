@@ -57,10 +57,8 @@ export const logger = {
 
   /** Erro que impacta funcionalidade — sempre será reportado ao Sentry */
   error(tag: string, ...args: unknown[]): void {
-    if (!IS_DEV) {
-      // TODO(OPS-040): Sentry.captureException(args.find(a => a instanceof Error) || new Error(String(args[0])));
-      return;
-    }
+    void IS_DEV;
+    // TODO(OPS-040): Sentry.captureException(args.find(a => a instanceof Error) || new Error(String(args[0])));
     // eslint-disable-next-line no-console
     console.error(tag, ...args);
   },

@@ -11,6 +11,7 @@ import { authService } from '@/lib/api';
 import { logger } from '@/lib/logger';
 import type { TipoPerfil, User, CategoriaRegistro } from '@/lib/api/contracts';
 import type { Session } from '@supabase/supabase-js';
+import { hasRequiredSupabaseEnv } from '@/src/config/env';
 
 const IS_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
@@ -394,6 +395,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
+    if (!IS_MOCK && !hasRequiredSupabaseEnv()) {
+      logger.error(
+        '[Auth] Missing Supabase environment variables',
+        new Error('AuthProvider started without required Supabase environment variables'),
+      );
+    }
+
     if (IS_MOCK) {
       loadSession();
     } else {
@@ -404,8 +412,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   /** Load session from Supabase (non-mock mode) */
   async function loadSupabaseSession() {
     try {
-      const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
-      const supabase = getSupabaseBrowserClient();
+      const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
+      const supabase = getSupabaseBrowserClientSafe();
+      if (!supabase) {
+        setUser(null);
+        setAvailableProfiles([]);
+        setLoading(false);
+        return;
+      }
       const { data: { session } } = await supabase.auth.getSession();
 
       if (!session) {
@@ -541,8 +555,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!IS_MOCK) {
       // Supabase auth
       try {
-        const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
-        const supabase = getSupabaseBrowserClient();
+        const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
+        const supabase = getSupabaseBrowserClientSafe();
+        if (!supabase) {
+          logger.error(
+            '[Auth] Missing Supabase environment variables',
+            new Error('Supabase client unavailable during login'),
+          );
+          setUser(null);
+          setAvailableProfiles([]);
+          return null;
+        }
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error || !data.session) return null;
 
@@ -615,9 +638,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     if (!IS_MOCK) {
       try {
-        const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
-        const supabase = getSupabaseBrowserClient();
-        await supabase.auth.signOut();
+        const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
+        const supabase = getSupabaseBrowserClientSafe();
+        if (supabase) {
+          await supabase.auth.signOut();
+        }
       } catch {}
     }
 
@@ -641,8 +666,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (userData: RegisterData): Promise<boolean> => {
     if (!IS_MOCK) {
       try {
-        const { getSupabaseBrowserClient } = await import('@/lib/supabase/client');
-        const supabase = getSupabaseBrowserClient();
+        const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
+        const supabase = getSupabaseBrowserClientSafe();
+        if (!supabase) {
+          logger.error(
+            '[Auth] Missing Supabase environment variables',
+            new Error('Supabase client unavailable during registration'),
+          );
+          return false;
+        }
         const { data, error } = await supabase.auth.signUp({
           email: userData.email,
           password: userData.password,
@@ -812,4 +844,3 @@ export function useUserProfile() {
     isAluno: auth.isAluno,
   };
 }
-

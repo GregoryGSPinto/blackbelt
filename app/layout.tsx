@@ -20,6 +20,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
+import { logger } from "@/lib/logger";
+import { validateEnv } from "@/src/config/env";
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -66,6 +68,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  try {
+    validateEnv();
+  } catch (error) {
+    logger.error('[Auth] Missing Supabase environment variables', error);
+  }
+
   const locale = await getLocale();
   const messages = await getMessages();
   const t = await getTranslations('common');
