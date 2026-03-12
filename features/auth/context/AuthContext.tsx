@@ -14,6 +14,17 @@ import type { Session } from '@supabase/supabase-js';
 import { hasRequiredSupabaseEnv } from '@/src/config/env';
 
 const IS_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+let hasLoggedMissingSupabaseEnv = false;
+
+function handleMissingSupabaseEnv(): void {
+  if (hasLoggedMissingSupabaseEnv) return;
+  hasLoggedMissingSupabaseEnv = true;
+
+  logger.info(
+    '[Auth]',
+    'Supabase environment variables are not configured. Public routes will run without authenticated session support.',
+  );
+}
 
 // Re-export para backward compatibility (consumidores existentes)
 export type { TipoPerfil, User } from '@/lib/api/contracts';
@@ -396,10 +407,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!IS_MOCK && !hasRequiredSupabaseEnv()) {
-      logger.error(
-        '[Auth] Missing Supabase environment variables',
-        new Error('AuthProvider started without required Supabase environment variables'),
-      );
+      handleMissingSupabaseEnv();
     }
 
     if (IS_MOCK) {
@@ -415,6 +423,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
       const supabase = getSupabaseBrowserClientSafe();
       if (!supabase) {
+        handleMissingSupabaseEnv();
         setUser(null);
         setAvailableProfiles([]);
         setLoading(false);
@@ -558,10 +567,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
         const supabase = getSupabaseBrowserClientSafe();
         if (!supabase) {
-          logger.error(
-            '[Auth] Missing Supabase environment variables',
-            new Error('Supabase client unavailable during login'),
-          );
+          handleMissingSupabaseEnv();
           setUser(null);
           setAvailableProfiles([]);
           return null;
@@ -669,10 +675,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { getSupabaseBrowserClientSafe } = await import('@/lib/supabase/client');
         const supabase = getSupabaseBrowserClientSafe();
         if (!supabase) {
-          logger.error(
-            '[Auth] Missing Supabase environment variables',
-            new Error('Supabase client unavailable during registration'),
-          );
+          handleMissingSupabaseEnv();
           return false;
         }
         const { data, error } = await supabase.auth.signUp({

@@ -5,6 +5,17 @@ import { logger } from '@/lib/logger'
 import { env, getMissingEnvVariables, hasRequiredSupabaseEnv } from '@/src/config/env'
 
 let client: any = null
+let hasLoggedMissingEnv = false
+
+function reportMissingSupabaseEnv(): void {
+  if (hasLoggedMissingEnv) return
+  hasLoggedMissingEnv = true
+
+  logger.info(
+    '[Auth]',
+    `Supabase browser client unavailable: missing ${getMissingEnvVariables().join(', ')}`
+  )
+}
 
 export function getSupabaseBrowserClient(): any {
   if (client) return client
@@ -26,17 +37,14 @@ export function getSupabaseBrowserClient(): any {
 
 export function getSupabaseBrowserClientSafe(): any | null {
   if (!hasRequiredSupabaseEnv()) {
-    logger.error(
-      '[Auth] Missing Supabase environment variables',
-      new Error(`Missing ${getMissingEnvVariables().join(', ')}`),
-    )
+    reportMissingSupabaseEnv()
     return null
   }
 
   try {
     return getSupabaseBrowserClient()
   } catch (error) {
-    logger.error('[Auth] Missing Supabase environment variables', error)
+    logger.warn('[Auth]', 'Supabase browser client creation failed', error)
     return null
   }
 }
