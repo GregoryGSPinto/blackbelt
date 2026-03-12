@@ -118,7 +118,7 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const locale = detectLocale(request);
   const isPublicRoute = PUBLIC_ROUTES.some(route =>
@@ -229,6 +229,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };
