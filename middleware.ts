@@ -140,7 +140,7 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('Cache-Control', 'no-store');
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const locale = detectLocale(request);
   const isPublicRoute = PUBLIC_ROUTES.some(route =>

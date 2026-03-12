@@ -14,9 +14,14 @@ process.env.NEXT_DEPLOYMENT_ID = nextDeploymentId;
 process.env.NEXT_PUBLIC_DEPLOYMENT_ID = nextDeploymentId;
 
 // Bundle analyzer (run: ANALYZE=true npm run build)
-const withBundleAnalyzer = process.env.ANALYZE === 'true'
-  ? require('@next/bundle-analyzer')({ enabled: true })
-  : (config) => config;
+let withBundleAnalyzer = (config) => config;
+try {
+  if (process.env.ANALYZE === 'true') {
+    withBundleAnalyzer = require('@next/bundle-analyzer')({ enabled: true });
+  }
+} catch {
+  console.warn('[next.config] @next/bundle-analyzer not available, skipping.');
+}
 
 const isCapacitorBuild = process.env.CAPACITOR_BUILD === 'true' && !process.env.VERCEL;
 
