@@ -218,8 +218,8 @@ export default function TrialCheckoutPage() {
                 </button>
 
                 <p className="text-center text-sm text-slate-400">
-                  Ao iniciar o trial, você concorda com os{' '}
-                  <Link href="/termos" className="text-emerald-400 hover:underline">
+                  Ao solicitar o trial, você concorda com os{' '}
+                  <Link href="/termos-de-uso" className="text-emerald-400 hover:underline">
                     Termos de Serviço
                   </Link>
                 </p>

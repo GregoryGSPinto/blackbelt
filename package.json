@@ -9,6 +9,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:mobile": "pnpm build && node scripts/build-mobile-shell.mjs",
+    "mobile:runtime:check": "node scripts/validate-mobile-runtime.mjs",
+    "mobile:sync": "pnpm run build:mobile && npx cap sync",
+    "mobile:sync:ios": "pnpm run build:mobile && npx cap sync ios",
+    "mobile:sync:android": "pnpm run build:mobile && npx cap sync android",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "start": "next start",

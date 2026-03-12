@@ -50,10 +50,10 @@ check_prereqs() {
 
 # ─── Build Web ───
 build_web() {
-  echo ""
-  echo "--- Building Next.js web app ---"
-  CAPACITOR_BUILD=true pnpm exec next build --webpack
-  echo "Web build complete"
+echo ""
+echo "--- Building mobile shell and validating the hosted web app ---"
+pnpm run build:mobile
+echo "Mobile build complete"
 }
 
 # ─── Capacitor Sync ───

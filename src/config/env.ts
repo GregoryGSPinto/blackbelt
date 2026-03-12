@@ -1,11 +1,26 @@
-import { getOptionalEnv, getRequiredEnv } from '@/lib/env';
+import { getRequiredEnv } from '@/lib/env';
+
+function readOptionalEnv(name: string): string | undefined {
+  const value = process.env[name];
+  if (typeof value !== 'string') return undefined;
+
+  const normalized = value
+    .trim()
+    .replace(/^['"]|['"]$/g, '')
+    .replace(/[\r\n]+/g, '')
+    .trim();
+
+  return normalized || undefined;
+}
 
 export const env = {
-  SUPABASE_URL: getOptionalEnv('NEXT_PUBLIC_SUPABASE_URL'),
-  SUPABASE_ANON_KEY: getOptionalEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
-  SUPABASE_SERVICE_ROLE_KEY: getOptionalEnv('SUPABASE_SERVICE_ROLE_KEY'),
-  STRIPE_PUBLIC_KEY: getOptionalEnv('NEXT_PUBLIC_STRIPE_PUBLIC_KEY'),
-  STRIPE_SECRET_KEY: getOptionalEnv('STRIPE_SECRET_KEY'),
+  SUPABASE_URL: readOptionalEnv('NEXT_PUBLIC_SUPABASE_URL'),
+  SUPABASE_ANON_KEY: readOptionalEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
+  SUPABASE_SERVICE_ROLE_KEY: readOptionalEnv('SUPABASE_SERVICE_ROLE_KEY'),
+  STRIPE_PUBLIC_KEY:
+    readOptionalEnv('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY') ||
+    readOptionalEnv('NEXT_PUBLIC_STRIPE_PUBLIC_KEY'),
+  STRIPE_SECRET_KEY: readOptionalEnv('STRIPE_SECRET_KEY'),
 } as const;
 
 export function getMissingEnvVariables(): string[] {

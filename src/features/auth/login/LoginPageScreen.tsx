@@ -28,6 +28,7 @@ const DURATION_SLOW = 0.8;
 const DURATION_NORMAL = 0.6;
 const DURATION_FAST = 0.4;
 const STAGGER_DELAY = 0.1;
+const IS_REVIEW_BUILD = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
 // Springs mais suaves
 const SPRING_PREMIUM = {
@@ -558,7 +559,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Quais formas de pagamento?',
-    answer: 'Aceitamos cartão de crédito (Visa, Mastercard, Elo, Amex), boleto bancário, PIX e transferência bancária. Planos anuais possuem desconto especial.',
+    answer: 'A cobrança depende do plano contratado pela academia e da configuração comercial ativa. Consulte os meios de pagamento disponíveis no seu contrato ou com nosso time comercial.',
   },
 ];
 
@@ -1167,7 +1168,35 @@ function LoginContent() {
                       >
                         {t('login.createAccount')}
                       </Link>
+                      {IS_REVIEW_BUILD && (
+                        <Link
+                          href="/review-access"
+                          style={{
+                            fontSize: '0.8rem',
+                            color: colors.linkColor,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          Acesso de avaliacao
+                        </Link>
+                      )}
                     </div>
+                    {IS_REVIEW_BUILD && (
+                      <div className="mt-3 text-center md:hidden">
+                        <Link
+                          href="/review-access"
+                          style={{
+                            fontSize: '0.8rem',
+                            color: colors.linkColor,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          Acesso de avaliacao
+                        </Link>
+                      </div>
+                    )}
                   </div>
 
                   {/* Divider */}
@@ -1378,17 +1407,34 @@ function LoginContent() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <Link
-                      href="/esqueci-senha"
-                      style={{
-                        fontSize: '0.8rem',
-                        color: colors.linkColor,
-                        textDecoration: 'none',
-                        transition: transitions.theme,
-                      }}
-                    >
-                      {t('login.forgotPassword')}
-                    </Link>
+                    <div className="flex w-full items-center justify-between gap-3">
+                      {IS_REVIEW_BUILD ? (
+                        <Link
+                          href="/review-access"
+                          style={{
+                            fontSize: '0.8rem',
+                            color: colors.textMuted,
+                            textDecoration: 'none',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          Acesso de avaliacao
+                        </Link>
+                      ) : (
+                        <span />
+                      )}
+                      <Link
+                        href="/esqueci-senha"
+                        style={{
+                          fontSize: '0.8rem',
+                          color: colors.linkColor,
+                          textDecoration: 'none',
+                          transition: transitions.theme,
+                        }}
+                      >
+                        {t('login.forgotPassword')}
+                      </Link>
+                    </div>
                   </motion.div>
                 </div>
 

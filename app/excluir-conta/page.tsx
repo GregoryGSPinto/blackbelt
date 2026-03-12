@@ -31,8 +31,19 @@ export default function ExcluirContaPage() {
     if (!isValidEmail) return;
     setState('loading');
     try {
-      const { createRequest } = await import('@/lib/persistence/lgpd');
-      await createRequest('delete', email, reason || '');
+      const response = await fetch('/api/lgpd/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({ email, reason }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
       setState('success');
     } catch {
       setErrorMsg(t('errorMessage'));
@@ -66,6 +77,9 @@ export default function ExcluirContaPage() {
                     <p style={{ fontWeight: 300, color: tokens.textMuted }}>
                       {t('deleteViaApp')}
                       <span className="text-white/70"> {t('deleteViaAppPath')}</span>.
+                    </p>
+                    <p className="mt-2 text-white/50">
+                      {t('publicFlowNote')}
                     </p>
                   </div>
                 </div>
@@ -153,8 +167,8 @@ export default function ExcluirContaPage() {
               <h2 className="text-xl font-semibold">{t('successTitle')}</h2>
               <div className="text-sm text-white/60 space-y-2">
                 <p>{t('successEmailSent', { email })}</p>
-                <p>{t('successDeactivation')}</p>
-                <p>{t('successAnonymize')}</p>
+                <p>{t('successReview')}</p>
+                <p>{t('successIdentity')}</p>
               </div>
               <p className="text-xs text-white/30 pt-4">
                 {t('contactDpo')}
@@ -166,14 +180,14 @@ export default function ExcluirContaPage() {
         {/* Footer */}
         <div className="text-center mt-6 space-y-2">
           <a
-            href="/politica-privacidade.html"
+            href="/politica-privacidade"
             className="text-xs text-white/30 hover:text-white/50 transition-colors"
           >
             {t('privacyPolicy')}
           </a>
           <span className="text-white/20 mx-2">•</span>
           <a
-            href="/termos-de-uso.html"
+            href="/termos-de-uso"
             className="text-xs text-white/30 hover:text-white/50 transition-colors"
           >
             {t('termsOfUse')}

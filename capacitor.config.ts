@@ -1,4 +1,11 @@
 import type { CapacitorConfig } from '@capacitor/cli';
+import { config as loadDotenv } from 'dotenv';
+
+loadDotenv({ path: '.env.local', override: false });
+loadDotenv({ path: '.env.production', override: false });
+
+const remoteAppUrl = process.env.CAPACITOR_SERVER_URL || process.env.NEXT_PUBLIC_APP_URL;
+const remoteHost = remoteAppUrl ? new URL(remoteAppUrl).hostname : undefined;
 
 const config: CapacitorConfig = {
   appId: 'com.blackbelt.app',
@@ -34,9 +41,9 @@ const config: CapacitorConfig = {
     },
   },
 
-  // ── Deep Linking ──
   server: {
-    hostname: 'blackbelt.app',
+    hostname: 'app.blackbelt.local',
+    ...(remoteHost ? { allowNavigation: [remoteHost] } : {}),
   },
 
   // ── iOS ──

@@ -68,6 +68,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isCapacitorBuild = process.env.CAPACITOR_BUILD === 'true';
+
   try {
     validateEnv();
   } catch (error) {
@@ -90,7 +92,7 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-title" content="BlackBelt" />
         <meta name="mobile-web-app-capable" content="yes" />
         <script dangerouslySetInnerHTML={{ __html: `
-          if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})};
+          ${isCapacitorBuild ? '' : "if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})};"}
           document.documentElement.classList.add('loading');
           window.addEventListener('load', function() {
             document.documentElement.classList.remove('loading');
@@ -114,9 +116,9 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        <GoogleAnalytics />
-        <Analytics />
-        <SpeedInsights />
+        {!isCapacitorBuild && <GoogleAnalytics />}
+        {!isCapacitorBuild && <Analytics />}
+        {!isCapacitorBuild && <SpeedInsights />}
         <a href="#main-content" className="skip-to-content">{t('meta.skipToContent')}</a>
         <NextIntlClientProvider locale={locale} messages={messages}>
         <ThemeProvider>
@@ -129,11 +131,11 @@ export default async function RootLayout({
                   <ResponsiveProvider>
                     <KeyboardProvider>
                     <ErrorTrackerInit />
-                    <DynamicFavicon />
+                    {!isCapacitorBuild && <DynamicFavicon />}
                     {/* DemoBanner removido - interface mais limpa */}
                     <SlowConnectionBanner />
-                    <PrivacyConsentModal />
-                    <NpsSurvey />
+                    {!isCapacitorBuild && <PrivacyConsentModal />}
+                    {!isCapacitorBuild && <NpsSurvey />}
                     {children}
                   </KeyboardProvider>
                   </ResponsiveProvider>

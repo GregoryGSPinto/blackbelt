@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { constructWebhookEvent, processWebhookEvent } from '@/lib/payments/stripe-webhook';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -22,8 +23,7 @@ export async function POST(request: NextRequest) {
     await processWebhookEvent(event);
     return NextResponse.json({ received: true });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('[Stripe Webhook] Error:', message);
-    return NextResponse.json({ error: message }, { status: 400 });
+    logger.error('[Stripe Webhook]', 'Webhook processing failed', err);
+    return NextResponse.json({ error: 'Invalid webhook payload' }, { status: 400 });
   }
 }

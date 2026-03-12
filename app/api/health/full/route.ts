@@ -7,14 +7,17 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const health = await runHealthCheck();
+    const stripePublishableKey =
+      getOptionalEnv('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY') ||
+      getOptionalEnv('NEXT_PUBLIC_STRIPE_PUBLIC_KEY');
     const envChecks = {
       NEXT_PUBLIC_SUPABASE_URL: Boolean(getOptionalEnv('NEXT_PUBLIC_SUPABASE_URL')),
       NEXT_PUBLIC_SUPABASE_ANON_KEY: Boolean(getOptionalEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY')),
       SUPABASE_SERVICE_ROLE_KEY: Boolean(getOptionalEnv('SUPABASE_SERVICE_ROLE_KEY')),
-      NEXT_PUBLIC_STRIPE_PUBLIC_KEY: Boolean(getOptionalEnv('NEXT_PUBLIC_STRIPE_PUBLIC_KEY')),
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: Boolean(stripePublishableKey),
       STRIPE_SECRET_KEY: Boolean(getOptionalEnv('STRIPE_SECRET_KEY')),
     };
-    const stripeConfigured = envChecks.NEXT_PUBLIC_STRIPE_PUBLIC_KEY && envChecks.STRIPE_SECRET_KEY;
+    const stripeConfigured = envChecks.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && envChecks.STRIPE_SECRET_KEY;
     const status = health.status === 'unhealthy' || !envChecks.NEXT_PUBLIC_SUPABASE_URL || !envChecks.NEXT_PUBLIC_SUPABASE_ANON_KEY
       ? 'unhealthy'
       : stripeConfigured

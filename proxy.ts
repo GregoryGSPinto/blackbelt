@@ -91,6 +91,7 @@ const PUBLIC_API_ROUTES = [
   '/api/health',
   '/api/health/db',
   '/api/health/full',
+  '/api/mobile/runtime',
   '/api/auth/check-email',
   '/api/auth/session',
   '/api/feedback/nps',
@@ -136,6 +137,7 @@ function applySecurityHeaders(response: NextResponse): void {
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
   response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
+  response.headers.set('Cache-Control', 'no-store');
 }
 
 export async function proxy(request: NextRequest) {

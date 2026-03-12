@@ -49,6 +49,12 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Use Face ID para login rapido e seguro no BlackBelt</string>
+	<key>NSCameraUsageDescription</key>
+	<string>O BlackBelt pode usar a câmera para leitura de QR Code e foto de perfil quando você decidir utilizar esses recursos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>O BlackBelt pode acessar sua biblioteca para selecionar uma foto de perfil quando você solicitar.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

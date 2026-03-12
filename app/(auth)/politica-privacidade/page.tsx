@@ -35,7 +35,7 @@ export default function PoliticaPrivacidadePage() {
               <li>Dados academicos: graduacao, frequencia, historico de treinos, conquistas</li>
               <li>Dados financeiros: historico de pagamentos (processados via Stripe — nao armazenamos dados de cartao)</li>
               <li>Dados de menores: coletados apenas com consentimento do responsavel legal</li>
-              <li>Dados biometricos: impressao digital e reconhecimento facial (apenas para autenticacao no dispositivo, processados localmente)</li>
+              <li>Dados de autenticacao local do dispositivo: biometria opcional processada pelo proprio iOS/Android, sem armazenamento biometrico pelo BlackBelt</li>
             </ul>
           </section>
 
@@ -66,7 +66,7 @@ export default function PoliticaPrivacidadePage() {
             <ul className="list-disc pl-6 space-y-1 mt-2">
               <li>A academia de artes marciais a qual voce esta vinculado</li>
               <li>Processadores de pagamento (Stripe) para transacoes financeiras</li>
-              <li>Servicos de infraestrutura (Supabase, Vercel) para hospedagem e armazenamento</li>
+              <li>Servicos de infraestrutura e observabilidade contratados para operar a plataforma</li>
               <li>Autoridades competentes, quando exigido por lei</li>
             </ul>
             <p className="mt-2">Nao vendemos nem compartilhamos seus dados com terceiros para fins de marketing.</p>
@@ -112,7 +112,7 @@ export default function PoliticaPrivacidadePage() {
               <li>Row Level Security (RLS) no banco de dados</li>
               <li>Auditoria de acessos e acoes senssiveis</li>
               <li>Rate limiting para prevencao de ataques</li>
-              <li>Autenticacao biometrica opcional</li>
+              <li>Autenticacao biometrica opcional no dispositivo, quando disponivel</li>
             </ul>
           </section>
 
@@ -120,7 +120,8 @@ export default function PoliticaPrivacidadePage() {
             <h2 className="text-xl font-semibold text-white mb-3">9. Retencao de Dados</h2>
             <p>
               Seus dados sao retidos enquanto sua conta estiver ativa. Apos solicitacao de exclusao,
-              os dados sao removidos em ate 30 dias, exceto quando houver obrigacao legal de retencao.
+              os dados entram em fila de revisao e sao removidos ou anonimizados conforme a base legal aplicavel,
+              exceto quando houver obrigacao legal de retencao.
               Dados anonimizados podem ser mantidos para fins estatisticos.
             </p>
           </section>

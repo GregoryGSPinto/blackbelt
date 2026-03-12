@@ -3,7 +3,7 @@
 # ════════════════════════════════════════════════════════════
 # BLACKBELT — Capacitor Setup & Build
 #
-# Instala Capacitor, gera build estático e prepara iOS/Android.
+# Sincroniza Capacitor, gera shell estático e prepara iOS/Android.
 #
 # Uso:
 #   bash scripts/capacitor-setup.sh          # Setup completo
@@ -30,40 +30,32 @@ echo ""
 
 # ── Step 1: Install Capacitor ──
 if [[ "$TARGET" == "all" || "$TARGET" == "setup" ]]; then
-  log "Instalando Capacitor..."
-
-  pnpm add @capacitor/core @capacitor/cli --save
-  ok "@capacitor/core + @capacitor/cli"
-
-  pnpm add @capacitor/ios @capacitor/android --save
-  ok "@capacitor/ios + @capacitor/android"
-
-  pnpm add @capacitor/splash-screen @capacitor/status-bar @capacitor/keyboard --save
-  ok "Plugins: splash-screen, status-bar, keyboard"
+  log "Validando dependências do Capacitor..."
+  ok "Dependências do Capacitor são gerenciadas pelo package.json"
 
   # Init (skip se já existe capacitor.config.ts)
   if [[ ! -f "capacitor.config.ts" ]]; then
-    npx cap init "BlackBelt" "com.blackbelt.app" --web-dir=out
+    npx cap init "BlackBelt" "com.blackbelt.app" --web-dir=mobile-build
     ok "Capacitor inicializado"
   else
     ok "capacitor.config.ts já existe"
   fi
 fi
 
-# ── Step 2: Build estático ──
+# ── Step 2: Build shell ──
 if [[ "$TARGET" != "sync" ]]; then
-  log "Gerando build estático (next build → /out)..."
+  log "Gerando shell mobile (pnpm run build:mobile → /mobile-build)..."
 
-  pnpm build
-  ok "Build estático gerado em /out"
+  pnpm run build:mobile
+  ok "Shell mobile gerado em /mobile-build"
 
   # Verificar
-  if [[ -d "out" ]]; then
-    FILE_COUNT=$(find out -type f | wc -l)
-    SIZE=$(du -sh out | cut -f1)
+  if [[ -d "mobile-build" ]]; then
+    FILE_COUNT=$(find mobile-build -type f | wc -l)
+    SIZE=$(du -sh mobile-build | cut -f1)
     ok "  $FILE_COUNT arquivos, $SIZE"
   else
-    err "Diretório /out não encontrado"
+    err "Diretório /mobile-build não encontrado"
     exit 1
   fi
 fi

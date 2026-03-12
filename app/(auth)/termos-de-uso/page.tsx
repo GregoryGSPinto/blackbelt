@@ -30,7 +30,7 @@ export default function TermosDeUsoPage() {
             </p>
             <ul className="list-disc pl-6 space-y-1 mt-2">
               <li>Gestao de alunos, turmas e graduacoes</li>
-              <li>Check-in por QR Code e geofencing</li>
+              <li>Check-in e registro de presenca</li>
               <li>Controle financeiro e cobrancas</li>
               <li>Comunicacao entre academia, professores e alunos</li>
               <li>Acompanhamento de progresso e gamificacao</li>
@@ -56,7 +56,7 @@ export default function TermosDeUsoPage() {
               <li>Oferecemos diferentes planos adaptados as necessidades da sua academia</li>
               <li>Consulte nossos valores diretamente com nosso time comercial ou atraves da pagina de precos</li>
               <li>Periodo de teste gratuito disponivel para conhecer a plataforma</li>
-              <li>Pagamentos processados via Stripe com seguranca PCI DSS</li>
+              <li>Pagamentos podem ser processados por parceiro de cobranca configurado pela BlackBelt</li>
               <li>Renovacao automatica ate cancelamento pelo titular</li>
               <li>Cancelamento pode ser feito a qualquer momento nas configuracoes da conta</li>
             </ul>
@@ -91,10 +91,10 @@ export default function TermosDeUsoPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">7. Disponibilidade e SLA</h2>
             <ul className="list-disc pl-6 space-y-1">
-              <li>Buscamos manter 99.9% de disponibilidade</li>
+              <li>Buscamos manter alta disponibilidade e previsibilidade operacional</li>
               <li>Manutencoes programadas serao comunicadas com antecedencia</li>
               <li>Nao garantimos disponibilidade ininterrupta</li>
-              <li>Backups automaticos diarios dos dados</li>
+              <li>Rotinas de backup e recuperacao dependem do ambiente contratado</li>
             </ul>
           </section>
 

@@ -63,14 +63,23 @@ type LayoutWrapperProps = StackProps | SplitProps | CenteredProps;
 export function LayoutWrapper(props: LayoutWrapperProps) {
   const { isMobile, isTabletOrAbove } = useResponsive();
 
-  switch (props.mode || 'stack') {
-    case 'split':
-      return <SplitLayout {...(props as SplitProps)} isMobile={isMobile} isTabletOrAbove={isTabletOrAbove} />;
-    case 'centered':
-      return <CenteredLayout {...(props as CenteredProps)} />;
-    default:
-      return <StackLayout {...(props as StackProps)} />;
-  }
+  const content = (() => {
+    switch (props.mode || 'stack') {
+      case 'split':
+        return <SplitLayout {...(props as SplitProps)} isMobile={isMobile} isTabletOrAbove={isTabletOrAbove} />;
+      case 'centered':
+        return <CenteredLayout {...(props as CenteredProps)} />;
+      default:
+        return <StackLayout {...(props as StackProps)} />;
+    }
+  })();
+
+  return (
+    <>
+      {content}
+      <style>{SLIDE_STYLES}</style>
+    </>
+  );
 }
 
 // ── Stack Layout ──
@@ -233,14 +242,3 @@ const SLIDE_STYLES = `
   animation: slide-in-right 0.25s ease-out;
 }
 `;
-
-// Inject animation styles
-if (typeof document !== 'undefined') {
-  const id = 'layout-wrapper-styles';
-  if (!document.getElementById(id)) {
-    const style = document.createElement('style');
-    style.id = id;
-    style.textContent = SLIDE_STYLES;
-    document.head.appendChild(style);
-  }
-}

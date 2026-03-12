@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { use, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Star, Heart, Share2, ShoppingCart } from 'lucide-react';
@@ -28,7 +28,8 @@ const SizeGuideModal = dynamic(
   }
 );
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const t = useTranslations('athlete');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -51,7 +52,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     async function loadData() {
       try {
         setError(null);
-        const data = await shopService.getProductById(params.id);
+        const data = await shopService.getProductById(id);
         setProduct(data || null);
         if (data?.colors[0]) setSelectedColor(data.colors[0].name);
       } catch (err) {
@@ -61,7 +62,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       }
     }
     loadData();
-  }, [params.id, retryCount]);
+  }, [id, retryCount]);
 
   if (loading) {
     return <PremiumLoader text="Carregando produto..." />;
