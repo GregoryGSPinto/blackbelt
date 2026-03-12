@@ -269,8 +269,8 @@ export class PlanManagementService {
     if (!targetPlan) throw new Error('Target plan not found');
 
     const now = new Date();
-    const periodEnd = new Date(subscription.current_period_ends_at);
-    const periodStart = new Date(subscription.current_period_starts_at);
+    const periodEnd = new Date(subscription.current_period_ends_at!);
+    const periodStart = new Date(subscription.current_period_starts_at!);
     
     const msPerDay = 1000 * 60 * 60 * 24;
     const daysRemaining = Math.ceil((periodEnd.getTime() - now.getTime()) / msPerDay);
