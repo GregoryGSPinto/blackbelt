@@ -15,6 +15,7 @@ import { LoginForm } from './LoginForm';
 import { LoginSocialButtons } from './LoginSocialButtons';
 import { isLoginFlowStep } from './LoginStateMachine';
 import { useLoginController } from './useLoginController';
+import { DEMO_USERS, SHOW_DEMO_USERS } from './demoUsers';
 
 // ─── Professional Animation Constants ────────────────────────────
 // Transições suaves, lentas e elegantes (profissional)
@@ -112,29 +113,31 @@ const fadeIn = {
   },
 };
 
-// Transição entre steps (apenas fade centralizado)
+// Transição entre steps: fade simples e suave, sem movimento lateral perceptível
 const stepTransition = {
   initial: { 
     opacity: 0, 
-    scale: 0.97,
+    filter: 'blur(2px)',
   },
   animate: { 
     opacity: 1, 
-    scale: 1,
+    filter: 'blur(0px)',
     transition: {
-      duration: FADE_DURATION,
+      duration: 0.38,
       ease: FADE_EASE,
     }
   },
   exit: { 
     opacity: 0, 
-    scale: 0.97,
+    filter: 'blur(1px)',
     transition: {
-      duration: FADE_DURATION * 0.8,
+      duration: 0.24,
       ease: FADE_EASE,
     }
   },
 };
+
+const LOGIN_STEP_STAGE_MIN_HEIGHT = 440;
 
 // Stagger container para elementos aparecerem em sequência
 const staggerContainer = {
@@ -470,21 +473,6 @@ function AnimatedInput({
     />
   );
 }
-
-// ─── Demo users ─────────────────────────────────────────────
-const DEMO_USERS = [
-  { label: 'Super Admin', email: 'superadmin@blackbelt.com', senha: 'blackbelt123', icon: '👑', gradient: 'from-yellow-600 to-yellow-800' },
-  { label: 'Admin',       email: 'admin@blackbelt.com',      senha: 'blackbelt123', icon: '🛠️', gradient: 'from-orange-600 to-orange-800' },
-  { label: 'Professor',   email: 'professor@blackbelt.com',  senha: 'blackbelt123', icon: '👨‍🏫', gradient: 'from-indigo-600 to-indigo-800' },
-  { label: 'Adulto',      email: 'adulto@blackbelt.com',     senha: 'blackbelt123', icon: '👤', gradient: 'from-blue-600 to-blue-800' },
-  { label: 'Teen',        email: 'miguel@blackbelt.com',     senha: 'blackbelt123', icon: '🧑', gradient: 'from-purple-600 to-purple-800' },
-  { label: 'Kids',        email: 'kid@blackbelt.com',        senha: 'blackbelt123', icon: '👶', gradient: 'from-pink-600 to-pink-800' },
-  { label: 'Responsável', email: 'paiteen@blackbelt.com',    senha: 'blackbelt123', icon: '👨‍👩‍👧', gradient: 'from-green-600 to-green-800' },
-  { label: 'Support',     email: 'support@blackbelt.com',    senha: 'blackbelt123', icon: '🎧', gradient: 'from-teal-600 to-teal-800' },
-  { label: 'Unit Owner',  email: 'owner@blackbelt.com',      senha: 'blackbelt123', icon: '🏢', gradient: 'from-slate-600 to-slate-800' },
-] as const;
-
-const SHOW_DEMO_USERS = process.env.NODE_ENV === 'development';
 
 // ─── SVG Icons (inline, no library) ─────────────────────────
 function GoogleIcon() {
@@ -864,35 +852,64 @@ function LoginContent() {
         {/* ─── STEP: EMAIL ───────────────────────────────── */}
         <AnimatePresence mode="wait">
           {step === 'EMAIL' && (
-            <LoginForm
+            <motion.div
               key="email"
+              variants={stepTransition}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{
                 width: '100%',
                 maxWidth: 400,
+                margin: '0 auto',
+                minHeight: LOGIN_STEP_STAGE_MIN_HEIGHT,
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
+                willChange: shouldReduceMotion ? undefined : 'opacity, filter',
               }}
-              className="login-card-responsive"
             >
-              {/* Logo at top */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-                style={{ marginBottom: '2rem' }}
+              <LoginForm
+                style={{
+                  width: '100%',
+                  maxWidth: 400,
+                  minHeight: LOGIN_STEP_STAGE_MIN_HEIGHT,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                className="login-card-responsive"
               >
-                <AnimatedLogo isDark={isDark} />
-              </motion.div>
+                {/* Logo at top */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.35, ease: FADE_EASE }}
+                  style={{ marginBottom: '2rem' }}
+                >
+                  <AnimatedLogo isDark={isDark} />
+                </motion.div>
 
-              <form onSubmit={handleEmailSubmit} style={{ width: '100%' }}>
-                <motion.div 
-                  style={{ position: 'relative', width: '100%' }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1, ease: EASE_OUT_EXPO }}
+                <form onSubmit={handleEmailSubmit} style={{ width: '100%' }}>
+                  <motion.div 
+                    style={{ position: 'relative', width: '100%' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.35, delay: 0.05, ease: FADE_EASE }}
+                  >
+                {/* Unified bordered container: card + divider + SSO */}
+                <motion.div
+                  style={{
+                    border: `1px solid ${colors.cardBorder}`,
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    background: colors.cardBg,
+                    backdropFilter: 'blur(12px) saturate(1.2)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                    position: 'relative',
+                    transition: `${transitions.theme}, border-color 0.25s ease`,
+                  }}
+                  whileHover={{ borderColor: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)' }}
                 >
                   {/* Back arrow to INITIAL */}
                   <motion.button
@@ -901,8 +918,8 @@ function LoginContent() {
                     aria-label={tCommon('actions.goBack')}
                     style={{
                       position: 'absolute',
-                      top: '-3rem',
-                      left: 0,
+                      top: '1rem',
+                      left: '1rem',
                       zIndex: 2,
                       background: 'none',
                       border: 'none',
@@ -919,20 +936,8 @@ function LoginContent() {
                     <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                   </motion.button>
 
-                {/* Unified bordered container: card + divider + SSO */}
-                <motion.div
-                  style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    borderRadius: 12,
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    transition: `${transitions.theme}, border-color 0.25s ease`,
-                  }}
-                  whileHover={{ borderColor: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)' }}
-                >
                   {/* Card content */}
-                  <div style={{ padding: '2rem 1.5rem 1.5rem' }}>
+                  <div style={{ padding: '2.5rem 1.5rem 1.5rem' }}>
                     {/* Title */}
                     <motion.h2
                       style={{
@@ -945,8 +950,8 @@ function LoginContent() {
                         textAlign: 'center',
                         transition: transitions.theme,
                       }}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       transition={{ delay: 0.2, duration: 0.4 }}
                     >
                       {t('login.title').toUpperCase()}
@@ -1223,53 +1228,69 @@ function LoginContent() {
                   <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
 
                 </motion.div>
-              </form>
-            </LoginForm>
+                </form>
+              </LoginForm>
+            </motion.div>
           )}
         </AnimatePresence>
 
         {/* ─── STEP: PASSWORD ────────────────────────────── */}
         <AnimatePresence mode="wait">
           {step === 'PASSWORD' && (
-            <LoginForm
+            <motion.div
               key="password"
+              variants={stepTransition}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               style={{
                 width: '100%',
                 maxWidth: 400,
+                margin: '0 auto',
+                minHeight: LOGIN_STEP_STAGE_MIN_HEIGHT,
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
+                willChange: shouldReduceMotion ? undefined : 'opacity, filter',
               }}
-              className="login-card-responsive"
             >
-              {/* Logo at top */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-                style={{ marginBottom: '2rem' }}
-              >
-                <AnimatedLogo isDark={isDark} />
-              </motion.div>
-
-            <form onSubmit={handlePasswordSubmit} style={{ width: '100%' }}>
-              <motion.div
+              <LoginForm
                 style={{
-                  border: `1px solid ${colors.cardBorder}`,
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  background: colors.cardBg,
-                  backdropFilter: 'blur(12px) saturate(1.2)',
-                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                  transition: transitions.theme,
-                  position: 'relative',
+                  width: '100%',
+                  maxWidth: 400,
+                  minHeight: LOGIN_STEP_STAGE_MIN_HEIGHT,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: EASE_OUT_EXPO }}
+                className="login-card-responsive"
               >
+                {/* Logo at top */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.35, ease: FADE_EASE }}
+                  style={{ marginBottom: '2rem' }}
+                >
+                  <AnimatedLogo isDark={isDark} />
+                </motion.div>
+
+                <form onSubmit={handlePasswordSubmit} style={{ width: '100%' }}>
+                  <motion.div
+                    style={{
+                      border: `1px solid ${colors.cardBorder}`,
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      background: colors.cardBg,
+                      backdropFilter: 'blur(12px) saturate(1.2)',
+                      WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+                      transition: transitions.theme,
+                      position: 'relative',
+                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: shouldReduceMotion ? 0 : 0.35, ease: FADE_EASE }}
+                  >
                 {/* Back button */}
                 <motion.button
                   type="button"
@@ -1327,8 +1348,8 @@ function LoginContent() {
                   {/* Password input */}
                   <motion.div 
                     style={{ marginBottom: '1rem', position: 'relative' }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ delay: 0.15 }}
                   >
                     <label
@@ -1466,9 +1487,10 @@ function LoginContent() {
                 >
                   {t('login.loginButton').toUpperCase()}
                 </motion.button>
-              </motion.div>
-            </form>
-          </LoginForm>
+                  </motion.div>
+                </form>
+              </LoginForm>
+            </motion.div>
           )}
         </AnimatePresence>
 

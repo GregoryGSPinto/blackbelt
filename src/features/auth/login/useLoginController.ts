@@ -7,6 +7,7 @@ import { useAuth, getRedirectForProfile } from '@/features/auth/context/AuthCont
 import { logger } from '@/lib/logger';
 import { signInWithApple, signInWithGoogle } from '@/lib/auth/oauth';
 import type { LoginStep } from './LoginStateMachine';
+import { isDemoUserEmail, SHOW_DEMO_USERS } from './demoUsers';
 
 const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
@@ -64,10 +65,20 @@ export function useLoginController(shouldReduceMotion: boolean) {
   }, []);
 
   const goToPassword = useCallback(async () => {
-    if (!email.trim() || !validateEmail(email)) {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail || !validateEmail(normalizedEmail)) {
       setEmailInvalid(true);
       setError(t('login.emailNotFound'));
       setTimeout(() => setEmailInvalid(false), shouldReduceMotion ? 100 : 500);
+      return;
+    }
+
+    if (SHOW_DEMO_USERS && isDemoUserEmail(normalizedEmail)) {
+      setEmail(normalizedEmail);
+      setEmailInvalid(false);
+      setError('');
+      setStep('PASSWORD');
       return;
     }
 
@@ -78,7 +89,7 @@ export function useLoginController(shouldReduceMotion: boolean) {
       const response = await fetch('/api/auth/check-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: normalizedEmail }),
       });
       const data = await response.json();
 
@@ -91,7 +102,7 @@ export function useLoginController(shouldReduceMotion: boolean) {
     } catch {}
 
     setStep('PASSWORD');
-  }, [email, shouldReduceMotion, t]);
+  }, [email, setEmail, shouldReduceMotion, t]);
 
   const goBackToEmail = useCallback(() => {
     setError('');
