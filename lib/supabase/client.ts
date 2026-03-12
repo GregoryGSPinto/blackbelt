@@ -20,18 +20,11 @@ function reportMissingSupabaseEnv(): void {
 export function getSupabaseBrowserClient(): any {
   if (client) return client
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-  if (!url || !anonKey) {
+  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
     console.error('[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY')
     throw new Error(
       'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. Check your environment variables.'
     )
-  }
-
-  if (!env.SUPABASE_ANON_KEY) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable')
   }
 
   const url = getRequiredEnv('NEXT_PUBLIC_SUPABASE_URL')
