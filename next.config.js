@@ -62,7 +62,12 @@ const nextConfig = {
     ],
   },
 
-  serverExternalPackages: ['pg'],
+  serverExternalPackages: [
+    'pg',
+    '@opentelemetry/sdk-node',
+    '@opentelemetry/auto-instrumentations-node',
+    '@opentelemetry/api',
+  ],
 
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
