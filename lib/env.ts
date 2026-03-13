@@ -1,3 +1,28 @@
+export function sanitizeEnvValue(value?: string | null): string | undefined {
+  if (typeof value !== 'string') return undefined;
+
+  const normalized = value
+    .trim()
+    .replace(/^['"]|['"]$/g, '')
+    .replace(/[\r\n]+/g, '')
+    .trim();
+
+  return normalized || undefined;
+}
+
+export function getOptionalEnv(name: string): string | undefined {
+  return sanitizeEnvValue(process.env[name]);
+}
+
+export function getRequiredEnv(name: string): string {
+  const value = getOptionalEnv(name);
+  if (!value) {
+    throw new Error(`Missing ${name} environment variable`);
+  }
+
+  return value;
+}
+
 /**
  * Environment helpers — BLACKBELT
  *
@@ -17,12 +42,12 @@ export function useMock(): boolean {
   if (typeof process === 'undefined') return false;
 
   // Explicit false → never mock (production or dev with backend)
-  if (process.env.NEXT_PUBLIC_USE_MOCK === 'false') {
+  if (getOptionalEnv('NEXT_PUBLIC_USE_MOCK') === 'false') {
     return false;
   }
 
   // Explicit true → always mock
-  if (process.env.NEXT_PUBLIC_USE_MOCK === 'true') {
+  if (getOptionalEnv('NEXT_PUBLIC_USE_MOCK') === 'true') {
     return true;
   }
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClientSafe } from '@/lib/supabase/server';
 
 const COOKIE_NAME = 'blackbelt_session';
 const COOKIE_OPTIONS = {
@@ -15,7 +15,18 @@ export const dynamic = 'force-dynamic';
 /** GET — Read authenticated session from Supabase server session */
 export async function GET() {
   try {
-    const supabase = await getSupabaseServerClient();
+    const supabase = await getSupabaseServerClientSafe();
+    if (!supabase) {
+      return NextResponse.json(
+        {
+          session: null,
+          error: 'Server configuration incomplete',
+          code: 'AUTH_UNAVAILABLE',
+        },
+        { status: 503 },
+      );
+    }
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -41,8 +52,15 @@ export async function GET() {
         membership,
       },
     });
-  } catch {
-    return NextResponse.json({ session: null });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        session: null,
+        error: error instanceof Error ? error.message : 'Internal Server Error',
+        code: 'INTERNAL_ERROR',
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -60,8 +78,10 @@ export async function POST() {
 /** DELETE — Clear session cookie */
 export async function DELETE() {
   try {
-    const supabase = await getSupabaseServerClient();
-    await supabase.auth.signOut();
+    const supabase = await getSupabaseServerClientSafe();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
   } catch {
     // Best effort; legacy cookies are still cleared below.
   }

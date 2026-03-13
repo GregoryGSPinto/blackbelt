@@ -18,6 +18,7 @@ import { NpsSurvey } from "@/components/shared/NpsSurvey";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
+import { logger } from "@/lib/logger";
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -64,9 +65,27 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const locale = await getLocale();
-  const messages = await getMessages();
-  const t = await getTranslations('common');
+  let locale = 'pt-BR';
+  let messages = {};
+  let t = (key: string) => key;
+
+  try {
+    locale = await getLocale();
+  } catch (error) {
+    logger.error('[Runtime] Failed to resolve locale in root layout', error);
+  }
+
+  try {
+    messages = await getMessages();
+  } catch (error) {
+    logger.error('[Runtime] Failed to load intl messages in root layout', error);
+  }
+
+  try {
+    t = await getTranslations('common');
+  } catch (error) {
+    logger.error('[Runtime] Failed to load translations in root layout', error);
+  }
 
   return (
     <html lang={locale} suppressHydrationWarning>
