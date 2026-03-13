@@ -1,0 +1,8 @@
+{
+  "appUrl": "https://blackbelt.app",
+  "fallbackUrls": [],
+  "generatedAt": "2026-03-12T01:28:46.485Z",
+  "strategy": "remote-hosted-capacitor-shell",
+  "runtimeEndpoint": "/api/mobile/runtime",
+  "healthEndpoint": "/api/health"
+}
