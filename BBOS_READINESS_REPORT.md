@@ -11,15 +11,19 @@
 - `Depende de configuração externa`
 - `Planejado`
 
+## Platform Spine
+
+BlackBelt's operational backbone is three tables: `academies` (tenant boundary), `profiles` (identity), and `memberships` (role + tenant pivot). Every critical flow — auth, billing, admin, check-in, mobile runtime — derives its tenant and permission context from `membership.academy_id` and `membership.role`. This is the architectural invariant that makes the platform coherent.
+
 ## Executive Position
 
 BlackBelt is no longer in a fragile state. The repository supports a premium product narrative for academies, and the software is materially stronger around the real commercial core: academy operations, memberships, controlled billing, and controlled mobile rollout.
 
-What is not honest yet:
+What is not honest to claim:
 
-- claiming broad commercial readiness without external setup
-- claiming public store readiness without hosted-runtime evidence
-- treating all role surfaces as equally mature
+- broad commercial readiness without external setup
+- public store readiness without hosted-runtime evidence
+- equal maturity across all role surfaces
 
 ## Domain Readiness
 

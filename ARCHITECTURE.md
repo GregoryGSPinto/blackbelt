@@ -1,70 +1,93 @@
 # Architecture
 
-## Product Architecture Reality
+## Platform Identity
 
-BlackBelt is a large Next.js application with supporting platform code, Supabase schema, mobile shell assets, and operational scripts in the same repository.
+BlackBelt is a premium operating system for martial arts academies. It manages the complete lifecycle of an academy: tenancy, membership, billing, pedagogy, attendance, progression, communication, and mobile access — all anchored on a single domain model.
 
-The long-term ambition is still valid: a premium operating system for martial arts academies. The current codebase, however, should be read as a strong pilot/commercial-foundation repo rather than a fully separated enterprise platform.
+The platform is built as a monolithic Next.js application backed by Supabase (auth, database, RLS) and Stripe (billing). Mobile distribution uses a hosted Capacitor shell. The codebase is structured for a controlled commercial pilot today and architectural evolution over time.
 
-## What Is Canonical Today
+## Platform Spine
 
-### Implemented
+Every operational decision in BlackBelt flows from three tables:
 
-- Primary domain: `academies + profiles + memberships`
-- Tenant and role enforcement for critical academy-scoped flows
-- Supabase-backed API routes, RLS policies, and server auth helpers
-- Stripe integration centered on `academy_subscriptions` and `subscription_invoices`
-- Hosted Capacitor shell for mobile distribution
+| Table | Role |
+|-------|------|
+| `academies` | Tenant boundary. Every data partition derives from an academy. |
+| `profiles` | Identity. One profile per person, shared across academies. |
+| `memberships` | Operational source of truth. Binds a profile to an academy with a role and status. |
 
-### Stable In Pilot
+**Membership is the pivot.** Tenant resolution, role enforcement, billing scope, and data access all derive from `membership.academy_id` and `membership.role`. This is the platform's architectural invariant.
 
-- Academy-level admin/professor/student flows
-- Controlled onboarding and academy operations
-- Controlled commercial billing paths once live envs are provided
-- Mobile runtime for assisted distribution
+## Technology Stack
 
-### Depends On External Configuration
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS |
+| Auth | Supabase Auth, httpOnly cookies, in-memory tokens |
+| Database | Supabase (PostgreSQL), RLS policies |
+| Billing | Stripe (checkout, webhooks, portal), `academy_subscriptions` table |
+| Mobile | Capacitor 8 (iOS/Android), hosted shell via `mobile-build/` |
+| Validation | Zod schemas, server-side rate limiting, CSRF protection |
+| Monitoring | Structured JSON logger, Sentry, OpenTelemetry |
+| Testing | Vitest, 615+ tests, jsdom environment |
 
-- Final hosted origin used by the mobile shell
-- Stripe live keys, webhook secret, and plan price envs
-- Support/privacy operational contacts
-- App Review / store-console business identity and reviewer credentials
+## Repository Layers
 
-### Planned
+```
+app/              → Pages and API routes (Next.js App Router)
+components/       → React UI components
+contexts/         → React Context providers
+hooks/            → Custom React hooks
+lib/api/          → API services and client
+lib/security/     → Auth, RBAC, audit, sensitive data handling
+lib/payments/     → Stripe integration (checkout, webhook, plan mapping)
+lib/supabase/     → Supabase client helpers (server, admin, browser)
+lib/monitoring/   → Structured logger and route observability
+lib/subscription/ → Billing domain (trial, plans, quotas)
+src/features/     → Incremental feature modules
+supabase/         → Database schema, migrations, edge functions
+scripts/          → Build, validation, and operational scripts
+tests/            → Automated test suites
+```
 
-- Clearer feature-module boundaries
-- Less duplication across API handlers
-- Reduced mock-first ambiguity in non-core surfaces
-- CI artifact publishing instead of committed generated outputs
+## Security Architecture
 
-## Current Repository Layers
+- **Session transport:** httpOnly cookies (Supabase session + custom `blackbelt_session`)
+- **Token storage:** In-memory only. Never localStorage.
+- **CSRF:** `X-Requested-With` header required for mutations on `/api/*`
+- **Security headers:** HSTS, X-Frame-Options DENY, CSP, CORP, COOP
+- **Sensitive data:** All structured logs pass through `redactSensitiveData()` before output
+- **PII masking:** `maskEmail()`, `maskPhone()`, `maskDocument()`, `maskIpAddress()`
+- **Rate limiting:** Server-side sliding window per key (`lib/api/rate-limit.ts`)
+- **Access control:** `withAuth()`, `withBillingManagerAccess()`, `withSuperAdminAccess()`
 
-- Presentation: `app/`, `components/`, `contexts/`, `hooks/`
-- Shared frontend/service code: `lib/api/`, `lib/`, `src/shared/`
-- Domain and application logic: `lib/domain/`, `lib/application/`
-- Security/platform/integrations: `lib/security/`, `lib/supabase/`, `lib/payments/`, `lib/notifications/`
-- Incremental feature modules: `src/features/`
-- Backend infrastructure experiments: `server/`
-- Database schema and functions: `supabase/`
+## Maturity Status
 
-## Architectural Strengths
+| Domain | Status |
+|--------|--------|
+| Core academy domain (tenancy, membership, roles) | Production-grade |
+| Admin / professor / student core journeys | Pilot-stable |
+| Billing structure (trial, checkout, webhook, persistence) | Production-grade |
+| Stripe live execution | Depends on external configuration |
+| Mobile packaging and runtime | Production-grade |
+| Mobile distribution | Depends on external configuration |
+| Parent, kids, teen, super-admin surfaces | Implemented, not fully hardened |
+| Module boundaries and code organization | Evolving |
 
-- The commercial domain now converges on `memberships` as the operational source of truth for tenant and role in critical paths.
-- The codebase has meaningful validation depth: typecheck, lint, tests, and stable webpack production build.
-- Mobile packaging is no longer tied to a broken static-export assumption.
-- Billing structure is materially stronger than earlier audits, even though live Stripe execution still depends on external secrets.
+## Architectural Invariants
 
-## Architectural Risks Still Present
+These rules govern all future development:
 
-- The repo still mixes legacy and newer module layouts (`features/`, `src/features/`, `hooks/`, broad `lib/`).
-- Some product surfaces outside the core academy flows remain partially mock-backed or only locally stateful.
-- Documentation history in the repo is broader than the live state and needs careful interpretation.
-- Generated and operational artifacts still coexist with source in the same workspace.
+1. **Membership is the tenant pivot.** Every route that touches academy-scoped data must derive tenant from `membership.academy_id`.
+2. **Billing lives in `academy_subscriptions`.** Never use legacy `subscriptions` or `invoices` tables.
+3. **No tokens in localStorage.** Session transport is httpOnly cookies; access tokens are in-memory.
+4. **Errors never leak PII.** All error payloads use generic messages; logs pass through sanitization.
+5. **Mock mode is explicit.** Services check `useMock()` at the boundary; real flows never silently fall back to mock data.
+6. **Mobile uses hosted shell.** Capacitor consumes `mobile-build/`, never `out/` or static export.
 
-## Cleanup Direction
+## Evolution Direction
 
-1. Preserve `memberships` as the only operational tenant source in every new route and service.
-2. Continue reducing mock-backed ambiguity in super-admin, parent, and secondary operational surfaces.
-3. Standardize on clearer domain/module boundaries without breaking the working import graph.
-4. Move generated artifacts and release evidence toward CI outputs instead of repository state.
-5. Keep release documentation tied to validated commands and externally provable operational dependencies.
+1. Strengthen module boundaries without breaking the working import graph.
+2. Reduce mock-backed ambiguity in secondary surfaces as backend implementations mature.
+3. Move generated artifacts toward CI outputs instead of repository state.
+4. Maintain release documentation tied to validated commands and externally provable dependencies.

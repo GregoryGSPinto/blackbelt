@@ -58,8 +58,8 @@ This repository reflects the real current state of that vision as of March 14, 2
 
 Requirements:
 
-- Node.js 18.17+
-- pnpm 9+
+- Node.js >=20.19.0
+- pnpm 10.31.x
 
 Install:
 
@@ -114,8 +114,10 @@ Common variables:
 
 ## Documentation
 
-- [ARCHITECTURE.md](/Users/user_pc/Projetos/BlackBelt/ARCHITECTURE.md)
-- [BBOS_READINESS_REPORT.md](/Users/user_pc/Projetos/BlackBelt/BBOS_READINESS_REPORT.md)
-- [FINAL_STORE_READINESS_REPORT.md](/Users/user_pc/Projetos/BlackBelt/FINAL_STORE_READINESS_REPORT.md)
-- [docs/final/17-current-product-state.md](/Users/user_pc/Projetos/BlackBelt/docs/final/17-current-product-state.md)
-- [docs/ops/01-release-runbook.md](/Users/user_pc/Projetos/BlackBelt/docs/ops/01-release-runbook.md)
+- [ARCHITECTURE.md](ARCHITECTURE.md) — Platform identity, spine, and invariants
+- [BBOS_READINESS_REPORT.md](BBOS_READINESS_REPORT.md) — Commercial readiness assessment
+- [FINAL_STORE_READINESS_REPORT.md](FINAL_STORE_READINESS_REPORT.md) — Store submission readiness
+- [docs/ops/01-release-runbook.md](docs/ops/01-release-runbook.md) — Release pipeline
+- [docs/STRIPE_SETUP.md](docs/STRIPE_SETUP.md) — Stripe production configuration
+- [docs/final/](docs/final/) — Go/no-go decisions and blockers
+- [docs/history/](docs/history/) — Historical reports and audits
