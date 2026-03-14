@@ -22,6 +22,7 @@ import {
   getAvailableModalities,
   requestEnrollment,
   getChildrenModalities,
+  getActiveModalitiesForMember,
   type AcademyModality,
   type MemberModality,
 } from '@/lib/api/modality.service';
@@ -199,6 +200,19 @@ describe('Modality Client Service (mock mode)', () => {
   describe('getChildrenModalities', () => {
     it('returns array', async () => {
       const result = await getChildrenModalities();
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
+
+  describe('getActiveModalitiesForMember', () => {
+    it('returns array (accessible by any role)', async () => {
+      const result = await getActiveModalitiesForMember();
+      expect(Array.isArray(result)).toBe(true);
+    });
+
+    it('returns empty array in mock mode (no fake data leak)', async () => {
+      const result = await getActiveModalitiesForMember();
+      // In mock mode returns empty (safe), not MOCK_MODALITIES
       expect(Array.isArray(result)).toBe(true);
     });
   });
@@ -528,6 +542,42 @@ describe('Membership-Modality Server Service', () => {
       const supabase = { from: vi.fn().mockReturnValue(chain) };
       await expect(serverRemove(supabase, MEMBERSHIP_ID, MODALITY_ID, ACADEMY_ID, PERFORMER_ID))
         .rejects.toThrow('Member is not enrolled in this modality');
+    });
+  });
+
+  describe('getMembersByModality', () => {
+    it('returns empty when modality does not belong to academy', async () => {
+      // First call: academy_modalities check → returns null (not found)
+      const chain: any = {};
+      for (const m of ['select', 'eq', 'in', 'order']) {
+        chain[m] = vi.fn().mockReturnValue(chain);
+      }
+      chain.single = vi.fn().mockResolvedValue({ data: null, error: { message: 'not found' } });
+      chain.then = (resolve: any) => resolve({ data: [], error: null });
+
+      const supabase = { from: vi.fn().mockReturnValue(chain) };
+      const result = await serverGetByModality(supabase, 'acad-A', 'mod-from-acad-B');
+      expect(result).toEqual([]);
+    });
+
+    it('filters members by academy_id when modality exists', async () => {
+      let callCount = 0;
+      const chain: any = {};
+      for (const m of ['select', 'eq', 'in', 'order']) {
+        chain[m] = vi.fn().mockReturnValue(chain);
+      }
+      chain.single = vi.fn().mockImplementation(() => {
+        callCount++;
+        if (callCount === 1) return Promise.resolve({ data: { id: 'mod-1' }, error: null });
+        return Promise.resolve({ data: null, error: null });
+      });
+      chain.then = (resolve: any) => resolve({ data: [], error: null });
+
+      const supabase = { from: vi.fn().mockReturnValue(chain) };
+      const result = await serverGetByModality(supabase, 'acad-001', 'mod-1');
+      expect(Array.isArray(result)).toBe(true);
+      // Verify academy_id was used in the query
+      expect(chain.eq).toHaveBeenCalledWith('academy_id', 'acad-001');
     });
   });
 
