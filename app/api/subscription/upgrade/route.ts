@@ -9,6 +9,7 @@ import { withBillingManagerAccess } from '@/lib/api/access-context';
 import { resolveStripePriceId } from '@/lib/payments/stripe-plan-mapping';
 import { updateStripeSubscriptionPlan } from '@/lib/payments/stripe-checkout';
 import { apiServerError } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export async function POST(request: Request) {
   try {
@@ -35,6 +36,11 @@ export async function POST(request: Request) {
 
     if (subscription.status === 'trialing') {
       await planService.upgradePlan(academyId, target_plan_id);
+      logRouteEvent('info', 'business', 'Trial plan upgraded', request, {
+        event_type: 'subscription_trial_upgrade',
+        academy_id: academyId,
+        target_plan_id,
+      });
 
       return NextResponse.json({
         success: true,
@@ -70,6 +76,13 @@ export async function POST(request: Request) {
       priceId,
     });
 
+    logRouteEvent('info', 'business', 'Stripe subscription upgrade submitted', request, {
+      event_type: 'subscription_stripe_upgrade',
+      academy_id: academyId,
+      target_plan_id: targetPlan.id,
+      billing_cycle: nextCycle,
+    });
+
     return NextResponse.json({
       success: true,
       message: 'Upgrade enviado para Stripe. Aguarde a sincronização do webhook.',
@@ -78,6 +91,10 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
+    logRouteEvent('error', 'error', 'Subscription upgrade failed unexpectedly', request, {
+      event_type: 'subscription_upgrade_failed',
+      reason: error,
+    });
     return apiServerError(error);
   }
 }

@@ -48,6 +48,11 @@ export async function POST(request: Request) {
         returnUrl: `${appUrl}/dashboard/admin/plano?portal=return`,
       });
 
+      logRouteEvent('info', 'business', 'Stripe portal session created for downgrade', request, {
+        event_type: 'subscription_downgrade_portal',
+        academy_id: academyId,
+      });
+
       return NextResponse.json({
         success: true,
         portalUrl,
@@ -60,6 +65,13 @@ export async function POST(request: Request) {
 
     // Get subscription to return effective date
     const currentSubscription = await planManagement.getSubscription(academyId);
+
+    logRouteEvent('info', 'business', 'Trial downgrade scheduled', request, {
+      event_type: 'subscription_trial_downgrade',
+      academy_id: academyId,
+      target_plan_id: targetPlanId,
+      effective_date: currentSubscription?.current_period_ends_at ?? null,
+    });
 
     return NextResponse.json({
       success: true,
