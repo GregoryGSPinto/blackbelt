@@ -42,7 +42,7 @@ export function ParentTipsBanner({ tips }: ParentTipsBannerProps) {
   const currentTip = tips[activeIndex] ?? tips[0];
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/15">

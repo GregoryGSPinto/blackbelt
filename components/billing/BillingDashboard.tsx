@@ -66,7 +66,7 @@ export default function BillingDashboard({
   return (
     <div className="space-y-6">
       {/* Current Plan */}
-      <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
+      <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
         <h2 className="text-lg font-semibold text-white mb-4">Plano Atual</h2>
         {currentPlan ? (
           <div className="flex items-center justify-between">
@@ -115,8 +115,8 @@ export default function BillingDashboard({
           {Object.values(PLANS).map((plan) => (
             <div
               key={plan.id}
-              className={`bg-zinc-900 rounded-xl p-5 border ${
-                currentPlan?.id === plan.id ? 'border-indigo-500' : 'border-zinc-800'
+              className={`bg-dark-card rounded-xl p-5 border ${
+                currentPlan?.id === plan.id ? 'border-indigo-500' : 'border-white/[0.08]'
               }`}
             >
               <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
@@ -146,7 +146,7 @@ export default function BillingDashboard({
       )}
 
       {/* Usage Summary */}
-      <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
+      <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
         <h2 className="text-lg font-semibold text-white mb-4">Uso do Periodo</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {(Object.entries(usage) as [BillingMetric, number][]).map(([metric, value]) => {
@@ -187,7 +187,7 @@ export default function BillingDashboard({
       </div>
 
       {/* Invoice History */}
-      <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
+      <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
         <h2 className="text-lg font-semibold text-white mb-4">Historico de Faturas</h2>
         {invoices.length === 0 ? (
           <p className="text-zinc-400 text-sm">Nenhuma fatura encontrada</p>
@@ -195,7 +195,7 @@ export default function BillingDashboard({
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-zinc-400 border-b border-zinc-800">
+                <tr className="text-zinc-400 border-b border-white/[0.08]">
                   <th className="text-left py-2 font-medium">Data</th>
                   <th className="text-left py-2 font-medium">Valor</th>
                   <th className="text-left py-2 font-medium">Status</th>
@@ -204,7 +204,7 @@ export default function BillingDashboard({
               </thead>
               <tbody>
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="border-b border-zinc-800/50">
+                  <tr key={inv.id} className="border-b border-white/[0.08]/50">
                     <td className="py-2 text-zinc-300">
                       {new Date(inv.dueDate).toLocaleDateString('pt-BR')}
                     </td>

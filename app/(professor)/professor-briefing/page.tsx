@@ -30,7 +30,7 @@ export default function ProfessorBriefingPage() {
         <button
           onClick={refetch}
           disabled={loading}
-          className="p-2 rounded-xl border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
+          className="p-2 rounded-xl border border-white/[0.08] text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
           title={t('refresh')}
         >
           <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
@@ -43,7 +43,7 @@ export default function ProfessorBriefingPage() {
           {[1, 2, 3].map(i => (
             <div
               key={i}
-              className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 animate-pulse"
+              className="rounded-xl border border-white/[0.08] bg-dark-card/60 p-6 animate-pulse"
             >
               <div className="h-4 bg-zinc-800 rounded-lg w-1/3 mb-3" />
               <div className="h-3 bg-zinc-800/60 rounded-lg w-2/3 mb-2" />
@@ -65,7 +65,7 @@ export default function ProfessorBriefingPage() {
           </button>
         </div>
       ) : !briefing ? (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
+        <div className="rounded-xl border border-white/[0.08] bg-dark-card/40 p-8 text-center">
           <p className="text-zinc-500 text-sm">
             {t('noBriefing')}
           </p>

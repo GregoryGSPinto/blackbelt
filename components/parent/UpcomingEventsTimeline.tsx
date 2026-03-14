@@ -50,7 +50,7 @@ export function UpcomingEventsTimeline({ events }: UpcomingEventsTimelineProps) 
   const { formatDate } = useFormatting();
   if (!events || events.length === 0) {
     return (
-      <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+      <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
         <h3 className="text-sm font-semibold text-zinc-200 mb-4">Proximos Eventos</h3>
         <div className="flex items-center justify-center py-8">
           <p className="text-sm text-zinc-500">Nenhum evento proximo</p>
@@ -60,7 +60,7 @@ export function UpcomingEventsTimeline({ events }: UpcomingEventsTimelineProps) 
   }
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       <h3 className="text-sm font-semibold text-zinc-200 mb-5">Proximos Eventos</h3>
 
       <div className="relative">

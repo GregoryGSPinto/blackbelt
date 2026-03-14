@@ -118,8 +118,8 @@ function ChurnRiskList({ overview }: { overview: AdminChurnOverviewVM }) {
       : overview.watchStudents;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="flex border-b border-zinc-700/50">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="flex border-b border-white/10">
         {tabs.map(tab => (
           <button
             key={tab.key}
@@ -218,7 +218,7 @@ function ChurnRecommendations({
   };
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4">
       <h3 className="text-sm font-medium text-zinc-300 mb-3">{t('churn.recommendedActions')}</h3>
       <div className="space-y-3">
         {recommendations.slice(0, 5).map((rec, i) => (

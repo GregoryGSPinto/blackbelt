@@ -37,7 +37,7 @@ const AdventureProgress = memo(function AdventureProgress({ adventure }: Adventu
   const { currentChapter, starsCollected, totalStars, mascotMessage, mascotMood } = adventure;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       {/* Chapter Title */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xl">📖</span>
@@ -64,7 +64,7 @@ const AdventureProgress = memo(function AdventureProgress({ adventure }: Adventu
       </div>
 
       {/* Mascot Message */}
-      <div className="flex items-start gap-3 bg-zinc-800/50 rounded-lg p-3 border border-zinc-700/30">
+      <div className="flex items-start gap-3 bg-zinc-800/50 rounded-lg p-3 border border-white/[0.06]">
         <span className="text-2xl shrink-0">{moodEmojis[mascotMood]}</span>
         <div>
           <p className="text-sm text-zinc-300 leading-relaxed">

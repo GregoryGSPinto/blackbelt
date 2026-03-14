@@ -35,7 +35,7 @@ export function ClassCompositionRadar({ composition }: ClassCompositionRadarProp
   const championAndDrifting = composition.tierDistribution.champion + composition.tierDistribution.drifting + composition.tierDistribution.disconnected;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4">
       <h3 className="text-sm font-medium text-zinc-300 mb-4">Composicao da Turma</h3>
 
       {/* Key metrics */}
@@ -81,7 +81,7 @@ export function ClassCompositionRadar({ composition }: ClassCompositionRadarProp
       </div>
 
       {/* Highlighted metrics */}
-      <div className="mt-4 pt-4 border-t border-zinc-800 space-y-2">
+      <div className="mt-4 pt-4 border-t border-white/[0.08] space-y-2">
         {composition.tierDistribution.champion > 0 && (
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-500" />

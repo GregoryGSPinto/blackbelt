@@ -57,7 +57,7 @@ export function AcademyHealthScore({ overallScore, trend, breakdown }: AcademyHe
   ];
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6">
       <h3 className="text-sm font-medium text-zinc-300 mb-4">{t('academyHealth.title')}</h3>
 
       <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -116,7 +116,7 @@ export function AcademyHealthScore({ overallScore, trend, breakdown }: AcademyHe
       </div>
 
       {/* Trend */}
-      <div className="mt-4 pt-3 border-t border-zinc-800 flex items-center gap-2">
+      <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center gap-2">
         <span className="text-xs text-zinc-500">{t('academyHealth.trend')}:</span>
         <span className={`text-xs font-medium ${
           trend.toLowerCase().includes('alta') ? 'text-green-400' :

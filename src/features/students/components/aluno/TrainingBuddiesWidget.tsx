@@ -24,8 +24,8 @@ function getInitials(name: string): string {
 
 export function TrainingBuddiesWidget({ buddies, communityRole, networkStrength }: TrainingBuddiesWidgetProps) {
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08]">
         <h3 className="text-sm font-medium text-zinc-200">Parceiros de Treino</h3>
       </div>
 
@@ -60,7 +60,7 @@ export function TrainingBuddiesWidget({ buddies, communityRole, networkStrength 
         )}
 
         {/* Community info */}
-        <div className="mt-4 pt-4 border-t border-zinc-800/50 space-y-2">
+        <div className="mt-4 pt-4 border-t border-white/[0.08]/50 space-y-2">
           <div className="flex items-start gap-2">
             <span className="text-[10px] text-zinc-600 uppercase tracking-wider flex-shrink-0 mt-0.5">Papel</span>
             <p className="text-xs text-zinc-400">{communityRole}</p>

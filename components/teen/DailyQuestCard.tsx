@@ -20,7 +20,7 @@ const DailyQuestCard = memo(function DailyQuestCard({ quest }: DailyQuestCardPro
   const { title, description, xpReward, emoji } = quest;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5 relative overflow-hidden">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5 relative overflow-hidden">
       {/* Subtle glow accent */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 

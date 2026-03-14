@@ -43,7 +43,7 @@ const ALERT_CONFIG: Record<
 export function ParentAlertsList({ alerts }: ParentAlertsListProps) {
   if (!alerts || alerts.length === 0) {
     return (
-      <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+      <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
         <h3 className="text-sm font-semibold text-zinc-200 mb-4">Alertas</h3>
         <div className="flex items-center justify-center py-8">
           <p className="text-sm text-zinc-500">Nenhum alerta no momento</p>
@@ -53,7 +53,7 @@ export function ParentAlertsList({ alerts }: ParentAlertsListProps) {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       <h3 className="text-sm font-semibold text-zinc-200 mb-4">Alertas</h3>
 
       <div className="space-y-2.5">
@@ -63,7 +63,7 @@ export function ParentAlertsList({ alerts }: ParentAlertsListProps) {
           return (
             <div
               key={`${alert.type}-${i}`}
-              className={`flex items-start gap-3 rounded-lg border border-zinc-800 border-l-[3px] ${config.border} bg-zinc-800/30 px-4 py-3`}
+              className={`flex items-start gap-3 rounded-lg border border-white/[0.08] border-l-[3px] ${config.border} bg-zinc-800/30 px-4 py-3`}
             >
               {/* Icon */}
               <div

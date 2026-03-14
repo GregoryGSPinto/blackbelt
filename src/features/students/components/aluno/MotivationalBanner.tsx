@@ -62,7 +62,7 @@ export function MotivationalBanner({ message, driver }: MotivationalBannerProps)
   const config = DRIVER_CONFIG[driver] ?? DEFAULT_CONFIG;
 
   return (
-    <div className={`w-full rounded-xl border border-zinc-700/50 bg-gradient-to-r ${config.gradient} p-4 md:p-5`}>
+    <div className={`w-full rounded-xl border border-white/10 bg-gradient-to-r ${config.gradient} p-4 md:p-5`}>
       <div className="flex items-start justify-between gap-3">
         <p className="text-sm text-zinc-200 leading-relaxed flex-1">{message}</p>
         <span className={`text-[10px] px-2 py-0.5 rounded border flex-shrink-0 ${config.badgeColor}`}>

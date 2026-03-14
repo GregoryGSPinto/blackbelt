@@ -45,15 +45,15 @@ export function AfterClassChecklist({ actions }: AfterClassChecklistProps) {
 
   if (actions.length === 0) {
     return (
-      <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6 text-center">
+      <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6 text-center">
         <p className="text-sm text-zinc-500">Nenhuma acao pos-aula pendente</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08] flex items-center justify-between">
         <h3 className="text-sm font-medium text-zinc-300">Checklist Pos-Aula</h3>
         <span className="text-[10px] text-zinc-500">
           {completedCount}/{totalCount} concluido(s)

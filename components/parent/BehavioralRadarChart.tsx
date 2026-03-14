@@ -132,7 +132,7 @@ export function BehavioralRadarChart({ development }: BehavioralRadarChartProps)
   ] as const;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5 space-y-1">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5 space-y-1">
       <h3 className="text-sm font-semibold text-zinc-200 mb-4">
         Desenvolvimento Comportamental
       </h3>
@@ -144,7 +144,7 @@ export function BehavioralRadarChart({ development }: BehavioralRadarChartProps)
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-zinc-800 mt-4">
+      <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/[0.08] mt-4">
         <span className="text-[10px] text-zinc-600 uppercase tracking-wide">Tendencia:</span>
         {Object.entries(TREND_CONFIG).map(([key, cfg]) => (
           <span key={key} className={`inline-flex items-center gap-1 text-[10px] ${cfg.color}`}>

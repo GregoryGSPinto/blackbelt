@@ -31,7 +31,7 @@ const StickerCollection = memo(function StickerCollection({ stickers }: StickerC
   const clampedProgress = Math.min(100, Math.max(0, nextToEarn.progress));
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xl">🏆</span>
@@ -47,7 +47,7 @@ const StickerCollection = memo(function StickerCollection({ stickers }: StickerC
           {earned.map((sticker) => (
             <div
               key={sticker.id}
-              className="flex flex-col items-center justify-center bg-zinc-800/50 border border-zinc-700/30 rounded-lg p-3 aspect-square hover:scale-105 transition-transform duration-200"
+              className="flex flex-col items-center justify-center bg-zinc-800/50 border border-white/[0.06] rounded-lg p-3 aspect-square hover:scale-105 transition-transform duration-200"
             >
               {sticker.image ? (
                 <img

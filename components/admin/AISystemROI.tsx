@@ -56,7 +56,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
   ];
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-zinc-300">{t('aiROI.title')}</h3>
         <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
@@ -75,7 +75,7 @@ export function AISystemROI({ metrics }: AISystemROIProps) {
       </div>
 
       {/* Action rate visualization */}
-      <div className="mt-4 pt-4 border-t border-zinc-800">
+      <div className="mt-4 pt-4 border-t border-white/[0.08]">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-zinc-500">{t('aiROI.alertActionRate')}</span>
           <span className="text-xs font-medium text-zinc-300">{actionRate}%</span>

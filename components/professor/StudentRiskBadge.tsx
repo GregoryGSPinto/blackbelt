@@ -60,7 +60,7 @@ export function StudentRiskDetail({ memberId }: { memberId: string }) {
   const activeFactors = prediction.factors.filter(f => f.riskLevel !== 'none');
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4 space-y-3">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4 space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className={`w-3 h-3 rounded-full ${config.dot}`} />

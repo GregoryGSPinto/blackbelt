@@ -50,7 +50,7 @@ const SimpleProgressStars = memo(function SimpleProgressStars({ stars }: SimpleP
   const { technique, effort, behavior, lastUpdated } = stars;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xl">⭐</span>

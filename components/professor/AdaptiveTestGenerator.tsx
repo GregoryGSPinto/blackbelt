@@ -35,8 +35,8 @@ export function AdaptiveTestGenerator() {
   };
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08]">
         <h3 className="text-sm font-medium text-zinc-300">{t('generateTitle')}</h3>
         <p className="text-[10px] text-zinc-600 mt-0.5">{t('generateSubtitle')}</p>
       </div>
@@ -53,7 +53,7 @@ export function AdaptiveTestGenerator() {
               value={form.participantId}
               onChange={e => setForm(f => ({ ...f, participantId: e.target.value }))}
               placeholder="ID do participante"
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm text-zinc-200 placeholder-zinc-600 focus:border-blue-500/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-white/10 text-sm text-zinc-200 placeholder-zinc-600 focus:border-blue-500/50 focus:outline-none transition-colors"
             />
           </div>
 
@@ -66,7 +66,7 @@ export function AdaptiveTestGenerator() {
               value={form.trackId}
               onChange={e => setForm(f => ({ ...f, trackId: e.target.value }))}
               placeholder="ID da trilha"
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm text-zinc-200 placeholder-zinc-600 focus:border-blue-500/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-white/10 text-sm text-zinc-200 placeholder-zinc-600 focus:border-blue-500/50 focus:outline-none transition-colors"
             />
           </div>
 
@@ -79,7 +79,7 @@ export function AdaptiveTestGenerator() {
               value={form.targetMilestoneId}
               onChange={e => setForm(f => ({ ...f, targetMilestoneId: e.target.value }))}
               placeholder="ID do milestone"
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm text-zinc-200 placeholder-zinc-600 focus:border-blue-500/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-white/10 text-sm text-zinc-200 placeholder-zinc-600 focus:border-blue-500/50 focus:outline-none transition-colors"
             />
           </div>
 
@@ -90,7 +90,7 @@ export function AdaptiveTestGenerator() {
             <select
               value={form.testType}
               onChange={e => setForm(f => ({ ...f, testType: e.target.value as typeof form.testType }))}
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-sm text-zinc-200 focus:border-blue-500/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800/50 border border-white/10 text-sm text-zinc-200 focus:border-blue-500/50 focus:outline-none transition-colors"
             >
               <option value="promotion">Promocao</option>
               <option value="periodic">Periodica</option>
@@ -135,7 +135,7 @@ export function AdaptiveTestGenerator() {
 
       {/* Test Preview */}
       {test && (
-        <div className="border-t border-zinc-800">
+        <div className="border-t border-white/[0.08]">
           <div className="px-4 py-3 bg-zinc-800/30 flex items-center justify-between">
             <div>
               <span className="text-sm font-medium text-zinc-200">Prova Gerada</span>
@@ -154,7 +154,7 @@ export function AdaptiveTestGenerator() {
           </div>
 
           {/* Difficulty distribution */}
-          <div className="px-4 py-3 border-t border-zinc-800/50">
+          <div className="px-4 py-3 border-t border-white/[0.08]/50">
             <span className="text-[10px] text-zinc-600 uppercase tracking-wider block mb-2">
               Distribuicao de Dificuldade
             </span>

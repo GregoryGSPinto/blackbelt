@@ -44,10 +44,10 @@ export default function TeenInsightsPage() {
     return (
       <div className="min-h-screen p-4 md:p-6 max-w-3xl mx-auto">
         <div className="space-y-4">
-          <div className="h-16 rounded-xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
-          <div className="h-48 rounded-xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
-          <div className="h-32 rounded-xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
-          <div className="h-40 rounded-xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
+          <div className="h-16 rounded-xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
+          <div className="h-48 rounded-xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
+          <div className="h-32 rounded-xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
+          <div className="h-40 rounded-xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
         </div>
       </div>
     );

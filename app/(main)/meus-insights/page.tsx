@@ -55,12 +55,12 @@ export default function MeusInsightsPage() {
     return (
       <div className="min-h-screen p-4 md:p-6 max-w-5xl mx-auto">
         <div className="space-y-4">
-          <div className="h-24 rounded-xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
+          <div className="h-24 rounded-xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[1, 2, 3, 4].map(i => (
               <div
                 key={i}
-                className="h-48 rounded-xl bg-zinc-900/50 border border-zinc-800 animate-pulse"
+                className="h-48 rounded-xl bg-dark-card/60 border border-white/[0.08] animate-pulse"
               />
             ))}
           </div>

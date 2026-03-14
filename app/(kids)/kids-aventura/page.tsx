@@ -46,10 +46,10 @@ export default function KidsAventuraPage() {
     return (
       <div className="min-h-screen p-4 md:p-6 max-w-3xl mx-auto">
         <div className="space-y-4">
-          <div className="h-24 rounded-3xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
-          <div className="h-40 rounded-3xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
-          <div className="h-20 rounded-3xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
-          <div className="h-48 rounded-3xl bg-zinc-900/50 border border-zinc-800 animate-pulse" />
+          <div className="h-24 rounded-3xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
+          <div className="h-40 rounded-3xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
+          <div className="h-20 rounded-3xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
+          <div className="h-48 rounded-3xl bg-dark-card/60 border border-white/[0.08] animate-pulse" />
         </div>
       </div>
     );

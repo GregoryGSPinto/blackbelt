@@ -26,7 +26,7 @@ const RivalChallengeCard = memo(function RivalChallengeCard({ challenge }: Rival
   const rivalWinning = rivalScore > yourScore;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       {/* VS Header */}
       <div className="flex items-center justify-center mb-4">
         <div className="bg-red-500/10 border border-red-500/30 rounded-full px-4 py-1">
@@ -41,7 +41,7 @@ const RivalChallengeCard = memo(function RivalChallengeCard({ challenge }: Rival
           className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
             youWinning
               ? 'border-emerald-500/40 bg-emerald-500/5 shadow-[0_0_16px_rgba(16,185,129,0.1)]'
-              : 'border-zinc-700/50 bg-zinc-800/30'
+              : 'border-white/10 bg-zinc-800/30'
           }`}
         >
           <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-lg mb-2">
@@ -56,7 +56,7 @@ const RivalChallengeCard = memo(function RivalChallengeCard({ challenge }: Rival
           className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
             rivalWinning
               ? 'border-emerald-500/40 bg-emerald-500/5 shadow-[0_0_16px_rgba(16,185,129,0.1)]'
-              : 'border-zinc-700/50 bg-zinc-800/30'
+              : 'border-white/10 bg-zinc-800/30'
           }`}
         >
           <div className="w-10 h-10 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-lg mb-2">

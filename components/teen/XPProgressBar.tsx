@@ -24,7 +24,7 @@ const XPProgressBar = memo(function XPProgressBar({ levelUp }: XPProgressBarProp
   const isNearLevelUp = clampedProgress > 90;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
       {/* Title */}
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-zinc-200 font-semibold text-lg tracking-tight">

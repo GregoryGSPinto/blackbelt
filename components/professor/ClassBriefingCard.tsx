@@ -26,9 +26,9 @@ export function ClassBriefingCard({ briefing }: ClassBriefingCardProps) {
   const healthConfig = HEALTH_COLORS[briefing.healthColor] ?? HEALTH_COLORS.green;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-zinc-800">
+      <div className="p-4 border-b border-white/[0.08]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex flex-col">
@@ -54,7 +54,7 @@ export function ClassBriefingCard({ briefing }: ClassBriefingCardProps) {
 
       {/* Warmup suggestion */}
       {briefing.warmupSuggestion && (
-        <div className="px-4 py-3 border-t border-zinc-800/50">
+        <div className="px-4 py-3 border-t border-white/[0.08]/50">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Sugestao de Aquecimento</span>
           <p className="text-xs text-zinc-400 mt-0.5">{briefing.warmupSuggestion}</p>
         </div>
@@ -62,7 +62,7 @@ export function ClassBriefingCard({ briefing }: ClassBriefingCardProps) {
 
       {/* Spotlight students (collapsible) */}
       {briefing.priorityStudents.length > 0 && (
-        <div className="border-t border-zinc-800/50">
+        <div className="border-t border-white/[0.08]/50">
           <button
             onClick={() => setShowStudents(!showStudents)}
             className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-zinc-800/20 transition-colors"

@@ -36,15 +36,15 @@ export function ActionableInsightsList({ insights }: ActionableInsightsListProps
 
   if (sorted.length === 0) {
     return (
-      <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6 text-center">
+      <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6 text-center">
         <p className="text-sm text-zinc-500">{t('insights.noInsightsAvailable')}</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08]">
         <h3 className="text-sm font-medium text-zinc-300">{t('insights.title')}</h3>
         <p className="text-[10px] text-zinc-600 mt-0.5">{sorted.length} insight(s) identificados</p>
       </div>
@@ -82,7 +82,7 @@ export function ActionableInsightsList({ insights }: ActionableInsightsListProps
               </button>
 
               {isExpanded && (
-                <div className="mt-3 ml-5.5 pl-3 border-l-2 border-zinc-800 space-y-2">
+                <div className="mt-3 ml-5.5 pl-3 border-l-2 border-white/[0.08] space-y-2">
                   <div>
                     <span className="text-[10px] text-zinc-600 uppercase tracking-wider">{t('insights.estimatedImpact')}</span>
                     <p className="text-xs text-zinc-400 mt-0.5">{insight.estimatedImpact}</p>

@@ -34,7 +34,7 @@ export function ChildProgressSummary({ summary, learningProgress }: ChildProgres
       : 0;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-5 space-y-5">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5 space-y-5">
       {/* ── Headline ── */}
       <p className="text-base font-semibold text-zinc-200 leading-relaxed">
         {summary.headline}

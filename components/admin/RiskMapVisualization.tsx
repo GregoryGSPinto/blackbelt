@@ -44,7 +44,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
   const revenueAtRisk = (riskMap.critical.count + riskMap.atRisk.count) * 150;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-zinc-300">{t('riskMap.title')}</h3>
         <span className="text-xs text-zinc-500">{total} alunos total</span>
@@ -110,7 +110,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
 
       {/* Expanded student list */}
       {expandedCategory && (
-        <div className="mt-4 pt-4 border-t border-zinc-800">
+        <div className="mt-4 pt-4 border-t border-white/[0.08]">
           {(() => {
             const cat = RISK_CATEGORIES.find(c => c.key === expandedCategory);
             const group = riskMap[expandedCategory as keyof typeof riskMap];

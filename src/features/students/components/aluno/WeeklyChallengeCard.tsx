@@ -25,8 +25,8 @@ export function WeeklyChallengeCard({ challenge, onAccept }: WeeklyChallengeCard
   const diffConfig = DIFFICULTY_CONFIG[challenge.difficulty] ?? DIFFICULTY_CONFIG.medium;
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08] flex items-center justify-between">
         <h3 className="text-sm font-medium text-zinc-200">Desafio da Semana</h3>
         <span className={`text-[10px] px-2 py-0.5 rounded ${diffConfig.bg} ${diffConfig.text} border ${diffConfig.border}`}>
           {diffConfig.label}

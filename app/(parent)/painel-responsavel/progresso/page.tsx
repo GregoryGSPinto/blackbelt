@@ -67,8 +67,8 @@ export default function ProgressoPage() {
                 onClick={() => setSelectedChildId(filho.id)}
                 className={`px-3 py-2 text-sm rounded-xl border transition-colors ${
                   selectedChildId === filho.id
-                    ? 'bg-zinc-800 text-zinc-100 border-zinc-700 font-medium'
-                    : 'text-zinc-500 border-zinc-800 hover:text-zinc-300 hover:bg-zinc-800/50'
+                    ? 'bg-zinc-800 text-zinc-100 border-white/10 font-medium'
+                    : 'text-zinc-500 border-white/[0.08] hover:text-zinc-300 hover:bg-zinc-800/50'
                 }`}
               >
                 {filho.avatar} {filho.nome?.split(' ')[0]}
@@ -84,7 +84,7 @@ export default function ProgressoPage() {
           {[1, 2, 3, 4].map(i => (
             <div
               key={i}
-              className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 animate-pulse"
+              className="rounded-xl border border-white/[0.08] bg-dark-card/60 p-6 animate-pulse"
             >
               <div className="h-4 bg-zinc-800 rounded w-1/3 mb-3" />
               <div className="h-3 bg-zinc-800/60 rounded w-2/3 mb-2" />
@@ -100,7 +100,7 @@ export default function ProgressoPage() {
           <p className="text-red-400/60 text-xs mt-1">{error.message}</p>
         </div>
       ) : !insights ? (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
+        <div className="rounded-xl border border-white/[0.08] bg-dark-card/40 p-8 text-center">
           <p className="text-zinc-500 text-sm">
             {t('noInsights')}
           </p>

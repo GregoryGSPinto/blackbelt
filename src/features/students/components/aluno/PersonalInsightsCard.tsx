@@ -20,14 +20,14 @@ const INSIGHT_CONFIG: { key: keyof StudentInsightsVM['personalInsights']; label:
 
 export function PersonalInsightsCard({ insights }: PersonalInsightsCardProps) {
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08]">
         <h3 className="text-sm font-medium text-zinc-200">Seus Insights</h3>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-zinc-800/50">
         {INSIGHT_CONFIG.map(({ key, label, icon }) => (
-          <div key={key} className="bg-zinc-900/80 p-4">
+          <div key={key} className="bg-dark-card/80 p-4">
             <div className="flex items-center gap-2 mb-1.5">
               <span className="text-[10px] font-medium text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
                 {icon}

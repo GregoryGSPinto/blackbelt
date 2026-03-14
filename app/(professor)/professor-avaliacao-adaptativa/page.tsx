@@ -32,7 +32,7 @@ export default function ProfessorAvaliacaoAdaptativaPage() {
       </div>
 
       {/* Info Banner */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+      <div className="rounded-xl border border-white/[0.08] bg-dark-card/60 p-4">
         <div className="flex items-start gap-3">
           <span className="text-lg mt-0.5">💡</span>
           <div>

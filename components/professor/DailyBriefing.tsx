@@ -39,7 +39,7 @@ function DailyBriefingSkeleton() {
       {/* Stat cards skeleton */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4 space-y-3">
+          <div key={i} className="rounded-xl border border-white/10 bg-dark-card/60 p-4 space-y-3">
             <div className="h-3 w-20 bg-zinc-800 rounded" />
             <div className="h-7 w-12 bg-zinc-800 rounded" />
           </div>
@@ -50,7 +50,7 @@ function DailyBriefingSkeleton() {
       <div className="space-y-3">
         <div className="h-4 w-40 bg-zinc-800 rounded" />
         {Array.from({ length: 2 }).map((_, i) => (
-          <div key={i} className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4 space-y-3">
+          <div key={i} className="rounded-xl border border-white/10 bg-dark-card/60 p-4 space-y-3">
             <div className="h-4 w-48 bg-zinc-800 rounded" />
             <div className="h-3 w-64 bg-zinc-800/60 rounded" />
           </div>
@@ -60,7 +60,7 @@ function DailyBriefingSkeleton() {
       {/* Tips skeleton */}
       <div className="flex gap-3 overflow-hidden">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="flex-shrink-0 w-64 rounded-lg border border-zinc-700/50 bg-zinc-900/50 p-3 space-y-2">
+          <div key={i} className="flex-shrink-0 w-64 rounded-lg border border-white/10 bg-dark-card/60 p-3 space-y-2">
             <div className="h-3 w-16 bg-zinc-800 rounded" />
             <div className="h-3 w-full bg-zinc-800/60 rounded" />
             <div className="h-3 w-3/4 bg-zinc-800/60 rounded" />
@@ -83,7 +83,7 @@ function DailyBriefingError({ error, onRetry }: { error: Error; onRetry?: () => 
       {onRetry && (
         <button
           onClick={onRetry}
-          className="px-4 py-2 text-xs font-medium rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-colors border border-zinc-700/50"
+          className="px-4 py-2 text-xs font-medium rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-colors border border-white/10"
         >
           Tentar novamente
         </button>
@@ -104,14 +104,14 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
     'text-red-400';
 
   return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-zinc-800">
+    <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/[0.08]">
         <h3 className="text-sm font-medium text-zinc-300">Metricas de Desempenho</h3>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-zinc-800/50">
         {/* Avg Class Health */}
-        <div className="bg-zinc-900/80 p-4">
+        <div className="bg-dark-card/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Saude Media</span>
           <div className="mt-1 flex items-baseline gap-1.5">
             <span className={`text-lg font-medium ${healthColor}`}>{metrics.avgClassHealth}</span>
@@ -120,7 +120,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         </div>
 
         {/* Students at risk */}
-        <div className="bg-zinc-900/80 p-4">
+        <div className="bg-dark-card/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Alunos em Risco</span>
           <div className="mt-1">
             <span className={`text-lg font-medium ${metrics.studentsAtRisk > 0 ? 'text-red-400' : 'text-zinc-300'}`}>
@@ -130,7 +130,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         </div>
 
         {/* Students improving */}
-        <div className="bg-zinc-900/80 p-4">
+        <div className="bg-dark-card/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Alunos Melhorando</span>
           <div className="mt-1">
             <span className="text-lg font-medium text-green-400">{metrics.studentsImproving}</span>
@@ -138,7 +138,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         </div>
 
         {/* Retention score */}
-        <div className="bg-zinc-900/80 p-4">
+        <div className="bg-dark-card/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Retencao</span>
           <div className="mt-1 flex items-center gap-2">
             <span className="text-lg font-medium text-zinc-200">{metrics.retentionScore}%</span>
@@ -152,7 +152,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
         </div>
 
         {/* Progression score */}
-        <div className="bg-zinc-900/80 p-4">
+        <div className="bg-dark-card/80 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Progressao</span>
           <div className="mt-1 flex items-center gap-2">
             <span className="text-lg font-medium text-zinc-200">{metrics.progressionScore}%</span>
@@ -184,7 +184,7 @@ export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefi
 
   if (!briefing) {
     return (
-      <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-6 text-center">
+      <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6 text-center">
         <p className="text-sm text-zinc-500">Nenhum briefing disponivel</p>
       </div>
     );
@@ -203,19 +203,19 @@ export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefi
       {/* Day Summary — 4 stat cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {/* Total Classes */}
-        <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
+        <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Turmas Hoje</span>
           <p className="text-2xl font-medium text-zinc-200 mt-1">{briefing.daySummary.totalClasses}</p>
         </div>
 
         {/* Total Students */}
-        <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
+        <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Total Alunos</span>
           <p className="text-2xl font-medium text-zinc-200 mt-1">{briefing.daySummary.totalStudents}</p>
         </div>
 
         {/* Classes Needing Attention */}
-        <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
+        <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Precisam Atencao</span>
           <p className={`text-2xl font-medium mt-1 ${briefing.daySummary.classesNeedingAttention > 0 ? 'text-orange-400' : 'text-zinc-200'}`}>
             {briefing.daySummary.classesNeedingAttention}
@@ -223,7 +223,7 @@ export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefi
         </div>
 
         {/* Overall Mood */}
-        <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 p-4">
+        <div className="rounded-xl border border-white/10 bg-dark-card/60 p-4">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Humor Geral</span>
           <div className="flex items-center gap-2 mt-1">
             <span className={`w-2.5 h-2.5 rounded-full ${moodConfig.dot}`} />
@@ -234,7 +234,7 @@ export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefi
 
       {/* Top Priority */}
       {briefing.daySummary.topPriority && (
-        <div className="rounded-xl border border-zinc-700/50 bg-zinc-900/50 px-4 py-3 bg-zinc-800/30">
+        <div className="rounded-xl border border-white/10 bg-dark-card/60 px-4 py-3 bg-zinc-800/30">
           <span className="text-[10px] text-zinc-600 uppercase tracking-wider">Prioridade do Dia</span>
           <p className="text-sm text-zinc-300 mt-0.5">{briefing.daySummary.topPriority}</p>
         </div>
