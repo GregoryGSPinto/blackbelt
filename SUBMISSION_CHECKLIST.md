@@ -8,13 +8,14 @@ Version: 1.0.0
 - Capacitor web assets live in `mobile-build/`
 - `out/` is not part of the mobile release pipeline
 - `CAPACITOR_BUILD=true pnpm build` is the canonical command to generate `mobile-build/`
+- `npx next build --webpack` is the canonical hosted release validation command
 
 ## Required Commands
 
 ### Web build
 
 ```bash
-pnpm build
+npx next build --webpack
 ```
 
 ### Mobile build for Capacitor
@@ -86,7 +87,7 @@ Optional:
 
 ## Submission Checklist
 
-- [ ] `pnpm build` passed
+- [ ] `npx next build --webpack` passed
 - [ ] `CAPACITOR_BUILD=true pnpm build` passed
 - [ ] `npx cap sync ios` passed
 - [ ] `npx cap sync android` passed
@@ -112,4 +113,5 @@ Optional:
 
 - The mobile app uses a hosted Capacitor shell strategy.
 - The full Next.js product is not statically exported for native packaging.
+- Webpack is the current release baseline; Turbopack is not the official release path here.
 - No release runbook should instruct operators to move API routes or generate `out/`.

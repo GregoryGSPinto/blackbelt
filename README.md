@@ -93,6 +93,7 @@ pnpm mobile:sync
 Notes:
 
 - `npx next build --webpack` is the stable release validation path in this workspace.
+- `pnpm build` is a wrapper that executes the same webpack path and optionally generates the Capacitor shell when `CAPACITOR_BUILD=true`.
 - `CAPACITOR_BUILD=true pnpm build` generates the hosted Capacitor shell into `mobile-build/`.
 - Capacitor consumes only `mobile-build/`.
 

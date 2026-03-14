@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=18.17.0",
-    "pnpm": ">=9.0.0"
+    "node": ">=20.19.0 <26",
+    "pnpm": "10.31.x"
   },
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/run-build.mjs",
-    "build:web": "next build",
+    "build:web": "next build --webpack",
+    "build:release": "pnpm typecheck && pnpm lint && pnpm test && npx next build --webpack",
     "build:mobile": "CAPACITOR_BUILD=true pnpm run build",
     "mobile:build:web": "CAPACITOR_BUILD=true pnpm run build",
     "mobile:runtime:check": "node scripts/validate-mobile-runtime.mjs",
@@ -116,5 +117,10 @@
       "prettier --write"
     ]
   },
-  "packageManager": "pnpm@10.31.0"
+  "packageManager": "pnpm@10.31.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "supabase"
+    ]
+  }
 }

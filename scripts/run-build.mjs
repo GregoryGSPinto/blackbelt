@@ -19,7 +19,7 @@ function run(command, args) {
   }
 }
 
-run('next', ['build']);
+run('next', ['build', '--webpack']);
 
 if (isCapacitorBuild) {
   run('node', ['scripts/build-mobile-shell.mjs']);
