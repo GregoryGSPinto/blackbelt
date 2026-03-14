@@ -14,7 +14,7 @@ const sendEmailSchema = z.object({
 });
 
 export const POST = createSecureHandler({
-  roles: ['owner', 'admin', 'instructor'],
+  roles: ['owner', 'admin', 'professor'],
   schema: sendEmailSchema,
   rateLimit: {
     windowMs: 60_000,

@@ -1,14 +1,14 @@
 #!/bin/bash
 # Script de build para Capacitor (mobile apps)
-# Usa o shell estático mobile-build e valida o diretório final.
+# Gera o shell hospedado em mobile-build/ e valida o diretório final.
 
 set -e
 
 echo "🚀 Iniciando build para Capacitor..."
 
 # Executar build
-echo "🔨 Executando build..."
-if pnpm run build:mobile; then
+echo "🔨 Executando pnpm mobile:build:web..."
+if pnpm run mobile:build:web; then
     echo "✅ Build concluído!"
 else
     echo "❌ Build falhou"
@@ -16,7 +16,7 @@ else
 fi
 
 # Verificar se o build foi bem-sucedido
-if [ -d "mobile-build" ] && [ -f "mobile-build/index.html" ]; then
+if [ -d "mobile-build" ] && [ -f "mobile-build/index.html" ] && [ -f "mobile-build/mobile-shell.json" ]; then
     echo "📁 Conteúdo do diretório mobile-build:"
     ls -la mobile-build/ | head -20
     echo ""
@@ -32,5 +32,5 @@ if [ "$BUILD_FAILED" = "1" ]; then
 else
     echo "✅ Build para Capacitor finalizado!"
     echo ""
-    echo "Próximo passo: npx cap sync"
+    echo "Próximo passo: pnpm mobile:sync"
 fi

@@ -1,236 +1,115 @@
-# 📋 BlackBelt v1.0.0 - Store Submission Checklist
+# BlackBelt Store Submission Checklist
 
-> **Data:** 2026-03-07  
-> **Versão:** 1.0.0  
-> **Build Status:** ✅ Web build successful (67MB)
+Date: 2026-03-13
+Version: 1.0.0
 
----
+## Canonical Mobile Build Convention
 
-## ✅ Build Web (Concluído)
+- Capacitor web assets live in `mobile-build/`
+- `out/` is not part of the mobile release pipeline
+- `CAPACITOR_BUILD=true pnpm build` is the canonical command to generate `mobile-build/`
+
+## Required Commands
+
+### Web build
 
 ```bash
-# Executado com sucesso
+pnpm build
+```
+
+### Mobile build for Capacitor
+
+```bash
+pnpm mobile:runtime:check
 CAPACITOR_BUILD=true pnpm build
 ```
 
-- ✅ Output: `out/` (67MB)
-- ✅ Static export concluído
-- ✅ Rotas API excluídas do build
-- ✅ Rotas dinâmicas tratadas
+Expected artifacts:
 
----
+- `mobile-build/index.html`
+- `mobile-build/offline.html`
+- `mobile-build/mobile-shell.json`
 
-## 📱 Build Android (Requer Java JDK)
+### Native sync
 
-### Comando:
 ```bash
-cd android && ./gradlew bundleRelease
+pnpm mobile:sync:ios
+pnpm mobile:sync:android
 ```
 
-### Saída esperada:
-```
-android/app/build/outputs/bundle/release/app-release.aab
-```
+Shortcuts:
 
-### Pré-requisitos:
-- [ ] Java JDK 17+ instalado
-- [ ] Android SDK configurado
-- [ ] Keystore de assinatura configurado em `android/app/build.gradle`
-
-### Configuração de Assinatura (adicionar em android/app/build.gradle):
-```gradle
-android {
-    ...
-    signingConfigs {
-        release {
-            storeFile file("my-release-key.keystore")
-            storePassword "password"
-            keyAlias "my-alias"
-            keyPassword "password"
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            ...
-        }
-    }
-}
-```
-
----
-
-## 🍎 Build iOS (Requer Xcode)
-
-### Comandos:
 ```bash
-# Abrir no Xcode
-open ios/App/App.xcworkspace
-
-# No Xcode:
-# 1. Selecionar device "Any iOS Device"
-# 2. Product → Archive
-# 3. Distribute App → App Store Connect
+pnpm mobile:build:web
+pnpm mobile:sync
+pnpm mobile:ios
+pnpm mobile:android
 ```
 
-### Saída esperada:
-```
-ios/build/App.xcarchive
-```
+## Native Packaging
 
-### Pré-requisitos:
-- [ ] macOS com Xcode 15+
-- [ ] Apple Developer Program ($99/ano)
-- [ ] Signing certificates configurados
+### Android
 
----
-
-## 🎨 Store Assets Validation
-
-### Icons
-| Plataforma | Arquivo | Dimensões | Status |
-|------------|---------|-----------|--------|
-| iOS | `store/icons/app-store-icon.png` | 1024×1024 | ✅ |
-| Android | `store/icons/icon-512.png` | 512×512 | ✅ |
-| Web | `store/icons/icon-1024.png` | 1024×1024 | ✅ |
-
-### Screenshots iOS (24 arquivos)
-| Device | Resolução | Quantidade | Local |
-|--------|-----------|------------|-------|
-| iPhone 6.7" | 1290×2796 | 8 | `screenshots/appstore/iphone-67/` |
-| iPhone 6.5" | 1284×2778 | 8 | `screenshots/appstore/iphone-65/` |
-| iPad 12.9" | 2048×2732 | 8 | `screenshots/appstore/ipad-129/` |
-
-### Screenshots Android (24 arquivos)
-| Device | Resolução | Quantidade | Local |
-|--------|-----------|------------|-------|
-| Phone | 1080×1920 | 8 | `screenshots/playstore/phone/` |
-| 7" Tablet | 1200×1920 | 8 | `screenshots/playstore/tablet-7/` |
-| 10" Tablet | 1600×2560 | 8 | `screenshots/playstore/tablet-10/` |
-
-### Metadata
-- ✅ `store/ios/metadata.json` - App Store metadata
-- ✅ `store/android/metadata.json` - Play Store metadata
-- ✅ `store/metadata/pt-BR.json` - Português
-- ✅ `store/metadata/en-US.json` - English
-
----
-
-## 📋 Checklist de Submissão
-
-### Antes de Submeter
-
-#### Apple App Store
-- [ ] Criar conta Apple Developer Program ($99/ano)
-- [ ] Criar App ID em Certificates, Identifiers & Profiles
-- [ ] Configurar App Store Connect
-- [ ] Preencher App Privacy em App Store Connect
-- [ ] Configurar App Tracking Transparency (se necessário)
-
-#### Google Play Store
-- [ ] Criar conta Google Play Console ($25 único)
-- [ ] Criar aplicativo no Play Console
-- [ ] Configurar política de privacidade
-- [ ] Preencher questionário de classificação de conteúdo
-- [ ] Configurar assinatura de app (Play App Signing)
-
-### OAuth & Backend
-- [ ] Configurar Google Client ID de produção no Supabase
-- [ ] Configurar Apple Services ID de produção no Supabase
-- [ ] Atualizar URLs de redirecionamento OAuth
-- [ ] Verificar RLS policies no Supabase
-
-### Website & Legal
-- [ ] Publicar Política de Privacidade em `https://blackbelt.app/politica-privacidade`
-- [ ] Publicar Termos de Uso em `https://blackbelt.app/termos-de-uso`
-- [ ] Configurar suporte em `suporte@blackbelt.app`
-
-### Testes
-- [ ] Testar login com Google no app
-- [ ] Testar login com Apple no app
-- [ ] Testar navegação offline
-- [ ] Testar em diferentes tamanhos de tela
-- [ ] Verificar dark mode em todas as telas
-
----
-
-## 🚀 Comandos de Build
-
-### Build Web para Capacitor
-```bash
-# 1. Mover rotas API (script automático)
-./scripts/build-capacitor.sh
-
-# Ou manualmente:
-mkdir -p .capacitor-backup
-mv app/api/* .capacitor-backup/
-
-# 2. Build com export estático
-CAPACITOR_BUILD=true pnpm build
-
-# 3. Sync com Capacitor
-npx cap sync
-```
-
-### Build Android
 ```bash
 cd android
 ./gradlew bundleRelease
 ```
 
-### Build iOS
+Expected output:
+
+- `android/app/build/outputs/bundle/release/app-release.aab`
+
+### iOS
+
 ```bash
-# Abrir Xcode
 open ios/App/App.xcworkspace
-
-# Archive via Xcode GUI
-# Product → Archive → Distribute App
 ```
 
----
+Then archive in Xcode:
 
-## 📦 Arquivos de Release
+1. Select `Any iOS Device`
+2. `Product -> Archive`
+3. `Distribute App -> App Store Connect`
 
-### Estrutura esperada após builds:
-```
-releases/
-├── v1.0.0/
-│   ├── blackbelt-v1.0.0.aab          # Android App Bundle
-│   ├── blackbelt-v1.0.0.ipa          # iOS App (opcional)
-│   ├── blackbelt-v1.0.0.apk          # Android APK (testes)
-│   └── release-notes.md              # Notas de release
-```
+## Environment Requirements
 
----
+At least one of these must exist and must be HTTPS:
 
-## 🔄 Processo de Restauração
+- `CAPACITOR_SERVER_URL`
+- `NEXT_PUBLIC_APP_URL`
 
-Após o build, restaurar arquivos movidos:
-```bash
-# Restaurar rotas API
-mv .capacitor-backup/* app/api/ 2>/dev/null || true
-rmdir .capacitor-backup 2>/dev/null || true
+Optional:
 
-# Ou usar git
-git checkout -- app/api
-```
+- `CAPACITOR_FALLBACK_URLS`
+- `SUPPORT_EMAIL`
+- `PRIVACY_EMAIL`
 
----
+## Submission Checklist
 
-## 📞 Contatos & Suporte
+- [ ] `pnpm build` passed
+- [ ] `CAPACITOR_BUILD=true pnpm build` passed
+- [ ] `npx cap sync ios` passed
+- [ ] `npx cap sync android` passed
+- [ ] Reviewer host is public, stable, and HTTPS
+- [ ] `/api/mobile/runtime` returns 200 on the hosted origin
+- [ ] `/api/health` returns 200 on the hosted origin
+- [ ] `/review-access` is reachable
+- [ ] `/suporte` is reachable
+- [ ] `/politica-privacidade` is reachable
+- [ ] `/termos-de-uso` is reachable
+- [ ] `/excluir-conta` is reachable
+- [ ] Reviewer login/logout works on the hosted origin
+- [ ] In-app account menu exposes `Excluir conta`
+- [ ] Settings `Minha Conta` exposes `Solicitar exclusão`
+- [ ] Privacy policy references the in-app and web deletion paths
+- [ ] Reviewer notes include login URL, support URL, privacy URL, terms URL, and deletion URL
+- [ ] Google Play Data deletion form uses the public `/excluir-conta` URL
+- [ ] Android signing is configured
+- [ ] iOS signing/team configuration is configured
+- [ ] Store metadata, screenshots, icons, and privacy disclosures are complete
 
-- **Desenvolvedor:** BlackBelt Team
-- **Suporte:** suporte@blackbelt.app
-- **Website:** https://blackbelt.app
+## Release Notes
 
----
-
-## 📝 Notas
-
-- Build web foi gerado com sucesso (67MB)
-- Assets de loja estão completos e validados
-- Java JDK necessário para build Android
-- Xcode necessário para build iOS
-- OAuth configurado para produção requer credenciais reais
-
-**Status:** ⏳ Aguardando builds nativos e submissão manual
+- The mobile app uses a hosted Capacitor shell strategy.
+- The full Next.js product is not statically exported for native packaging.
+- No release runbook should instruct operators to move API routes or generate `out/`.

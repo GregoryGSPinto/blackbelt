@@ -1,17 +1,40 @@
 # Reviewer Instructions
 
-## Estado atual
+Date: March 13, 2026
 
-- Não há evidência de conta reviewer estável e validada neste repositório
+## Reviewer path
 
-## Instruções recomendadas antes da submissão
+1. Open `https://<official-domain>/login`
+2. Sign in with the reviewer credentials provided in the release packet
+3. Validate the main journey
+4. Open the account menu and verify the in-app account deletion entry point
+5. Open `https://<official-domain>/review-access` for legal and support references
 
-1. Provisionar tenant demo estável.
-2. Criar contas reviewer por papel.
-3. Garantir que login, navegação básica, perfil e exclusão funcionem sem configuração manual.
-4. Incluir credenciais e passos exatos no App Store Connect / Play Console.
+## Notes for App Store Connect and Play Console
 
-## Resultado desta auditoria
+```text
+BlackBelt uses the standard login screen for review. No hidden route or manual setup is required.
 
-- Documento preparado
-- Conteúdo final depende de credenciais reais
+After login, account deletion can be initiated in-app from:
+- Account menu -> Excluir conta
+- Settings -> Minha Conta -> Solicitar exclusão
+
+Public URLs for review:
+- Support: https://<official-domain>/suporte
+- Privacy policy: https://<official-domain>/politica-privacidade
+- Terms of use: https://<official-domain>/termos-de-uso
+- Account deletion: https://<official-domain>/excluir-conta
+- Reviewer instructions: https://<official-domain>/review-access
+```
+
+## Operational requirements before submission
+
+- Provision a stable demo tenant
+- Provision reviewer credentials on the final hosted origin
+- Confirm OAuth redirect URLs match the final hosted origin
+- Confirm the reviewer account has enough seeded data to exercise login, profile, settings, support, and logout
+
+## Status
+
+- Reviewer flow documentation: READY
+- Final credentials insertion: PENDING EXTERNAL INPUT

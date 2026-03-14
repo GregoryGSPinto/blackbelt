@@ -4,10 +4,11 @@ import { z, type ZodTypeAny } from 'zod';
 import { rateLimit } from '@/lib/api/rate-limit';
 import { withAuth, type AuthContext } from '@/lib/api/route-helpers';
 
-type Role = 'owner' | 'admin' | 'instructor' | 'student' | 'guardian';
+type Role = 'owner' | 'admin' | 'professor' | 'student' | 'guardian';
 
 interface SecureHandlerOptions<TSchema extends ZodTypeAny | undefined> {
   auth?: boolean;
+  requireMembership?: boolean;
   roles?: Role[];
   schema?: TSchema;
   rateLimit?: {
@@ -78,7 +79,9 @@ export function createSecureHandler<TSchema extends ZodTypeAny | undefined = und
     let auth: AuthContext | null = null;
     try {
       if (options.auth !== false) {
-        auth = await withAuth(req);
+        auth = await withAuth(req, {
+          requireMembership: options.requireMembership,
+        });
       }
 
       if (options.roles?.length) {

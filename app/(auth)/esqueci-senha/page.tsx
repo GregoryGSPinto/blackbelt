@@ -9,6 +9,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { getSupabaseBrowserClientSafe } from '@/lib/supabase/client';
 
 // ─── Animation Constants ────────────────────────────────────
 const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as const;
@@ -62,6 +63,7 @@ export default function EsqueciSenhaPage() {
   const [method, setMethod] = useState<'email' | 'whatsapp'>('email');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (success) {
@@ -74,13 +76,32 @@ export default function EsqueciSenhaPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
 
-    // Simulação de envio
-    setTimeout(() => {
+    try {
+      if (method === 'whatsapp') {
+        throw new Error('A recuperação por WhatsApp ainda não está disponível neste ambiente. Use email ou suporte.');
+      }
+
+      const supabase = getSupabaseBrowserClientSafe();
+      if (!supabase) {
+        throw new Error('A recuperação de senha não está configurada neste ambiente.');
+      }
+
+      const redirectTo = `${window.location.origin}/alterar-senha`;
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+
+      if (resetError) {
+        throw resetError;
+      }
+
       setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Não foi possível iniciar a recuperação de senha.');
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   if (success) {
@@ -217,18 +238,23 @@ export default function EsqueciSenhaPage() {
 
               <motion.button
                 type="button"
-                onClick={() => setMethod('whatsapp')}
+                disabled
                 className="p-5 rounded-xl border-2 transition-all duration-300"
                 style={{
-                  background: method === 'whatsapp' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)',
-                  borderColor: method === 'whatsapp' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)',
+                  background: 'rgba(255,255,255,0.03)',
+                  borderColor: 'rgba(255,255,255,0.08)',
+                  opacity: 0.55,
+                  cursor: 'not-allowed',
                 }}
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               >
-                <MessageSquare className="w-8 h-8 mx-auto mb-2" style={{ color: method === 'whatsapp' ? tokens.text : tokens.textMuted }} />
-                <span className="text-sm font-medium" style={{ color: method === 'whatsapp' ? tokens.text : tokens.textMuted }}>
+                <MessageSquare className="w-8 h-8 mx-auto mb-2" style={{ color: tokens.textMuted }} />
+                <span className="text-sm font-medium" style={{ color: tokens.textMuted }}>
                   {t('forgotPassword.whatsappMethod')}
+                </span>
+                <span className="mt-1 block text-[11px]" style={{ color: tokens.textMuted }}>
+                  Em breve
                 </span>
               </motion.button>
             </motion.div>
@@ -257,6 +283,18 @@ export default function EsqueciSenhaPage() {
                   />
                 </div>
               </div>
+
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex gap-3 p-4 rounded-xl"
+                  style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}
+                >
+                  <MessageSquare className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#ef4444' }} />
+                  <p className="text-sm" style={{ color: '#ef4444' }}>{error}</p>
+                </motion.div>
+              )}
 
               <motion.button
                 type="submit"

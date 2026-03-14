@@ -67,9 +67,16 @@ pnpm start
 Native/mobile build:
 
 ```bash
-CAPACITOR_BUILD=true pnpm build
-bash scripts/capacitor-setup.sh
+pnpm mobile:runtime:check
+pnpm mobile:build:web
+pnpm mobile:sync
 ```
+
+Notes:
+
+- `pnpm build` keeps the normal Next.js web/server build path.
+- `CAPACITOR_BUILD=true pnpm build` runs the same Next.js build and then generates the Capacitor shell in `mobile-build/`.
+- Capacitor consumes only `mobile-build/`. The repo no longer uses `out/` for native packaging.
 
 ## Environment
 

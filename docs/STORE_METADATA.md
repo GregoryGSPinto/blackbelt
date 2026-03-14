@@ -96,12 +96,12 @@ https://blackbelt.com
 
 **URL da Política de Privacidade:**
 ```
-https://blackbelt.com/politica-privacidade.html
+https://blackbelt.com/politica-privacidade
 ```
 
 **URL dos Termos de Uso:**
 ```
-https://blackbelt.com/termos-de-uso.html
+https://blackbelt.com/termos-de-uso
 ```
 
 **URL de Exclusão de Conta:**

@@ -8,7 +8,7 @@ const SENTRY_DSN = process.env.SENTRY_DSN;
 
 if (SENTRY_DSN) {
   // Initialize OpenTelemetry lazily — must never block Sentry init
-  import('@/src/infrastructure/observability/otel')
+  new Function("return import('./src/infrastructure/observability/otel')")()
     .then(({ initializeOpenTelemetry }) => initializeOpenTelemetry())
     .catch(() => {/* otel is optional */});
 

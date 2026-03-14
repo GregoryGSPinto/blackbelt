@@ -1,17 +1,41 @@
 # Account Deletion Evidence
 
-## Implementação observada
+Date: March 13, 2026
 
-- Página pública: `/excluir-conta`
-- Endpoint autenticado/público: `app/api/lgpd/delete/route.ts`
-- Registro persistido: `data_deletion_requests`
+## Compliance requirement covered
 
-## Correção aplicada
+- Apple App Store Review Guideline 5.1.1(v): account deletion must be initiable inside the app
+- Google Play User Data policy: in-app deletion path plus public web deletion URL
 
-- Página pública deixou de usar serviço frontend desconectado e passou a chamar o endpoint real
-- Fluxo público agora registra solicitação para revisão manual da equipe de privacidade
+## Implemented paths
 
-## Limites atuais
+- In-app account menu entry: `Excluir conta`
+- In-app settings entry: `Configurações -> Minha Conta -> Solicitar exclusão`
+- Public web form: `/excluir-conta`
+- Public privacy reference: `/politica-privacidade`
+- Public support reference: `/suporte`
 
-- Não há evidência de job automatizado para conclusão da exclusão
-- Processo ainda depende de operação/manual review
+## Backend evidence
+
+- Endpoint: `app/api/lgpd/delete/route.ts`
+- Persistence table: `data_deletion_requests`
+- Authenticated flow: request is associated with the authenticated profile
+- Public flow: request is accepted for review using the submitted email
+- Audit log: the request is recorded for compliance traceability
+
+## UX evidence
+
+- Deletion is not hidden behind manual support contact
+- The user sees a dedicated deletion action inside the product
+- The public web page exists for Play Console data deletion disclosure
+- The privacy policy and reviewer instructions point to the same canonical deletion URL
+
+## Known operational boundary
+
+- Final deletion execution still depends on the privacy operations process
+- That is acceptable for store review as long as the request path is functional, clear, and not misleading
+
+## Status
+
+- Evidence package: READY
+- Final hosted URL validation: PENDING ON DEPLOY

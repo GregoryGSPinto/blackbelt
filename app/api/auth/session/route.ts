@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClientSafe } from '@/lib/supabase/server';
+import { hasRequiredSupabaseEnv } from '@/src/config/env';
 
 const COOKIE_NAME = 'blackbelt_session';
 const COOKIE_OPTIONS = {
@@ -14,8 +15,30 @@ export const dynamic = 'force-dynamic';
 
 /** GET — Read authenticated session from Supabase server session */
 export async function GET() {
+  if (!hasRequiredSupabaseEnv()) {
+    return NextResponse.json(
+      {
+        session: null,
+        error: 'Server configuration incomplete',
+        code: 'ENV_MISSING',
+      },
+      { status: 503 },
+    );
+  }
+
   try {
-    const supabase = await getSupabaseServerClient();
+    const supabase = await getSupabaseServerClientSafe();
+    if (!supabase) {
+      return NextResponse.json(
+        {
+          session: null,
+          error: 'Authentication unavailable',
+          code: 'AUTH_UNAVAILABLE',
+        },
+        { status: 503 },
+      );
+    }
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -60,8 +83,10 @@ export async function POST() {
 /** DELETE — Clear session cookie */
 export async function DELETE() {
   try {
-    const supabase = await getSupabaseServerClient();
-    await supabase.auth.signOut();
+    const supabase = await getSupabaseServerClientSafe();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
   } catch {
     // Best effort; legacy cookies are still cleared below.
   }

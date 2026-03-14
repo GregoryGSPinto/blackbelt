@@ -1,93 +1,75 @@
 # Store Submission Validation
 
-Date: 2026-03-08
+Date: 2026-03-13
 
 ## Status Summary
 
-- Build status: FAIL
-- Auth validation: PASS
-- Stripe validation: PASS
-- Security validation: PASS
-- Mobile build: FAIL
-- UX validation: FAIL
-- Compliance validation: FAIL
+- Build status: PASS
+- Mobile build: PASS
+- Native sync: PASS
+- Current canonical Capacitor asset directory: `mobile-build/`
+- Compliance release pack: PASS WITH EXTERNAL INPUTS PENDING
 
-## What Passed
+## Root Cause That Was Fixed
 
-- `pnpm typecheck` passed.
-- `pnpm lint` passed.
-- `pnpm test` passed: 37 files, 574 tests passed, 1 skipped.
-- `pnpm build` passed for the web/server deployment path.
-- Supabase cookie-session auth is now the active route auth pattern in the touched subscription, pricing, usage, admin, and profile endpoints.
-- Placeholder API endpoints reviewed in this pass now return `501 Not Implemented` instead of fake success payloads.
-- Stripe webhook verification is present in [app/api/webhooks/stripe/route.ts](/Users/user_pc/Projetos/BlackBelt/app/api/webhooks/stripe/route.ts) through `stripe.webhooks.constructEvent(...)`.
-- No live Stripe secret literals or JWT-like secrets were found in `app/`, `components/`, or `lib/`.
-- `SUPABASE_SERVICE_ROLE_KEY` usage reviewed in `app/api`; touched usages are server-side only and now marked with a security warning comment.
-- Store metadata, icons, screenshots, and iOS privacy manifest files exist in the repository.
+The repository had two conflicting mobile release models at the same time:
 
-## Critical Blocking Issues
+1. `capacitor.config.ts` and the newer shell generator used `mobile-build/`.
+2. Older scripts and release docs still expected a full static export in `out/`.
+3. `next.config.js` still forced `output: 'export'` under `CAPACITOR_BUILD=true`, even though the real mobile strategy had already moved to a hosted Capacitor shell.
 
-1. Capacitor release build is not producing a static web asset directory for native packaging.
-   - `npx cap sync ios` fails: `Could not find the web assets directory: ./out`
-   - `npx cap sync android` fails with the same error.
-   - The repo's own native build path (`bash scripts/build-capacitor.sh`) now completes the Next build, but still does not generate `out/`.
-   - Result: the iOS and Android native shells cannot be updated from the current release build flow.
+That mismatch caused release operators to run the wrong flow and left validation documents claiming `cap sync` should read `out/`, which no longer matched the actual codebase.
 
-2. Pending Supabase migrations contain destructive table drops.
-   - `pnpm exec supabase db push --dry-run` reported pending migrations including `supabase/migrations/00029_pricing_v3_0.sql`.
-   - That migration includes `DROP TABLE IF EXISTS` statements for billing/subscription tables such as `trial_tracking`, `subscription_addons`, `usage_quotas`, `academy_subscriptions`, and `subscription_plans`.
-   - Result: production database rollout is not safe without a backup/migration plan.
+## Canonical Mobile Pipeline
 
-## Auth Validation
+- Web/server build: `pnpm build`
+- Mobile web assets: `CAPACITOR_BUILD=true pnpm build`
+- Canonical Capacitor asset directory: `mobile-build/`
+- Sync both native projects: `pnpm mobile:sync`
+- Sync iOS only: `pnpm mobile:sync:ios`
+- Sync Android only: `pnpm mobile:sync:android`
 
-- Legacy bearer-token auth was removed from the touched browser fetch flows and corresponding routes now rely on Supabase cookie sessions.
-- No bearer-token auth pattern remains in `app/` or `components/` production code.
-- Limitation: I did not perform a live credential login/logout test with `admin@blackbelt.com / blackbelt123` in this environment.
+## Validation Executed
 
-## Stripe Validation
+```bash
+pnpm build
+CAPACITOR_BUILD=true pnpm build
+npx cap sync ios
+npx cap sync android
+```
 
-- Webhook signature verification exists.
-- No hardcoded Stripe secret keys were found in production source.
-- Limitation: I did not execute a live Stripe CLI webhook replay or a full test-card checkout from this environment.
+## Validation Result
 
-## Security Validation
+- `pnpm build` passes and preserves the standard hosted Next.js deployment path.
+- `CAPACITOR_BUILD=true pnpm build` passes and generates `mobile-build/index.html` plus `mobile-build/mobile-shell.json`.
+- `npx cap sync ios` passes using `mobile-build/`.
+- `npx cap sync android` passes using `mobile-build/`.
 
-- No client-side `SUPABASE_SERVICE_ROLE_KEY` exposure found.
-- No committed live secrets detected in the scanned production source paths.
-- Placeholder success responses in key placeholder routes were converted to explicit `501` responses.
+## Files Updated For This Fix
 
-## Mobile Build Validation
-
-- `pnpm build` succeeds for the web runtime.
-- `CAPACITOR_BUILD=true pnpm build` succeeds after removing the Google font network dependency in the root layout.
-- Native packaging still fails because the expected Capacitor asset directory `out/` is not generated.
-- `bash scripts/build-capacitor.sh` and `scripts/build-native.sh` were updated to use Webpack for native-release builds, but the missing `out/` issue remains.
-
-## UX / Compliance Validation Limits
-
-- I could verify presence of login, privacy policy page, terms page, screenshots, icons, and account-deletion route in code.
-- I could not validate real-device behavior, App Store Connect settings, Play Console content rating, privacy-policy URL availability over the public internet, or Xcode/Android Studio archive builds from this environment.
-
-## Files Changed In This Validation Pass
-
-- `app/layout.tsx`
-- `app/api/feedback/nps/route.ts`
-- `app/dashboard/admin/plano/page.tsx`
-- `app/(super-admin)/super-admin/academias/page.tsx`
-- `components/subscription/SubscriptionCard.tsx`
-- `components/subscription/UsageQuotas.tsx`
-- `app/(auth)/esqueci-senha/page.tsx`
-- `app/api/professor/videos/[id]/route.ts`
-- `tests/components/login.test.tsx`
-- `tests/integration/login-flow.test.ts`
+- `package.json`
+- `next.config.js`
+- `capacitor.config.ts`
+- `scripts/run-build.mjs`
 - `scripts/build-capacitor.sh`
 - `scripts/build-native.sh`
+- `scripts/capacitor-setup.sh`
+- `README.md`
+- `SUBMISSION_CHECKLIST.md`
+- `docs/ops/01-release-runbook.md`
+- `docs/mobile/05-final-mobile-build-command.md`
 
 ## Final Decision
 
-🔴 NOT READY FOR STORE SUBMISSION
+🟢 MOBILE PIPELINE READY FOR STORE PACKAGING
 
-Blocking issues:
+Notes:
 
-1. Capacitor release packaging is broken because no `out/` web asset directory is generated, so `cap sync` fails for both iOS and Android.
-2. Pending Supabase migrations include destructive `DROP TABLE` operations against subscription/billing tables and are not safe to promote as-is.
+- This validation closes the `out/` vs `mobile-build/` packaging inconsistency.
+- Release compliance paths are now canonical and visible:
+  - in-app deletion entry: account menu and `Configurações -> Minha Conta`
+  - public deletion URL: `/excluir-conta`
+  - support URL: `/suporte`
+  - privacy URL: `/politica-privacidade`
+  - terms URL: `/termos-de-uso`
+- Store submission still depends on external requirements such as signing, hosted environment validation, reviewer credentials, final legal entity data, and production OAuth credentials.

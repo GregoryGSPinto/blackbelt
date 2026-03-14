@@ -36,7 +36,11 @@ export async function updateSupabaseSession(
   })
 
   // Refresh the session — this is required for Server Components
-  await supabase.auth.getUser()
+  try {
+    await supabase.auth.getUser()
+  } catch (error) {
+    logger.error('[Auth] Failed to refresh Supabase session in middleware', error)
+  }
 
   return response
 }

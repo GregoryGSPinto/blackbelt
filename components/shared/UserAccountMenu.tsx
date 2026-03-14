@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { LogOut, ChevronDown, ArrowRightLeft, Settings } from 'lucide-react';
+import { LogOut, ChevronDown, ArrowRightLeft, Settings, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/features/auth/context/AuthContext';
 
@@ -196,6 +196,15 @@ export function UserAccountMenu({
               >
                 <Settings size={18} className="opacity-70 shrink-0" />
                 <span className="font-medium text-sm">{t('settings')}</span>
+              </button>
+
+              <button
+                onClick={() => handleAction(() => router.push('/excluir-conta'))}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${s.itemHover}`}
+                role="menuitem"
+              >
+                <Trash2 size={18} className="opacity-70 shrink-0" />
+                <span className="font-medium text-sm">Excluir conta</span>
               </button>
 
               <div className={`my-1 border-t ${s.divider}`} />

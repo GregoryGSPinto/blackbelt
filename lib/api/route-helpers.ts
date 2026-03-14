@@ -52,13 +52,17 @@ export type AuthContext = {
   membership: { id: string; academy_id: string; role: string } | null;
 };
 
+type WithAuthOptions = {
+  requireMembership?: boolean;
+};
+
 /**
  * Extract auth from the Supabase session (cookie-based).
  * Throws JSON response if not authenticated.
  */
 export async function withAuth(
   _req?: Request,
-  opts?: { requireMembership?: boolean }
+  opts?: WithAuthOptions
 ): Promise<AuthContext> {
   const supabase = await getSupabaseServerClient();
   const { data: { user }, error } = await supabase.auth.getUser();
@@ -80,6 +84,13 @@ export async function withAuth(
       .single();
 
     membership = mem;
+
+    if (!membership) {
+      throw NextResponse.json(
+        { error: 'Nenhuma membership ativa encontrada' },
+        { status: 403 }
+      );
+    }
   }
 
   return {

@@ -55,7 +55,7 @@ export async function GET(request: Request) {
       accountDeletionPath: '/excluir-conta',
       privacyPolicyPath: '/politica-privacidade',
       termsPath: '/termos-de-uso',
-      supportPath: '/review-access',
+      supportPath: '/suporte',
     },
     auth: {
       sessionTransport: 'cookie',

@@ -38,14 +38,14 @@ Deno.serve(async (req) => {
 
       // Count active members (checked in within 30 days)
       const { count: activeMembers } = await supabase
-        .from('attendance')
+        .from('attendances')
         .select('membership_id', { count: 'exact', head: true })
         .eq('academy_id', academy.id)
         .gte('checked_in_at', thirtyDaysAgo.toISOString())
 
       // Count total checkins in last 30 days
       const { count: totalCheckins } = await supabase
-        .from('attendance')
+        .from('attendances')
         .select('*', { count: 'exact', head: true })
         .eq('academy_id', academy.id)
         .gte('checked_in_at', thirtyDaysAgo.toISOString())

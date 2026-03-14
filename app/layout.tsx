@@ -21,7 +21,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { DynamicFavicon } from "@/components/shared/DynamicFavicon";
 import { logger } from "@/lib/logger";
-import { validateEnv } from "@/src/config/env";
+import { getMissingEnvVariables, hasRequiredSupabaseEnv } from "@/src/config/env";
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -70,10 +70,12 @@ export default async function RootLayout({
 }) {
   const isCapacitorBuild = process.env.CAPACITOR_BUILD === 'true';
 
-  try {
-    validateEnv();
-  } catch (error) {
-    logger.error('[Auth] Missing Supabase environment variables', error);
+  if (!hasRequiredSupabaseEnv()) {
+    const missing = getMissingEnvVariables();
+    logger.error(
+      `[Runtime] Missing required environment variables: ${missing.join(', ')}`,
+      new Error('Supabase runtime environment is incomplete'),
+    );
   }
 
   const locale = await getLocale();

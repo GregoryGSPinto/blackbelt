@@ -9,6 +9,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
+import { getSupabaseBrowserClientSafe } from '@/lib/supabase/client';
 
 // ─── Animation Constants ────────────────────────────────────
 const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as const;
@@ -58,14 +59,12 @@ export default function AlterarSenhaPage() {
 
   const router = useRouter();
   const [formData, setFormData] = useState({
-    currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -94,11 +93,35 @@ export default function AlterarSenhaPage() {
 
     setLoading(true);
 
-    // Simulação de alteração
-    setTimeout(() => {
+    try {
+      const supabase = getSupabaseBrowserClientSafe();
+      if (!supabase) {
+        throw new Error('A redefinição de senha não está configurada neste ambiente.');
+      }
+
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        throw sessionError;
+      }
+
+      if (!session) {
+        throw new Error('Abra novamente o link de recuperação enviado por email antes de definir uma nova senha.');
+      }
+
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: formData.newPassword,
+      });
+
+      if (updateError) {
+        throw updateError;
+      }
+
       setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Não foi possível alterar sua senha.');
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   if (success) {
@@ -230,40 +253,6 @@ export default function AlterarSenhaPage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              {/* Current Password */}
-              <motion.div variants={itemVariants}>
-                <label htmlFor="currentPassword" className="block text-sm font-medium mb-2.5" style={{ color: tokens.text }}>
-                  {t('changePassword.currentPassword')}
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: tokens.textMuted }} />
-                  <input
-                    id="currentPassword"
-                    type={showCurrent ? 'text' : 'password'}
-                    value={formData.currentPassword}
-                    onChange={(e) => setFormData(prev => ({ ...prev, currentPassword: e.target.value }))}
-                    className="w-full pl-12 pr-12 py-4 rounded-xl transition-all outline-none"
-                    style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      border: `1px solid ${tokens.cardBorder}`,
-                      color: tokens.text,
-                    }}
-                    placeholder={t('changePassword.currentPasswordPlaceholder')}
-                    autoComplete="current-password"
-                    required
-                    minLength={6}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowCurrent(!showCurrent)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
-                    style={{ color: tokens.textMuted }}
-                  >
-                    {showCurrent ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-              </motion.div>
 
               {/* New Password */}
               <motion.div variants={itemVariants}>

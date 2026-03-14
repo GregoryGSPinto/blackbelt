@@ -82,7 +82,27 @@
       "Bash(find /Users/user_pc/Projetos/BlackBelt -type f \\\\\\( -name \"*email*\" -o -name \"*mail*\" -o -name \"*nodemailer*\" -o -name \"*smtp*\" \\\\\\) -not -path \"*/node_modules/*\" 2>/dev/null | head -20)",
       "Bash(ls -la /Users/user_pc/Projetos/BlackBelt/app/\\\\\\(developer\\\\\\)/developer/)",
       "Bash(grep -r \"t\\\\\\(\" /Users/user_pc/Projetos/BlackBelt/app --include=\"*.tsx\" 2>/dev/null | wc -l)",
-      "Bash(wc -l /Users/user_pc/Projetos/BlackBelt/package.json && git -C /Users/user_pc/Projetos/BlackBelt log --oneline | head -20)"
+      "Bash(wc -l /Users/user_pc/Projetos/BlackBelt/package.json && git -C /Users/user_pc/Projetos/BlackBelt log --oneline | head -20)",
+      "Bash(git checkout main 2>&1)",
+      "Bash(git pull origin main 2>&1)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -80)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -40)",
+      "Bash(git checkout frontend-architecture-refactor && git stash pop 2>&1)",
+      "Bash(git stash)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -30)",
+      "Bash(npx vitest run --reporter=verbose 2>&1 | tail -10)",
+      "Bash(git cherry-pick 5817b95 --strategy-option theirs 2>&1)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -15)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | grep -E \"Failed|Error|✓ Compiled|error:\" | head -10)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | grep -A 5 \"Error:\" | head -40)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -20)",
+      "Bash(npx vitest run 2>&1 | tail -8)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | grep -E \"Failed|Error|✓ Compiled|Proxy|Dynamic\" | head -10)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -5)",
+      "Bash(git cherry-pick bb4e4e8 --strategy-option theirs 2>&1)",
+      "Bash(git add instrumentation.ts && git cherry-pick --continue --no-edit)",
+      "Bash(NEXT_PUBLIC_USE_MOCK=false npx next build 2>&1 | tail -10)",
+      "Bash(git checkout frontend-architecture-refactor)"
     ]
   }
 }

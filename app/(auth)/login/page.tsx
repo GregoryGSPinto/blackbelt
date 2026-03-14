@@ -138,6 +138,36 @@ const stepTransition = {
   },
 };
 
+const STEP_VIEWPORT_MIN_HEIGHT = 360;
+const STEP_FRAME_MIN_HEIGHT = 292;
+const STEP_SWAP_TRANSITION = {
+  duration: 0.28,
+  ease: EASE_SMOOTH,
+};
+
+const premiumStepVariants = {
+  initial: {
+    opacity: 0,
+    x: 18,
+    scale: 0.992,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: STEP_SWAP_TRANSITION,
+  },
+  exit: {
+    opacity: 0,
+    x: -14,
+    scale: 0.992,
+    transition: {
+      duration: 0.22,
+      ease: EASE_SMOOTH,
+    },
+  },
+};
+
 // Stagger container para elementos aparecerem em sequência
 const staggerContainer = {
   initial: {},
@@ -236,13 +266,10 @@ function AnimatedError({ children, colors }: { children: React.ReactNode; colors
         marginBottom: '1rem',
         textAlign: 'center',
       }}
-      animate={shouldReduceMotion ? undefined : {
-        x: [-10, 10, -10, 10, 0],
-        transition: {
-          duration: 0.4,
-          ease: 'easeInOut' as const,
-        }
-      }}
+      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 8, scale: shouldReduceMotion ? 1 : 0.985 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -6, scale: shouldReduceMotion ? 1 : 0.985 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.22, ease: EASE_SMOOTH }}
     >
       {children}
     </motion.p>
@@ -395,6 +422,7 @@ function AnimatedCard({ children, style, className = '' }: { children: React.Rea
 
 // ─── Animated Input Component ───────────────────────────────
 interface AnimatedInputProps {
+  inputRef?: React.Ref<HTMLInputElement>;
   id?: string;
   type?: string;
   value?: string;
@@ -414,6 +442,7 @@ interface AnimatedInputProps {
 }
 
 function AnimatedInput({ 
+  inputRef,
   id,
   type,
   value,
@@ -436,6 +465,7 @@ function AnimatedInput({
   
   return (
     <motion.input
+      ref={inputRef}
       id={id}
       type={type}
       value={value}
@@ -687,6 +717,8 @@ function LoginContent() {
   const [isOAuthLoading, setIsOAuthLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const sobreRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   // ─── Theme-aware colors (from shared design tokens) ──────
   const colors = getDesignTokens(isDark);
@@ -859,10 +891,53 @@ function LoginContent() {
     }
   }, []);
 
+  const isLoginFlow = step !== 'INITIAL';
+  const activeLoginStep = step === 'LOADING' || step === 'ERROR' || step === 'PASSWORD' ? step : 'EMAIL';
+  const shouldShowPasswordFrame = activeLoginStep !== 'EMAIL';
+  const sharedCardSurface: React.CSSProperties = {
+    border: `1px solid ${colors.cardBorder}`,
+    borderRadius: 12,
+    overflow: 'hidden',
+    background: colors.cardBg,
+    backdropFilter: 'blur(12px) saturate(1.2)',
+    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+    transition: `${transitions.theme}, border-color 0.25s ease`,
+    position: 'relative',
+    minHeight: STEP_FRAME_MIN_HEIGHT,
+  };
+  const stepViewportStyle: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+    minHeight: STEP_VIEWPORT_MIN_HEIGHT,
+  };
+  const stepPaneStyle: React.CSSProperties = shouldReduceMotion
+    ? { position: 'relative', width: '100%' }
+    : { position: 'absolute', inset: 0, width: '100%' };
+  const statusSlotMinHeight = error || emailInvalid ? 42 : 26;
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      if (activeLoginStep === 'EMAIL') {
+        emailInputRef.current?.focus();
+      } else if (activeLoginStep === 'PASSWORD' || activeLoginStep === 'ERROR') {
+        passwordInputRef.current?.focus();
+      }
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      if (activeLoginStep === 'EMAIL') {
+        emailInputRef.current?.focus();
+      } else if (activeLoginStep === 'PASSWORD' || activeLoginStep === 'ERROR') {
+        passwordInputRef.current?.focus();
+      }
+    }, 180);
+
+    return () => window.clearTimeout(timer);
+  }, [activeLoginStep, shouldReduceMotion]);
+
   // ─── Defer render until mounted ───────────────────────────
   if (!mounted) return null;
-
-  const isLoginFlow = step !== 'INITIAL';
 
   // ─── Render ───────────────────────────────────────────────
   return (
@@ -1000,453 +1075,40 @@ function LoginContent() {
           )}
         </AnimatePresence>
 
-        {/* ─── STEP: EMAIL ───────────────────────────────── */}
-        <AnimatePresence mode="wait">
-          {step === 'EMAIL' && (
+        {isLoginFlow && (
+          <motion.div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            className="login-card-responsive"
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+          >
             <motion.div
-              key="email"
-              variants={stepTransition}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              style={{
-                width: '100%',
-                maxWidth: 400,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
-              }}
-              className="login-card-responsive"
+              initial={{ opacity: 0, y: -16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.32, ease: EASE_SMOOTH }}
+              style={{ marginBottom: '2rem' }}
             >
-              {/* Logo at top */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-                style={{ marginBottom: '2rem' }}
-              >
-                <AnimatedLogo isDark={isDark} />
-              </motion.div>
-
-              <form onSubmit={handleEmailSubmit} style={{ width: '100%' }}>
-                <motion.div 
-                  style={{ position: 'relative', width: '100%' }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1, ease: EASE_OUT_EXPO }}
-                >
-                  {/* Back arrow to INITIAL */}
-                  <motion.button
-                    type="button"
-                    onClick={() => { setStep('INITIAL'); setError(''); }}
-                    aria-label={tCommon('actions.goBack')}
-                    style={{
-                      position: 'absolute',
-                      top: '-3rem',
-                      left: 0,
-                      zIndex: 2,
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '0.25rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      willChange: shouldReduceMotion ? undefined : 'transform',
-                    }}
-                    whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
-                    whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
-                    transition={SPRING_GENTLE}
-                  >
-                    <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                  </motion.button>
-
-                {/* Unified bordered container: card + divider + SSO */}
-                <motion.div
-                  style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    borderRadius: 12,
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    transition: `${transitions.theme}, border-color 0.25s ease`,
-                  }}
-                  whileHover={{ borderColor: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)' }}
-                >
-                  {/* Card content */}
-                  <div style={{ padding: '2rem 1.5rem 1.5rem' }}>
-                    {/* Title */}
-                    <motion.h2
-                      style={{
-                        color: colors.text,
-                        fontSize: '0.875rem',
-                        fontWeight: 600,
-                        letterSpacing: '0.25em',
-                        textTransform: 'uppercase',
-                        marginBottom: '1.5rem',
-                        textAlign: 'center',
-                        transition: transitions.theme,
-                      }}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2, duration: 0.4 }}
-                    >
-                      {t('login.title').toUpperCase()}
-                    </motion.h2>
-
-                    {/* Error with shake */}
-                    <AnimatePresence>
-                      {error && (
-                        <AnimatedError colors={colors}>
-                          {error}
-                        </AnimatedError>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Email input with dropdown arrow */}
-                    <div style={{ position: 'relative' }} ref={dropdownRef}>
-                      <AnimatedInput
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => { setEmail(e.target.value); setError(''); setEmailInvalid(false); }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                            handleEmailSubmit(e);
-                          }
-                        }}
-                        placeholder="Email address"
-                        autoFocus
-                        autoComplete="email"
-                        required
-                        aria-label="Email"
-                        isDark={isDark}
-                        colors={colors}
-                        isInvalid={emailInvalid}
-                        style={{
-                          width: '100%',
-                          background: 'transparent',
-                          border: 'none',
-                          padding: '0.75rem 2.5rem 0.75rem 0',
-                          fontSize: '1rem',
-                          color: emailInvalid ? colors.error : colors.text,
-                          outline: 'none',
-                          transition: 'all 0.3s ease',
-                        }}
-                      />
-                      {/* Dropdown arrow */}
-                      {SHOW_DEMO_USERS && (
-                        <motion.button
-                          type="button"
-                          onClick={() => setShowDropdown(!showDropdown)}
-                          aria-label="Selecionar usuário de desenvolvimento"
-                          style={{
-                            position: 'absolute',
-                            right: 0,
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            padding: '0.5rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                          animate={{ rotate: showDropdown ? 180 : 0 }}
-                          transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          <ChevronDownLucide 
-                            size={18} 
-                            color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'} 
-                          />
-                        </motion.button>
-                      )}
-
-                      {/* Dropdown menu */}
-                      <AnimatePresence>
-                        {SHOW_DEMO_USERS && showDropdown && (
-                          <motion.div
-                            onTouchMove={(e) => e.stopPropagation()}
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-                            style={{
-                              position: 'absolute',
-                              top: '100%',
-                              left: 0,
-                              right: 0,
-                              marginTop: 4,
-                              background: isDark ? '#1a1a2e' : '#ffffff',
-                              border: `1px solid ${colors.cardBorder}`,
-                              borderRadius: 8,
-                              zIndex: 9999,
-                              boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                            }}
-                          >
-                            {DEMO_USERS.map((u, index) => (
-                              <motion.button
-                                key={u.email}
-                                type="button"
-                                onClick={() => selectDemoUser(u)}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: index * 0.05 }}
-                                style={{
-                                  width: '100%',
-                                  padding: '0.625rem 1rem',
-                                  border: 'none',
-                                  borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
-                                  background: 'transparent',
-                                  cursor: 'pointer',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: '0.75rem',
-                                  textAlign: 'left',
-                                }}
-                                whileHover={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
-                              >
-                                <span className="text-lg">{u.icon}</span>
-                                <div>
-                                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
-                                    {u.label}
-                                  </span>
-                                  <span style={{ fontSize: '0.72rem', color: colors.textMuted }}>
-                                    {u.email}
-                                  </span>
-                                </div>
-                              </motion.button>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {emailInvalid && (
-                      <motion.p
-                        style={{
-                          color: colors.error,
-                          fontSize: '0.75rem',
-                          marginTop: '0.4rem',
-                          marginBottom: 0,
-                          opacity: 0.85,
-                        }}
-                        animate={{
-                          x: [-10, 10, -10, 10, 0],
-                          transition: {
-                            duration: 0.4,
-                            ease: 'easeInOut' as const,
-                          }
-                        }}
-                      >
-                        {t('login.emailNotFound')}
-                      </motion.p>
-                    )}
-
-                    {/* Remember me + Criar conta + Forgot email */}
-                    {/* Mobile: LINE 1 Lembrar-me centered | LINE 2 Criar conta LEFT + Esqueci email RIGHT */}
-                    <div className="flex flex-col items-center gap-2 md:hidden" style={{ marginTop: '1.5rem' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
-                        <input type="checkbox" className="w-3 h-3 md:w-4 md:h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
-                        Lembrar-me
-                      </label>
-                      <div className="flex items-center justify-between w-full">
-                        <Link
-                          href="/cadastro"
-                          style={{
-                            fontSize: '0.875rem',
-                            color: colors.text,
-                            opacity: 0.5,
-                            textDecoration: 'none',
-                            transition: transitions.theme,
-                          }}
-                        >
-                          {t('login.createAccount')}
-                        </Link>
-                        <Link
-                          href="/esqueci-email"
-                          style={{
-                            fontSize: '0.875rem',
-                            color: colors.linkColor,
-                            textDecoration: 'none',
-                            transition: transitions.theme,
-                          }}
-                        >
-                          {t('login.forgotEmail')}
-                        </Link>
-                      </div>
-                    </div>
-                    {/* Desktop: original layout with Criar conta centered */}
-                    <div className="hidden md:flex md:flex-col md:items-center md:gap-3" style={{ marginTop: '1.5rem' }}>
-                      <div className="flex items-center justify-between w-full">
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
-                          <input type="checkbox" className="w-4 h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
-                          Remember me
-                        </label>
-                        <Link
-                          href="/esqueci-email"
-                          style={{
-                            fontSize: '0.875rem',
-                            color: colors.linkColor,
-                            textDecoration: 'none',
-                            transition: transitions.theme,
-                          }}
-                        >
-                          {t('login.forgotEmail')}
-                        </Link>
-                      </div>
-                      <Link
-                        href="/cadastro"
-                        style={{
-                          fontSize: '0.875rem',
-                          color: colors.text,
-                          opacity: 0.5,
-                          textDecoration: 'none',
-                          transition: transitions.theme,
-                        }}
-                      >
-                        {t('login.createAccount')}
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Divider */}
-                  <div style={{ height: 1, background: colors.cardBorder, transition: transitions.theme }} />
-
-                  {/* SSO buttons at bottom with stagger */}
-                  <motion.div 
-                    style={{ display: 'flex' }}
-                    variants={staggerContainer}
-                    initial="initial"
-                    animate="animate"
-                  >
-                    <motion.button
-                      variants={staggerItem}
-                      type="button"
-                      onClick={handleGoogleSignIn}
-                      disabled={isOAuthLoading}
-                      aria-label={t('login.loginWithGoogle')}
-                      style={{
-                        flex: 1,
-                        height: 52,
-                        border: 'none',
-                        borderRight: `1px solid ${colors.cardBorder}`,
-                        borderRadius: 0,
-                        background: 'transparent',
-                        cursor: isOAuthLoading ? 'wait' : 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        willChange: shouldReduceMotion ? undefined : 'transform',
-                        opacity: isOAuthLoading ? 0.6 : 1,
-                      }}
-                      whileHover={shouldReduceMotion || isOAuthLoading ? undefined : { 
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-                        scale: 1.03,
-                      }}
-                      whileTap={shouldReduceMotion || isOAuthLoading ? undefined : { scale: 0.97 }}
-                      transition={SPRING_PREMIUM}
-                    >
-                      {isOAuthLoading ? <AnimatedSpinner color={colors.error} /> : <GoogleIcon />}
-                    </motion.button>
-                    <motion.button
-                      variants={staggerItem}
-                      type="button"
-                      onClick={handleAppleSignIn}
-                      disabled={isOAuthLoading}
-                      aria-label={t('login.loginWithApple')}
-                      style={{
-                        flex: 1,
-                        height: 52,
-                        border: 'none',
-                        borderRadius: 0,
-                        background: 'transparent',
-                        cursor: isOAuthLoading ? 'wait' : 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        willChange: shouldReduceMotion ? undefined : 'transform',
-                        opacity: isOAuthLoading ? 0.6 : 1,
-                      }}
-                      whileHover={shouldReduceMotion || isOAuthLoading ? undefined : { 
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-                        scale: 1.03,
-                      }}
-                      whileTap={shouldReduceMotion || isOAuthLoading ? undefined : { scale: 0.97 }}
-                      transition={SPRING_PREMIUM}
-                    >
-                      {isOAuthLoading ? <AnimatedSpinner color={colors.error} /> : <AppleIcon color={colors.text} />}
-                    </motion.button>
-                  </motion.div>
-                </motion.div>{/* end unified border */}
-
-                  {/* Hidden submit for Enter key */}
-                  <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
-
-                </motion.div>
-              </form>
+              <AnimatedLogo isDark={isDark} />
             </motion.div>
-          )}
-        </AnimatePresence>
 
-        {/* ─── STEP: PASSWORD ────────────────────────────── */}
-        <AnimatePresence mode="wait">
-          {step === 'PASSWORD' && (
-            <motion.div
-              key="password"
-              variants={stepTransition}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              style={{
-                width: '100%',
-                maxWidth: 400,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
-              }}
-              className="login-card-responsive"
-            >
-              {/* Logo at top */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-                style={{ marginBottom: '2rem' }}
-              >
-                <AnimatedLogo isDark={isDark} />
-              </motion.div>
-
-            <form onSubmit={handlePasswordSubmit} style={{ width: '100%' }}>
-              <motion.div
-                style={{
-                  border: `1px solid ${colors.cardBorder}`,
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  background: colors.cardBg,
-                  backdropFilter: 'blur(12px) saturate(1.2)',
-                  WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                  transition: transitions.theme,
-                  position: 'relative',
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: EASE_OUT_EXPO }}
-              >
-                {/* Back button */}
+            <div style={stepViewportStyle}>
+              {!shouldShowPasswordFrame && (
                 <motion.button
                   type="button"
-                  onClick={goBackToEmail}
+                  onClick={() => { setStep('INITIAL'); setError(''); }}
+                  aria-label={tCommon('actions.goBack')}
                   style={{
                     position: 'absolute',
-                    top: '1rem',
-                    left: '1rem',
+                    top: '-3rem',
+                    left: 0,
+                    zIndex: 3,
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
@@ -1454,455 +1116,583 @@ function LoginContent() {
                     display: 'flex',
                     alignItems: 'center',
                     willChange: shouldReduceMotion ? undefined : 'transform',
-                    zIndex: 2,
                   }}
-                  aria-label={tCommon('actions.goBack')}
-                  whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.05, x: -2 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
                   transition={SPRING_GENTLE}
                 >
                   <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
                 </motion.button>
+              )}
 
-                {/* Conteudo superior */}
-                <div style={{ padding: '2.5rem 1.5rem 1.5rem' }}>
-                  {/* Email display */}
-                  <motion.p
-                    style={{
-                      fontSize: '0.85rem',
-                      color: colors.textMuted,
-                      marginBottom: '1.5rem',
-                      marginTop: '0.5rem',
-                      textAlign: 'center',
-                      opacity: 0.8,
-                      transition: transitions.theme,
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.8 }}
-                    transition={{ delay: 0.1 }}
+              <AnimatePresence initial={false} mode="wait">
+                {!shouldShowPasswordFrame && (
+                  <motion.form
+                    key="email"
+                    onSubmit={handleEmailSubmit}
+                    variants={premiumStepVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    style={stepPaneStyle}
                   >
-                    {email}
-                  </motion.p>
-
-                  {/* Error with shake */}
-                  <AnimatePresence>
-                    {error && (
-                      <AnimatedError colors={colors}>
-                        {error}
-                      </AnimatedError>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Password input */}
-                  <motion.div 
-                    style={{ marginBottom: '1rem', position: 'relative' }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.15 }}
-                  >
-                    <label
-                      htmlFor="password"
-                      style={{
-                        display: 'block',
-                        fontSize: '0.75rem',
-                        fontWeight: 500,
-                        color: colors.textMuted,
-                        marginBottom: '0.5rem',
-                        letterSpacing: '0.05em',
-                        textTransform: 'uppercase',
-                        transition: transitions.theme,
-                      }}
+                    <motion.div
+                      style={sharedCardSurface}
+                      whileHover={shouldReduceMotion ? undefined : { borderColor: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.5)' }}
                     >
-                      {t('login.password')}
-                    </label>
-                    <div style={{ position: 'relative' }}>
-                      <AnimatedInput
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                            handlePasswordSubmit(e);
-                          }
-                        }}
-                        placeholder={t('login.passwordPlaceholder')}
-                        autoFocus
-                        autoComplete="current-password"
-                        required
-                        isDark={isDark}
-                        colors={colors}
+                      <div style={{ padding: '2rem 1.5rem 1.5rem' }}>
+                        <motion.h2
+                          style={{
+                            color: colors.text,
+                            fontSize: '0.875rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.25em',
+                            textTransform: 'uppercase',
+                            marginBottom: '1.5rem',
+                            textAlign: 'center',
+                            transition: transitions.theme,
+                          }}
+                        >
+                          {t('login.title').toUpperCase()}
+                        </motion.h2>
+
+                        <div style={{ minHeight: statusSlotMinHeight }}>
+                          <AnimatePresence initial={false} mode="popLayout">
+                            {error ? (
+                              <AnimatedError key="email-error" colors={colors}>
+                                {error}
+                              </AnimatedError>
+                            ) : emailInvalid ? (
+                              <motion.p
+                                key="email-invalid"
+                                style={{
+                                  color: colors.error,
+                                  fontSize: '0.75rem',
+                                  marginTop: '0.25rem',
+                                  marginBottom: '1rem',
+                                  opacity: 0.9,
+                                  textAlign: 'center',
+                                }}
+                                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -6 }}
+                                transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: EASE_SMOOTH }}
+                              >
+                                {t('login.emailNotFound')}
+                              </motion.p>
+                            ) : (
+                              <motion.div
+                                key="email-spacer"
+                                style={{ height: 26 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              />
+                            )}
+                          </AnimatePresence>
+                        </div>
+
+                        <div style={{ position: 'relative' }} ref={dropdownRef}>
+                          <AnimatedInput
+                            inputRef={emailInputRef}
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => { setEmail(e.target.value); setError(''); setEmailInvalid(false); }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleEmailSubmit(e);
+                              }
+                            }}
+                            placeholder="Email address"
+                            autoComplete="email"
+                            required
+                            aria-label="Email"
+                            isDark={isDark}
+                            colors={colors}
+                            isInvalid={emailInvalid}
+                            style={{
+                              width: '100%',
+                              background: 'transparent',
+                              border: 'none',
+                              padding: '0.75rem 2.5rem 0.75rem 0',
+                              fontSize: '1rem',
+                              color: emailInvalid ? colors.error : colors.text,
+                              outline: 'none',
+                              transition: 'all 0.3s ease',
+                            }}
+                          />
+                          {SHOW_DEMO_USERS && (
+                            <motion.button
+                              type="button"
+                              onClick={() => setShowDropdown(!showDropdown)}
+                              aria-label="Selecionar usuário de desenvolvimento"
+                              style={{
+                                position: 'absolute',
+                                right: 0,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                padding: '0.5rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                              }}
+                              animate={{ rotate: showDropdown ? 180 : 0 }}
+                              transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: EASE_SMOOTH }}
+                              whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}
+                              whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
+                            >
+                              <ChevronDownLucide
+                                size={18}
+                                color={isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'}
+                              />
+                            </motion.button>
+                          )}
+
+                          <AnimatePresence initial={false}>
+                            {SHOW_DEMO_USERS && showDropdown && (
+                              <motion.div
+                                onTouchMove={(e) => e.stopPropagation()}
+                                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -8, scale: shouldReduceMotion ? 1 : 0.99 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -6, scale: shouldReduceMotion ? 1 : 0.99 }}
+                                transition={{ duration: shouldReduceMotion ? 0 : 0.22, ease: EASE_SMOOTH }}
+                                style={{
+                                  position: 'absolute',
+                                  top: '100%',
+                                  left: 0,
+                                  right: 0,
+                                  marginTop: 4,
+                                  background: isDark ? '#1a1a2e' : '#ffffff',
+                                  border: `1px solid ${colors.cardBorder}`,
+                                  borderRadius: 8,
+                                  zIndex: 9999,
+                                  boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                {DEMO_USERS.map((u, index) => (
+                                  <motion.button
+                                    key={u.email}
+                                    type="button"
+                                    onClick={() => selectDemoUser(u)}
+                                    initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: shouldReduceMotion ? 0 : index * 0.03, duration: shouldReduceMotion ? 0 : 0.18 }}
+                                    style={{
+                                      width: '100%',
+                                      padding: '0.625rem 1rem',
+                                      border: 'none',
+                                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+                                      background: 'transparent',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '0.75rem',
+                                      textAlign: 'left',
+                                    }}
+                                    whileHover={shouldReduceMotion ? undefined : { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                                  >
+                                    <span className="text-lg">{u.icon}</span>
+                                    <div>
+                                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.text, display: 'block' }}>
+                                        {u.label}
+                                      </span>
+                                      <span style={{ fontSize: '0.72rem', color: colors.textMuted }}>
+                                        {u.email}
+                                      </span>
+                                    </div>
+                                  </motion.button>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-2 md:hidden" style={{ marginTop: '1.5rem' }}>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
+                            <input type="checkbox" className="w-3 h-3 md:w-4 md:h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                            Lembrar-me
+                          </label>
+                          <div className="flex items-center justify-between w-full">
+                            <Link
+                              href="/cadastro"
+                              style={{
+                                fontSize: '0.875rem',
+                                color: colors.text,
+                                opacity: 0.5,
+                                textDecoration: 'none',
+                                transition: transitions.theme,
+                              }}
+                            >
+                              {t('login.createAccount')}
+                            </Link>
+                            <Link
+                              href="/esqueci-email"
+                              style={{
+                                fontSize: '0.875rem',
+                                color: colors.linkColor,
+                                textDecoration: 'none',
+                                transition: transitions.theme,
+                              }}
+                            >
+                              {t('login.forgotEmail')}
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="hidden md:flex md:flex-col md:items-center md:gap-3" style={{ marginTop: '1.5rem' }}>
+                          <div className="flex items-center justify-between w-full">
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: colors.textMuted, cursor: 'pointer', transition: transitions.theme }}>
+                              <input type="checkbox" className="w-4 h-4" style={{ accentColor: isDark ? '#fff' : '#111' }} />
+                              Remember me
+                            </label>
+                            <Link
+                              href="/esqueci-email"
+                              style={{
+                                fontSize: '0.875rem',
+                                color: colors.linkColor,
+                                textDecoration: 'none',
+                                transition: transitions.theme,
+                              }}
+                            >
+                              {t('login.forgotEmail')}
+                            </Link>
+                          </div>
+                          <Link
+                            href="/cadastro"
+                            style={{
+                              fontSize: '0.875rem',
+                              color: colors.text,
+                              opacity: 0.5,
+                              textDecoration: 'none',
+                              transition: transitions.theme,
+                            }}
+                          >
+                            {t('login.createAccount')}
+                          </Link>
+                        </div>
+                      </div>
+
+                      <div style={{ height: 1, background: colors.cardBorder, transition: transitions.theme }} />
+
+                      <motion.div
+                        style={{ display: 'flex' }}
+                        variants={staggerContainer}
+                        initial="initial"
+                        animate="animate"
+                      >
+                        <motion.button
+                          variants={staggerItem}
+                          type="button"
+                          onClick={handleGoogleSignIn}
+                          disabled={isOAuthLoading}
+                          aria-label={t('login.loginWithGoogle')}
+                          style={{
+                            flex: 1,
+                            height: 52,
+                            border: 'none',
+                            borderRight: `1px solid ${colors.cardBorder}`,
+                            borderRadius: 0,
+                            background: 'transparent',
+                            cursor: isOAuthLoading ? 'wait' : 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            willChange: shouldReduceMotion ? undefined : 'transform',
+                            opacity: isOAuthLoading ? 0.6 : 1,
+                          }}
+                          whileHover={shouldReduceMotion || isOAuthLoading ? undefined : {
+                            backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                            scale: 1.02,
+                          }}
+                          whileTap={shouldReduceMotion || isOAuthLoading ? undefined : { scale: 0.98 }}
+                          transition={SPRING_PREMIUM}
+                        >
+                          {isOAuthLoading ? <AnimatedSpinner color={colors.error} /> : <GoogleIcon />}
+                        </motion.button>
+                        <motion.button
+                          variants={staggerItem}
+                          type="button"
+                          onClick={handleAppleSignIn}
+                          disabled={isOAuthLoading}
+                          aria-label={t('login.loginWithApple')}
+                          style={{
+                            flex: 1,
+                            height: 52,
+                            border: 'none',
+                            borderRadius: 0,
+                            background: 'transparent',
+                            cursor: isOAuthLoading ? 'wait' : 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            willChange: shouldReduceMotion ? undefined : 'transform',
+                            opacity: isOAuthLoading ? 0.6 : 1,
+                          }}
+                          whileHover={shouldReduceMotion || isOAuthLoading ? undefined : {
+                            backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                            scale: 1.02,
+                          }}
+                          whileTap={shouldReduceMotion || isOAuthLoading ? undefined : { scale: 0.98 }}
+                          transition={SPRING_PREMIUM}
+                        >
+                          {isOAuthLoading ? <AnimatedSpinner color={colors.error} /> : <AppleIcon color={colors.text} />}
+                        </motion.button>
+                      </motion.div>
+                    </motion.div>
+                    <button type="submit" style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
+                  </motion.form>
+                )}
+
+                {shouldShowPasswordFrame && (
+                  <motion.form
+                    key={activeLoginStep}
+                    onSubmit={handlePasswordSubmit}
+                    variants={premiumStepVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    style={stepPaneStyle}
+                  >
+                    <motion.div style={sharedCardSurface}>
+                      <div style={{ padding: '2.5rem 1.5rem 1.5rem', position: 'relative' }}>
+                        <motion.button
+                          type="button"
+                          onClick={goBackToEmail}
+                          style={{
+                            position: 'absolute',
+                            top: '1rem',
+                            left: '1rem',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '0.25rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            willChange: shouldReduceMotion ? undefined : 'transform',
+                            zIndex: 2,
+                          }}
+                          aria-label={tCommon('actions.goBack')}
+                          whileHover={shouldReduceMotion ? undefined : { scale: 1.05, x: -2 }}
+                          whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+                          transition={SPRING_GENTLE}
+                        >
+                          <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
+                        </motion.button>
+
+                        <motion.p
+                          style={{
+                            fontSize: '0.85rem',
+                            color: colors.textMuted,
+                            marginBottom: '1rem',
+                            marginTop: '0.5rem',
+                            textAlign: 'center',
+                            opacity: 0.8,
+                            transition: transitions.theme,
+                          }}
+                        >
+                          {email}
+                        </motion.p>
+
+                        <div style={{ minHeight: 46, display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}>
+                          <AnimatePresence initial={false} mode="popLayout">
+                            {activeLoginStep === 'LOADING' ? (
+                              <motion.div
+                                key="loading-state"
+                                style={{
+                                  width: '100%',
+                                  minHeight: 108,
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '1rem',
+                                  padding: '1.25rem 0 0.5rem',
+                                }}
+                                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10, scale: shouldReduceMotion ? 1 : 0.992 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -8, scale: shouldReduceMotion ? 1 : 0.992 }}
+                                transition={STEP_SWAP_TRANSITION}
+                              >
+                                <AnimatedSpinner color={colors.text} />
+                                <motion.p
+                                  style={{
+                                    color: colors.textMuted,
+                                    fontSize: '0.875rem',
+                                    margin: 0,
+                                  }}
+                                >
+                                  {tCommon('actions.entering')}
+                                </motion.p>
+                              </motion.div>
+                            ) : (
+                              <motion.div
+                                key={activeLoginStep}
+                                style={{ width: '100%' }}
+                                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -8 }}
+                                transition={STEP_SWAP_TRANSITION}
+                              >
+                                <div style={{ minHeight: 46 }}>
+                                  <AnimatePresence initial={false} mode="popLayout">
+                                    {error ? (
+                                      <AnimatedError key="password-error" colors={colors}>
+                                        {error}
+                                      </AnimatedError>
+                                    ) : (
+                                      <motion.div
+                                        key="password-spacer"
+                                        style={{ height: 30 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                      />
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+
+                                <motion.div style={{ marginBottom: '1rem', position: 'relative' }}>
+                                  <label
+                                    htmlFor="password"
+                                    style={{
+                                      display: 'block',
+                                      fontSize: '0.75rem',
+                                      fontWeight: 500,
+                                      color: colors.textMuted,
+                                      marginBottom: '0.5rem',
+                                      letterSpacing: '0.05em',
+                                      textTransform: 'uppercase',
+                                      transition: transitions.theme,
+                                    }}
+                                  >
+                                    {t('login.password')}
+                                  </label>
+                                  <div style={{ position: 'relative' }}>
+                                    <AnimatedInput
+                                      inputRef={passwordInputRef}
+                                      id="password"
+                                      type={showPassword ? 'text' : 'password'}
+                                      value={password}
+                                      onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                          handlePasswordSubmit(e);
+                                        }
+                                      }}
+                                      placeholder={t('login.passwordPlaceholder')}
+                                      autoComplete="current-password"
+                                      required
+                                      isDark={isDark}
+                                      colors={colors}
+                                      style={{
+                                        width: '100%',
+                                        background: 'transparent',
+                                        border: 'none',
+                                        padding: '0.75rem 2.5rem 0.75rem 0',
+                                        fontSize: '1rem',
+                                        color: colors.text,
+                                        outline: 'none',
+                                        transition: transitions.theme,
+                                      }}
+                                    />
+                                    <motion.button
+                                      type="button"
+                                      onClick={() => setShowPassword(!showPassword)}
+                                      aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
+                                      style={{
+                                        position: 'absolute',
+                                        right: 0,
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        padding: '0.5rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                      }}
+                                      whileHover={shouldReduceMotion ? undefined : { scale: 1.05 }}
+                                      whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
+                                    >
+                                      <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
+                                    </motion.button>
+                                  </div>
+                                </motion.div>
+
+                                <motion.div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                                  <Link
+                                    href="/esqueci-senha"
+                                    style={{
+                                      fontSize: '0.8rem',
+                                      color: colors.linkColor,
+                                      textDecoration: 'none',
+                                      transition: transitions.theme,
+                                    }}
+                                  >
+                                    {t('login.forgotPassword')}
+                                  </Link>
+                                </motion.div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </div>
+
+                      <div style={{ height: 1, background: colors.cardBorder }} />
+
+                      <motion.button
+                        type="submit"
+                        disabled={activeLoginStep === 'LOADING'}
                         style={{
                           width: '100%',
+                          height: 52,
+                          border: 'none',
                           background: 'transparent',
-                          border: 'none',
-                          padding: '0.75rem 2.5rem 0.75rem 0',
-                          fontSize: '1rem',
                           color: colors.text,
-                          outline: 'none',
-                          transition: transitions.theme,
+                          fontSize: '0.8rem',
+                          fontWeight: 600,
+                          letterSpacing: '0.2em',
+                          textTransform: 'uppercase',
+                          cursor: activeLoginStep === 'LOADING' ? 'wait' : 'pointer',
+                          willChange: shouldReduceMotion ? undefined : 'transform',
+                          opacity: activeLoginStep === 'LOADING' ? 0.55 : 1,
                         }}
-                      />
-                      {/* Eye toggle */}
-                      <motion.button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
-                        style={{
-                          position: 'absolute',
-                          right: 0,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '0.5rem',
-                          display: 'flex',
-                          alignItems: 'center',
+                        whileHover={shouldReduceMotion || activeLoginStep === 'LOADING' ? undefined : {
+                          backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                          scale: 1.02,
                         }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
+                        whileTap={shouldReduceMotion || activeLoginStep === 'LOADING' ? undefined : { scale: 0.98 }}
+                        transition={SPRING_PREMIUM}
                       >
-                        <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
+                        {t('login.loginButton').toUpperCase()}
                       </motion.button>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
 
-                  {/* Forgot password link */}
-                  <motion.div 
-                    style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <Link
-                      href="/esqueci-senha"
-                      style={{
-                        fontSize: '0.8rem',
-                        color: colors.linkColor,
-                        textDecoration: 'none',
-                        transition: transitions.theme,
-                      }}
-                    >
-                      {t('login.forgotPassword')}
-                    </Link>
-                  </motion.div>
-                </div>
-
-                {/* Linha divisoria */}
-                <div style={{ height: 1, background: colors.cardBorder }} />
-
-                {/* Botao ENTRAR na base do card */}
-                <motion.button
-                  type="submit"
-                  style={{
-                    width: '100%',
-                    height: 52,
-                    border: 'none',
-                    background: 'transparent',
-                    color: colors.text,
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                    willChange: shouldReduceMotion ? undefined : 'transform',
-                  }}
-                  whileHover={shouldReduceMotion ? undefined : { 
-                    backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-                    scale: 1.02,
-                  }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                  transition={SPRING_PREMIUM}
-                >
-                  {t('login.loginButton').toUpperCase()}
-                </motion.button>
-              </motion.div>
-            </form>
+            <motion.p
+              style={{
+                textAlign: 'center',
+                fontSize: '0.75rem',
+                color: colors.textMuted,
+                marginTop: '2rem',
+                opacity: 0.6,
+                transition: transitions.theme,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              transition={{ delay: 0.18 }}
+            >
+              {t('login.termsAgreement')}
+            </motion.p>
           </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ─── STEP: LOADING ─────────────────────────────── */}
-        <AnimatePresence mode="wait">
-          {step === 'LOADING' && (
-            <motion.div
-              key="loading"
-              variants={stepTransition}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              style={{
-                width: '100%',
-                maxWidth: 480,
-                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
-                margin: 'auto',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1,
-              }}
-              className="login-card-responsive"
-            >
-              <div style={{ width: '100%' }}>
-                <motion.div
-                  style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    borderRadius: 12,
-                    overflow: 'hidden',
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                    padding: '3rem 2rem',
-                    textAlign: 'center',
-                  }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: FADE_EASE }}
-                >
-                  <motion.div 
-                    style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}
-                  >
-                    <AnimatedSpinner color={colors.text} />
-                  </motion.div>
-                  <motion.p
-                    style={{
-                      color: colors.textMuted,
-                      fontSize: '0.875rem',
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    {tCommon('actions.entering')}
-                  </motion.p>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ─── STEP: ERROR (returns to password card) ────── */}
-        <AnimatePresence mode="wait">
-          {step === 'ERROR' && (
-            <motion.div
-              key="error"
-              variants={stepTransition}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              style={{
-                width: '100%',
-                maxWidth: 480,
-                willChange: shouldReduceMotion ? undefined : 'transform, opacity',
-                margin: 'auto',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1,
-              }}
-              className="login-card-responsive"
-            >
-              <form onSubmit={handlePasswordSubmit} style={{ width: '100%' }}>
-                <motion.div
-                  style={{
-                    border: `1px solid ${colors.cardBorder}`,
-                    borderRadius: 12,
-                    overflow: 'hidden',
-                    background: colors.cardBg,
-                    backdropFilter: 'blur(12px) saturate(1.2)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
-                  }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: FADE_EASE }}
-                >
-                  <div style={{ padding: '2.5rem 2rem 1.5rem', position: 'relative' }}>
-                    <motion.button
-                      type="button"
-                      onClick={goBackToEmail}
-                      style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        left: '1rem',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '0.25rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        willChange: shouldReduceMotion ? undefined : 'transform',
-                      }}
-                      aria-label={tCommon('actions.goBack')}
-                      whileHover={shouldReduceMotion ? undefined : { scale: 1.1, x: -2 }}
-                      whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
-                      transition={SPRING_GENTLE}
-                    >
-                      <BackArrowIcon color={isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)'} />
-                    </motion.button>
-
-                  <motion.p
-                    style={{
-                      fontSize: '0.85rem',
-                      color: colors.textMuted,
-                      marginBottom: '1.5rem',
-                      textAlign: 'center',
-                      opacity: 0.6,
-                      transition: transitions.theme,
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.6 }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    {email}
-                  </motion.p>
-
-                  <AnimatePresence>
-                    {error && (
-                      <AnimatedError colors={colors}>
-                        {error}
-                      </AnimatedError>
-                    )}
-                  </AnimatePresence>
-
-                  <motion.div 
-                    style={{ marginBottom: '1rem', position: 'relative' }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.15 }}
-                  >
-                    <label
-                      htmlFor="password-retry"
-                      style={{
-                        display: 'block',
-                        fontSize: '0.75rem',
-                        fontWeight: 500,
-                        color: colors.textMuted,
-                        marginBottom: '0.5rem',
-                        letterSpacing: '0.05em',
-                        textTransform: 'uppercase',
-                        transition: transitions.theme,
-                      }}
-                    >
-                      {t('login.password')}
-                    </label>
-                    <div style={{ position: 'relative' }}>
-                      <AnimatedInput
-                        id="password-retry"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                        placeholder={t('login.passwordPlaceholder')}
-                        autoFocus
-                        autoComplete="current-password"
-                        required
-                        isDark={isDark}
-                        colors={colors}
-                        style={{
-                          width: '100%',
-                          background: 'transparent',
-                          border: 'none',
-                          padding: '0.75rem 2.5rem 0.75rem 0',
-                          fontSize: '1rem',
-                          color: colors.text,
-                          outline: 'none',
-                          transition: transitions.theme,
-                        }}
-                      />
-                      <motion.button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? tCommon('actions.hidePassword') : tCommon('actions.showPassword')}
-                        style={{
-                          position: 'absolute',
-                          right: 0,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '0.5rem',
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <EyeIcon open={showPassword} color={isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)'} />
-                      </motion.button>
-                    </div>
-                  </motion.div>
-
-                  <motion.div 
-                    style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <Link
-                      href="/esqueci-senha"
-                      style={{
-                        fontSize: '0.8rem',
-                        color: colors.linkColor,
-                        textDecoration: 'none',
-                        transition: transitions.theme,
-                      }}
-                    >
-                      {t('login.forgotPassword')}
-                    </Link>
-                  </motion.div>
-                </div>
-
-                  <div style={{ height: 1, background: colors.cardBorder }} />
-
-                  <motion.button
-                    type="submit"
-                    style={{
-                      width: '100%',
-                      height: 52,
-                      border: 'none',
-                      background: 'transparent',
-                      color: colors.text,
-                      fontSize: '0.8rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      cursor: 'pointer',
-                      willChange: shouldReduceMotion ? undefined : 'transform',
-                    }}
-                    whileHover={shouldReduceMotion ? undefined : { 
-                      backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-                      scale: 1.02,
-                    }}
-                    whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                    transition={SPRING_PREMIUM}
-                  >
-                    {t('login.loginButton').toUpperCase()}
-                  </motion.button>
-                </motion.div>
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ─── Footer (login flow only) ─────────────────── */}
-        {isLoginFlow && (
-          <motion.p
-            style={{
-              textAlign: 'center',
-              fontSize: '0.75rem',
-              color: colors.textMuted,
-              marginTop: '2rem',
-              opacity: 0.6,
-              transition: transitions.theme,
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.6 }}
-            transition={{ delay: 0.3 }}
-          >
-            {t('login.termsAgreement')}
-          </motion.p>
         )}
       </motion.div>
 

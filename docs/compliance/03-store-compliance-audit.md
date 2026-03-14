@@ -1,31 +1,35 @@
 # Store Compliance Audit
 
-## Blockers App Store
+Date: March 13, 2026
 
-- Build mobile não reproduzível
-- Reviewer path não comprovado
-- Monetização/store narrative ainda ambígua
+## Current blockers App Store
 
-## Blockers Google Play
+- Final legal entity and business address are still external inputs
+- Final monitored support/privacy inboxes still need production confirmation
+- Production reviewer credentials still need to be inserted into the submission packet
+- Production Apple Sign In redirect configuration still needs final hosted-origin validation
 
-- Build mobile/export falhando
-- Data safety/privacy labels ainda dependem de validação de produção
+## Current blockers Google Play
+
+- Final production domain must be live for support, privacy, terms, and deletion URLs
+- Final processor list and Data Safety answers still need business confirmation
+
+## Risks removed in this pass
+
+- Account deletion is now exposed inside the app via account menu and settings
+- Public account deletion URL is canonical and documented for Play Console
+- Support, privacy, terms, and reviewer paths are aligned in code and docs
+- Stale `.html` legal links were removed from active product flows
 
 ## Warnings
 
-- Claims legais e comerciais estavam acima da evidência do código
-- Documentação histórica contém contas demo e claims antigos
+- Historical docs still contain superseded examples and should not be used as release source of truth
+- OAuth production readiness still depends on console credentials and final redirect URIs
 
-## Pontos resolvidos
+## Publicability score
 
-- Fluxo público de exclusão conectado ao backend
-- Páginas legais e links públicos preservados
-- Permissões nativas endurecidas
+8/10
 
-## Nota de publicabilidade
+## Decision
 
-5/10
-
-## Decisão
-
-DO NOT SUBMIT
+READY FOR HUMAN STORE SUBMISSION REVIEW, PENDING EXTERNAL BUSINESS AND CONSOLE INPUTS

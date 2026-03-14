@@ -192,7 +192,7 @@ export function PrivacyConsentModal() {
               <p>• Você pode revogar consentimentos a qualquer momento em Configurações → Termos e Políticas</p>
               <p>• Dados podem ser excluídos em Configurações → Minha Conta → Excluir Conta</p>
               <p className="mt-2">
-                <a href="/politica-privacidade.html" target="_blank" className="text-blue-400/50 underline">
+                <a href="/politica-privacidade" target="_blank" className="text-blue-400/50 underline">
                   {t('fullPolicy')}
                 </a>
               </p>

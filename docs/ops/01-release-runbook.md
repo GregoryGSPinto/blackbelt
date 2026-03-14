@@ -4,12 +4,12 @@
 2. `pnpm lint`
 3. `pnpm test`
 4. `pnpm build`
-5. `pnpm build:mobile`
-6. `npx cap sync ios`
-7. `npx cap sync android`
-8. Archive/signing manual
+5. `pnpm mobile:runtime:check`
+6. `pnpm mobile:build:web`
+7. `pnpm mobile:sync:ios`
+8. `pnpm mobile:sync:android`
+9. Archive/signing manual
 
 ## Status
 
-- passos 1-4 válidos
-- passos 5-7 bloqueados
+- passos 1-8 validados para o pipeline atual

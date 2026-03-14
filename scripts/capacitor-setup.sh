@@ -44,9 +44,9 @@ fi
 
 # ── Step 2: Build shell ──
 if [[ "$TARGET" != "sync" ]]; then
-  log "Gerando shell mobile (pnpm run build:mobile → /mobile-build)..."
+  log "Gerando shell mobile (pnpm run mobile:build:web → /mobile-build)..."
 
-  pnpm run build:mobile
+  pnpm run mobile:build:web
   ok "Shell mobile gerado em /mobile-build"
 
   # Verificar

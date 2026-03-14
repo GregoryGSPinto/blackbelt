@@ -35,24 +35,41 @@ export default function ReviewAccessPage() {
               embedded in the application or repository. Use the credentials provided in the
               release packet or store reviewer notes.
             </p>
+            <p className="mt-3 text-sm text-white/70">
+              The reviewer can log in through the standard `/login` screen and does not need any
+              hidden route, feature flag toggle, or manual database setup.
+            </p>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <h2 className="text-lg font-semibold">Recommended validation path</h2>
             <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6 text-white/70">
               <li>Log in through the regular screen.</li>
-              <li>Open dashboard, finance, communications, and academy settings.</li>
-              <li>Review privacy policy, terms, and account deletion flow.</li>
+              <li>Open dashboard, finance, communications, profile settings, and support.</li>
+              <li>Open account menu and verify the in-app entry point for account deletion.</li>
+              <li>Review privacy policy, terms, public support page, and public account deletion form.</li>
               <li>Log out and verify session handling.</li>
             </ol>
           </div>
         </section>
 
+        <section className="mt-6 rounded-3xl border border-red-500/20 bg-red-500/5 p-6">
+          <h2 className="text-lg font-semibold text-red-200">Account deletion compliance</h2>
+          <p className="mt-3 text-sm leading-6 text-white/70">
+            Account deletion can be started inside the app from the account menu or from
+            Settings → Minha Conta → Solicitar exclusão. Google Play also requires a public web
+            path, available below, for account and data deletion requests.
+          </p>
+        </section>
+
         <section className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-lg font-semibold">Support and account deletion</h2>
-          <div className="mt-4 grid gap-3 text-sm text-white/70 md:grid-cols-3">
+          <div className="mt-4 grid gap-3 text-sm text-white/70 md:grid-cols-4">
             <a className="rounded-2xl bg-black/25 px-4 py-3 hover:bg-black/35" href="/excluir-conta">
               Public account deletion form
+            </a>
+            <a className="rounded-2xl bg-black/25 px-4 py-3 hover:bg-black/35" href="/suporte">
+              Public support page
             </a>
             <a className="rounded-2xl bg-black/25 px-4 py-3 hover:bg-black/35" href="/politica-privacidade">
               Privacy policy

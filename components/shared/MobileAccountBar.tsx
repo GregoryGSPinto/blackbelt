@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { LogOut, ArrowRightLeft, ChevronDown, Settings } from 'lucide-react';
+import { LogOut, ArrowRightLeft, ChevronDown, Settings, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth, PERFIL_INFO, getConfigRouteForProfile } from '@/features/auth/context/AuthContext';
 import { ProfileDropdownPortal } from '@/components/layout/ProfileDropdownPortal';
@@ -179,6 +179,23 @@ export function MobileAccountBar({
           >
             <Settings size={16} className="opacity-70 shrink-0" />
             <span className="font-medium">{t('settings')}</span>
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleAction(() => router.push('/excluir-conta'));
+            }}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm ${
+              isDark
+                ? 'text-white/80 hover:bg-white/10 hover:text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+            role="menuitem"
+          >
+            <Trash2 size={16} className="opacity-70 shrink-0" />
+            <span className="font-medium">Excluir conta</span>
           </button>
 
           {/* Divider */}

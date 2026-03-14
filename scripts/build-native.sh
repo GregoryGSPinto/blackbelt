@@ -51,8 +51,8 @@ check_prereqs() {
 # ─── Build Web ───
 build_web() {
 echo ""
-echo "--- Building mobile shell and validating the hosted web app ---"
-pnpm run build:mobile
+echo "--- Building Capacitor web assets in mobile-build/ ---"
+pnpm run mobile:build:web
 echo "Mobile build complete"
 }
 
@@ -60,7 +60,13 @@ echo "Mobile build complete"
 cap_sync() {
   echo ""
   echo "--- Syncing Capacitor ---"
-  npx cap sync
+  if [[ "$PLATFORM" == "ios" ]]; then
+    npx cap sync ios
+  elif [[ "$PLATFORM" == "android" ]]; then
+    npx cap sync android
+  else
+    npx cap sync
+  fi
   echo "Capacitor sync complete"
 }
 

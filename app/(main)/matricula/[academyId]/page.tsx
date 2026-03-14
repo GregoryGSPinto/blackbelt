@@ -1,345 +1,251 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import Link from 'next/link';
+import { useParams, useSearchParams } from 'next/navigation';
+import { ArrowLeft, CheckCircle2, Lock, QrCode, UserPlus } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { 
-  ChevronLeft,
-  CheckCircle2,
-  CreditCard,
-  User,
-  FileText,
-  Lock
-} from 'lucide-react';
+import {
+  getPublicAcademyEnrollment,
+  submitPublicAcademyEnrollment,
+} from '@/lib/api/academy-operations.service';
 
-const plans = {
-  basic: { name: 'Básico', price: 'R$ 199/mês' },
-  unlimited: { name: 'Ilimitado', price: 'R$ 299/mês' },
-  competitor: { name: 'Competidor', price: 'R$ 399/mês' },
-};
+type FlowState = 'loading' | 'form' | 'success' | 'error';
 
 export default function MatriculaPage() {
-  const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ academyId: string }>();
   const searchParams = useSearchParams();
-  const planId = searchParams.get('plan') || 'basic';
-  const plan = plans[planId as keyof typeof plans] || plans.basic;
-  
-  const [step, setStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    cpf: '',
+  const viaQr = searchParams.get('source') === 'qr';
+
+  const [state, setState] = useState<FlowState>('loading');
+  const [error, setError] = useState<string | null>(null);
+  const [context, setContext] = useState<Awaited<ReturnType<typeof getPublicAcademyEnrollment>> | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [result, setResult] = useState<{ title: string; description: string } | null>(null);
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
     phone: '',
-    emergencyContact: '',
-    emergencyPhone: '',
-    medicalConditions: '',
-    allergies: '',
-    termsAccepted: false,
+    password: '',
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Simular processamento
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Redirecionar para checkout do Stripe
-    // router.push(`/api/checkout?plan=${planId}&academy=${params.academyId}`);
-    
-    // Por enquanto, redireciona para dashboard
-    router.push('/inicio');
-  };
+  useEffect(() => {
+    async function load() {
+      try {
+        setState('loading');
+        setError(null);
+        const payload = await getPublicAcademyEnrollment(params.academyId);
+        setContext(payload);
+        setState('form');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Não foi possível abrir o cadastro da academia.');
+        setState('error');
+      }
+    }
 
-  const updateForm = (field: string, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    if (typeof params.academyId === 'string') {
+      load();
+    }
+  }, [params.academyId]);
+
+  const ctaLabel = useMemo(() => (
+    context?.link.approvalMode === 'manual' ? 'Enviar para aprovação' : 'Criar acesso agora'
+  ), [context?.link.approvalMode]);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!context) return;
+
+    try {
+      setSubmitting(true);
+      const response = await submitPublicAcademyEnrollment(params.academyId, {
+        ...form,
+        source: viaQr ? 'qr' : 'public_link',
+      });
+
+      setResult({
+        title: response.status === 'auto_approved' ? 'Cadastro concluído' : 'Cadastro enviado',
+        description: response.message,
+      });
+      setState('success');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Não foi possível concluir o cadastro.');
+      setState('error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white pb-20">
-      {/* Header */}
-      <div className="sticky top-0 z-10 border-b border-white/10 bg-slate-950/95 backdrop-blur">
-        <div className="mx-auto max-w-2xl px-4 py-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.back()}
-              className="rounded-full p-2 text-slate-400 transition hover:bg-white/10"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </button>
-            <div>
-              <h1 className="text-xl font-bold">Matrícula</h1>
-              <p className="text-sm text-slate-400">Academia Gracie Barra SP</p>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#1e293b,transparent_45%),linear-gradient(180deg,#020617,#0f172a)] px-4 py-8 text-white">
+      <div className="mx-auto max-w-5xl">
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 transition hover:bg-white/10"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Voltar para login
+        </Link>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <section className="rounded-[32px] border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_80px_rgba(2,6,23,0.55)] backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-xs uppercase tracking-[0.24em] text-amber-200">
+              {viaQr ? <QrCode className="h-3.5 w-3.5" /> : <UserPlus className="h-3.5 w-3.5" />}
+              Entrada da academia
             </div>
-          </div>
-          
-          {/* Progress */}
-          <div className="mt-4 flex gap-2">
-            {[1, 2, 3].map((s) => (
-              <div
-                key={s}
-                className={`h-1 flex-1 rounded-full transition ${
-                  s <= step ? 'bg-amber-400' : 'bg-white/10'
-                }`}
-              />
-            ))}
-          </div>
+
+            <h1 className="mt-6 text-4xl font-semibold leading-tight">
+              {context?.academy.name || 'Carregando academia...'}
+            </h1>
+            <p className="mt-3 text-sm text-slate-300">
+              {context?.link.welcomeMessage || 'Entre pelo canal oficial da academia e finalize seu acesso com o tenant correto, sem atrito.'}
+            </p>
+
+            <div className="mt-8 space-y-3">
+              {[
+                'Seu cadastro entra no tenant correto da academia.',
+                context?.link.approvalMode === 'manual'
+                  ? 'A equipe da academia revisa o acesso antes de liberar a conta.'
+                  : 'Seus dados criam acesso imediatamente após o cadastro.',
+                'Depois do cadastro, o login passa a funcionar no app principal do BlackBelt.',
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-300" />
+                  <p className="text-sm text-slate-200">{item}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="rounded-[32px] border border-white/10 bg-slate-950/70 p-6 shadow-[0_30px_80px_rgba(2,6,23,0.55)] backdrop-blur">
+            {state === 'loading' && (
+              <div className="flex min-h-[420px] items-center justify-center">
+                <div className="h-10 w-10 animate-spin rounded-full border-2 border-amber-300 border-t-transparent" />
+              </div>
+            )}
+
+            {state === 'form' && context && (
+              <motion.form
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                onSubmit={handleSubmit}
+                className="space-y-5"
+              >
+                <div>
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Cadastro do aluno</p>
+                  <h2 className="mt-2 text-2xl font-semibold">Complete seu acesso</h2>
+                </div>
+
+                <div className="grid gap-4">
+                  <Field
+                    label="Nome completo"
+                    value={form.fullName}
+                    onChange={(value) => setForm((prev) => ({ ...prev, fullName: value }))}
+                    placeholder="Como você quer aparecer na academia"
+                  />
+                  <Field
+                    label="E-mail"
+                    type="email"
+                    value={form.email}
+                    onChange={(value) => setForm((prev) => ({ ...prev, email: value }))}
+                    placeholder="voce@email.com"
+                  />
+                  <Field
+                    label="Telefone"
+                    value={form.phone}
+                    onChange={(value) => setForm((prev) => ({ ...prev, phone: value }))}
+                    placeholder="(11) 99999-9999"
+                  />
+                  <Field
+                    label="Senha"
+                    type="password"
+                    value={form.password}
+                    onChange={(value) => setForm((prev) => ({ ...prev, password: value }))}
+                    placeholder="Crie uma senha segura"
+                    icon={<Lock className="h-4 w-4 text-slate-500" />}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full rounded-2xl bg-amber-400 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {submitting ? 'Enviando...' : ctaLabel}
+                </button>
+              </motion.form>
+            )}
+
+            {state === 'success' && result && (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                className="flex min-h-[420px] flex-col items-center justify-center text-center"
+              >
+                <div className="rounded-full bg-emerald-500/15 p-4 text-emerald-300">
+                  <CheckCircle2 className="h-8 w-8" />
+                </div>
+                <h2 className="mt-6 text-2xl font-semibold">{result.title}</h2>
+                <p className="mt-3 max-w-md text-sm text-slate-300">{result.description}</p>
+                <Link
+                  href="/login"
+                  className="mt-8 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+                >
+                  Ir para login
+                </Link>
+              </motion.div>
+            )}
+
+            {state === 'error' && (
+              <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
+                <div className="rounded-full bg-red-500/12 px-4 py-2 text-sm text-red-300">Cadastro indisponível</div>
+                <h2 className="mt-4 text-2xl font-semibold">Não foi possível abrir este acesso</h2>
+                <p className="mt-3 max-w-md text-sm text-slate-300">{error}</p>
+                <Link
+                  href="/login"
+                  className="mt-8 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+                >
+                  Voltar para login
+                </Link>
+              </div>
+            )}
+          </section>
         </div>
       </div>
-
-      <div className="mx-auto max-w-2xl px-4 py-6">
-        {/* Step 1: Personal Data */}
-        {step === 1 && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-full bg-amber-400/20 p-2">
-                <User className="h-5 w-5 text-amber-400" />
-              </div>
-              <div>
-                <h2 className="font-semibold">Dados Pessoais</h2>
-                <p className="text-sm text-slate-400">Complete seus dados para a matrícula</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-300">CPF</label>
-                <input
-                  type="text"
-                  placeholder="000.000.000-00"
-                  value={formData.cpf}
-                  onChange={(e) => updateForm('cpf', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-300">Telefone</label>
-                <input
-                  type="tel"
-                  placeholder="(11) 99999-9999"
-                  value={formData.phone}
-                  onChange={(e) => updateForm('phone', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                />
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-300">Contato de Emergência</label>
-                  <input
-                    type="text"
-                    placeholder="Nome"
-                    value={formData.emergencyContact}
-                    onChange={(e) => updateForm('emergencyContact', e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-300">Tel. Emergência</label>
-                  <input
-                    type="tel"
-                    placeholder="(11) 99999-9999"
-                    value={formData.emergencyPhone}
-                    onChange={(e) => updateForm('emergencyPhone', e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-300">Condições Médicas (opcional)</label>
-                <textarea
-                  placeholder="Informe se possui alguma condição médica relevante..."
-                  value={formData.medicalConditions}
-                  onChange={(e) => updateForm('medicalConditions', e.target.value)}
-                  rows={3}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-300">Alergias (opcional)</label>
-                <input
-                  type="text"
-                  placeholder="Informe se possui alergias..."
-                  value={formData.allergies}
-                  onChange={(e) => updateForm('allergies', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <button
-              onClick={() => setStep(2)}
-              disabled={!formData.cpf || !formData.phone}
-              className="mt-6 w-full rounded-xl bg-amber-400 py-4 font-semibold text-slate-950 transition hover:bg-amber-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Continuar
-            </button>
-          </motion.div>
-        )}
-
-        {/* Step 2: Terms */}
-        {step === 2 && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-full bg-sky-400/20 p-2">
-                <FileText className="h-5 w-5 text-sky-400" />
-              </div>
-              <div>
-                <h2 className="font-semibold">Termos e Condições</h2>
-                <p className="text-sm text-slate-400">Leia e aceite os termos</p>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="font-medium">Termo de Responsabilidade</h3>
-              <div className="mt-4 max-h-64 overflow-y-auto text-sm text-slate-400 space-y-3">
-                <p>
-                  1. DECLARO que estou em boas condições de saúde para praticar atividades físicas 
-                  de artes marciais e que fui orientado a consultar um médico antes do início das atividades.
-                </p>
-                <p>
-                  2. COMPROMETO-ME a seguir as instruções dos professores e as normas da academia, 
-                  respeitando os demais alunos e a estrutura do local.
-                </p>
-                <p>
-                  3. AUTORIZO o uso de minha imagem em fotos e vídeos para fins de divulgação 
-                  da academia em redes sociais e materiais promocionais.
-                </p>
-                <p>
-                  4. ESTOU CIENTE de que a prática de artes marciais envolve riscos de lesões 
-                  e que a academia não se responsabiliza por danos resultantes de negligência própria.
-                </p>
-                <p>
-                  5. POLÍTICA DE CANCELAMENTO: Posso cancelar minha matrícula a qualquer momento 
-                  sem multa, com efeito a partir do próximo ciclo de pagamento.
-                </p>
-              </div>
-            </div>
-
-            <label className="mt-4 flex cursor-pointer items-start gap-3">
-              <input
-                type="checkbox"
-                checked={formData.termsAccepted}
-                onChange={(e) => updateForm('termsAccepted', e.target.checked)}
-                className="mt-1 h-5 w-5 rounded border-white/20 bg-white/5 text-amber-400 focus:ring-amber-400"
-              />
-              <span className="text-sm text-slate-300">
-                Li e aceito os termos de responsabilidade e política de cancelamento
-              </span>
-            </label>
-
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setStep(1)}
-                className="flex-1 rounded-xl border border-white/10 bg-white/5 py-4 font-semibold text-white transition hover:bg-white/10"
-              >
-                Voltar
-              </button>
-              <button
-                onClick={() => setStep(3)}
-                disabled={!formData.termsAccepted}
-                className="flex-1 rounded-xl bg-amber-400 py-4 font-semibold text-slate-950 transition hover:bg-amber-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Aceitar e Continuar
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Step 3: Payment */}
-        {step === 3 && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-full bg-emerald-400/20 p-2">
-                <CreditCard className="h-5 w-5 text-emerald-400" />
-              </div>
-              <div>
-                <h2 className="font-semibold">Pagamento</h2>
-                <p className="text-sm text-slate-400">Escolha a forma de pagamento</p>
-              </div>
-            </div>
-
-            {/* Plan Summary */}
-            <div className="rounded-xl border border-amber-400/20 bg-amber-400/10 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-slate-400">Plano selecionado</p>
-                  <p className="font-semibold">{plan.name}</p>
-                </div>
-                <p className="text-xl font-bold text-amber-400">{plan.price}</p>
-              </div>
-            </div>
-
-            {/* Payment Methods */}
-            <div className="mt-6 space-y-3">
-              <p className="text-sm font-medium text-slate-300">Forma de pagamento</p>
-              
-              <button className="flex w-full items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-amber-400/50">
-                <div className="rounded-lg bg-blue-500/20 p-2">
-                  <CreditCard className="h-6 w-6 text-blue-400" />
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="font-medium">Cartão de Crédito</p>
-                  <p className="text-sm text-slate-400">Parcelamento em até 12x</p>
-                </div>
-                <ChevronLeft className="h-5 w-5 rotate-180 text-slate-500" />
-              </button>
-
-              <button className="flex w-full items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-amber-400/50">
-                <div className="rounded-lg bg-emerald-500/20 p-2">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-400" />
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="font-medium">PIX</p>
-                  <p className="text-sm text-slate-400">5% de desconto</p>
-                </div>
-                <ChevronLeft className="h-5 w-5 rotate-180 text-slate-500" />
-              </button>
-            </div>
-
-            {/* Security */}
-            <div className="mt-6 flex items-center gap-2 text-sm text-slate-500">
-              <Lock className="h-4 w-4" />
-              <span>Pagamento seguro com criptografia SSL</span>
-            </div>
-
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setStep(2)}
-                className="flex-1 rounded-xl border border-white/10 bg-white/5 py-4 font-semibold text-white transition hover:bg-white/10"
-              >
-                Voltar
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={isLoading}
-                className="flex-1 rounded-xl bg-amber-400 py-4 font-semibold text-slate-950 transition hover:bg-amber-300 disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-slate-950 border-t-transparent" />
-                    Processando...
-                  </span>
-                ) : (
-                  'Finalizar Matrícula'
-                )}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </div>
     </div>
+  );
+}
+
+function Field({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = 'text',
+  icon,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  type?: string;
+  icon?: ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-medium text-slate-300">{label}</span>
+      <div className="relative">
+        {icon ? <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">{icon}</span> : null}
+        <input
+          type={type}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          className={`w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-amber-300 ${icon ? 'pl-11' : ''}`}
+        />
+      </div>
+    </label>
   );
 }

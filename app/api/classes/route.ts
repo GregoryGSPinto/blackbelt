@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   try {
     const { supabase, membership } = await withAuth(req);
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
-    if (!['owner', 'admin', 'instructor'].includes(membership.role)) {
+    if (!['owner', 'admin', 'professor'].includes(membership.role)) {
       return apiError('Sem permissão', 'FORBIDDEN', 403);
     }
 

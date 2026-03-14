@@ -192,6 +192,13 @@ export default function ExcluirContaPage() {
           >
             {t('termsOfUse')}
           </a>
+          <span className="text-white/20 mx-2">•</span>
+          <a
+            href="/suporte"
+            className="text-xs text-white/30 hover:text-white/50 transition-colors"
+          >
+            Suporte
+          </a>
         </div>
       </div>
     </div>

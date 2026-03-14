@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, UserPlus, Eye, Edit2, Ban, CheckCircle, AlertCircle, XCircle, Snowflake, UserX } from 'lucide-react';
 import * as adminService from '@/lib/api/admin.service';
@@ -138,10 +139,24 @@ export default function UsuariosPage() {
           <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('users.title')}</h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.subtitle')}</p>
         </div>
-        <button className="flex items-center gap-2 transition-all" style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}>
-          <UserPlus className="w-5 h-5" />
-          <span>{t('users.newStudent')}</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/minha-academia"
+            className="flex items-center gap-2 transition-all"
+            style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}
+          >
+            <UserPlus className="w-5 h-5" />
+            <span>Link e aprovações</span>
+          </Link>
+          <Link
+            href="/equipe"
+            className="flex items-center gap-2 transition-all"
+            style={{ background: 'transparent', border: `1px solid ${tokens.cardBorder}`, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem', borderRadius: '12px' }}
+          >
+            <UserPlus className="w-5 h-5" />
+            <span>Professores</span>
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}

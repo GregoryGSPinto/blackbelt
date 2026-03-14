@@ -23,21 +23,13 @@ try {
   console.warn('[next.config] @next/bundle-analyzer not available, skipping.');
 }
 
-const isCapacitorBuild = process.env.CAPACITOR_BUILD === 'true' && !process.env.VERCEL;
-
 const nextConfig = {
   reactStrictMode: true,
-  
-  // ============================================================
-  // CAPACITOR: Para build nativo, executar:
-  //   CAPACITOR_BUILD=true npm run build
-  // Isso ativa static export (output: 'export') que é incompatível
-  // com API routes e middleware. NUNCA ativar na Vercel.
-  // ============================================================
-  ...(isCapacitorBuild ? { output: 'export' } : {}),
 
   images: {
-    unoptimized: process.env.CAPACITOR_BUILD === 'true', // Obrigatório para static export
+    // O pipeline mobile usa um shell Capacitor hospedado em `mobile-build/`,
+    // nao um export estatico completo do produto.
+    unoptimized: process.env.CAPACITOR_BUILD === 'true',
     remotePatterns: [
       {
         protocol: 'https',

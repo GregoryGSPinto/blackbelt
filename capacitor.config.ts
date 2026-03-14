@@ -6,10 +6,17 @@ loadDotenv({ path: '.env.production', override: false });
 
 const remoteAppUrl = process.env.CAPACITOR_SERVER_URL || process.env.NEXT_PUBLIC_APP_URL;
 const remoteHost = remoteAppUrl ? new URL(remoteAppUrl).hostname : undefined;
+const fallbackHosts = (process.env.CAPACITOR_FALLBACK_URLS || '')
+  .split(',')
+  .map((entry) => entry.trim())
+  .filter(Boolean)
+  .map((entry) => new URL(entry).hostname);
+const allowNavigation = [...new Set([remoteHost, ...fallbackHosts].filter(Boolean))] as string[];
 
 const config: CapacitorConfig = {
   appId: 'com.blackbelt.app',
   appName: 'BlackBelt',
+  // Fonte canonica de assets web para iOS/Android.
   webDir: 'mobile-build',
 
   // ── Dev server (usar em desenvolvimento local) ──
@@ -43,7 +50,7 @@ const config: CapacitorConfig = {
 
   server: {
     hostname: 'app.blackbelt.local',
-    ...(remoteHost ? { allowNavigation: [remoteHost] } : {}),
+    ...(allowNavigation.length ? { allowNavigation } : {}),
   },
 
   // ── iOS ──

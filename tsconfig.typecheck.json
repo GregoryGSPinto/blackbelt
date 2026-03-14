@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "capacitor.config.ts",
+    "sentry.client.config.ts",
+    "sentry.server.config.ts",
+    "sentry.edge.config.ts",
+    "supabase/functions",
+    "tests"
+  ]
+}

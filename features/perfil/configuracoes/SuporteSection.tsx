@@ -10,22 +10,22 @@ const SUPPORT_ITEMS = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'suporte@blackbelt.com',
-    href: 'mailto:suporte@blackbelt.com',
+    value: 'suporte@blackbelt.app',
+    href: 'mailto:suporte@blackbelt.app',
     color: 'rgba(59,130,246,0.15)',
   },
   {
     icon: MessageCircle,
-    label: 'WhatsApp',
-    value: '(31) 99999-0000',
-    href: 'https://wa.me/5531999990000',
+    label: 'Central de suporte',
+    value: 'Abrir página pública de suporte e compliance',
+    href: '/suporte',
     color: 'rgba(34,197,94,0.15)',
   },
   {
     icon: Phone,
-    label: 'Telefone',
-    value: '(31) 3333-0000',
-    href: 'tel:+553133330000',
+    label: 'Privacidade',
+    value: 'privacidade@blackbelt.app',
+    href: 'mailto:privacidade@blackbelt.app',
     color: 'rgba(168,85,247,0.15)',
   },
 ];
@@ -50,8 +50,8 @@ export function SuporteSection() {
             <a
               key={item.label}
               href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={item.href.startsWith('/') ? undefined : '_blank'}
+              rel={item.href.startsWith('/') ? undefined : 'noopener noreferrer'}
               className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]
                          hover:bg-white/[0.06] transition-colors group"
             >

@@ -33,7 +33,7 @@ export async function GET() {
 
     const members = membersRes.data || [];
     const students = members.filter((m: any) => m.role === 'student').length;
-    const instructors = members.filter((m: any) => m.role === 'instructor').length;
+    const instructors = members.filter((m: any) => m.role === 'professor').length;
 
     return apiOk({
       totalActiveMembers: members.length,

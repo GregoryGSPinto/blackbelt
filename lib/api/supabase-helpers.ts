@@ -59,11 +59,14 @@ export async function listFromTable(
 
 /** Create a safe API handler with auth and error handling */
 export function createHandler(
-  handler: (req: NextRequest, ctx: AuthContext) => Promise<Response>
+  handler: (req: NextRequest, ctx: AuthContext) => Promise<Response>,
+  options?: {
+    requireMembership?: boolean;
+  }
 ) {
   return async (req: NextRequest) => {
     try {
-      const ctx = await withAuth(req);
+      const ctx = await withAuth(req, options);
       return await handler(req, ctx);
     } catch (err) {
       if (err instanceof Response) return err;
