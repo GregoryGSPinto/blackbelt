@@ -152,7 +152,7 @@ export function ConfirmModal({
           <button
             onClick={onCancel}
             aria-label={effectiveCancelLabel}
-            className="absolute top-3 right-3 p-1.5 transition-colors rounded-lg"
+            className="absolute top-3 right-3 p-1.5 transition-colors rounded-lg hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-1"
             style={{ color: colors.textMuted }}
           >
             <X size={16} />
@@ -185,7 +185,7 @@ export function ConfirmModal({
               <input
                 ref={inputRef}
                 type="text"
-                className="w-full px-3 py-2 rounded-xl text-sm outline-none transition-colors"
+                className="w-full px-3 py-2 rounded-xl text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-white/20"
                 style={{ color: colors.text, background: 'transparent', border: `1px solid ${colors.cardBorder}` }}
                 placeholder={requireTyping}
                 onChange={e => {
@@ -203,7 +203,7 @@ export function ConfirmModal({
             <button
               onClick={handleConfirm}
               disabled={loading || (!!requireTyping && !typingMatch.current)}
-              className="w-full min-h-[48px] rounded-xl text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-50 tracking-wide"
+              className="w-full min-h-[48px] rounded-xl text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed tracking-wide hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-1"
               style={{
                 background: 'transparent',
                 border: `1px solid ${colors.cardBorder}`,
@@ -211,31 +211,19 @@ export function ConfirmModal({
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'transparent';
-              }}
             >
               {loading ? tActions('processing') : effectiveConfirmLabel}
             </button>
             <button
               onClick={onCancel}
               disabled={loading}
-              className="w-full min-h-[48px] rounded-xl text-sm font-medium transition-all active:scale-[0.98] disabled:opacity-50"
-              style={{ 
-                background: 'transparent', 
+              className="w-full min-h-[48px] rounded-xl text-sm font-medium transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-1"
+              style={{
+                background: 'transparent',
                 border: `1px solid ${colors.cardBorder}`,
                 color: colors.textMuted,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'transparent';
               }}
             >
               {effectiveCancelLabel}
@@ -247,6 +235,10 @@ export function ConfirmModal({
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes confirm-fade-in { from { opacity: 0; } to { opacity: 1; } }
         @keyframes confirm-scale-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @media (prefers-reduced-motion: reduce) {
+          @keyframes confirm-fade-in { from { opacity: 1; } to { opacity: 1; } }
+          @keyframes confirm-scale-in { from { opacity: 1; transform: none; } to { opacity: 1; transform: none; } }
+        }
       `}} />
     </>
   );
