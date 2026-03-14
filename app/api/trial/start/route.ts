@@ -4,7 +4,7 @@
 
 import { NextResponse } from 'next/server';
 import { trialService } from '@/lib/subscription/services-v3';
-import { withAuth } from '@/lib/api/route-helpers';
+import { withAuth, apiServerError } from '@/lib/api/route-helpers';
 
 export async function POST(request: Request) {
   try {
@@ -41,10 +41,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('[Trial Start API]', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
-    );
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
+    return apiServerError(error);
   }
 }

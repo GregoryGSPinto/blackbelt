@@ -8,6 +8,7 @@ import { planService } from '@/lib/subscription/services-v3';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
 import { resolveStripePriceId } from '@/lib/payments/stripe-plan-mapping';
 import { updateStripeSubscriptionPlan } from '@/lib/payments/stripe-checkout';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function POST(request: Request) {
   try {
@@ -77,10 +78,6 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Subscription Upgrade API]', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

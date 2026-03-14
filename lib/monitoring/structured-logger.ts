@@ -1,3 +1,5 @@
+import { redactSensitiveData } from '@/lib/security/sensitive-data';
+
 /**
  * Structured Logger — Centralização de Logs
  *
@@ -185,14 +187,7 @@ function outputLog(entry: StructuredLog): void {
 
 /** Remove dados sensíveis do contexto */
 function sanitizeContext(ctx: Record<string, unknown>): Record<string, unknown> {
-  const sanitized = { ...ctx };
-  const SENSITIVE = ['password', 'senha', 'token', 'refreshToken', 'secret', 'cpf', 'authorization'];
-  for (const key of Object.keys(sanitized)) {
-    if (SENSITIVE.some(s => key.toLowerCase().includes(s))) {
-      sanitized[key] = '[REDACTED]';
-    }
-  }
-  return sanitized;
+  return redactSensitiveData(ctx);
 }
 
 // ============================================================

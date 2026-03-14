@@ -27,6 +27,7 @@ import type {
 } from '@/lib/api/contracts';
 import * as tokenStore from './token-store';
 import { getDeviceInfo } from './device-fingerprint';
+import { redactSensitiveData } from '@/lib/security/sensitive-data';
 
 // ============================================================
 // IN-MEMORY LOG (mock only — imutável em memória)
@@ -60,8 +61,8 @@ export async function logEvent(
     action,
     resourceType,
     resourceId,
-    oldValue: details?.oldValue,
-    newValue: details?.newValue,
+    oldValue: details?.oldValue ? redactSensitiveData(details.oldValue) : undefined,
+    newValue: details?.newValue ? redactSensitiveData(details.newValue) : undefined,
     ipAddress: 'client-side', // Backend preencherá com IP real
     userAgent: device.userAgent,
     unitId: user?.unitId || 'unknown',

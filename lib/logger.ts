@@ -14,6 +14,8 @@
 //   logger.error('[Auth]', 'Falha ao carregar sessão', err);
 // ============================================================
 
+import { redactSensitiveData, sanitizeErrorForLogging } from '@/lib/security/sensitive-data';
+
 const IS_DEV = process.env.NODE_ENV === 'development';
 
 // ── Sentry stub (TODO OPS-040) ────────────────────────────────
@@ -60,7 +62,11 @@ export const logger = {
     void IS_DEV;
     // TODO(OPS-040): Sentry.captureException(args.find(a => a instanceof Error) || new Error(String(args[0])));
     // eslint-disable-next-line no-console
-    console.error(tag, ...args);
+    console.error(tag, ...args.map((arg) => (
+      arg instanceof Error
+        ? sanitizeErrorForLogging(arg)
+        : redactSensitiveData(arg)
+    )));
   },
 
   /** Debug verbose — nunca aparece em produção, mesmo com Sentry */
@@ -83,10 +89,10 @@ export const logger = {
     // eslint-disable-next-line no-console
     console.group(`🚨 ${tag}`);
     // eslint-disable-next-line no-console
-    console.error('Error:', error);
+    console.error('Error:', sanitizeErrorForLogging(error));
     if (data) {
       // eslint-disable-next-line no-console
-      console.table(data);
+      console.table(redactSensitiveData(data));
     }
     // eslint-disable-next-line no-console
     console.groupEnd();

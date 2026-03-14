@@ -5,6 +5,7 @@
 import { NextResponse } from 'next/server';
 import { trialService } from '@/lib/subscription/services-v3';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function GET(request: Request) {
   try {
@@ -32,10 +33,6 @@ export async function GET(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Trial Status API]', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { withAuth, apiOk, apiServerError } from '@/lib/api/route-helpers';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
+import { maskEmail } from '@/lib/security/sensitive-data';
 
 const publicRequestSchema = z.object({
   email: z.email().max(320),
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
       const { reason } = body;
 
       const { data, error } = await supabase
-        .from('data_deletion_requests' as any)
+        .from('data_deletion_requests')
         .insert({
           profile_id: user.id,
           status: 'pending',
@@ -30,12 +31,15 @@ export async function POST(req: NextRequest) {
 
       if (error) throw error;
 
-      await supabase.from('audit_log' as any).insert({
+      await supabase.from('audit_log').insert({
         user_id: user.id,
         action: 'data_deletion_request',
         resource_type: 'profile',
         resource_id: user.id,
-        new_value: { reason: reason || 'Solicitação do usuário', channel: 'authenticated' },
+        new_value: {
+          channel: 'authenticated',
+          reason_provided: Boolean(reason?.trim()),
+        },
       });
 
       return apiOk({
@@ -95,7 +99,8 @@ export async function POST(req: NextRequest) {
       resource_id: matchedUser.id,
       new_value: {
         channel: 'public_page',
-        email,
+        email_masked: maskEmail(email),
+        reason_provided: Boolean(reason?.trim()),
         existingRequest: Boolean(existingRequest),
       },
     });

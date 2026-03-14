@@ -8,6 +8,7 @@ import { planService } from '@/lib/subscription/services-v3';
 import { createCheckoutSession } from '@/lib/payments/stripe-checkout';
 import { resolveStripePriceId } from '@/lib/payments/stripe-plan-mapping';
 import { getRequiredEnv } from '@/lib/env';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function POST(request: Request) {
   try {
@@ -76,10 +77,6 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Trial Convert API]', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

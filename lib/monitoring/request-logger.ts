@@ -11,6 +11,7 @@
 import { structuredLog } from './structured-logger';
 import { recordLatency } from './metrics';
 import { getOptionalEnv } from '@/lib/env';
+import { maskIpAddress } from '@/lib/security/sensitive-data';
 
 // ============================================================
 // TYPES
@@ -87,10 +88,12 @@ export function stopRequestLogFlush(): void {
 // ============================================================
 
 function hashIp(ip: string): string {
+  const normalizedIp = ip.split(',')[0]?.trim() || ip;
+
   // Simple non-reversible hash for privacy (not crypto-grade, just obfuscation)
   let hash = 0;
-  for (let i = 0; i < ip.length; i++) {
-    const char = ip.charCodeAt(i);
+  for (let i = 0; i < normalizedIp.length; i++) {
+    const char = normalizedIp.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
@@ -122,6 +125,7 @@ export function logRequest(entry: RequestLogEntry): void {
     durationMs: entry.duration_ms,
     userId: entry.user_id,
     academyId: entry.academy_id,
+    ipHash: entry.ip_hash ? maskIpAddress(entry.ip_hash) : undefined,
   });
 
   // 2. Metrics

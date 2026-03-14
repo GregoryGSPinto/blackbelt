@@ -20,6 +20,7 @@
 import { recordLatency, recordSecurityEvent } from './metrics';
 import { onServerError, onConcurrencyConflict, onPrivilegeEscalation } from './anomaly-detector';
 import { structuredLog } from './structured-logger';
+import { sanitizeErrorForLogging } from '@/lib/security/sensitive-data';
 
 // ============================================================
 // REQUEST INTERCEPTOR
@@ -38,7 +39,7 @@ import { structuredLog } from './structured-logger';
  * );
  * ```
  */
-export async function wrapWithMonitoring<T>(
+export async function wrapWithMonitoring(
   endpoint: string,
   method: string,
   fetchFn: () => Promise<Response>
@@ -75,7 +76,7 @@ export async function wrapWithMonitoring<T>(
       method,
       path: endpoint,
       durationMs,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: sanitizeErrorForLogging(error),
     });
 
     throw error;

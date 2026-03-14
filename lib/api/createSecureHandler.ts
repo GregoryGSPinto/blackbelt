@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z, type ZodTypeAny } from 'zod';
 import { rateLimit } from '@/lib/api/rate-limit';
 import { withAuth, type AuthContext } from '@/lib/api/route-helpers';
+import { maskIpAddress, redactSensitiveData, sanitizeErrorForLogging } from '@/lib/security/sensitive-data';
 
 type Role = 'owner' | 'admin' | 'professor' | 'student' | 'guardian';
 
@@ -53,7 +54,7 @@ function logAudit(
     ts: new Date().toISOString(),
     level,
     message,
-    ...data,
+    ...redactSensitiveData(data),
   };
 
   const serialized = JSON.stringify(entry);
@@ -92,7 +93,7 @@ export function createSecureHandler<TSchema extends ZodTypeAny | undefined = und
             correlationId,
             actorId: auth?.user.id ?? null,
             tenantId: auth?.membership?.academy_id ?? null,
-            ip,
+            ip: maskIpAddress(ip),
           });
           return NextResponse.json({ error: 'Forbidden', code: 'FORBIDDEN' }, { status: 403 });
         }
@@ -107,7 +108,7 @@ export function createSecureHandler<TSchema extends ZodTypeAny | undefined = und
           actorId: auth?.user.id ?? null,
           tenantId,
           providedTenantId: tenantHeader,
-          ip,
+          ip: maskIpAddress(ip),
         });
         return NextResponse.json({ error: 'Tenant mismatch', code: 'TENANT_MISMATCH' }, { status: 403 });
       }
@@ -127,7 +128,7 @@ export function createSecureHandler<TSchema extends ZodTypeAny | undefined = und
             correlationId,
             actorId: auth?.user.id ?? null,
             tenantId,
-            ip,
+            ip: maskIpAddress(ip),
             resetAt: new Date(rl.resetAt).toISOString(),
           });
           return NextResponse.json(
@@ -177,7 +178,7 @@ export function createSecureHandler<TSchema extends ZodTypeAny | undefined = und
         causationId,
         actorId: auth?.user.id ?? null,
         tenantId,
-        ip,
+        ip: maskIpAddress(ip),
         status: response.status,
       });
 
@@ -195,8 +196,8 @@ export function createSecureHandler<TSchema extends ZodTypeAny | undefined = und
         causationId,
         actorId: auth?.user.id ?? null,
         tenantId: auth?.membership?.academy_id ?? null,
-        ip,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        ip: maskIpAddress(ip),
+        error: sanitizeErrorForLogging(error),
       });
 
       return NextResponse.json(

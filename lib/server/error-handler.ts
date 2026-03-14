@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logger } from '@/src/infrastructure/logger';
+import { sanitizeErrorForLogging } from '@/lib/security/sensitive-data';
 
 export type ServerErrorShape = {
   success: false;
@@ -22,7 +23,7 @@ export function createErrorResponse(
 }
 
 export function logServerError(scope: string, error: unknown) {
-  logger.error(scope, 'Unhandled server error', error);
+  logger.error(scope, 'Unhandled server error', sanitizeErrorForLogging(error));
 }
 
 export function handleServerError(
@@ -33,6 +34,5 @@ export function handleServerError(
   code = 'INTERNAL_ERROR'
 ) {
   logServerError(scope, error);
-  const message = error instanceof Error ? error.message : fallbackMessage;
-  return createErrorResponse(message || fallbackMessage, status, code);
+  return createErrorResponse(fallbackMessage, status, code);
 }

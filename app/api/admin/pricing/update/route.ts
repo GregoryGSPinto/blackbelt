@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import { pricingService } from '@/lib/pricing/service';
 import { withSuperAdminAccess } from '@/lib/api/access-context';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function POST(request: Request) {
   try {
@@ -46,10 +47,6 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Admin Pricing Update API]', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

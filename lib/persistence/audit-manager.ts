@@ -252,14 +252,7 @@ async function persistEntry(entry: AuditLogEntry): Promise<void> {
 
 /** Remove dados sensíveis dos logs (LGPD) */
 function sanitizeForLog(data: Record<string, unknown>): Record<string, unknown> {
-  const sanitized = { ...data };
-  const SENSITIVE_FIELDS = ['cpf', 'senha', 'password', 'token', 'refreshToken', 'secret'];
-  for (const field of SENSITIVE_FIELDS) {
-    if (field in sanitized) {
-      sanitized[field] = '[REDACTED]';
-    }
-  }
-  return sanitized;
+  return redactSensitiveData(data);
 }
 
 /** Mapeia operação + recurso para AuditAction */
@@ -303,3 +296,4 @@ export function getLedgerSize(): number {
 export function getLedger(): readonly AuditLogEntry[] {
   return Object.freeze([..._ledger]);
 }
+import { redactSensitiveData } from '@/lib/security/sensitive-data';

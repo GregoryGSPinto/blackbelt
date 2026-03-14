@@ -6,6 +6,7 @@
 import { NextResponse } from 'next/server';
 import { pricingService } from '@/lib/pricing/service';
 import { withSuperAdminAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function GET(request: Request) {
   try {
@@ -25,10 +26,6 @@ export async function GET(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Super Admin Academies API]', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }
