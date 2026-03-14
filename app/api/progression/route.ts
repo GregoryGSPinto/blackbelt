@@ -12,6 +12,24 @@ export async function GET(req: NextRequest) {
     const memberId = url.searchParams.get('memberId');
 
     if (memberId) {
+      const isSelf = memberId === membership.id;
+      const isPrivileged = ['owner', 'admin', 'professor'].includes(membership.role);
+
+      if (!isSelf && !isPrivileged) {
+        return apiError('Sem permissão para consultar progresso de outro membro', 'FORBIDDEN', 403);
+      }
+
+      const { data: targetMembership } = await supabase
+        .from('memberships' as any)
+        .select('id')
+        .eq('id', memberId)
+        .eq('academy_id', membership.academy_id)
+        .maybeSingle();
+
+      if (!targetMembership) {
+        return apiError('Membro não encontrado nesta academia', 'NOT_FOUND', 404);
+      }
+
       const [promotionsRes, assessmentsRes, milestonesRes] = await Promise.all([
         supabase.from('promotions' as any).select('*').eq('membership_id', memberId).order('promoted_at', { ascending: false }),
         supabase.from('skill_assessments' as any).select('*, skill_tracks(martial_art, skills)').eq('membership_id', memberId).order('assessed_at', { ascending: false }),
@@ -53,6 +71,17 @@ export async function POST(req: NextRequest) {
 
     if (!memberId || !toRank || !beltSystemId) {
       return apiError('memberId, toRank e beltSystemId são obrigatórios', 'VALIDATION');
+    }
+
+    const { data: targetMembership } = await supabase
+      .from('memberships' as any)
+      .select('id')
+      .eq('id', memberId)
+      .eq('academy_id', membership.academy_id)
+      .maybeSingle();
+
+    if (!targetMembership) {
+      return apiError('Membro não encontrado nesta academia', 'NOT_FOUND', 404);
     }
 
     const { data: promotion, error } = await supabase

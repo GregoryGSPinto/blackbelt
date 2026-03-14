@@ -55,6 +55,19 @@ export async function POST(req: NextRequest) {
       return apiError('martial_art, start_time, end_time, instructor_id são obrigatórios', 'VALIDATION');
     }
 
+    const { data: instructor } = await supabase
+      .from('memberships' as any)
+      .select('id, academy_id, role, status')
+      .eq('id', instructor_id)
+      .eq('academy_id', membership.academy_id)
+      .in('role', ['professor', 'admin', 'owner'])
+      .eq('status', 'active')
+      .maybeSingle();
+
+    if (!instructor) {
+      return apiError('Instrutor inválido para esta academia', 'FORBIDDEN', 403);
+    }
+
     const { data, error } = await supabase
       .from('class_schedules' as any)
       .insert({

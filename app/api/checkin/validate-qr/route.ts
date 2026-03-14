@@ -3,10 +3,27 @@ import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpe
 
 export const dynamic = 'force-dynamic';
 
+function canManageCheckin(role: string): boolean {
+  return ['owner', 'admin', 'professor'].includes(role);
+}
+
+function generateLegacyQrHash(alunoId: string, timestamp: number): string {
+  const raw = `${alunoId}:${timestamp}:blackbelt-secret`;
+  let computed = 0;
+  for (let i = 0; i < raw.length; i += 1) {
+    computed = ((computed << 5) - computed) + raw.charCodeAt(i);
+    computed |= 0;
+  }
+  return Math.abs(computed).toString(36).padStart(8, '0');
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { supabase, membership } = await withAuth(req);
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
+    if (!canManageCheckin(membership.role)) {
+      return apiError('Sem permissão para validar QR', 'FORBIDDEN', 403);
+    }
 
     const body = await req.json();
     const { alunoId, timestamp, hash } = body;
@@ -19,6 +36,10 @@ export async function POST(req: NextRequest) {
     const age = Date.now() - timestamp;
     if (age > 5 * 60 * 1000) {
       return apiOk({ success: false, error: 'QR code expirado. Gere um novo.' });
+    }
+
+    if (generateLegacyQrHash(alunoId, timestamp) !== hash) {
+      return apiOk({ success: false, error: 'QR code inválido. Gere um novo.' });
     }
 
     const { data: studentMember } = await supabase

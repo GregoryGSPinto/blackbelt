@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createHandler, apiOk } from '@/lib/api/supabase-helpers';
+import { createHandler, apiOk, apiError } from '@/lib/api/supabase-helpers';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,6 +8,24 @@ export const GET = createHandler(async (req: NextRequest, { supabase, membership
   const alunoId = url.pathname.split('/alunos/')[1]?.split('/progresso')[0];
 
   if (!membership) return apiOk({ mediaGeral: 0, historico: [] });
+  if (!alunoId) return apiError('alunoId é obrigatório', 'VALIDATION', 400);
+
+  const isSelf = alunoId === membership.id;
+  const isPrivileged = ['owner', 'admin', 'professor'].includes(membership.role);
+  if (!isSelf && !isPrivileged) {
+    return apiError('Sem permissão para consultar progresso de outro aluno', 'FORBIDDEN', 403);
+  }
+
+  const { data: targetMembership } = await supabase
+    .from('memberships')
+    .select('id')
+    .eq('id', alunoId)
+    .eq('academy_id', membership.academy_id)
+    .maybeSingle();
+
+  if (!targetMembership) {
+    return apiError('Aluno não encontrado nesta academia', 'NOT_FOUND', 404);
+  }
 
   // Get skill assessments for this student
   const { data: assessments } = await supabase
@@ -58,10 +76,27 @@ export const GET = createHandler(async (req: NextRequest, { supabase, membership
   });
 });
 
-export const POST = createHandler(async (req: NextRequest, { supabase, user }) => {
+export const POST = createHandler(async (req: NextRequest, { supabase, membership }) => {
   const url = new URL(req.url);
   const alunoId = url.pathname.split('/alunos/')[1]?.split('/progresso')[0];
   const body = await req.json();
+
+  if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP', 403);
+  if (!alunoId) return apiError('alunoId é obrigatório', 'VALIDATION', 400);
+  if (!['owner', 'admin', 'professor'].includes(membership.role)) {
+    return apiError('Sem permissão para registrar progresso', 'FORBIDDEN', 403);
+  }
+
+  const { data: targetMembership } = await supabase
+    .from('memberships')
+    .select('id')
+    .eq('id', alunoId)
+    .eq('academy_id', membership.academy_id)
+    .maybeSingle();
+
+  if (!targetMembership) {
+    return apiError('Aluno não encontrado nesta academia', 'NOT_FOUND', 404);
+  }
 
   const { data, error } = await supabase
     .from('skill_assessments')
@@ -70,7 +105,7 @@ export const POST = createHandler(async (req: NextRequest, { supabase, user }) =
       skill_name: body.categoria || 'tecnica',
       score: body.nota || 0,
       notes: body.observacao || null,
-      assessed_by: user.id,
+      assessed_by: membership.id,
       assessed_at: new Date().toISOString(),
     })
     .select()

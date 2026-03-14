@@ -3,10 +3,17 @@ import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpe
 
 export const dynamic = 'force-dynamic';
 
+function canManageMembers(role: string): boolean {
+  return ['owner', 'admin'].includes(role);
+}
+
 export async function GET(req: NextRequest) {
   try {
     const { supabase, membership } = await withAuth(req);
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
+    if (!canManageMembers(membership.role)) {
+      return apiError('Sem permissão para listar membros', 'FORBIDDEN', 403);
+    }
 
     const url = new URL(req.url);
     const role = url.searchParams.get('role');
@@ -39,6 +46,9 @@ export async function PUT(req: NextRequest) {
   try {
     const { supabase, membership } = await withAuth(req);
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
+    if (!canManageMembers(membership.role)) {
+      return apiError('Sem permissão para atualizar membros', 'FORBIDDEN', 403);
+    }
 
     const body = await req.json();
     const { memberId, ...updates } = body;

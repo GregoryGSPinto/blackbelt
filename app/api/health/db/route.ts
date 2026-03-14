@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { withAuth, apiError } from '@/lib/api/route-helpers';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,21 +9,26 @@ async function importPg() {
 }
 
 export async function GET() {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    return NextResponse.json(
-      {
-        status: 'error',
-        responseTimeMs: 0,
-        poolStats: { total: 0, idle: 0, waiting: 0 },
-        error: 'DATABASE_URL not configured',
-      },
-      { status: 503 },
-    );
-  }
-
-  const start = Date.now();
   try {
+    const { membership } = await withAuth();
+    if (!membership || !['owner', 'admin'].includes(membership.role)) {
+      return apiError('Acesso restrito', 'FORBIDDEN', 403);
+    }
+
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      return NextResponse.json(
+        {
+          status: 'error',
+          responseTimeMs: 0,
+          poolStats: { total: 0, idle: 0, waiting: 0 },
+          error: 'DATABASE_URL not configured',
+        },
+        { status: 503 },
+      );
+    }
+
+    const start = Date.now();
     const { Pool } = await importPg();
     const pool = new Pool({
       connectionString,
@@ -46,12 +52,13 @@ export async function GET() {
       poolStats,
     });
   } catch (err) {
+    if (err instanceof Response) return err;
     return NextResponse.json(
       {
         status: 'error',
-        responseTimeMs: Date.now() - start,
+        responseTimeMs: 0,
         poolStats: { total: 0, idle: 0, waiting: 0 },
-        error: err instanceof Error ? err.message : 'Unknown database error',
+        error: 'Database connectivity check failed',
       },
       { status: 503 },
     );

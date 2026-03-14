@@ -3,10 +3,17 @@ import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpe
 
 export const dynamic = 'force-dynamic';
 
+function canManageCheckin(role: string): boolean {
+  return ['owner', 'admin', 'professor'].includes(role);
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { supabase, membership } = await withAuth(req);
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
+    if (!canManageCheckin(membership.role)) {
+      return apiError('Sem permissão para registrar check-in', 'FORBIDDEN', 403);
+    }
 
     const body = await req.json();
     const { alunoId, turmaId, method = 'MANUAL' } = body;
