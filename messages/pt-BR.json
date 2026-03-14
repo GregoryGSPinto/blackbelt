@@ -399,6 +399,19 @@
       "tryAgain": "Tentar novamente",
       "goHome": "Ir para o início",
       "contactSupport": "Contatar suporte"
+    },
+    "dataStates": {
+      "error401": "Sua sessão expirou. Faça login novamente.",
+      "error403": "Você não tem permissão para acessar este conteúdo.",
+      "error404": "O conteúdo solicitado não foi encontrado.",
+      "error429": "Muitas requisições. Aguarde um momento e tente novamente.",
+      "error5xx": "O servidor está temporariamente indisponível. Tente novamente em instantes.",
+      "errorPrefix": "Erro",
+      "errorWithCode": "Erro {code}",
+      "emptyTitle": "Nenhum dado encontrado",
+      "emptyMessage": "Não há registros para exibir no momento.",
+      "loadingDefault": "Carregando...",
+      "errorDefault": "Erro ao carregar dados"
     }
   },
   "shell": {

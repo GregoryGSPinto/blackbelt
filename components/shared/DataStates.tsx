@@ -1,6 +1,7 @@
 'use client';
 
 import { AlertTriangle, RefreshCw, Inbox, WifiOff, ShieldX, ServerCrash } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -18,20 +19,6 @@ export function getHttpStatus(err: unknown): number | null {
   if (typeof obj.status === 'number') return obj.status;
   if (typeof obj.statusCode === 'number') return obj.statusCode;
   return null;
-}
-
-/** Mensagem amigável por status HTTP */
-function friendlyMessage(status: number | null, fallback: string): string {
-  switch (status) {
-    case 401: return 'Sua sessão expirou. Faça login novamente.';
-    case 403: return 'Você não tem permissão para acessar este conteúdo.';
-    case 404: return 'O conteúdo solicitado não foi encontrado.';
-    case 429: return 'Muitas requisições. Aguarde um momento e tente novamente.';
-    case 500:
-    case 502:
-    case 503: return 'O servidor está temporariamente indisponível. Tente novamente em instantes.';
-    default: return fallback;
-  }
 }
 
 /** Ícone por status HTTP */
@@ -54,16 +41,15 @@ function StatusIcon({ status, color }: { status: number | null; color: string })
 
 /**
  * PageLoading — Spinner centralizado full-height.
- * Réplica exata do padrão existente no projeto.
  */
 export function PageLoading({ message }: { message?: string }) {
-  return <PremiumLoader text={message || 'Carregando...'} />;
+  const t = useTranslations('common.dataStates');
+  return <PremiumLoader text={message || t('loadingDefault')} />;
 }
 
 /**
  * PageError — Estado de erro com retry.
- * Usa design tokens para visual premium.
- * Trata 401, 403, 500 com mensagens específicas.
+ * Trata 401, 403, 500 com mensagens específicas via i18n.
  */
 export function PageError({
   error,
@@ -74,13 +60,23 @@ export function PageError({
   onRetry?: () => void;
   message?: string;
 }) {
+  const t = useTranslations('common.dataStates');
+  const tActions = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const status = getHttpStatus(error);
-  const displayMessage = message || friendlyMessage(
-    status,
-    error instanceof Error ? error.message : 'Erro ao carregar dados',
-  );
+
+  const friendlyMsg = (() => {
+    switch (status) {
+      case 401: return t('error401');
+      case 403: return t('error403');
+      case 404: return t('error404');
+      case 429: return t('error429');
+      case 500: case 502: case 503: return t('error5xx');
+      default: return error instanceof Error ? error.message : t('errorDefault');
+    }
+  })();
+  const displayMessage = message || friendlyMsg;
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
@@ -94,7 +90,7 @@ export function PageError({
         <div className="flex items-center justify-center gap-2 mb-2">
           <AlertTriangle className="w-4 h-4" style={{ color: tokens.error }} />
           <p className="font-medium" style={{ color: tokens.text }}>
-            {status ? `Erro ${status}` : 'Erro'}
+            {status ? t('errorWithCode', { code: status }) : t('errorPrefix')}
           </p>
         </div>
         <p className="text-sm mb-6" style={{ color: tokens.textMuted }}>{displayMessage}</p>
@@ -105,7 +101,7 @@ export function PageError({
             onClick={onRetry}
             icon={<RefreshCw className="w-4 h-4" />}
           >
-            Tentar novamente
+            {tActions('tryAgain')}
           </Button>
         )}
       </div>
@@ -129,8 +125,9 @@ export function PageEmpty({
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
-  const defaultTitle = title || 'Nenhum dado encontrado';
-  const defaultMessage = message || 'Não há registros para exibir no momento.';
+  const t = useTranslations('common.dataStates');
+  const defaultTitle = title || t('emptyTitle');
+  const defaultMessage = message || t('emptyMessage');
   return (
     <div className="flex items-center justify-center min-h-[40vh]">
       <div
@@ -153,6 +150,18 @@ export function PageEmpty({
 // ============================================================
 // HELPERS DE TRATAMENTO DE ERRO PARA SERVICES
 // ============================================================
+
+/** Mensagem fallback por status HTTP (non-React, para uso em services) */
+function friendlyMessage(status: number | null, fallback: string): string {
+  switch (status) {
+    case 401: return 'Sessão expirada';
+    case 403: return 'Sem permissão';
+    case 404: return 'Não encontrado';
+    case 429: return 'Limite de requisições';
+    case 500: case 502: case 503: return 'Servidor indisponível';
+    default: return fallback;
+  }
+}
 
 /**
  * Captura erro de service, faz log e retorna mensagem.
