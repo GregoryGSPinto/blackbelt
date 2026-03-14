@@ -296,7 +296,7 @@ function ConquistaModal({ onClose }: { onClose: () => void }) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={tq('searchStudent')}
-          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-amber-500/50 transition-colors"
+          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus:border-amber-500/50 transition-colors"
         />
       </div>
       <div className="flex flex-wrap gap-2 mb-4 max-h-24 overflow-y-auto">
@@ -381,7 +381,7 @@ function ObservacaoModal({ onClose }: { onClose: () => void }) {
         placeholder={tq('observationPlaceholder')}
         maxLength={200}
         rows={4}
-        className="w-full px-4 py-3 rounded-xl text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none resize-none mb-2 focus:border-violet-500/50 transition-colors"
+        className="w-full px-4 py-3 rounded-xl text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus-visible:ring-2 focus-visible:ring-white/20 resize-none mb-2 focus:border-violet-500/50 transition-colors"
       />
       <div className="flex items-center justify-between mb-4">
         <span className="text-xs text-white/30">{text.length}/200</span>

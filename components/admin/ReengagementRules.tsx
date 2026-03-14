@@ -235,7 +235,7 @@ export default function ReengagementRules({
                           value={editTemplate}
                           onChange={e => setEditTemplate(e.target.value)}
                           aria-label={t('reengagement.messageTemplate')}
-                          className="w-full bg-transparent text-white/70 text-xs resize-none border border-white/10 rounded-lg p-2 focus:outline-none focus:border-white/20"
+                          className="w-full bg-transparent text-white/70 text-xs resize-none border border-white/10 rounded-lg p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus:border-white/20"
                           rows={3}
                         />
                         <div className="flex flex-wrap gap-1 mb-2">

@@ -95,7 +95,7 @@ export function DesktopSearchHover() {
           <input ref={inputRef} type="text" value={query} onChange={(e) => setQuery(e.target.value)}
             placeholder={showPlaceholder ? t('search.searchPlaceholder') : ''}
             aria-label={t('search.searchContent')}
-            className="flex-1 bg-transparent text-[19px] outline-none"
+            className="flex-1 bg-transparent text-[19px] outline-none focus-visible:ring-2 focus-visible:ring-white/20"
             style={{ color: inputColor, caretColor: inputColor }}
             autoComplete="off" autoCorrect="off" spellCheck={false} tabIndex={isExpanded ? 0 : -1} />
           {query.trim() ? (

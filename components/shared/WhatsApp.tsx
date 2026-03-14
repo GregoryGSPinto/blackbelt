@@ -178,7 +178,7 @@ export function WhatsAppComposeModal({ phone, nome, dados = {}, onClose }: Compo
               rows={6}
               placeholder={t('composePlaceholder')}
               aria-label={t('messageLabel')}
-              className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/70 text-sm placeholder:text-white/20 focus:outline-none focus:border-white/20 resize-none leading-relaxed"
+              className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/70 text-sm placeholder:text-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus:border-white/20 resize-none leading-relaxed"
             />
             <div className="flex items-center justify-between mt-1">
               <span className="text-[9px] text-white/15">{mensagem.length} {t('characters')}</span>

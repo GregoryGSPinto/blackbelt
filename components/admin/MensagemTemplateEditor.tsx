@@ -79,7 +79,7 @@ export default function MensagemTemplateEditor({
           onChange={e => onChange(e.target.value)}
           rows={4}
           aria-label="Template da mensagem"
-          className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/80 text-sm placeholder:text-white/20 focus:outline-none focus:border-white/20 resize-none font-mono leading-relaxed"
+          className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/80 text-sm placeholder:text-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus:border-white/20 resize-none font-mono leading-relaxed"
           placeholder={t('reengagement.typePlaceholder')}
         />
         <div className="absolute bottom-2 right-2 flex items-center gap-1">

@@ -146,7 +146,7 @@ export function NpsSurvey() {
                   onChange={e => setComment(e.target.value)}
                   placeholder="Algum comentario? (opcional)"
                   rows={3}
-                  className="w-full px-4 py-3 rounded-xl text-sm resize-none focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl text-sm resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 transition-colors"
                   style={{
                     background: 'rgba(255,255,255,0.04)',
                     border: '1px solid rgba(255,255,255,0.08)',

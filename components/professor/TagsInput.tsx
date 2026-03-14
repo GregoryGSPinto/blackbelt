@@ -103,7 +103,7 @@ export function TagsInput({
           onKeyDown={handleKeyDown}
           placeholder={tags.length === 0 ? placeholder : ''}
           maxLength={maxLength}
-          className="flex-1 min-w-[100px] bg-transparent text-sm text-white/70 placeholder:text-white/15 outline-none"
+          className="flex-1 min-w-[100px] bg-transparent text-sm text-white/70 placeholder:text-white/15 outline-none focus-visible:ring-2 focus-visible:ring-white/20"
         />
       )}
     </div>

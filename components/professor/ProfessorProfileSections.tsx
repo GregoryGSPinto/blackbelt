@@ -77,7 +77,7 @@ export function ProfessorProfileSections() {
           maxLength={500}
           rows={3}
           placeholder={t('aboutMePlaceholder')}
-          className="w-full px-3 py-2.5 rounded-xl text-sm text-white/70 placeholder:text-white/15 resize-none outline-none"
+          className="w-full px-3 py-2.5 rounded-xl text-sm text-white/70 placeholder:text-white/15 resize-none outline-none focus-visible:ring-2 focus-visible:ring-white/20"
           style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
         />
         <div className="flex items-center justify-between">
@@ -91,7 +91,7 @@ export function ProfessorProfileSections() {
             value={data.anoInicioArtesMarciais || ''}
             onChange={(e: { target: { value: string } }) => setData({ ...data, anoInicioArtesMarciais: parseInt(e.target.value) || 0 })}
             min={1970} max={anoAtual}
-            className="w-20 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none text-center"
+            className="w-20 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none focus-visible:ring-2 focus-visible:ring-white/20 text-center"
             style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
           />
           {anosProf > 0 && <span className="text-[10px] text-amber-400/40">{anosProf} {t('years')}</span>}
@@ -147,7 +147,7 @@ export function ProfessorProfileSections() {
                   setData({ ...data, certificacoes: next });
                 }}
                 placeholder={t('certTitle')}
-                className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none"
+                className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               />
               <input
@@ -158,7 +158,7 @@ export function ProfessorProfileSections() {
                   setData({ ...data, certificacoes: next });
                 }}
                 placeholder={t('certInstitution')}
-                className="w-28 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none"
+                className="w-28 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               />
               <input
@@ -169,7 +169,7 @@ export function ProfessorProfileSections() {
                   next[idx] = { ...next[idx], ano: parseInt(e.target.value) || 0 };
                   setData({ ...data, certificacoes: next });
                 }}
-                className="w-16 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none text-center"
+                className="w-16 px-2 py-1.5 rounded-lg text-xs text-white/70 outline-none focus-visible:ring-2 focus-visible:ring-white/20 text-center"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               />
               <button
@@ -216,7 +216,7 @@ export function ProfessorProfileSections() {
                   redesSociais: { ...data.redesSociais, [key]: e.target.value },
                 })}
                 placeholder={placeholder}
-                className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white/70 placeholder:text-white/15 outline-none"
+                className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white/70 placeholder:text-white/15 outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               />
             </div>

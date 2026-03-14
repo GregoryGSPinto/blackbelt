@@ -147,7 +147,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
               onChange={(e: { target: { value: string } }) => setUrl(e.target.value)}
               placeholder="https://youtube.com/watch?v=..."
               disabled={isEdit}
-              className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none transition-colors disabled:opacity-40"
+              className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none focus-visible:ring-2 focus-visible:ring-white/20 transition-colors disabled:opacity-40"
               style={{
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.08)',
@@ -184,7 +184,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
               onChange={(e: { target: { value: string } }) => setTitle(e.target.value)}
               placeholder="Ex: Guard Retention — Conceitos Chave"
               maxLength={100}
-              className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none"
+              className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none focus-visible:ring-2 focus-visible:ring-white/20"
               style={{
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.08)',
@@ -203,7 +203,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
               placeholder="Breve descrição do conteúdo..."
               maxLength={300}
               rows={2}
-              className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none resize-none"
+              className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 placeholder:text-white/15 outline-none focus-visible:ring-2 focus-visible:ring-white/20 resize-none"
               style={{
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.08)',
@@ -220,7 +220,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
               <select
                 value={category}
                 onChange={(e: { target: { value: string } }) => setCategory(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 outline-none appearance-none cursor-pointer"
+                className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 outline-none focus-visible:ring-2 focus-visible:ring-white/20 appearance-none cursor-pointer"
                 style={{
                   background: 'rgba(255,255,255,0.04)',
                   border: '1px solid rgba(255,255,255,0.08)',
@@ -236,7 +236,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
               <select
                 value={level}
                 onChange={(e: { target: { value: string } }) => setLevel(e.target.value as Video['level'])}
-                className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 outline-none appearance-none cursor-pointer"
+                className="w-full px-3 py-2.5 rounded-xl text-sm text-white/80 outline-none focus-visible:ring-2 focus-visible:ring-white/20 appearance-none cursor-pointer"
                 style={{
                   background: 'rgba(255,255,255,0.04)',
                   border: '1px solid rgba(255,255,255,0.08)',

@@ -263,7 +263,7 @@ export function ActiveClassMode({ onClose }: ActiveClassModeProps) {
             value={classData.observacao}
             onChange={(e) => setObservacao(e.target.value)}
             placeholder=""
-            className="w-full mt-2 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white text-sm placeholder:text-white/20 resize-none focus:outline-none focus:border-amber-500/30"
+            className="w-full mt-2 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white text-sm placeholder:text-white/20 resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus:border-amber-500/30"
             rows={3}
             style={{ animation: 'acm-fade-in 200ms ease both' }}
           />

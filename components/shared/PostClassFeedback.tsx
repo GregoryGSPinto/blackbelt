@@ -131,7 +131,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
               onChange={(e) => setDoubtText(e.target.value)}
               placeholder={t('doubtPlaceholder')}
               maxLength={300}
-              className="w-full h-20 p-3 text-sm rounded-xl resize-none focus:outline-none"
+              className="w-full h-20 p-3 text-sm rounded-xl resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
               style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-primary)' }}
             />
             <p className="text-[9px] text-right mt-1" style={{ color: 'var(--text-secondary)' }}>{doubtText.length}/300</p>

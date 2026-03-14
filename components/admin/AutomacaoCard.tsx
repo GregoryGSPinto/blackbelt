@@ -170,7 +170,7 @@ export default function AutomacaoCard({ automacao, onToggle, onUpdate }: Automac
                   value={editingValor}
                   onChange={e => setEditingValor(Number(e.target.value) || 0)}
                   aria-label="Valor do timing"
-                  className="w-20 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/70 text-sm text-center focus:outline-none focus:border-white/20"
+                  className="w-20 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/70 text-sm text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus:border-white/20"
                 />
                 <span className="text-xs text-white/40">{automacao.config.unidade}</span>
               </div>

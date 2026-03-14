@@ -126,7 +126,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                         placeholder={isKids ? 'Ex: 8' : 'Ex: 178'}
                         min={isKids ? 4 : 140}
                         max={isKids ? 14 : 220}
-                        className="w-full h-12 bg-dark-bg border-2 border-dark-surface rounded-lg px-4 text-white focus:border-primary focus:outline-none transition-colors"
+                        className="w-full h-12 bg-dark-bg border-2 border-dark-surface rounded-lg px-4 text-white focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 transition-colors"
                       />
                     </div>
                     <div>
@@ -140,7 +140,7 @@ export function SizeGuideModal({ isOpen, onClose, onSelectSize, isKids = false }
                         placeholder="Ex: 82"
                         min={isKids ? 15 : 40}
                         max={150}
-                        className="w-full h-12 bg-dark-bg border-2 border-dark-surface rounded-lg px-4 text-white focus:border-primary focus:outline-none transition-colors"
+                        className="w-full h-12 bg-dark-bg border-2 border-dark-surface rounded-lg px-4 text-white focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 transition-colors"
                       />
                     </div>
                   </div>
