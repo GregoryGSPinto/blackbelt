@@ -250,7 +250,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
         {/* Lupa toggle */}
         <button
           onClick={handleSearchToggle}
-          className="w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-200"
+          className="w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-200 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
           style={{ color: theme.textMuted(isDark) }}
           aria-label={t('search.openSearch')}
           title="⌘K"
@@ -265,7 +265,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
         {theme.supportsLightMode && toggleTheme && (
           <button
             onClick={toggleTheme}
-            className="w-[48px] h-[48px] rounded-full flex items-center justify-center transition-colors duration-200"
+            className="w-[48px] h-[48px] rounded-full flex items-center justify-center transition-colors duration-200 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
             style={{ color: theme.textMuted(isDark) }}
             aria-label={isDark ? t('theme.lightMode') : t('theme.darkMode')}
             title={isDark ? t('theme.lightMode') : t('theme.darkMode')}
@@ -279,7 +279,7 @@ export function ShellDesktopHeader({ config, state }: Props) {
         <div className="relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="w-[54px] h-[54px] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200"
+            className="w-[54px] h-[54px] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
             aria-label={tShell('header.myAccount')}
           >
             <div
@@ -371,17 +371,11 @@ export function ShellDesktopHeader({ config, state }: Props) {
                   />
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200"
-                    style={{ 
-                      background: 'transparent', 
-                      border: `1px solid ${theme.panelBorder(isDark)}`, 
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                    style={{
+                      background: 'transparent',
+                      border: `1px solid ${theme.panelBorder(isDark)}`,
                       color: theme.textHeading(isDark),
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.background = 'transparent';
                     }}
                   >
                     <LogOut size={16} />
@@ -458,14 +452,8 @@ function MenuBtn({
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-colors"
+      className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
       style={{ color }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.background = 'transparent';
-      }}
     >
       <Icon size={16} />
       <span className="text-sm font-medium">{label}</span>

@@ -242,17 +242,11 @@ export function ShellMobileDrawer({ config, state }: Props) {
             <div className="px-4 py-3">
               <button
                 onClick={() => { setDrawerOpen(false); handleLogout(); }}
-                className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
-                style={{ 
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                style={{
                   background: 'transparent',
                   border: `1px solid ${theme.drawerBorder(isDark)}`,
                   color: theme.textHeading(isDark),
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'transparent';
                 }}
                 aria-label={t('confirm.logoutTitle')}
               >

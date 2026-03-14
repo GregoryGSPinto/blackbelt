@@ -75,6 +75,12 @@ const SHELL_GLOBAL_STYLES = `
     from { width: 0; opacity: 0; }
     to { width: 24px; opacity: 1; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes shell-dropdown-in { from { opacity: 1; transform: none; } to { opacity: 1; transform: none; } }
+    @keyframes shell-fade-up { from { opacity: 1; } to { opacity: 1; } }
+    @keyframes shell-slide-up { from { transform: none; } to { transform: none; } }
+    @keyframes shell-indicator-in { from { width: 24px; opacity: 1; } to { width: 24px; opacity: 1; } }
+  }
 `;
 
 export function AppShell({
