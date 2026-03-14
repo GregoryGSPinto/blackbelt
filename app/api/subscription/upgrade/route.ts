@@ -6,35 +6,12 @@ import { NextResponse } from 'next/server';
 import { planService } from '@/lib/subscription/services-v3';
 // BillingCycle type imported from '@/lib/subscription/types-v3'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { withBillingManagerAccess } from '@/lib/api/access-context';
 
 export async function POST(request: Request) {
   try {
-    const authSupabase = await getSupabaseServerClient();
+    const { membership } = await withBillingManagerAccess(request);
     const supabase = getSupabaseAdminClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Check admin permissions
-    const { data: userAcademy } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id, perfil')
-      .eq('usuario_id', user.id)
-      .single();
-
-    if (!userAcademy) {
-      return NextResponse.json({ error: 'No academy found' }, { status: 404 });
-    }
-
-    const allowedProfiles = ['ADMINISTRADOR', 'OWNER', 'SUPER_ADMIN'];
-    if (!allowedProfiles.includes(userAcademy.perfil)) {
-      return NextResponse.json(
-        { error: 'Permission denied' },
-        { status: 403 }
-      );
-    }
 
     const body = await request.json();
     const { target_plan_id, billing_cycle } = body;
@@ -46,7 +23,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const academyId = userAcademy.academia_id;
+    const academyId = membership.academy_id;
 
     // Perform upgrade
     await planService.upgradePlan(academyId, target_plan_id);
@@ -64,6 +41,9 @@ export async function POST(request: Request) {
       message: 'Upgrade realizado com sucesso',
     });
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Subscription Upgrade API]', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },

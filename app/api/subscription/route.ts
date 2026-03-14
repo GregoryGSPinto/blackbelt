@@ -4,30 +4,12 @@
 
 import { NextResponse } from 'next/server';
 import { planService } from '@/lib/subscription/services-v3';
-import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { withBillingManagerAccess } from '@/lib/api/access-context';
 
 export async function GET(request: Request) {
   try {
-    const authSupabase = await getSupabaseServerClient();
-    const supabase = getSupabaseAdminClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Get user's academy
-    const { data: userAcademy } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id, perfil')
-      .eq('usuario_id', user.id)
-      .single();
-
-    if (!userAcademy) {
-      return NextResponse.json({ error: 'No academy found' }, { status: 404 });
-    }
-
-    const academyId = userAcademy.academia_id;
+    const { supabase, membership } = await withBillingManagerAccess(request);
+    const academyId = membership.academy_id;
 
     // Get subscription data with plan
     const subscription = await planService.getSubscription(academyId);
@@ -52,9 +34,12 @@ export async function GET(request: Request) {
       usage: {
         students: studentLimit,
         quotas: quotas || [],
-      }
+      },
     });
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Subscription API]', error);
     return NextResponse.json(
       { error: 'Internal server error' },

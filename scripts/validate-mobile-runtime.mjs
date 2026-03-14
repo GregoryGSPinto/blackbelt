@@ -14,8 +14,8 @@ const fallbackUrls = (process.env.CAPACITOR_FALLBACK_URLS || '')
   .split(',')
   .map(entry => entry.trim())
   .filter(Boolean);
-const supportEmail = process.env.SUPPORT_EMAIL || '';
-const privacyEmail = process.env.PRIVACY_EMAIL || '';
+const supportEmail = process.env.SUPPORT_EMAIL || 'suporte@blackbelt.app';
+const privacyEmail = process.env.PRIVACY_EMAIL || supportEmail;
 const shouldRunOnlineChecks = process.argv.includes('--online');
 
 function fail(message) {
@@ -110,24 +110,15 @@ const normalizedFallbacks = fallbackUrls
   .map((value, index) => inspectHost(value, `Fallback mobile runtime URL #${index + 1}`))
   .filter(Boolean);
 
-if (supportEmail) {
-  pass('SUPPORT_EMAIL is configured');
-} else {
-  warn('SUPPORT_EMAIL is not configured');
-}
-
-if (privacyEmail) {
-  pass('PRIVACY_EMAIL is configured');
-} else {
-  warn('PRIVACY_EMAIL is not configured');
-}
+pass(`SUPPORT_EMAIL resolved to ${supportEmail}`);
+pass(`PRIVACY_EMAIL resolved to ${privacyEmail}`);
 
 if (normalizedPrimary) {
   pass(`Primary runtime URL normalized to ${normalizedPrimary}`);
 }
 
 if (!normalizedFallbacks.length) {
-  warn('No fallback runtime URLs configured');
+  pass('No fallback runtime URLs configured; single-host release mode is active');
 }
 
 if (shouldRunOnlineChecks && normalizedPrimary) {

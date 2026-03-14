@@ -165,12 +165,14 @@ export function useIsSuperAdmin() {
         }
 
         const { data } = await supabase
-          .from('usuarios_academia')
-          .select('perfil')
-          .eq('usuario_id', session.user.id)
-          .single();
+          .from('memberships')
+          .select('role')
+          .eq('profile_id', session.user.id)
+          .eq('status', 'active')
+          .eq('role', 'super_admin')
+          .maybeSingle();
 
-        setIsSuperAdmin(data?.perfil === 'SUPER_ADMIN');
+        setIsSuperAdmin(data?.role === 'super_admin');
       } catch {
         setIsSuperAdmin(false);
       } finally {

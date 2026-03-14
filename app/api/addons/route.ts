@@ -6,30 +6,13 @@
 import { NextResponse } from 'next/server';
 import { addonManagement } from '@/lib/subscription/services';
 import type { AddonType } from '@/lib/subscription/types';
-import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { withBillingManagerAccess } from '@/lib/api/access-context';
 
 // GET - List available and active addons
 export async function GET(request: Request) {
   try {
-    const authSupabase = await getSupabaseServerClient();
-    const supabase = getSupabaseAdminClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: userAcademy } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id')
-      .eq('usuario_id', user.id)
-      .single();
-
-    if (!userAcademy) {
-      return NextResponse.json({ error: 'No academy found' }, { status: 404 });
-    }
-
-    const academyId = userAcademy.academia_id;
+    const { membership } = await withBillingManagerAccess(request);
+    const academyId = membership.academy_id;
 
     // Get all available addons
     const available = await addonManagement.getAvailableAddons();
@@ -46,6 +29,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ addons });
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Addons GET API]', error);
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -57,32 +43,7 @@ export async function GET(request: Request) {
 // POST - Toggle addon activation
 export async function POST(request: Request) {
   try {
-    const authSupabase = await getSupabaseServerClient();
-    const supabase = getSupabaseAdminClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Check admin permissions
-    const { data: userAcademy } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id, perfil')
-      .eq('usuario_id', user.id)
-      .single();
-
-    if (!userAcademy) {
-      return NextResponse.json({ error: 'No academy found' }, { status: 404 });
-    }
-
-    // Only admins can manage addons
-    const allowedProfiles = ['ADMINISTRADOR', 'OWNER', 'SUPER_ADMIN'];
-    if (!allowedProfiles.includes(userAcademy.perfil)) {
-      return NextResponse.json(
-        { error: 'Permission denied' },
-        { status: 403 }
-      );
-    }
+    const { membership } = await withBillingManagerAccess(request);
 
     const body = await request.json();
     const { addonType, active } = body;
@@ -94,7 +55,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const academyId = userAcademy.academia_id;
+    const academyId = membership.academy_id;
 
     // Toggle addon
     const result = active 
@@ -107,6 +68,9 @@ export async function POST(request: Request) {
       addon: 'addon' in result ? result : undefined
     });
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Addons POST API]', error);
     return NextResponse.json(
       { error: 'Internal server error' },

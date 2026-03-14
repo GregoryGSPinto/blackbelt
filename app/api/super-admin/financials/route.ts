@@ -1,16 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest } from 'next/server';
-import { withAuth, apiOk, apiServerError, apiForbidden } from '@/lib/api/route-helpers';
+import { withSuperAdminAccess } from '@/lib/api/access-context';
+import { apiOk, apiServerError } from '@/lib/api/route-helpers';
 import { MOCK_FINANCIAL_DATA } from '@/lib/__mocks__/super-admin.mock';
 
 export async function GET(req: NextRequest) {
   try {
-    const { membership } = await withAuth(req);
-
-    if (!membership || !['owner', 'admin', 'super_admin'].includes(membership.role)) {
-      return apiForbidden('Acesso restrito a super-admins');
-    }
+    await withSuperAdminAccess(req);
 
     return apiOk({ financial: MOCK_FINANCIAL_DATA });
   } catch (err) {

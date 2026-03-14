@@ -5,29 +5,12 @@
 import { NextResponse } from 'next/server';
 import { quotaTracking } from '@/lib/subscription/services';
 import type { UsageAlert } from '@/lib/subscription/types';
-import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { withBillingManagerAccess } from '@/lib/api/access-context';
 
 export async function GET(request: Request) {
   try {
-    const authSupabase = await getSupabaseServerClient();
-    const supabase = getSupabaseAdminClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: userAcademy } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id')
-      .eq('usuario_id', user.id)
-      .single();
-
-    if (!userAcademy) {
-      return NextResponse.json({ error: 'No academy found' }, { status: 404 });
-    }
-
-    const academyId = userAcademy.academia_id;
+    const { membership } = await withBillingManagerAccess(request);
+    const academyId = membership.academy_id;
 
     // Get quotas
     const quotas = await quotaTracking.getUsage(academyId);
@@ -86,6 +69,9 @@ export async function GET(request: Request) {
       }
     });
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Usage API]', error);
     return NextResponse.json(
       { error: 'Internal server error' },
