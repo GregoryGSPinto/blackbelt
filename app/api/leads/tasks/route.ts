@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     if (leadId) query = query.eq('lead_id', leadId);
     const { data, error } = await query;
-    if (error) return leadApiError(error.message, 500);
+    if (error) return leadApiError('Internal server error', 500);
 
     return leadApiSuccess({ tasks: data ?? [] });
   } catch (error) {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       : supabase.from('lead_tasks').insert(payload);
 
     const { data, error } = await operation.select('*').single();
-    if (error) return leadApiError(error.message, 500);
+    if (error) return leadApiError('Internal server error', 500);
 
     await supabase.from('lead_interactions').insert({
       lead_id: body.lead_id,

@@ -16,8 +16,9 @@ export function leadApiError(
 }
 
 export function mapLeadError(error: unknown) {
-  const message = error instanceof Error ? error.message : 'Internal server error';
-  if (message === 'UNAUTHORIZED') return leadApiError('Unauthorized', 401);
-  if (message === 'FORBIDDEN') return leadApiError('Forbidden', 403);
-  return leadApiError(message, 500);
+  if (error instanceof Error) {
+    if (error.message === 'UNAUTHORIZED') return leadApiError('Unauthorized', 401);
+    if (error.message === 'FORBIDDEN') return leadApiError('Forbidden', 403);
+  }
+  return leadApiError('Internal server error', 500);
 }

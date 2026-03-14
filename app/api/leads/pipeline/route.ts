@@ -13,7 +13,7 @@ export async function GET() {
       .order('updated_at', { ascending: false });
 
     if (error) {
-      return leadApiError(error.message, 500);
+      return leadApiError('Internal server error', 500);
     }
 
     const columns = LEAD_PIPELINE_STATUSES.map((status) => ({
@@ -71,7 +71,7 @@ export async function PATCH(request: Request) {
       .single();
 
     if (error) {
-      return leadApiError(error.message, 500);
+      return leadApiError('Internal server error', 500);
     }
 
     await Promise.all([

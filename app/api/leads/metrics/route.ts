@@ -13,7 +13,7 @@ export async function GET() {
     const { data: leads, error } = await supabase.from('leads').select('*');
 
     if (error) {
-      return leadApiError(error.message, 500);
+      return leadApiError('Internal server error', 500);
     }
 
     const { data: statusHistory } = await supabase.from('lead_status_history').select('*');

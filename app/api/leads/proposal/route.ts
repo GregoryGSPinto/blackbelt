@@ -114,7 +114,7 @@ export async function POST(request: Request) {
         .select('*')
         .single();
 
-      if (error) return leadApiError(error.message, 500);
+      if (error) return leadApiError('Internal server error', 500);
 
       const pdfUrl = `/api/leads/proposal?proposalId=${proposal.id}`;
       const { data: updatedProposal } = await supabase
@@ -201,7 +201,7 @@ export async function POST(request: Request) {
       .select('*')
       .single();
 
-    if (error) return leadApiError(error.message, 500);
+    if (error) return leadApiError('Internal server error', 500);
 
     await Promise.all([
       supabase.from('leads').update({

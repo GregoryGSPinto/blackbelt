@@ -110,7 +110,7 @@ export async function PATCH(
       .single();
 
     if (error) {
-      return leadApiError(error.message, 500);
+      return leadApiError('Internal server error', 500);
     }
 
     if (statusChanged) {

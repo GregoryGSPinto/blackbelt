@@ -46,7 +46,7 @@ export async function GET(request: Request) {
 
     const { data: leads, error, count } = await query;
     if (error) {
-      return leadApiError(error.message, 500);
+      return leadApiError('Internal server error', 500);
     }
 
     const normalizedLeads = (leads ?? []).filter(Boolean);
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      return leadApiError(error.message, 500);
+      return leadApiError('Internal server error', 500);
     }
 
     const initialInteraction = interactionSchema.parse({
