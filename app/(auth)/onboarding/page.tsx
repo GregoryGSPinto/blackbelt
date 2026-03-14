@@ -45,7 +45,7 @@ export default function OnboardingPage() {
   }, [handleNext]);
 
   const handleFinish = useCallback(() => {
-    router.push('/');
+    router.push('/dashboard');
   }, [router]);
 
   const renderStep = () => {

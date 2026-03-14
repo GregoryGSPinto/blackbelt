@@ -130,14 +130,17 @@ export default function UsuariosPage() {
     emAtraso: alunos.filter(a => a.status === 'EM_ATRASO').length,
     bloqueados: alunos.filter(a => a.status === 'BLOQUEADO').length,
   };
+  const isSearching = searchTerm.trim().length > 0 || statusFilter !== 'TODOS' || tipoFilter !== 'TODOS';
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{t('users.title')}</h1>
-          <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.subtitle')}</p>
+          <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>Alunos</h1>
+          <p style={{ fontWeight: 300, color: tokens.textMuted }}>
+            Gerencie a base ativa de alunos da academia, acompanhe status e encontre registros rapidamente.
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Link
@@ -349,7 +352,11 @@ export default function UsuariosPage() {
         {filteredUsers.length === 0 && (
           <div className="empty-state-premium text-center py-12">
             <Filter className="w-12 h-12 text-white/30 mx-auto mb-3" />
-            <p style={{ fontWeight: 300, color: tokens.textMuted }}>{t('users.noUserFound')}</p>
+            <p style={{ fontWeight: 300, color: tokens.textMuted }}>
+              {isSearching
+                ? 'Nenhum aluno encontrado com os filtros atuais.'
+                : 'Sua academia ainda nao tem alunos cadastrados nesta lista.'}
+            </p>
           </div>
         )}
       </div>

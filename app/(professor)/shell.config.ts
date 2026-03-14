@@ -21,7 +21,6 @@ const DESKTOP_NAV = [
   { href: '/professor-videos', icon: Play, label: 'Vídeos' },
   { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/professor-particulares', icon: Calendar, label: 'Particulares' },
-  { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
 ];
 
 // Mobile bottom bar: 3 fixed + Menu (4th auto-added by ShellBottomNav)
@@ -39,7 +38,6 @@ const DRAWER_NAV = [
   { href: '/professor-plano-aula', icon: BookOpen, label: 'Plano de Sessão' },
   { href: '/professor-avaliacoes', icon: ClipboardCheck, label: 'Avaliações' },
   { href: '/professor-videos', icon: Play, label: 'Vídeos' },
-  { href: '/professor-mensagens', icon: MessageSquare, label: 'Mensagens' },
   { href: '/professor-particulares', icon: Calendar, label: 'Particulares' },
   { href: '/professor-loja', icon: ShoppingBag, label: 'Loja' },
 ];

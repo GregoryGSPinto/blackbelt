@@ -189,6 +189,7 @@ export default function InicioPage() {
               {tCommon('actions.watch')}
             </button>
             <button
+              onClick={() => router.push('/minha-lista')}
               style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
             >
               {tCommon('menu.myList')}
@@ -265,6 +266,7 @@ export default function InicioPage() {
               </button>
             </div>
             <button
+              onClick={() => router.push('/minha-lista')}
               style={{ background: 'transparent', border: '1px solid ' + tokens.cardBorder, color: tokens.text, padding: '0.75rem 1.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' as const, fontSize: '0.75rem' }}
             >
               {t('home.addToList')}
