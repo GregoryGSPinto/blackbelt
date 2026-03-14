@@ -281,6 +281,12 @@ export default function InicioPage() {
       <WelcomeCard profileKey="aluno" />
 
       {/* ═══════════════════════════════════════════ */}
+      {/* STUDENT CONTEXT — Next class, frequency, achievements */}
+      {/* Positioned before content for "what do I do now" clarity */}
+      {/* ═══════════════════════════════════════════ */}
+      <StudentHomeHeader data={homeData} loading={homeLoading} />
+
+      {/* ═══════════════════════════════════════════ */}
       {/* CHECK-IN CARD — Contextual, 1-tap confirmation */}
       {/* ═══════════════════════════════════════════ */}
       <AlunoCheckinCard />
@@ -289,11 +295,6 @@ export default function InicioPage() {
       {/* TURMA NOTIFICATIONS — Broadcast from professor */}
       {/* ═══════════════════════════════════════════ */}
       <TurmaNotifications />
-
-      {/* ═══════════════════════════════════════════ */}
-      {/* STUDENT DASHBOARD — Next class, frequency, achievements */}
-      {/* ═══════════════════════════════════════════ */}
-      <StudentHomeHeader data={homeData} loading={homeLoading} />
 
       {/* Carousels — wrapped with hover preview system */}
       <VideoPreviewProvider>

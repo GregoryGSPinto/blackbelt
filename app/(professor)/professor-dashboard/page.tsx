@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   Users, TrendingUp, ClipboardCheck, Play,
-  ChevronRight, Eye, Calendar, Timer,
+  ChevronRight, Calendar, Timer,
   BarChart3, AlertTriangle, GraduationCap, BookOpen } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { useAuth } from '@/features/auth/context/AuthContext';
@@ -586,111 +586,73 @@ export default function ProfessorDashboardPage() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════ */}
-      {/* ALUNOS EM DESTAQUE — Scroll horizontal premium         */}
+      {/* ALUNOS EM DESTAQUE — Compact inline                    */}
       {/* ═══════════════════════════════════════════════════════ */}
-      <section className="prof-enter-7">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('highlightStudents')}</h2>
-          <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-            {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-          {alunosDestaque.map((aluno) => (
-            <div key={aluno.id}
-              className="prof-glass-card p-5 min-w-[165px] md:min-w-[180px] flex-shrink-0 text-center group cursor-default">
-              <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.06] flex items-center justify-center text-2xl mb-3 group-hover:scale-110 transition-transform duration-500 ring-1 ring-white/[0.06]">
-                {aluno.avatar}
-              </div>
-              <p className="text-sm font-semibold text-white/75 truncate">{aluno.nome}</p>
-              <p className="text-[10px] text-amber-400/65 mt-1 tracking-wider uppercase font-medium">{t('level')} {aluno.nivel}</p>
-
-              <div className="mt-3.5 flex items-center justify-center gap-1.5">
-                <div className={`w-1.5 h-1.5 rounded-full ${
-                  aluno.status === 'em_dia' ? 'bg-emerald-500' :
-                  aluno.status === 'atencao' ? 'bg-amber-500' :
-                  'bg-rose-500'
-                }`} />
-                <span className={`text-[10px] font-medium tracking-wide ${
-                  aluno.status === 'em_dia' ? 'text-emerald-400/60' :
-                  aluno.status === 'atencao' ? 'text-amber-400/60' :
-                  'text-rose-400/60'
-                }`}>
-                  {aluno.presenca30d}% {t('presence')}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════ */}
-      {/* VÍDEOS RECENTES — Cards estilo streaming               */}
-      {/* ═══════════════════════════════════════════════════════ */}
-      <section className="prof-enter-8">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('latestVideos')}</h2>
-          <Link href="/professor-videos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
-            {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {videosRecentes.map((video) => (
-            <Link key={video.id} href="/professor-videos"
-              className="prof-glass-card hover-card overflow-hidden group cursor-pointer">
-              {/* Thumbnail */}
-              <div className="relative h-36 md:h-40 bg-gradient-to-br from-[#1a150e] to-[#0d0a06] overflow-hidden">
-                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${video.thumbnail})`, opacity: 0.2 }} />
-                {/* Play button */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-white/[0.06] backdrop-blur-sm flex items-center justify-center group-hover:bg-amber-500/15 group-hover:scale-110 transition-all duration-500 ring-1 ring-white/[0.08] group-hover:ring-amber-400/20">
-                    <Play size={20} className="text-white/70 ml-0.5" fill="currentColor" />
-                  </div>
-                </div>
-                {/* Duration */}
-                <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 bg-black/50 backdrop-blur-sm rounded text-[10px] text-white/60 font-mono tracking-wider">
-                  {video.duracao}
-                </div>
-                {/* Type badge */}
-                <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 bg-black/30 backdrop-blur-sm rounded-md text-[10px] text-amber-300/70 font-medium tracking-wide">
-                  {video.tipo === 'aula' ? t('videoTypes.session') : video.tipo === 'analise' ? t('videoTypes.analysis') : t('videoTypes.demo')}
-                </div>
-              </div>
-
-              {/* Info */}
-              <div className="p-4">
-                <h3 className="text-sm font-semibold text-white/75 truncate group-hover:text-amber-200/90 transition-colors duration-300">
-                  {video.titulo}
-                </h3>
-                <div className="flex items-center justify-between mt-2.5">
-                  <p className="text-[10px] text-white/50 tracking-wide">{video.turma}</p>
-                  <div className="flex items-center gap-1 text-[10px] text-white/35">
-                    <Eye size={10} />
-                    <span>{video.visualizacoes}</span>
-                  </div>
-                </div>
-              </div>
+      {alunosDestaque.length > 0 && (
+        <section className="prof-enter-7">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('highlightStudents')}</h2>
+            <Link href="/professor-alunos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
+              {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
             </Link>
-          ))}
-        </div>
-      </section>
+          </div>
+
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+            {alunosDestaque.slice(0, 6).map((aluno) => (
+              <div key={aluno.id}
+                className="prof-glass-card p-4 min-w-[150px] flex-shrink-0 text-center group cursor-default">
+                <div className="w-11 h-11 mx-auto rounded-full bg-white/[0.06] flex items-center justify-center text-xl mb-2 ring-1 ring-white/[0.06]">
+                  {aluno.avatar}
+                </div>
+                <p className="text-xs font-semibold text-white/75 truncate">{aluno.nome}</p>
+                <div className="mt-2 flex items-center justify-center gap-1">
+                  <div className={`w-1.5 h-1.5 rounded-full ${
+                    aluno.status === 'em_dia' ? 'bg-emerald-500' :
+                    aluno.status === 'atencao' ? 'bg-amber-500' : 'bg-rose-500'
+                  }`} />
+                  <span className="text-[10px] text-white/40">{aluno.presenca30d}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════════════════ */}
-      {/* TURMA BROADCAST PANEL                                  */}
+      {/* VÍDEOS RECENTES — Compact row                          */}
       {/* ═══════════════════════════════════════════════════════ */}
+      {videosRecentes.length > 0 && (
+        <section className="prof-enter-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-white/85 tracking-tight">{t('latestVideos')}</h2>
+            <Link href="/professor-videos" className="text-xs text-amber-400/40 hover:text-amber-400/80 transition-colors duration-300 flex items-center gap-1 group">
+              {tCommon('actions.seeAll')} <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {videosRecentes.slice(0, 3).map((video) => (
+              <Link key={video.id} href="/professor-videos"
+                className="prof-glass-card hover-card p-4 flex items-center gap-3 group cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+                  <Play size={16} className="text-amber-400/70 ml-0.5" fill="currentColor" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-medium text-white/75 truncate">{video.titulo}</h3>
+                  <p className="text-[10px] text-white/35 mt-0.5">{video.turma} · {video.duracao}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* TURMA BROADCAST PANEL */}
       <TurmaBroadcastPanel isOpen={showBroadcast} onClose={() => setShowBroadcast(false)} />
 
-      {/* ═══════════════════════════════════════════════════════ */}
-      {/* FOOTER — Linha dourada de fechamento                   */}
-      {/* ═══════════════════════════════════════════════════════ */}
+      {/* FOOTER */}
       <div className="prof-enter-8">
         <div className="prof-gold-line" />
-        <p className="text-center text-white/50 text-[10px] tracking-[0.3em] uppercase mt-4 font-medium">
-          {t('excellence')}
-        </p>
       </div>
     </div>
   );

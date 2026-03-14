@@ -172,10 +172,10 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
-            {viewMode === 'executive' ? t('dashboard.executiveView') : t('dashboard.advancedDashboard')}
+            {viewMode === 'executive' ? t('dashboard.executiveView') : viewMode === 'owner' ? 'Proprietário' : t('dashboard.advancedDashboard')}
           </h1>
           <p style={{ fontWeight: 300, color: tokens.textMuted }} className="text-sm mt-1">
-            {viewMode === 'executive' ? t('dashboard.executiveViewDesc') : t('dashboard.advancedDashboard')}
+            {viewMode === 'executive' ? t('dashboard.executiveViewDesc') : viewMode === 'owner' ? 'Visão consolidada do proprietário' : t('dashboard.advancedDashboard')}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -235,6 +235,17 @@ export default function DashboardPage() {
         <ExecutiveDashboard stats={stats} />
       ) : (
       <>
+
+      {/* AÇÕES RÁPIDAS — Prioridade máxima na primeira dobra */}
+      <Section title={t('dashboard.quickActions')}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          <QuickAction href="/check-in" icon={ClipboardCheck} title={t('dashboard.validateCheckin')} subtitle={t('dashboard.confirmPresence')} />
+          <QuickAction href="/usuarios" icon={Users} title={t('dashboard.manageUsers')} subtitle={t('dashboard.seeAllStudents')} />
+          <QuickAction href="/agenda" icon={GraduationCap} title={t('dashboard.dayAgenda')} subtitle={t('dashboard.seeTodayClasses')} />
+          <QuickAction href="/turmas" icon={GraduationCap} title="Turmas" subtitle="Gerenciar turmas" />
+          <QuickAction href="/financeiro" icon={DollarSign} title="Financeiro" subtitle="Pagamentos e cobranças" />
+        </div>
+      </Section>
 
       {/* CRITICAL ALERTS BANNER */}
       {alertasAtivos.length > 0 && (
@@ -415,15 +426,6 @@ export default function DashboardPage() {
       {alertasInteligentes && alertasInteligentes.length > 0 && (
         <ProactiveAlertList alertas={alertasInteligentes} maxVisible={5} />
       )}
-
-      {/* AÇÕES RÁPIDAS */}
-      <Section title={t('dashboard.quickActions')}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <QuickAction href="/check-in" icon={ClipboardCheck} title={t('dashboard.validateCheckin')} subtitle={t('dashboard.confirmPresence')} />
-          <QuickAction href="/usuarios" icon={Users} title={t('dashboard.manageUsers')} subtitle={t('dashboard.seeAllStudents')} />
-          <QuickAction href="/agenda" icon={GraduationCap} title={t('dashboard.dayAgenda')} subtitle={t('dashboard.seeTodayClasses')} />
-        </div>
-      </Section>
 
       {/* ALERTAS RECENTES */}
       {alertasAtivos.length > 0 && (
