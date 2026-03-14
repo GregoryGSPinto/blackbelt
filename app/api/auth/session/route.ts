@@ -4,6 +4,7 @@ import type { User } from '@/lib/api/contracts';
 import { getSupabaseServerClientSafe } from '@/lib/supabase/server';
 import { hasRequiredSupabaseEnv } from '@/src/config/env';
 import type { AuthSessionData, AuthSessionResponse } from '@/features/auth/session-contract';
+import { resolveMembershipSelection } from '@/lib/api/route-helpers';
 
 const COOKIE_NAME = 'blackbelt_session';
 const COOKIE_OPTIONS = {
@@ -77,7 +78,7 @@ async function readMockSession(): Promise<AuthSessionResponse> {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   if (!hasRequiredSupabaseEnv()) {
     return NextResponse.json(await readMockSession(), { status: 200 });
   }
@@ -116,7 +117,7 @@ export async function GET() {
         .eq('status', 'active'),
     ]);
 
-    const primaryMembership = memberships?.[0] || null;
+    const { membership: primaryMembership, ambiguousCrossTenant } = resolveMembershipSelection(memberships || [], request);
     const fallbackUser = buildUserFromSupabase(user, profile, primaryMembership);
     const session: AuthSessionData = {
       mode: 'supabase',
@@ -126,6 +127,10 @@ export async function GET() {
         : [fallbackUser],
       loginEmail: user.email ?? '',
     };
+
+    if (ambiguousCrossTenant) {
+      session.user = buildUserFromSupabase(user, profile, null);
+    }
 
     return NextResponse.json({ session } satisfies AuthSessionResponse, { status: 200 });
   } catch {

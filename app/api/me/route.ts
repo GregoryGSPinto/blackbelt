@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { mapMembershipRoleToTipo } from '@/lib/academy/operations';
 import { logServerError } from '@/lib/server/error-handler';
+import { resolveMembershipSelection } from '@/lib/api/route-helpers';
 
 // Dados vazios de fallback
 const emptyUser = {
@@ -20,7 +21,7 @@ const emptyUser = {
   academiaId: null,
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const supabase = await getSupabaseServerClient();
     const { data: { user }, error } = await supabase.auth.getUser();
@@ -44,7 +45,24 @@ export async function GET() {
       .maybeSingle(),
     ]);
 
-    const membership = memberships?.[0] || null;
+    const activeMemberships = memberships || [];
+    const resolvedMembership = resolveMembershipSelection(activeMemberships, request);
+
+    if (resolvedMembership.ambiguousCrossTenant) {
+      return NextResponse.json(
+        { error: 'Múltiplas memberships ativas encontradas. Informe x-membership-id ou x-academy-id.' },
+        { status: 409 },
+      );
+    }
+
+    if (activeMemberships.length > 0 && !resolvedMembership.membership && resolvedMembership.usedSelector) {
+      return NextResponse.json(
+        { error: 'Nenhuma membership ativa encontrada para o tenant informado.' },
+        { status: 403 },
+      );
+    }
+
+    const membership = resolvedMembership.membership;
 
     return NextResponse.json({
       data: {

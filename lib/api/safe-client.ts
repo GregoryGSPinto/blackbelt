@@ -9,6 +9,7 @@
 
 import { apiClient, ApiError } from './client';
 import { mockDelay } from '@/lib/env';
+import { useMock } from '@/lib/env';
 import { logger } from '@/lib/logger';
 
 const MOCK_MODULE_LOADERS: Record<string, () => Promise<any>> = {
@@ -56,7 +57,7 @@ export async function safeCall<T>(
     }
 
     // Se habilitado, tentar fallback para mock
-    if (useMockFallback && mockPath && mockExtractor) {
+    if (useMock() && useMockFallback && mockPath && mockExtractor) {
       const loader = MOCK_MODULE_LOADERS[mockPath];
       if (!loader) {
         logger.error('[safeCall]', 'No mock loader registered for path', mockPath);

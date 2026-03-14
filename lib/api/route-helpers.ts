@@ -52,6 +52,9 @@ export type AuthContext = {
   membership: { id: string; academy_id: string; profile_id: string; role: string } | null;
 };
 
+type MembershipRecord = NonNullable<AuthContext['membership']>;
+type MembershipSelectionRecord = Pick<MembershipRecord, 'id' | 'academy_id' | 'role'>;
+
 type WithAuthOptions = {
   requireMembership?: boolean;
 };
@@ -70,7 +73,7 @@ function getRequestedMembershipSelector(req?: Request): { membershipId: string |
   };
 }
 
-function pickMembershipFromSameAcademy(memberships: NonNullable<AuthContext['membership']>[]) {
+function pickMembershipFromSameAcademy<T extends MembershipSelectionRecord>(memberships: T[]) {
   if (memberships.length === 0) {
     return null;
   }
@@ -92,7 +95,7 @@ function pickMembershipFromSameAcademy(memberships: NonNullable<AuthContext['mem
 async function getActiveMemberships(
   supabase: any,
   profileId: string,
-): Promise<NonNullable<AuthContext['membership']>[]> {
+): Promise<MembershipRecord[]> {
   const { data, error } = await supabase
     .from('memberships')
     .select('id, academy_id, profile_id, role')
@@ -105,6 +108,34 @@ async function getActiveMemberships(
   }
 
   return data ?? [];
+}
+
+export function resolveMembershipSelection<T extends MembershipSelectionRecord>(
+  memberships: T[],
+  req?: Request,
+): {
+  membership: T | null;
+  ambiguousCrossTenant: boolean;
+  usedSelector: boolean;
+} {
+  const selector = getRequestedMembershipSelector(req);
+  let membership: T | null = null;
+
+  if (selector.membershipId) {
+    membership = memberships.find((item) => item.id === selector.membershipId) ?? null;
+  } else if (selector.academyId) {
+    membership = memberships.find((item) => item.academy_id === selector.academyId) ?? null;
+  } else if (memberships.length === 1) {
+    membership = memberships[0];
+  } else {
+    membership = pickMembershipFromSameAcademy(memberships);
+  }
+
+  return {
+    membership,
+    ambiguousCrossTenant: !membership && memberships.length > 1 && !selector.membershipId && !selector.academyId,
+    usedSelector: Boolean(selector.membershipId || selector.academyId),
+  };
 }
 
 /**
@@ -126,20 +157,11 @@ export async function withAuth(
 
   if (opts?.requireMembership !== false) {
     const memberships = await getActiveMemberships(supabase, user.id);
-    const selector = getRequestedMembershipSelector(req);
-
-    if (selector.membershipId) {
-      membership = memberships.find((item) => item.id === selector.membershipId) ?? null;
-    } else if (selector.academyId) {
-      membership = memberships.find((item) => item.academy_id === selector.academyId) ?? null;
-    } else if (memberships.length === 1) {
-      membership = memberships[0];
-    } else {
-      membership = pickMembershipFromSameAcademy(memberships);
-    }
+    const resolvedMembership = resolveMembershipSelection(memberships, req);
+    membership = resolvedMembership.membership;
 
     if (!membership) {
-      if (memberships.length > 1 && !selector.membershipId && !selector.academyId) {
+      if (resolvedMembership.ambiguousCrossTenant) {
         throw NextResponse.json(
           { error: 'Múltiplas memberships ativas encontradas. Informe x-membership-id ou x-academy-id.' },
           { status: 409 }
