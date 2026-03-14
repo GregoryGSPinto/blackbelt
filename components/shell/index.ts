@@ -27,6 +27,7 @@ export type {
   ShellNavConfig,
   ShellState,
   NavItem,
+  NavGroup,
   ShellNotification,
   ColorFn,
   SidebarConfig,

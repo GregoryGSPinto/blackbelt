@@ -106,30 +106,68 @@ export function ShellMobileDrawer({ config, state }: Props) {
 
         {/* Scrollable content */}
         <div className="overflow-y-auto" style={{ maxHeight: 'calc(85vh - 140px)' }}>
-          {/* Nav items — vertical list */}
+          {/* Nav items — grouped or flat */}
           <div className="px-4 py-3 space-y-1">
-            {nav.drawerNav.map(({ href, icon: Icon, label, emoji }) => {
-              const isActive = pathname === href || pathname.startsWith(href + '/');
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setDrawerOpen(false)}
-                  className={`flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${font}`}
-                  style={{
-                    background: theme.drawerItemBg(isDark, isActive),
-                    color: theme.drawerItemColor(isDark, isActive),
-                  }}
-                >
-                  {theme.bottomNavUseEmoji && emoji ? (
-                    <span className="text-xl w-6 text-center">{emoji}</span>
-                  ) : (
-                    <Icon className="w-5 h-5" />
+            {nav.drawerGroups ? (
+              nav.drawerGroups.map((group, gi) => (
+                <div key={group.title}>
+                  {gi > 0 && (
+                    <div className="mx-1 my-2" style={{ height: 1, background: theme.drawerBorder(isDark) }} />
                   )}
-                  <span className={`text-sm font-semibold ${font}`}>{label}</span>
-                </Link>
-              );
-            })}
+                  <p
+                    className="text-[10px] font-semibold tracking-[0.15em] uppercase px-4 pt-3 pb-1.5"
+                    style={{ color: theme.textMuted(isDark) }}
+                  >
+                    {group.title}
+                  </p>
+                  {group.items.map(({ href, icon: Icon, label, emoji }) => {
+                    const isActive = pathname === href || pathname.startsWith(href + '/');
+                    return (
+                      <Link
+                        key={href}
+                        href={href}
+                        onClick={() => setDrawerOpen(false)}
+                        className={`flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 ${font}`}
+                        style={{
+                          background: theme.drawerItemBg(isDark, isActive),
+                          color: theme.drawerItemColor(isDark, isActive),
+                        }}
+                      >
+                        {theme.bottomNavUseEmoji && emoji ? (
+                          <span className="text-xl w-6 text-center">{emoji}</span>
+                        ) : (
+                          <Icon className="w-5 h-5" />
+                        )}
+                        <span className={`text-sm font-semibold ${font}`}>{label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              ))
+            ) : (
+              nav.drawerNav.map(({ href, icon: Icon, label, emoji }) => {
+                const isActive = pathname === href || pathname.startsWith(href + '/');
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setDrawerOpen(false)}
+                    className={`flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${font}`}
+                    style={{
+                      background: theme.drawerItemBg(isDark, isActive),
+                      color: theme.drawerItemColor(isDark, isActive),
+                    }}
+                  >
+                    {theme.bottomNavUseEmoji && emoji ? (
+                      <span className="text-xl w-6 text-center">{emoji}</span>
+                    ) : (
+                      <Icon className="w-5 h-5" />
+                    )}
+                    <span className={`text-sm font-semibold ${font}`}>{label}</span>
+                  </Link>
+                );
+              })
+            )}
           </div>
 
           {/* Divider */}

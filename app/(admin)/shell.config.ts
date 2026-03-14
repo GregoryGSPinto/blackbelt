@@ -40,39 +40,110 @@ const MOBILE_BAR = [
   { href: '/usuarios',     icon: Users,           label: 'Pessoas' },
 ];
 
-// ─── Drawer: sub-páginas ─────────────────────────────────
+// ─── Drawer: sub-páginas (flat for backwards compat) ─────
 
 const DRAWER_NAV = [
-  { href: '/analytics',       icon: Activity,        label: 'Insights' },
-  { href: '/relatorios',      icon: BarChart3,       label: 'Relatórios' },
-  { href: '/pagamentos',      icon: CreditCard,      label: 'Pagamentos' },
-  { href: '/pdv',             icon: ShoppingCart,     label: 'PDV' },
-  { href: '/comissoes',       icon: Percent,          label: 'Comissões' },
-  { href: '/graduacoes',      icon: Award,            label: 'Graduações' },
   { href: '/check-in',        icon: ClipboardCheck,   label: 'Check-in' },
   { href: '/turmas',          icon: GraduationCap,    label: 'Turmas' },
   { href: '/agenda',          icon: Calendar,          label: 'Agenda' },
-  { href: '/leads',           icon: Target,            label: 'Leads' },
-  { href: '/comunicacoes',    icon: Megaphone,         label: 'Comunicações' },
-  { href: '/estoque',         icon: Package,           label: 'Estoque' },
-  { href: '/visitantes',      icon: UserPlus,          label: 'Visitantes' },
-  { href: '/gestao-eventos',  icon: Trophy,            label: 'Eventos' },
-  { href: '/automacoes',      icon: Zap,               label: 'Automações' },
   { href: '/alertas',         icon: Bell,              label: 'Alertas' },
-  { href: '/minha-academia',        icon: Building2,         label: 'Minha Academia' },
-  { href: '/minha-academia/modalidades', icon: Award,          label: 'Modalidades' },
-  { href: '/minha-academia/grade',  icon: Calendar,          label: 'Horarios' },
-  { href: '/minha-academia/planos', icon: CreditCard,        label: 'Planos internos' },
-  { href: '/minha-academia/contratos', icon: FileText,        label: 'Contratos' },
+  { href: '/equipe',          icon: Users,             label: 'Equipe' },
+  { href: '/leads',           icon: Target,            label: 'Leads' },
+  { href: '/visitantes',      icon: UserPlus,          label: 'Visitantes' },
+  { href: '/comunicacoes',    icon: Megaphone,         label: 'Comunicações' },
+  { href: '/graduacoes',      icon: Award,             label: 'Graduações' },
+  { href: '/pagamentos',      icon: CreditCard,        label: 'Pagamentos' },
+  { href: '/pdv',             icon: ShoppingCart,       label: 'PDV' },
+  { href: '/comissoes',       icon: Percent,            label: 'Comissões' },
   { href: '/financeiro-owner', icon: DollarSign,        label: 'Financeiro detalhado' },
-  { href: '/equipe',           icon: Users,             label: 'Equipe' },
-  { href: '/crm',              icon: Target,            label: 'Leads e vendas' },
-  { href: '/marketing',        icon: Megaphone,         label: 'Marketing' },
-  { href: '/infraestrutura',   icon: Wrench,            label: 'Infraestrutura' },
-  { href: '/metas',            icon: TrendingUp,        label: 'Metas e OKRs' },
-  { href: '/relatorios-gerenciais', icon: FileBarChart,  label: 'Relatorios gerenciais' },
-  { href: '/loja',             icon: ShoppingBag,       label: 'Loja' },
-  { href: '/configuracoes',    icon: Settings,          label: 'Configurações' },
+  { href: '/crm',             icon: Target,             label: 'CRM e Vendas' },
+  { href: '/marketing',       icon: Megaphone,          label: 'Marketing' },
+  { href: '/automacoes',      icon: Zap,                label: 'Automações' },
+  { href: '/metas',           icon: TrendingUp,         label: 'Metas e OKRs' },
+  { href: '/analytics',       icon: Activity,           label: 'Insights' },
+  { href: '/relatorios',      icon: BarChart3,          label: 'Relatórios' },
+  { href: '/relatorios-gerenciais', icon: FileBarChart,  label: 'Relatórios gerenciais' },
+  { href: '/minha-academia',         icon: Building2,    label: 'Minha Academia' },
+  { href: '/minha-academia/modalidades', icon: Award,    label: 'Modalidades' },
+  { href: '/minha-academia/grade',   icon: Calendar,     label: 'Horários' },
+  { href: '/minha-academia/planos',  icon: CreditCard,   label: 'Planos internos' },
+  { href: '/minha-academia/contratos', icon: FileText,   label: 'Contratos' },
+  { href: '/gestao-eventos',  icon: Trophy,             label: 'Eventos' },
+  { href: '/estoque',         icon: Package,            label: 'Estoque' },
+  { href: '/infraestrutura',  icon: Wrench,             label: 'Infraestrutura' },
+  { href: '/loja',            icon: ShoppingBag,        label: 'Loja' },
+  { href: '/configuracoes',   icon: Settings,           label: 'Configurações' },
+];
+
+// ─── Grouped navigation (for drawer + desktop mega-menu) ──
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DRAWER_GROUPS: { title: string; items: { href: string; icon: any; label: string }[] }[] = [
+  {
+    title: 'Operação',
+    items: [
+      { href: '/check-in',   icon: ClipboardCheck, label: 'Check-in' },
+      { href: '/turmas',     icon: GraduationCap,  label: 'Turmas' },
+      { href: '/agenda',     icon: Calendar,        label: 'Agenda' },
+      { href: '/alertas',    icon: Bell,            label: 'Alertas' },
+    ],
+  },
+  {
+    title: 'Pessoas',
+    items: [
+      { href: '/equipe',       icon: Users,    label: 'Equipe' },
+      { href: '/leads',        icon: Target,   label: 'Leads' },
+      { href: '/visitantes',   icon: UserPlus, label: 'Visitantes' },
+      { href: '/comunicacoes', icon: Megaphone, label: 'Comunicações' },
+    ],
+  },
+  {
+    title: 'Pedagógico',
+    items: [
+      { href: '/graduacoes', icon: Award, label: 'Graduações' },
+    ],
+  },
+  {
+    title: 'Financeiro',
+    items: [
+      { href: '/pagamentos',      icon: CreditCard,  label: 'Pagamentos' },
+      { href: '/pdv',             icon: ShoppingCart, label: 'PDV' },
+      { href: '/comissoes',       icon: Percent,      label: 'Comissões' },
+      { href: '/financeiro-owner', icon: DollarSign,  label: 'Financeiro detalhado' },
+    ],
+  },
+  {
+    title: 'Crescimento',
+    items: [
+      { href: '/crm',        icon: Target,     label: 'CRM e Vendas' },
+      { href: '/marketing',  icon: Megaphone,  label: 'Marketing' },
+      { href: '/automacoes', icon: Zap,         label: 'Automações' },
+      { href: '/metas',      icon: TrendingUp,  label: 'Metas e OKRs' },
+    ],
+  },
+  {
+    title: 'Relatórios',
+    items: [
+      { href: '/analytics',              icon: Activity,    label: 'Insights' },
+      { href: '/relatorios',             icon: BarChart3,   label: 'Relatórios' },
+      { href: '/relatorios-gerenciais',  icon: FileBarChart, label: 'Relatórios gerenciais' },
+    ],
+  },
+  {
+    title: 'Configurações',
+    items: [
+      { href: '/minha-academia',              icon: Building2,  label: 'Minha Academia' },
+      { href: '/minha-academia/modalidades',  icon: Award,      label: 'Modalidades' },
+      { href: '/minha-academia/grade',        icon: Calendar,   label: 'Horários' },
+      { href: '/minha-academia/planos',       icon: CreditCard, label: 'Planos internos' },
+      { href: '/minha-academia/contratos',    icon: FileText,   label: 'Contratos' },
+      { href: '/gestao-eventos',             icon: Trophy,     label: 'Eventos' },
+      { href: '/estoque',                    icon: Package,    label: 'Estoque' },
+      { href: '/infraestrutura',             icon: Wrench,     label: 'Infraestrutura' },
+      { href: '/loja',                       icon: ShoppingBag, label: 'Loja' },
+      { href: '/configuracoes',              icon: Settings,   label: 'Configurações' },
+    ],
+  },
 ];
 
 const ALL_NAV = [...DESKTOP_NAV, ...DRAWER_NAV]
@@ -82,6 +153,8 @@ const adminNav = {
   desktopNav: ALL_NAV,
   mobileBar: MOBILE_BAR,
   drawerNav: DRAWER_NAV,
+  drawerGroups: DRAWER_GROUPS,
+  desktopOverflowGroups: DRAWER_GROUPS,
   allItems: ALL_NAV,
   searchPlaceholder: 'Buscar alunos, professores, turmas e cobranca...',
   notifications: NOTIFICATIONS,

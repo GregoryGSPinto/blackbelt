@@ -22,6 +22,12 @@ export interface NavItem {
   emoji?: string;
 }
 
+/** A group of navigation items with a section header */
+export interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
 /** Notification mock (until backend integration) */
 export interface ShellNotification {
   id: number;
@@ -189,6 +195,10 @@ export interface ShellNavConfig {
   mobileBar: readonly NavItem[];
   /** Mobile drawer items */
   drawerNav: readonly NavItem[];
+  /** Grouped drawer items (if provided, used instead of flat drawerNav in UI) */
+  drawerGroups?: readonly NavGroup[];
+  /** Grouped overflow items for desktop "Mais" dropdown */
+  desktopOverflowGroups?: readonly NavGroup[];
   /** All nav items for route matching */
   allItems: readonly NavItem[];
   /** Search placeholder text */

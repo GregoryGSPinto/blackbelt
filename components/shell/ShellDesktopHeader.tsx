@@ -158,9 +158,10 @@ export function ShellDesktopHeader({ config, state }: Props) {
 
               {moreOpen && (
                 <div
-                  className="absolute top-full left-1/2 mt-2 min-w-[220px] rounded-xl overflow-hidden shadow-2xl z-[80]"
+                  className="absolute top-full left-1/2 mt-2 rounded-xl overflow-hidden shadow-2xl z-[80]"
                   style={{
                     transform: 'translateX(-50%)',
+                    minWidth: nav.desktopOverflowGroups ? 520 : 220,
                     background: theme.panelBg(isDark),
                     backdropFilter: theme.panelBackdrop,
                     border: `1px solid ${theme.panelBorder(isDark)}`,
@@ -168,33 +169,74 @@ export function ShellDesktopHeader({ config, state }: Props) {
                     transformOrigin: 'top center',
                   }}
                 >
-                  <div className="py-1.5 px-1.5 max-h-[60vh] overflow-y-auto overscroll-contain">
-                    {overflowItems.map(({ href, icon: Icon, label }) => {
-                      const active = pathname === href || pathname.startsWith(href + '/');
-                      return (
-                        <Link
-                          key={href}
-                          href={href}
-                          onClick={() => setMoreOpen(false)}
-                          className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${font}`}
-                          style={{
-                            color: active ? theme.navActiveColor(isDark) : theme.textMuted(isDark),
-                            background: active ? `${theme.accentColor(isDark)}12` : 'transparent',
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!active)
-                              (e.currentTarget as HTMLElement).style.background = `${theme.accentColor(isDark)}08`;
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!active)
-                              (e.currentTarget as HTMLElement).style.background = 'transparent';
-                          }}
-                        >
-                          <Icon className="w-4 h-4" />
-                          {label}
-                        </Link>
-                      );
-                    })}
+                  <div className="py-2 px-2 max-h-[70vh] overflow-y-auto overscroll-contain">
+                    {nav.desktopOverflowGroups ? (
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                        {nav.desktopOverflowGroups.map((group) => (
+                          <div key={group.title} className="mb-2">
+                            <p
+                              className="text-[10px] font-semibold tracking-[0.15em] uppercase px-3 pt-2 pb-1.5"
+                              style={{ color: theme.textMuted(isDark) }}
+                            >
+                              {group.title}
+                            </p>
+                            {group.items.map(({ href, icon: Icon, label }) => {
+                              const active = pathname === href || pathname.startsWith(href + '/');
+                              return (
+                                <Link
+                                  key={href}
+                                  href={href}
+                                  onClick={() => setMoreOpen(false)}
+                                  className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-150 ${font}`}
+                                  style={{
+                                    color: active ? theme.navActiveColor(isDark) : theme.textMuted(isDark),
+                                    background: active ? `${theme.accentColor(isDark)}12` : 'transparent',
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    if (!active)
+                                      (e.currentTarget as HTMLElement).style.background = `${theme.accentColor(isDark)}08`;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    if (!active)
+                                      (e.currentTarget as HTMLElement).style.background = 'transparent';
+                                  }}
+                                >
+                                  <Icon className="w-4 h-4 flex-shrink-0" />
+                                  {label}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      overflowItems.map(({ href, icon: Icon, label }) => {
+                        const active = pathname === href || pathname.startsWith(href + '/');
+                        return (
+                          <Link
+                            key={href}
+                            href={href}
+                            onClick={() => setMoreOpen(false)}
+                            className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${font}`}
+                            style={{
+                              color: active ? theme.navActiveColor(isDark) : theme.textMuted(isDark),
+                              background: active ? `${theme.accentColor(isDark)}12` : 'transparent',
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!active)
+                                (e.currentTarget as HTMLElement).style.background = `${theme.accentColor(isDark)}08`;
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!active)
+                                (e.currentTarget as HTMLElement).style.background = 'transparent';
+                            }}
+                          >
+                            <Icon className="w-4 h-4" />
+                            {label}
+                          </Link>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               )}
