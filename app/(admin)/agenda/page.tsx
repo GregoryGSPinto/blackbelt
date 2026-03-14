@@ -94,7 +94,7 @@ export default function AgendaPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('agenda.checkinsDone')}</p>
-              <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{checkInsHoje.length}</p>
+              <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.03em' }}>{checkInsHoje.length}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
           </div>
@@ -168,7 +168,7 @@ export default function AgendaPage() {
 
                     <div className="text-right">
                       <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2">
-                        <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{checkInsDaTurma}</p>
+                        <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{checkInsDaTurma}</p>
                         <p className="text-xs" style={{ color: tokens.textMuted }}>Check-ins</p>
                       </div>
                     </div>

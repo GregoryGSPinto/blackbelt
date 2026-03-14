@@ -182,7 +182,7 @@ export default function ProfessorChamadaPage() {
             <p className="text-white/40 text-xs mt-1">{t('presentCount')}</p>
           </div>
           <div className="prof-glass-card p-5 text-center">
-            <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{resumo.faltas}</p>
+            <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{resumo.faltas}</p>
             <p className="text-white/40 text-xs mt-1">{t('absentCount')}</p>
           </div>
           <div className="prof-glass-card p-5 text-center">

@@ -445,7 +445,7 @@ function CriticalCard({ title, value, total, percentage, icon: Icon, link, statu
       </div>
       <h3 className="text-xs mb-2" style={{ color: 'var(--text-secondary)' }}>{title}</h3>
       <div className="flex items-end justify-between mb-3">
-        <p className={`${valueColor}`} style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.02em', color: valueColor ? undefined : tokens.text }}>{value}</p>
+        <p className={`${valueColor}`} style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.02em', color: valueColor ? undefined : tokens.text }}>{value}</p>
         {total !== undefined && percentage !== undefined && (
           <div className="text-right">
             <p className="text-xs" style={{ color: tokens.textMuted }}>de {total}</p>
@@ -474,7 +474,7 @@ function MetricCard({ title, value, icon: Icon, link, comparison }: {
       </div>
       <h3 className="text-xs mb-2" style={{ color: 'var(--text-secondary)' }}>{title}</h3>
       <div className="flex items-end justify-between">
-        <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
+        <p style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
         {comparison && (
           <div className="flex items-center gap-1">
             {comparison.value < value ? <TrendingUp size={16} className="text-green-400" /> :

@@ -113,7 +113,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Receita Mês</span>
           </div>
-          <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaMes)}</p>
+          <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaMes)}</p>
         </div>
 
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
@@ -123,7 +123,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Pendente</span>
           </div>
-          <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaPendente)}</p>
+          <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{formatMoney(dashboard.receitaPendente)}</p>
         </div>
 
         <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
@@ -133,7 +133,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Inadimplentes</span>
           </div>
-          <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{dashboard.inadimplentes}</p>
+          <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{dashboard.inadimplentes}</p>
           <p className="text-white/30 text-xs mt-1">de {dashboard.totalAssinaturas} assinaturas</p>
         </div>
 
@@ -144,7 +144,7 @@ export default function PagamentosPage() {
             </div>
             <span className="text-white/40 text-xs">Assinaturas Ativas</span>
           </div>
-          <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{dashboard.assinaturasAtivas}</p>
+          <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{dashboard.assinaturasAtivas}</p>
           <p className="text-white/30 text-xs mt-1">
             {Math.round((dashboard.assinaturasAtivas / Math.max(dashboard.totalAssinaturas, 1)) * 100)}% do total
           </p>

@@ -83,7 +83,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('financial.onTime')}</p>
-              <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: '#4ade80' }}>{stats.emDia}</p>
+              <p style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.03em', color: tokens.success }}>{stats.emDia}</p>
             </div>
             <CheckCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
@@ -96,7 +96,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('financial.overdue')}</p>
-              <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: tokens.warning }}>{stats.emAtraso}</p>
+              <p style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.03em', color: tokens.warning }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>
@@ -107,7 +107,7 @@ export default function FinanceiroPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('financial.blocked')}</p>
-              <p style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em', color: tokens.error }}>{stats.bloqueados}</p>
+              <p style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.03em', color: tokens.error }}>{stats.bloqueados}</p>
             </div>
             <DollarSign className="w-12 h-12" style={{ color: tokens.textMuted }} />
           </div>

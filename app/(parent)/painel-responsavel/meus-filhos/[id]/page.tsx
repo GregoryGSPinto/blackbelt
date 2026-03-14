@@ -122,7 +122,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">{t('monthAttendance')}</p>
-              <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.presenca30dias}%</p>
+              <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{filho.progresso.presenca30dias}%</p>
             </div>
           </div>
           <div className="h-3 bg-white/10 rounded-full overflow-hidden">
@@ -140,7 +140,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">{t('watchedSessions')}</p>
-              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.sessõesAssistidas}</p>
+              <p className="text-blue-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{filho.progresso.sessõesAssistidas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">{t('totalCompleted')}</p>
@@ -153,7 +153,7 @@ export default function PerfilFilhoPage({ params }: { params: Promise<{ id: stri
             </div>
             <div>
               <p className="text-sm text-white/60">{t('achievementsCount')}</p>
-              <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{filho.progresso.conquistasConquistadas}</p>
+              <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{filho.progresso.conquistasConquistadas}</p>
             </div>
           </div>
           <p className="text-xs text-white/60">{t('achievementsUnlocked')}</p>

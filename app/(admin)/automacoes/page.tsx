@@ -184,7 +184,7 @@ function StatCard({
         <Icon size={14} className={color} />
         <span className="text-[10px] text-white/25 uppercase tracking-wider">{label}</span>
       </div>
-      <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
+      <p style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
     </div>
   );
 }

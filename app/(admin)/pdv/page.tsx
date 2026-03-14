@@ -166,15 +166,15 @@ export default function PDVPage() {
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><TrendingUp size={16} className="text-green-400" /><span className="text-white/40 text-xs">Receita Hoje</span></div>
-            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaHoje)}</p>
+            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaHoje)}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><DollarSign size={16} className="text-purple-400" /><span className="text-white/40 text-xs">Receita Semana</span></div>
-            <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaSemana)}</p>
+            <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{formatCurrency(stats.receitaSemana)}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2"><AlertTriangle size={16} className="text-red-400" /><span className="text-white/40 text-xs">Estoque Crítico</span></div>
-            <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
+            <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.produtosBaixoEstoque + stats.produtosSemEstoque}</p>
           </div>
         </div>
       )}

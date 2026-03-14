@@ -168,7 +168,7 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.activeStudents')}</p>
-              <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.ativos}</p>
+              <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.ativos}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-white/40" />
           </div>
@@ -178,7 +178,7 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.statusOverdue')}</p>
-              <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.emAtraso}</p>
+              <p className="text-yellow-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.emAtraso}</p>
             </div>
             <AlertCircle className="w-10 h-10 text-white/30" />
           </div>
@@ -188,7 +188,7 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('users.statusBlocked')}</p>
-              <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.bloqueados}</p>
+              <p className="text-red-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.bloqueados}</p>
             </div>
             <Ban className="w-10 h-10 text-white/30" />
           </div>

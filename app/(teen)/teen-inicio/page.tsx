@@ -87,7 +87,7 @@ export default function TeenInicioPage() {
             <Flame size={18} className="text-teen-energy" />
           </div>
           <div>
-            <p className="leading-none" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
+            <p className="leading-none" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: tokens.text }}>
               {currentTeen.progresso.sequenciaAtual}
             </p>
             <p className="leading-tight mt-0.5 text-xs" style={{ color: 'var(--text-secondary)' }}>{t('consecutiveDays')}</p>

@@ -158,7 +158,7 @@ export default function PermissoesUsuarioPage() {
             <p className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.summaryDesc')}</p>
           </div>
           <div className="text-right">
-            <p className="text-purple-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>{perfil.permissoes.length}</p>
+            <p className="text-purple-400" style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.03em' }}>{perfil.permissoes.length}</p>
             <p className="text-sm" style={{ color: tokens.textMuted }}>{t('permissions.ofTotal', { total: todasPermissoes.length })}</p>
           </div>
         </div>

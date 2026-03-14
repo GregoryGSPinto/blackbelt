@@ -297,7 +297,7 @@ export default function ProfessorDashboardPage() {
                 <stat.icon size={18} className={stat.accent} />
               </div>
             </div>
-            <p style={{ fontSize: '2.5rem', fontWeight: 200, color: tokens.text }} className="leading-none">{stat.value}</p>
+            <p style={{ fontSize: '2.5rem', fontWeight: 300, color: tokens.text }} className="leading-none">{stat.value}</p>
             <p className="text-xs mt-2" style={{ color: 'var(--text-secondary)' }}>{stat.label}</p>
           </div>
         ))}
@@ -327,7 +327,7 @@ export default function ProfessorDashboardPage() {
               { label: t('highlight'), value: pedStats.alunosDestaque, color: '#4ADE80' },
             ].map((s, i) => (
               <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
-                <span style={{ fontSize: '2rem', fontWeight: 200 }} className="leading-none" >{s.value}</span>
+                <span style={{ fontSize: '2rem', fontWeight: 300 }} className="leading-none" >{s.value}</span>
                 <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{s.label}</p>
               </div>
             ))}

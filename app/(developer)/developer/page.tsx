@@ -288,7 +288,7 @@ export default function DeveloperDashboard() {
           ].map((m) => (
             <div key={m.label} className="p-4" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
               <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{m.label}</p>
-              <p className={`font-mono mt-1 ${obsMetricColor(m.label, m.value)}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: obsMetricColor(m.label, m.value) ? undefined : tokens.text }}>
+              <p className={`font-mono mt-1 ${obsMetricColor(m.label, m.value)}`} style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: obsMetricColor(m.label, m.value) ? undefined : tokens.text }}>
                 {m.value}<span className="text-xs ml-1" style={{ color: tokens.textMuted }}>{m.unit}</span>
               </p>
             </div>

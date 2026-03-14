@@ -154,21 +154,21 @@ export default function LeadsPage() {
               <Target size={16} className="text-green-400" />
               <span className="text-white/40 text-xs">{t('leads.conversionRate')}</span>
             </div>
-            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.taxaConversao}%</p>
+            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.taxaConversao}%</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp size={16} className="text-amber-400" />
               <span className="text-white/40 text-xs">{t('leads.convertedMonth')}</span>
             </div>
-            <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.conversaoMes}</p>
+            <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.conversaoMes}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Clock size={16} className="text-purple-400" />
               <span className="text-white/40 text-xs">{t('leads.avgTime')}</span>
             </div>
-            <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.tempoMedioConversao}d</p>
+            <p className="text-purple-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.tempoMedioConversao}d</p>
           </div>
         </div>
       )}

@@ -245,7 +245,7 @@ function StatCard({ label, value, icon: Icon, color }: { label: string; value: s
   return (
     <div className="hover-card rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-4">
       <div className="flex items-center gap-2 mb-1"><Icon size={12} className={color} /><span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span></div>
-      <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
+      <p style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: tokens.text }}>{value}</p>
     </div>
   );
 }

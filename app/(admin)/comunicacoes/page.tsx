@@ -125,14 +125,14 @@ export default function ComunicacoesPage() {
               <Eye size={16} className="text-green-400" />
               <span className="text-white/40 text-xs">Taxa Leitura</span>
             </div>
-            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.taxaLeitura}%</p>
+            <p className="text-green-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.taxaLeitura}%</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">
               <Mail size={16} className="text-amber-400" />
               <span className="text-white/40 text-xs">Msg Pendentes</span>
             </div>
-            <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em' }}>{stats.mensagensPendentes}</p>
+            <p className="text-amber-400" style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em' }}>{stats.mensagensPendentes}</p>
           </div>
           <div className="hover-card" style={{ ...glass, padding: '1.25rem' }}>
             <div className="flex items-center gap-3 mb-2">

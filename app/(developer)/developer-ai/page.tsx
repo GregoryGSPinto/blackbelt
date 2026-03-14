@@ -82,7 +82,7 @@ export default function DeveloperAIPage() {
               <m.icon className="w-3.5 h-3.5" style={{ color: tokens.textMuted }} />
               <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{m.label}</p>
             </div>
-            <p className={`font-mono ${m.color}`} style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: m.color ? undefined : tokens.text }}>{m.value}</p>
+            <p className={`font-mono ${m.color}`} style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: m.color ? undefined : tokens.text }}>{m.value}</p>
           </div>
         ))}
       </div>

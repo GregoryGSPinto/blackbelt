@@ -167,7 +167,7 @@ export default function CheckInPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-normal mb-1" style={{ color: 'var(--text-secondary)' }}>{t('checkin.attendanceRate')}</p>
-              <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 200, letterSpacing: '-0.03em' }}>
+              <p className="text-green-400" style={{ fontSize: '2.5rem', fontWeight: 300, letterSpacing: '-0.03em' }}>
                 {Math.round((checkInsHoje.length / alunos.length) * 100)}%
               </p>
             </div>

@@ -84,7 +84,7 @@ export default function GraduacaoPage() {
         <div className="flex items-center gap-4">
           <BeltStripes nivel={nivelAtual} subniveis={meusSubniveis.subniveisAtuais} size="lg" />
           <div>
-            <p style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>{nivelAtual}</p>
+            <p style={{ fontSize: '2rem', fontWeight: 300, letterSpacing: '-0.02em', color: tokens.text }}>{nivelAtual}</p>
             <p className="text-xs text-white/30">
               {tempoNoNivel} meses neste nível · {meusSubniveis.subniveisAtuais}/4 subniveis
             </p>
