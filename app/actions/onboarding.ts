@@ -1,6 +1,7 @@
 'use server'
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
 export async function createAcademyOnboardingAction(data: {
   name: string
@@ -10,6 +11,7 @@ export async function createAcademyOnboardingAction(data: {
   email?: string
 }): Promise<{ success: true; data: { id: string; [key: string]: unknown } } | { success: false; error: string }> {
   const supabase = await getSupabaseServerClient() as any
+  const admin = getSupabaseAdminClient()
   const { data: user } = await supabase.auth.getUser()
   if (!user.user) return { success: false as const, error: 'Not authenticated' }
 
@@ -21,33 +23,56 @@ export async function createAcademyOnboardingAction(data: {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-  const { data: academy, error: academyError } = await supabase
+  const { data: academy, error: academyError } = await admin
     .from('academies')
     .insert({
       name: data.name,
       slug,
-      modality: data.modality,
       address: data.address,
       phone: data.phone,
       email: data.email,
+      owner_id: user.user.id,
+      settings: {
+        onboardingModality: data.modality,
+      },
     })
     .select()
     .single()
 
   if (academyError) return { success: false as const, error: academyError.message }
 
-  // Add creator as owner membership
-  await supabase.from('memberships').insert({
-    profile_id: user.user.id,
-    academy_id: academy.id,
-    role: 'owner',
-  })
+  try {
+    const ownerName =
+      user.user.user_metadata?.full_name ||
+      user.user.email?.split('@')[0] ||
+      'Usuário'
 
-  // Initialize onboarding progress
-  await supabase.from('onboarding_progress').insert({
-    academy_id: academy.id,
-    steps_completed: ['academy'],
-  })
+    const { error: profileError } = await admin.from('profiles').upsert({
+      id: user.user.id,
+      full_name: ownerName,
+      phone: data.phone,
+    })
+    if (profileError) throw profileError
+
+    const { error: membershipError } = await admin.from('memberships').upsert({
+      profile_id: user.user.id,
+      academy_id: academy.id,
+      role: 'owner',
+      status: 'active',
+    })
+    if (membershipError) throw membershipError
+
+    await admin.from('onboarding_progress').upsert({
+      academy_id: academy.id,
+      steps_completed: ['academy'],
+    })
+  } catch (error) {
+    await admin.from('academies').delete().eq('id', academy.id)
+    return {
+      success: false as const,
+      error: error instanceof Error ? error.message : 'Failed to initialize academy ownership',
+    }
+  }
 
   return { success: true as const, data: academy }
 }

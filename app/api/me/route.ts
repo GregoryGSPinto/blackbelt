@@ -7,7 +7,7 @@
 
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
-import { getSupabaseAdminClient } from '@/lib/supabase/admin';
+import { mapMembershipRoleToTipo } from '@/lib/academy/operations';
 import { logServerError } from '@/lib/server/error-handler';
 
 // Dados vazios de fallback
@@ -22,36 +22,38 @@ const emptyUser = {
 
 export async function GET() {
   try {
-    const authSupabase = await getSupabaseServerClient();
-    const supabase = getSupabaseAdminClient();
-    const { data: { user }, error } = await authSupabase.auth.getUser();
+    const supabase = await getSupabaseServerClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
 
     if (error || !user) {
       return NextResponse.json({ data: emptyUser });
     }
 
-    // Buscar perfil do usuário na academia
-    const { data: profile } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id, perfil')
-      .eq('usuario_id', user.id)
-      .single();
-
-    // Buscar dados do profile
-    const { data: userProfile } = await supabase
+    const [{ data: memberships }, { data: userProfile }] = await Promise.all([
+      supabase
+        .from('memberships')
+        .select('id, academy_id, role, status')
+        .eq('profile_id', user.id)
+        .eq('status', 'active')
+        .order('joined_at', { ascending: true })
+        .limit(1),
+      supabase
       .from('profiles')
       .select('full_name')
       .eq('id', user.id)
-      .single();
+      .maybeSingle(),
+    ]);
+
+    const membership = memberships?.[0] || null;
 
     return NextResponse.json({
       data: {
         id: user.id,
         email: user.email,
-        memberId: profile?.academia_id || null,
+        memberId: membership?.id || null,
         nome: userProfile?.full_name || user.email?.split('@')[0] || 'Usuário',
-        perfil: profile?.perfil || null,
-        academiaId: profile?.academia_id || null,
+        perfil: membership?.role ? mapMembershipRoleToTipo(membership.role) : null,
+        academiaId: membership?.academy_id || null,
       }
     });
 

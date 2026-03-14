@@ -74,19 +74,19 @@ export async function GET(request: NextRequest) {
     const role = (membership as any)?.role as string | undefined;
     if (role) {
       switch (role) {
-        case 'owner':
         case 'super_admin':
-          redirectPath = '/super-admin/dashboard';
+          redirectPath = '/super-admin';
           break;
+        case 'owner':
         case 'admin':
-          redirectPath = '/admin/dashboard';
+          redirectPath = '/dashboard';
           break;
         case 'professor':
-          redirectPath = '/professor/dashboard';
+          redirectPath = '/professor-dashboard';
           break;
         case 'student':
         default:
-          redirectPath = '/dashboard';
+          redirectPath = '/inicio';
           break;
       }
     }
