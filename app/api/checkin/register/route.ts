@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export const dynamic = 'force-dynamic';
 
@@ -161,6 +162,14 @@ export async function POST(req: NextRequest) {
       reference_type: 'attendance',
       reference_id: attendance.id,
     }).then(() => {});
+
+    logRouteEvent('info', 'business', 'Check-in registered', req, {
+      event_type: 'checkin_registered',
+      academy_id: membership.academy_id,
+      membership_id: studentMember.id,
+      profile_id: studentMember.profile_id,
+      method,
+    });
 
     return apiOk({
       success: true,

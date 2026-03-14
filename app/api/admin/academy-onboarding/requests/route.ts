@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { createHandler, apiError, apiOk } from '@/lib/api/supabase-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,7 +52,7 @@ export const POST = createHandler(async (req: NextRequest, { supabase, membershi
 
   const { data: requestRow, error: requestError } = await supabase
     .from('academy_onboarding_requests')
-    .select('*')
+    .select('id, academy_id, profile_id, email, full_name, desired_role, status, notes, approved_membership_id')
     .eq('id', body.requestId)
     .eq('academy_id', membership!.academy_id)
     .single();
@@ -73,6 +74,14 @@ export const POST = createHandler(async (req: NextRequest, { supabase, membershi
       .eq('id', requestRow.id);
 
     if (error) throw error;
+
+    logRouteEvent('info', 'business', 'Onboarding request rejected', undefined, {
+      event_type: 'onboarding_request_rejected',
+      academy_id: membership!.academy_id,
+      profile_id: user.id,
+      request_id: requestRow.id,
+    });
+
     return apiOk({ ok: true });
   }
 
@@ -137,6 +146,14 @@ export const POST = createHandler(async (req: NextRequest, { supabase, membershi
     .eq('id', requestRow.id);
 
   if (updateError) throw updateError;
+
+  logRouteEvent('info', 'business', 'Onboarding request approved', undefined, {
+    event_type: 'onboarding_request_approved',
+    academy_id: membership!.academy_id,
+    profile_id: user.id,
+    request_id: requestRow.id,
+    approved_membership_id: approvedMembershipId,
+  });
 
   return apiOk({ ok: true });
 });
