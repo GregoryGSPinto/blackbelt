@@ -500,12 +500,8 @@ export function KidsGatekeeper({
           key={`key-${digit}`}
           onClick={() => onDigit(digit)}
           disabled={disabled || currentLength >= 4}
-          className="w-full aspect-square rounded-2xl text-2xl font-medium transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+          className={`w-full aspect-square rounded-2xl text-2xl font-medium transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none ${isDark ? 'hover:bg-white/[0.15] active:bg-white/[0.22]' : 'hover:bg-black/[0.08] active:bg-black/[0.12]'}`}
           style={{ background: colors.keyBg, color: colors.keyText }}
-          onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyBg; }}
-          onMouseDown={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyActive; }}
-          onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
         >
           {digit}
         </button>
@@ -514,22 +510,16 @@ export function KidsGatekeeper({
       <button
         onClick={() => onDigit('0')}
         disabled={disabled || currentLength >= 4}
-        className="w-full aspect-square rounded-2xl text-2xl font-medium transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+        className={`w-full aspect-square rounded-2xl text-2xl font-medium transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none ${isDark ? 'hover:bg-white/[0.15] active:bg-white/[0.22]' : 'hover:bg-black/[0.08] active:bg-black/[0.12]'}`}
         style={{ background: colors.keyBg, color: colors.keyText }}
-        onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyBg; }}
-        onMouseDown={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyActive; }}
-        onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
       >
         0
       </button>
       <button
         onClick={onBack}
         disabled={disabled || currentLength === 0}
-        className="w-full aspect-square rounded-2xl flex items-center justify-center transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+        className={`w-full aspect-square rounded-2xl flex items-center justify-center transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none ${isDark ? 'hover:bg-white/[0.15]' : 'hover:bg-black/[0.08]'}`}
         style={{ background: colors.keyDeleteBg, color: colors.keyDeleteText }}
-        onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = colors.keyHover; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = colors.keyDeleteBg; }}
       >
         <Delete size={22} />
       </button>

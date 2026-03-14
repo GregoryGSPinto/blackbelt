@@ -49,13 +49,11 @@ export const NotificationItem = memo(function NotificationItem({
   return (
     <button
       onClick={handleClick}
-      className="w-full text-left flex items-start gap-3 px-4 py-3.5 transition-all duration-200 group"
+      className={`w-full text-left flex items-start gap-3 px-4 py-3.5 transition-all duration-200 group ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-[rgba(107_68_35_/_0.05)]'}`}
       style={{
         background: !notification.read ? c.unreadBg : 'transparent',
         animation: `notif-slide-in 260ms cubic-bezier(0.16,1,0.3,1) ${index * 40}ms both`,
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.hoverBg; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = !notification.read ? c.unreadBg : 'transparent'; }}
     >
       {/* Icon */}
       <div className={`w-9 h-9 rounded-xl ${config.bgColor} flex items-center justify-center flex-shrink-0 text-base`}>

@@ -125,10 +125,8 @@ export function SearchResultsOverlay() {
                       <button
                         key={result.id}
                         onClick={() => handleResultClick(result)}
-                        className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-left transition-all duration-200 group"
+                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-left transition-all duration-200 group ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.06)]'}`}
                         style={{ animation: `search-result-in 0.2s cubic-bezier(0.16,1,0.3,1) ${i * 0.04}s both` }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.itemHover; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                       >
                         <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0 transition-colors duration-200"
                           style={{ background: c.iconBg }}>

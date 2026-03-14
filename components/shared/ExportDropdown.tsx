@@ -249,10 +249,8 @@ export function ExportDropdown({
                 key={key}
                 onClick={action}
                 disabled={exporting !== null}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 hover:bg-white/5"
                 style={{ color: 'var(--text-primary)' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-secondary)' }} />
                 <span className="flex-1 text-left">{label}</span>

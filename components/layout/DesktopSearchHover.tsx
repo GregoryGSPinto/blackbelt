@@ -85,9 +85,7 @@ export function DesktopSearchHover() {
         style={{ width: isExpanded ? 427 : 54, height: 54, transitionDuration: '220ms',
           background: isExpanded ? expandedBg : 'transparent',
           border: isExpanded ? `1px solid ${expandedBorder}` : '1px solid transparent' }}>
-        <button onClick={() => !isExpanded && expand()} className="w-[54px] h-[54px] flex items-center justify-center flex-shrink-0 rounded-full transition-colors duration-150"
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+        <button onClick={() => !isExpanded && expand()} className={`w-[54px] h-[54px] flex items-center justify-center flex-shrink-0 rounded-full transition-colors duration-150 ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.06)]'}`}
           aria-label={t('search.openSearch') + ' (⌘K)'}>
           <Search size={24} style={{ color: iconColor }} />
         </button>
@@ -99,9 +97,7 @@ export function DesktopSearchHover() {
             style={{ color: inputColor, caretColor: inputColor }}
             autoComplete="off" autoCorrect="off" spellCheck={false} tabIndex={isExpanded ? 0 : -1} />
           {query.trim() ? (
-            <button onClick={collapse} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors flex-shrink-0"
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+            <button onClick={collapse} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors flex-shrink-0 ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.06)]'}`}
               aria-label={t('actions.clear')}><X size={17} style={{ color: clearIcon }} /></button>
           ) : (
             <kbd className="hidden lg:flex items-center px-2 py-0.5 rounded text-[14px] font-mono flex-shrink-0"

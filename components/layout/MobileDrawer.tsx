@@ -118,10 +118,8 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         {/* ─── Header (identical to desktop) ─── */}
         <div className="flex-shrink-0 p-6 pb-4" style={{ borderBottom: `1px solid ${c.border}` }}>
           <div className="flex justify-end mb-4">
-            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors" aria-label={tCommon('actions.close')}
-              style={{ color: c.closeIcon }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.closeBgH; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+            <button onClick={onClose} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.08)]'}`} aria-label={tCommon('actions.close')}
+              style={{ color: c.closeIcon }}>
               <X size={18} />
             </button>
           </div>
@@ -153,9 +151,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             const Icon = item.icon;
             return (
               <button key={item.href} onClick={() => nav(item.href)}
-                className="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left transition-all duration-200 group active:scale-[0.98]"
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.rowBgH; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+                className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left transition-all duration-200 group active:scale-[0.98] ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-[rgba(107_68_35_/_0.05)]'}`}>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
                   style={{ background: c.iconBg, color: c.icon }}>
                   <Icon size={18} />

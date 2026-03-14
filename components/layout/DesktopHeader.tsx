@@ -113,10 +113,8 @@ export default function DesktopHeader() {
           <DesktopSearchHover />
 
           <button onClick={togglePanel}
-            className="relative w-[54px] h-[54px] rounded-full flex items-center justify-center transition-all duration-200"
+            className={`relative w-[54px] h-[54px] rounded-full flex items-center justify-center transition-all duration-200 ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.08)]'}`}
             style={{ background: 'transparent' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
             aria-label={`${t('notifications.title')}${unreadCount > 0 ? ` (${t('notifications.newCount', { count: unreadCount })})` : ''}`}>
             <Bell size={24} style={{ color: iconColor }} />
             {unreadCount > 0 && (

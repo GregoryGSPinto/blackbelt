@@ -26,9 +26,7 @@ export function NotificationBell() {
       <button
         ref={bellRef}
         onClick={togglePanel}
-        className="relative w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-all duration-200"
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = hoverBg; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+        className={`relative w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-all duration-200 ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.08)]'}`}
         aria-label={`${t('title')}${unreadCount > 0 ? ` (${t('newCount', { count: unreadCount })})` : ''}`}
       >
         <Bell size={19} style={{ color: iconColor }} />

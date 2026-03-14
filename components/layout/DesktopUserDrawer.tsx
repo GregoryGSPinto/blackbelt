@@ -129,10 +129,8 @@ export function DesktopUserDrawer() {
         {/* ─── Header ─── */}
         <div className="flex-shrink-0 p-6 pb-4" style={{ borderBottom: `1px solid ${c.border}` }}>
           <div className="flex justify-end mb-4">
-            <button onClick={close} className="w-8 h-8 flex items-center justify-center rounded-full transition-colors" aria-label={tCommon('actions.close')}
-              style={{ color: c.closeIcon }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.closeBgH; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+            <button onClick={close} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isDark ? 'hover:bg-white/[0.06]' : 'hover:bg-[rgba(107_68_35_/_0.08)]'}`} aria-label={tCommon('actions.close')}
+              style={{ color: c.closeIcon }}>
               <X size={18} />
             </button>
           </div>
@@ -163,10 +161,8 @@ export function DesktopUserDrawer() {
           {menuItemDefs.map((item, i) => {
             const Icon = item.icon;
             return (
-              <button key={item.href} onClick={() => nav(item.href)} className="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left transition-all duration-200 group"
-                style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(20px)', transition: `opacity 220ms ease ${80 + i * 40}ms, transform 220ms ease ${80 + i * 40}ms, background-color 200ms` }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.rowBgH; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+              <button key={item.href} onClick={() => nav(item.href)} className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-left transition-all duration-200 group ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-[rgba(107_68_35_/_0.05)]'}`}
+                style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(20px)', transition: `opacity 220ms ease ${80 + i * 40}ms, transform 220ms ease ${80 + i * 40}ms, background-color 200ms` }}>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
                   style={{ background: c.iconBg, color: c.icon }}>
                   <Icon size={18} />
@@ -184,9 +180,7 @@ export function DesktopUserDrawer() {
         {/* ─── Footer ─── */}
         <div className="flex-shrink-0 p-3 space-y-1" style={{ borderTop: `1px solid ${c.border}` }}>
           <ThemeToggle variant="row" />
-          <button onClick={() => nav('/selecionar-perfil')} className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left transition-all duration-200 group"
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = c.rowBgH; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+          <button onClick={() => nav('/selecionar-perfil')} className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left transition-all duration-200 group ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-[rgba(107_68_35_/_0.05)]'}`}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: c.iconBg, color: c.icon }}><Shield size={18} /></div>
             <p className="text-sm font-medium transition-colors" style={{ color: c.switchLabel }}>{tCommon('menu.switchProfile')}</p>
           </button>
