@@ -185,9 +185,9 @@ export default function AdminPlanoPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Meu Plano</h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Assinatura e plano</h1>
           <p className="text-slate-600">
-            Gerencie sua assinatura e faça upgrade quando necessário
+            Acompanhe o plano atual, consumo da academia e proximos passos de cobranca
           </p>
         </div>
 
@@ -262,6 +262,30 @@ export default function AdminPlanoPage() {
                 )}
               </div>
             )}
+          </div>
+        )}
+
+        {!currentPlan && (
+          <div className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-slate-900">Nenhum plano ativo no momento</h2>
+                <p className="mt-1 text-sm text-slate-600">
+                  Escolha um plano para concluir a configuracao comercial da academia e liberar a cobranca controlada.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const firstPublicPlan = plans.find((plan) => plan.is_public) ?? null;
+                  setSelectedPlan(firstPublicPlan);
+                  setShowUpgradeModal(Boolean(firstPublicPlan));
+                }}
+                className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+              >
+                Escolher primeiro plano
+              </button>
+            </div>
           </div>
         )}
 
@@ -507,13 +531,13 @@ export default function AdminPlanoPage() {
         {/* Custom Plan CTA */}
         <div className="mt-12 bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-white text-center">
           <Crown className="w-12 h-12 mx-auto mb-4 text-amber-400" />
-          <h2 className="text-2xl font-bold mb-2">Precisa de mais?</h2>
+          <h2 className="text-2xl font-bold mb-2">Precisa de operacao maior?</h2>
           <p className="text-slate-300 mb-6 max-w-xl mx-auto">
-            Para academias com mais de 500 alunos ou necessidades específicas, 
-            temos planos personalizados com condições especiais.
+            Para academias com mais de 500 alunos ou necessidades especificas,
+            temos planos personalizados com migracao assistida e configuracao comercial dedicada.
           </p>
           <button className="bg-white text-slate-900 px-8 py-3 rounded-lg font-semibold hover:bg-slate-100 transition-colors">
-            Falar com Consultor
+            Falar com vendas
           </button>
         </div>
       </div>

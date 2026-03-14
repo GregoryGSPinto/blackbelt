@@ -12,11 +12,11 @@ import StepDone from './step-done';
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 
 const STEPS = [
-  { id: 'academy', label: 'Academy' },
-  { id: 'schedule', label: 'Schedule' },
-  { id: 'invite', label: 'Invite' },
-  { id: 'billing', label: 'Plan' },
-  { id: 'done', label: 'Done' },
+  { id: 'academy', label: 'Academia' },
+  { id: 'schedule', label: 'Turma' },
+  { id: 'invite', label: 'Convites' },
+  { id: 'billing', label: 'Plano' },
+  { id: 'done', label: 'Pronto' },
 ];
 
 export default function OnboardingPage() {

@@ -5,13 +5,13 @@ import { createFirstScheduleAction } from '@/app/actions/onboarding';
 import { Calendar, ArrowLeft } from 'lucide-react';
 
 const WEEKDAYS = [
-  { id: 'mon', label: 'Mon' },
-  { id: 'tue', label: 'Tue' },
-  { id: 'wed', label: 'Wed' },
-  { id: 'thu', label: 'Thu' },
-  { id: 'fri', label: 'Fri' },
-  { id: 'sat', label: 'Sat' },
-  { id: 'sun', label: 'Sun' },
+  { id: 'mon', label: 'Seg' },
+  { id: 'tue', label: 'Ter' },
+  { id: 'wed', label: 'Qua' },
+  { id: 'thu', label: 'Qui' },
+  { id: 'fri', label: 'Sex' },
+  { id: 'sat', label: 'Sab' },
+  { id: 'sun', label: 'Dom' },
 ];
 
 interface StepScheduleProps {
@@ -55,7 +55,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
         setError(result.error);
       }
     } catch {
-      setError('Failed to create schedule. Please try again.');
+      setError('Nao foi possivel criar a turma inicial. Tente novamente.');
     } finally {
       setSubmitting(false);
     }
@@ -71,21 +71,21 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
           <Calendar className="w-6 h-6" />
         </div>
         <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
-          First Class Schedule
+          Configure a primeira turma
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>
-          Set up your first class (you can add more later)
+          Defina o horario principal agora. Voce podera adicionar mais turmas depois.
         </p>
       </div>
 
       <div>
         <label className="text-sm font-medium block mb-1" style={{ color: tokens.textMuted }}>
-          Class Name *
+          Nome da turma *
         </label>
         <input
           value={className}
           onChange={(e) => setClassName(e.target.value)}
-          placeholder="e.g. Beginner Jiu-Jitsu"
+          placeholder="Ex: Jiu-Jitsu Iniciantes"
           className="w-full px-3 py-2.5 rounded-lg bg-transparent text-sm"
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         />
@@ -93,7 +93,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
 
       <div>
         <label className="text-sm font-medium block mb-2" style={{ color: tokens.textMuted }}>
-          Days *
+          Dias da semana *
         </label>
         <div className="flex gap-2 flex-wrap">
           {WEEKDAYS.map((day) => (
@@ -116,7 +116,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="text-sm font-medium block mb-1" style={{ color: tokens.textMuted }}>
-            Start Time
+            Inicio
           </label>
           <input
             type="time"
@@ -128,7 +128,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
         </div>
         <div>
           <label className="text-sm font-medium block mb-1" style={{ color: tokens.textMuted }}>
-            End Time
+            Fim
           </label>
           <input
             type="time"
@@ -153,7 +153,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         >
           <ArrowLeft className="w-4 h-4" />
-          Back
+          Voltar
         </button>
         <button
           onClick={handleSubmit}
@@ -161,7 +161,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
           className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-opacity disabled:opacity-50"
           style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
         >
-          {submitting ? 'Creating...' : 'Continue'}
+          {submitting ? 'Salvando turma...' : 'Continuar para os convites'}
         </button>
       </div>
     </div>

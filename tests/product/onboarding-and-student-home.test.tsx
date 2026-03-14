@@ -35,7 +35,9 @@ vi.mock('@/lib/design-tokens', () => ({
 }));
 
 vi.mock('@/components/onboarding/OnboardingWizard', () => ({
-  OnboardingWizard: () => <div>Wizard</div>,
+  OnboardingWizard: ({ steps }: { steps: Array<{ label: string }> }) => (
+    <div>{steps.map((step) => step.label).join(' | ')}</div>
+  ),
 }));
 
 vi.mock('@/components/shared/DataStates', () => ({
@@ -157,11 +159,12 @@ describe('product flows', () => {
   it('redirects onboarding completion to the admin dashboard', async () => {
     render(<OnboardingPage />);
 
+    expect(screen.getByText('Academia | Turma | Convites | Plano | Pronto')).toBeInTheDocument();
     fireEvent.click(screen.getByText('academy-step'));
     fireEvent.click(screen.getByText('schedule-step'));
     fireEvent.click(screen.getByText('invite-step'));
     fireEvent.click(screen.getByText('billing-step'));
-    fireEvent.click(await screen.findByRole('button', { name: /ir para o dashboard/i }));
+    fireEvent.click(await screen.findByRole('button', { name: /abrir painel da academia/i }));
 
     expect(pushMock).toHaveBeenCalledWith('/dashboard');
   });

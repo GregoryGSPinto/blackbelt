@@ -33,7 +33,7 @@ export default function StepDone({ onFinish, tokens }: StepDoneProps) {
           Tudo pronto!
         </h2>
         <p className="text-sm" style={{ color: tokens.textMuted }}>
-          Sua academia esta pronta para operar. O proximo passo e abrir o dashboard e concluir a configuracao inicial.
+          Sua academia ja pode operar em piloto. O proximo passo e abrir o painel e concluir os ajustes iniciais.
         </p>
       </div>
 
@@ -56,7 +56,7 @@ export default function StepDone({ onFinish, tokens }: StepDoneProps) {
         className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-transform hover:scale-105"
         style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
       >
-        Ir para o dashboard
+        Abrir painel da academia
         <ArrowRight className="w-4 h-4" />
       </button>
     </div>

@@ -96,7 +96,7 @@ export default function EquipePage() {
             Equipe operacional da academia
           </h1>
           <p className="mt-2 text-sm" style={{ color: tokens.textMuted }}>
-            Convide professores, acompanhe membros ativos da equipe e mantenha o acesso pedagógico organizado por tenant.
+            Convide professores, acompanhe acessos ativos e mantenha cada papel claro para a operacao diaria.
           </p>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -116,10 +116,10 @@ export default function EquipePage() {
           <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.03] p-5">
             <div className="flex items-center gap-2 text-sm font-medium" style={{ color: tokens.text }}>
               <Plus className="h-4 w-4 text-emerald-300" />
-              Convidar professor
+              Trazer novo professor
             </div>
             <p className="mt-2 text-sm" style={{ color: tokens.textMuted }}>
-              O convite entra na fila operacional da academia. Depois, o professor conclui o acesso usando o mesmo link oficial da academia e a solicitação mantém o papel correto.
+              O convite entra na fila operacional da academia. Depois, o professor conclui o acesso pelo link oficial e ja entra com o papel correto.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               <input
@@ -151,7 +151,7 @@ export default function EquipePage() {
               className="mt-4 inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-4 py-3 text-sm font-medium text-slate-950 transition hover:bg-amber-300 disabled:opacity-60"
             >
               <Plus className="h-4 w-4" />
-              Criar convite
+              Enviar convite
             </button>
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function EquipePage() {
           <div className="mt-4 grid gap-3">
             {leadership.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-white/10 px-5 py-10 text-center text-sm" style={{ color: tokens.textMuted }}>
-                Nenhum membro de liderança adicional cadastrado nesta academia.
+                Nenhum membro administrativo adicional ainda. Adicione lideranca apenas quando a operacao realmente precisar.
               </div>
             ) : leadership.map((member) => (
               <div key={member.id} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
@@ -194,13 +194,16 @@ export default function EquipePage() {
             <h2 className="mt-2 text-2xl font-semibold" style={{ color: tokens.text }}>
               Professores da academia
             </h2>
+            <p className="mt-1 text-sm" style={{ color: tokens.textMuted }}>
+              Mantenha aqui somente quem precisa acompanhar turmas, chamada e progresso.
+            </p>
           </div>
         </div>
 
         <div className="mt-6 grid gap-3">
           {professors.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-white/10 px-5 py-10 text-center text-sm" style={{ color: tokens.textMuted }}>
-              Nenhum professor ativo ainda. Use o formulário acima para iniciar o convite do primeiro professor.
+              Nenhum professor ativo ainda. Use o formulario acima para convidar o primeiro professor e liberar as rotinas de aula.
             </div>
           ) : professors.map((member) => (
             <div key={member.id} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
@@ -236,7 +239,7 @@ export default function EquipePage() {
           <div className="mt-4 grid gap-3">
             {data.invites.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-white/10 px-5 py-8 text-center text-sm" style={{ color: tokens.textMuted }}>
-                Sem convites de professor em aberto.
+                Nenhum convite pendente. Quando voce enviar um novo convite, ele aparecera aqui ate ser aceito.
               </div>
             ) : data.invites.map((invite) => (
               <div key={invite.id} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">

@@ -55,10 +55,10 @@ export default function StepInvite({ academyId, onComplete, onBack, tokens }: St
           <UserPlus className="w-6 h-6" />
         </div>
         <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
-          Invite your Team
+          Convide sua equipe
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>
-          Share an invite link with coaches and students
+          Gere um link unico para professores, equipe e primeiros alunos
         </p>
       </div>
 
@@ -70,7 +70,7 @@ export default function StepInvite({ academyId, onComplete, onBack, tokens }: St
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         >
           <Link2 className="w-4 h-4" />
-          {generating ? 'Generating...' : 'Generate Invite Link'}
+          {generating ? 'Gerando link...' : 'Gerar link oficial de convite'}
         </button>
       ) : (
         <div className="space-y-3">
@@ -93,7 +93,7 @@ export default function StepInvite({ academyId, onComplete, onBack, tokens }: St
             </button>
           </div>
           <p className="text-xs" style={{ color: tokens.textMuted }}>
-            This link expires in 7 days. Share it with your coaches and students.
+            Este link expira em 7 dias. Compartilhe com professores, equipe e alunos iniciais.
           </p>
         </div>
       )}
@@ -105,14 +105,14 @@ export default function StepInvite({ academyId, onComplete, onBack, tokens }: St
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         >
           <ArrowLeft className="w-4 h-4" />
-          Back
+          Voltar
         </button>
         <button
           onClick={inviteUrl ? onComplete : handleSkip}
           className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-opacity"
           style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
         >
-          {inviteUrl ? 'Continue' : 'Skip for now'}
+          {inviteUrl ? 'Continuar para o plano' : 'Fazer isso depois'}
         </button>
       </div>
     </div>

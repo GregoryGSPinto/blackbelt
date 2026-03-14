@@ -15,7 +15,7 @@ const MODALITIES = [
   'Capoeira',
   'Kung Fu',
   'Wrestling',
-  'Other',
+  'Outra',
 ];
 
 interface StepAcademyProps {
@@ -48,7 +48,7 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
         setError(result.error);
       }
     } catch {
-      setError('Failed to create academy. Please try again.');
+      setError('Nao foi possivel criar a academia. Tente novamente.');
     } finally {
       setSubmitting(false);
     }
@@ -64,21 +64,21 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
           <Building2 className="w-6 h-6" />
         </div>
         <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
-          Create your Academy
+          Crie sua academia
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>
-          Tell us about your martial arts academy
+          Comece com os dados basicos para liberar o painel inicial
         </p>
       </div>
 
       <div>
         <label className="text-sm font-medium block mb-1" style={{ color: tokens.textMuted }}>
-          Academy Name *
+          Nome da academia *
         </label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. BlackBelt Academy"
+          placeholder="Ex: BlackBelt Moema"
           className="w-full px-3 py-2.5 rounded-lg bg-transparent text-sm"
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         />
@@ -86,7 +86,7 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
 
       <div>
         <label className="text-sm font-medium block mb-1" style={{ color: tokens.textMuted }}>
-          Modality *
+          Modalidade principal *
         </label>
         <select
           value={modality}
@@ -94,7 +94,7 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
           className="w-full px-3 py-2.5 rounded-lg bg-transparent text-sm"
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         >
-          <option value="">Select modality</option>
+          <option value="">Selecione a modalidade</option>
           {MODALITIES.map((m) => (
             <option key={m} value={m}>{m}</option>
           ))}
@@ -103,12 +103,12 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
 
       <div>
         <label className="text-sm font-medium block mb-1" style={{ color: tokens.textMuted }}>
-          Address
+          Endereco
         </label>
         <input
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          placeholder="Street, City, State"
+          placeholder="Rua, cidade e estado"
           className="w-full px-3 py-2.5 rounded-lg bg-transparent text-sm"
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         />
@@ -126,7 +126,7 @@ export default function StepAcademy({ onComplete, tokens }: StepAcademyProps) {
         className="w-full py-2.5 rounded-lg text-sm font-medium transition-opacity disabled:opacity-50"
         style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
       >
-        {submitting ? 'Creating...' : 'Continue'}
+        {submitting ? 'Criando academia...' : 'Continuar para a primeira turma'}
       </button>
     </div>
   );

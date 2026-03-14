@@ -120,7 +120,7 @@ export default function TrialCheckoutPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl font-bold mb-4"
           >
-            Comece seu trial no plano {plan.name}
+            Comece a operacao da sua academia no plano {plan.name}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -128,7 +128,7 @@ export default function TrialCheckoutPage() {
             transition={{ delay: 0.2 }}
             className="text-slate-400"
           >
-            Sem cartão de crédito. Cancele a qualquer momento.
+            Sem cartao de credito agora. Primeiro valide o piloto e depois avance para cobranca.
           </motion.p>
         </div>
 
@@ -146,6 +146,9 @@ export default function TrialCheckoutPage() {
                     {submitError}
                   </div>
                 )}
+                <div className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300">
+                  Use a conta proprietaria da academia. Depois voce podera convidar professores e equipe no onboarding.
+                </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Nome da Academia</label>
                   <div className="relative">

@@ -7,13 +7,13 @@ import { CreditCard, ArrowLeft, Check, Sparkles } from 'lucide-react';
 const PLANS = [
   {
     id: 'trial',
-    name: 'Free Trial',
+    name: 'Teste gratuito',
     price: 'Gratis',
     period: '14 dias',
     features: [
       'Ate 30 membros',
       'QR Check-in',
-      'Agendamento de aulas',
+      'Agenda de aulas',
       'Analytics basico',
       'Acesso via app mobile',
     ],
@@ -66,10 +66,10 @@ export default function StepBilling({ academyId, onComplete, onBack, tokens }: S
           <CreditCard className="w-6 h-6" />
         </div>
         <h2 className="text-xl font-semibold" style={{ color: tokens.text }}>
-          Choose your Plan
+          Escolha como comecar
         </h2>
         <p className="text-sm mt-1" style={{ color: tokens.textMuted }}>
-          Start with a free trial, upgrade anytime
+          Ative o teste agora e avance para cobranca quando a operacao estiver pronta
         </p>
       </div>
 
@@ -95,7 +95,7 @@ export default function StepBilling({ academyId, onComplete, onBack, tokens }: S
                     style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
                   >
                     <Sparkles className="w-3 h-3" />
-                    Recommended
+                    Recomendado
                   </span>
                 )}
               </div>
@@ -123,7 +123,7 @@ export default function StepBilling({ academyId, onComplete, onBack, tokens }: S
           style={{ border: `1px solid ${tokens.inputBorder}`, color: tokens.text }}
         >
           <ArrowLeft className="w-4 h-4" />
-          Back
+          Voltar
         </button>
         <button
           onClick={handleActivate}
@@ -131,7 +131,7 @@ export default function StepBilling({ academyId, onComplete, onBack, tokens }: S
           className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-opacity disabled:opacity-50"
           style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
         >
-          {activating ? 'Activating...' : selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Payment'}
+          {activating ? 'Ativando plano...' : selectedPlan === 'trial' ? 'Ativar teste gratuito' : 'Continuar para pagamento'}
         </button>
       </div>
     </div>

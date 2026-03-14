@@ -26,24 +26,24 @@ const NOTIFICATIONS = [
 // ─── Desktop: 4 módulos principais ───────────────────────
 
 const DESKTOP_NAV = [
-  { href: '/dashboard',    icon: LayoutDashboard, label: 'Executivo' },
+  { href: '/dashboard',    icon: LayoutDashboard, label: 'Visao geral' },
   { href: '/financeiro',   icon: DollarSign,      label: 'Financeiro' },
   { href: '/graduacoes',   icon: GraduationCap,   label: 'Pedagógico' },
-  { href: '/usuarios',     icon: Users,           label: 'Operação' },
+  { href: '/usuarios',     icon: Users,           label: 'Pessoas' },
 ];
 
 // ─── Mobile bottom bar: 3 + Menu ─────────────────────────
 
 const MOBILE_BAR = [
-  { href: '/dashboard',    icon: LayoutDashboard, label: 'Executivo' },
+  { href: '/dashboard',    icon: LayoutDashboard, label: 'Inicio' },
   { href: '/financeiro',   icon: DollarSign,      label: 'Financeiro' },
-  { href: '/usuarios',     icon: Users,           label: 'Operação' },
+  { href: '/usuarios',     icon: Users,           label: 'Pessoas' },
 ];
 
 // ─── Drawer: sub-páginas ─────────────────────────────────
 
 const DRAWER_NAV = [
-  { href: '/analytics',       icon: Activity,        label: 'Analytics' },
+  { href: '/analytics',       icon: Activity,        label: 'Insights' },
   { href: '/relatorios',      icon: BarChart3,       label: 'Relatórios' },
   { href: '/pagamentos',      icon: CreditCard,      label: 'Pagamentos' },
   { href: '/pdv',             icon: ShoppingCart,     label: 'PDV' },
@@ -61,16 +61,16 @@ const DRAWER_NAV = [
   { href: '/alertas',         icon: Bell,              label: 'Alertas' },
   { href: '/minha-academia',        icon: Building2,         label: 'Minha Academia' },
   { href: '/minha-academia/modalidades', icon: Award,          label: 'Modalidades' },
-  { href: '/minha-academia/grade',  icon: Calendar,          label: 'Grade Horaria' },
-  { href: '/minha-academia/planos', icon: CreditCard,        label: 'Planos' },
+  { href: '/minha-academia/grade',  icon: Calendar,          label: 'Horarios' },
+  { href: '/minha-academia/planos', icon: CreditCard,        label: 'Planos internos' },
   { href: '/minha-academia/contratos', icon: FileText,        label: 'Contratos' },
-  { href: '/financeiro-owner', icon: DollarSign,        label: 'Financeiro Completo' },
+  { href: '/financeiro-owner', icon: DollarSign,        label: 'Financeiro detalhado' },
   { href: '/equipe',           icon: Users,             label: 'Equipe' },
-  { href: '/crm',              icon: Target,            label: 'CRM e Vendas' },
+  { href: '/crm',              icon: Target,            label: 'Leads e vendas' },
   { href: '/marketing',        icon: Megaphone,         label: 'Marketing' },
   { href: '/infraestrutura',   icon: Wrench,            label: 'Infraestrutura' },
   { href: '/metas',            icon: TrendingUp,        label: 'Metas e OKRs' },
-  { href: '/relatorios-gerenciais', icon: FileBarChart,  label: 'Relatorios Gerenciais' },
+  { href: '/relatorios-gerenciais', icon: FileBarChart,  label: 'Relatorios gerenciais' },
   { href: '/loja',             icon: ShoppingBag,       label: 'Loja' },
   { href: '/configuracoes',    icon: Settings,          label: 'Configurações' },
 ];
@@ -83,7 +83,7 @@ const adminNav = {
   mobileBar: MOBILE_BAR,
   drawerNav: DRAWER_NAV,
   allItems: ALL_NAV,
-  searchPlaceholder: 'Buscar alunos, turmas, financeiro...',
+  searchPlaceholder: 'Buscar alunos, professores, turmas e cobranca...',
   notifications: NOTIFICATIONS,
   profileHref: '/meu-perfil',
   settingsHref: '/configuracoes',
