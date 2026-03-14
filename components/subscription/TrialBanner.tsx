@@ -51,9 +51,9 @@ export function TrialBanner({ daysRemaining, planName, onConvert }: TrialBannerP
         icon: <AlertTriangle className="w-5 h-5" />,
         bgColor: 'bg-gradient-to-r from-red-500 to-red-600',
         textColor: 'text-white',
-        message: daysRemaining === 0 
-          ? 'Seu trial termina hoje!' 
-          : `Faltam ${daysRemaining} dias do seu trial`,
+        message: daysRemaining === 0
+          ? 'Seu trial termina hoje! Após isso, o acesso será suspenso.'
+          : `Faltam ${daysRemaining} dias do seu trial. Após o prazo, o acesso será suspenso.`,
       };
     }
     if (daysRemaining <= 7) {
@@ -109,7 +109,7 @@ export function TrialBanner({ daysRemaining, planName, onConvert }: TrialBannerP
               onClick={onConvert}
               className="flex items-center gap-2 bg-white text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
             >
-              Ativar Assinatura
+              Assinar Agora
               <ArrowRight className="w-4 h-4" />
             </button>
 

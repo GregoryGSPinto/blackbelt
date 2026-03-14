@@ -145,13 +145,13 @@ export function SubscriptionCard({ academyId }: SubscriptionCardProps) {
         {status.exceeded && (
           <p className="text-xs text-red-500 mt-2 flex items-center gap-1">
             <AlertCircle className="w-3 h-3" />
-            Limite excedido! Upgrade automático pode ocorrer.
+            Limite de alunos excedido. Faça upgrade para evitar cobranças adicionais.
           </p>
         )}
         {!status.exceeded && status.approaching && (
           <p className="text-xs text-amber-500 mt-2 flex items-center gap-1">
             <AlertCircle className="w-3 h-3" />
-            Próximo do limite. Considere fazer upgrade.
+            Próximo do limite de alunos do seu plano. Faça upgrade para garantir espaço.
           </p>
         )}
       </div>
@@ -171,7 +171,7 @@ export function SubscriptionCard({ academyId }: SubscriptionCardProps) {
           )}
           {upcomingInvoice.overagesAmount > 0 && (
             <div className="flex justify-between text-sm text-red-500">
-              <span>Overages</span>
+              <span>Excedente (alunos além do plano)</span>
               <span>R$ {upcomingInvoice.overagesAmount.toFixed(2)}</span>
             </div>
           )}

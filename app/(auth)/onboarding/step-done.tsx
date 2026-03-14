@@ -33,7 +33,7 @@ export default function StepDone({ onFinish, tokens }: StepDoneProps) {
           Tudo pronto!
         </h2>
         <p className="text-sm" style={{ color: tokens.textMuted }}>
-          Sua academia ja pode operar em piloto. O proximo passo e abrir o painel e concluir os ajustes iniciais.
+          Sua academia já pode operar em piloto. Abra o painel para cadastrar alunos, compartilhar o link de matrícula e configurar suas turmas.
         </p>
       </div>
 

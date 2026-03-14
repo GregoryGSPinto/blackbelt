@@ -215,10 +215,10 @@ export default function DashboardPage() {
                   ? 'bg-white/10 text-white'
                   : 'text-white/30 hover:text-white/50'
               }`}
-              aria-label="Visao Owner"
+              aria-label="Visão do Proprietário"
             >
               <BarChart3 size={13} />
-              <span className="hidden md:inline">Owner</span>
+              <span className="hidden md:inline">Proprietário</span>
             </button>
           </div>
           <div className="flex items-center gap-2 text-xs" style={{ color: tokens.textMuted }}>
