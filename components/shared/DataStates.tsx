@@ -133,10 +133,18 @@ export function PageEmpty({
   const defaultMessage = message || 'Não há registros para exibir no momento.';
   return (
     <div className="flex items-center justify-center min-h-[40vh]">
-      <div className="text-center max-w-sm px-6">
-        <Icon className="w-12 h-12 mx-auto mb-4" style={{ color: tokens.textMuted }} />
-        <p className="font-medium mb-1" style={{ color: tokens.text }}>{defaultTitle}</p>
-        <p className="text-sm" style={{ color: tokens.textMuted }}>{defaultMessage}</p>
+      <div
+        className="text-center max-w-sm px-8 py-10 rounded-2xl"
+        style={{ ...tokens.glass }}
+      >
+        <div
+          className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center"
+          style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${tokens.cardBorder}` }}
+        >
+          <Icon className="w-7 h-7" style={{ color: tokens.textMuted }} />
+        </div>
+        <p className="font-medium mb-2" style={{ color: tokens.text }}>{defaultTitle}</p>
+        <p className="text-sm leading-relaxed" style={{ color: tokens.textMuted }}>{defaultMessage}</p>
       </div>
     </div>
   );
