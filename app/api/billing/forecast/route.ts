@@ -5,6 +5,8 @@
 import { NextResponse } from 'next/server';
 import { billingForecast } from '@/lib/subscription/services';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export async function GET(request: Request) {
   try {
@@ -18,10 +20,10 @@ export async function GET(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Billing Forecast API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    logRouteEvent('error', 'error', 'Billing forecast generation failed unexpectedly', request, {
+      event_type: 'billing_forecast_failed',
+      reason: error,
+    });
+    return apiServerError(error);
   }
 }

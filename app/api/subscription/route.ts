@@ -5,6 +5,8 @@
 import { NextResponse } from 'next/server';
 import { planService } from '@/lib/subscription/services-v3';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export async function GET(request: Request) {
   try {
@@ -40,10 +42,10 @@ export async function GET(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Subscription API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    logRouteEvent('error', 'error', 'Subscription query failed unexpectedly', request, {
+      event_type: 'subscription_query_failed',
+      reason: error,
+    });
+    return apiServerError(error);
   }
 }

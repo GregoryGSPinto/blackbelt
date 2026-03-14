@@ -4,9 +4,9 @@ import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const { supabase, membership } = await withAuth();
+    const { supabase, membership } = await withAuth(request);
 
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
 

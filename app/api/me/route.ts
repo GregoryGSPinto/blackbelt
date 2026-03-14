@@ -40,8 +40,7 @@ export async function GET(request: Request) {
         .select('id, academy_id, role, status')
         .eq('profile_id', user.id)
         .eq('status', 'active')
-        .order('joined_at', { ascending: true })
-        .limit(1),
+        .order('joined_at', { ascending: true }),
       supabase
       .from('profiles')
       .select('full_name')

@@ -8,6 +8,8 @@ import { withBillingManagerAccess } from '@/lib/api/access-context';
 import { planService } from '@/lib/subscription/services-v3';
 import { createPortalSession } from '@/lib/payments/stripe-checkout';
 import { getRequiredEnv } from '@/lib/env';
+import { apiServerError } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export async function POST(request: Request) {
   try {
@@ -68,10 +70,10 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Subscription Downgrade API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    logRouteEvent('error', 'error', 'Subscription downgrade failed unexpectedly', request, {
+      event_type: 'subscription_downgrade_failed',
+      reason: error,
+    });
+    return apiServerError(error);
   }
 }

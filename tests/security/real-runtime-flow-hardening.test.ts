@@ -21,14 +21,12 @@ function createSupabaseForMeRoute() {
   const membershipsQuery = {
     eq: vi.fn().mockReturnValue({
       eq: vi.fn().mockReturnValue({
-        order: vi.fn().mockReturnValue({
-          limit: vi.fn().mockResolvedValue({
-            data: [
-              { id: 'mem-1', academy_id: 'academy-1', role: 'admin', status: 'active' },
-              { id: 'mem-2', academy_id: 'academy-2', role: 'owner', status: 'active' },
-            ],
-            error: null,
-          }),
+        order: vi.fn().mockResolvedValue({
+          data: [
+            { id: 'mem-1', academy_id: 'academy-1', role: 'admin', status: 'active' },
+            { id: 'mem-2', academy_id: 'academy-2', role: 'owner', status: 'active' },
+          ],
+          error: null,
         }),
       }),
     }),
