@@ -4,9 +4,11 @@
 
 import { NextResponse } from 'next/server';
 import { trialService } from '@/lib/subscription/services-v3';
+import { withBillingManagerAccess } from '@/lib/api/access-context';
 
 export async function GET(request: Request) {
   try {
+    const { membership } = await withBillingManagerAccess(request);
     const { searchParams } = new URL(request.url);
     const academyId = searchParams.get('academy_id');
 
@@ -17,9 +19,19 @@ export async function GET(request: Request) {
       );
     }
 
+    if (academyId !== membership.academy_id) {
+      return NextResponse.json(
+        { error: 'Academy mismatch for authenticated membership' },
+        { status: 403 }
+      );
+    }
+
     const status = await trialService.getTrialStatus(academyId);
     return NextResponse.json(status);
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Trial Status API]', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },

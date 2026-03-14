@@ -5,6 +5,7 @@
 
 import { getStripeClient } from './stripe-client';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
+import type { BillingCycle } from '@/lib/subscription/types-v3';
 
 /**
  * Ensure an academy has a Stripe customer ID.
@@ -45,6 +46,8 @@ export async function ensureStripeCustomer(academyId: string): Promise<string> {
  */
 export async function createCheckoutSession(params: {
   academyId: string;
+  planId: string;
+  billingCycle: BillingCycle;
   priceId: string;
   successUrl: string;
   cancelUrl: string;
@@ -58,7 +61,19 @@ export async function createCheckoutSession(params: {
     line_items: [{ price: params.priceId, quantity: 1 }],
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,
-    metadata: { academy_id: params.academyId },
+    client_reference_id: params.academyId,
+    metadata: {
+      academy_id: params.academyId,
+      plan_id: params.planId,
+      billing_cycle: params.billingCycle,
+    },
+    subscription_data: {
+      metadata: {
+        academy_id: params.academyId,
+        plan_id: params.planId,
+        billing_cycle: params.billingCycle,
+      },
+    },
   });
 
   if (!session.url) throw new Error('Failed to create checkout session');
@@ -81,4 +96,31 @@ export async function createPortalSession(params: {
   });
 
   return session.url;
+}
+
+export async function updateStripeSubscriptionPlan(params: {
+  stripeSubscriptionId: string;
+  priceId: string;
+  academyId: string;
+  planId: string;
+  billingCycle: BillingCycle;
+}): Promise<void> {
+  const stripe = getStripeClient();
+  const subscription = await stripe.subscriptions.retrieve(params.stripeSubscriptionId);
+  const currentItem = subscription.items.data[0];
+
+  if (!currentItem) {
+    throw new Error('Stripe subscription has no billable items');
+  }
+
+  await stripe.subscriptions.update(params.stripeSubscriptionId, {
+    items: [{ id: currentItem.id, price: params.priceId }],
+    proration_behavior: 'create_prorations',
+    metadata: {
+      ...(subscription.metadata ?? {}),
+      academy_id: params.academyId,
+      plan_id: params.planId,
+      billing_cycle: params.billingCycle,
+    },
+  });
 }

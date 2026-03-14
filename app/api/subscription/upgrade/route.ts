@@ -5,13 +5,13 @@
 import { NextResponse } from 'next/server';
 import { planService } from '@/lib/subscription/services-v3';
 // BillingCycle type imported from '@/lib/subscription/types-v3'
-import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { resolveStripePriceId } from '@/lib/payments/stripe-plan-mapping';
+import { updateStripeSubscriptionPlan } from '@/lib/payments/stripe-checkout';
 
 export async function POST(request: Request) {
   try {
     const { membership } = await withBillingManagerAccess(request);
-    const supabase = getSupabaseAdminClient();
 
     const body = await request.json();
     const { target_plan_id, billing_cycle } = body;
@@ -24,21 +24,54 @@ export async function POST(request: Request) {
     }
 
     const academyId = membership.academy_id;
-
-    // Perform upgrade
-    await planService.upgradePlan(academyId, target_plan_id);
-
-    // If billing cycle changed, update it
-    if (billing_cycle && ['monthly', 'annual'].includes(billing_cycle)) {
-      await supabase
-        .from('academy_subscriptions')
-        .update({ billing_cycle })
-        .eq('academy_id', academyId);
+    const subscription = await planService.getSubscription(academyId);
+    if (!subscription) {
+      return NextResponse.json(
+        { error: 'Subscription not found' },
+        { status: 404 }
+      );
     }
+
+    if (subscription.status === 'trialing') {
+      await planService.upgradePlan(academyId, target_plan_id);
+
+      return NextResponse.json({
+        success: true,
+        message: 'Upgrade do trial realizado com sucesso',
+      });
+    }
+
+    if (!subscription.stripe_subscription_id) {
+      return NextResponse.json(
+        { error: 'Paid subscription is not linked to Stripe. Start billing checkout before changing plan.' },
+        { status: 409 }
+      );
+    }
+
+    const targetPlan = await planService.getPlan(target_plan_id);
+    if (!targetPlan) {
+      return NextResponse.json(
+        { error: 'Target plan not found' },
+        { status: 404 }
+      );
+    }
+
+    const nextCycle = billing_cycle && ['monthly', 'annual'].includes(billing_cycle)
+      ? billing_cycle
+      : subscription.billing_cycle;
+    const priceId = resolveStripePriceId(targetPlan, nextCycle);
+
+    await updateStripeSubscriptionPlan({
+      stripeSubscriptionId: subscription.stripe_subscription_id,
+      academyId,
+      planId: targetPlan.id,
+      billingCycle: nextCycle,
+      priceId,
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Upgrade realizado com sucesso',
+      message: 'Upgrade enviado para Stripe. Aguarde a sincronização do webhook.',
     });
   } catch (error) {
     if (error instanceof Response) {

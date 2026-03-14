@@ -33,6 +33,23 @@ const supabase = new Proxy({} as any, {
 // TrialService
 // ============================================================
 export class TrialService {
+  private async getDefaultPublicPlan(): Promise<SubscriptionPlan> {
+    const { data: plan, error } = await supabase
+      .from('subscription_plans')
+      .select('*')
+      .eq('is_active', true)
+      .eq('is_public', true)
+      .order('sort_order', { ascending: true })
+      .limit(1)
+      .single();
+
+    if (error || !plan) {
+      throw new Error('No public subscription plan available');
+    }
+
+    return plan;
+  }
+
   /**
    * Start a new trial
    */
@@ -170,6 +187,88 @@ export class TrialService {
       can_convert: isTrialing || subscription.status === 'suspended',
       alerts_sent: trialTracking?.alerts_sent || [],
     };
+  }
+
+  async activateTrialForExistingAcademy(academyId: string, planId?: string): Promise<void> {
+    const now = new Date();
+    const existing = await planService.getSubscription(academyId);
+    const plan = planId ? await planService.getPlan(planId) : await this.getDefaultPublicPlan();
+
+    if (!plan) {
+      throw new Error('Plan not found');
+    }
+
+    const trialEndsAt = new Date(now);
+    trialEndsAt.setDate(trialEndsAt.getDate() + plan.trial_days);
+
+    const payload = {
+      academy_id: academyId,
+      plan_id: plan.id,
+      status: 'trialing',
+      billing_cycle: 'monthly',
+      trial_starts_at: now.toISOString(),
+      trial_ends_at: trialEndsAt.toISOString(),
+      trial_converted: false,
+      trial_converted_at: null,
+      setup_paid: false,
+      setup_paid_at: null,
+      setup_amount: plan.setup_price,
+      auto_upgrade_enabled: true,
+      auto_renew: true,
+    };
+
+    if (existing?.id) {
+      await supabase
+        .from('academy_subscriptions')
+        .update(payload)
+        .eq('id', existing.id);
+    } else {
+      await supabase
+        .from('academy_subscriptions')
+        .insert(payload);
+    }
+
+    await supabase
+      .from('academies')
+      .update({ status: 'trial' })
+      .eq('id', academyId);
+
+    const { data: trialTracking } = await supabase
+      .from('trial_tracking')
+      .select('id')
+      .eq('academy_id', academyId)
+      .eq('converted', false)
+      .limit(1);
+
+    if (!trialTracking || trialTracking.length === 0) {
+      await supabase
+        .from('trial_tracking')
+        .insert({
+          academy_id: academyId,
+          trial_plan_id: plan.id,
+          trial_plan_name: plan.name,
+          trial_started_at: now.toISOString(),
+          trial_ends_at: trialEndsAt.toISOString(),
+          converted: false,
+          setup_collected: false,
+          setup_amount: plan.setup_price,
+          alerts_sent: [],
+          source: 'onboarding',
+        });
+    }
+
+    const today = now.toISOString().split('T')[0];
+    const { data: quotas } = await supabase
+      .from('usage_quotas')
+      .select('id')
+      .eq('academy_id', academyId)
+      .lte('period_start', today)
+      .gte('period_end', today)
+      .limit(1);
+
+    if (!quotas || quotas.length === 0) {
+      await this.initializeTrialQuotas(academyId);
+    }
   }
 
   /**
@@ -648,11 +747,38 @@ export class UsageService {
     const subscription = await planService.getSubscription(academyId);
     
     if (!subscription) return false;
+    if (!['active', 'trialing'].includes(subscription.status)) return false;
+
+    const now = Date.now();
+    const endsAt =
+      subscription.status === 'trialing'
+        ? subscription.trial_ends_at
+        : subscription.current_period_ends_at;
+
+    if (endsAt && new Date(endsAt).getTime() < now) {
+      return false;
+    }
     
     const features = subscription.plan?.features as PlanFeatures;
     if (!features) return false;
 
-    return features[feature] === true;
+    if (features[feature] === true) {
+      return true;
+    }
+
+    const addonFeatureMap: Partial<Record<keyof PlanFeatures, AddonType>> = {
+      white_label: 'white_label',
+      store_enabled: 'store',
+      priority_support: 'dedicated_support',
+    };
+
+    const addonType = addonFeatureMap[feature];
+    if (!addonType) {
+      return false;
+    }
+
+    const activeAddons = await new AddonService().getActiveAddons(academyId);
+    return activeAddons.some((addon) => addon.addon_type === addonType && addon.is_active);
   }
 }
 

@@ -2,6 +2,7 @@
 
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+import { trialService } from '@/lib/subscription/services-v3'
 
 export async function createAcademyOnboardingAction(data: {
   name: string
@@ -135,27 +136,7 @@ export async function generateInviteLinkAction(academyId: string) {
 }
 
 export async function activateTrialAction(academyId: string) {
-  const supabase = await getSupabaseServerClient() as any
-
-  const trialEnd = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString() // 14 days
-
-  // Try to create a subscription trial
-  const { error } = await supabase
-    .from('subscriptions')
-    .insert({
-      academy_id: academyId,
-      plan_id: 'trial',
-      status: 'trialing',
-      trial_ends_at: trialEnd,
-      current_period_start: new Date().toISOString(),
-      current_period_end: trialEnd,
-    })
-    .select()
-    .single()
-
-  if (error) {
-    // Subscription table may have different schema — mark step anyway
-  }
+  await trialService.activateTrialForExistingAcademy(academyId)
 
   await completeOnboardingStepAction(academyId, 'billing')
   return { success: true as const }

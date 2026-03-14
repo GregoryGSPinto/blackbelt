@@ -7,6 +7,7 @@
 import type Stripe from 'stripe';
 import { getStripeClient } from './stripe-client';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
+import type { BillingCycle } from '@/lib/subscription/types-v3';
 import { eventBus } from '@/lib/application/events/event-bus';
 import {
   createEvent,
@@ -17,6 +18,7 @@ import type {
   SubscriptionActivated,
   SubscriptionCancelled,
 } from '@/lib/domain/events/domain-events';
+import { inferBillingCycleFromPriceId } from './stripe-plan-mapping';
 
 /**
  * Verify and construct a Stripe webhook event from raw body.
@@ -56,11 +58,144 @@ export async function processWebhookEvent(event: Stripe.Event): Promise<void> {
   }
 }
 
+type AdminClient = ReturnType<typeof getSupabaseAdminClient> & {
+  from: (table: string) => any;
+};
+
+function mapStripeSubscriptionStatus(status: string): 'trialing' | 'active' | 'past_due' | 'canceled' | 'suspended' {
+  const statusMap: Record<string, 'trialing' | 'active' | 'past_due' | 'canceled' | 'suspended'> = {
+    trialing: 'trialing',
+    active: 'active',
+    past_due: 'past_due',
+    canceled: 'canceled',
+    unpaid: 'suspended',
+    incomplete: 'past_due',
+    incomplete_expired: 'canceled',
+    paused: 'suspended',
+  };
+
+  return statusMap[status] ?? 'past_due';
+}
+
+function toIsoTimestamp(unixSeconds: number | null | undefined): string | null {
+  return typeof unixSeconds === 'number' ? new Date(unixSeconds * 1000).toISOString() : null;
+}
+
+function toIsoDate(unixSeconds: number | null | undefined): string | null {
+  const timestamp = toIsoTimestamp(unixSeconds);
+  return timestamp ? timestamp.split('T')[0] : null;
+}
+
+function getInvoicePeriod(invoice: Stripe.Invoice): { periodStart: string | null; periodEnd: string | null } {
+  const firstLine = invoice.lines.data[0];
+  return {
+    periodStart: toIsoDate(firstLine?.period?.start),
+    periodEnd: toIsoDate(firstLine?.period?.end),
+  };
+}
+
+function getInvoiceTaxAmount(invoice: Stripe.Invoice): number {
+  const taxAmounts = (invoice as any).total_tax_amounts;
+  if (!Array.isArray(taxAmounts)) return 0;
+  return taxAmounts.reduce((sum: number, item: { amount?: number }) => sum + (item.amount ?? 0), 0);
+}
+
+function getInvoicePaymentIntentId(invoice: Stripe.Invoice): string | null {
+  const paymentIntent = (invoice as any).payment_intent;
+  if (typeof paymentIntent === 'string') return paymentIntent;
+  return paymentIntent?.id ?? null;
+}
+
+async function getAcademySubscriptionByAcademyId(supabase: AdminClient, academyId: string) {
+  const { data, error } = await supabase
+    .from('academy_subscriptions')
+    .select('id, academy_id, plan_id, status, billing_cycle, current_period_starts_at, current_period_ends_at, trial_converted, trial_converted_at, metadata')
+    .eq('academy_id', academyId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+async function getAcademySubscriptionByStripeId(supabase: AdminClient, stripeSubscriptionId: string) {
+  const { data, error } = await supabase
+    .from('academy_subscriptions')
+    .select('id, academy_id, plan_id, status, billing_cycle, metadata')
+    .eq('stripe_subscription_id', stripeSubscriptionId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+async function getPlanSummary(supabase: AdminClient, planId: string) {
+  const { data, error } = await supabase
+    .from('subscription_plans')
+    .select('id, name, display_name')
+    .eq('id', planId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+async function resolveSubscriptionPlanId(
+  supabase: AdminClient,
+  explicitPlanId: string | null | undefined,
+  subscription: Stripe.Subscription,
+  fallbackPlanId: string | null | undefined,
+): Promise<string | null> {
+  if (explicitPlanId) return explicitPlanId;
+
+  if (fallbackPlanId) {
+    const fallbackPlan = await getPlanSummary(supabase, fallbackPlanId);
+    const cycle = inferBillingCycleFromPriceId(fallbackPlan ?? { id: fallbackPlanId, name: fallbackPlanId, display_name: fallbackPlanId }, subscription.items.data[0]?.price.id);
+    if (cycle) {
+      return fallbackPlanId;
+    }
+  }
+
+  const { data: plans, error } = await supabase
+    .from('subscription_plans')
+    .select('id, name, display_name');
+
+  if (error) throw error;
+
+  const priceId = subscription.items.data[0]?.price.id;
+  if (!priceId) return fallbackPlanId ?? null;
+
+  for (const plan of plans ?? []) {
+    if (inferBillingCycleFromPriceId(plan, priceId)) {
+      return plan.id;
+    }
+  }
+
+  return fallbackPlanId ?? null;
+}
+
+function resolveBillingCycle(
+  explicitCycle: string | null | undefined,
+  subscription: Stripe.Subscription,
+  existingCycle: BillingCycle | null | undefined,
+): BillingCycle {
+  if (explicitCycle === 'monthly' || explicitCycle === 'annual') {
+    return explicitCycle;
+  }
+
+  const interval = subscription.items.data[0]?.price.recurring?.interval;
+  if (interval === 'year') return 'annual';
+  if (interval === 'month') return 'monthly';
+
+  return existingCycle ?? 'monthly';
+}
+
 async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient() as AdminClient;
 
   const academyId = session.metadata?.academy_id;
+  const planId = session.metadata?.plan_id ?? null;
+  const billingCycle = session.metadata?.billing_cycle === 'annual' ? 'annual' : 'monthly';
   const stripeSubscriptionId =
     typeof session.subscription === 'string'
       ? session.subscription
@@ -72,30 +207,39 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session):
 
   if (!academyId || !stripeSubscriptionId) return;
 
+  const existing = await getAcademySubscriptionByAcademyId(supabase, academyId);
+  const resolvedPlanId = planId ?? existing?.plan_id ?? null;
+
+  if (!resolvedPlanId) {
+    throw new Error(`Unable to resolve subscription plan for academy ${academyId}`);
+  }
+
   await supabase
     .from('academies')
     .update({ stripe_customer_id: stripeCustomerId })
     .eq('id', academyId);
 
-  const { data: existing } = await supabase
-    .from('subscriptions')
-    .select('id')
-    .eq('academy_id', academyId)
-    .maybeSingle();
-
   const payload = {
     academy_id: academyId,
+    plan_id: resolvedPlanId,
     stripe_subscription_id: stripeSubscriptionId,
     stripe_customer_id: stripeCustomerId,
-    status: 'active',
-    billing_cycle: session.mode === 'subscription' ? 'monthly' : null,
-    current_period_starts_at: new Date().toISOString(),
+    status: session.payment_status === 'paid' ? 'active' : 'past_due',
+    billing_cycle: billingCycle,
+    current_period_starts_at: existing?.current_period_starts_at ?? new Date().toISOString(),
+    current_period_ends_at: existing?.current_period_ends_at ?? null,
+    trial_converted: existing?.status === 'trialing' ? true : existing?.trial_converted ?? false,
+    trial_converted_at: existing?.status === 'trialing' ? new Date().toISOString() : existing?.trial_converted_at ?? null,
+    metadata: {
+      ...(existing?.metadata ?? {}),
+      last_checkout_session_id: session.id,
+    },
   };
 
   if (existing?.id) {
-    await supabase.from('subscriptions').update(payload).eq('id', existing.id);
+    await supabase.from('academy_subscriptions').update(payload).eq('id', existing.id);
   } else {
-    await supabase.from('subscriptions').insert(payload);
+    await supabase.from('academy_subscriptions').insert(payload);
   }
 }
 
@@ -109,30 +253,34 @@ function getSubscriptionIdFromInvoice(invoice: Stripe.Invoice): string | null {
 
 async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient() as AdminClient;
   const stripeSubscriptionId = getSubscriptionIdFromInvoice(invoice);
 
   if (!stripeSubscriptionId) return;
 
-  // Find subscription by stripe ID
-  const { data: sub } = await supabase
-    .from('subscriptions')
-    .select('id, academy_id')
-    .eq('stripe_subscription_id', stripeSubscriptionId)
-    .single();
+  const sub = await getAcademySubscriptionByStripeId(supabase, stripeSubscriptionId);
 
   if (!sub) return;
 
-  // Update or create invoice record
+  const { periodStart, periodEnd } = getInvoicePeriod(invoice);
+
   const { data: inv } = await supabase
-    .from('invoices')
+    .from('subscription_invoices')
     .upsert({
-      subscription_id: sub.id,
       academy_id: sub.academy_id,
-      stripe_invoice_id: invoice.id,
-      amount_cents: invoice.amount_paid,
+      period_start: periodStart,
+      period_end: periodEnd,
+      subscription_amount: invoice.subtotal ?? invoice.amount_paid,
+      setup_amount: 0,
+      overages_amount: 0,
+      addons_amount: 0,
+      discounts_amount: 0,
+      subtotal: invoice.subtotal ?? invoice.amount_paid,
+      tax_amount: getInvoiceTaxAmount(invoice),
+      total_amount: invoice.amount_paid,
       status: 'paid',
-      due_date: new Date(invoice.created * 1000).toISOString().split('T')[0],
+      stripe_invoice_id: invoice.id,
+      stripe_payment_intent_id: getInvoicePaymentIntentId(invoice),
       paid_at: new Date().toISOString(),
     }, { onConflict: 'stripe_invoice_id' })
     .select('id')
@@ -140,15 +288,14 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
 
   if (!inv) return;
 
-  // Create payment record
-  await supabase.from('payments').insert({
-    invoice_id: inv.id,
-    academy_id: sub.academy_id,
-    amount_cents: invoice.amount_paid,
-    method: 'stripe',
-    external_id: invoice.id,
-    paid_at: new Date().toISOString(),
-  });
+  await supabase
+    .from('academy_subscriptions')
+    .update({
+      status: 'active',
+      current_period_starts_at: periodStart ? `${periodStart}T00:00:00.000Z` : undefined,
+      current_period_ends_at: periodEnd ? `${periodEnd}T00:00:00.000Z` : undefined,
+    })
+    .eq('id', sub.id);
 
   // Emit domain event
   const ctx = startCausationChain();
@@ -170,61 +317,75 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient() as AdminClient;
   const stripeSubscriptionId = getSubscriptionIdFromInvoice(invoice);
 
   if (!stripeSubscriptionId) return;
 
-  const { data: sub } = await supabase
-    .from('subscriptions')
-    .select('id, academy_id')
-    .eq('stripe_subscription_id', stripeSubscriptionId)
-    .single();
+  const sub = await getAcademySubscriptionByStripeId(supabase, stripeSubscriptionId);
 
   if (!sub) return;
 
+  const { periodStart, periodEnd } = getInvoicePeriod(invoice);
+
   await supabase
-    .from('subscriptions')
+    .from('academy_subscriptions')
     .update({ status: 'past_due' })
     .eq('id', sub.id);
 
   await supabase
-    .from('invoices')
+    .from('subscription_invoices')
     .upsert({
-      subscription_id: sub.id,
       academy_id: sub.academy_id,
-      stripe_invoice_id: invoice.id,
-      amount_cents: invoice.amount_due,
+      period_start: periodStart,
+      period_end: periodEnd,
+      subscription_amount: invoice.subtotal ?? invoice.amount_due,
+      setup_amount: 0,
+      overages_amount: 0,
+      addons_amount: 0,
+      discounts_amount: 0,
+      subtotal: invoice.subtotal ?? invoice.amount_due,
+      tax_amount: getInvoiceTaxAmount(invoice),
+      total_amount: invoice.amount_due,
       status: 'failed',
-      due_date: new Date(invoice.created * 1000).toISOString().split('T')[0],
+      stripe_invoice_id: invoice.id,
+      stripe_payment_intent_id: getInvoicePaymentIntentId(invoice),
       failed_at: new Date().toISOString(),
     }, { onConflict: 'stripe_invoice_id' });
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient() as AdminClient;
 
-  const statusMap: Record<string, string> = {
-    active: 'active',
-    past_due: 'past_due',
-    canceled: 'canceled',
-    unpaid: 'suspended',
-  };
-
-  const { data: sub } = await supabase
-    .from('subscriptions')
-    .select('id, academy_id, plan_id, status')
-    .eq('stripe_subscription_id', subscription.id)
-    .single();
+  const sub = await getAcademySubscriptionByStripeId(supabase, subscription.id);
 
   if (!sub) return;
 
-  const newStatus = statusMap[subscription.status] ?? sub.status;
+  const planId = await resolveSubscriptionPlanId(
+    supabase,
+    subscription.metadata?.plan_id,
+    subscription,
+    sub.plan_id,
+  );
+  const newStatus = mapStripeSubscriptionStatus(subscription.status);
+  const billingCycle = resolveBillingCycle(subscription.metadata?.billing_cycle, subscription, sub.billing_cycle);
 
   await supabase
-    .from('subscriptions')
-    .update({ status: newStatus })
+    .from('academy_subscriptions')
+    .update({
+      status: newStatus,
+      plan_id: planId ?? sub.plan_id,
+      billing_cycle: billingCycle,
+      stripe_customer_id: typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id ?? null,
+      current_period_starts_at: toIsoTimestamp((subscription as any).current_period_start) ?? undefined,
+      current_period_ends_at: toIsoTimestamp((subscription as any).current_period_end) ?? undefined,
+      auto_renew: !subscription.cancel_at_period_end,
+      metadata: {
+        ...(sub.metadata ?? {}),
+        cancel_at_period_end: subscription.cancel_at_period_end,
+      },
+    })
     .eq('id', sub.id);
 
   // Emit SubscriptionActivated if becoming active
@@ -235,7 +396,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
       sub.academy_id,
       {
         academyId: sub.academy_id,
-        planId: sub.plan_id,
+        planId: planId ?? sub.plan_id,
       },
       {
         ...ctx,
@@ -248,21 +409,23 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient() as AdminClient;
 
-  const { data: sub } = await supabase
-    .from('subscriptions')
-    .select('id, academy_id')
-    .eq('stripe_subscription_id', subscription.id)
-    .single();
+  const sub = await getAcademySubscriptionByStripeId(supabase, subscription.id);
 
   if (!sub) return;
 
   await supabase
-    .from('subscriptions')
+    .from('academy_subscriptions')
     .update({
       status: 'canceled',
-      canceled_at: new Date().toISOString(),
+      auto_renew: false,
+      current_period_ends_at: toIsoTimestamp((subscription as any).current_period_end) ?? undefined,
+      metadata: {
+        ...(sub.metadata ?? {}),
+        canceled_at: new Date().toISOString(),
+        cancellation_reason: subscription.cancellation_details?.reason ?? 'customer_request',
+      },
     })
     .eq('id', sub.id);
 
