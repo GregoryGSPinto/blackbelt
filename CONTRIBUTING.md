@@ -22,6 +22,16 @@ pnpm test
 pnpm build
 ```
 
+## Platform Guardrails
+
+Read [CLAUDE.md](CLAUDE.md) for the complete set of engineering invariants. Key rules:
+
+- Tenant always derives from `membership.academy_id` — never from URL params or request body alone.
+- Use `withAuth(request)` with the request parameter — never call `withAuth()` without it.
+- Use `apiServerError(error)` in catch blocks — never bare `console.error` + raw JSON 500.
+- Use explicit field lists in `select()` — never `select('*')` on tables with sensitive columns.
+- No tokens in localStorage. Session transport is httpOnly cookies.
+
 ## Coding Standards
 
 - Keep route files thin when possible.
