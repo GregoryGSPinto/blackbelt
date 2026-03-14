@@ -74,12 +74,6 @@ STRIPE_PRICE_PRO_MONTHLY=price_...
 STRIPE_PRICE_PRO_ANNUAL=price_...
 ```
 
-### Opção B: Via Script (Recomendado)
-
-```bash
-npx tsx scripts/setup-stripe-products.ts
-```
-
 ## 5. Configurar Emails de Pagamento
 
 1. Acesse [Configurações > Emails](https://dashboard.stripe.com/settings/emails)
