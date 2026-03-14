@@ -228,7 +228,7 @@ export function ExportDropdown({
       <button
         onClick={() => setOpen(!open)}
         className={buttonClassName || 'px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2'}
-        style={buttonStyle || { border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12, color: 'var(--text-primary)', background: 'var(--card-bg)' }}
+        style={buttonStyle || { border: '1px solid var(--card-border)', borderRadius: 12, color: 'var(--text-primary)', background: 'var(--card-bg)' }}
       >
         {showIcon && <Download className="w-4 h-4" />}
         {buttonLabel}
@@ -239,7 +239,7 @@ export function ExportDropdown({
           className="absolute right-0 top-full mt-2 min-w-[220px] rounded-xl overflow-hidden shadow-2xl z-[100]"
           style={{
             background: 'var(--card-bg)',
-            border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+            border: '1px solid var(--card-border)',
             animation: 'shell-dropdown-in 0.15s cubic-bezier(0.16,1,0.3,1)',
           }}
         >

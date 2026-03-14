@@ -33,7 +33,7 @@ const ESTADO_COLOR: Record<string, { bg: string; text: string }> = {
 
 const cardStyle = {
   background: 'var(--card-bg)',
-  border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+  border: '1px solid var(--card-border)',
   borderRadius: 12,
 };
 
@@ -82,7 +82,7 @@ export default function InfraestruturaPage() {
             style={{
               background: activeTab === tab.key ? 'var(--text-primary)' : 'var(--card-bg)',
               color: activeTab === tab.key ? 'var(--card-bg)' : 'var(--text-primary)',
-              border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+              border: '1px solid var(--card-border)',
             }}
           >
             {tab.icon}
@@ -371,7 +371,7 @@ export default function InfraestruturaPage() {
             {/* Table header */}
             <div
               className="hidden md:grid grid-cols-7 gap-2 px-4 py-3 text-xs font-normal"
-              style={{ color: 'var(--text-secondary)', borderBottom: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}
+              style={{ color: 'var(--text-secondary)', borderBottom: '1px solid var(--card-border)' }}
             >
               <span>Nome</span>
               <span>Qtd</span>

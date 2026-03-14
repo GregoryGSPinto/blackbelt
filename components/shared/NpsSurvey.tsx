@@ -83,7 +83,7 @@ export function NpsSurvey() {
     <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)' }}>
       <div
         className="w-full max-w-md rounded-2xl p-6 shadow-2xl animate-in slide-in-from-bottom duration-300"
-        style={{ background: 'var(--card-bg, #1a1a2e)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}
+        style={{ background: 'var(--card-bg, #1a1a2e)', border: '1px solid var(--card-border)' }}
       >
         {/* Close button */}
         <button

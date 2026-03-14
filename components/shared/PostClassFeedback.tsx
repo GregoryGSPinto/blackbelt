@@ -80,11 +80,11 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-xl shadow-2xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+      <div className="w-full max-w-md rounded-xl shadow-2xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
         {/* Header */}
-        <div className="p-5 pb-3" style={{ borderBottom: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+        <div className="p-5 pb-3" style={{ borderBottom: '1px solid var(--card-border)' }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
               <MessageSquare className="w-5 h-5" style={{ color: 'var(--text-primary)' }} />
             </div>
             <div>
@@ -108,7 +108,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
               className="w-full flex items-center gap-3 p-3 rounded-xl transition-all"
               style={{
                 background: selected === opt.value ? 'var(--bg-secondary, rgba(0,0,0,0.03))' : 'var(--card-bg)',
-                border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+                border: '1px solid var(--card-border)',
                 color: 'var(--text-primary)',
               }}
             >
@@ -132,7 +132,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
               placeholder={t('doubtPlaceholder')}
               maxLength={300}
               className="w-full h-20 p-3 text-sm rounded-xl resize-none focus:outline-none"
-              style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', color: 'var(--text-primary)' }}
+              style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-primary)' }}
             />
             <p className="text-[9px] text-right mt-1" style={{ color: 'var(--text-secondary)' }}>{doubtText.length}/300</p>
           </div>
@@ -144,7 +144,7 @@ export function PostClassFeedback({ onComplete }: PostClassFeedbackProps) {
             onClick={handleSubmit}
             disabled={!selected || submitting}
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', color: 'var(--text-primary)' }}
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-primary)' }}
           >
             <Send className="w-4 h-4" />
             {submitting ? 'Enviando...' : t('sendFeedback')}

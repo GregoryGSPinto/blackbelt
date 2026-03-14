@@ -86,7 +86,7 @@ export default function IndicarPage() {
         </div>
 
         {/* Referral Code Card */}
-        <div className="rounded-2xl p-6" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+        <div className="rounded-2xl p-6" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-xl bg-teal-500/15 flex items-center justify-center">
               <Gift size={24} className="text-teal-400" />
@@ -129,12 +129,12 @@ export default function IndicarPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+          <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
             <Users size={20} className="text-blue-400 mb-2" />
             <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{stats.totalReferrals}</p>
             <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Total de indicacoes</p>
           </div>
-          <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+          <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
             <Award size={20} className="text-amber-400 mb-2" />
             <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{stats.rewards.length}</p>
             <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Recompensas ganhas</p>
@@ -143,7 +143,7 @@ export default function IndicarPage() {
 
         {/* Rewards list */}
         {stats.rewards.length > 0 && (
-          <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+          <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
             <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Recompensas</h3>
             <div className="space-y-3">
               {stats.rewards.map((reward, i) => (
@@ -162,7 +162,7 @@ export default function IndicarPage() {
         )}
 
         {/* How it works */}
-        <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+        <div className="rounded-2xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Como funciona</h3>
           <div className="space-y-4">
             {[

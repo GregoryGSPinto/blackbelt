@@ -14,7 +14,7 @@ import {
   PROFESSORES, METRICA_FUNIL, FUNIL_CONVERSAO,
 } from '@/lib/__mocks__/unit-owner.mock';
 
-const card = { background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 } as const;
+const card = { background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 12 } as const;
 const tooltipStyle = {
   contentStyle: { background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 },
   labelStyle: { color: 'rgba(255,255,255,0.5)' },
@@ -90,7 +90,7 @@ export default function RelatoriosGerenciaisPage() {
             columnLabels={['Mes', 'Receita', 'Despesa']}
             data={RECEITA_MENSAL.map(r => ({ mes: r.mes, receita: r.receita, despesa: r.despesa ?? 0 }))}
             buttonClassName="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium"
-            buttonStyle={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12, color: 'var(--text-primary)' }}
+            buttonStyle={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 12, color: 'var(--text-primary)' }}
           />
         </div>
       </div>

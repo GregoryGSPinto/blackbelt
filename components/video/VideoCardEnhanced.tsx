@@ -58,7 +58,7 @@ export const VideoCardEnhanced = memo(function VideoCardEnhanced({
       }}
     >
       {/* Thumbnail Container */}
-      <div className="relative bg-black rounded-xl overflow-hidden mb-1.5 h-24 md:h-28" style={{ border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+      <div className="relative bg-black rounded-xl overflow-hidden mb-1.5 h-24 md:h-28" style={{ border: '1px solid var(--card-border)' }}>
         {/* Thumbnail */}
         <img
           src={video.thumbnail}

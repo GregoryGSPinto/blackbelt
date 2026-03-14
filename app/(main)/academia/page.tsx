@@ -37,7 +37,7 @@ export default function UnidadePage() {
       <div className="hidden md:block pt-8 tv:pt-12 pb-6 px-8 tv:px-16 mb-6">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-5"
-            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
             <Trophy size={16} className="text-primary-light" />
             <span className="text-xs font-semibold text-primary-light tracking-wider uppercase">
               {t('unit.title')}
@@ -66,7 +66,7 @@ export default function UnidadePage() {
             </p>
           </div>
           <div className="hidden md:flex items-center gap-2.5 px-4 py-2 rounded-xl"
-            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
             <Trophy size={15} className="text-primary-light" />
             <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
               {t('unit.average')} <span className="text-primary-light">{avgProgress}%</span>
@@ -86,7 +86,7 @@ export default function UnidadePage() {
                 style={{
                   background: 'var(--card-bg)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+                  border: '1px solid var(--card-border)',
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.borderColor = 'black';
@@ -158,7 +158,7 @@ export default function UnidadePage() {
         <div className="rounded-xl p-6 md:p-8"
           style={{
             background: 'var(--card-bg)',
-            border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+            border: '1px solid var(--card-border)',
           }}>
           <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -183,7 +183,7 @@ export default function UnidadePage() {
                   className="p-4 rounded-xl transition-all hover:scale-[1.02] hover-card"
                   style={{
                     background: 'var(--card-bg)',
-                    border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+                    border: '1px solid var(--card-border)',
                   }}>
                   <h3 className="font-semibold mb-2 text-sm" style={{ color: 'var(--text-primary)' }}>
                     {area.title}
@@ -201,7 +201,7 @@ export default function UnidadePage() {
                   <div className="w-full py-2.5 rounded-xl text-sm font-medium text-center transition-all active:scale-95"
                     style={{
                       background: 'var(--card-bg)',
-                      border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+                      border: '1px solid var(--card-border)',
                       color: 'var(--text-primary)',
                     }}>
                     {completed ? t('unit.retake') : t('unit.startTest')}
@@ -211,7 +211,7 @@ export default function UnidadePage() {
             })}
           </div>
 
-          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid var(--card-border)' }}>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               💡 <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Lembre-se:</span>{' '}
               Aqui ninguém é avaliado. Aqui todo mundo evolui.
@@ -225,7 +225,7 @@ export default function UnidadePage() {
         <div className="rounded-xl p-6 md:p-8"
           style={{
             background: 'var(--card-bg)',
-            border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+            border: '1px solid var(--card-border)',
           }}>
           <div className="flex items-center gap-3 mb-6">
             <Trophy size={20} className="text-primary-light" />
@@ -256,7 +256,7 @@ export default function UnidadePage() {
             })}
           </div>
 
-          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}>
+          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid var(--card-border)' }}>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
               {t('unit.overallAvg')} <span className="text-primary-light font-medium text-lg">{avgProgress}%</span>
             </p>

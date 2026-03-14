@@ -49,7 +49,7 @@ const CALENDARIO_SEMANAL = [
 
 const cardStyle = {
   background: 'var(--card-bg)',
-  border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+  border: '1px solid var(--card-border)',
   borderRadius: 12,
 };
 
