@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Award } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { getChildrenModalities } from '@/lib/api/modality.service';
 
 interface ChildModality {
@@ -20,7 +19,6 @@ interface ChildModality {
 }
 
 export function ChildModalitiesList() {
-  const { isDark } = useTheme();
   const [children, setChildren] = useState<ChildModality[]>([]);
   const [loading, setLoading] = useState(true);
 
