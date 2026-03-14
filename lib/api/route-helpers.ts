@@ -49,12 +49,32 @@ export type AuthContext = {
   // is not yet aligned with all live tables/relations used by legacy routes.
   supabase: any;
   user: { id: string; email: string };
-  membership: { id: string; academy_id: string; role: string } | null;
+  membership: { id: string; academy_id: string; profile_id: string; role: string } | null;
 };
 
 type WithAuthOptions = {
   requireMembership?: boolean;
 };
+
+async function getActiveMembership(
+  supabase: any,
+  profileId: string,
+): Promise<AuthContext['membership']> {
+  const { data, error } = await supabase
+    .from('memberships')
+    .select('id, academy_id, profile_id, role')
+    .eq('profile_id', profileId)
+    .eq('status', 'active')
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
 
 /**
  * Extract auth from the Supabase session (cookie-based).
@@ -74,16 +94,7 @@ export async function withAuth(
   let membership: AuthContext['membership'] = null;
 
   if (opts?.requireMembership !== false) {
-    // Get first active membership for the user
-    const { data: mem } = await supabase
-      .from('memberships')
-      .select('id, academy_id, role')
-      .eq('profile_id', user.id)
-      .eq('status', 'active')
-      .limit(1)
-      .single();
-
-    membership = mem;
+    membership = await getActiveMembership(supabase, user.id);
 
     if (!membership) {
       throw NextResponse.json(

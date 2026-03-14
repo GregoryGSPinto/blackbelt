@@ -8,6 +8,8 @@ const checkStudentLimitMock = vi.fn();
 const activateAddonMock = vi.fn();
 const generateForecastMock = vi.fn();
 const getAcademiesMock = vi.fn();
+const buyCreditsMock = vi.fn();
+const getSupabaseAdminClientMock = vi.fn();
 
 vi.mock('@/lib/api/route-helpers', async () => {
   const actual = await vi.importActual<typeof import('@/lib/api/route-helpers')>('@/lib/api/route-helpers');
@@ -39,6 +41,9 @@ vi.mock('@/lib/subscription/services', () => ({
   billingForecast: {
     generateForecast: generateForecastMock,
   },
+  prepaidCredits: {
+    buyCredits: buyCreditsMock,
+  },
 }));
 
 vi.mock('@/lib/pricing/service', () => ({
@@ -47,9 +52,14 @@ vi.mock('@/lib/pricing/service', () => ({
   },
 }));
 
+vi.mock('@/lib/supabase/admin', () => ({
+  getSupabaseAdminClient: getSupabaseAdminClientMock,
+}));
+
 describe('tenant domain consolidation', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    getSupabaseAdminClientMock.mockReturnValue({ from: vi.fn() });
   });
 
   it('rejects non-admin memberships in billing manager helper', async () => {
@@ -140,5 +150,42 @@ describe('tenant domain consolidation', () => {
     expect(response.status).toBe(200);
     expect(generateForecastMock).toHaveBeenCalledWith('academy-77');
     expect(body).toEqual({ total: 123 });
+  });
+
+  it('uses billing manager membership academy_id when buying prepaid credits', async () => {
+    buyCreditsMock.mockResolvedValue({ id: 'credit-1' });
+
+    withBillingManagerAccessMock.mockResolvedValue({
+      membership: { id: 'mem-4', academy_id: 'academy-55', profile_id: 'profile-4', role: 'owner' },
+    });
+
+    const { POST } = await import('@/app/api/usage/buy-credits/route');
+    const response = await POST(new Request('http://localhost/api/usage/buy-credits', {
+      method: 'POST',
+      body: JSON.stringify({ creditType: 'api_requests', amount: 500 }),
+    }));
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(buyCreditsMock).toHaveBeenCalledWith('academy-55', 'api_requests', 500);
+    expect(body.credit).toEqual({ id: 'credit-1' });
+  });
+
+  it('uses membership-based super-admin access in leads helper', async () => {
+    const fromMock = vi.fn();
+    const { getSupabaseAdminClient } = await import('@/lib/supabase/admin');
+
+    vi.mocked(getSupabaseAdminClient).mockReturnValue({ from: fromMock } as any);
+    withSuperAdminAccessMock.mockResolvedValue({
+      user: { id: 'root-2', email: 'root@test.com' },
+      membership: { id: 'mem-root', academy_id: 'academy-root', profile_id: 'root-2', role: 'super_admin' },
+    });
+
+    const { requireSuperAdmin } = await import('@/lib/leads/server');
+    const result = await requireSuperAdmin();
+
+    expect(withSuperAdminAccessMock).toHaveBeenCalled();
+    expect(result.user.id).toBe('root-2');
+    expect(result.supabase.from).toBe(fromMock);
   });
 });

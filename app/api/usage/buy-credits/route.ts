@@ -5,27 +5,11 @@
 import { NextResponse } from 'next/server';
 import { prepaidCredits } from '@/lib/subscription/services';
 import type { CreditType } from '@/lib/subscription/types';
-import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { withBillingManagerAccess } from '@/lib/api/access-context';
 
 export async function POST(request: Request) {
   try {
-    const authSupabase = await getSupabaseServerClient();
-    const supabase = getSupabaseAdminClient();
-    const { data: { user }, error: authError } = await authSupabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: userAcademy } = await supabase
-      .from('usuarios_academia')
-      .select('academia_id')
-      .eq('usuario_id', user.id)
-      .single();
-
-    if (!userAcademy) {
-      return NextResponse.json({ error: 'No academy found' }, { status: 404 });
-    }
+    const { membership } = await withBillingManagerAccess(request);
 
     const body = await request.json();
     const { creditType, amount } = body;
@@ -45,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const academyId = userAcademy.academia_id;
+    const academyId = membership.academy_id;
 
     // Create credit purchase
     const credit = await prepaidCredits.buyCredits(academyId, creditType, amount);
@@ -57,6 +41,9 @@ export async function POST(request: Request) {
       clientSecret: null // Would be populated with Stripe secret
     });
   } catch (error) {
+    if (error instanceof Response) {
+      return error as NextResponse;
+    }
     console.error('[Buy Credits API]', error);
     return NextResponse.json(
       { error: 'Internal server error' },

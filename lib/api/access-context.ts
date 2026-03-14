@@ -29,7 +29,7 @@ export async function withSuperAdminAccess(
 
   const { data: membership, error } = await auth.supabase
     .from('memberships')
-    .select('id, academy_id, role')
+    .select('id, academy_id, profile_id, role')
     .eq('profile_id', auth.user.id)
     .eq('status', 'active')
     .eq('role', 'super_admin')

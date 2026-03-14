@@ -1,28 +1,9 @@
+import { withSuperAdminAccess } from '@/lib/api/access-context';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function requireSuperAdmin() {
-  const authClient = await getSupabaseServerClient();
-  const {
-    data: { user },
-    error,
-  } = await authClient.auth.getUser();
-
-  if (error || !user) {
-    throw new Error('UNAUTHORIZED');
-  }
-
+  const { user } = await withSuperAdminAccess();
   const supabase = getSupabaseAdminClient() as any;
-  const { data: access, error: accessError } = await supabase
-    .from('usuarios_academia')
-    .select('perfil')
-    .eq('usuario_id', user.id)
-    .eq('perfil', 'SUPER_ADMIN')
-    .single();
-
-  if (accessError || !access) {
-    throw new Error('FORBIDDEN');
-  }
 
   return {
     user,
