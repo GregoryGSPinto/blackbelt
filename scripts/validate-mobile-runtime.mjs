@@ -14,9 +14,12 @@ const fallbackUrls = (process.env.CAPACITOR_FALLBACK_URLS || '')
   .split(',')
   .map(entry => entry.trim())
   .filter(Boolean);
-const supportEmail = process.env.SUPPORT_EMAIL || 'suporte@blackbelt.app';
-const privacyEmail = process.env.PRIVACY_EMAIL || supportEmail;
+const configuredSupportEmail = process.env.SUPPORT_EMAIL?.trim();
+const configuredPrivacyEmail = process.env.PRIVACY_EMAIL?.trim();
+const supportEmail = configuredSupportEmail || 'suporte@blackbelt.app';
+const privacyEmail = configuredPrivacyEmail || supportEmail;
 const shouldRunOnlineChecks = process.argv.includes('--online');
+const warnings = [];
 
 function fail(message) {
   console.error(`FAIL: ${message}`);
@@ -28,6 +31,7 @@ function pass(message) {
 }
 
 function warn(message) {
+  warnings.push(message);
   console.warn(`WARN: ${message}`);
 }
 
@@ -110,15 +114,32 @@ const normalizedFallbacks = fallbackUrls
   .map((value, index) => inspectHost(value, `Fallback mobile runtime URL #${index + 1}`))
   .filter(Boolean);
 
-pass(`SUPPORT_EMAIL resolved to ${supportEmail}`);
-pass(`PRIVACY_EMAIL resolved to ${privacyEmail}`);
+if (configuredSupportEmail) {
+  pass(`SUPPORT_EMAIL resolved to ${supportEmail}`);
+} else {
+  warn(`SUPPORT_EMAIL is not explicitly configured; runtime is using the default contact ${supportEmail}`);
+}
+
+if (configuredPrivacyEmail) {
+  pass(`PRIVACY_EMAIL resolved to ${privacyEmail}`);
+} else if (configuredSupportEmail) {
+  warn(`PRIVACY_EMAIL is not explicitly configured; runtime is reusing SUPPORT_EMAIL (${privacyEmail})`);
+} else {
+  warn(`PRIVACY_EMAIL is not explicitly configured; runtime falls back to SUPPORT_EMAIL (${privacyEmail})`);
+}
+
+if (configuredSupportEmail && configuredPrivacyEmail && supportEmail === privacyEmail) {
+  warn(`SUPPORT_EMAIL and PRIVACY_EMAIL point to the same inbox (${supportEmail}); a dedicated privacy contact is recommended before wider rollout`);
+}
 
 if (normalizedPrimary) {
   pass(`Primary runtime URL normalized to ${normalizedPrimary}`);
 }
 
 if (!normalizedFallbacks.length) {
-  pass('No fallback runtime URLs configured; single-host release mode is active');
+  warn('No fallback runtime URLs configured; release is operating in single-host mode');
+} else {
+  pass(`Fallback runtime URLs configured: ${normalizedFallbacks.length}`);
 }
 
 if (shouldRunOnlineChecks && normalizedPrimary) {
@@ -128,4 +149,8 @@ if (shouldRunOnlineChecks && normalizedPrimary) {
   await checkEndpoint(normalizedPrimary, '/politica-privacidade');
   await checkEndpoint(normalizedPrimary, '/termos-de-uso');
   await checkEndpoint(normalizedPrimary, '/excluir-conta');
+}
+
+if (!process.exitCode) {
+  pass(`Mobile runtime validation completed with ${warnings.length} warning(s)`);
 }
