@@ -23,7 +23,7 @@ export default function ShopPage() {
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
   const [uniformes, setUniformes] = useState<Product[]>([]);
   const [roupas, setRoupas] = useState<Product[]>([]);
-  const [acessorios, setAcessorios] = useState<Product[]>([]);
+  const [acessorios, setAcessórios] = useState<Product[]>([]);
   const [kids, setKids] = useState<Product[]>([]);
   const [novidades, setNovidades] = useState<Product[]>([]);
   const [maisVendidos, setMaisVendidos] = useState<Product[]>([]);
@@ -44,7 +44,7 @@ export default function ShopPage() {
         setFeaturedProduct(featured);
         setUniformes(allProducts.filter(p => p.category === 'uniformes'));
         setRoupas(allProducts.filter(p => p.category === 'roupas'));
-        setAcessorios(allProducts.filter(p => p.category === 'acessorios'));
+        setAcessórios(allProducts.filter(p => p.category === 'acessorios'));
         setKids(allProducts.filter(p => p.category === 'kids'));
         setNovidades(novidadesData);
         setMaisVendidos(vendidosData);

@@ -56,7 +56,7 @@ export default function ContratosPage() {
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
           <AlertTriangle size={18} style={{ color: isDark ? '#F59E0B' : '#D97706', flexShrink: 0 }} />
           <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
-            {vencendoEm30.length} contrato(s) vencendo nos proximos 30 dias
+            {vencendoEm30.length} contrato(s) vencendo nos próximos 30 dias
           </p>
         </div>
       )}
@@ -117,7 +117,7 @@ export default function ContratosPage() {
       <div style={{ ...card, padding: '1.5rem' }}>
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Template do Contrato</h3>
         <p className="text-xs mb-3" style={{ color: 'var(--text-secondary)' }}>
-          {'Variaveis: {nome_aluno}, {cpf}, {plano}, {valor}, {data_inicio}, {modalidade}'}
+          {'Variáveis: {nome_aluno}, {cpf}, {plano}, {valor}, {data_inicio}, {modalidade}'}
         </p>
         <textarea
           value={template}
@@ -141,7 +141,7 @@ export default function ContratosPage() {
               {gerarPreview(previewContrato)}
             </pre>
             <p className="text-xs mt-4 italic" style={{ color: 'var(--text-secondary)' }}>
-              TODO: Geracao de PDF disponivel em versao futura.
+              Geração de PDF disponível em versão futura.
             </p>
           </div>
         </div>

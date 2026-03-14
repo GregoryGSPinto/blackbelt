@@ -258,7 +258,7 @@ export default function FinanceiroOwnerPage() {
               <p className="text-xl font-semibold" style={{ color: '#3B82F6' }}>{formatCurrency(totalDespesasFixas)}</p>
             </div>
             <div className="rounded-xl p-4" style={cardStyle}>
-              <p className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Despesas Variaveis</p>
+              <p className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Despesas Variáveis</p>
               <p className="text-xl font-semibold" style={{ color: '#F59E0B' }}>{formatCurrency(totalDespesasVariaveis)}</p>
             </div>
             <div className="rounded-xl p-4" style={cardStyle}>
@@ -645,7 +645,7 @@ export default function FinanceiroOwnerPage() {
               {[
                 { label: '(+) Receita Total', value: OWNER_KPIS.mrr, color: '#10B981', bold: false },
                 { label: '(-) Despesas Fixas', value: totalDespesasFixas, color: '#EF4444', bold: false },
-                { label: '(-) Despesas Variaveis', value: totalDespesasVariaveis, color: '#F59E0B', bold: false },
+                { label: '(-) Despesas Variáveis', value: totalDespesasVariaveis, color: '#F59E0B', bold: false },
               ].map(row => (
                 <div key={row.label} className="flex items-center justify-between py-2 border-b" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
                   <span className="text-sm" style={{ color: 'var(--text-primary)' }}>{row.label}</span>

@@ -18,7 +18,7 @@ export default function TeenLojaPage() {
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
   const [uniformes, setUniformes] = useState<Product[]>([]);
   const [roupas, setRoupas] = useState<Product[]>([]);
-  const [acessorios, setAcessorios] = useState<Product[]>([]);
+  const [acessorios, setAcessórios] = useState<Product[]>([]);
   const [novidades, setNovidades] = useState<Product[]>([]);
   const [maisVendidos, setMaisVendidos] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ export default function TeenLojaPage() {
         setFeaturedProduct(featured);
         setUniformes(allProducts.filter(p => p.category === 'uniformes'));
         setRoupas(allProducts.filter(p => p.category === 'roupas'));
-        setAcessorios(allProducts.filter(p => p.category === 'acessorios'));
+        setAcessórios(allProducts.filter(p => p.category === 'acessorios'));
         setNovidades(novidadesData);
         setMaisVendidos(vendidosData);
       } catch (err) {
@@ -60,13 +60,13 @@ export default function TeenLojaPage() {
 
   if (loading) return <PremiumLoader text="Carregando loja..." />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
-  if (!featuredProduct) return <PageEmpty title="Loja indisponivel" message="Nenhum produto encontrado no momento." />;
+  if (!featuredProduct) return <PageEmpty title="Loja indisponível" message="Nenhum produto encontrado no momento." />;
 
   const sections = [
     { title: 'Mais Vendidos', data: maisVendidos },
     { title: 'Uniformes', data: uniformes },
     { title: 'Roupas de Treino', data: roupas },
-    { title: 'Acessorios', data: acessorios },
+    { title: 'Acessórios', data: acessorios },
     { title: 'Novidades', data: novidades },
   ];
 

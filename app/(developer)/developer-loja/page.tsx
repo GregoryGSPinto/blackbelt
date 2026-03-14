@@ -47,7 +47,7 @@ export default function DeveloperLojaPage() {
 
   if (loading) return <PremiumLoader text="Carregando loja..." />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
-  if (!featuredProduct) return <PageEmpty title="Loja indisponivel" message="Nenhum produto encontrado no momento." />;
+  if (!featuredProduct) return <PageEmpty title="Loja indisponível" message="Nenhum produto encontrado no momento." />;
 
   const uniformes = allProducts.filter(p => p.category === 'uniformes');
   const roupas = allProducts.filter(p => p.category === 'roupas');
@@ -57,7 +57,7 @@ export default function DeveloperLojaPage() {
     { title: 'Mais Vendidos', data: maisVendidos },
     { title: 'Uniformes', data: uniformes },
     { title: 'Roupas de Treino', data: roupas },
-    { title: 'Acessorios', data: acessorios },
+    { title: 'Acessórios', data: acessorios },
     { title: 'Novidades', data: novidades },
   ];
 

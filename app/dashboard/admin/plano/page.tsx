@@ -187,7 +187,7 @@ export default function AdminPlanoPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Assinatura e plano</h1>
           <p className="text-slate-600">
-            Acompanhe o plano atual, consumo da academia e proximos passos de cobranca
+            Acompanhe o plano atual, consumo da academia e próximos passos de cobrança
           </p>
         </div>
 
@@ -271,7 +271,7 @@ export default function AdminPlanoPage() {
               <div>
                 <h2 className="text-xl font-semibold text-slate-900">Nenhum plano ativo no momento</h2>
                 <p className="mt-1 text-sm text-slate-600">
-                  Escolha um plano para concluir a configuracao comercial da academia e liberar a cobranca controlada.
+                  Escolha um plano para concluir a configuração comercial da academia e liberar a cobrança controlada.
                 </p>
               </div>
               <button
