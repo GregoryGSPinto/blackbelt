@@ -318,15 +318,13 @@ export default function ProfessorDashboardPage() {
             </Link>
           </div>
 
-          {/* Pedagógico stat cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+          {/* Pedagógico stat cards — 4 most actionable metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[
-              { label: t('highlight'), value: pedStats.alunosDestaque, color: '#4ADE80' },
               { label: t('lowFreq'), value: pedStats.alunosBaixaFrequencia, color: '#F87171' },
               { label: t('readyForGrad'), value: pedStats.alunosAptoGraduacao, color: '#A78BFA' },
-              { label: t('achievementsMonth'), value: pedStats.conquistasConcedidasMes, color: '#FBBF24' },
-              { label: t('challengesPending'), value: pedStats.desafiosPendentes, color: '#60A5FA' },
               { label: t('avgFreq'), value: `${pedStats.frequenciaMedia}%`, color: '#22D3EE' },
+              { label: t('highlight'), value: pedStats.alunosDestaque, color: '#4ADE80' },
             ].map((s, i) => (
               <div key={i} className="p-3 text-center" style={{ background: tokens.cardBg, border: '1px solid ' + tokens.cardBorder, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' }}>
                 <span style={{ fontSize: '2rem', fontWeight: 200 }} className="leading-none" >{s.value}</span>

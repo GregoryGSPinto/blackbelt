@@ -107,7 +107,7 @@ export default function DashboardPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const t = useTranslations('admin');
-  const { formatDate, formatTime } = useFormatting();
+  const { formatDate } = useFormatting();
   const { data: result, loading, error, retry, cacheInfo, refreshing, refresh } = useCachedServiceCall<AdminDashData>(
     'admin:dashboard',
     () => Promise.all([
@@ -355,14 +355,13 @@ export default function DashboardPage() {
         </div>
       </Section>
 
-      {/* 2. MAPA DE CALOR */}
-      <Section title={t('dashboard.heatMap')}>
-        <HeatmapChart data={stats.mapaCalor} />
-      </Section>
+      {/* 2. MAPA DE CALOR + GRADUAÇÕES — Side by side to reduce scroll depth */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Section title={t('dashboard.heatMap')}>
+          <HeatmapChart data={stats.mapaCalor} />
+        </Section>
 
-      {/* 3. GRADUAÇÕES */}
-      <Section title={t('dashboard.graduations')}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Section title={t('dashboard.graduations')}>
           <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
             <div className="flex items-center gap-2 mb-4">
               <Award size={16} className="text-amber-400" />
@@ -371,83 +370,31 @@ export default function DashboardPage() {
                 {stats.aptosExame.quantidade}
               </span>
             </div>
-            <div className="space-y-2.5">
-              {stats.aptosExame.lista.map(a => (
-                <div key={a.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-black/25">
+            <div className="space-y-2">
+              {stats.aptosExame.lista.slice(0, 5).map(a => (
+                <div key={a.id} className="flex items-center gap-3 px-3 py-2 rounded-xl bg-black/25">
                   <span className="w-3 h-3 rounded-full border border-white/20 shrink-0"
                     style={{ backgroundColor: NIVEL_COLORS[a.nivelAtual] || '#E5E7EB' }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-white/70">{a.nome}</p>
                     <p className="text-[10px] text-white/25">{a.nivelAtual} → {a.proximaNível}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-white/50 font-medium">{a.presencaPct}%</p>
-                    <p className="text-[9px] text-white/20">{a.tempoNivelMeses}m no nível</p>
-                  </div>
+                  <p className="text-xs text-white/50 font-medium shrink-0">{a.presencaPct}%</p>
                 </div>
               ))}
             </div>
           </div>
+        </Section>
+      </div>
 
-          <div className="rounded-xl p-5" style={{ background: tokens.cardBg, border: '1px solid black' }}>
-            <div className="flex items-center gap-2 mb-4">
-              <GraduationCap size={16} className="text-purple-400" />
-              <h3 className="text-sm font-semibold text-white/70">{t('dashboard.avgTimePerLevel')}</h3>
-            </div>
-            <div className="space-y-3">
-              {stats.tempoMedioPorNível.map((item, i) => {
-                const maxMeses = Math.max(...stats.tempoMedioPorNível.map(x => x.meses));
-                const pct = (item.meses / maxMeses) * 100;
-                return (
-                  <div key={i}>
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-white/50">{item.nivel}</span>
-                      <span className="text-xs text-white/60 font-medium">{item.meses} {t('dashboard.months')}</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-                      <div className="h-full rounded-full bg-gradient-to-r from-purple-500/50 to-purple-400/70 transition-all duration-500"
-                        style={{ width: `${pct}%` }} />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="text-[9px] text-white/15 mt-3">{t('dashboard.basedOnAverage')}</p>
-          </div>
-        </div>
-      </Section>
-
-      {/* 4. FINANCEIRO RESUMO */}
+      {/* 3. FINANCEIRO RESUMO */}
       <Section title={t('dashboard.financialSummary')}>
         <FinanceiroResumo data={stats.financeiroResumo} />
       </Section>
 
       {/* ALERTAS INTELIGENTES */}
       {alertasInteligentes && alertasInteligentes.length > 0 && (
-        <ProactiveAlertList alertas={alertasInteligentes} maxVisible={5} />
-      )}
-
-      {/* ALERTAS RECENTES */}
-      {alertasAtivos.length > 0 && (
-        <Section title={t('dashboard.recentAlerts')} action={{ label: t('dashboard.seeAll'), href: '/alertas' }}>
-          <div className="space-y-2">
-            {alertasAtivos.slice(0, 3).map((alerta) => (
-              <div key={alerta.id} className="flex items-start gap-3 p-4 rounded-xl" style={{ background: tokens.cardBg, border: '1px solid black' }}>
-                <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
-                  alerta.prioridade === 'ALTA' ? 'bg-red-400' :
-                  alerta.prioridade === 'MEDIA' ? 'bg-yellow-400' : 'bg-white/30'
-                }`} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white">{alerta.titulo}</p>
-                  <p className="text-xs text-white/30 mt-1">{alerta.mensagem}</p>
-                </div>
-                <span className="text-xs text-white/20 shrink-0">
-                  {formatTime(alerta.data)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Section>
+        <ProactiveAlertList alertas={alertasInteligentes} maxVisible={3} />
       )}
       </>
       )}

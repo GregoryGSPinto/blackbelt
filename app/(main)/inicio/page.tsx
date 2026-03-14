@@ -201,11 +201,11 @@ export default function InicioPage() {
       {/* ═══════════════════════════════════════════ */}
       {/* HERO — Desktop: SEM imagem, apenas texto   */}
       {/* ═══════════════════════════════════════════ */}
-      <div className="hidden md:block pt-8 tv:pt-12 pb-6 px-8 tv:px-16 mb-8">
+      <div className="hidden md:block pt-6 tv:pt-10 pb-4 px-8 tv:px-16 mb-6">
         <div className="max-w-3xl">
           {/* Badge de nivel */}
           <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-4"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-3"
             style={{
               background: tokens.cardBg,
               border: '1px solid ' + tokens.cardBorder,
@@ -222,21 +222,18 @@ export default function InicioPage() {
             <span style={{ color: tokens.text }}>{featuredVideo.category}</span>
           </div>
 
-          {/* Titulo */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tv:text-7xl mb-4 leading-tight" style={{ fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
+          {/* Titulo — reduced from 5xl to 3xl for returning users, content matters more */}
+          <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl tv:text-6xl mb-3 leading-tight" style={{ fontWeight: 200, letterSpacing: '-0.02em', color: tokens.text }}>
             {featuredVideo.title}
           </h1>
 
-          {/* Descricao */}
-          <p className="text-base tv:text-lg mb-2 leading-relaxed max-w-xl" style={{ fontWeight: 300, color: tokens.textMuted }}>
+          {/* Metadata inline — duration + instructor on same line as description */}
+          <p className="text-sm mb-5 leading-relaxed max-w-xl" style={{ fontWeight: 300, color: tokens.textMuted }}>
             {featuredVideo.description}
-          </p>
-
-          {/* Duracao + Instrutor */}
-          <p className="text-sm mb-8" style={{ color: tokens.textMuted }}>
-            {t('home.duration')} <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.duration}</span>
-            <span className="mx-2" style={{ color: tokens.divider }}>|</span>
-            {t('home.instructor')} <span style={{ color: tokens.text, fontWeight: 300 }}>{featuredVideo.instructor}</span>
+            <span className="mx-2" style={{ color: tokens.divider }}>·</span>
+            {featuredVideo.duration}
+            <span className="mx-2" style={{ color: tokens.divider }}>·</span>
+            {featuredVideo.instructor}
           </p>
 
           {/* Botoes */}
@@ -247,7 +244,6 @@ export default function InicioPage() {
               onMouseEnter={handleAssistirEnter}
               onMouseLeave={handleAssistirLeave}
             >
-              {/* Trailer Preview (aparece acima do botao) */}
               {showTrailer && (
                 <TrailerPreview
                   youtubeId={featuredVideo.youtubeId}
