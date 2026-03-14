@@ -197,15 +197,26 @@ export async function updateBelt(
 }
 
 export async function getMembersByModality(supabase: any, academyId: string, modalityId: string) {
+  // First verify the modality belongs to this academy
+  const { data: modality, error: modError } = await supabase
+    .from('academy_modalities')
+    .select('id')
+    .eq('id', modalityId)
+    .eq('academy_id', academyId)
+    .single();
+
+  if (modError || !modality) return [];
+
   const { data, error } = await supabase
     .from('membership_modalities')
-    .select('id, membership_id, belt_rank, stripes, status, started_at, memberships(id, profile_id, role, status, profiles(full_name, avatar_url))')
+    .select('id, membership_id, belt_rank, stripes, status, started_at, memberships!inner(id, profile_id, role, status, academy_id, profiles(full_name, avatar_url))')
     .eq('modality_id', modalityId)
+    .eq('memberships.academy_id', academyId)
     .order('belt_rank', { ascending: true });
 
   if (error) throw error;
 
-  // Filter to ensure we only return members from the correct academy
+  // Filter to active memberships only
   const filtered = (data ?? []).filter((row: any) => {
     const membership = row.memberships;
     return membership && membership.status === 'active';

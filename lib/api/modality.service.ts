@@ -46,7 +46,15 @@ const MOCK_MODALITIES: AcademyModality[] = [
   { id: 'mod-3', academy_id: '', name: 'Judô', slug: 'judo', description: 'Arte marcial olímpica', icon: '🏅', belt_system_id: null, enrollment_mode: 'direct', is_active: true, display_order: 2, created_at: '', updated_at: '' },
 ];
 
-async function withFallback<T>(operation: () => Promise<T>, fallback: T, endpoint: string): Promise<T> {
+async function withMock<T>(fallback: T, operation: () => Promise<T>): Promise<T> {
+  if (useMock()) {
+    await mockDelay();
+    return fallback;
+  }
+  return operation();
+}
+
+async function withMockOrEmpty<T>(fallback: T, operation: () => Promise<T>, endpoint: string): Promise<T> {
   if (useMock()) {
     await mockDelay();
     return fallback;
@@ -54,104 +62,113 @@ async function withFallback<T>(operation: () => Promise<T>, fallback: T, endpoin
   try {
     return await operation();
   } catch (err) {
-    logger.warn(`[ModalityService] ${endpoint} falhou, usando fallback`);
-    await mockDelay(200);
+    logger.warn(`[ModalityService] ${endpoint} falhou`);
     return fallback;
   }
 }
 
+// ── Admin-only functions (require owner/admin role) ──
+
 export async function getAcademyModalities(): Promise<AcademyModality[]> {
-  return withFallback(
-    () => apiClient.get<AcademyModality[]>('/admin/modalities').then(r => r.data),
+  return withMock(
     [...MOCK_MODALITIES],
-    '/admin/modalities',
+    () => apiClient.get<AcademyModality[]>('/admin/modalities').then(r => r.data),
   );
 }
 
 export async function createModality(data: { name: string; description?: string; icon?: string; enrollment_mode?: string }): Promise<AcademyModality> {
-  return withFallback(
-    () => apiClient.post<AcademyModality>('/admin/modalities', data).then(r => r.data),
+  return withMock(
     { ...MOCK_MODALITIES[0], name: data.name },
-    '/admin/modalities POST',
+    () => apiClient.post<AcademyModality>('/admin/modalities', data).then(r => r.data),
   );
 }
 
 export async function updateModality(id: string, data: Partial<AcademyModality>): Promise<AcademyModality> {
-  return withFallback(
-    () => apiClient.put<AcademyModality>(`/admin/modalities/${id}`, data).then(r => r.data),
+  return withMock(
     { ...MOCK_MODALITIES[0], ...data } as AcademyModality,
-    `/admin/modalities/${id} PUT`,
+    () => apiClient.put<AcademyModality>(`/admin/modalities/${id}`, data).then(r => r.data),
   );
 }
 
 export async function deactivateModality(id: string): Promise<AcademyModality> {
-  return withFallback(
-    () => apiClient.delete<AcademyModality>(`/admin/modalities/${id}`).then(r => r.data),
+  return withMock(
     { ...MOCK_MODALITIES[0], is_active: false },
-    `/admin/modalities/${id} DELETE`,
+    () => apiClient.delete<AcademyModality>(`/admin/modalities/${id}`).then(r => r.data),
   );
 }
 
 export async function getModalityMembers(modalityId: string): Promise<any[]> {
-  return withFallback(
-    () => apiClient.get<any[]>(`/admin/modalities/${modalityId}/members`).then(r => r.data),
+  return withMockOrEmpty(
     [],
+    () => apiClient.get<any[]>(`/admin/modalities/${modalityId}/members`).then(r => r.data),
     `/admin/modalities/${modalityId}/members`,
   );
 }
 
 export async function getMemberModalities(memberId: string): Promise<MemberModality[]> {
-  return withFallback(
-    () => apiClient.get<MemberModality[]>(`/admin/members/${memberId}/modalities`).then(r => r.data),
+  return withMockOrEmpty(
     [],
+    () => apiClient.get<MemberModality[]>(`/admin/members/${memberId}/modalities`).then(r => r.data),
     `/admin/members/${memberId}/modalities`,
   );
 }
 
 export async function enrollMember(memberId: string, modalityId: string): Promise<any> {
-  return withFallback(
-    () => apiClient.post(`/admin/members/${memberId}/modalities`, { modality_id: modalityId }).then(r => r.data),
+  return withMock(
     { id: 'temp', status: 'active' },
-    `/admin/members/${memberId}/modalities POST`,
+    () => apiClient.post(`/admin/members/${memberId}/modalities`, { modality_id: modalityId }).then(r => r.data),
   );
 }
 
 export async function updateMemberBelt(memberId: string, modalityId: string, belt_rank: string, stripes: number): Promise<any> {
-  return withFallback(
-    () => apiClient.put(`/admin/members/${memberId}/modalities/${modalityId}/belt`, { belt_rank, stripes }).then(r => r.data),
+  return withMock(
     { belt_rank, stripes },
-    `/admin/members/${memberId}/modalities/${modalityId}/belt PUT`,
+    () => apiClient.put(`/admin/members/${memberId}/modalities/${modalityId}/belt`, { belt_rank, stripes }).then(r => r.data),
   );
 }
 
+// ── Member-accessible functions (any role) ──
+
 export async function getMyModalities(): Promise<MemberModality[]> {
-  return withFallback(
-    () => apiClient.get<MemberModality[]>('/student/modalities').then(r => r.data),
+  return withMockOrEmpty(
     [],
+    () => apiClient.get<MemberModality[]>('/student/modalities').then(r => r.data),
     '/student/modalities',
   );
 }
 
 export async function getAvailableModalities(): Promise<AcademyModality[]> {
-  return withFallback(
-    () => apiClient.get<AcademyModality[]>('/student/modalities?view=available').then(r => r.data),
+  return withMockOrEmpty(
     [...MOCK_MODALITIES],
+    () => apiClient.get<AcademyModality[]>('/student/modalities?view=available').then(r => r.data),
     '/student/modalities?view=available',
   );
 }
 
 export async function requestEnrollment(modalityId: string): Promise<any> {
-  return withFallback(
-    () => apiClient.post('/student/modalities', { modality_id: modalityId }).then(r => r.data),
+  return withMock(
     { id: 'temp', status: 'pending' },
-    '/student/modalities POST',
+    () => apiClient.post('/student/modalities', { modality_id: modalityId }).then(r => r.data),
   );
 }
 
 export async function getChildrenModalities(): Promise<any[]> {
-  return withFallback(
-    () => apiClient.get<any[]>('/parent/children/modalities').then(r => r.data),
+  return withMockOrEmpty(
     [],
+    () => apiClient.get<any[]>('/parent/children/modalities').then(r => r.data),
     '/parent/children/modalities',
+  );
+}
+
+/**
+ * Get active modalities for the current member's academy.
+ * Uses the student endpoint which is accessible to any role (student, professor, parent).
+ * Use this instead of getAcademyModalities() when the caller is not an admin.
+ */
+export async function getActiveModalitiesForMember(): Promise<AcademyModality[]> {
+  return withMockOrEmpty(
+    [],
+    () => apiClient.get<AcademyModality[]>('/student/modalities?view=available').then(r => r.data),
+    '/student/modalities?view=available (member)',
   );
 }

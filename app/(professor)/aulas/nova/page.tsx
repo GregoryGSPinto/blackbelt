@@ -11,7 +11,7 @@ import {
   BookOpen,
   AlertCircle
 } from 'lucide-react';
-import { getAcademyModalities, type AcademyModality } from '@/lib/api/modality.service';
+import { getActiveModalitiesForMember, type AcademyModality } from '@/lib/api/modality.service';
 
 const FALLBACK_MODALITIES = ['BJJ', 'Muay Thai', 'Boxe', 'Judo', 'Wrestling', 'MMA'];
 const levels = ['Iniciante', 'Intermediário', 'Avançado', 'Competição'];
@@ -21,7 +21,7 @@ export default function NovaAulaPage() {
   const [academyModalities, setAcademyModalities] = useState<AcademyModality[]>([]);
 
   useEffect(() => {
-    getAcademyModalities().then(setAcademyModalities).catch(() => {});
+    getActiveModalitiesForMember().then(setAcademyModalities).catch(() => {});
   }, []);
 
   const modalityOptions = academyModalities.length > 0

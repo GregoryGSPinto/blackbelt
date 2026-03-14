@@ -124,6 +124,12 @@ CREATE POLICY academy_modalities_insert ON academy_modalities FOR INSERT WITH CH
 
 CREATE POLICY academy_modalities_update ON academy_modalities FOR UPDATE USING (
   academy_id IN (SELECT get_user_academy_ids())
+) WITH CHECK (
+  academy_id IN (SELECT get_user_academy_ids())
+);
+
+CREATE POLICY academy_modalities_delete ON academy_modalities FOR DELETE USING (
+  academy_id IN (SELECT get_user_academy_ids())
 );
 
 -- membership_modalities: viewable by academy members (via membership → academy)
@@ -143,6 +149,10 @@ CREATE POLICY membership_modalities_update ON membership_modalities FOR UPDATE U
   membership_id IN (
     SELECT id FROM memberships WHERE academy_id IN (SELECT get_user_academy_ids())
   )
+) WITH CHECK (
+  membership_id IN (
+    SELECT id FROM memberships WHERE academy_id IN (SELECT get_user_academy_ids())
+  )
 );
 
 CREATE POLICY membership_modalities_delete ON membership_modalities FOR DELETE USING (
@@ -151,7 +161,7 @@ CREATE POLICY membership_modalities_delete ON membership_modalities FOR DELETE U
   )
 );
 
--- modality_events: viewable by academy members
+-- modality_events: append-only audit log — no UPDATE/DELETE policies by design
 CREATE POLICY modality_events_select ON modality_events FOR SELECT USING (
   academy_id IN (SELECT get_user_academy_ids())
 );
