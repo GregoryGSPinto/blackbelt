@@ -41,6 +41,36 @@ function mapMemberRow(row: any, emailByProfileId: Record<string, string>) {
   };
 }
 
+async function listAuthEmailsByProfileId(
+  admin: ReturnType<typeof getSupabaseAdminClient>,
+  profileIds: string[],
+): Promise<Record<string, string>> {
+  const emailByProfileId: Record<string, string> = {};
+  const remainingIds = new Set(profileIds);
+  let page = 1;
+  const perPage = 1000;
+
+  while (remainingIds.size > 0) {
+    const { data, error } = await admin.auth.admin.listUsers({ page, perPage });
+    if (error) throw error;
+
+    const users = data?.users || [];
+    if (users.length === 0) break;
+
+    for (const authUser of users) {
+      if (remainingIds.has(authUser.id)) {
+        emailByProfileId[authUser.id] = authUser.email || '';
+        remainingIds.delete(authUser.id);
+      }
+    }
+
+    if (users.length < perPage) break;
+    page += 1;
+  }
+
+  return emailByProfileId;
+}
+
 export const GET = createHandler(async (req: NextRequest, { supabase, membership }) => {
   if (!membership || !['owner', 'admin'].includes(membership.role)) {
     return apiError('Sem permissão para gerenciar usuários.', 'FORBIDDEN', 403);
@@ -64,17 +94,16 @@ export const GET = createHandler(async (req: NextRequest, { supabase, membership
   if (error) throw error;
 
   const admin = getSupabaseAdminClient();
-  const profileIds = Array.from(new Set((data || []).map((row: any) => row.profile_id).filter(Boolean)));
-  const emailByProfileId: Record<string, string> = {};
-
-  if (profileIds.length > 0) {
-    const { data: usersPage } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-    for (const authUser of usersPage?.users || []) {
-      if (profileIds.includes(authUser.id)) {
-        emailByProfileId[authUser.id] = authUser.email || '';
-      }
-    }
-  }
+  const profileIds: string[] = Array.from(
+    new Set(
+      (data || [])
+        .map((row: any) => row.profile_id)
+        .filter((value: unknown): value is string => typeof value === 'string' && value.length > 0)
+    )
+  );
+  const emailByProfileId = profileIds.length > 0
+    ? await listAuthEmailsByProfileId(admin, profileIds)
+    : {};
 
   const normalized = (data || [])
     .map((row: any) => mapMemberRow(row, emailByProfileId))

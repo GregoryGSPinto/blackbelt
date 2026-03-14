@@ -12,6 +12,7 @@ import { logger } from '@/lib/logger';
 import type { TipoPerfil, User, CategoriaRegistro } from '@/lib/api/contracts';
 import type { Session } from '@supabase/supabase-js';
 import { hasRequiredSupabaseEnv } from '@/src/config/env';
+import type { AuthSessionData, AuthSessionResponse } from '@/features/auth/session-contract';
 
 const IS_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 let hasLoggedMissingSupabaseEnv = false;
@@ -220,26 +221,26 @@ export function getConfigRouteForProfile(tipo: TipoPerfil): string {
 // SESSION API (httpOnly cookies — replaces localStorage)
 // ============================================================
 
-async function fetchSession(): Promise<{ token: string; user: User; profiles: User[] } | null> {
+async function fetchSession(): Promise<AuthSessionData | null> {
   try {
     const res = await fetch('/api/auth/session', {
       credentials: 'include',
       headers: { 'X-Requested-With': 'XMLHttpRequest' },
     });
-    const { session } = await res.json();
+    const { session } = await res.json() as AuthSessionResponse;
     return session;
   } catch {
     return null;
   }
 }
 
-async function saveSession(token: string, user: User, profiles?: User[], refreshToken?: string): Promise<void> {
+async function saveSession(session: AuthSessionData): Promise<void> {
   try {
     await fetch('/api/auth/session', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-      body: JSON.stringify({ token, user, profiles, refreshToken }),
+      body: JSON.stringify({ session }),
     });
   } catch {
     // fallback: keep in-memory only
@@ -259,7 +260,6 @@ async function clearSession(): Promise<void> {
 }
 
 // In-memory fallback (used when cookie API unavailable)
-let _inMemoryToken: string | null = null;
 let _inMemoryUser: User | null = null;
 let _inMemoryProfiles: User[] = [];
 let _inMemoryLoginEmail: string | null = null;
@@ -296,22 +296,8 @@ function isValidUser(value: unknown): value is User {
   );
 }
 
-/** Verifica se JWT está expirado (retorna true se expirado ou inválido) */
-function isTokenExpired(token: string): boolean {
-  try {
-    const parts = token.split('.');
-    if (parts.length !== 3) return false; // Não é JWT, assumir válido (mock)
-    const payload = JSON.parse(atob(parts[1])) as Record<string, unknown>;
-    if (typeof payload.exp !== 'number') return false; // Sem exp, assumir válido
-    return payload.exp * 1000 < Date.now();
-  } catch {
-    return true; // Não decodificável = inválido
-  }
-}
-
 /** Limpa toda a sessao (httpOnly cookie + in-memory) */
 function clearStorage(): void {
-  _inMemoryToken = null;
   _inMemoryUser = null;
   _inMemoryProfiles = [];
   _inMemoryLoginEmail = null;
@@ -492,19 +478,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Try to restore from httpOnly cookie via API
       const session = await fetchSession();
-      if (session && session.token && isValidUser(session.user)) {
-        // Check token expiration
-        if (isTokenExpired(session.token)) {
-          logger.info('[Auth]', 'Token expirado, limpando sessao');
-          clearStorage();
-          setUser(null);
-          setLoading(false);
-          return;
-        }
-
-        _inMemoryToken = session.token;
+      if (session && isValidUser(session.user)) {
         _inMemoryUser = session.user;
         setUser(session.user);
+        const nextLoginEmail = session.loginEmail || session.user.email;
+        setLoginEmail(nextLoginEmail);
+        _inMemoryLoginEmail = nextLoginEmail;
 
         if (Array.isArray(session.profiles) && session.profiles.every(isValidUser)) {
           setAvailableProfiles(session.profiles);
@@ -518,9 +497,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       // Fallback: check in-memory
-      if (_inMemoryUser && _inMemoryToken) {
+      if (_inMemoryUser) {
         setUser(_inMemoryUser);
         setAvailableProfiles(_inMemoryProfiles.length ? _inMemoryProfiles : [_inMemoryUser]);
+        setLoginEmail(_inMemoryLoginEmail || _inMemoryUser.email);
         setLoading(false);
         return;
       }
@@ -539,20 +519,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    * Persiste sessao via httpOnly cookie + in-memory fallback.
    */
   function persistSession(
-    token: string,
     userData: User,
     profiles?: User[],
-    refreshToken?: string,
+    nextLoginEmail?: string | null,
   ) {
-    _inMemoryToken = token;
     _inMemoryUser = userData;
     setUser(userData);
-    if (profiles) {
-      setAvailableProfiles(profiles);
-      _inMemoryProfiles = profiles;
-    }
+    const nextProfiles = profiles?.length ? profiles : [userData];
+    setAvailableProfiles(nextProfiles);
+    _inMemoryProfiles = nextProfiles;
+    const resolvedLoginEmail = nextLoginEmail || userData.email;
+    setLoginEmail(resolvedLoginEmail);
+    _inMemoryLoginEmail = resolvedLoginEmail;
     if (typeof window !== 'undefined') {
-      saveSession(token, userData, profiles, refreshToken);
+      saveSession({
+        mode: 'mock',
+        user: userData,
+        profiles: nextProfiles,
+        loginEmail: resolvedLoginEmail,
+      });
     }
   }
 
@@ -612,7 +597,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoginEmail(email);
     _inMemoryLoginEmail = email;
 
-    const { user: userDTO, token, refreshToken } = result;
+    const { user: userDTO } = result;
     const tipo = safeTipoPerfil(userDTO.tipo);
     const authenticatedUser: User = {
       ...userDTO,
@@ -632,7 +617,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         })
       : [authenticatedUser];
 
-    persistSession(token, authenticatedUser, profiles, refreshToken);
+    persistSession(authenticatedUser, profiles, email);
     return authenticatedUser.tipo;
   };
 
@@ -737,7 +722,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       permissoes: [],
     };
 
-    persistSession(result.token, authenticatedUser);
+    persistSession(authenticatedUser, [authenticatedUser], userData.email);
     return true;
   };
 
@@ -745,9 +730,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    * Troca de perfil (para usuarios com multiplos perfis).
    */
   const setPerfil = (perfil: User) => {
-    if (_inMemoryToken) {
-      persistSession(_inMemoryToken, perfil);
-    }
+    persistSession(
+      perfil,
+      _inMemoryProfiles.length ? _inMemoryProfiles : [perfil],
+      loginEmail || _inMemoryLoginEmail || perfil.email,
+    );
   };
 
   const hasPermission = (permissao: string): boolean => {
