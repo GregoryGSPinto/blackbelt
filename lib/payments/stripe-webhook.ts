@@ -8,6 +8,7 @@ import type Stripe from 'stripe';
 import { getStripeClient } from './stripe-client';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { BillingCycle } from '@/lib/subscription/types-v3';
+import { structuredLog } from '@/lib/monitoring/structured-logger';
 import { eventBus } from '@/lib/application/events/event-bus';
 import {
   createEvent,
@@ -39,6 +40,13 @@ export function constructWebhookEvent(
  * Process a verified Stripe webhook event.
  */
 export async function processWebhookEvent(event: Stripe.Event): Promise<void> {
+  structuredLog.business.info('Stripe webhook event received for processing', {
+    route: '/api/webhooks/stripe',
+    event_type: 'stripe_webhook_event_received',
+    stripe_event_id: event.id,
+    stripe_event_type: event.type,
+  });
+
   switch (event.type) {
     case 'checkout.session.completed':
       await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
@@ -205,7 +213,16 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session):
       ? session.customer
       : session.customer?.id ?? null;
 
-  if (!academyId || !stripeSubscriptionId) return;
+  if (!academyId || !stripeSubscriptionId) {
+    structuredLog.business.warn('Stripe checkout completion ignored because tenant context was incomplete', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_checkout_missing_tenant_context',
+      academy_id: academyId ?? null,
+      stripe_subscription_id: stripeSubscriptionId,
+      stripe_checkout_session_id: session.id,
+    });
+    return;
+  }
 
   const existing = await getAcademySubscriptionByAcademyId(supabase, academyId);
   const resolvedPlanId = planId ?? existing?.plan_id ?? null;
@@ -241,6 +258,15 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session):
   } else {
     await supabase.from('academy_subscriptions').insert(payload);
   }
+
+  structuredLog.business.info('Stripe checkout completion synced academy subscription', {
+    route: '/api/webhooks/stripe',
+    event_type: 'stripe_checkout_synced',
+    academy_id: academyId,
+    stripe_subscription_id: stripeSubscriptionId,
+    stripe_checkout_session_id: session.id,
+    plan_id: resolvedPlanId,
+  });
 }
 
 function getSubscriptionIdFromInvoice(invoice: Stripe.Invoice): string | null {
@@ -256,11 +282,26 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
   const supabase = getSupabaseAdminClient() as AdminClient;
   const stripeSubscriptionId = getSubscriptionIdFromInvoice(invoice);
 
-  if (!stripeSubscriptionId) return;
+  if (!stripeSubscriptionId) {
+    structuredLog.business.warn('Stripe invoice paid event ignored because no subscription id was present', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_invoice_paid_missing_subscription',
+      stripe_invoice_id: invoice.id,
+    });
+    return;
+  }
 
   const sub = await getAcademySubscriptionByStripeId(supabase, stripeSubscriptionId);
 
-  if (!sub) return;
+  if (!sub) {
+    structuredLog.business.warn('Stripe invoice paid event ignored because academy subscription was not found', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_invoice_paid_subscription_missing',
+      stripe_invoice_id: invoice.id,
+      stripe_subscription_id: stripeSubscriptionId,
+    });
+    return;
+  }
 
   const { periodStart, periodEnd } = getInvoicePeriod(invoice);
 
@@ -313,6 +354,14 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
     },
   );
   eventBus.publish(domainEvent);
+
+  structuredLog.business.info('Stripe invoice paid synchronized billing state', {
+    route: '/api/webhooks/stripe',
+    event_type: 'stripe_invoice_paid_synced',
+    academy_id: sub.academy_id,
+    stripe_invoice_id: invoice.id,
+    stripe_subscription_id: stripeSubscriptionId,
+  });
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
@@ -320,11 +369,26 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
   const supabase = getSupabaseAdminClient() as AdminClient;
   const stripeSubscriptionId = getSubscriptionIdFromInvoice(invoice);
 
-  if (!stripeSubscriptionId) return;
+  if (!stripeSubscriptionId) {
+    structuredLog.business.warn('Stripe invoice failure event ignored because no subscription id was present', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_invoice_failed_missing_subscription',
+      stripe_invoice_id: invoice.id,
+    });
+    return;
+  }
 
   const sub = await getAcademySubscriptionByStripeId(supabase, stripeSubscriptionId);
 
-  if (!sub) return;
+  if (!sub) {
+    structuredLog.business.warn('Stripe invoice failure event ignored because academy subscription was not found', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_invoice_failed_subscription_missing',
+      stripe_invoice_id: invoice.id,
+      stripe_subscription_id: stripeSubscriptionId,
+    });
+    return;
+  }
 
   const { periodStart, periodEnd } = getInvoicePeriod(invoice);
 
@@ -352,6 +416,14 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
       stripe_payment_intent_id: getInvoicePaymentIntentId(invoice),
       failed_at: new Date().toISOString(),
     }, { onConflict: 'stripe_invoice_id' });
+
+  structuredLog.business.warn('Stripe invoice payment failure marked academy subscription as past due', {
+    route: '/api/webhooks/stripe',
+    event_type: 'stripe_invoice_failed_synced',
+    academy_id: sub.academy_id,
+    stripe_invoice_id: invoice.id,
+    stripe_subscription_id: stripeSubscriptionId,
+  });
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
@@ -360,7 +432,14 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
 
   const sub = await getAcademySubscriptionByStripeId(supabase, subscription.id);
 
-  if (!sub) return;
+  if (!sub) {
+    structuredLog.business.warn('Stripe subscription update ignored because academy subscription was not found', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_subscription_update_missing',
+      stripe_subscription_id: subscription.id,
+    });
+    return;
+  }
 
   const planId = await resolveSubscriptionPlanId(
     supabase,
@@ -405,6 +484,15 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
     );
     eventBus.publish(domainEvent);
   }
+
+  structuredLog.business.info('Stripe subscription update synchronized academy billing state', {
+    route: '/api/webhooks/stripe',
+    event_type: 'stripe_subscription_updated_synced',
+    academy_id: sub.academy_id,
+    stripe_subscription_id: subscription.id,
+    subscription_status: newStatus,
+    plan_id: planId ?? sub.plan_id,
+  });
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
@@ -413,7 +501,14 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
 
   const sub = await getAcademySubscriptionByStripeId(supabase, subscription.id);
 
-  if (!sub) return;
+  if (!sub) {
+    structuredLog.business.warn('Stripe subscription deletion ignored because academy subscription was not found', {
+      route: '/api/webhooks/stripe',
+      event_type: 'stripe_subscription_deleted_missing',
+      stripe_subscription_id: subscription.id,
+    });
+    return;
+  }
 
   await supabase
     .from('academy_subscriptions')
@@ -443,4 +538,11 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
     },
   );
   eventBus.publish(domainEvent);
+
+  structuredLog.business.warn('Stripe subscription deletion synchronized academy cancellation state', {
+    route: '/api/webhooks/stripe',
+    event_type: 'stripe_subscription_deleted_synced',
+    academy_id: sub.academy_id,
+    stripe_subscription_id: subscription.id,
+  });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getOptionalEnv } from '@/lib/env';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 export const dynamic = 'force-dynamic';
 const DEFAULT_SUPPORT_EMAIL = 'suporte@blackbelt.app';
@@ -113,6 +114,14 @@ export async function GET(request: Request) {
       warnings,
     },
     timestamp: new Date().toISOString(),
+  });
+
+  logRouteEvent(warnings.length ? 'warn' : 'info', 'system', 'Mobile runtime status evaluated', request, {
+    event_type: warnings.length ? 'mobile_runtime_attention_required' : 'mobile_runtime_ready',
+    release_mode: fallbackHosts.length ? 'multi-host' : 'single-host',
+    primary_host_source: primaryHostSource,
+    fallback_host_count: fallbackHosts.length,
+    warning_count: warnings.length,
   });
 
   response.headers.set('Cache-Control', 'no-store, max-age=0');

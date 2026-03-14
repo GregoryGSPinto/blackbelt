@@ -10,6 +10,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { mapMembershipRoleToTipo } from '@/lib/academy/operations';
 import { logServerError } from '@/lib/server/error-handler';
 import { resolveMembershipSelection } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 // Dados vazios de fallback
 const emptyUser = {
@@ -27,6 +28,9 @@ export async function GET(request: Request) {
     const { data: { user }, error } = await supabase.auth.getUser();
 
     if (error || !user) {
+      logRouteEvent('info', 'security', 'No authenticated user found for /api/me', request, {
+        event_type: 'me_unauthenticated',
+      });
       return NextResponse.json({ data: emptyUser });
     }
 
@@ -49,6 +53,11 @@ export async function GET(request: Request) {
     const resolvedMembership = resolveMembershipSelection(activeMemberships, request);
 
     if (resolvedMembership.ambiguousCrossTenant) {
+      logRouteEvent('warn', 'security', 'Multiple active memberships require explicit tenant selection in /api/me', request, {
+        event_type: 'me_ambiguous_tenant',
+        profile_id: user.id,
+        membership_count: activeMemberships.length,
+      });
       return NextResponse.json(
         { error: 'Múltiplas memberships ativas encontradas. Informe x-membership-id ou x-academy-id.' },
         { status: 409 },
@@ -56,6 +65,10 @@ export async function GET(request: Request) {
     }
 
     if (activeMemberships.length > 0 && !resolvedMembership.membership && resolvedMembership.usedSelector) {
+      logRouteEvent('warn', 'security', 'Explicit tenant selector did not match an active membership in /api/me', request, {
+        event_type: 'me_selector_miss',
+        profile_id: user.id,
+      });
       return NextResponse.json(
         { error: 'Nenhuma membership ativa encontrada para o tenant informado.' },
         { status: 403 },
@@ -63,6 +76,12 @@ export async function GET(request: Request) {
     }
 
     const membership = resolvedMembership.membership;
+    logRouteEvent('info', 'security', 'Resolved /api/me tenant context', request, {
+      event_type: 'me_resolved',
+      profile_id: user.id,
+      academy_id: membership?.academy_id ?? null,
+      membership_id: membership?.id ?? null,
+    });
 
     return NextResponse.json({
       data: {
@@ -76,6 +95,10 @@ export async function GET(request: Request) {
     });
 
   } catch (err) {
+    logRouteEvent('error', 'error', 'Failed to resolve /api/me payload', request, {
+      event_type: 'me_failed',
+      reason: err,
+    });
     logServerError('API /me', err);
     // NUNCA retornar erro 500 — sempre dados vazios
     return NextResponse.json({ data: emptyUser });

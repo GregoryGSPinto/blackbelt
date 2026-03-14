@@ -13,6 +13,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { createErrorResponse, handleServerError } from '@/lib/server/error-handler';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 // ── Response helpers ──────────────────────────────────────
 export function apiOk<T>(data: T, status = 200) {
@@ -162,12 +163,21 @@ export async function withAuth(
 
     if (!membership) {
       if (resolvedMembership.ambiguousCrossTenant) {
+        logRouteEvent('warn', 'security', 'Tenant resolution requires explicit membership selection', req, {
+          event_type: 'tenant_resolution_ambiguous',
+          profile_id: user.id,
+          active_membership_count: memberships.length,
+        });
         throw NextResponse.json(
           { error: 'Múltiplas memberships ativas encontradas. Informe x-membership-id ou x-academy-id.' },
           { status: 409 }
         );
       }
 
+      logRouteEvent('warn', 'security', 'Authenticated user has no active membership for route access', req, {
+        event_type: 'tenant_resolution_missing_membership',
+        profile_id: user.id,
+      });
       throw NextResponse.json(
         { error: 'Nenhuma membership ativa encontrada' },
         { status: 403 }

@@ -5,6 +5,7 @@ import { getSupabaseServerClientSafe } from '@/lib/supabase/server';
 import { hasRequiredSupabaseEnv } from '@/src/config/env';
 import type { AuthSessionData, AuthSessionResponse } from '@/features/auth/session-contract';
 import { resolveMembershipSelection } from '@/lib/api/route-helpers';
+import { logRouteEvent } from '@/lib/monitoring/route-observability';
 
 const COOKIE_NAME = 'blackbelt_session';
 const COOKIE_OPTIONS = {
@@ -80,12 +81,18 @@ async function readMockSession(): Promise<AuthSessionResponse> {
 
 export async function GET(request: Request) {
   if (!hasRequiredSupabaseEnv()) {
+    logRouteEvent('warn', 'system', 'Session route fell back to mock session mode', request, {
+      event_type: 'auth_session_mock_mode',
+    });
     return NextResponse.json(await readMockSession(), { status: 200 });
   }
 
   try {
     const supabase = await getSupabaseServerClientSafe();
     if (!supabase) {
+      logRouteEvent('warn', 'error', 'Supabase auth session backend unavailable', request, {
+        event_type: 'auth_session_backend_unavailable',
+      });
       return NextResponse.json(
         {
           session: null,
@@ -101,6 +108,9 @@ export async function GET(request: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
+      logRouteEvent('info', 'security', 'No authenticated user found for session route', request, {
+        event_type: 'auth_session_absent',
+      });
       return NextResponse.json({ session: null } satisfies AuthSessionResponse, { status: 200 });
     }
 
@@ -130,10 +140,26 @@ export async function GET(request: Request) {
 
     if (ambiguousCrossTenant) {
       session.user = buildUserFromSupabase(user, profile, null);
+      logRouteEvent('warn', 'security', 'Session resolved with ambiguous tenant context', request, {
+        event_type: 'auth_session_ambiguous_tenant',
+        profile_id: user.id,
+        membership_count: memberships?.length ?? 0,
+      });
+    } else {
+      logRouteEvent('info', 'security', 'Session resolved for authenticated membership', request, {
+        event_type: 'auth_session_resolved',
+        profile_id: user.id,
+        academy_id: primaryMembership?.academy_id ?? null,
+        membership_id: primaryMembership?.id ?? null,
+      });
     }
 
     return NextResponse.json({ session } satisfies AuthSessionResponse, { status: 200 });
-  } catch {
+  } catch (error) {
+    logRouteEvent('error', 'error', 'Session route failed unexpectedly', request, {
+      event_type: 'auth_session_failed',
+      reason: error,
+    });
     return NextResponse.json({ session: null } satisfies AuthSessionResponse, { status: 200 });
   }
 }

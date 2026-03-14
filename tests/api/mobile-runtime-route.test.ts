@@ -1,9 +1,22 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const getOptionalEnvMock = vi.fn();
+const structuredWarnMock = vi.fn();
+const structuredInfoMock = vi.fn();
 
 vi.mock('@/lib/env', () => ({
   getOptionalEnv: getOptionalEnvMock,
+}));
+
+vi.mock('@/lib/monitoring/route-observability', () => ({
+  logRouteEvent: vi.fn((level: string, category: string, message: string, request: Request, context: Record<string, unknown>) => {
+    if (level === 'warn') {
+      structuredWarnMock(level, category, message, request, context);
+      return;
+    }
+
+    structuredInfoMock(level, category, message, request, context);
+  }),
 }));
 
 describe('mobile runtime route', () => {
@@ -63,6 +76,16 @@ describe('mobile runtime route', () => {
       status: 'ready_for_controlled_distribution',
       warnings: [],
     });
+    expect(structuredInfoMock).toHaveBeenCalledWith(
+      'info',
+      'system',
+      'Mobile runtime status evaluated',
+      expect.any(Request),
+      expect.objectContaining({
+        event_type: 'mobile_runtime_ready',
+        release_mode: 'multi-host',
+      }),
+    );
     expect(response.headers.get('Cache-Control')).toBe('no-store, max-age=0');
   });
 
@@ -94,5 +117,16 @@ describe('mobile runtime route', () => {
       'CAPACITOR_FALLBACK_URLS is empty; mobile release is operating in single-host mode.',
       'Primary mobile runtime host is falling back to request origin; configure NEXT_PUBLIC_APP_URL or CAPACITOR_SERVER_URL before external distribution.',
     ]));
+    expect(structuredWarnMock).toHaveBeenCalledWith(
+      'warn',
+      'system',
+      'Mobile runtime status evaluated',
+      expect.any(Request),
+      expect.objectContaining({
+        event_type: 'mobile_runtime_attention_required',
+        release_mode: 'single-host',
+        warning_count: 4,
+      }),
+    );
   });
 });
