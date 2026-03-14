@@ -8,6 +8,7 @@ import type { User, TipoPerfil } from '@/features/auth/context/AuthContext';
 import { LogOut, Settings, Shield, Lock, Eye, EyeOff, X } from 'lucide-react';
 import { KidsGatekeeper } from '@/components/shared/KidsGatekeeper';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { useTranslations } from 'next-intl';
 
 /**
@@ -24,6 +25,7 @@ export default function ProfileSelectionPage() {
   const router = useRouter();
   const { user, availableProfiles, setPerfil, logout, verifyPassword } = useAuth();
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -266,7 +268,7 @@ export default function ProfileSelectionPage() {
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 text-sm transition-all duration-300"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12, padding: '12px 16px', color: 'var(--text-primary)' }}
+            style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12, padding: '12px 16px', color: 'var(--text-primary)' }}
           >
             <LogOut size={16} />
             <span>{tCommon('menu.logout')}</span>

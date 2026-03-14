@@ -22,7 +22,7 @@ export function ChildModalitiesList() {
   const [children, setChildren] = useState<ChildModality[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 } as const;
 
   const fetchData = useCallback(async () => {
     try {

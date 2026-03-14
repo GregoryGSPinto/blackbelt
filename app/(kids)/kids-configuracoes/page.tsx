@@ -29,7 +29,7 @@ export default function KidsConfiguracoesPage() {
       {/* Avatar Selection */}
       <div
         className="rounded-2xl p-6"
-        style={{ background: tokens.cardBg, border: '1px solid black' }}
+        style={{ background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}` }}
       >
         <p
           className="text-center text-sm font-medium mb-4"
@@ -55,7 +55,7 @@ export default function KidsConfiguracoesPage() {
                 background: selectedAvatar === avatar
                   ? (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)')
                   : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'),
-                border: selectedAvatar === avatar ? '2px solid black' : '1px solid black',
+                border: selectedAvatar === avatar ? '2px solid black' : `1px solid ${tokens.cardBorder}`,
               }}
             >
               {avatar}
@@ -67,7 +67,7 @@ export default function KidsConfiguracoesPage() {
       {/* Theme */}
       <div
         className="rounded-2xl p-6"
-        style={{ background: tokens.cardBg, border: '1px solid black' }}
+        style={{ background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}` }}
       >
         <p
           className="text-center text-sm font-medium mb-2"
@@ -89,7 +89,7 @@ export default function KidsConfiguracoesPage() {
         className="w-full py-3 rounded-xl text-sm font-bold transition-colors"
         style={{
           background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-          border: '1px solid black',
+          border: `1px solid ${tokens.cardBorder}`,
           color: tokens.text,
         }}
       >

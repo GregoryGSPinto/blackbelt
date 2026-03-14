@@ -12,7 +12,7 @@ export default function AdminPerfilPage() {
   const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
 
   const fields = [
     { icon: User, label: 'Nome Completo', value: user?.nome || '' },
@@ -36,7 +36,7 @@ export default function AdminPerfilPage() {
         <div className="flex flex-col md:flex-row items-center gap-5 md:gap-8">
           <div
             className="w-24 h-24 md:w-32 md:h-32 rounded-xl flex items-center justify-center text-5xl md:text-6xl"
-            style={{ background: 'var(--card-bg)', border: '1px solid black' }}
+            style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}` }}
           >
             {user?.avatar || '👤'}
           </div>
@@ -53,7 +53,7 @@ export default function AdminPerfilPage() {
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Informacoes Pessoais</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {fields.map((f) => (
-            <div key={f.label} className="flex items-center gap-4 px-3 py-3 rounded-xl" style={{ border: '1px solid black' }}>
+            <div key={f.label} className="flex items-center gap-4 px-3 py-3 rounded-xl" style={{ border: `1px solid ${tokens.cardBorder}` }}>
               <f.icon size={16} style={{ color: 'var(--text-secondary)', flexShrink: 0 }} />
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>{f.label}</p>

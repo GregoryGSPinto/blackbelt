@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Award, Plus, X, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { useToast } from '@/contexts/ToastContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageEmpty } from '@/components/shared/DataStates';
@@ -15,6 +16,7 @@ import {
 
 export default function ModalidadesPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const toast = useToast();
   const [modalities, setModalities] = useState<AcademyModality[]>([]);
   const [loading, setLoading] = useState(true);
@@ -23,8 +25,8 @@ export default function ModalidadesPage() {
   const [newDescription, setNewDescription] = useState('');
   const [creating, setCreating] = useState(false);
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)', borderRadius: 12 } as const;
 
   const fetchModalities = useCallback(async () => {
     try {
@@ -79,7 +81,7 @@ export default function ModalidadesPage() {
         <button
           onClick={() => setShowCreate(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all"
-          style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: '1px solid black', color: 'var(--text-primary)' }}
+          style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}
         >
           <Plus size={16} /> Nova Modalidade
         </button>
@@ -101,7 +103,7 @@ export default function ModalidadesPage() {
       {showCreate && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={() => setShowCreate(false)}>
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-          <div className="relative w-full max-w-md rounded-xl p-6 space-y-4" style={{ background: 'var(--card-bg)', border: '1px solid black' }} onClick={e => e.stopPropagation()}>
+          <div className="relative w-full max-w-md rounded-xl p-6 space-y-4" style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}` }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Nova Modalidade</h3>
               <button onClick={() => setShowCreate(false)}><X size={20} style={{ color: 'var(--text-secondary)' }} /></button>
@@ -130,7 +132,7 @@ export default function ModalidadesPage() {
               onClick={handleCreate}
               disabled={!newName.trim() || creating}
               className="w-full py-3 rounded-xl text-sm font-medium transition-all disabled:opacity-50"
-              style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: '1px solid black', color: 'var(--text-primary)' }}
+              style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}
             >
               {creating ? 'Criando...' : 'Criar Modalidade'}
             </button>
@@ -167,7 +169,7 @@ export default function ModalidadesPage() {
                 <button
                   onClick={() => handleDeactivate(mod.id)}
                   className="text-xs px-3 py-1.5 rounded-lg transition-all"
-                  style={{ border: '1px solid black', color: 'var(--text-secondary)' }}
+                  style={{ border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-secondary)' }}
                 >
                   Desativar
                 </button>

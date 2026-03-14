@@ -14,8 +14,8 @@ export default function ParentConfiguracoesPage() {
   const tokens = getDesignTokens(isDark);
   const toast = useToast();
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)' } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' } as const;
 
   // Notifications
   const [notifEmail, setNotifEmail] = useState(true);
@@ -105,7 +105,7 @@ export default function ParentConfiguracoesPage() {
           ))}
           <button onClick={handleSaveSenha} disabled={savingSenha}
             className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
+            style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
             {savingSenha ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
             {savingSenha ? 'Salvando...' : 'Alterar Senha'}
           </button>

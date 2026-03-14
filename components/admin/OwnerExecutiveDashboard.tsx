@@ -15,7 +15,7 @@ import {
   FUNIL_CONVERSAO, ALERTAS_NEGOCIO, COMPARATIVO_MES,
 } from '@/lib/__mocks__/unit-owner.mock';
 
-const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
+const card = { background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 } as const;
 
 const tooltipStyle = {
   contentStyle: { background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 },

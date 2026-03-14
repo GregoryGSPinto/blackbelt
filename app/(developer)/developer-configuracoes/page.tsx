@@ -8,7 +8,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 export default function DeveloperConfiguracoesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
 
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -32,7 +32,7 @@ export default function DeveloperConfiguracoesPage() {
         </h1>
         <button onClick={handleSave} disabled={saving}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
-          style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
+          style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
           <Save size={16} />
           {saving ? 'Salvando...' : showSuccess ? 'Salvo!' : 'Salvar'}
         </button>
@@ -45,7 +45,7 @@ export default function DeveloperConfiguracoesPage() {
           <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Seguranca</h3>
         </div>
         <button className="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
-          style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
+          style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
           <span className="flex items-center gap-2"><Lock size={14} /> Alterar Senha</span>
         </button>
       </div>

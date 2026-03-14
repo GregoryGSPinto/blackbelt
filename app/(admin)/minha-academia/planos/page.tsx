@@ -15,8 +15,8 @@ export default function PlanosPage() {
   const [planos, setPlanos] = useState<PlanoAcademia[]>(mockPlanos);
   const [editing, setEditing] = useState<string | null>(null);
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)', borderRadius: 12 } as const;
 
   const modalidadesAtivas = mockModalidades.filter(m => m.ativa).map(m => m.nome);
 
@@ -64,7 +64,7 @@ export default function PlanosPage() {
           <CreditCard size={22} className="inline mr-2" style={{ color: 'var(--text-secondary)' }} />
           Planos da Academia
         </h1>
-        <button onClick={addPlano} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium" style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
+        <button onClick={addPlano} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium" style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
           <Plus size={16} /> Novo Plano
         </button>
       </div>
@@ -75,9 +75,9 @@ export default function PlanosPage() {
         <table className="w-full text-sm">
           <thead>
             <tr>
-              <th className="text-left p-3" style={{ color: 'var(--text-secondary)', borderBottom: '1px solid black' }}></th>
+              <th className="text-left p-3" style={{ color: 'var(--text-secondary)', borderBottom: `1px solid ${tokens.cardBorder}` }}></th>
               {planos.map(p => (
-                <th key={p.id} className="text-center p-3" style={{ color: 'var(--text-primary)', borderBottom: '1px solid black' }}>
+                <th key={p.id} className="text-center p-3" style={{ color: 'var(--text-primary)', borderBottom: `1px solid ${tokens.cardBorder}` }}>
                   <div className="font-semibold text-base">{p.nome}</div>
                   <div className="text-lg font-medium mt-1">{formatMoney(p.preco)}<span className="text-xs font-normal">/mes</span></div>
                 </th>
@@ -129,10 +129,10 @@ export default function PlanosPage() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{plano.nome}</h3>
             <div className="flex items-center gap-2">
-              <button onClick={() => setEditing(editing === plano.id ? null : plano.id)} className="p-2 rounded-lg" style={{ border: '1px solid black', color: 'var(--text-primary)' }}>
+              <button onClick={() => setEditing(editing === plano.id ? null : plano.id)} className="p-2 rounded-lg" style={{ border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
                 <Edit3 size={14} />
               </button>
-              <button onClick={() => removePlano(plano.id)} className="p-2 rounded-lg" style={{ border: '1px solid black', color: 'var(--text-secondary)' }}>
+              <button onClick={() => removePlano(plano.id)} className="p-2 rounded-lg" style={{ border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-secondary)' }}>
                 <Trash2 size={14} />
               </button>
             </div>
@@ -158,7 +158,7 @@ export default function PlanosPage() {
                   {modalidadesAtivas.map(mod => (
                     <button key={mod} onClick={() => toggleModalidade(plano.id, mod)} className="px-3 py-2 rounded-xl text-xs" style={{
                       background: plano.modalidades.includes(mod) ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)') : 'var(--card-bg)',
-                      border: '1px solid black', color: 'var(--text-primary)',
+                      border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)',
                       fontWeight: plano.modalidades.includes(mod) ? 600 : 400,
                     }}>{mod}</button>
                   ))}

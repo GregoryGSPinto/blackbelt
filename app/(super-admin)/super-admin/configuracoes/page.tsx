@@ -8,8 +8,8 @@ import { getDesignTokens } from '@/lib/design-tokens';
 export default function SuperAdminConfiguracoesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)' } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' } as const;
 
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -40,7 +40,7 @@ export default function SuperAdminConfiguracoesPage() {
         </h1>
         <button onClick={handleSave} disabled={saving}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
-          style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
+          style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
           <Save size={16} />
           {saving ? 'Salvando...' : showSuccess ? 'Salvo!' : 'Salvar'}
         </button>

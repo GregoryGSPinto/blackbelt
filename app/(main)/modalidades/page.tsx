@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Award, Plus, Check, Clock } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { useToast } from '@/contexts/ToastContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageEmpty } from '@/components/shared/DataStates';
@@ -16,13 +17,14 @@ import {
 
 export default function StudentModalidadesPage() {
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const toast = useToast();
   const [myModalities, setMyModalities] = useState<MemberModality[]>([]);
   const [available, setAvailable] = useState<AcademyModality[]>([]);
   const [loading, setLoading] = useState(true);
   const [enrollingId, setEnrollingId] = useState<string | null>(null);
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
 
   const fetchData = useCallback(async () => {
     try {
@@ -140,7 +142,7 @@ export default function StudentModalidadesPage() {
                 onClick={() => handleEnroll(mod.id)}
                 disabled={enrollingId === mod.id}
                 className="flex items-center gap-1 text-xs px-3 py-2 rounded-lg transition-all disabled:opacity-50"
-                style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: '1px solid black', color: 'var(--text-primary)' }}
+                style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}
               >
                 <Plus size={14} />
                 {enrollingId === mod.id ? 'Matriculando...' : mod.enrollment_mode === 'approval_required' ? 'Solicitar' : 'Matricular'}

@@ -14,8 +14,8 @@ export default function ProfessorConfiguracoesPage() {
   const tokens = getDesignTokens(isDark);
   const toast = useToast();
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)' } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' } as const;
 
   const [notifEmail, setNotifEmail] = useState(true);
   const [notifPush, setNotifPush] = useState(false);
@@ -106,7 +106,7 @@ export default function ProfessorConfiguracoesPage() {
           ))}
           <button onClick={handleSaveSenha} disabled={saving}
             className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}>
+            style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
             <Save size={16} />
             {saving ? 'Salvando...' : 'Alterar Senha'}
           </button>

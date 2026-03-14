@@ -93,7 +93,7 @@ export default function CrmPage() {
             style={{
               background: activeTab === tab.key ? 'var(--accent-color, #3B82F6)' : 'var(--card-bg)',
               color: activeTab === tab.key ? '#fff' : 'var(--text-secondary)',
-              border: activeTab === tab.key ? '1px solid var(--accent-color, #3B82F6)' : '1px solid black',
+              border: activeTab === tab.key ? '1px solid var(--accent-color, #3B82F6)' : '1px solid var(--card-border, rgba(255,255,255,0.08))',
             }}
           >
             {tab.label}
@@ -113,7 +113,7 @@ export default function CrmPage() {
                 className="rounded-xl flex flex-col"
                 style={{
                   background: 'var(--card-bg)',
-                  border: '1px solid black',
+                  border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
                   borderRadius: 12,
                   minWidth: 260,
                   maxWidth: 300,
@@ -221,21 +221,21 @@ export default function CrmPage() {
         <div className="space-y-6">
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <Users size={16} style={{ color: '#3B82F6' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Total de Leads</span>
               </div>
               <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{totalLeads}</span>
             </div>
-            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <Target size={16} style={{ color: '#22C55E' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Matriculados</span>
               </div>
               <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{totalMatriculados}</span>
             </div>
-            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp size={16} style={{ color: '#F59E0B' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Taxa de Conversao Geral</span>
@@ -245,7 +245,7 @@ export default function CrmPage() {
           </div>
 
           {/* Funnel Visualization */}
-          <div className="rounded-xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+          <div className="rounded-xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
             <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
               Funil de Conversao
             </h2>
@@ -297,7 +297,7 @@ export default function CrmPage() {
                 <div
                   key={card.canal}
                   className="rounded-xl p-4"
-                  style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}
+                  style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}
                 >
                   <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
                     {card.canal}
@@ -336,21 +336,21 @@ export default function CrmPage() {
         <div className="space-y-6">
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <Star size={16} style={{ color: '#F59E0B' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Total de Indicacoes</span>
               </div>
               <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{totalIndicacoes}</span>
             </div>
-            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <Award size={16} style={{ color: '#22C55E' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Convertidas</span>
               </div>
               <span className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{convertidas}</span>
             </div>
-            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+            <div className="rounded-xl p-4" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp size={16} style={{ color: '#3B82F6' }} />
                 <span className="text-xs font-normal" style={{ color: 'var(--text-secondary)' }}>Taxa de Conversao</span>
@@ -360,7 +360,7 @@ export default function CrmPage() {
           </div>
 
           {/* Indicacoes Table */}
-          <div className="rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+          <div className="rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
             <div className="p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
               <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
                 Indicacoes Recentes
@@ -407,7 +407,7 @@ export default function CrmPage() {
           </div>
 
           {/* Programa de Indicacao Card */}
-          <div className="rounded-xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}>
+          <div className="rounded-xl p-5" style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}>
             <div className="flex items-center gap-2 mb-3">
               <Award size={20} style={{ color: '#F59E0B' }} />
               <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
@@ -463,7 +463,7 @@ export default function CrmPage() {
         >
           <div
             className="rounded-xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 }}
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', borderRadius: 12 }}
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}

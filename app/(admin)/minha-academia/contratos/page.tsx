@@ -15,8 +15,8 @@ export default function ContratosPage() {
   const [template, setTemplate] = useState(contratoTemplate);
   const [previewContrato, setPreviewContrato] = useState<Contrato | null>(null);
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)', borderRadius: 12 } as const;
 
   const filtered = contratos.filter(c => !filtroStatus || c.status === filtroStatus);
 
@@ -53,7 +53,7 @@ export default function ContratosPage() {
 
       {/* Alert: vencendo em 30 dias */}
       {vencendoEm30.length > 0 && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: 'var(--card-bg)', border: '1px solid black' }}>
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}` }}>
           <AlertTriangle size={18} style={{ color: isDark ? '#F59E0B' : '#D97706', flexShrink: 0 }} />
           <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
             {vencendoEm30.length} contrato(s) vencendo nos próximos 30 dias
@@ -80,7 +80,7 @@ export default function ContratosPage() {
         {['', 'ativo', 'vencido', 'cancelado'].map(s => (
           <button key={s} onClick={() => setFiltroStatus(s)} className="px-3 py-2 rounded-xl text-sm" style={{
             background: filtroStatus === s ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)') : 'var(--card-bg)',
-            border: '1px solid black', color: 'var(--text-primary)',
+            border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)',
             fontWeight: filtroStatus === s ? 600 : 400,
           }}>
             {s || 'Todos'}
@@ -104,7 +104,7 @@ export default function ContratosPage() {
               </div>
               <div className="flex items-center gap-3">
                 <span className={`text-xs font-semibold capitalize ${statusColor(c.status)}`}>{c.status}</span>
-                <button onClick={() => setPreviewContrato(c)} className="p-2 rounded-lg" style={{ border: '1px solid black', color: 'var(--text-primary)' }}>
+                <button onClick={() => setPreviewContrato(c)} className="p-2 rounded-lg" style={{ border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
                   <Eye size={14} />
                 </button>
               </div>
@@ -132,7 +132,7 @@ export default function ContratosPage() {
       {previewContrato && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={() => setPreviewContrato(null)}>
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-          <div className="relative w-full max-w-2xl max-h-[80vh] overflow-auto rounded-xl p-6" style={{ background: 'var(--card-bg)', border: '1px solid black' }} onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-2xl max-h-[80vh] overflow-auto rounded-xl p-6" style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}` }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Preview do Contrato</h3>
               <button onClick={() => setPreviewContrato(null)}><X size={20} style={{ color: 'var(--text-secondary)' }} /></button>

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Award, ArrowLeft, Users, ChevronUp, ChevronDown } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 import { useToast } from '@/contexts/ToastContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageEmpty } from '@/components/shared/DataStates';
@@ -29,6 +30,7 @@ export default function ModalityDetailPage() {
   const params = useParams();
   const modalityId = params.id as string;
   const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const toast = useToast();
   const [members, setMembers] = useState<ModalityMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,8 +38,8 @@ export default function ModalityDetailPage() {
   const [promoteBelt, setPromoteBelt] = useState('');
   const [promoteStripes, setPromoteStripes] = useState(0);
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)', borderRadius: 12 } as const;
 
   const fetchMembers = useCallback(async () => {
     try {
@@ -148,7 +150,7 @@ export default function ModalityDetailPage() {
                       }
                     }}
                     className="text-xs px-3 py-1.5 rounded-lg transition-all"
-                    style={{ border: '1px solid black', color: 'var(--text-secondary)' }}
+                    style={{ border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-secondary)' }}
                   >
                     {isPromoting ? 'Cancelar' : 'Promover'}
                   </button>
@@ -171,7 +173,7 @@ export default function ModalityDetailPage() {
                     <button
                       onClick={() => handlePromote(member)}
                       className="px-4 py-2 rounded-lg text-sm font-medium"
-                      style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: '1px solid black', color: 'var(--text-primary)' }}
+                      style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}
                     >
                       Salvar
                     </button>

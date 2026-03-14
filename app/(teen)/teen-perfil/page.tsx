@@ -49,8 +49,8 @@ export default function TeenPerfilPage() {
   const idade = user?.idade || currentTeen.idade;
   const avatar = user?.avatar || currentTeen.avatar;
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const fieldStyle = { border: '1px solid black' } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const fieldStyle = { border: `1px solid ${tokens.cardBorder}` } as const;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 px-4 md:px-0 pt-6 pb-8">
@@ -63,7 +63,7 @@ export default function TeenPerfilPage() {
         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
           <div
             className="w-24 h-24 md:w-32 md:h-32 rounded-xl flex items-center justify-center text-5xl md:text-6xl"
-            style={{ background: 'var(--card-bg)', border: '1px solid black' }}
+            style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}` }}
           >
             {avatar}
           </div>

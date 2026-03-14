@@ -16,7 +16,7 @@ export function PurchaseApprovalModal({ open, onClose, productName }: PurchaseAp
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
         className="relative w-full max-w-md rounded-xl p-6 space-y-4"
-        style={{ background: 'var(--card-bg)', border: '1px solid black' }}
+        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={onClose} className="absolute top-4 right-4" style={{ color: 'var(--text-secondary)' }}>
@@ -26,7 +26,7 @@ export function PurchaseApprovalModal({ open, onClose, productName }: PurchaseAp
         <div className="flex flex-col items-center text-center space-y-3">
           <div
             className="w-16 h-16 rounded-xl flex items-center justify-center"
-            style={{ background: 'var(--card-bg)', border: '1px solid black' }}
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}
           >
             <ShieldCheck size={32} style={{ color: 'var(--text-primary)' }} />
           </div>
@@ -50,14 +50,14 @@ export function PurchaseApprovalModal({ open, onClose, productName }: PurchaseAp
           <button
             onClick={onClose}
             className="flex-1 py-3 rounded-xl text-sm font-medium transition-colors"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', color: 'var(--text-primary)' }}
           >
             Cancelar
           </button>
           <button
             onClick={onClose}
             className="flex-1 py-3 rounded-xl text-sm font-medium transition-colors"
-            style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
+            style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', color: 'var(--text-primary)' }}
           >
             Solicitar
           </button>

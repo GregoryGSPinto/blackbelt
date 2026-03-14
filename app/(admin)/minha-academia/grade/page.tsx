@@ -18,8 +18,8 @@ export default function GradePage() {
   const [filtroProfessor, setFiltroProfessor] = useState('');
   const [filtroSala, setFiltroSala] = useState('');
 
-  const card = { background: 'var(--card-bg)', border: '1px solid black', borderRadius: 12 } as const;
-  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: '1px solid black', color: 'var(--text-primary)', borderRadius: 12 } as const;
+  const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
+  const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)', borderRadius: 12 } as const;
 
   const modalidades = [...new Set(turmas.map(t => t.modalidade))];
   const professores = [...new Set(turmas.map(t => t.professor))];

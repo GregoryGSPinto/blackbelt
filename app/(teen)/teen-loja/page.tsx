@@ -75,7 +75,7 @@ export default function TeenLojaPage() {
       {/* Parent Approval Banner */}
       <div
         className="mx-4 md:mx-8 mt-4 mb-6 flex items-center gap-3 px-4 py-3 rounded-xl"
-        style={{ background: 'var(--card-bg)', border: '1px solid black' }}
+        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))' }}
       >
         <ShieldCheck size={20} style={{ color: 'var(--text-secondary)', flexShrink: 0 }} />
         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
@@ -95,7 +95,7 @@ export default function TeenLojaPage() {
             <button
               onClick={() => handleProductClick(featuredProduct)}
               className="px-6 py-3 rounded-xl text-sm font-medium"
-              style={{ background: 'var(--card-bg)', border: '1px solid black', color: 'var(--text-primary)' }}
+              style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border, rgba(255,255,255,0.08))', color: 'var(--text-primary)' }}
             >
               Solicitar Compra
             </button>

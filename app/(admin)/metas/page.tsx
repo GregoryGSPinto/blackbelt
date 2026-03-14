@@ -59,7 +59,7 @@ export default function MetasPage() {
 
   const cardStyle = {
     background: 'var(--card-bg)',
-    border: '1px solid black',
+    border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
     borderRadius: 12,
   };
 
