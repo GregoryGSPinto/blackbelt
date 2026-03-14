@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import { quotaTracking } from '@/lib/subscription/services';
 import type { UsageAlert } from '@/lib/subscription/types';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function GET(request: Request) {
   try {
@@ -72,11 +73,7 @@ export async function GET(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Usage API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }
 

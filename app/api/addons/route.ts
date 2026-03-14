@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { addonManagement } from '@/lib/subscription/services';
 import type { AddonType } from '@/lib/subscription/types';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 // GET - List available and active addons
 export async function GET(request: Request) {
@@ -32,11 +33,7 @@ export async function GET(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Addons GET API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }
 
@@ -71,10 +68,6 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Addons POST API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

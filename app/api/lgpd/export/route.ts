@@ -18,12 +18,12 @@ export async function POST() {
 
     if (error) throw error;
 
-    // Gather user data for export
+    // Gather user data for export — explicit fields to avoid leaking internal hashes
     const [profileRes, membershipsRes, attendancesRes, pointsRes] = await Promise.all([
-      supabase.from('profiles' as any).select('*').eq('id', user.id).single(),
-      supabase.from('memberships' as any).select('*').eq('profile_id', user.id),
-      supabase.from('attendances' as any).select('*').eq('membership_id', user.id).limit(1000),
-      supabase.from('points_ledger' as any).select('*').eq('membership_id', user.id).limit(1000),
+      supabase.from('profiles' as any).select('id, full_name, phone, birth_date, gender, address, avatar_url, created_at, updated_at').eq('id', user.id).single(),
+      supabase.from('memberships' as any).select('id, academy_id, role, status, belt_rank, joined_at, created_at').eq('profile_id', user.id),
+      supabase.from('attendances' as any).select('id, class_id, checked_in_at, status, created_at').eq('membership_id', user.id).limit(1000),
+      supabase.from('points_ledger' as any).select('id, amount, reason, created_at').eq('membership_id', user.id).limit(1000),
     ]);
 
     const exportData = {

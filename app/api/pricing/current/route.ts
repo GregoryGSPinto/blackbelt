@@ -6,6 +6,7 @@
 import { NextResponse } from 'next/server';
 import { pricingService } from '@/lib/pricing/service';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function GET(request: Request) {
   try {
@@ -19,10 +20,6 @@ export async function GET(request: Request) {
     
     return NextResponse.json(pricing);
   } catch (error) {
-    console.error('[Pricing API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

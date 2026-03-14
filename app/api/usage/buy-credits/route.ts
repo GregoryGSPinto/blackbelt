@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import { prepaidCredits } from '@/lib/subscription/services';
 import type { CreditType } from '@/lib/subscription/types';
 import { withBillingManagerAccess } from '@/lib/api/access-context';
+import { apiServerError } from '@/lib/api/route-helpers';
 
 export async function POST(request: Request) {
   try {
@@ -44,10 +45,6 @@ export async function POST(request: Request) {
     if (error instanceof Response) {
       return error as NextResponse;
     }
-    console.error('[Buy Credits API]', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return apiServerError(error);
   }
 }

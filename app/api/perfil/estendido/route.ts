@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export const GET = createHandler(async (_req: NextRequest, { supabase, user, membership }) => {
   const { data: profile } = await supabase
     .from('profiles')
-    .select('*')
+    .select('id, full_name, phone, birth_date, gender, address, weight, height, avatar_url')
     .eq('id', user.id)
     .single();
 
@@ -27,8 +27,6 @@ export const GET = createHandler(async (_req: NextRequest, { supabase, user, mem
     telefone: profile?.phone || '',
     dataNascimento: profile?.birth_date || '',
     genero: profile?.gender || '',
-    cpf: profile?.cpf || '',
-    rg: profile?.rg || '',
     endereco: profile?.address || '',
     faixa: membershipData?.belt_rank || 'branca',
     graus: membershipData?.stripes || 0,
