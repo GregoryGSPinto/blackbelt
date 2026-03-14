@@ -97,7 +97,7 @@ export async function POST(req: NextRequest, context: { params: Promise<{ slug: 
 
     if (createUserResult.error) {
       return apiError(
-        createUserResult.error.message || 'Não foi possível criar a conta com esse e-mail.',
+        'Não foi possível criar a conta com esse e-mail.',
         'AUTH_CREATE_FAILED',
         400,
       );

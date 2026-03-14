@@ -2,9 +2,9 @@ import { withAuth, apiOk, apiError, apiServerError } from '@/lib/api/route-helpe
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const { supabase, membership } = await withAuth();
+    const { supabase, membership } = await withAuth(request);
     if (!membership) return apiError('Sem membership ativa', 'NO_MEMBERSHIP');
     if (!['owner', 'admin'].includes(membership.role)) {
       return apiError('Acesso restrito', 'FORBIDDEN', 403);

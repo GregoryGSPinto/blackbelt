@@ -4,9 +4,9 @@ import { withAuth, apiError } from '@/lib/api/route-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const { membership } = await withAuth();
+    const { membership } = await withAuth(request);
     if (!membership || !['owner', 'admin'].includes(membership.role)) {
       return apiError('Acesso restrito', 'FORBIDDEN', 403);
     }

@@ -37,7 +37,7 @@ export const GET = createHandler(async (req: NextRequest, { supabase, membership
 
   let query = supabase
     .from('memberships')
-    .select('*, profiles(*), parent_child_links!child_membership_id(*)')
+    .select('id, belt_rank, profiles(full_name, avatar_url, birth_date), parent_child_links!child_membership_id(parent_profile_id)')
     .eq('academy_id', membership.academy_id)
     .eq('status', 'active');
 

@@ -2,9 +2,9 @@ import { withAuth, apiOk, apiServerError } from '@/lib/api/route-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    const { supabase, user } = await withAuth();
+    const { supabase, user } = await withAuth(request);
 
     // Create export request
     const { data, error } = await supabase
