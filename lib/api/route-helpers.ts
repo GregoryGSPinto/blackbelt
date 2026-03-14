@@ -56,24 +56,55 @@ type WithAuthOptions = {
   requireMembership?: boolean;
 };
 
-async function getActiveMembership(
+function getRequestedMembershipSelector(req?: Request): { membershipId: string | null; academyId: string | null } {
+  if (!req) {
+    return { membershipId: null, academyId: null };
+  }
+
+  const membershipId = req.headers.get('x-membership-id');
+  const academyId = req.headers.get('x-academy-id') ?? req.headers.get('x-tenant-id');
+
+  return {
+    membershipId: membershipId?.trim() || null,
+    academyId: academyId?.trim() || null,
+  };
+}
+
+function pickMembershipFromSameAcademy(memberships: NonNullable<AuthContext['membership']>[]) {
+  if (memberships.length === 0) {
+    return null;
+  }
+
+  const academyIds = new Set(memberships.map((membership) => membership.academy_id));
+  if (academyIds.size > 1) {
+    return null;
+  }
+
+  const rolePriority = ['owner', 'admin', 'professor', 'parent', 'student', 'super_admin'];
+  return [...memberships].sort((left, right) => {
+    const leftIndex = rolePriority.indexOf(left.role);
+    const rightIndex = rolePriority.indexOf(right.role);
+    return (leftIndex === -1 ? Number.MAX_SAFE_INTEGER : leftIndex)
+      - (rightIndex === -1 ? Number.MAX_SAFE_INTEGER : rightIndex);
+  })[0];
+}
+
+async function getActiveMemberships(
   supabase: any,
   profileId: string,
-): Promise<AuthContext['membership']> {
+): Promise<NonNullable<AuthContext['membership']>[]> {
   const { data, error } = await supabase
     .from('memberships')
     .select('id, academy_id, profile_id, role')
     .eq('profile_id', profileId)
     .eq('status', 'active')
-    .order('created_at', { ascending: true })
-    .limit(1)
-    .maybeSingle();
+    .order('created_at', { ascending: true });
 
   if (error) {
     throw error;
   }
 
-  return data;
+  return data ?? [];
 }
 
 /**
@@ -81,7 +112,7 @@ async function getActiveMembership(
  * Throws JSON response if not authenticated.
  */
 export async function withAuth(
-  _req?: Request,
+  req?: Request,
   opts?: WithAuthOptions
 ): Promise<AuthContext> {
   const supabase = await getSupabaseServerClient();
@@ -94,9 +125,27 @@ export async function withAuth(
   let membership: AuthContext['membership'] = null;
 
   if (opts?.requireMembership !== false) {
-    membership = await getActiveMembership(supabase, user.id);
+    const memberships = await getActiveMemberships(supabase, user.id);
+    const selector = getRequestedMembershipSelector(req);
+
+    if (selector.membershipId) {
+      membership = memberships.find((item) => item.id === selector.membershipId) ?? null;
+    } else if (selector.academyId) {
+      membership = memberships.find((item) => item.academy_id === selector.academyId) ?? null;
+    } else if (memberships.length === 1) {
+      membership = memberships[0];
+    } else {
+      membership = pickMembershipFromSameAcademy(memberships);
+    }
 
     if (!membership) {
+      if (memberships.length > 1 && !selector.membershipId && !selector.academyId) {
+        throw NextResponse.json(
+          { error: 'Múltiplas memberships ativas encontradas. Informe x-membership-id ou x-academy-id.' },
+          { status: 409 }
+        );
+      }
+
       throw NextResponse.json(
         { error: 'Nenhuma membership ativa encontrada' },
         { status: 403 }

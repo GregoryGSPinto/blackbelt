@@ -1,6 +1,6 @@
 # Configuração do Stripe para Produção
 
-Guia completo para configurar o Stripe no BlackBelt para ambiente de produção.
+Guia objetivo para fechar o fluxo comercial real do BlackBelt em modo controlado.
 
 ## 1. Criar Conta Stripe
 
@@ -26,12 +26,11 @@ STRIPE_SECRET_KEY=sk_live_...
 1. Acesse [Dashboard Stripe > Developers > Webhooks](https://dashboard.stripe.com/webhooks)
 2. Clique em "Add endpoint"
 3. Configure:
-   - **Endpoint URL**: `https://api.blackbelt.app/webhooks/stripe`
+   - **Endpoint URL**: `https://<host-oficial>/api/webhooks/stripe`
    - **Events to listen**:
      - `checkout.session.completed`
-     - `invoice.payment_succeeded`
+     - `invoice.paid`
      - `invoice.payment_failed`
-     - `customer.subscription.created`
      - `customer.subscription.updated`
      - `customer.subscription.deleted`
 4. Copie o **Signing secret** (começa com `whsec_`)
@@ -39,38 +38,17 @@ STRIPE_SECRET_KEY=sk_live_...
 
 ```bash
 STRIPE_WEBHOOK_SECRET=whsec_...
+NEXT_PUBLIC_APP_URL=https://<host-oficial>
 ```
 
 ### Testar Webhook Localmente
 
 ```bash
-# Instalar Stripe CLI: https://stripe.com/docs/stripe-cli
 stripe login
-stripe listen --forward-to localhost:3000/webhooks/stripe
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ```
 
-## 4. Configurar PIX (Brasil)
-
-> ⚠️ Requer conta Stripe Brasil
-
-1. Acesse [Configurações > Métodos de pagamento](https://dashboard.stripe.com/settings/payment_methods)
-2. Habilite **PIX**
-3. Configure os dados da sua empresa
-4. Adicione ao `.env.local`:
-
-```bash
-STRIPE_PIX_ENABLED=true
-```
-
-### Configuração Adicional para PIX
-
-No código, o PIX já está configurado em `lib/payments/stripe-checkout.ts`:
-
-```typescript
-payment_method_types: ['card', 'pix'], // PIX para Brasil
-```
-
-## 5. Criar Produtos e Preços
+## 4. Criar Produtos e Preços
 
 ### Opção A: Via Dashboard
 
@@ -79,7 +57,22 @@ payment_method_types: ['card', 'pix'], // PIX para Brasil
    - **Starter** - R$ 197/mês
    - **Professional** - R$ 497/mês
    - **Enterprise** - R$ 997/mês
-3. Copie os `price_ids` para o código
+3. Crie os `price_id` mensais e anuais necessários
+4. Configure os envs seguindo o padrão usado pelo backend:
+
+```bash
+STRIPE_PRICE_<PLAN_ID>_MONTHLY=price_...
+STRIPE_PRICE_<PLAN_ID>_ANNUAL=price_...
+```
+
+Exemplos:
+
+```bash
+STRIPE_PRICE_START_MONTHLY=price_...
+STRIPE_PRICE_START_ANNUAL=price_...
+STRIPE_PRICE_PRO_MONTHLY=price_...
+STRIPE_PRICE_PRO_ANNUAL=price_...
+```
 
 ### Opção B: Via Script (Recomendado)
 
@@ -87,7 +80,7 @@ payment_method_types: ['card', 'pix'], // PIX para Brasil
 npx tsx scripts/setup-stripe-products.ts
 ```
 
-## 6. Configurar Emails de Pagamento
+## 5. Configurar Emails de Pagamento
 
 1. Acesse [Configurações > Emails](https://dashboard.stripe.com/settings/emails)
 2. Habilite emails para:
@@ -95,15 +88,30 @@ npx tsx scripts/setup-stripe-products.ts
    - Falha no pagamento
    - Confirmação de assinatura
 
+## 6. Validar Estruturalmente Antes do E2E
+
+```bash
+pnpm exec tsx scripts/validate-stripe-release.ts
+```
+
+Esse script confirma:
+
+- webhook com verificação de assinatura
+- persistência em `academy_subscriptions`
+- persistência em `subscription_invoices`
+- rota de conversão de trial ligada ao checkout Stripe
+- ausência de referência às tabelas legadas `subscriptions`, `invoices` e `payments`
+
 ## 7. Testar Fluxo de Pagamento
 
 ```bash
 # 1. Rodar em modo de produção local
 NEXT_PUBLIC_USE_MOCK=false pnpm dev
 
-# 2. Acesse http://localhost:3000/landing
-# 3. Clique em um plano e complete o checkout
-# 4. Verifique se o webhook foi recebido
+# 2. iniciar um trial autenticado e converter via /api/trial/convert
+# 3. concluir checkout
+# 4. reenviar eventos pelo Stripe CLI para /api/webhooks/stripe
+# 5. verificar academy_subscriptions + subscription_invoices
 ```
 
 ## 8. Verificação Pré-Deploy
@@ -111,11 +119,13 @@ NEXT_PUBLIC_USE_MOCK=false pnpm dev
 Checklist antes de publicar:
 
 - [ ] Chaves Live configuradas (não de teste)
-- [ ] Webhook configurado com URL de produção
-- [ ] PIX habilitado (se Brasil)
-- [ ] Produtos e preços criados
+- [ ] `NEXT_PUBLIC_APP_URL` aponta para o host comercial oficial
+- [ ] Webhook configurado com URL de produção em `/api/webhooks/stripe`
+- [ ] Produtos e preços criados com os envs `STRIPE_PRICE_*`
 - [ ] Emails de pagamento configurados
-- [ ] Webhook testado em produção
+- [ ] `pnpm exec tsx scripts/validate-stripe-release.ts` passou
+- [ ] Trial convertido no tenant correto
+- [ ] `invoice.paid`, `invoice.payment_failed` e `customer.subscription.deleted` atualizaram o tenant correto
 
 ## 9. Troubleshooting
 
@@ -126,16 +136,10 @@ Checklist antes de publicar:
 vercel logs --follow
 
 # Verificar se o endpoint está acessível
-curl -X POST https://api.blackbelt.app/webhooks/stripe \
+curl -X POST https://<host-oficial>/api/webhooks/stripe \
   -H "Content-Type: application/json" \
   -d '{"test": true}'
 ```
-
-### PIX não aparece no checkout
-
-1. Verifique se a conta Stripe é do Brasil
-2. Confirme que `STRIPE_PIX_ENABLED=true`
-3. Verifique se o valor é em BRL (reais)
 
 ### Pagamentos sendo recusados
 

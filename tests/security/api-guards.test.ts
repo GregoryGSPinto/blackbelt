@@ -34,11 +34,7 @@ describe('API security guards', () => {
         select: vi.fn().mockReturnValue({
           eq: vi.fn().mockReturnValue({
             eq: vi.fn().mockReturnValue({
-              order: vi.fn().mockReturnValue({
-                limit: vi.fn().mockReturnValue({
-                  maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
-                }),
-              }),
+              order: vi.fn().mockResolvedValue({ data: [], error: null }),
             }),
           }),
         }),
@@ -46,6 +42,70 @@ describe('API security guards', () => {
     });
 
     await expect(withAuth()).rejects.toMatchObject({ status: 403 });
+  });
+
+  it('returns 409 when multiple active memberships exist without explicit academy selection', async () => {
+    const { withAuth } = await vi.importActual<typeof import('@/lib/api/route-helpers')>('@/lib/api/route-helpers');
+
+    getSupabaseServerClientMock.mockResolvedValue({
+      auth: {
+        getUser: vi.fn().mockResolvedValue({
+          data: { user: { id: 'user-tenant', email: 'tenant@test.com' } },
+          error: null,
+        }),
+      },
+      from: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              order: vi.fn().mockResolvedValue({
+                data: [
+                  { id: 'mem-1', academy_id: 'academy-1', profile_id: 'user-tenant', role: 'admin' },
+                  { id: 'mem-2', academy_id: 'academy-2', profile_id: 'user-tenant', role: 'owner' },
+                ],
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      }),
+    });
+
+    await expect(withAuth(new Request('http://localhost/api/subscription'))).rejects.toMatchObject({ status: 409 });
+  });
+
+  it('honors x-academy-id when selecting the active membership context', async () => {
+    const { withAuth } = await vi.importActual<typeof import('@/lib/api/route-helpers')>('@/lib/api/route-helpers');
+
+    getSupabaseServerClientMock.mockResolvedValue({
+      auth: {
+        getUser: vi.fn().mockResolvedValue({
+          data: { user: { id: 'user-tenant', email: 'tenant@test.com' } },
+          error: null,
+        }),
+      },
+      from: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              order: vi.fn().mockResolvedValue({
+                data: [
+                  { id: 'mem-1', academy_id: 'academy-1', profile_id: 'user-tenant', role: 'admin' },
+                  { id: 'mem-2', academy_id: 'academy-2', profile_id: 'user-tenant', role: 'owner' },
+                ],
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      }),
+    });
+
+    const context = await withAuth(new Request('http://localhost/api/subscription', {
+      headers: { 'x-academy-id': 'academy-2' },
+    }));
+
+    expect(context.membership).toMatchObject({ id: 'mem-2', academy_id: 'academy-2', role: 'owner' });
   });
 
   it('blocks professor access on admin members route', async () => {

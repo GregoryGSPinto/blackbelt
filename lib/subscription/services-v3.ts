@@ -29,6 +29,23 @@ const supabase = new Proxy({} as any, {
   },
 });
 
+function normalizeCnpj(value: string): string {
+  return value.replace(/\D+/g, '');
+}
+
+function buildAcademySlug(name: string, ownerProfileId: string): string {
+  const baseSlug = name
+    .normalize('NFKD')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  const safeBase = baseSlug || 'academy';
+  return `${safeBase}-${ownerProfileId.slice(0, 8)}`;
+}
+
 // ============================================================
 // TrialService
 // ============================================================
@@ -54,7 +71,14 @@ export class TrialService {
    * Start a new trial
    */
   async startTrial(request: StartTrialRequest): Promise<StartTrialResponse> {
-    const { plan_id, academy_data, source = 'website', referrer_academy_id } = request;
+    const {
+      plan_id,
+      academy_data,
+      owner_profile_id,
+      owner_name,
+      source = 'website',
+      referrer_academy_id,
+    } = request;
 
     // Get plan details
     const { data: plan } = await supabase
@@ -67,21 +91,65 @@ export class TrialService {
       throw new Error('Plan not found');
     }
 
+    const normalizedCnpj = normalizeCnpj(academy_data.cnpj);
+    if (!normalizedCnpj) {
+      throw new Error('CNPJ is required to start a trial');
+    }
+
+    const ownerDisplayName = owner_name?.trim() || academy_data.name.trim();
+    const academySlug = buildAcademySlug(academy_data.name, owner_profile_id);
+
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert({
+        id: owner_profile_id,
+        full_name: ownerDisplayName,
+        phone: academy_data.phone,
+      });
+
+    if (profileError) {
+      throw new Error(`Failed to prepare owner profile: ${profileError.message}`);
+    }
+
     // Create academy first
     const { data: academy, error: academyError } = await supabase
-      .from('academias')
+      .from('academies')
       .insert({
-        nome: academy_data.name,
+        name: academy_data.name,
         email: academy_data.email,
-        cnpj: academy_data.cnpj,
-        telefone: academy_data.phone,
+        phone: academy_data.phone,
+        owner_id: owner_profile_id,
+        slug: academySlug,
         status: 'trial',
+        settings: {
+          billing: {
+            cnpj: academy_data.cnpj,
+            cnpj_normalized: normalizedCnpj,
+          },
+          trial: {
+            source,
+          },
+        },
       })
       .select()
       .single();
 
     if (academyError) {
       throw new Error(`Failed to create academy: ${academyError.message}`);
+    }
+
+    const { error: membershipError } = await supabase
+      .from('memberships')
+      .upsert({
+        profile_id: owner_profile_id,
+        academy_id: academy.id,
+        role: 'owner',
+        status: 'active',
+      });
+
+    if (membershipError) {
+      await supabase.from('academies').delete().eq('id', academy.id);
+      throw new Error(`Failed to bootstrap owner membership: ${membershipError.message}`);
     }
 
     // Calculate trial end date
@@ -106,11 +174,12 @@ export class TrialService {
       });
 
     if (subError) {
+      await supabase.from('academies').delete().eq('id', academy.id);
       throw new Error(`Failed to create subscription: ${subError.message}`);
     }
 
     // Create trial tracking record
-    const { data: trialTracking } = await supabase
+    const { data: trialTracking, error: trialTrackingError } = await supabase
       .from('trial_tracking')
       .insert({
         academy_id: academy.id,
@@ -124,9 +193,19 @@ export class TrialService {
         alerts_sent: [],
         source,
         referrer_academy_id,
+        metadata: {
+          cnpj: academy_data.cnpj,
+          cnpj_normalized: normalizedCnpj,
+          owner_profile_id,
+        },
       })
       .select()
       .single();
+
+    if (trialTrackingError || !trialTracking) {
+      await supabase.from('academies').delete().eq('id', academy.id);
+      throw new Error(`Failed to create trial tracking record: ${trialTrackingError?.message ?? 'unknown error'}`);
+    }
 
     // Initialize usage quotas for trial (with trial limits)
     await this.initializeTrialQuotas(academy.id);
@@ -362,7 +441,7 @@ export class TrialService {
 
     // Update academy status
     await supabase
-      .from('academias')
+      .from('academies')
       .update({ status: 'active' })
       .eq('id', academyId);
 
@@ -424,21 +503,10 @@ export class TrialService {
    * Check if CNPJ already had trial
    */
   async hasHadTrial(cnpj: string): Promise<boolean> {
-    const { data: academies } = await supabase
-      .from('academias')
-      .select('id')
-      .eq('cnpj', cnpj);
-
-    if (!academies || academies.length === 0) {
-      return false;
-    }
-
-    const academyIds = academies.map((a: any) => a.id);
-
     const { data: trials } = await supabase
       .from('trial_tracking')
       .select('id')
-      .in('academy_id', academyIds)
+      .contains('metadata', { cnpj_normalized: normalizeCnpj(cnpj) })
       .limit(1);
 
     return (trials?.length || 0) > 0;

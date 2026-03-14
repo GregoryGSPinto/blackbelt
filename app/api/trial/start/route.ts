@@ -4,9 +4,11 @@
 
 import { NextResponse } from 'next/server';
 import { trialService } from '@/lib/subscription/services-v3';
+import { withAuth } from '@/lib/api/route-helpers';
 
 export async function POST(request: Request) {
   try {
+    const { user } = await withAuth(request, { requireMembership: false });
     const body = await request.json();
     const { plan_id, academy_data, source, referrer_academy_id } = body;
 
@@ -31,6 +33,8 @@ export async function POST(request: Request) {
     const result = await trialService.startTrial({
       plan_id,
       academy_data,
+      owner_profile_id: user.id,
+      owner_name: user.email?.split('@')[0] || academy_data.name,
       source,
       referrer_academy_id,
     });

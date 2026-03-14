@@ -148,34 +148,39 @@ export class PricingService {
     status?: string;
     search?: string;
   }): Promise<AcademyWithSubscription[]> {
-    let query = getPricingSupabase()
+    const { data, error } = await getPricingSupabase()
       .from('academy_subscriptions')
       .select(`
         *,
-        academy:academias(id, nome, email, telefone),
-        plan:subscription_plans(id, name, display_name)
+        academy:academies(id, name, email, phone),
+        plan:subscription_plans(id, name, display_name, student_limit)
       `)
       .order('created_at', { ascending: false });
 
-    if (filters?.plan) {
-      query = query.eq('plan_id', filters.plan);
-    }
-
-    if (filters?.status) {
-      query = query.eq('status', filters.status);
-    }
-
-    if (filters?.search) {
-      // Search requires joining with academias, simplified here
-      query = query.ilike('academy.nome', `%${filters.search}%`);
-    }
-
-    const { data, error } = await query;
-
     if (error) throw error;
 
+    const normalizedSearch = filters?.search?.trim().toLowerCase();
+    const filtered = (data || []).filter((item: any) => {
+      if (filters?.plan && item.plan_id !== filters.plan) return false;
+      if (filters?.status && item.status !== filters.status) return false;
+      if (normalizedSearch) {
+        const haystack = [
+          item.academy?.name,
+          item.academy?.email,
+          item.academy?.phone,
+        ]
+          .filter((value: unknown): value is string => typeof value === 'string' && value.length > 0)
+          .join(' ')
+          .toLowerCase();
+
+        if (!haystack.includes(normalizedSearch)) return false;
+      }
+
+      return true;
+    });
+
     // Transform data to match interface
-    return (data || []).map((item: any) => ({
+    return filtered.map((item: any) => ({
       id: item.id,
       academy_id: item.academy_id,
       plan_id: item.plan_id,
@@ -187,9 +192,9 @@ export class PricingService {
       plan_limit: item.plan?.student_limit || 0,
       academy: {
         id: item.academy?.id,
-        name: item.academy?.nome,
+        name: item.academy?.name,
         email: item.academy?.email,
-        phone: item.academy?.telefone
+        phone: item.academy?.phone
       },
       plan: item.plan
     }));

@@ -187,6 +187,8 @@ export interface StartTrialRequest {
     cnpj: string;
     phone: string;
   };
+  owner_profile_id: string;
+  owner_name?: string;
   source?: string;
   referrer_academy_id?: string;
 }

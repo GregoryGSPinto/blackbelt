@@ -87,7 +87,11 @@ export default function TrialCheckoutPage() {
         router.push(`/onboarding?trial_id=${data.trial_id}&academy_id=${data.academy_id}`);
       } else {
         const error = await response.json();
-        setSubmitError(error.error || 'Erro ao iniciar trial');
+        setSubmitError(
+          response.status === 401
+            ? 'Faça login com a conta proprietária da academia antes de iniciar o trial.'
+            : error.error || 'Erro ao iniciar trial',
+        );
       }
     } catch (error) {
       console.error(error);
