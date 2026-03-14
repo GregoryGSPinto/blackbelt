@@ -9,6 +9,7 @@ import { X, Play, Plus, Loader2, ChevronUp, ChevronDown, Trash2, ListMusic } fro
 import * as playlistService from '@/lib/api/playlist.service';
 import type { Playlist, PlaylistCreateInput } from '@/lib/api/playlist.service';
 import { useToast } from '@/contexts/ToastContext';
+import { useTranslations } from 'next-intl';
 
 interface PlaylistFormModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export function PlaylistFormModal({
   isOpen, onClose, onSaved, editPlaylist, availableVideos, turmas = [], profId,
 }: PlaylistFormModalProps) {
   const toast = useToast();
+  const tActions = useTranslations('common.actions');
   const isEdit = !!editPlaylist;
   const [nome, setNome] = useState('');
   const [tipo, setTipo] = useState<Playlist['tipo']>('semanal');
@@ -127,7 +129,7 @@ export function PlaylistFormModal({
             <ListMusic size={18} className="text-blue-400" />
             {isEdit ? 'Editar Playlist' : 'Nova Playlist'}
           </h2>
-          <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label="Fechar">
+          <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label={tActions('close')}>
             <X size={18} className="text-white/50" />
           </button>
         </div>

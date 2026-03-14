@@ -1,12 +1,14 @@
 'use client';
 
 import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useLegalModal } from './useLegalModal';
 import { getLegalContent } from './legal-contents';
 import { LegalContentRenderer } from './LegalContentRenderer';
 import type { LegalModalProps } from './types';
 
 export function LegalModal({ isOpen, onClose, title, content }: LegalModalProps) {
+  const tActions = useTranslations('common.actions');
   useLegalModal(isOpen, onClose);
 
   if (!isOpen) return null;
@@ -35,7 +37,7 @@ export function LegalModal({ isOpen, onClose, title, content }: LegalModalProps)
           <button
             onClick={onClose}
             className="w-10 h-10 flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white transition-all duration-200 hover:scale-110"
-            aria-label="Fechar"
+            aria-label={tActions('close')}
           >
             <X size={20} />
           </button>
@@ -52,7 +54,7 @@ export function LegalModal({ isOpen, onClose, title, content }: LegalModalProps)
             onClick={onClose}
             className="px-6 py-2.5 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all hover:scale-105 active:scale-95"
           >
-            Fechar
+            {tActions('close')}
           </button>
         </div>
       </div>

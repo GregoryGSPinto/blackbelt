@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Star, MessageSquare, ChevronDown, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { createTestimonial } from '@/lib/api/testimonials.service';
 import type { TestimonialDTO } from '@/lib/api/testimonials.service';
@@ -13,6 +14,7 @@ interface TestimonialsSectionProps {
 
 export default function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
   const [mounted, setMounted] = useState(false);
+  const tActions = useTranslations('common.actions');
   const { user } = useAuth();
   const [visibleCount, setVisibleCount] = useState(3);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -182,7 +184,7 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
                     disabled={isSubmitting}
                     className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-lg transition-all duration-300 hover:shadow-lg disabled:opacity-50"
                   >
-                    {isSubmitting ? 'Enviando...' : 'Enviar depoimento'}
+                    {isSubmitting ? tActions('sending') : tActions('submit')}
                   </button>
                 </form>
               </div>

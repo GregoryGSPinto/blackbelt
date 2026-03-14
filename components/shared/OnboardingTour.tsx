@@ -22,6 +22,7 @@ interface TargetRect {
 
 export function OnboardingTour() {
   const t = useTranslations('common.onboarding');
+  const tActions = useTranslations('common.actions');
   const { isActive, currentStep, totalSteps, tour, next, back, skip } = useOnboarding();
   const [targetRect, setTargetRect] = useState<TargetRect | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
@@ -225,7 +226,7 @@ export function OnboardingTour() {
                 <button
                   onClick={back}
                   className="p-1.5 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/5 transition-colors"
-                  aria-label="Voltar"
+                  aria-label={tActions('back')}
                 >
                   <ChevronLeft size={16} />
                 </button>

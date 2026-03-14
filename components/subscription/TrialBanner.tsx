@@ -11,6 +11,7 @@ import {
   Gift
 } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface TrialBannerProps {
   daysRemaining: number;
@@ -19,6 +20,7 @@ interface TrialBannerProps {
 }
 
 export function TrialBanner({ daysRemaining, planName, onConvert }: TrialBannerProps) {
+  const tActions = useTranslations('common.actions');
   const [dismissed, setDismissed] = useState(false);
 
   // Salvar no localStorage se o usuário dismissou
@@ -117,7 +119,7 @@ export function TrialBanner({ daysRemaining, planName, onConvert }: TrialBannerP
               onClick={handleDismiss}
               className="p-2 hover:bg-white/20 rounded-lg transition-colors opacity-60 hover:opacity-100"
             >
-              <span className="sr-only">Fechar</span>
+              <span className="sr-only">{tActions('close')}</span>
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>

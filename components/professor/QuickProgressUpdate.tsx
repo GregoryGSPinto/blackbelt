@@ -54,6 +54,7 @@ export function QuickProgressUpdate({
   isOpen, onClose, onSaved, alunoId, alunoNome, professorId = 'prof-001',
 }: QuickProgressUpdateProps) {
   const t = useTranslations('professor.quickProgress');
+  const tActions = useTranslations('common.actions');
   const toast = useToast();
   const [categoria, setCategoria] = useState<CategoriaProgresso>('tecnica');
   const [nota, setNota] = useState(0);
@@ -105,7 +106,7 @@ export function QuickProgressUpdate({
             <h3 className="text-base font-semibold text-white">{t('title')}</h3>
             <p className="text-xs text-white/40">{alunoNome}</p>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label="Fechar">
+          <button onClick={onClose} className="p-2 rounded-xl hover:bg-white/10 transition-colors" aria-label={tActions('close')}>
             <X size={18} className="text-white/50" />
           </button>
         </div>

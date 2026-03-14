@@ -20,6 +20,7 @@ const DISMISS_KEY = 'blackbelt-demo-banner-dismissed';
 
 export function DemoBanner() {
   const t = useTranslations('common.demo');
+  const tActions = useTranslations('common.actions');
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export function DemoBanner() {
       <button
         onClick={dismiss}
         className="ml-2 p-0.5 rounded hover:bg-white/10 transition-colors"
-        aria-label="Fechar banner de demonstração"
+        aria-label={tActions('close')}
       >
         <X size={11} style={{ opacity: 0.5 }} />
       </button>
