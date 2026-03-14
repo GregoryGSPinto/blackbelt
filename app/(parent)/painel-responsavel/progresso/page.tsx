@@ -8,6 +8,7 @@ import { BehavioralRadarChart } from '@/components/parent/BehavioralRadarChart';
 import { ParentAlertsList } from '@/components/parent/ParentAlertsList';
 import { ParentTipsBanner } from '@/components/parent/ParentTipsBanner';
 import { UpcomingEventsTimeline } from '@/components/parent/UpcomingEventsTimeline';
+import { ChildModalitiesList } from '@/components/parent/ChildModalitiesList';
 import { useParent } from '@/contexts/ParentContext';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -106,6 +107,9 @@ export default function ProgressoPage() {
         </div>
       ) : (
         <div className="space-y-6">
+          {/* Modalities per child */}
+          <ChildModalitiesList />
+
           {/* Progress Summary */}
           <ChildProgressSummary
             summary={{

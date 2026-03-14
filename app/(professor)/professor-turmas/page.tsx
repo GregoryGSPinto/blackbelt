@@ -95,7 +95,9 @@ export default function ProfessorTurmasPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white/90">{turma.nome}</h3>
-                    <p className="text-xs text-white/55 mt-0.5">{turma.categoria}</p>
+                    <p className="text-xs text-white/55 mt-0.5">
+                      {turma.modalityName ? `${turma.modalityName} · ` : ''}{turma.categoria}
+                    </p>
                   </div>
                 </div>
                 <span className={`text-[10px] px-3 py-1 rounded-full font-semibold ${

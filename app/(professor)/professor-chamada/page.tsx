@@ -229,7 +229,7 @@ export default function ProfessorChamadaPage() {
           <p className="text-amber-400/50 text-xs tracking-[0.25em] uppercase mb-2">{t('quickAttendance')}</p>
           <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>{selectedTurma.nome}</h1>
           <p className="text-white/50 text-sm mt-1">
-            {selectedTurma.dias} · {selectedTurma.horario} · {formatDate(new Date(), 'short')}
+            {selectedTurma.modalityName ? `${selectedTurma.modalityName} · ` : ''}{selectedTurma.dias} · {selectedTurma.horario} · {formatDate(new Date(), 'short')}
           </p>
           <div className="prof-gold-line mt-5" />
         </section>

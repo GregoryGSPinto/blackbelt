@@ -30,6 +30,8 @@ export interface TurmaResumo {
   presencaMedia: number;
   proximaSessao: string;
   cor: string;
+  modalityId?: string;
+  modalityName?: string;
 }
 
 export interface AlunoProgresso {

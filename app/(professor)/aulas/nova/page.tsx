@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
+import {
   ChevronLeft,
   Calendar,
   Clock,
@@ -11,12 +11,23 @@ import {
   BookOpen,
   AlertCircle
 } from 'lucide-react';
+import { getAcademyModalities, type AcademyModality } from '@/lib/api/modality.service';
 
-const modalities = ['BJJ', 'Muay Thai', 'Boxe', 'Judo', 'Wrestling', 'MMA'];
+const FALLBACK_MODALITIES = ['BJJ', 'Muay Thai', 'Boxe', 'Judo', 'Wrestling', 'MMA'];
 const levels = ['Iniciante', 'Intermediário', 'Avançado', 'Competição'];
 
 export default function NovaAulaPage() {
   const router = useRouter();
+  const [academyModalities, setAcademyModalities] = useState<AcademyModality[]>([]);
+
+  useEffect(() => {
+    getAcademyModalities().then(setAcademyModalities).catch(() => {});
+  }, []);
+
+  const modalityOptions = academyModalities.length > 0
+    ? academyModalities.map(m => ({ id: m.id, label: m.icon ? `${m.icon} ${m.name}` : m.name }))
+    : FALLBACK_MODALITIES.map(name => ({ id: name, label: name }));
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -114,18 +125,18 @@ export default function NovaAulaPage() {
               Modalidade
             </label>
             <div className="grid grid-cols-3 gap-2">
-              {modalities.map((mod) => (
+              {modalityOptions.map((mod) => (
                 <button
-                  key={mod}
+                  key={mod.id}
                   type="button"
-                  onClick={() => updateField('modality', mod)}
+                  onClick={() => updateField('modality', mod.id)}
                   className={`rounded-xl border py-3 text-sm font-medium transition ${
-                    formData.modality === mod
+                    formData.modality === mod.id
                       ? 'border-amber-400 bg-amber-400/10 text-amber-400'
                       : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
                   }`}
                 >
-                  {mod}
+                  {mod.label}
                 </button>
               ))}
             </div>

@@ -26,6 +26,7 @@ export const TURMAS: TurmaResumo[] = [
     presencaMedia: 88,
     proximaSessao: 'Amanhã, 17:00',
     cor: 'from-sky-500 to-blue-600',
+    modalityName: 'Jiu-Jitsu',
   },
   {
     id: 'turma_teen',
@@ -38,6 +39,7 @@ export const TURMAS: TurmaResumo[] = [
     presencaMedia: 82,
     proximaSessao: 'Hoje, 18:00',
     cor: 'from-violet-500 to-purple-600',
+    modalityName: 'Jiu-Jitsu',
   },
   {
     id: 'turma_adulto',
@@ -50,6 +52,7 @@ export const TURMAS: TurmaResumo[] = [
     presencaMedia: 78,
     proximaSessao: 'Hoje, 19:30',
     cor: 'from-amber-500 to-orange-600',
+    modalityName: 'Jiu-Jitsu',
   },
   {
     id: 'turma_avancado',
@@ -62,6 +65,7 @@ export const TURMAS: TurmaResumo[] = [
     presencaMedia: 92,
     proximaSessao: 'Hoje, 21:00',
     cor: 'from-red-500 to-rose-600',
+    modalityName: 'Muay Thai',
   },
 ];
 
