@@ -1,36 +1,21 @@
 // ============================================================
 // PrivacyConsentModal — LGPD/ATT Soft Prompt (First Launch)
 // ============================================================
-// Shows on first app usage. Collects privacy consents.
-// Stores acceptance in localStorage to avoid re-showing.
-//
-// TODO(LGPD-001): MIGRATE CONSENT STORAGE TO DATABASE
-//   Currently consent is stored ONLY in localStorage, which means:
-//   1) It is lost when the user clears browser data
-//   2) It is not auditable for LGPD compliance (Art. 8, §2 — burden of proof)
-//   3) It does not persist across devices
-//   The consent state should be persisted to the backend via
-//   POST /api/user/consent with { essential, analytics, notifications, acceptedAt }
-//   and the localStorage should serve only as a cache/fallback.
-//   See: saveConsentToBackend() stub below.
-//
-// Compliance:
-//   - LGPD Art. 7, 8 (consentimento)
-//   - Apple ATT-style flow (sem IDFA, mas boa prática)
-//   - Google Data Safety disclosure
-//
-// Positioning: Não é "tracking consent" — é transparência.
-// ============================================================
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Shield, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, Shield } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getDesignTokens } from '@/lib/design-tokens';
 
 const CONSENT_KEY = 'blackbelt-privacy-consent-v1';
+const GOLD_ACCENT = '#C9A227';
+const GOLD_GLOW = '0 0 20px rgba(201,162,39,0.3)';
 
 interface ConsentState {
-  essential: boolean;  // Always true, can't be unchecked
+  essential: boolean;
   analytics: boolean;
   notifications: boolean;
 }
@@ -41,28 +26,22 @@ const DATA_ITEMS = [
   { key: 'notifications' as const, label: 'notificationsConsent', desc: 'notificationsConsent', required: false },
 ];
 
-// TODO(LGPD-001): Replace this stub with a real API call once the endpoint exists.
-// This should POST the consent record to the backend so it's stored in the database
-// alongside the user profile, making it auditable per LGPD requirements.
 async function saveConsentToBackend(consent: ConsentState & { acceptedAt: string }) {
   try {
-    // Fire-and-forget: send consent to backend for database storage.
-    // The localStorage write (below) acts as immediate cache so the modal
-    // doesn't re-show even if this request fails.
     await fetch('/api/user/consent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
       body: JSON.stringify(consent),
     });
   } catch {
-    // Silent fail — localStorage is the fallback.
-    // TODO(LGPD-001): Add retry logic or queue for offline scenarios.
     console.warn('[LGPD] Failed to sync consent to backend. Will retry on next session.');
   }
 }
 
 export function PrivacyConsentModal() {
   const t = useTranslations('common.privacy');
+  const { isDark } = useTheme();
+  const tokens = getDesignTokens(isDark);
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [consent, setConsent] = useState<ConsentState>({
@@ -72,161 +51,339 @@ export function PrivacyConsentModal() {
   });
 
   useEffect(() => {
-    // Only show if not yet consented
     const stored = localStorage.getItem(CONSENT_KEY);
     if (!stored) {
-      // Small delay so it doesn't flash on page load
-      const timer = setTimeout(() => setVisible(true), 800);
-      return () => clearTimeout(timer);
+      const timer = window.setTimeout(() => setVisible(true), 800);
+      return () => window.clearTimeout(timer);
     }
   }, []);
 
+  const detailItems = useMemo(() => [
+    'Não vendemos seus dados para terceiros.',
+    'Não usamos rastreamento cross-app nem IDFA.',
+    'Os dados de treino ficam restritos ao seu contexto operacional.',
+    'Você pode revogar consentimentos em Configurações -> Termos e Políticas.',
+    'A exclusão de conta permanece disponível em Configurações -> Minha Conta -> Excluir Conta.',
+  ], []);
+
   if (!visible) return null;
 
-  const handleAcceptAll = () => {
-    const accepted = { ...consent, acceptedAt: new Date().toISOString() };
+  const textPrimary = tokens.text;
+  const textSecondary = tokens.textMuted;
+  const cardStyle = {
+    background: tokens.cardBg,
+    border: `1px solid ${tokens.cardBorder}`,
+    backdropFilter: 'blur(12px) saturate(1.2)',
+    WebkitBackdropFilter: 'blur(12px) saturate(1.2)',
+    borderRadius: '2px',
+  } as const;
+
+  const persistConsent = (nextConsent: ConsentState) => {
+    const accepted = { ...nextConsent, acceptedAt: new Date().toISOString() };
     localStorage.setItem(CONSENT_KEY, JSON.stringify(accepted));
-    // TODO(LGPD-001): Sync consent to database for LGPD compliance audit trail
     saveConsentToBackend(accepted);
     setVisible(false);
+  };
+
+  const handleAcceptAll = () => {
+    const nextConsent = {
+      essential: true,
+      analytics: true,
+      notifications: true,
+    };
+    setConsent(nextConsent);
+    persistConsent(nextConsent);
   };
 
   const handleAcceptSelected = () => {
-    const accepted = { ...consent, acceptedAt: new Date().toISOString() };
-    localStorage.setItem(CONSENT_KEY, JSON.stringify(accepted));
-    // TODO(LGPD-001): Sync consent to database for LGPD compliance audit trail
-    saveConsentToBackend(accepted);
-    setVisible(false);
+    persistConsent(consent);
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-
-      {/* Modal */}
+    <div className="fixed inset-0 z-[9999] flex items-end justify-center px-4 py-4 sm:items-center">
       <div
-        className="relative w-full max-w-[calc(100%-2rem)] sm:max-w-md mx-4 mb-4 sm:mb-0 rounded-2xl overflow-hidden"
+        className="absolute inset-0"
+        style={{ background: 'rgba(0,0,0,0.6)' }}
+        aria-hidden="true"
+      />
+
+      <div
+        className="relative w-full max-w-[480px] overflow-hidden"
         style={{
-          background: 'rgba(20,18,16,0.97)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          backdropFilter: 'blur(24px)',
-          animation: 'slideUp 0.3s ease-out',
+          ...cardStyle,
+          padding: '2rem',
+          color: textPrimary,
+          boxShadow: isDark ? '0 18px 60px rgba(0,0,0,0.45)' : '0 18px 60px rgba(0,0,0,0.18)',
+          transform: 'translateY(0)',
+          opacity: 1,
+          animation: 'privacyConsentEnter 350ms cubic-bezier(0.4, 0, 0.2, 1)',
         }}
         role="dialog"
         aria-modal="true"
-        aria-label="Consentimento de privacidade"
+        aria-label="Privacidade e dados"
       >
-        {/* Header */}
-        <div className="p-6 pb-4 text-center">
+        <div className="flex items-start gap-3">
           <div
-            className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4"
+            className="flex h-10 w-10 items-center justify-center"
             style={{
-              background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15))',
-              border: '1px solid rgba(59,130,246,0.2)',
+              ...cardStyle,
+              borderColor: `${GOLD_ACCENT}55`,
+              background: isDark ? 'rgba(201,162,39,0.12)' : 'rgba(201,162,39,0.08)',
+              flexShrink: 0,
             }}
           >
-            <Shield size={24} className="text-blue-400" />
+            <Shield size={18} color={GOLD_ACCENT} />
           </div>
-          <h2 className="text-lg font-semibold text-white">{t('title')}</h2>
-          <p className="text-xs text-white/40 mt-1.5 leading-relaxed">
-            O BlackBelt respeita seus dados. Veja como usamos suas informações.
-          </p>
+          <div className="min-w-0 flex-1">
+            <h2
+              className="premium-title"
+              style={{
+                color: textPrimary,
+                fontWeight: 300,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginBottom: '0.5rem',
+              }}
+            >
+              Privacidade &amp; Dados
+            </h2>
+            <p
+              style={{
+                color: textSecondary,
+                fontWeight: 300,
+                lineHeight: 1.65,
+                fontSize: '0.95rem',
+                maxWidth: '34ch',
+              }}
+            >
+              Respeitamos sua privacidade. Escolha quais dados você autoriza para manter o app útil e previsível.
+            </p>
+          </div>
         </div>
 
-        {/* Data items */}
-        <div className="px-6 space-y-2">
-          {DATA_ITEMS.map((item) => (
-            <div
-              key={item.key}
-              className="flex items-start gap-3 p-3 rounded-xl"
-              style={{ background: 'rgba(255,255,255,0.02)' }}
-            >
-              <label className="relative flex-shrink-0 mt-0.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={consent[item.key]}
-                  onChange={(e) => {
-                    if (item.required) return; // Can't uncheck essential
-                    setConsent(prev => ({ ...prev, [item.key]: e.target.checked }));
-                  }}
-                  disabled={item.required}
-                  className="sr-only"
-                />
-                <div
-                  className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all
-                    ${consent[item.key]
-                      ? 'bg-blue-500 border-blue-500'
-                      : 'bg-white/5 border-white/15'
-                    }
-                    ${item.required ? 'opacity-60' : ''}`}
-                >
-                  {consent[item.key] && <CheckCircle size={12} className="text-white" />}
+        <div className="mt-8 space-y-3">
+          {DATA_ITEMS.map((item) => {
+            const checked = consent[item.key];
+            const interactive = !item.required;
+
+            return (
+              <label
+                key={item.key}
+                className="block cursor-pointer transition-colors duration-300"
+                style={{
+                  ...cardStyle,
+                  padding: '1rem 1rem 0.95rem',
+                  borderColor: checked ? `${GOLD_ACCENT}88` : tokens.cardBorder,
+                  boxShadow: checked ? '0 0 0 1px rgba(201,162,39,0.08)' : 'none',
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    disabled={item.required}
+                    onChange={(event) => {
+                      if (!interactive) return;
+                      setConsent((previous) => ({
+                        ...previous,
+                        [item.key]: event.target.checked,
+                      }));
+                    }}
+                    className="sr-only"
+                  />
+
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: '44px',
+                      height: '24px',
+                      borderRadius: '999px',
+                      border: `1px solid ${checked ? `${GOLD_ACCENT}AA` : tokens.cardBorder}`,
+                      background: checked ? GOLD_ACCENT : 'transparent',
+                      boxShadow: checked ? GOLD_GLOW : 'none',
+                      position: 'relative',
+                      transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                      opacity: item.required ? 0.8 : 1,
+                      flexShrink: 0,
+                      marginTop: '2px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '2px',
+                        left: checked ? '22px' : '2px',
+                        width: '18px',
+                        height: '18px',
+                        borderRadius: '999px',
+                        background: checked ? (isDark ? '#0f172a' : '#ffffff') : (isDark ? '#f5f5f0' : '#111827'),
+                        transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {checked ? <Check size={11} color={GOLD_ACCENT} /> : null}
+                    </span>
+                  </span>
+
+                  <span className="block min-w-0 flex-1">
+                    <span
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        color: textPrimary,
+                        fontWeight: 500,
+                        letterSpacing: '0.02em',
+                        fontSize: '0.96rem',
+                      }}
+                    >
+                      {t(item.label)}
+                      {item.required ? (
+                        <span
+                          style={{
+                            fontSize: '0.62rem',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.12em',
+                            opacity: 0.6,
+                          }}
+                        >
+                          Obrigatório
+                        </span>
+                      ) : null}
+                    </span>
+                    <span
+                      style={{
+                        display: 'block',
+                        marginTop: '0.35rem',
+                        color: textSecondary,
+                        fontWeight: 300,
+                        fontSize: '0.85rem',
+                        lineHeight: 1.55,
+                      }}
+                    >
+                      {t(item.desc)}
+                    </span>
+                  </span>
                 </div>
               </label>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-white/80 font-medium">
-                  {t(item.label)}
-                  {item.required && <span className="text-[9px] text-white/25 ml-1.5">(obrigatório)</span>}
-                </p>
-                <p className="text-[11px] text-white/30 mt-0.5 leading-relaxed">{t(item.desc)}</p>
+            );
+          })}
+        </div>
+
+        <div className="mt-5">
+          <button
+            type="button"
+            onClick={() => setExpanded((previous) => !previous)}
+            className="inline-flex items-center gap-2 text-left transition-colors duration-200"
+            style={{
+              color: GOLD_ACCENT,
+              fontSize: '0.8rem',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              fontWeight: 500,
+            }}
+          >
+            {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            Ver detalhes completos
+          </button>
+
+          {expanded ? (
+            <div
+              className="mt-3"
+              style={{
+                ...cardStyle,
+                padding: '1rem',
+              }}
+            >
+              <ul
+                style={{
+                  color: textSecondary,
+                  fontSize: '0.82rem',
+                  lineHeight: 1.7,
+                  fontWeight: 300,
+                }}
+              >
+                {detailItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <div className="mt-3">
+                <Link
+                  href="/politica-privacidade"
+                  target="_blank"
+                  style={{
+                    color: GOLD_ACCENT,
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.05em',
+                    textDecoration: 'none',
+                  }}
+                  className="hover:underline"
+                >
+                  {t('fullPolicy')}
+                </Link>
               </div>
             </div>
-          ))}
+          ) : null}
         </div>
 
-        {/* Expandable details */}
-        <div className="px-6 mt-3">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <button
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1.5 text-[11px] text-blue-400/60 hover:text-blue-400/90 transition-colors"
-          >
-            {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-            {expanded ? 'Ocultar detalhes' : 'Ver detalhes completos'}
-          </button>
-          {expanded && (
-            <div className="mt-2 p-3 rounded-xl bg-white/[0.02] text-[10px] text-white/25 leading-relaxed space-y-1.5">
-              <p>• Não vendemos seus dados para terceiros</p>
-              <p>• Não usamos IDFA ou tracking entre apps</p>
-              <p>• Dados de treino são privados e só visíveis para você e seus instrutores</p>
-              <p>• Você pode revogar consentimentos a qualquer momento em Configurações → Termos e Políticas</p>
-              <p>• Dados podem ser excluídos em Configurações → Minha Conta → Excluir Conta</p>
-              <p className="mt-2">
-                <a href="/politica-privacidade" target="_blank" className="text-blue-400/50 underline">
-                  {t('fullPolicy')}
-                </a>
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Actions */}
-        <div className="p-6 space-y-2.5">
-          <button
+            type="button"
             onClick={handleAcceptAll}
-            className="w-full py-3.5 rounded-xl font-medium text-sm
-                       bg-gradient-to-r from-blue-600 to-blue-500 text-white
-                       hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg"
+            className="transition-all duration-300"
+            style={{
+              flex: 1,
+              minHeight: '46px',
+              borderRadius: '2px',
+              border: `1px solid ${GOLD_ACCENT}`,
+              background: GOLD_ACCENT,
+              color: isDark ? '#0f172a' : '#ffffff',
+              fontWeight: 500,
+              fontSize: '0.8rem',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              boxShadow: GOLD_GLOW,
+            }}
           >
             {t('acceptAll')}
           </button>
+
           <button
+            type="button"
             onClick={handleAcceptSelected}
-            className="w-full py-3 rounded-xl text-xs font-medium
-                       bg-white/5 border border-white/10 text-white/40
-                       hover:bg-white/10 transition-colors"
+            className="transition-all duration-300"
+            style={{
+              flex: 1,
+              minHeight: '46px',
+              borderRadius: '2px',
+              border: `1px solid ${GOLD_ACCENT}`,
+              background: 'transparent',
+              color: GOLD_ACCENT,
+              fontWeight: 500,
+              fontSize: '0.8rem',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+            }}
           >
             {t('acceptSelected')}
           </button>
         </div>
-      </div>
 
-      <style>{`
-        @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-      `}</style>
+        <style>{`
+          @keyframes privacyConsentEnter {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
+      </div>
     </div>
   );
 }
