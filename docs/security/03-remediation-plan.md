@@ -20,5 +20,6 @@
 
 ## Status
 
-- Correções aplicadas nesta rodada: parcial
-- Produto enterprise pilot ready: NOT READY
+- Correções aplicadas nesta rodada: `Implementado` em parte crítica, `Planejado` em parte estrutural longa
+- Produto enterprise pilot ready: `Estável em piloto`
+- Operação comercial ampla: `Depende de configuração externa` + novas rodadas de hardening fora do core

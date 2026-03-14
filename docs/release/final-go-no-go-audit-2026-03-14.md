@@ -1,50 +1,49 @@
 # BlackBelt Final Go/No-Go Audit
 
-Date: 2026-03-14
-Decision: GO para piloto fechado
+Date: 2026-03-14  
+Decision: GO para piloto pago fechado e operação comercial controlada, com pendências externas explícitas
 
 ## Executive Summary
 
-BlackBelt is not ready for broad commercial release. The core product flows are materially stronger than before and the main academy/admin/professor/student journeys are now usable, but the repository still contains a legacy authorization and pricing/billing surface based on `usuarios_academia` that coexists with the current `memberships` domain. That is the main blocker against controlled commercial launch.
+BlackBelt is no longer blocked by the earlier critical tenancy issue in the audited commercial surfaces. The current codebase is acceptable for a closely monitored paid pilot and for controlled commercial operation where the founder/ops team manages onboarding, billing rollout, and runtime configuration directly.
 
-The current state is acceptable for a closely monitored pilot with a very small number of academies, direct operational support, controlled billing expectations, and no assumption of large-scale tenant growth.
+BlackBelt is still not ready for broad commercial release or public-store-scale distribution without external configuration and operational evidence.
 
 ## Release Board Status
 
-- Core product flow: pass with risk
-- Auth and authorization: pass with risk
-- Multi-tenancy isolation: fail for commercial release, pass with risk for pilot
-- Schema/domain consistency: pass with risk
-- UX/commercial polish: pass with risk
-- QA/build confidence: pass with risk
-- Mobile readiness: pass with risk
+- Core product flow: `Estável em piloto`
+- Auth and authorization: `Estável em piloto`
+- Multi-tenancy isolation in critical commercial surfaces: `Resolvido tecnicamente`
+- Schema/domain consistency: `Resolvido tecnicamente`
+- Billing structure: `Resolvido tecnicamente`
+- Mobile packaging: `Resolvido tecnicamente`
+- Mobile external distribution: `Depende de configuração externa`
+- Broad commercial rollout: `Planejado`
 
-## Main Blockers
+## Current Real Blockers
 
-1. Legacy multi-tenant model still active in billing and commercial modules.
-   - Affected areas include subscription, addons, usage, pricing update, billing forecast, and super-admin APIs.
-   - These still read `usuarios_academia` instead of the current `memberships` model.
+1. External Stripe configuration is still missing.
+   - Live secrets and price envs are required for real E2E billing execution.
 
-2. Release validation is not clean on the default build path.
-   - `npx next build --no-lint` is not supported by the installed Next.js version.
-   - `npx next build` still panics under Turbopack in this environment.
-   - `npx next build --webpack` succeeds and is the effective validation path today.
+2. Mobile operational metadata is incomplete.
+   - `SUPPORT_EMAIL` and `PRIVACY_EMAIL` still need final monitored values.
+   - `CAPACITOR_FALLBACK_URLS` is still optional in code but operationally relevant.
 
-3. Mobile operational metadata is incomplete.
-   - `SUPPORT_EMAIL` and `PRIVACY_EMAIL` are not configured.
-   - No fallback runtime URLs are configured for hosted Capacitor runtime.
+3. Hosted runtime evidence is still external.
+   - The repository can build/package the current wrapper.
+   - It cannot prove from inside the workspace that the final public host is reviewer-safe and externally reachable.
 
 ## Pilot Constraints
 
-- Limit the pilot to a small number of academies.
-- Keep close manual monitoring over auth, onboarding, billing, and tenant boundaries.
-- Avoid claiming hardened commercial billing maturity until the legacy `usuarios_academia` path is retired.
-- Treat mobile as controlled rollout only, not broad Play Store scale distribution.
+- Keep rollout limited and operationally supervised.
+- Treat billing as controlled-commercial, not mass self-serve.
+- Treat mobile as controlled distribution until hosted runtime evidence is collected.
+- Avoid implying that every role surface is equally mature; core academy/admin/professor/student flows are the strongest.
 
-## Required Before Commercial Launch
+## Required Before Broad Commercial Launch
 
-1. Migrate remaining legacy APIs and pricing/billing paths from `usuarios_academia` to `memberships`.
-2. Eliminate dual-domain tenant enforcement in schema, RLS, and API authorization.
-3. Stabilize the default Next build path and remove dependency on webpack fallback.
-4. Configure support/privacy operational contacts and mobile fallback hosts.
-5. Add integration coverage for real tenant isolation, academy creation, billing, and role enforcement.
+1. Supply live Stripe secrets and `STRIPE_PRICE_*` mappings.
+2. Validate hosted billing/webhook flow against the final commercial host.
+3. Configure support/privacy operational contacts.
+4. Decide consciously whether single-host mobile runtime is acceptable.
+5. Collect external evidence for the hosted mobile runtime and reviewer path.

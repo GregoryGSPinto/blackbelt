@@ -1,40 +1,30 @@
 # Store Readiness Scorecard
 
-Data: 12 de março de 2026
+Date: 2026-03-14
 
-| Domínio | Nota | Status |
-|---|---:|---|
-| Arquitetura | 6.5 | Warning |
-| Mobile readiness | 4.0 | Blocker |
-| App Review readiness | 5.0 | Warning |
-| Segurança | 6.5 | Warning |
-| Compliance | 5.5 | Warning |
-| Monetização | 5.0 | Warning |
-| Observabilidade | 5.5 | Warning |
-| Confiabilidade | 6.0 | Warning |
-| UX | 6.0 | Warning |
-| Enterprise readiness | 6.0 | Warning |
+| Domain | Status | Notes |
+|---|---|---|
+| Build validation | Resolvido tecnicamente | `pnpm typecheck`, `pnpm lint`, `pnpm test`, `npx next build --webpack` |
+| Mobile packaging | Resolvido tecnicamente | Hosted shell + `mobile-build/` are the active path |
+| Hosted mobile runtime | Depende de configuração externa | Needs final host evidence |
+| App Review readiness | Depende de configuração externa | Needs reviewer credentials and hosted proof |
+| Billing structure | Resolvido tecnicamente | Live Stripe execution still needs envs |
+| Compliance / legal submission | Depende de configuração externa | Business identity fields still external |
+| Broad store production | Planejado | Not an honest current label |
 
-## Blockers únicos
+## Unique Remaining Blockers
 
-- Export estático mobile falhando
-- Sync nativo não validado com assets reais
-- Reviewer journey não comprovada com credenciais reais
-- Materiais legais dependem de preenchimento empresarial
+- final hosted mobile origin still needs external validation
+- reviewer path still needs real credentials
+- business/legal identity still needs console completion
+- live Stripe setup still needs secrets and price mappings
 
-## Quick wins
+## Honest Outcome Labels
 
-- Definir estratégia de listing como B2B companion
-- Publicar domínio definitivo para páginas legais
-- Adicionar CI de release
-- Remover documentos históricos conflitantes da superfície pública do repo
-
-## Ready / Not Ready
-
-- Beta privado: READY
-- Cliente piloto: READY
-- Produção limitada web: READY com observação
-- Google Play internal testing: NOT READY
-- Google Play production: NOT READY
-- App Store TestFlight: NOT READY
-- App Store production: NOT READY
+- Beta privado: `Estável em piloto`
+- Cliente piloto pago: `Estável em piloto`
+- Produção web controlada: `GO com suporte operacional`
+- Google Play internal testing: `Depende de configuração externa`
+- App Store TestFlight: `Depende de configuração externa`
+- Google Play production: `Planejado`
+- App Store production: `Planejado`

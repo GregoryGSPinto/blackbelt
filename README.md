@@ -1,51 +1,67 @@
 # BlackBelt
 
-BlackBelt is a multi-role platform for martial arts academies built on Next.js, Supabase, and a large mock-first service layer. The repository currently contains the web app, mobile build assets, Supabase migrations, backend infrastructure experiments, and a broad automated test suite in a single monorepo-style workspace.
+BlackBelt is a premium operational platform for martial arts academies. The product vision remains broad: academy operations, member experience, pedagogy, billing, communication, mobile distribution, and AI-assisted workflows around a single academy domain.
 
-This repository builds and tests successfully as of March 9, 2026, but it is not yet a cleanly separated enterprise codebase. The documentation in this cleanup pass reflects the actual state of the project rather than an idealized target.
+This repository reflects the real current state of that vision as of March 14, 2026. It is not a claim that every surface is production-complete.
 
-## Overview
+## Current Product Reality
 
-- Frontend: Next.js App Router application under `app/`, `components/`, `contexts/`, `hooks/`, and `features/`
-- Shared/domain code: `lib/` and `src/`
+### Implemented
+
+- Core domain centered on `academies + profiles + memberships`
+- Multi-role web application built on Next.js App Router
+- Supabase-backed schema, auth helpers, RLS, and migrations
+- Core academy/admin/professor/student journeys
+- Trial, subscription, Stripe checkout/webhook structure
+- Hosted Capacitor shell and mobile runtime endpoint
+- Broad automated test suite plus production build validation
+
+### Stable In Pilot
+
+- Closed paid pilot with direct operational support
+- Controlled academy onboarding and tenancy-scoped operations
+- Billing structure for controlled commercial rollout, once live configuration is provided
+- Controlled mobile distribution where the hosted runtime is explicitly validated
+
+### Technically Resolved
+
+- Critical tenancy surfaces now derive tenant from `membership.academy_id`
+- Billing-critical routes no longer depend on the old `usuarios_academia` contract
+- Stripe persistence is aligned to `academy_subscriptions` and `subscription_invoices`
+- Mobile packaging uses `mobile-build/`, not static export in `out/`
+
+### Depends On External Configuration
+
+- Final hosted HTTPS domain
+- Stripe live secrets, webhook secret, and `STRIPE_PRICE_*` envs
+- `SUPPORT_EMAIL` and `PRIVACY_EMAIL`
+- `CAPACITOR_FALLBACK_URLS` if single-host mode is not acceptable
+- App Store / Play Console business identity and reviewer credentials
+
+### Planned
+
+- Broad commercial rollout without assisted monitoring
+- Public store production readiness beyond controlled distribution
+- Full de-risking of still mock-backed or partially implemented non-core surfaces
+- Deeper architectural cleanup and stronger module boundaries
+
+## Repository Overview
+
+- Frontend: `app/`, `components/`, `contexts/`, `hooks/`, `features/`
+- Shared/domain code: `lib/`, `src/`
 - Backend infrastructure experiments: `server/`
 - Database and edge functions: `supabase/`
 - Tests: `tests/`
 - Native/mobile artifacts: `android/`, `ios/`, `resources/`, `store/`
 
-## Architecture
-
-The codebase is organized around route groups and shared libraries, but it is not fully modularized by domain yet.
-
-- `app/`: UI routes and API routes
-- `components/`: shared and role-specific React components
-- `lib/api/`: service layer used by the frontend and tests
-- `lib/domain/`, `lib/application/`, `lib/security/`, `lib/persistence/`: domain, application, and infrastructure concerns
-- `src/features/`: newer feature-oriented modules
-- `supabase/migrations/`: SQL schema, RLS, billing, and feature migrations
-
-See [ARCHITECTURE.md](/Users/user_pc/Projetos/BlackBelt/ARCHITECTURE.md) for the current-state architecture and the target cleanup direction.
-
-## Tech Stack
-
-- Next.js 16
-- React 19
-- TypeScript
-- Supabase
-- Vitest + Testing Library
-- Tailwind CSS
-- Capacitor
-- Stripe
-- Sentry
-
-## Installation
+## Build And Validation
 
 Requirements:
 
-- Node.js 18.17+ or newer
-- pnpm 9+ or newer
+- Node.js 18.17+
+- pnpm 9+
 
-Install dependencies:
+Install:
 
 ```bash
 pnpm install
@@ -57,14 +73,16 @@ Local development:
 pnpm dev
 ```
 
-Production build:
+Primary validation path used today:
 
 ```bash
-pnpm build
-pnpm start
+pnpm typecheck
+pnpm lint
+pnpm test
+npx next build --webpack
 ```
 
-Native/mobile build:
+Mobile/runtime validation:
 
 ```bash
 pnpm mobile:runtime:check
@@ -74,13 +92,11 @@ pnpm mobile:sync
 
 Notes:
 
-- `pnpm build` keeps the normal Next.js web/server build path.
-- `CAPACITOR_BUILD=true pnpm build` runs the same Next.js build and then generates the Capacitor shell in `mobile-build/`.
-- Capacitor consumes only `mobile-build/`. The repo no longer uses `out/` for native packaging.
+- `npx next build --webpack` is the stable release validation path in this workspace.
+- `CAPACITOR_BUILD=true pnpm build` generates the hosted Capacitor shell into `mobile-build/`.
+- Capacitor consumes only `mobile-build/`.
 
 ## Environment
-
-The app supports mock-first development and partial Supabase-backed execution.
 
 Common variables:
 
@@ -91,35 +107,14 @@ Common variables:
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `NEXT_PUBLIC_SENTRY_DSN`
 - `SENTRY_DSN`
-
-## Development Workflow
-
-Primary checks:
-
-```bash
-pnpm lint
-pnpm typecheck
-pnpm test
-pnpm build
-```
-
-Database helpers:
-
-```bash
-pnpm db:up
-pnpm db:migrate
-pnpm db:down
-```
-
-## Repository Notes
-
-- `mobile-build/` and `logs/` are generated/output-oriented directories and should not receive new committed artifacts.
-- The repo currently mixes legacy folders (`hooks/`, `features/`) with newer modules (`src/features/`) and broad shared libraries (`lib/`).
-- Some services are still mock-backed or placeholder-backed by design.
+- `NEXT_PUBLIC_APP_URL`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
 
 ## Documentation
 
 - [ARCHITECTURE.md](/Users/user_pc/Projetos/BlackBelt/ARCHITECTURE.md)
-- [CONTRIBUTING.md](/Users/user_pc/Projetos/BlackBelt/CONTRIBUTING.md)
-- [CHANGELOG.md](/Users/user_pc/Projetos/BlackBelt/CHANGELOG.md)
-- [docs/REPOSITORY_DIAGNOSTIC.md](/Users/user_pc/Projetos/BlackBelt/docs/REPOSITORY_DIAGNOSTIC.md)
+- [BBOS_READINESS_REPORT.md](/Users/user_pc/Projetos/BlackBelt/BBOS_READINESS_REPORT.md)
+- [FINAL_STORE_READINESS_REPORT.md](/Users/user_pc/Projetos/BlackBelt/FINAL_STORE_READINESS_REPORT.md)
+- [docs/final/17-current-product-state.md](/Users/user_pc/Projetos/BlackBelt/docs/final/17-current-product-state.md)
+- [docs/ops/01-release-runbook.md](/Users/user_pc/Projetos/BlackBelt/docs/ops/01-release-runbook.md)
