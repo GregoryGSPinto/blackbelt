@@ -79,6 +79,17 @@ export default function CheckInPage() {
 
   useSearchRegistration('admin-checkin', searchItems);
 
+  // Normalize for accent-tolerant search (must be before early returns)
+  const filteredAlunos = useMemo(() => {
+    if (!searchTerm.trim()) return [];
+    const q = searchTerm.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return alunos.filter(a => {
+      const nome = a.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const grad = (a.graduacao || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return nome.includes(q) || a.id.toLowerCase().includes(q) || grad.includes(q);
+    });
+  }, [alunos, searchTerm]);
+
   if (loading) {
     return <PremiumLoader text={t('checkin.loading')} />;
   }
@@ -88,11 +99,6 @@ export default function CheckInPage() {
   }
 
   const checkInsHoje = checkIns.filter(c => c.data === today);
-
-  const filteredAlunos = alunos.filter(a =>
-    a.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    a.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleCheckIn = async (aluno: Usuario) => {
     setSelectedAluno(aluno);
