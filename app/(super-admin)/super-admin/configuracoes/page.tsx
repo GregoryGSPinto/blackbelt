@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { Save, Building2, Bell, Shield, Globe } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 export default function SuperAdminConfiguracoesPage() {
+  const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
@@ -42,7 +44,7 @@ export default function SuperAdminConfiguracoesPage() {
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
           style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
           <Save size={16} />
-          {saving ? 'Salvando...' : showSuccess ? 'Salvo!' : 'Salvar'}
+          {saving ? tc('saving') : showSuccess ? tc('saved') : tc('save')}
         </button>
       </div>
 

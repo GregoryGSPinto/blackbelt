@@ -13,9 +13,11 @@ import {
 } from '@/lib/api/academy-operations.service';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageError } from '@/components/shared/DataStates';
+import { useTranslations } from 'next-intl';
 
 export default function EquipePage() {
   const toast = useToast();
+  const t = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -47,7 +49,7 @@ export default function EquipePage() {
     borderRadius: '24px',
   }), [tokens.cardBg, tokens.cardBorder]);
 
-  if (loading) return <PremiumLoader text="Carregando equipe da academia..." />;
+  if (loading) return <PremiumLoader text={t('loading.team')} />;
   if (error || !data) return <PageError error={error || 'Equipe indisponível'} onRetry={() => window.location.reload()} />;
 
   const professors = data.members.filter((member) => member.role === 'professor');
@@ -164,7 +166,7 @@ export default function EquipePage() {
           <div className="mt-4 grid gap-3">
             {leadership.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-white/10 px-5 py-10 text-center text-sm" style={{ color: tokens.textMuted }}>
-                Nenhum membro administrativo adicional ainda. Adicione lideranca apenas quando a operacao realmente precisar.
+                {t('empty.noAdminMembers')}
               </div>
             ) : leadership.map((member) => (
               <div key={member.id} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
@@ -203,7 +205,7 @@ export default function EquipePage() {
         <div className="mt-6 grid gap-3">
           {professors.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-white/10 px-5 py-10 text-center text-sm" style={{ color: tokens.textMuted }}>
-              Nenhum professor ativo ainda. Use o formulario acima para convidar o primeiro professor e liberar as rotinas de aula.
+              {t('empty.noProfessors')}
             </div>
           ) : professors.map((member) => (
             <div key={member.id} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
@@ -239,7 +241,7 @@ export default function EquipePage() {
           <div className="mt-4 grid gap-3">
             {data.invites.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-white/10 px-5 py-8 text-center text-sm" style={{ color: tokens.textMuted }}>
-                Nenhum convite pendente. Quando voce enviar um novo convite, ele aparecera aqui ate ser aceito.
+                {t('empty.noPendingInvites')}
               </div>
             ) : data.invites.map((invite) => (
               <div key={invite.id} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">

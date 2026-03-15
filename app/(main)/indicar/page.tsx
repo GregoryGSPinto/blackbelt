@@ -7,10 +7,12 @@ import * as referralService from '@/lib/api/referral.service';
 import type { ReferralStats } from '@/lib/api/referral.service';
 import { PageError, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
+import { useTranslations } from 'next-intl';
 import { useToast } from '@/contexts/ToastContext';
 import { trackEvent } from '@/lib/analytics/tracker';
 
 export default function IndicarPage() {
+  const t = useTranslations('common');
   const { user } = useAuth();
   const toast = useToast();
   const [stats, setStats] = useState<ReferralStats | null>(null);
@@ -66,7 +68,7 @@ export default function IndicarPage() {
     }
   };
 
-  if (loading) return <PremiumLoader text="Carregando indicacoes..." />;
+  if (loading) return <PremiumLoader text={t('loading.referrals')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   if (!stats) return null;
 

@@ -34,6 +34,7 @@ const STATUS_STYLE: Record<StatusVisita, { label: string; icon: React.ReactNode;
 
 export default function VisitantesPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
@@ -62,7 +63,7 @@ export default function VisitantesPage() {
     return list;
   }, [visitantes, filtroTipo, filtroStatus]);
 
-  if (loading) return <PremiumLoader text="Carregando..." />;
+  if (loading) return <PremiumLoader text={tc('actions.loading')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
@@ -148,7 +149,7 @@ export default function VisitantesPage() {
             </div>
           );
         })}
-        {filtered.length === 0 && <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhum visitante encontrado</div>}
+        {filtered.length === 0 && <div className="px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noVisitors')}</div>}
       </div>
     </div>
   );

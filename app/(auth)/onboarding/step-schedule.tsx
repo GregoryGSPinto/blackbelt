@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { createFirstScheduleAction } from '@/app/actions/onboarding';
 import { Calendar, ArrowLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const WEEKDAYS = [
   { id: 'mon', label: 'Seg' },
@@ -22,6 +23,7 @@ interface StepScheduleProps {
 }
 
 export default function StepSchedule({ academyId, onComplete, onBack, tokens }: StepScheduleProps) {
+  const t = useTranslations('common.actions');
   const [className, setClassName] = useState('');
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [startTime, setStartTime] = useState('18:00');
@@ -161,7 +163,7 @@ export default function StepSchedule({ academyId, onComplete, onBack, tokens }: 
           className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-opacity disabled:opacity-50"
           style={{ background: 'var(--academy-primary, #C9A227)', color: '#fff' }}
         >
-          {submitting ? 'Salvando turma...' : 'Continuar para os convites'}
+          {submitting ? t('savingClass') : t('continueToInvites')}
         </button>
       </div>
     </div>

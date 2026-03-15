@@ -15,6 +15,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsInicioPage() {
   const t = useTranslations('kids.home');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { user } = useAuth();
@@ -59,7 +60,7 @@ export default function KidsInicioPage() {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!currentKid) {
-    return <PageEmpty icon={UserX} title="Nenhum perfil encontrado" message="Não há perfis kids cadastrados." />;
+    return <PageEmpty icon={UserX} title={tc('empty.noProfileFound')} message={tc('empty.noKidsProfiles')} />;
   }
 
   const randomTip = getRandomTip();

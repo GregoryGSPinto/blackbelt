@@ -13,6 +13,7 @@ import {
   AlertCircle,
   X
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const categories = [
   { id: 'technique', name: 'Técnica', icon: '🥋' },
@@ -32,6 +33,7 @@ const beltLevels = [
 
 export default function UploadVideoPage() {
   const router = useRouter();
+  const tp = useTranslations('professor.videoUpload');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [dragActive, setDragActive] = useState(false);
@@ -259,7 +261,7 @@ export default function UploadVideoPage() {
               Descrição (opcional)
             </label>
             <textarea
-              placeholder="Descreva a técnica e pontos importantes..."
+              placeholder={tp('descriptionPlaceholder')}
               value={formData.description}
               onChange={(e) => updateField('description', e.target.value)}
               rows={4}

@@ -33,6 +33,7 @@ const BAR_COLOR: Record<string, 'ocean' | 'purple' | 'emerald' | 'energy'> = {
 
 export default function TeenUnidadePage() {
   const t = useTranslations('teen.unit');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [activeTab, setActiveTab] = useState<'areas' | 'testes'>('areas');
@@ -56,7 +57,7 @@ export default function TeenUnidadePage() {
     loadData();
   }, [retryCount]);
 
-  if (loading) return <PremiumLoader text="Carregando academia..." />;
+  if (loading) return <PremiumLoader text={tc('loading.academy')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   const average = Math.round(

@@ -48,6 +48,7 @@ function RegraIcon({ icone }: { icone: string }) {
 
 export default function RankingPage() {
   const t = useTranslations('athlete');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber } = useFormatting();
@@ -250,6 +251,7 @@ export default function RankingPage() {
 // ── Histórico View ────────────────────────────────────────
 
 function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber } = useFormatting();
@@ -259,7 +261,7 @@ function HistoricoView({ resumo }: { resumo: PontosResumo | null }) {
         <div className="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center bg-white/[0.04]">
           <History size={24} className="text-white/20" />
         </div>
-        <p className="text-white/40 text-sm">Carregando histórico...</p>
+        <p className="text-white/40 text-sm">{tc('loading.history')}</p>
       </div>
     );
   }

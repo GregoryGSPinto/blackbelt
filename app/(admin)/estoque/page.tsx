@@ -49,6 +49,7 @@ const ABC_COLORS: Record<string, { bg: string; text: string; label: string }> = 
 
 export default function EstoquePage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber, formatDate, currencyCode } = useFormatting();
@@ -113,7 +114,7 @@ export default function EstoquePage() {
   }, []);
 
   if (loading) {
-    return <PremiumLoader text="Carregando estoque..." />;
+    return <PremiumLoader text={tc('loading.inventory')} />;
   }
 
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
@@ -180,7 +181,7 @@ export default function EstoquePage() {
             <div className="relative flex-1">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
               <input value={busca} onChange={e => setBusca(e.target.value)}
-                placeholder="Buscar por nome ou SKU..."
+                placeholder={tc('actions.searchBySku')}
                 className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-black/30 border border-white/10 text-white/70 text-sm placeholder:text-white/20 focus:outline-none focus:border-white/20" />
             </div>
             <div className="flex gap-1.5 flex-wrap">
@@ -301,7 +302,7 @@ export default function EstoquePage() {
               );
             })}
             {filtered.length === 0 && (
-              <p className="text-sm text-white/20 text-center py-8">Nenhum produto encontrado</p>
+              <p className="text-sm text-white/20 text-center py-8">{tc('empty.noProductsFound')}</p>
             )}
           </div>
         </div>
@@ -330,7 +331,7 @@ export default function EstoquePage() {
             );
           })}
           {movimentos.length === 0 && (
-            <p className="text-sm text-white/20 text-center py-8">Nenhuma movimentação registrada</p>
+            <p className="text-sm text-white/20 text-center py-8">{tc('empty.noMovements')}</p>
           )}
         </div>
       )}

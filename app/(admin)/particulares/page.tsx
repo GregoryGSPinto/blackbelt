@@ -27,6 +27,7 @@ const STATUS_STYLE: Record<string, { bg: string; text: string; label: string; ic
 
 export default function ParticularesPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
@@ -63,7 +64,7 @@ export default function ParticularesPage() {
   const totalRealizadas = sessões.filter((a: AulaParticular) => a.status === 'realizada').length;
   const receitaMes = sessões.filter((a: AulaParticular) => a.status === 'realizada').reduce((s: number, a: AulaParticular) => s + a.valor, 0);
 
-  if (loading) return <PremiumLoader text="Carregando..." />;
+  if (loading) return <PremiumLoader text={tc('actions.loading')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
@@ -134,7 +135,7 @@ export default function ParticularesPage() {
             </div>
           );
         })}
-        {filtered.length === 0 && <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhuma sessão encontrada</div>}
+        {filtered.length === 0 && <div className="px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noSessions')}</div>}
       </div>
     </div>
   );

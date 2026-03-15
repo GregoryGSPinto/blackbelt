@@ -3,6 +3,7 @@
 import type { InstructorCoachVM, PerformanceMetricsVM } from '@/lib/application/intelligence';
 import { ClassBriefingCard } from './ClassBriefingCard';
 import { PedagogicalTipsBanner } from './PedagogicalTipsBanner';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // DAILY BRIEFING — Container principal do briefing diario do professor
@@ -174,6 +175,7 @@ function PerformanceMetricsSection({ metrics }: { metrics: PerformanceMetricsVM 
 // ══════════════════════════════════════════════════════════════════
 
 export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefingProps) {
+  const t = useTranslations('common');
   if (loading) {
     return <DailyBriefingSkeleton />;
   }
@@ -185,7 +187,7 @@ export function DailyBriefing({ briefing, loading, error, onRetry }: DailyBriefi
   if (!briefing) {
     return (
       <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6 text-center">
-        <p className="text-sm text-zinc-500">Nenhum briefing disponivel</p>
+        <p className="text-sm text-zinc-500">{t('empty.noBriefing')}</p>
       </div>
     );
   }

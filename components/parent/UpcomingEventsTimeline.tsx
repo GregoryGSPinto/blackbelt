@@ -8,6 +8,7 @@
 
 import type { ParentInsightsVM } from '@/lib/application/intelligence';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useTranslations } from 'next-intl';
 
 interface UpcomingEventsTimelineProps {
   events: ParentInsightsVM['upcomingEvents'];
@@ -48,12 +49,13 @@ const EVENT_CONFIG: Record<EventType, { dot: string; badge: string; badgeBg: str
 
 export function UpcomingEventsTimeline({ events }: UpcomingEventsTimelineProps) {
   const { formatDate } = useFormatting();
+  const t = useTranslations('common');
   if (!events || events.length === 0) {
     return (
       <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
         <h3 className="text-sm font-semibold text-zinc-200 mb-4">Proximos Eventos</h3>
         <div className="flex items-center justify-center py-8">
-          <p className="text-sm text-zinc-500">Nenhum evento proximo</p>
+          <p className="text-sm text-zinc-500">{t('empty.noUpcomingEvents')}</p>
         </div>
       </div>
     );

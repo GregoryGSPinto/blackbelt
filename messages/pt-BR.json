@@ -67,7 +67,29 @@
       "pause": "Pausar",
       "activate": "Ativar",
       "retry": "Tentar novamente",
-      "typeMessage": "Digite uma mensagem..."
+      "typeMessage": "Digite uma mensagem...",
+      "changePassword": "Alterar Senha",
+      "savePublicText": "Salvar texto público",
+      "createPlan": "Criar Plano",
+      "saveLead": "Salvar Lead",
+      "saveTheme": "Salvar Tema",
+      "saveNote": "Salvar nota",
+      "saveChanges": "Salvar Alterações",
+      "saveProgress": "Salvar progresso",
+      "createPlaylist": "Criar Playlist",
+      "addVideo": "Adicionar Vídeo",
+      "savingClass": "Salvando turma...",
+      "continueToInvites": "Continuar para os convites",
+      "searchAcademies": "Buscar Academias",
+      "searchContent": "Buscar Conteúdo",
+      "searchPlaceholder": "Buscar...",
+      "searchLeads": "Buscar lead por nome, telefone ou email...",
+      "searchAcademyPlaceholder": "Buscar academia...",
+      "searchTechnique": "Buscar técnica...",
+      "searchEvents": "Buscar eventos...",
+      "searchProduct": "Buscar produto...",
+      "searchBySku": "Buscar por nome ou SKU...",
+      "searchSessions": "Busque por sessões, técnicas, instrutores..."
     },
     "menu": {
       "dashboard": "Dashboard",
@@ -135,7 +157,58 @@
       "noResults": "Nenhum resultado para esta busca",
       "noResultsDesc": "Tente um termo diferente",
       "noRecords": "Não há registros para exibir no momento",
-      "selectItem": "Selecione um item para ver detalhes"
+      "selectItem": "Selecione um item para ver detalhes",
+      "noAcademy": "Nenhuma academia encontrada",
+      "shopUnavailable": "Loja indisponível",
+      "noProducts": "Nenhum produto encontrado no momento.",
+      "noProfiles": "Nenhum perfil encontrado",
+      "noKidsProfiles": "Não há perfis kids cadastrados.",
+      "noTeenProfiles": "Não há perfis teen cadastrados.",
+      "noChallenges": "Nenhum desafio disponível",
+      "noChallengesHint": "Novos desafios serão adicionados em breve!",
+      "noVideos": "Nenhum vídeo",
+      "noVideosHint": "Sem vídeos para exibir.",
+      "noModalities": "Nenhuma modalidade disponível",
+      "noModalitiesHint": "A academia ainda não cadastrou modalidades.",
+      "noModalitiesAdmin": "Nenhuma modalidade cadastrada",
+      "noPermissions": "Nenhuma permissão configurada",
+      "noPermissionsHint": "As permissões do sistema ainda não foram configuradas.",
+      "noCities": "Nenhuma cidade mapeada ainda.",
+      "noActivePlan": "Nenhum plano ativo no momento",
+      "noReviews": "Nenhuma avaliação ainda.",
+      "noFavorites": "Nenhum favorito ainda",
+      "noResultsFound": "Nenhum resultado encontrado",
+      "noContent": "Nenhum conteúdo disponível",
+      "noInvoices": "Nenhuma fatura encontrada",
+      "noLeads": "Nenhum lead",
+      "noSessions": "Nenhuma sessão encontrada",
+      "noCommissions": "Nenhuma comissão para o período",
+      "noVisitors": "Nenhum visitante encontrado",
+      "noAnnouncements": "Nenhum comunicado encontrado",
+      "noMessages": "Nenhuma mensagem",
+      "noEvents": "Nenhum evento encontrado",
+      "noAnomalies": "Nenhuma anomalia ativa",
+      "none": "Nenhuma",
+      "noRegistrations": "Nenhum cadastro recebido ainda.",
+      "noProductsFound": "Nenhum produto encontrado",
+      "noSalesRecorded": "Nenhuma venda registrada",
+      "noMovements": "Nenhuma movimentação registrada",
+      "noStudentsFiltered": "Nenhum aluno encontrado com os filtros atuais.",
+      "noStudentsCategory": "Nenhum aluno nesta categoria",
+      "noAlerts": "Nenhum alerta no momento",
+      "noUpcomingEvents": "Nenhum evento próximo",
+      "noStickers": "Nenhum sticker ainda. Continue treinando!",
+      "noActivePlanBilling": "Nenhum plano ativo",
+      "noInvoicesBilling": "Nenhuma fatura encontrada",
+      "noBriefing": "Nenhum briefing disponível",
+      "noPostClassActions": "Nenhuma ação pós-aula pendente",
+      "noAdminMembers": "Nenhum membro administrativo adicional ainda. Adicione liderança apenas quando a operação realmente precisar.",
+      "noProfessors": "Nenhum professor ativo ainda. Use o formulário acima para convidar o primeiro professor e liberar as rotinas de aula.",
+      "noPendingInvites": "Nenhum convite pendente. Quando você enviar um novo convite, ele aparecerá aqui até ser aceito.",
+      "noLeadsFiltered": "Nenhum lead encontrado com os filtros atuais.",
+      "noScheduledSessions": "Nenhuma sessão agendada",
+      "noEventsRecorded": "Nenhum evento registrado ainda",
+      "noTrainingBuddies": "Nenhum parceiro de treino ainda"
     },
     "language": {
       "switchLanguage": "Trocar idioma",
@@ -412,6 +485,33 @@
       "emptyMessage": "Não há registros para exibir no momento.",
       "loadingDefault": "Carregando...",
       "errorDefault": "Erro ao carregar dados"
+    },
+    "loading": {
+      "shop": "Carregando loja...",
+      "profile": "Carregando perfil...",
+      "academy": "Carregando academia...",
+      "financialStatus": "Carregando status financeiro...",
+      "product": "Carregando produto...",
+      "referrals": "Carregando indicações...",
+      "federations": "Carregando federações...",
+      "details": "Carregando detalhes...",
+      "modalities": "Carregando modalidades...",
+      "messages": "Carregando mensagens...",
+      "payments": "Carregando pagamentos...",
+      "funnel": "Carregando funil...",
+      "communications": "Carregando comunicações...",
+      "academyOps": "Carregando operação da academia...",
+      "team": "Carregando equipe da academia...",
+      "pos": "Carregando PDV...",
+      "inventory": "Carregando estoque...",
+      "history": "Carregando histórico...",
+      "lead": "Carregando lead...",
+      "students": "Carregando alunos...",
+      "content": "Carregando conteúdo...",
+      "events": "Carregando eventos...",
+      "permissions": "Carregando permissões...",
+      "settings": "Carregando configurações...",
+      "data": "Carregando dados..."
     }
   },
   "shell": {
@@ -1020,7 +1120,8 @@
         "announcements": "Comunicados",
         "messages": "Mensagens"
       },
-      "newAnnouncement": "Novo Comunicado"
+      "newAnnouncement": "Novo Comunicado",
+      "titlePlaceholder": "Título do comunicado"
     },
     "privateSessions": {
       "title": "Sessões Particulares",
@@ -1068,7 +1169,8 @@
     },
     "events": {
       "title": "Eventos & Campeonatos",
-      "newEvent": "Novo Evento"
+      "newEvent": "Novo Evento",
+      "descriptionPlaceholder": "Descrição do evento"
     },
     "payments": {
       "title": "Pagamentos",
@@ -1134,7 +1236,9 @@
     },
     "inventory": {
       "title": "Controle de Estoque",
-      "tabs": {}
+      "tabs": {},
+      "entryExample": "Ex: Compra fornecedor",
+      "exitExample": "Ex: Avaria, inventário..."
     },
     "pos": {
       "title": "Ponto de Venda",
@@ -1454,7 +1558,8 @@
       "public": "Público",
       "private": "Privado",
       "selectVideoFile": "Selecione um arquivo de vídeo",
-      "titleRequired": "Título é obrigatório"
+      "titleRequired": "Título é obrigatório",
+      "descriptionPlaceholder": "Descreva a técnica e pontos importantes..."
     },
     "evaluations": {
       "types": {
@@ -1595,7 +1700,8 @@
       "savePlan": "Salvar Plano",
       "noSavedPlans": "Nenhum plano salvo ainda",
       "template": "TEMPLATE",
-      "searchTechnique": "Buscar técnica ou posição..."
+      "searchTechnique": "Buscar técnica ou posição...",
+      "contentPlaceholder": "Descreva o conteúdo da aula..."
     },
     "attendance": {
       "title": "Frequência",

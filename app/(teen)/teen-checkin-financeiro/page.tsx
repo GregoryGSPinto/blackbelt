@@ -12,6 +12,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 
 export default function TeenCheckinFinanceiroPage() {
   const t = useTranslations('teen.checkinFinancial');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -99,7 +100,7 @@ export default function TeenCheckinFinanceiroPage() {
     },
   };
 
-  if (loading) return <PremiumLoader text="Carregando status financeiro..." />;
+  if (loading) return <PremiumLoader text={tc('loading.financialStatus')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   const currentStatus = statusConfig[financialStatus];

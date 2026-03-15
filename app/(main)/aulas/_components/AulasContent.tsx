@@ -15,6 +15,7 @@ interface SessõesContentProps {
 
 export default function SessõesContent({ videos }: SessõesContentProps) {
   const t = useTranslations('athlete');
+  const tc = useTranslations('common');
   const router = useRouter();
 
   const fundamentais = videos.filter((v) => v.level === 'Iniciante');
@@ -31,7 +32,7 @@ export default function SessõesContent({ videos }: SessõesContentProps) {
           </div>
           <div className="space-y-2">
             <h2 className="text-xl font-semibold text-foreground">
-              Nenhum conteúdo disponível
+              {tc('empty.noContent')}
             </h2>
             <p className="text-muted-foreground">
               Não foi possível carregar os vídeos no momento. Verifique sua conexão ou tente novamente.

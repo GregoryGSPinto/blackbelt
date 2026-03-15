@@ -66,7 +66,30 @@
       "markAsRead": "Mark as Read",
       "pause": "Pause",
       "activate": "Activate",
-      "retry": "Try again"
+      "retry": "Try again",
+      "typeMessage": "Type a message...",
+      "changePassword": "Change Password",
+      "savePublicText": "Save public text",
+      "createPlan": "Create Plan",
+      "saveLead": "Save Lead",
+      "saveTheme": "Save Theme",
+      "saveNote": "Save note",
+      "saveChanges": "Save Changes",
+      "saveProgress": "Save progress",
+      "createPlaylist": "Create Playlist",
+      "addVideo": "Add Video",
+      "savingClass": "Saving class...",
+      "continueToInvites": "Continue to invitations",
+      "searchAcademies": "Search Academies",
+      "searchContent": "Search Content",
+      "searchPlaceholder": "Search...",
+      "searchLeads": "Search lead by name, phone or email...",
+      "searchAcademyPlaceholder": "Search academy...",
+      "searchTechnique": "Search technique...",
+      "searchEvents": "Search events...",
+      "searchProduct": "Search product...",
+      "searchBySku": "Search by name or SKU...",
+      "searchSessions": "Search sessions, techniques, instructors..."
     },
     "menu": {
       "dashboard": "Dashboard",
@@ -134,7 +157,58 @@
       "noResults": "No results for this search",
       "noResultsDesc": "Try a different term",
       "noRecords": "No records to display at this time",
-      "selectItem": "Select an item to view details"
+      "selectItem": "Select an item to view details",
+      "noAcademy": "No academy found",
+      "shopUnavailable": "Shop unavailable",
+      "noProducts": "No products found at the moment.",
+      "noProfiles": "No profile found",
+      "noKidsProfiles": "No kids profiles registered.",
+      "noTeenProfiles": "No teen profiles registered.",
+      "noChallenges": "No challenges available",
+      "noChallengesHint": "New challenges will be added soon!",
+      "noVideos": "No videos",
+      "noVideosHint": "No videos to display.",
+      "noModalities": "No modalities available",
+      "noModalitiesHint": "The academy hasn't registered modalities yet.",
+      "noModalitiesAdmin": "No modalities registered",
+      "noPermissions": "No permissions configured",
+      "noPermissionsHint": "System permissions haven't been configured yet.",
+      "noCities": "No cities mapped yet.",
+      "noActivePlan": "No active plan at the moment",
+      "noReviews": "No reviews yet.",
+      "noFavorites": "No favorites yet",
+      "noResultsFound": "No results found",
+      "noContent": "No content available",
+      "noInvoices": "No invoices found",
+      "noLeads": "No leads",
+      "noSessions": "No sessions found",
+      "noCommissions": "No commissions for this period",
+      "noVisitors": "No visitors found",
+      "noAnnouncements": "No announcements found",
+      "noMessages": "No messages",
+      "noEvents": "No events found",
+      "noAnomalies": "No active anomalies",
+      "none": "None",
+      "noRegistrations": "No registrations received yet.",
+      "noProductsFound": "No products found",
+      "noSalesRecorded": "No sales recorded",
+      "noMovements": "No movements recorded",
+      "noStudentsFiltered": "No students found with current filters.",
+      "noStudentsCategory": "No students in this category",
+      "noAlerts": "No alerts at the moment",
+      "noUpcomingEvents": "No upcoming events",
+      "noStickers": "No stickers yet. Keep training!",
+      "noActivePlanBilling": "No active plan",
+      "noInvoicesBilling": "No invoices found",
+      "noBriefing": "No briefing available",
+      "noPostClassActions": "No pending post-class actions",
+      "noAdminMembers": "No additional admin members yet. Add leadership only when operations really need it.",
+      "noProfessors": "No active professors yet. Use the form above to invite the first professor and enable class routines.",
+      "noPendingInvites": "No pending invitations. When you send a new invite, it will appear here until accepted.",
+      "noLeadsFiltered": "No leads found with current filters.",
+      "noScheduledSessions": "No scheduled sessions",
+      "noEventsRecorded": "No events recorded yet",
+      "noTrainingBuddies": "No training buddies yet"
     },
     "language": {
       "switchLanguage": "Switch language",
@@ -410,6 +484,33 @@
       "emptyMessage": "There are no records to display at the moment.",
       "loadingDefault": "Loading...",
       "errorDefault": "Failed to load data"
+    },
+    "loading": {
+      "shop": "Loading shop...",
+      "profile": "Loading profile...",
+      "academy": "Loading academy...",
+      "financialStatus": "Loading financial status...",
+      "product": "Loading product...",
+      "referrals": "Loading referrals...",
+      "federations": "Loading federations...",
+      "details": "Loading details...",
+      "modalities": "Loading modalities...",
+      "messages": "Loading messages...",
+      "payments": "Loading payments...",
+      "funnel": "Loading funnel...",
+      "communications": "Loading communications...",
+      "academyOps": "Loading academy operations...",
+      "team": "Loading academy team...",
+      "pos": "Loading POS...",
+      "inventory": "Loading inventory...",
+      "history": "Loading history...",
+      "lead": "Loading lead...",
+      "students": "Loading students...",
+      "content": "Loading content...",
+      "events": "Loading events...",
+      "permissions": "Loading permissions...",
+      "settings": "Loading settings...",
+      "data": "Loading data..."
     }
   },
   "shell": {
@@ -1018,7 +1119,8 @@
         "announcements": "Announcements",
         "messages": "Messages"
       },
-      "newAnnouncement": "New Announcement"
+      "newAnnouncement": "New Announcement",
+      "titlePlaceholder": "Announcement title"
     },
     "privateSessions": {
       "title": "Private Sessions",
@@ -1066,7 +1168,8 @@
     },
     "events": {
       "title": "Events & Tournaments",
-      "newEvent": "New Event"
+      "newEvent": "New Event",
+      "descriptionPlaceholder": "Event description"
     },
     "payments": {
       "title": "Payments",
@@ -1132,7 +1235,9 @@
     },
     "inventory": {
       "title": "Inventory Control",
-      "tabs": {}
+      "tabs": {},
+      "entryExample": "E.g.: Supplier purchase",
+      "exitExample": "E.g.: Damage, inventory..."
     },
     "pos": {
       "title": "Point of Sale",
@@ -1452,7 +1557,8 @@
       "public": "Public",
       "private": "Private",
       "selectVideoFile": "Select a video file",
-      "titleRequired": "Title is required"
+      "titleRequired": "Title is required",
+      "descriptionPlaceholder": "Describe the technique and key points..."
     },
     "evaluations": {
       "types": {
@@ -1593,7 +1699,8 @@
       "savePlan": "Save Plan",
       "noSavedPlans": "No saved plans yet",
       "template": "TEMPLATE",
-      "searchTechnique": "Search technique or position..."
+      "searchTechnique": "Search technique or position...",
+      "contentPlaceholder": "Describe the lesson content..."
     },
     "attendance": {
       "title": "Attendance",

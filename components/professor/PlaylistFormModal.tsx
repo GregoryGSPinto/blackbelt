@@ -244,10 +244,10 @@ export function PlaylistFormModal({
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm
                        bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400
                        disabled:opacity-40 transition-all shadow-lg"
-            aria-label={isEdit ? 'Salvar alterações' : 'Criar playlist'}
+            aria-label={isEdit ? tActions('saveChanges') : tActions('createPlaylist')}
           >
             {saving ? <Loader2 size={16} className="animate-spin" /> : <ListMusic size={16} />}
-            {saving ? 'Salvando...' : isEdit ? 'Salvar Alterações' : 'Criar Playlist'}
+            {saving ? tActions('saving') : isEdit ? tActions('saveChanges') : tActions('createPlaylist')}
           </button>
         </div>
       </div>

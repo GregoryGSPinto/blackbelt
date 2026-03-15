@@ -12,6 +12,7 @@ import { useTranslations } from 'next-intl';
 
 export default function PermissoesPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
@@ -44,14 +45,14 @@ export default function PermissoesPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={tc('actions.loading')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (permissoes.length === 0) {
-    return <PageEmpty icon={ShieldOff} title="Nenhuma permissão configurada" message="As permissões do sistema ainda não foram configuradas." />;
+    return <PageEmpty icon={ShieldOff} title={tc('empty.noPermissions')} message={tc('empty.noPermissionsMessage')} />;
   }
 
 

@@ -14,6 +14,7 @@ import { useFormatting } from '@/hooks/useFormatting';
 
 export default function AlertasPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate, formatTime } = useFormatting();
@@ -65,7 +66,7 @@ export default function AlertasPage() {
   useSearchRegistration('admin-alertas', searchItems);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={tc('actions.loading')} />;
   }
 
   if (error) {

@@ -157,7 +157,7 @@ export function QuickProgressUpdate({
           className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm
                      bg-gradient-to-r from-amber-600 to-amber-500 text-white hover:from-amber-500 hover:to-amber-400
                      disabled:opacity-40 transition-all shadow-lg"
-          aria-label="Salvar progresso"
+          aria-label={tActions('saveProgress')}
         >
           {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
           {saving ? t('saving') : t('saveProgress')}

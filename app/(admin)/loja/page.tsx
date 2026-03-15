@@ -9,9 +9,11 @@ import type { Product } from '@/lib/api/shop.service';
 import { PageError, PageEmpty, handleServiceError } from '@/components/shared/DataStates';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useTranslations } from 'next-intl';
 
 export default function AdminLojaPage() {
   const { formatMoney } = useFormatting();
+  const t = useTranslations('common');
   const router = useRouter();
 
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
@@ -45,9 +47,9 @@ export default function AdminLojaPage() {
     loadData();
   }, [retryCount]);
 
-  if (loading) return <PremiumLoader text="Carregando loja..." />;
+  if (loading) return <PremiumLoader text={t('loading.shop')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
-  if (!featuredProduct) return <PageEmpty title="Loja indisponível" message="Nenhum produto encontrado no momento." />;
+  if (!featuredProduct) return <PageEmpty title={t('empty.shopUnavailable')} message={t('empty.noProductsFound')} />;
 
   const uniformes = allProducts.filter(p => p.category === 'uniformes');
   const roupas = allProducts.filter(p => p.category === 'roupas');

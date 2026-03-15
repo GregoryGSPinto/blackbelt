@@ -44,6 +44,7 @@ const METODO_LABELS: Record<string, { icon: string; label: string }> = {
 
 export default function PagamentosPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney, formatDate } = useFormatting();
@@ -73,7 +74,7 @@ export default function PagamentosPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando pagamentos..." />;
+    return <PremiumLoader text={tc('loading.payments')} />;
   }
 
   if (error || !dashboard) {
@@ -246,7 +247,7 @@ export default function PagamentosPage() {
               );
             })}
             {filteredFaturas.length === 0 && (
-              <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhuma fatura encontrada</div>
+              <div className="px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noInvoices')}</div>
             )}
           </div>
         </div>

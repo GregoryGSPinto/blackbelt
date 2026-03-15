@@ -13,6 +13,7 @@
 // ============================================================
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import {
   Award, CheckCircle, Medal, Timer, MapPin,
@@ -103,6 +104,7 @@ function StatCard({
 // ══════════════════════════════════════════════════════════════
 
 export default function AtletaPublicoPage() {
+  const t = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMonthShort, formatNumber } = useFormatting();
@@ -147,7 +149,7 @@ export default function AtletaPublicoPage() {
 
   // ── Loading ──
   if (loading) {
-    return <PremiumLoader text="Carregando perfil..." />;
+    return <PremiumLoader text={t('loading.profile')} />;
   }
 
   // ── Not Found ──

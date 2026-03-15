@@ -12,6 +12,7 @@ import { useTranslations } from 'next-intl';
 
 export default function ConfiguracoesPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const glass = { background: tokens.cardBg, border: `1px solid ${tokens.cardBorder}`, backdropFilter: 'blur(12px) saturate(1.2)', WebkitBackdropFilter: 'blur(12px) saturate(1.2)', borderRadius: '12px' } as const;
@@ -46,7 +47,7 @@ export default function ConfiguracoesPage() {
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
     } catch (err) {
-      setError(handleServiceError(err, 'Salvar configuração'));
+      setError(handleServiceError(err, tc('actions.save')));
     } finally {
       setSaving(false);
     }

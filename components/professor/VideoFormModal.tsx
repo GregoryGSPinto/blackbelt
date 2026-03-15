@@ -8,6 +8,7 @@ import { X, Play, Upload, Loader2, AlertCircle } from 'lucide-react';
 import * as videoMgmt from '@/lib/api/video-management.service';
 import type { Video } from '@/lib/__mocks__/content.mock';
 import type { VideoCreateInput } from '@/lib/__mocks__/video-management.mock';
+import { useTranslations } from 'next-intl';
 
 // ── Types ──
 
@@ -27,6 +28,7 @@ const YT_REGEX = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([
 // ── Component ──
 
 export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [], profId }: VideoFormModalProps) {
+  const tActions = useTranslations('common.actions');
   const isEdit = !!editVideo;
 
   const [url, setUrl] = useState('');
@@ -307,7 +309,7 @@ export function VideoFormModal({ isOpen, onClose, onSaved, editVideo, turmas = [
             >
               {saving ? (
                 <Loader2 size={14} className="animate-spin mx-auto" />
-              ) : isEdit ? 'Salvar Alterações' : 'Adicionar Vídeo'}
+              ) : isEdit ? tActions('saveChanges') : tActions('addVideo')}
             </button>
           </div>
         </div>

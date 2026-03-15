@@ -107,7 +107,7 @@ export default function ParentConfiguracoesPage() {
             className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
             style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
             {savingSenha ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-            {savingSenha ? 'Salvando...' : 'Alterar Senha'}
+            {savingSenha ? tc('saving') : tc('changePassword')}
           </button>
         </div>
       </div>

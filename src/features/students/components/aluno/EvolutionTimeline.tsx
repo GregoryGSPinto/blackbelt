@@ -10,6 +10,7 @@
 import { useMemo } from 'react';
 import { Award, Trophy, Target, Star, Calendar } from 'lucide-react';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useTranslations } from 'next-intl';
 
 // ── Types ──
 export type TimelineEventType = 'graduation' | 'medal' | 'milestone' | 'achievement' | 'subnivel';
@@ -148,6 +149,7 @@ export function EvolutionTimeline({
   maxItems = 10,
   title = 'Linha do Tempo',
 }: EvolutionTimelineProps) {
+  const tc = useTranslations('common');
   // Sort by date descending (most recent first)
   const sorted = useMemo(
     () => [...events].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, maxItems),
@@ -160,7 +162,7 @@ export function EvolutionTimeline({
         className="rounded-2xl p-5 text-center"
         style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <p className="text-white/30 text-sm">Nenhum evento registrado ainda</p>
+        <p className="text-white/30 text-sm">{tc('empty.noEventsRecorded')}</p>
       </div>
     );
   }

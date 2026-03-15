@@ -12,6 +12,7 @@
 import { useState, useCallback } from 'react';
 import { Palette, Upload, Eye, Save, RotateCcw, Check } from 'lucide-react';
 import { useAcademyTheme, type AcademyTheme } from '@/contexts/AcademyThemeContext';
+import { useTranslations } from 'next-intl';
 
 function ColorInput({
   label,
@@ -108,6 +109,7 @@ function PreviewCard({ draft }: { draft: AcademyTheme }) {
 
 export default function ThemeSettingsPage() {
   const { theme, updateTheme, loading } = useAcademyTheme();
+  const t = useTranslations('common');
   const [draft, setDraft] = useState<AcademyTheme>(theme);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -254,12 +256,12 @@ export default function ThemeSettingsPage() {
           ) : saving ? (
             <>
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Salvando...
+              {t('actions.saving')}
             </>
           ) : (
             <>
               <Save size={16} />
-              Salvar Tema
+              {t('actions.saveTheme')}
             </>
           )}
         </button>

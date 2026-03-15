@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -86,6 +87,7 @@ function formatNumber(num: number | null): string {
 }
 
 export default function AdminPlanoPage() {
+  const t = useTranslations('common');
   const router = useRouter();
   const [plans, setPlans] = useState<Plan[]>([]);
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | null>(null);
@@ -269,7 +271,7 @@ export default function AdminPlanoPage() {
           <div className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-6">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-slate-900">Nenhum plano ativo no momento</h2>
+                <h2 className="text-xl font-semibold text-slate-900">{t('empty.noActivePlan')}</h2>
                 <p className="mt-1 text-sm text-slate-600">
                   Escolha um plano para concluir a configuração comercial da academia e liberar a cobrança controlada.
                 </p>

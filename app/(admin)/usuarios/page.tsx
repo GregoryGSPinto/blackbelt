@@ -15,6 +15,7 @@ import { useFormatting } from '@/hooks/useFormatting';
 
 export default function UsuariosPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate } = useFormatting();
@@ -354,7 +355,7 @@ export default function UsuariosPage() {
             <Filter className="w-12 h-12 text-white/30 mx-auto mb-3" />
             <p style={{ fontWeight: 300, color: tokens.textMuted }}>
               {isSearching
-                ? 'Nenhum aluno encontrado com os filtros atuais.'
+                ? tc('empty.noStudentsFiltered')
                 : 'Sua academia ainda nao tem alunos cadastrados nesta lista.'}
             </p>
           </div>

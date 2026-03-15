@@ -31,6 +31,7 @@ const SizeGuideModal = dynamic(
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const t = useTranslations('athlete');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney } = useFormatting();
@@ -65,7 +66,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   }, [id, retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando produto..." />;
+    return <PremiumLoader text={tc('loading.product')} />;
   }
 
   if (error) {
@@ -320,7 +321,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
             {activeTab === 'reviews' && (
               <div className="text-center py-12">
-                <p style={{ fontWeight: 300, color: tokens.textMuted }}>Nenhuma avaliação ainda.</p>
+                <p style={{ fontWeight: 300, color: tokens.textMuted }}>{tc('empty.noReviews')}</p>
               </div>
             )}
 

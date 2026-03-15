@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
+import { useTranslations } from 'next-intl';
+import {
   Plus,
   Edit2,
   Trash2,
@@ -54,6 +55,7 @@ const initialPlans = [
 
 export default function PlanosPage() {
   const router = useRouter();
+  const t = useTranslations('common');
   const [plans, setPlans] = useState(initialPlans);
   const [showModal, setShowModal] = useState(false);
   const [editingPlan, setEditingPlan] = useState<any>(null);
@@ -379,7 +381,7 @@ export default function PlanosPage() {
                   type="submit"
                   className="flex-1 rounded-xl bg-amber-400 py-3 font-semibold text-slate-950 transition hover:bg-amber-300"
                 >
-                  {editingPlan ? 'Salvar' : 'Criar Plano'}
+                  {editingPlan ? t('actions.save') : t('actions.createPlan')}
                 </button>
               </div>
             </form>

@@ -32,7 +32,7 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
   }, []);
 
   if (!mounted) {
-    return <div className="w-full py-16 text-center text-slate-400">Carregando...</div>;
+    return <div className="w-full py-16 text-center text-slate-400">{tActions('loading')}</div>;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

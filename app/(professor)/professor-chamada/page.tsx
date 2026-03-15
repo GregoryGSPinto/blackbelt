@@ -29,6 +29,7 @@ type AlunoComStatus = AlunoPresenca & { status: PresencaStatus };
 
 export default function ProfessorChamadaPage() {
   const t = useTranslations('professor.attendance');
+  const tc = useTranslations('common.actions');
   const { formatDateFull, formatDate } = useFormatting();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -127,7 +128,7 @@ export default function ProfessorChamadaPage() {
       setResumo(result);
       setViewState('resumo');
     } catch (err: unknown) {
-      setError(handleServiceError(err, 'Salvar Chamada'));
+      setError(handleServiceError(err, tc('save')));
     } finally {
       setSaving(false);
     }

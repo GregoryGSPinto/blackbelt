@@ -14,9 +14,11 @@ import {
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageError } from '@/components/shared/DataStates';
 import { AcademyEnrollmentQRCode } from '@/components/academy/AcademyEnrollmentQRCode';
+import { useTranslations } from 'next-intl';
 
 export default function MinhaAcademiaPage() {
   const toast = useToast();
+  const t = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
 
@@ -49,7 +51,7 @@ export default function MinhaAcademiaPage() {
     backdropFilter: 'blur(18px)',
   }), [tokens.cardBg, tokens.cardBorder]);
 
-  if (loading) return <PremiumLoader text="Carregando operação da academia..." />;
+  if (loading) return <PremiumLoader text={t('loading.academyOps')} />;
   if (error || !data) return <PageError error={error || 'Dados indisponíveis'} onRetry={() => window.location.reload()} />;
 
   const handleCopy = async () => {
@@ -192,7 +194,7 @@ export default function MinhaAcademiaPage() {
                   className="mt-4 rounded-2xl border border-white/10 px-4 py-3 text-sm transition hover:bg-white/5 disabled:opacity-60"
                   style={{ color: tokens.text }}
                 >
-                  Salvar texto público
+                  {t('actions.savePublicText')}
                 </button>
               </div>
 
@@ -257,7 +259,7 @@ export default function MinhaAcademiaPage() {
 
         {data.requests.length === 0 ? (
           <div className="mt-6 rounded-3xl border border-dashed border-white/10 bg-white/[0.03] px-6 py-10 text-center">
-            <p className="text-lg font-medium" style={{ color: tokens.text }}>Nenhum cadastro recebido ainda.</p>
+            <p className="text-lg font-medium" style={{ color: tokens.text }}>{t('empty.noRegistrations')}</p>
             <p className="mt-2 text-sm" style={{ color: tokens.textMuted }}>
               Assim que alunos ou professores usarem o link/QR da academia, eles aparecerão aqui para acompanhamento.
             </p>

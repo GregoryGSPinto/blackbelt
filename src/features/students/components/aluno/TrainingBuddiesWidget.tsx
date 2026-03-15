@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 // ════════════════════════════════════════════════════════════════════
 // TRAINING BUDDIES WIDGET — Parceiros de treino do aluno
 // ════════════════════════════════════════════════════════════════════
@@ -23,6 +25,7 @@ function getInitials(name: string): string {
 }
 
 export function TrainingBuddiesWidget({ buddies, communityRole, networkStrength }: TrainingBuddiesWidgetProps) {
+  const tc = useTranslations('common');
   return (
     <div className="rounded-xl border border-white/10 bg-dark-card/60 overflow-hidden">
       <div className="px-4 py-3 border-b border-white/[0.08]">
@@ -36,7 +39,7 @@ export function TrainingBuddiesWidget({ buddies, communityRole, networkStrength 
             <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mx-auto mb-3">
               <span className="text-zinc-600 text-lg">[+]</span>
             </div>
-            <p className="text-sm text-zinc-500">Nenhum parceiro de treino ainda</p>
+            <p className="text-sm text-zinc-500">{tc('empty.noTrainingBuddies')}</p>
             <p className="text-[10px] text-zinc-600 mt-1">Treine com colegas para construir sua rede</p>
           </div>
         ) : (

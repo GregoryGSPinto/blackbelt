@@ -7,6 +7,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 import { useToast } from '@/contexts/ToastContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageEmpty } from '@/components/shared/DataStates';
+import { useTranslations } from 'next-intl';
 import {
   getAcademyModalities,
   createModality,
@@ -18,6 +19,7 @@ export default function ModalidadesPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const toast = useToast();
+  const t = useTranslations('common');
   const [modalities, setModalities] = useState<AcademyModality[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -66,7 +68,7 @@ export default function ModalidadesPage() {
     }
   };
 
-  if (loading) return <PremiumLoader text="Carregando modalidades..." />;
+  if (loading) return <PremiumLoader text={t('loading.modalities')} />;
 
   const active = modalities.filter(m => m.is_active);
   const inactive = modalities.filter(m => !m.is_active);
@@ -143,7 +145,7 @@ export default function ModalidadesPage() {
       {/* Active modalities */}
       {active.length === 0 && inactive.length === 0 ? (
         <PageEmpty
-          title="Nenhuma modalidade cadastrada"
+          title={t('empty.noModalitiesAdmin')}
           message="Adicione as artes marciais oferecidas pela sua academia."
         />
       ) : (

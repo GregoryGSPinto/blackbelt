@@ -36,6 +36,7 @@ const FORMA_PAGAMENTO: { key: FormaPagamentoPDV; label: string; icon: React.Reac
 
 export default function PDVPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatNumber, formatDateTime, currencyCode } = useFormatting();
@@ -145,7 +146,7 @@ export default function PDVPage() {
   }, [cart, clienteNome, formaPagamento, desconto]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando PDV..." />;
+    return <PremiumLoader text={tc('loading.pos')} />;
   }
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
@@ -202,7 +203,7 @@ export default function PDVPage() {
                   type="text"
                   value={busca}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusca(e.target.value)}
-                  placeholder="Buscar produto..."
+                  placeholder={tc('actions.searchProduct')}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-white/25 bg-white/5 border border-white/10 outline-none focus:border-white/20"
                 />
               </div>
@@ -233,7 +234,7 @@ export default function PDVPage() {
                 );
               })}
               {filteredProdutos.length === 0 && (
-                <div className="col-span-full py-8 text-center text-white/30 text-sm">Nenhum produto encontrado</div>
+                <div className="col-span-full py-8 text-center text-white/30 text-sm">{tc('empty.noProductsFound')}</div>
               )}
             </div>
           </div>
@@ -362,7 +363,7 @@ export default function PDVPage() {
               );
             })}
             {vendas.length === 0 && (
-              <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhuma venda registrada</div>
+              <div className="px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noSalesRecorded')}</div>
             )}
           </div>
         </div>

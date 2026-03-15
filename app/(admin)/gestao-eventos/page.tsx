@@ -30,6 +30,7 @@ export default function AdminEventosPage() {
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate } = useFormatting();
+  const tc = useTranslations('common');
 
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,7 +101,7 @@ export default function AdminEventosPage() {
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
           <input
             type="text"
-            placeholder="Buscar eventos..."
+            placeholder={tc('actions.searchEvents')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/30 border border-white/10 text-white/80 text-sm placeholder:text-white/25 focus:outline-none focus:border-white/20"
@@ -136,7 +137,7 @@ export default function AdminEventosPage() {
       ) : filteredEventos.length === 0 ? (
         <div className="text-center py-12">
           <Calendar size={40} className="mx-auto text-white/10 mb-3" />
-          <p className="text-white/30 text-sm">Nenhum evento encontrado</p>
+          <p className="text-white/30 text-sm">{tc('empty.noEvents')}</p>
         </div>
       ) : (
         <div className="space-y-3">

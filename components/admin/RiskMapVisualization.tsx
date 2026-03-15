@@ -29,6 +29,7 @@ const RISK_STYLES = [
 
 export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { formatNumber } = useFormatting();
   const RISK_LABEL_MAP: Record<string, string> = {
     critical: t('churn.critical'),
@@ -122,7 +123,7 @@ export function RiskMapVisualization({ riskMap }: RiskMapVisualizationProps) {
                   {cat.label} — Top alunos
                 </h4>
                 {group.topStudents.length === 0 ? (
-                  <p className="text-xs text-zinc-600">Nenhum aluno nesta categoria</p>
+                  <p className="text-xs text-zinc-600">{tc('empty.noStudentsCategory')}</p>
                 ) : (
                   <div className="space-y-2">
                     {group.topStudents.map(student => (

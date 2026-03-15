@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { 
   Search,
@@ -35,6 +36,7 @@ const recentVideos = [
 ];
 
 export default function ConteudoPage() {
+  const t = useTranslations('common');
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('belts');
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,7 +54,7 @@ export default function ConteudoPage() {
             <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Buscar técnica..."
+              placeholder={t('actions.searchTechnique')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
@@ -207,7 +209,7 @@ export default function ConteudoPage() {
             className="flex flex-col items-center justify-center py-20 text-center"
           >
             <Star className="h-16 w-16 text-slate-600" />
-            <h3 className="mt-4 text-xl font-semibold">Nenhum favorito ainda</h3>
+            <h3 className="mt-4 text-xl font-semibold">{t('empty.noFavorites')}</h3>
             <p className="mt-2 text-slate-400">Marque vídeos como favoritos para acessá-los rapidamente</p>
             <button
               onClick={() => setActiveTab('belts')}

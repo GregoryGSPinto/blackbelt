@@ -39,6 +39,7 @@ function getConversaTimestamp(c: Conversa): string {
 export default function MensagensParentPage() {
   const t = useTranslations('parent.messages');
   const tc = useTranslations('common.actions');
+  const tCommon = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatTime } = useFormatting();
@@ -99,7 +100,7 @@ export default function MensagensParentPage() {
     }
   }, [newMsg, activeConversa, toast]);
 
-  if (loading) return <PremiumLoader text="Carregando mensagens..." />;
+  if (loading) return <PremiumLoader text={tCommon('loading.messages')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
 
   return (

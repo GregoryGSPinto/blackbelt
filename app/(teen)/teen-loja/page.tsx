@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { ProductCard, PurchaseApprovalModal } from '@/components/shop';
 import VideoCarousel from '@/components/ui/VideoCarousel';
@@ -12,6 +13,7 @@ import { ShieldCheck } from 'lucide-react';
 import { useFormatting } from '@/hooks/useFormatting';
 
 export default function TeenLojaPage() {
+  const t = useTranslations('common');
   const { formatMoney } = useFormatting();
   const router = useRouter();
 
@@ -58,9 +60,9 @@ export default function TeenLojaPage() {
     setApprovalModal(true);
   };
 
-  if (loading) return <PremiumLoader text="Carregando loja..." />;
+  if (loading) return <PremiumLoader text={t('loading.shop')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
-  if (!featuredProduct) return <PageEmpty title="Loja indisponível" message="Nenhum produto encontrado no momento." />;
+  if (!featuredProduct) return <PageEmpty title={t('empty.shopUnavailable')} message={t('empty.noProducts')} />;
 
   const sections = [
     { title: 'Mais Vendidos', data: maisVendidos },

@@ -1,6 +1,7 @@
 'use client';
 
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface EarnedSticker {
   id: string;
@@ -27,6 +28,7 @@ interface StickerCollectionProps {
  * StickerCollection — Grid de stickers coletados com preview do proximo
  */
 const StickerCollection = memo(function StickerCollection({ stickers }: StickerCollectionProps) {
+  const t = useTranslations('common');
   const { earned, nextToEarn } = stickers;
   const clampedProgress = Math.min(100, Math.max(0, nextToEarn.progress));
 
@@ -71,7 +73,7 @@ const StickerCollection = memo(function StickerCollection({ stickers }: StickerC
       ) : (
         <div className="text-center py-6 mb-5">
           <span className="text-3xl mb-2 block">🎯</span>
-          <p className="text-sm text-zinc-500">Nenhum sticker ainda. Continue treinando!</p>
+          <p className="text-sm text-zinc-500">{t('empty.noStickers')}</p>
         </div>
       )}
 

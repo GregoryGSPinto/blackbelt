@@ -48,6 +48,7 @@ const DESTINATARIO_LABELS: Record<string, string> = {
 
 export default function ComunicacoesPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate, formatDateTime } = useFormatting();
@@ -89,7 +90,7 @@ export default function ComunicacoesPage() {
   const unreadMsgs = mensagens.filter((m: MensagemDireta) => !m.lida && m.destinatarioId === 'adm01').length;
 
   if (loading) {
-    return <PremiumLoader text="Carregando comunicações..." />;
+    return <PremiumLoader text={tc('loading.communications')} />;
   }
 
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
@@ -245,7 +246,7 @@ export default function ComunicacoesPage() {
               );
             })}
             {filteredComs.length === 0 && (
-              <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhum comunicado encontrado</div>
+              <div className="px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noAnnouncements')}</div>
             )}
           </div>
         </div>
@@ -288,7 +289,7 @@ export default function ComunicacoesPage() {
               );
             })}
             {mensagens.length === 0 && (
-              <div className="px-6 py-12 text-center text-white/30 text-sm">Nenhuma mensagem</div>
+              <div className="px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noMessages')}</div>
             )}
           </div>
         </div>
@@ -470,7 +471,7 @@ function ComposeModal({ onClose, onSend }: { onClose: () => void; onSend: (c: Co
                 type="text"
                 value={titulo}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitulo(e.target.value)}
-                placeholder="Título do comunicado"
+                placeholder={t('communications.titlePlaceholder')}
                 className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder-white/25 bg-white/5 border border-white/10 outline-none focus:border-white/20"
               />
             </div>

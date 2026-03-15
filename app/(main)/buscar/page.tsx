@@ -40,7 +40,7 @@ export default function BuscarPage() {
   }, [retryCount]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando..." />;
+    return <PremiumLoader text={t('actions.loading')} />;
   }
 
   if (error) {
@@ -99,7 +99,7 @@ export default function BuscarPage() {
       {/* Search Header */}
       <div className="max-w-4xl mx-auto mb-12">
         <h1 className="text-xl md:text-2xl lg:text-4xl font-semibold mb-6 text-center">
-          Buscar Conteúdo
+          {t('actions.searchContent')}
         </h1>
         
         {/* Search Input */}
@@ -109,7 +109,7 @@ export default function BuscarPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Busque por sessões, técnicas, instrutores..."
+            placeholder={t('actions.searchSessions')}
             className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent transition-all duration-200 text-lg"
             autoFocus
           />
@@ -135,7 +135,7 @@ export default function BuscarPage() {
               <div className="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center bg-white/[0.04]">
                 <Search size={28} className="text-white/20" />
               </div>
-              <h2 className="text-xl font-semibold mb-2 text-white/80">Nenhum resultado encontrado</h2>
+              <h2 className="text-xl font-semibold mb-2 text-white/80">{t('empty.noResultsFound')}</h2>
               <p className="text-white/40 text-sm max-w-sm mx-auto">
                 Tente buscar por outro termo ou navegue pelas categorias
               </p>

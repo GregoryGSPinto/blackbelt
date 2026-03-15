@@ -390,6 +390,7 @@ function SecurityCounter({ label, value, warn, icon: Icon }: {
 // ============================================================
 
 function AnomaliesTab({ anomalies }: { anomalies: Anomaly[] }) {
+  const tc = useTranslations('common');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const active = anomalies.filter(a => !a.resolved);
@@ -400,7 +401,7 @@ function AnomaliesTab({ anomalies }: { anomalies: Anomaly[] }) {
       {active.length === 0 && (
         <div className="text-center py-12 text-white/30">
           <CheckCircle className="w-12 h-12 mx-auto mb-3 text-emerald-400/50" />
-          <p className="text-lg font-medium">Nenhuma anomalia ativa</p>
+          <p className="text-lg font-medium">{tc('empty.noAnomalies')}</p>
           <p className="text-sm">O sistema está operando normalmente.</p>
         </div>
       )}

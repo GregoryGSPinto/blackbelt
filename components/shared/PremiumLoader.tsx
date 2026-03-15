@@ -1,6 +1,7 @@
 'use client';
 
 import { useMounted } from '@/hooks/useMounted';
+import { useTranslations } from 'next-intl';
 
 interface PremiumLoaderProps {
   text?: string;
@@ -34,7 +35,9 @@ const fillStyles = {
   boxShadow: '0 0 10px rgba(201, 162, 39, 0.6)',
 };
 
-export function PremiumLoader({ text = 'Carregando...' }: PremiumLoaderProps) {
+export function PremiumLoader({ text }: PremiumLoaderProps) {
+  const tActions = useTranslations('common.actions');
+  const resolvedText = text ?? tActions('loading');
   const mounted = useMounted();
 
   if (!mounted) {
@@ -44,7 +47,7 @@ export function PremiumLoader({ text = 'Carregando...' }: PremiumLoaderProps) {
   return (
     <section
       role="status"
-      aria-label={text}
+      aria-label={resolvedText}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-8"
       style={{
         ...baseStyles,
@@ -69,7 +72,7 @@ export function PremiumLoader({ text = 'Carregando...' }: PremiumLoaderProps) {
         <div style={fillStyles} />
       </div>
 
-      <span className="sr-only">{text}</span>
+      <span className="sr-only">{resolvedText}</span>
 
       <style>{`
         @keyframes premium-bar-slide {

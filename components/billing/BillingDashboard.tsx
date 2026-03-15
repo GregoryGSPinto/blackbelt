@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { PLANS, formatPrice, type PricingPlan } from '@/lib/payments/pricing';
 import type { BillingMetric } from '@/lib/payments/billing-meter';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // BILLING DASHBOARD — Painel de cobranca para academy owner
@@ -61,6 +62,7 @@ export default function BillingDashboard({
   onManageSubscription,
   onUpgrade,
 }: BillingDashboardProps) {
+  const t = useTranslations('common');
   const [showPlans, setShowPlans] = useState(false);
 
   return (
@@ -90,7 +92,7 @@ export default function BillingDashboard({
             </div>
           </div>
         ) : (
-          <p className="text-zinc-400">Nenhum plano ativo</p>
+          <p className="text-zinc-400">{t('empty.noActivePlanBilling')}</p>
         )}
 
         <div className="flex gap-3 mt-4">
@@ -190,7 +192,7 @@ export default function BillingDashboard({
       <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
         <h2 className="text-lg font-semibold text-white mb-4">Historico de Faturas</h2>
         {invoices.length === 0 ? (
-          <p className="text-zinc-400 text-sm">Nenhuma fatura encontrada</p>
+          <p className="text-zinc-400 text-sm">{t('empty.noInvoicesBilling')}</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

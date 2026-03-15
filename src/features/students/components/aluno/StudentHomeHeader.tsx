@@ -16,6 +16,7 @@ import { Clock, MapPin, User, Trophy, Target, ChevronRight, TrendingUp, Trending
 import type { AlunoHomeData } from '@/src/features/students/services/aluno-home.service';
 import { Bone } from '@/components/shared/SkeletonLoader';
 import { useFormatting } from '@/hooks/useFormatting';
+import { useTranslations } from 'next-intl';
 
 // ── Styles ──
 const HEADER_STYLES = `
@@ -37,6 +38,7 @@ const HEADER_STYLES = `
 // ══════════════════════════════════════════════════════════════
 
 function NextClassCard({ aula }: { aula: AlunoHomeData['proximaSessao'] }) {
+  const tc = useTranslations('common');
   const [countdown, setCountdown] = useState('');
 
   useEffect(() => {
@@ -73,7 +75,7 @@ function NextClassCard({ aula }: { aula: AlunoHomeData['proximaSessao'] }) {
   if (!aula) {
     return (
       <div className="rounded-2xl p-4 md:p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-        <p className="text-white/30 text-sm text-center py-2">Nenhuma sessão agendada</p>
+        <p className="text-white/30 text-sm text-center py-2">{tc('empty.noScheduledSessions')}</p>
       </div>
     );
   }

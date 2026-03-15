@@ -51,6 +51,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default function SuperAdminAcademiesPage() {
   const t = useTranslations('superAdmin.academies');
+  const tc = useTranslations('common');
   const [pricing, setPricing] = useState<PricingResponse | null>(null);
   const [academies, setAcademies] = useState<AcademyWithSubscription[]>([]);
   const [loading, setLoading] = useState(true);
@@ -455,7 +456,7 @@ export default function SuperAdminAcademiesPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-secondary)]" />
           <input
             type="text"
-            placeholder="Buscar academia..."
+            placeholder={tc('actions.searchAcademyPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 pr-4 py-2 bg-[var(--card-bg)] border border-[var(--border)] rounded-xl w-64 text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-gold-500/50"
@@ -546,8 +547,8 @@ export default function SuperAdminAcademiesPage() {
         {academies.length === 0 && (
           <EmptyState
             icon={Building2}
-            title="Nenhuma academia encontrada"
-            description="Não há academias cadastradas no momento."
+            title={tc('empty.noAcademiesFound')}
+            description={tc('empty.noAcademiesMessage')}
           />
         )}
       </div>

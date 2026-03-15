@@ -12,6 +12,7 @@ import { getDesignTokens } from '@/lib/design-tokens';
 
 export default function KidsDesafiosPage() {
   const t = useTranslations('kids.challenges');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [kidschallenges, setKidschallenges] = useState<KidsChallenge[]>([]);
@@ -42,7 +43,7 @@ export default function KidsDesafiosPage() {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (kidschallenges.length === 0) {
-    return <PageEmpty title="Nenhum desafio disponível" message="Novos desafios serão adicionados em breve!" />;
+    return <PageEmpty title={tc('empty.noChallenges')} message={tc('empty.noChallengesMessage')} />;
   }
 
   // ─── Theme colors ───

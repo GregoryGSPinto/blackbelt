@@ -108,7 +108,7 @@ export default function ProfessorConfiguracoesPage() {
             className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
             style={{ background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}>
             <Save size={16} />
-            {saving ? 'Salvando...' : 'Alterar Senha'}
+            {saving ? tc('saving') : tc('changePassword')}
           </button>
         </div>
       </div>

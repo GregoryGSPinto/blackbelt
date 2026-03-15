@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Users, Target, TrendingUp, Clock, ChevronRight, Phone, Mail, MessageCircle, Calendar, Award, Star, ArrowRight, X } from 'lucide-react';
 import { FUNIL_VENDAS, METRICA_FUNIL, INDICACOES, type FunilVendas, type CrmLead, type Indicacao } from '@/lib/__mocks__/unit-owner.mock';
 
@@ -29,6 +30,7 @@ function formatDate(d: string): string {
 }
 
 export default function CrmPage() {
+  const tc = useTranslations('common');
   const [activeTab, setActiveTab] = useState<Tab>('funil');
   const [selectedLead, setSelectedLead] = useState<CrmLead | null>(null);
   const [funilData, setFunilData] = useState<FunilVendas[]>(FUNIL_VENDAS);
@@ -204,7 +206,7 @@ export default function CrmPage() {
 
                   {coluna.leads.length === 0 && (
                     <div className="text-center py-6 text-xs" style={{ color: 'var(--text-secondary)' }}>
-                      Nenhum lead
+                      {tc('empty.noLeads')}
                     </div>
                   )}
                 </div>

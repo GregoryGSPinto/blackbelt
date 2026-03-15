@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 // ════════════════════════════════════════════════════════════════════
 // AFTER CLASS CHECKLIST — Lista de acoes pos-aula
@@ -26,6 +27,7 @@ const IMPACT_CONFIG: Record<string, { color: string; label: string }> = {
 };
 
 export function AfterClassChecklist({ actions }: AfterClassChecklistProps) {
+  const t = useTranslations('common');
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
 
   const toggleItem = (id: string) => {
@@ -46,7 +48,7 @@ export function AfterClassChecklist({ actions }: AfterClassChecklistProps) {
   if (actions.length === 0) {
     return (
       <div className="rounded-xl border border-white/10 bg-dark-card/60 p-6 text-center">
-        <p className="text-sm text-zinc-500">Nenhuma acao pos-aula pendente</p>
+        <p className="text-sm text-zinc-500">{t('empty.noPostClassActions')}</p>
       </div>
     );
   }

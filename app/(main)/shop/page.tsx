@@ -15,6 +15,7 @@ import { useFormatting } from '@/hooks/useFormatting';
 
 export default function ShopPage() {
   const t = useTranslations('athlete');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney } = useFormatting();
@@ -62,14 +63,14 @@ export default function ShopPage() {
   };
 
   if (loading) {
-    return <PremiumLoader text="Carregando loja..." />;
+    return <PremiumLoader text={tc('loading.shop')} />;
   }
 
   if (error) {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (!featuredProduct) {
-    return <PageEmpty title="Loja indisponível" message="Nenhum produto encontrado no momento." />;
+    return <PageEmpty title={tc('empty.shopUnavailable')} message={tc('empty.noProducts')} />;
   }
 
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -28,6 +29,7 @@ const initialFilters = {
 };
 
 export default function LeadsPage() {
+  const t = useTranslations('common');
   const { user } = useAuth() as any;
   const toast = useToast();
   const [filters, setFilters] = useState(initialFilters);
@@ -100,7 +102,7 @@ export default function LeadsPage() {
 
         <SectionCard title="Filtros" className="md:col-span-3" subtitle="Busca e segmentação do CRM">
           <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
-            <input className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-[var(--text-primary)]" placeholder="Buscar" value={filters.search} onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))} />
+            <input className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-[var(--text-primary)]" placeholder={t('actions.search')} value={filters.search} onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))} />
             <select className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-[var(--text-primary)]" value={filters.status} onChange={(e) => setFilters((prev) => ({ ...prev, status: e.target.value }))}>
               <option value="ALL">Todas etapas</option>
               <option value="NEW">NEW</option>
@@ -126,7 +128,7 @@ export default function LeadsPage() {
         </SectionCard>
       </div>
 
-      <SectionCard title="Lista de Leads" subtitle={loading ? 'Carregando pipeline comercial...' : `${data?.count ?? 0} registros no CRM`}>
+      <SectionCard title="Lista de Leads" subtitle={loading ? t('loading.pipeline') : `${data?.count ?? 0} registros no CRM`}>
         {error ? <p className="mb-4 text-sm text-rose-300">{error}</p> : null}
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1100px] text-sm">
@@ -146,7 +148,7 @@ export default function LeadsPage() {
               {!loading && !(data?.leads?.length) ? (
                 <tr>
                   <td colSpan={8} className="py-10 text-center text-sm text-[var(--text-secondary)]">
-                    Nenhum lead encontrado com os filtros atuais.
+                    {t('empty.noLeadsFiltered')}
                   </td>
                 </tr>
               ) : null}

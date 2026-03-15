@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
 import { CaptacaoTabs, LEAD_PIPELINE_STATUSES, ScoreBadge, SectionCard, StageBadge, currency, dateOnly, dateTime, statusLabels } from '@/components/super-admin/captacao/ui';
 
 export default function LeadDetailPage() {
+  const t = useTranslations('common');
+  const tc = useTranslations('common.actions');
   const params = useParams<{ id: string }>();
   const toast = useToast();
   const [payload, setPayload] = useState<any>(null);
@@ -47,7 +50,7 @@ export default function LeadDetailPage() {
   };
 
   if (!lead) {
-    return <div className="p-8 text-sm text-[var(--text-secondary)]">{error || 'Carregando lead...'}</div>;
+    return <div className="p-8 text-sm text-[var(--text-secondary)]">{error || t('loading.lead')}</div>;
   }
 
   return (
@@ -105,7 +108,7 @@ export default function LeadDetailPage() {
             <div className="mt-4 flex gap-3">
               <input className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-[var(--text-primary)]" placeholder="Adicionar nota comercial" value={note} onChange={(e) => setNote(e.target.value)} />
               <button className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-medium text-white" onClick={() => updateLead({ new_note: note }, 'Nota registrada')}>
-                Salvar nota
+                {tc('saveNote')}
               </button>
             </div>
           </SectionCard>

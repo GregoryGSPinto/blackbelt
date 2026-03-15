@@ -18,6 +18,7 @@ import {
 } from 'recharts';
 import { ArrowRight, DollarSign, MapPinned, Sparkles, Target, Workflow } from 'lucide-react';
 import { CaptacaoTabs, SectionCard, StatCard, currency, statusLabels } from '@/components/super-admin/captacao/ui';
+import { useTranslations } from 'next-intl';
 
 interface MetricsPayload {
   summary: {
@@ -38,6 +39,7 @@ interface MetricsPayload {
 const palette = ['#38bdf8', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899', '#84cc16', '#ef4444', '#14b8a6', '#f97316'];
 
 export default function CaptacaoDashboardPage() {
+  const tc = useTranslations('common.empty');
   const [data, setData] = useState<MetricsPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -146,7 +148,7 @@ export default function CaptacaoDashboardPage() {
 
         <SectionCard title="Top Cities" subtitle="Onde o crescimento está mais concentrado">
           <div className="space-y-3">
-            {!loading && !(data?.topCities?.length) ? <p className="text-sm text-[var(--text-secondary)]">Nenhuma cidade mapeada ainda.</p> : null}
+            {!loading && !(data?.topCities?.length) ? <p className="text-sm text-[var(--text-secondary)]">{tc('noCities')}</p> : null}
             {(data?.topCities ?? []).map((city) => (
               <div key={city.city} className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
                 <div className="flex items-center gap-3">

@@ -7,6 +7,7 @@
 'use client';
 
 import type { ParentInsightsVM } from '@/lib/application/intelligence';
+import { useTranslations } from 'next-intl';
 
 interface ParentAlertsListProps {
   alerts: ParentInsightsVM['parentAlerts'];
@@ -41,12 +42,13 @@ const ALERT_CONFIG: Record<
 // ── Component ──
 
 export function ParentAlertsList({ alerts }: ParentAlertsListProps) {
+  const t = useTranslations('common');
   if (!alerts || alerts.length === 0) {
     return (
       <div className="rounded-xl border border-white/10 bg-dark-card/60 p-5">
         <h3 className="text-sm font-semibold text-zinc-200 mb-4">Alertas</h3>
         <div className="flex items-center justify-center py-8">
-          <p className="text-sm text-zinc-500">Nenhum alerta no momento</p>
+          <p className="text-sm text-zinc-500">{t('empty.noAlerts')}</p>
         </div>
       </div>
     );

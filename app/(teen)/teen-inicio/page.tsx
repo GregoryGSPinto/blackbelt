@@ -16,6 +16,7 @@ import { PremiumLoader } from '@/components/shared/PremiumLoader';
 export default function TeenInicioPage() {
   const t = useTranslations('teen.home');
   const tc = useTranslations('common.actions');
+  const tCommon = useTranslations('common');
   const { user } = useAuth();
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
@@ -48,7 +49,7 @@ export default function TeenInicioPage() {
     return <PageError error={error} onRetry={() => setRetryCount(c => c + 1)} />;
   }
   if (teenprofiles.length === 0) {
-    return <PageEmpty icon={UserX} title="Nenhum perfil encontrado" message="Não há perfis teen cadastrados." />;
+    return <PageEmpty icon={UserX} title={tCommon('empty.noProfileFound')} message={tCommon('empty.noTeenProfiles')} />;
   }
 
 

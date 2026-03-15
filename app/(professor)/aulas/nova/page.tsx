@@ -11,6 +11,7 @@ import {
   BookOpen,
   AlertCircle
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { getActiveModalitiesForMember, type AcademyModality } from '@/lib/api/modality.service';
 
 const FALLBACK_MODALITIES = ['BJJ', 'Muay Thai', 'Boxe', 'Judo', 'Wrestling', 'MMA'];
@@ -18,6 +19,7 @@ const levels = ['Iniciante', 'Intermediário', 'Avançado', 'Competição'];
 
 export default function NovaAulaPage() {
   const router = useRouter();
+  const tp = useTranslations('professor.lessonPlan');
   const [academyModalities, setAcademyModalities] = useState<AcademyModality[]>([]);
 
   useEffect(() => {
@@ -250,7 +252,7 @@ export default function NovaAulaPage() {
               Descrição (opcional)
             </label>
             <textarea
-              placeholder="Descreva o conteúdo da aula..."
+              placeholder={tp('contentPlaceholder')}
               value={formData.description}
               onChange={(e) => updateField('description', e.target.value)}
               rows={4}

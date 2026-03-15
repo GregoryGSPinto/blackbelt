@@ -4,14 +4,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Search, 
-  School, 
-  Play, 
-  ChevronRight, 
+import {
+  Search,
+  School,
+  Play,
+  ChevronRight,
   CheckCircle2,
   Trophy
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const steps = [
   {
@@ -33,6 +34,7 @@ const steps = [
 
 export default function OnboardingAlunoPage() {
   const router = useRouter();
+  const t = useTranslations('common.actions');
   const [currentStep, setCurrentStep] = useState(0);
   const [hasAcademy, setHasAcademy] = useState<boolean | null>(null);
 
@@ -176,7 +178,7 @@ export default function OnboardingAlunoPage() {
                 className="mt-12 inline-flex items-center gap-2 rounded-xl bg-amber-400 px-8 py-4 font-semibold text-slate-950 transition hover:bg-amber-300"
               >
                 <Search className="h-5 w-5" />
-                Buscar Academias
+                {t('searchAcademies')}
               </button>
             </>
           )}

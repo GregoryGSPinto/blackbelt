@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
+import { useTranslations } from 'next-intl';
 
 const AVATARS = ['🥋', '🐯', '🐉', '🦁', '🐻', '🦊', '🐼', '🐨', '🦄', '🐸', '🐵', '🐰'];
 
 export default function KidsConfiguracoesPage() {
+  const tc = useTranslations('common.actions');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const [selectedAvatar, setSelectedAvatar] = useState('🥋');
@@ -93,7 +95,7 @@ export default function KidsConfiguracoesPage() {
           color: tokens.text,
         }}
       >
-        {saved ? 'Salvo!' : 'Salvar'}
+        {saved ? tc('saved') : tc('save')}
       </button>
     </div>
   );

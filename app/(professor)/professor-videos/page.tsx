@@ -359,7 +359,7 @@ export default function ProfessorVideosPage() {
           /* ── TAB: All Videos (read-only, existing behavior) ── */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {videos.length === 0 ? (
-              <PageEmpty icon={VideoOff} title="Nenhum vídeo" message="Sem vídeos para exibir." />
+              <PageEmpty icon={VideoOff} title={tCommon('empty.noVideos')} message={tCommon('empty.noVideosMessage')} />
             ) : (
               videos.map((video: VideoRecente) => {
                 const tipoConf = TIPO_LABELS[video.tipo] || TIPO_LABELS.aula;

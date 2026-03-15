@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { Award, Plus, Check, Clock } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
@@ -16,6 +17,7 @@ import {
 } from '@/lib/api/modality.service';
 
 export default function StudentModalidadesPage() {
+  const t = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const toast = useToast();
@@ -55,7 +57,7 @@ export default function StudentModalidadesPage() {
     }
   };
 
-  if (loading) return <PremiumLoader text="Carregando modalidades..." />;
+  if (loading) return <PremiumLoader text={t('loading.modalities')} />;
 
   const enrolledIds = new Set(myModalities.map(m => m.modality_id));
   const notEnrolled = available.filter(a => !enrolledIds.has(a.id));
@@ -118,8 +120,8 @@ export default function StudentModalidadesPage() {
       {/* Empty state */}
       {activeModalities.length === 0 && pendingModalities.length === 0 && notEnrolled.length === 0 && (
         <PageEmpty
-          title="Nenhuma modalidade disponível"
-          message="A academia ainda não cadastrou modalidades."
+          title={t('empty.noModalities')}
+          message={t('empty.noModalitiesMessage')}
         />
       )}
 

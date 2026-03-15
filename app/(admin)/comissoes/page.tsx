@@ -17,6 +17,7 @@ import { useFormatting } from '@/hooks/useFormatting';
 
 export default function ComissoesPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatMoney } = useFormatting();
@@ -40,7 +41,7 @@ export default function ComissoesPage() {
   const totalLiquido = comissoes.reduce((s: number, c: Comissao) => s + c.valorLiquido, 0);
   const totalPendente = comissoes.filter((c: Comissao) => !c.pago).reduce((s: number, c: Comissao) => s + c.valorLiquido, 0);
 
-  if (loading) return <PremiumLoader text="Carregando..." />;
+  if (loading) return <PremiumLoader text={tc('actions.loading')} />;
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
 
   return (
@@ -107,7 +108,7 @@ export default function ComissoesPage() {
             </tbody>
           </table>
         </div>
-        {comissoes.length === 0 && <div className="empty-state-premium px-6 py-12 text-center text-white/30 text-sm">Nenhuma comissão para o período</div>}
+        {comissoes.length === 0 && <div className="empty-state-premium px-6 py-12 text-center text-white/30 text-sm">{tc('empty.noCommissions')}</div>}
       </div>
     </div>
   );

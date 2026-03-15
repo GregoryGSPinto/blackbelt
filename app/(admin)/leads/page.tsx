@@ -58,6 +58,7 @@ function formatPhone(tel: string): string {
 
 export default function LeadsPage() {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const { formatDate, formatTime } = useFormatting();
@@ -118,7 +119,7 @@ export default function LeadsPage() {
   }, [filteredLeads]);
 
   if (loading) {
-    return <PremiumLoader text="Carregando funil..." />;
+    return <PremiumLoader text={tc('loading.funnel')} />;
   }
 
   if (error) return <PageError error={error} onRetry={() => setRetryCount((c: number) => c + 1)} />;
@@ -203,7 +204,7 @@ export default function LeadsPage() {
           type="text"
           value={busca}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusca(e.target.value)}
-          placeholder="Buscar lead por nome, telefone ou email..."
+          placeholder={tc('actions.searchLeads')}
           className="w-full pl-11 pr-4 py-3 rounded-xl text-sm text-white placeholder-white/25 outline-none bg-black/40 border border-white/10 focus:border-white/20 transition-colors"
         />
       </div>
@@ -305,7 +306,7 @@ export default function LeadsPage() {
                       className="rounded-xl p-6 text-center"
                       style={{ background: etapa.bgCard, border: `1px dashed ${etapa.borderCard}` }}
                     >
-                      <p className="text-white/15 text-xs">Nenhum lead</p>
+                      <p className="text-white/15 text-xs">{tc('empty.noLeads')}</p>
                     </div>
                   )}
                 </div>
@@ -450,6 +451,7 @@ function getNextEtapas(current: LeadEtapa): EtapaConfig[] {
 // ── New Lead Modal ──
 function NewLeadModal({ onClose, onSave }: { onClose: () => void; onSave: (lead: Lead) => void }) {
   const t = useTranslations('admin');
+  const tc = useTranslations('common');
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
@@ -607,7 +609,7 @@ function NewLeadModal({ onClose, onSave }: { onClose: () => void; onSave: (lead:
               disabled={saving || !nome.trim() || !telefone.trim()}
               className="flex-1 py-3 rounded-xl text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
-              {saving ? 'Salvando...' : 'Salvar Lead'}
+              {saving ? tc('actions.saving') : tc('actions.saveLead')}
             </button>
           </div>
         </div>
