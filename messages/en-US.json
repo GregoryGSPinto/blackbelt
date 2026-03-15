@@ -3559,5 +3559,27 @@
     "helpCenterDesc": "FAQs and tutorials",
     "support": "Support",
     "contactSupport": "Contact support"
+  },
+  "billing": {
+    "currentPlan": "Current Plan",
+    "renewsOn": "Renews on {date}",
+    "manageSubscription": "Manage subscription",
+    "showPlans": "View plans",
+    "hidePlans": "Hide plans",
+    "choosePlan": "Choose plan",
+    "periodUsage": "Period Usage",
+    "invoiceHistory": "Invoice History",
+    "perMonth": "/month",
+    "date": "Date",
+    "amount": "Amount",
+    "paidOn": "Paid on",
+    "metrics": {
+      "active_members": "Active members",
+      "checkins": "Check-ins",
+      "storage_mb": "Storage (MB)",
+      "api_calls": "API calls",
+      "push_sent": "Push sent",
+      "video_minutes": "Video minutes"
+    }
   }
 }

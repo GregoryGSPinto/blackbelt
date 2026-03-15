@@ -37,14 +37,7 @@ const STATUS_STYLES: Record<string, string> = {
   overdue: 'bg-red-500/20 text-red-400',
 };
 
-const METRIC_LABELS: Record<BillingMetric, string> = {
-  active_members: 'Membros ativos',
-  checkins: 'Check-ins',
-  storage_mb: 'Armazenamento (MB)',
-  api_calls: 'Chamadas API',
-  push_sent: 'Push enviados',
-  video_minutes: 'Minutos de video',
-};
+const METRIC_KEYS: BillingMetric[] = ['active_members', 'checkins', 'storage_mb', 'api_calls', 'push_sent', 'video_minutes'];
 
 function StatusBadge({ status }: { status: string }) {
   return (
@@ -63,13 +56,14 @@ export default function BillingDashboard({
   onUpgrade,
 }: BillingDashboardProps) {
   const t = useTranslations('common');
+  const tb = useTranslations('billing');
   const [showPlans, setShowPlans] = useState(false);
 
   return (
     <div className="space-y-6">
       {/* Current Plan */}
       <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
-        <h2 className="text-lg font-semibold text-white mb-4">Plano Atual</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">{tb('currentPlan')}</h2>
         {currentPlan ? (
           <div className="flex items-center justify-between">
             <div>
@@ -77,7 +71,7 @@ export default function BillingDashboard({
               <p className="text-sm text-zinc-400">{currentPlan.description}</p>
               <p className="text-2xl font-medium text-white mt-2">
                 {formatPrice(currentPlan.priceCents)}
-                <span className="text-sm text-zinc-400 font-normal">/mes</span>
+                <span className="text-sm text-zinc-400 font-normal">{tb('perMonth')}</span>
               </p>
             </div>
             <div className="text-right">
@@ -85,7 +79,7 @@ export default function BillingDashboard({
                 <>
                   <StatusBadge status={subscription.status} />
                   <p className="text-xs text-zinc-500 mt-2">
-                    Renova em {new Date(subscription.currentPeriodEnd).toLocaleDateString('pt-BR')}
+                    {tb('renewsOn', { date: new Date(subscription.currentPeriodEnd).toLocaleDateString() })}
                   </p>
                 </>
               )}
@@ -100,13 +94,13 @@ export default function BillingDashboard({
             onClick={onManageSubscription}
             className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-sm transition-colors"
           >
-            Gerenciar assinatura
+            {tb('manageSubscription')}
           </button>
           <button
             onClick={() => setShowPlans(!showPlans)}
             className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm transition-colors"
           >
-            {showPlans ? 'Ocultar planos' : 'Ver planos'}
+            {showPlans ? tb('hidePlans') : tb('showPlans')}
           </button>
         </div>
       </div>
@@ -125,7 +119,7 @@ export default function BillingDashboard({
               <p className="text-sm text-zinc-400 mt-1">{plan.description}</p>
               <p className="text-2xl font-medium text-white mt-3">
                 {formatPrice(plan.priceCents)}
-                <span className="text-sm text-zinc-400 font-normal">/mes</span>
+                <span className="text-sm text-zinc-400 font-normal">{tb('perMonth')}</span>
               </p>
               <ul className="mt-3 space-y-1">
                 {plan.features.map((f) => (
@@ -139,7 +133,7 @@ export default function BillingDashboard({
                   onClick={() => onUpgrade(plan.id)}
                   className="mt-4 w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm transition-colors"
                 >
-                  Escolher plano
+                  {tb('choosePlan')}
                 </button>
               )}
             </div>
@@ -149,9 +143,10 @@ export default function BillingDashboard({
 
       {/* Usage Summary */}
       <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
-        <h2 className="text-lg font-semibold text-white mb-4">Uso do Periodo</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">{tb('periodUsage')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {(Object.entries(usage) as [BillingMetric, number][]).map(([metric, value]) => {
+          {METRIC_KEYS.filter(m => usage[m] !== undefined).map((metric) => {
+            const value = usage[metric];
             const limit = currentPlan?.limits[
               metric === 'checkins' ? 'checkinsPerMonth' :
               metric === 'active_members' ? 'activeMembers' :
@@ -163,12 +158,12 @@ export default function BillingDashboard({
 
             return (
               <div key={metric} className="space-y-1">
-                <p className="text-sm text-zinc-400">{METRIC_LABELS[metric]}</p>
+                <p className="text-sm text-zinc-400">{tb(`metrics.${metric}`)}</p>
                 <p className="text-xl font-medium text-white">
-                  {value.toLocaleString('pt-BR')}
+                  {value.toLocaleString()}
                   {limit > 0 && (
                     <span className="text-sm text-zinc-500 font-normal">
-                      {' '}/ {limit.toLocaleString('pt-BR')}
+                      {' '}/ {limit.toLocaleString()}
                     </span>
                   )}
                 </p>
@@ -190,7 +185,7 @@ export default function BillingDashboard({
 
       {/* Invoice History */}
       <div className="bg-dark-card rounded-xl p-6 border border-white/[0.08]">
-        <h2 className="text-lg font-semibold text-white mb-4">Historico de Faturas</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">{tb('invoiceHistory')}</h2>
         {invoices.length === 0 ? (
           <p className="text-zinc-400 text-sm">{t('empty.noInvoicesBilling')}</p>
         ) : (
@@ -198,17 +193,17 @@ export default function BillingDashboard({
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-zinc-400 border-b border-white/[0.08]">
-                  <th className="text-left py-2 font-medium">Data</th>
-                  <th className="text-left py-2 font-medium">Valor</th>
+                  <th className="text-left py-2 font-medium">{tb('date')}</th>
+                  <th className="text-left py-2 font-medium">{tb('amount')}</th>
                   <th className="text-left py-2 font-medium">Status</th>
-                  <th className="text-left py-2 font-medium">Pago em</th>
+                  <th className="text-left py-2 font-medium">{tb('paidOn')}</th>
                 </tr>
               </thead>
               <tbody>
                 {invoices.map((inv) => (
                   <tr key={inv.id} className="border-b border-white/[0.08]/50">
                     <td className="py-2 text-zinc-300">
-                      {new Date(inv.dueDate).toLocaleDateString('pt-BR')}
+                      {new Date(inv.dueDate).toLocaleDateString()}
                     </td>
                     <td className="py-2 text-white font-medium">
                       {formatPrice(inv.amountCents)}
@@ -218,7 +213,7 @@ export default function BillingDashboard({
                     </td>
                     <td className="py-2 text-zinc-400">
                       {inv.paidAt
-                        ? new Date(inv.paidAt).toLocaleDateString('pt-BR')
+                        ? new Date(inv.paidAt).toLocaleDateString()
                         : '—'}
                     </td>
                   </tr>

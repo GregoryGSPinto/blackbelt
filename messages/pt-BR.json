@@ -3601,5 +3601,27 @@
     "helpCenterDesc": "Perguntas frequentes e tutoriais",
     "support": "Suporte",
     "contactSupport": "Falar com o suporte"
+  },
+  "billing": {
+    "currentPlan": "Plano Atual",
+    "renewsOn": "Renova em {date}",
+    "manageSubscription": "Gerenciar assinatura",
+    "showPlans": "Ver planos",
+    "hidePlans": "Ocultar planos",
+    "choosePlan": "Escolher plano",
+    "periodUsage": "Uso do Período",
+    "invoiceHistory": "Histórico de Faturas",
+    "perMonth": "/mês",
+    "date": "Data",
+    "amount": "Valor",
+    "paidOn": "Pago em",
+    "metrics": {
+      "active_members": "Membros ativos",
+      "checkins": "Check-ins",
+      "storage_mb": "Armazenamento (MB)",
+      "api_calls": "Chamadas API",
+      "push_sent": "Push enviados",
+      "video_minutes": "Minutos de vídeo"
+    }
   }
 }
