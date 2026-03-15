@@ -29,9 +29,14 @@ export const viewport: Viewport = {
   interactiveWidget: 'resizes-content',
 };
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://app.blackbelt.com';
+const META_TITLE = 'BlackBelt - Plataforma de Gestão para Academias de Artes Marciais';
+const META_DESC = 'Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.';
+
 export const metadata: Metadata = {
-  title: "BlackBelt - Plataforma de Gestão para Academias de Artes Marciais",
-  description: "Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.",
+  title: META_TITLE,
+  description: META_DESC,
+  metadataBase: new URL(APP_URL),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
@@ -42,24 +47,24 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: "BlackBelt - Plataforma de Gestão para Academias",
-    description: "Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.",
-    url: "https://blackbelt-five.vercel.app",
-    siteName: "BlackBelt",
-    type: "website",
+    title: 'BlackBelt - Plataforma de Gestão para Academias',
+    description: META_DESC,
+    url: APP_URL,
+    siteName: 'BlackBelt',
+    type: 'website',
     images: [
       {
-        url: "https://blackbelt-five.vercel.app/icon-1024.png",
+        url: '/icon-1024.png',
         width: 1024,
         height: 1024,
-        alt: "BlackBelt - Plataforma de Gestão",
+        alt: 'BlackBelt - Plataforma de Gestão',
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "BlackBelt - Plataforma de Gestão para Academias",
-    description: "Plataforma inteligente de gestão e desenvolvimento para academias de artes marciais. Controle alunos, turmas, pagamentos e evolução de faixas.",
+    card: 'summary_large_image',
+    title: 'BlackBelt - Plataforma de Gestão para Academias',
+    description: META_DESC,
   },
 };
 
