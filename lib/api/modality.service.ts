@@ -127,6 +127,28 @@ export async function updateMemberBelt(memberId: string, modalityId: string, bel
   );
 }
 
+export async function getPendingEnrollments(modalityId: string): Promise<any[]> {
+  return withMockOrEmpty(
+    [],
+    () => apiClient.get<any[]>(`/admin/modalities/${modalityId}/enrollments?status=pending`).then(r => r.data),
+    `/admin/modalities/${modalityId}/enrollments`,
+  );
+}
+
+export async function approveEnrollment(modalityId: string, enrollmentId: string): Promise<any> {
+  return withMock(
+    { id: enrollmentId, status: 'active' },
+    () => apiClient.put(`/admin/modalities/${modalityId}/enrollments`, { enrollment_id: enrollmentId, action: 'approve' }).then(r => r.data),
+  );
+}
+
+export async function rejectEnrollment(modalityId: string, enrollmentId: string): Promise<any> {
+  return withMock(
+    { id: enrollmentId, status: 'inactive' },
+    () => apiClient.put(`/admin/modalities/${modalityId}/enrollments`, { enrollment_id: enrollmentId, action: 'reject' }).then(r => r.data),
+  );
+}
+
 // ── Member-accessible functions (any role) ──
 
 export async function getMyModalities(): Promise<MemberModality[]> {

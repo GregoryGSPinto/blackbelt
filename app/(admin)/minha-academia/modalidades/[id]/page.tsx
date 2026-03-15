@@ -1,14 +1,21 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Award, ArrowLeft, Users, ChevronUp, ChevronDown } from 'lucide-react';
+import { Award, ArrowLeft, Users, ChevronUp, ChevronDown, Clock, Check, X } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getDesignTokens } from '@/lib/design-tokens';
 import { useToast } from '@/contexts/ToastContext';
 import { PremiumLoader } from '@/components/shared/PremiumLoader';
 import { PageEmpty } from '@/components/shared/DataStates';
-import { getModalityMembers, updateMemberBelt } from '@/lib/api/modality.service';
+import {
+  getModalityMembers,
+  updateMemberBelt,
+  getPendingEnrollments,
+  approveEnrollment,
+  rejectEnrollment,
+} from '@/lib/api/modality.service';
 
 interface ModalityMember {
   id: string;
@@ -29,10 +36,12 @@ interface ModalityMember {
 export default function ModalityDetailPage() {
   const params = useParams();
   const modalityId = params.id as string;
+  const t = useTranslations('admin.modality');
   const { isDark } = useTheme();
   const tokens = getDesignTokens(isDark);
   const toast = useToast();
   const [members, setMembers] = useState<ModalityMember[]>([]);
+  const [pending, setPending] = useState<ModalityMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [promotingId, setPromotingId] = useState<string | null>(null);
   const [promoteBelt, setPromoteBelt] = useState('');
@@ -41,16 +50,20 @@ export default function ModalityDetailPage() {
   const card = { background: 'var(--card-bg)', border: `1px solid ${tokens.cardBorder}`, borderRadius: 12 } as const;
   const inputStyle = { background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)', borderRadius: 12 } as const;
 
-  const fetchMembers = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const data = await getModalityMembers(modalityId);
-      setMembers(data);
+      const [membersData, pendingData] = await Promise.all([
+        getModalityMembers(modalityId),
+        getPendingEnrollments(modalityId),
+      ]);
+      setMembers(membersData);
+      setPending(pendingData);
     } finally {
       setLoading(false);
     }
   }, [modalityId]);
 
-  useEffect(() => { fetchMembers(); }, [fetchMembers]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   const handlePromote = async (member: ModalityMember) => {
     if (!promoteBelt.trim()) return;
@@ -64,13 +77,33 @@ export default function ModalityDetailPage() {
       setPromotingId(null);
       setPromoteBelt('');
       setPromoteStripes(0);
-      toast.success('Graduação atualizada');
+      toast.success(t('beltUpdated'));
     } catch {
-      toast.error('Erro ao atualizar graduação');
+      toast.error(t('beltUpdateError'));
     }
   };
 
-  if (loading) return <PremiumLoader text="Carregando alunos..." />;
+  const handleApprove = async (enrollmentId: string) => {
+    try {
+      await approveEnrollment(modalityId, enrollmentId);
+      toast.success(t('approved'));
+      fetchData();
+    } catch {
+      toast.error(t('approveError'));
+    }
+  };
+
+  const handleReject = async (enrollmentId: string) => {
+    try {
+      await rejectEnrollment(modalityId, enrollmentId);
+      toast.success(t('rejected'));
+      fetchData();
+    } catch {
+      toast.error(t('approveError'));
+    }
+  };
+
+  if (loading) return <PremiumLoader text={t('loadingStudents')} />;
 
   // Belt distribution
   const beltCounts: Record<string, number> = {};
@@ -88,7 +121,7 @@ export default function ModalityDetailPage() {
         </a>
         <h1 className="text-2xl font-semibold" style={{ color: 'var(--text-primary)' }}>
           <Award size={22} className="inline mr-2" style={{ color: 'var(--text-secondary)' }} />
-          Detalhe da Modalidade
+          {t('detail')}
         </h1>
       </div>
 
@@ -96,26 +129,66 @@ export default function ModalityDetailPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div style={{ ...card, padding: '1rem' }} className="text-center">
           <p className="text-2xl font-medium text-green-400">{activeMembers.length}</p>
-          <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>Alunos ativos</p>
+          <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{t('activeStudents')}</p>
         </div>
         {Object.entries(beltCounts).slice(0, 4).map(([belt, count]) => (
           <div key={belt} style={{ ...card, padding: '1rem' }} className="text-center">
             <p className="text-2xl font-medium" style={{ color: 'var(--text-primary)' }}>{count}</p>
-            <p className="text-xs mt-1 capitalize" style={{ color: 'var(--text-secondary)' }}>Faixa {belt}</p>
+            <p className="text-xs mt-1 capitalize" style={{ color: 'var(--text-secondary)' }}>{t('belt')} {belt}</p>
           </div>
         ))}
       </div>
 
-      {/* Members list */}
+      {/* Pending enrollments */}
+      {pending.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium flex items-center gap-1.5" style={{ color: tokens.warning }}>
+            <Clock size={14} /> {t('pendingEnrollments')} ({pending.length})
+          </h3>
+          {pending.map(member => {
+            const profile = member.memberships?.profiles;
+            return (
+              <div key={member.id} style={{ ...card, padding: '1rem 1.25rem', borderColor: tokens.warning }}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium" style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', color: 'var(--text-secondary)' }}>
+                      {(profile?.full_name || '?')[0]}
+                    </div>
+                    <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{profile?.full_name || '—'}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleApprove(member.id)}
+                      className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-all hover:bg-white/5"
+                      style={{ border: `1px solid ${tokens.success}`, color: tokens.success }}
+                    >
+                      <Check size={14} /> {t('approve')}
+                    </button>
+                    <button
+                      onClick={() => handleReject(member.id)}
+                      className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-all hover:bg-white/5"
+                      style={{ border: `1px solid ${tokens.error}`, color: tokens.error }}
+                    >
+                      <X size={14} /> {t('reject')}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Active members list */}
       {activeMembers.length === 0 ? (
         <PageEmpty
-          title="Nenhum aluno matriculado"
-          message="Matricule alunos nesta modalidade pelo perfil do aluno."
+          title={t('noStudents')}
+          message={t('noStudentsHint')}
         />
       ) : (
         <div className="space-y-2">
           <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-            <Users size={14} className="inline mr-1" /> Alunos ({activeMembers.length})
+            <Users size={14} className="inline mr-1" /> {t('students')} ({activeMembers.length})
           </h3>
           {activeMembers.map(member => {
             const profile = member.memberships?.profiles;
@@ -133,9 +206,9 @@ export default function ModalityDetailPage() {
                       </div>
                     )}
                     <div>
-                      <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{profile?.full_name || 'Aluno'}</p>
+                      <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{profile?.full_name || '—'}</p>
                       <p className="text-xs capitalize" style={{ color: 'var(--text-secondary)' }}>
-                        Faixa {member.belt_rank || 'branca'} • {member.stripes} grau(s)
+                        {t('belt')} {member.belt_rank || 'branca'} • {member.stripes} {t('stripes')}
                       </p>
                     </div>
                   </div>
@@ -152,17 +225,17 @@ export default function ModalityDetailPage() {
                     className="text-xs px-3 py-1.5 rounded-lg transition-all"
                     style={{ border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-secondary)' }}
                   >
-                    {isPromoting ? 'Cancelar' : 'Promover'}
+                    {isPromoting ? t('cancel') : t('promote')}
                   </button>
                 </div>
 
                 {isPromoting && (
-                  <div className="mt-3 pt-3 flex items-center gap-3" style={{ borderTop: '1px solid rgba(128,128,128,0.2)' }}>
+                  <div className="mt-3 pt-3 flex items-center gap-3" style={{ borderTop: `1px solid ${tokens.divider}` }}>
                     <input
                       value={promoteBelt}
                       onChange={e => setPromoteBelt(e.target.value)}
-                      placeholder="Faixa"
-                      className="flex-1 px-3 py-2 rounded-lg text-sm outline-none"
+                      placeholder={t('belt')}
+                      className="flex-1 px-3 py-2 rounded-lg text-sm outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                       style={inputStyle}
                     />
                     <div className="flex items-center gap-1">
@@ -175,7 +248,7 @@ export default function ModalityDetailPage() {
                       className="px-4 py-2 rounded-lg text-sm font-medium"
                       style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: `1px solid ${tokens.cardBorder}`, color: 'var(--text-primary)' }}
                     >
-                      Salvar
+                      {t('save')}
                     </button>
                   </div>
                 )}
